@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
+
+    <title>HardwareTest 官方在线检测工具套件</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #00f2ff; /* 霓虹青 */
+            --secondary-color: #bc13fe; /* 霓虹紫 */
+            --bg-color: #050a14;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-color: #e0e6ed;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.2) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(50px);
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        header { margin-bottom: 60px; animation: fadeInDown 1s ease-out; }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #8b9bb4;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .highlight { color: var(--primary-color); font-weight: bold; }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: inline-block;
+            background: rgba(0, 242, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        .card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .card p {
+            color: #a0aec0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        .btn:hover::before { left: 0; }
+        .btn i { margin-left: 8px; }
+
+        .card.purple .card-icon {
+            color: var(--secondary-color);
+            background: rgba(188, 19, 254, 0.1);
+        }
+        .card.purple:hover {
+            border-color: var(--secondary-color);
+            box-shadow: 0 15px 40px rgba(188, 19, 254, 0.15);
+        }
+        .card.purple .btn {
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        .card.purple .btn::before {
+            background: var(--secondary-color);
+        }
+        .card.purple .btn:hover {
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px;
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div style="font-size: 3rem; margin-bottom: 10px;">🛠️</div>
+            <h1>HardwareTest <span style="font-size: 0.5em; border: 1px solid var(--primary-color); padding: 2px 8px; border-radius: 4px; vertical-align: middle;">PRO</span></h1>
+            
+            <p class="subtitle" data-i18n="subtitle">
+                鼠标莫名双击？键盘按键失灵？麦克风声音太小？<br>
+                无需下载，即点即用。专业的<span class="highlight">在线硬件检测实验室</span>。
+            </p>
+        </header>
+
+        <section class="tools-grid">
+            
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-computer-mouse"></i>
+                </div>
+                <h3>Mouse Test Lab</h3>
+                <p data-i18n="mouse_desc">毫秒级微动故障分析。实时检测回报率 (Polling Rate)、滚轮及侧键功能。助您精准排查鼠标双击、失灵问题。</p>
+                <a href="https://www.hardwaretest.top" target="_blank" class="btn" data-i18n="mouse_btn">
+                    开始鼠标检测 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card purple">
+                <div class="card-icon">
+                    <i class="fa-solid fa-keyboard"></i>
+                </div>
+                <h3>Keyboard Master</h3>
+                <p data-i18n="kb_desc">全键位功能排查与冲突测试。整合硬件知识库与维修指南，解决按键无反应、连触等常见故障。</p>
+                <a href="https://kb.hardwaretest.top" target="_blank" class="btn" data-i18n="kb_btn">
+                    启动键盘检测 <i class="fa-solid fa-wrench"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-video"></i>
+                </div>
+                <h3>A/V Diagnostics</h3>
+                <p data-i18n="av_desc">一键检测网络摄像头与麦克风工作状态。提供分辨率、帧率及声波分析详细参数。支持手机与PC。</p>
+                <div style="display: flex; gap: 10px;">
+                    <a href="https://camera.hardwaretest.top" target="_blank" class="btn" data-i18n="cam_btn">摄像头检测</a>
+                    <a href="https://camera.hardwaretest.top" target="_blank" class="btn" data-i18n="mic_btn">麦克风检测</a>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <footer>
+        <p data-i18n="footer">&copy; 2023 HardwareTest Tools Official. All Systems Operational.</p>
+    </footer>
+
+    <script>
+        // 翻译字典
+        const translations = {
+            'zh': {
+                subtitle: `鼠标莫名双击？键盘按键失灵？麦克风声音太小？<br>无需下载，即点即用。专业的<span class="highlight">在线硬件检测实验室</span>。`,
+                mouse_desc: `毫秒级微动故障分析。实时检测回报率 (Polling Rate)、滚轮及侧键功能。助您精准排查鼠标双击、失灵问题。`,
+                mouse_btn: `开始鼠标检测 <i class="fa-solid fa-arrow-right"></i>`,
+                kb_desc: `全键位功能排查与冲突测试。整合硬件知识库与维修指南，解决按键无反应、连触等常见故障。`,
+                kb_btn: `启动键盘检测 <i class="fa-solid fa-wrench"></i>`,
+                av_desc: `一键检测网络摄像头与麦克风工作状态。提供分辨率、帧率及声波分析详细参数。支持手机与PC。`,
+                cam_btn: `摄像头检测`,
+                mic_btn: `麦克风检测`,
+                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`
+            },
+            'en': {
+                subtitle: `Mouse double-clicking? Keyboard ghosting? Mic too quiet?<br>No download needed. Professional <span class="highlight">Online Hardware Lab</span>.`,
+                mouse_desc: `Millisecond-level switch analysis. Real-time Polling Rate, scroll wheel & side button tests. Fix double-click issues.`,
+                mouse_btn: `Start Mouse Test <i class="fa-solid fa-arrow-right"></i>`,
+                kb_desc: `Full-key rollover & conflict test. Integrated repair guide for ghosting and unresponsive keys.`,
+                kb_btn: `Launch Keyboard Test <i class="fa-solid fa-wrench"></i>`,
+                av_desc: `One-click webcam & mic check. Detailed resolution, frame rate & waveform analysis. Mobile & PC supported.`,
+                cam_btn: `Webcam Test`,
+                mic_btn: `Mic Test`,
+                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`
+            }
+        };
+
+        // 检测语言并应用
+        function setLanguage() {
+            // 获取浏览器语言 (例如: 'zh-CN', 'en-US')
+            const userLang = navigator.language || navigator.userLanguage;
+            
+            // 如果语言以 'zh' 开头，使用中文，否则使用英文
+            const langCode = userLang.startsWith('zh') ? 'zh' : 'en';
+            
+            const content = translations[langCode];
+
+            // 遍历所有带有 data-i18n 属性的元素并替换内容
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (content[key]) {
+                    element.innerHTML = content[key];
+                }
+            });
+
+            // 也可以修改 html 的 lang 属性
+            document.documentElement.lang = langCode === 'zh' ? 'zh-CN' : 'en';
+        }
+
+        // 页面加载时执行
+        window.addEventListener('DOMContentLoaded', setLanguage);
+    </script>
+
+</body>
+</html>
