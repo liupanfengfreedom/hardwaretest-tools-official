@@ -199,6 +199,11 @@
         }
         .log-item { margin-bottom: 4px; border-bottom: 1px solid #222; padding-bottom: 2px; color: #aaa;}
         .log-alert { color: var(--accent-red); font-weight: bold; }
+        .log-release {
+            color: #555; /* 灰色，比正常日志更暗 */
+            font-style: italic; /* 斜体，表示辅助信息 */
+            font-size: 0.75rem; /* 稍微小一点 */
+        }
     </style>
 </head>
 <body>
@@ -400,10 +405,28 @@
         lastClickTime[e.button] = now;
     });
 
+ /* 按键松开 (修改后：增加了日志记录) */
     document.addEventListener('mouseup', (e) => {
+        // 1. 处理 UI 样式移除 (原有逻辑)
         const btnId = 'btn' + e.button;
         const el = document.getElementById(btnId);
         if (el) el.classList.remove('active');
+
+        // 2. 新增：记录日志逻辑
+        const btnNameMap = {
+            0: texts.left_click, 
+            1: texts.counter_middle, 
+            2: texts.right_click, 
+            3: texts.counter_b4, 
+            4: texts.counter_b5
+        };
+        const btnName = btnNameMap[e.button] || `Btn ${e.button}`;
+        
+        // 计算按住时长（当前时间 - 按下的时间）
+        const pressDuration = lastClickTime[e.button] ? Math.round(performance.now() - lastClickTime[e.button]) : 0;
+
+        // 添加日志：使用 ↑ 箭头表示松开，并显示按住时长
+        addLog(`${btnName} ↑ (Hold: ${pressDuration}ms)`, 'log-release');
     });
 
     /* 滚轮事件 */
