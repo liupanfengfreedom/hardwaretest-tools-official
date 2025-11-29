@@ -204,6 +204,46 @@
             font-style: italic; /* 斜体，表示辅助信息 */
             font-size: 0.75rem; /* 稍微小一点 */
         }
+            /* --- SEO 指南区域样式 --- */
+        .guide-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .guide-btn:hover {
+            border-color: var(--highlight);
+            color: var(--highlight);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .guide-container {
+            max-width: 800px;
+            width: 90%;
+            height: 0; /* 默认隐藏 */
+            overflow: hidden;
+            transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid transparent;
+        }
+        
+        .guide-container.open {
+            height: auto; /* JS 将计算具体高度 */
+            margin-bottom: 50px;
+            border-bottom: 1px solid #333;
+        }
+
+        .guide-content {
+            padding: 20px 10px;
+            color: #bbb;
+        }
+
+        .guide-content h2 { color: var(--text-main); font-size: 1.2rem; margin-top: 25px; margin-bottom: 10px; }
+        .guide-content h3 { color: var(--info-blue); font-size: 1rem; margin-top: 20px; }
+        .guide-content p { color: #888; line-height: 1.6; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -257,11 +297,36 @@
             </div>
         </div>
     </div>
+    <div style="text-align: center; margin: 40px 0 20px 0;">
+        <button id="toggle-guide-btn" class="guide-btn" onclick="toggleGuide()">
+            <span id="i18n-btn-guide">📖 显示使用说明 & 常见问题</span>
+        </button>
+    </div>
+
+    <div id="guide-container" class="guide-container">
+        <div class="guide-content">
+            <h2 id="i18n-guide-h2-1">如何使用鼠标测试工具？</h2>
+            <p id="i18n-guide-p-1">本工具可检测鼠标左键、右键、中键、滚轮及侧键的功能是否正常...</p>
+            
+            <h2 id="i18n-guide-h2-2">什么是“双击”故障？</h2>
+            <p id="i18n-guide-p-2">鼠标双击（Double Click）是指按下一次按键，电脑却识别为两次...</p>
+
+            <h2 id="i18n-guide-h2-3">什么是回报率 (Polling Rate)？</h2>
+            <p id="i18n-guide-p-3">回报率指鼠标向电脑发送数据的频率...</p>
+            
+            <h3 id="i18n-guide-h3-1">如何判断测试结果？</h3>
+            <ul id="i18n-guide-ul-1" style="color: var(--text-dim); line-height: 1.6;">
+                <li>正常点击：间隔时间通常大于 80ms。</li>
+                <li>疑似故障：如果你只按了一下，却出现了极短间隔（如 5ms-40ms）的连续记录。</li>
+            </ul>
+        </div>
+    </div>
 
 <script>
     // --- 本地化配置 ---
     const I18N = {
         'zh': {
+            // ... (保留你原有的头部翻译，title, h1 等) ...
             'title': '在线 🖱️ 鼠标测试 | 点击测试 | 双击测试 - Mouse Test Lab',
             'meta_desc': '鼠标双击？滚轮失灵？立即在线检测！Mouse Test Lab 提供毫秒级微动故障分析、实时回报率(Hz)测试及全按键功能排查。无需下载，专业电竞级检测工具。',
             'subtitle': '点击间隔检测 + 双击故障排查',
@@ -282,8 +347,21 @@
             'log_warning': ' [连击警报!]',
             'warning_text': ' (警告!)',
             'start': '开始',
+
+            // --- 新增：SEO 指南部分 ---
+            'btn_guide_show': '📖 显示使用说明 & 常见问题',
+            'btn_guide_hide': '📖 隐藏使用说明',
+            'guide_h2_1': '如何使用本站进行鼠标测试？',
+            'guide_p_1': '本工具支持检测鼠标的所有基础功能。在屏幕左侧的鼠标图示区域，按下您鼠标对应的按键（左键、右键、滚轮中键、侧键），如果图示点亮，说明电路通断正常。右侧面板会记录具体的点击次数。',
+            'guide_h2_2': '如何检测鼠标双击（连点）故障？',
+            'guide_p_2': '“鼠标双击”是指微动开关老化，导致按下一字却触发两次信号。请关注右侧的“点击间隔 (TIME DELTA)”数据。如果您单击一次，日志中出现了极短时间（例如 < 40ms）的连续点击记录，且数字变成红色，说明您的鼠标微动可能存在双击故障。',
+            'guide_h2_3': '什么是回报率 (Polling Rate/Hz)？',
+            'guide_p_3': '回报率代表鼠标每秒向电脑报告位置的次数。普通办公鼠标通常为 125Hz，而电竞游戏鼠标通常为 1000Hz 甚至更高。在页面上快速移动鼠标，右侧的“实时回报率”即可显示当前性能。',
+            'guide_h3_1': '常见问题排查',
+            'guide_ul_content': '<li><b>滚轮回滚/乱跳：</b> 快速滚动滚轮，观察计数器是否平稳增加。</li><li><b>按键无反应：</b> 如果按下无反应，可能是微动物理损坏或驱动冲突。</li> <li><b>右键显示持续按下状态：</b>有些浏览器中在您按下右键的同时滑动鼠标，然后松开右键，这时右键仍然显示按下的状态，所以在测试按键时最好不要滑动鼠标。</li>'
         },
         'en': {
+            // ... (保留你原有的头部翻译) ...
             'title': 'Online 🖱️ Mouse Test Lab | Button click tester & Double Click Tester',
             'meta_desc': 'Mouse double-clicking? Scroll wheel malfunctioning? Test now! Mouse Test Lab provides millisecond-level fault analysis, real-time polling rate (Hz) testing, and full button diagnostics. No download required, professional esports tool.',
             'subtitle': 'Time Delta Detection + Double Click Fault Check',
@@ -304,6 +382,18 @@
             'log_warning': ' [DOUBLE CLICK ALERT!]',
             'warning_text': ' (Warning!)',
             'start': 'Start',
+
+            // --- 新增：SEO 指南部分 ---
+            'btn_guide_show': '📖 Show Guide & FAQ',
+            'btn_guide_hide': '📖 Hide Guide',
+            'guide_h2_1': 'How to use this Mouse Test tool?',
+            'guide_p_1': 'This tool tests all basic functions of your mouse. Click any button (Left, Right, Middle, Side buttons) to see them light up on the visualizer. The panel on the right tracks your click counts accurately.',
+            'guide_h2_2': 'How to detect Mouse Double Clicking?',
+            'guide_p_2': 'The "Double Click Bug" happens when a single physical press registers as two inputs due to switch degradation. Watch the "TIME DELTA" field. If a single click registers a very low time (e.g., < 40ms) and turns red, your mouse switch might be failing.',
+            'guide_h2_3': 'What is Polling Rate (Hz)?',
+            'guide_p_3': 'Polling rate measures how often your mouse reports its position to the computer per second. Office mice are usually 125Hz, while Gaming mice are 1000Hz+. Move your mouse quickly to test the real-time Hz.',
+            'guide_h3_1': 'Common Troubleshooting',
+            'guide_ul_content': '<li><b>Scroll Wheel Jumps:</b> Scroll fast and check if the counter increases smoothly.</li><li><b>Unresponsive Button:</b> If a button does not light up, the switch may be broken.</li> <li><b>Right-click displaying pressed state:</b> In some browsers, if you press and hold the right mouse button while simultaneously moving the mouse, and then release the right mouse button, the right mouse button will still display as pressed. Therefore, it is best not to move the mouse when testing key presses.</li>'
         }
     };
 
@@ -344,9 +434,37 @@
         document.getElementById('i18n-btn-wheel').innerText = texts.counter_wheel;
         document.getElementById('i18n-btn-3').innerText = texts.counter_b4;
         document.getElementById('i18n-btn-4').innerText = texts.counter_b5;
+// --- 新增：应用 SEO 指南文本 ---
+        const btnGuide = document.getElementById('i18n-btn-guide');
+        // 根据当前状态判断显示 "显示" 还是 "隐藏"
+        const isGuideOpen = document.getElementById('guide-container').classList.contains('open');
+        btnGuide.innerText = isGuideOpen ? texts.btn_guide_hide : texts.btn_guide_show;
 
+        document.getElementById('i18n-guide-h2-1').innerText = texts.guide_h2_1;
+        document.getElementById('i18n-guide-p-1').innerText = texts.guide_p_1;
+        document.getElementById('i18n-guide-h2-2').innerText = texts.guide_h2_2;
+        document.getElementById('i18n-guide-p-2').innerText = texts.guide_p_2;
+        document.getElementById('i18n-guide-h2-3').innerText = texts.guide_h2_3;
+        document.getElementById('i18n-guide-p-3').innerText = texts.guide_p_3;
+        document.getElementById('i18n-guide-h3-1').innerText = texts.guide_h3_1;
+        document.getElementById('i18n-guide-ul-1').innerHTML = texts.guide_ul_content;
     }
-
+    function toggleGuide() {
+        const container = document.getElementById('guide-container');
+        const btnText = document.getElementById('i18n-btn-guide');
+        
+        container.classList.toggle('open');
+        
+        // 动态计算高度以实现平滑动画，或者直接切换 auto
+        if (container.classList.contains('open')) {
+            // 如果你想做非常平滑的动画，可以把 height 设为 scrollHeight
+            container.style.height = container.scrollHeight + "px";
+            btnText.innerText = texts.btn_guide_hide;
+        } else {
+            container.style.height = "0";
+            btnText.innerText = texts.btn_guide_show;
+        }
+    }
     // 在 DOM 加载完成后应用本地化
     document.addEventListener('DOMContentLoaded', applyLocalization);
 
