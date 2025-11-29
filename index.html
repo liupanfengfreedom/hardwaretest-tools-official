@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
-    <meta name="description" data-i18n="desc" content="">
-    <title data-i18n="title">HardwareTest 在线检测工具套件</title>
+    <meta name="description" data-i18n="desc" content="专业的在线硬件检测工具，包括鼠标、键盘、麦克风和摄像头检测">
+    <title data-i18n="title">HardwareTest 在线硬件检测工具套件</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
     
     <style>
         :root {
-            --primary-color: #00f2ff; /* 霓虹青 */
-            --secondary-color: #bc13fe; /* 霓虹紫 */
+            --primary-color: #00f2ff;
+            --secondary-color: #bc13fe;
             --bg-color: #050a14;
             --card-bg: rgba(255, 255, 255, 0.05);
             --text-color: #e0e6ed;
@@ -207,25 +204,106 @@
             box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);
         }
 
+        /* 新增功能样式 */
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.8rem;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        .loading-text {
+            color: var(--primary-color);
+            font-family: 'Orbitron', sans-serif;
+        }
+
         footer {
             margin-top: auto;
             padding: 40px;
             color: #555;
             font-size: 0.8rem;
+            width: 100%;
+            text-align: center;
         }
 
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             .tools-grid { grid-template-columns: 1fr; }
+            .lang-switcher { position: relative; top: 0; right: 0; justify-content: center; margin-bottom: 20px; }
         }
     </style>
 </head>
 <body>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">English</button>
+    </div>
+
+    <div class="loading">
+        <div class="spinner"></div>
+        <div class="loading-text" data-i18n="loading">正在加载...</div>
+    </div>
 
     <div class="container">
         <header>
@@ -295,7 +373,8 @@
                 av_desc: `一键检测网络摄像头与麦克风工作状态。提供分辨率、帧率及声波分析详细参数。支持手机与PC。`,
                 cam_btn: `摄像头检测`,
                 mic_btn: `麦克风检测`,
-                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`
+                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`,
+                loading: `正在加载...`
             },
             'en': {
                 title: `Online Hardware Test`,
@@ -308,17 +387,30 @@
                 av_desc: `One-click webcam & mic check. Detailed resolution, frame rate & waveform analysis. Mobile & PC supported.`,
                 cam_btn: `Webcam Test`,
                 mic_btn: `Mic Test`,
-                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`
+                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`,
+                loading: `Loading...`
             }
         };
 
         // 检测语言并应用
-        function setLanguage() {
-            // 获取浏览器语言 (例如: 'zh-CN', 'en-US')
-            const userLang = navigator.language || navigator.userLanguage;
+        function setLanguage(langCode) {
+            // 如果没有指定语言，则使用本地存储或浏览器语言
+            if (!langCode) {
+                const savedLang = localStorage.getItem('hardwareTestLang');
+                if (savedLang) {
+                    langCode = savedLang;
+                } else {
+                    // 获取浏览器语言 (例如: 'zh-CN', 'en-US')
+                    const userLang = navigator.language || navigator.userLanguage;
+                    // 如果语言以 'zh' 开头，使用中文，否则使用英文
+                    langCode = userLang.startsWith('zh') ? 'zh' : 'en';
+                }
+            }
             
-            // 如果语言以 'zh' 开头，使用中文，否则使用英文
-            const langCode = userLang.startsWith('zh') ? 'zh' : 'en';
+            // 更新语言按钮状态
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === langCode);
+            });
             
             const content = translations[langCode];
 
@@ -330,21 +422,35 @@
                 }
             });
 
-            // 也可以修改 html 的 lang 属性
+            // 修改 html 的 lang 属性
             document.documentElement.lang = langCode === 'zh' ? 'zh-CN' : 'en';
+            
+            // 保存语言选择
+            localStorage.setItem('hardwareTestLang', langCode);
         }
 
         // 页面加载时执行
-        window.addEventListener('DOMContentLoaded', setLanguage);
+        window.addEventListener('DOMContentLoaded', () => {
+            setLanguage();
+            
+            // 添加语言切换功能
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    setLanguage(this.dataset.lang);
+                });
+            });
+            
+            // 添加加载状态到外部链接
+            document.querySelectorAll('a[target="_blank"]').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.querySelector('.loading').classList.add('active');
+                    setTimeout(() => {
+                        document.querySelector('.loading').classList.remove('active');
+                    }, 2000); // 模拟加载时间，实际应用中应该监听页面加载完成
+                });
+            });
+        });
     </script>
 
 </body>
-
 </html>
-
-
-
-
-
-
-
