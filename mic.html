@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <meta name="description" content="免费在线麦克风测试工具，支持实时音量显示、声波图、频率分析、噪声检测。无需下载，支持 Windows、Mac、Android、iPhone，全平台可用。快速检查麦克风是否正常工作。">
+  <meta name="keywords" content="麦克风测试,在线麦克风测试,Mic Test,麦克风检测,麦克风音量,声卡测试">
+  
+  <meta property="og:title" content="在线麦克风测试工具">
+  <meta property="og:description" content="免费在线麦克风测试工具，支持实时波形与音量监控。">
+  <meta property="og:url" content="https://mic.hardwaretest.top/">
+  <meta property="og:image" content="https://mic.hardwaretest.top/preview.png">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="在线麦克风测试工具">
+  <meta name="twitter:description" content="专业在线麦克风测试，实时检测音量、噪声、波形。">
+  
+  <link rel="canonical" href="https://mic.hardwaretest.top/" />
+  <link rel="icon" href="/favicon.ico?v=2"/>
+   <title>在线麦克风测试工具｜专业实时声波图、音量检测、噪音分析 | Mic Test Online</title>
+    <!-- JSON-LD 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "WebApplication",
+    "name": "在线麦克风测试工具",
+    "url": "https://mic.hardwaretest.top/",
+    "operatingSystem": "All",
+    "applicationCategory": "Utility",
+    "description": "专业在线麦克风测试工具，实时音量、波形、频率、噪声检测。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CNY"
+    }
+  }
+  </script>
+  
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--accent-glow:rgba(6,182,212,0.3);--record:#f43f5e;--record-glow:rgba(244,63,94,0.4);--muted:#94a3b8;--latency:#7c3aed;--glass:rgba(255,255,255,0.04)}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071029 0%, #071a2b 100%);color:#e6eef6; overflow-x:hidden;}
+    .app{max-width:1100px;margin:20px auto;padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    
+    header{display:flex;align-items:center;gap:16px; margin-bottom:20px;}
+    h1{margin:0;font-size:20px}
+    
+    .grid{display:grid;grid-template-columns:320px 1fr;gap:18px;}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
+    
+    .controls label{display:block;margin-bottom:8px;color:var(--muted);font-size:13px}
+    select,input[type=range]{width:100%; margin-bottom:12px; padding:8px; background:rgba(0,0,0,0.3); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px;}
+    
+    /* PTT Button Styles */
+    #pttBtn {
+      width: 100%; height: 80px; margin-top: 10px; border: none; border-radius: 12px;
+      font-size: 18px; font-weight: 700; cursor: pointer; color: white;
+      background: var(--card); border: 2px solid var(--accent);
+      box-shadow: 0 0 15px rgba(6,182,212,0.1); transition: all 0.1s ease;
+      user-select: none; -webkit-user-select: none; touch-action: manipulation;
+    }
+    #pttBtn:active, #pttBtn.active {
+      background: var(--record); border-color: var(--record);
+      transform: scale(0.98); box-shadow: 0 0 25px var(--record-glow);
+    }
+
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted); padding:6px 12px; border-radius:6px; cursor:pointer;}
+    button.ghost:hover{background:rgba(255,255,255,0.05)}
+
+    /* 权限警告按钮样式 */
+    .error-btn {
+        background: rgba(244,63,94,0.15) !important;
+        color: #f43f5e !important;
+        border: 1px solid rgba(244,63,94,0.3) !important;
+        margin-top: 8px;
+        font-size: 12px;
+        animation: pulse 2s infinite;
+    }
+    .error-btn:hover { background: rgba(244,63,94,0.25) !important; }
+
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
+        70% { box-shadow: 0 0 0 6px rgba(244, 63, 94, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+    }
+
+    canvas{width:100%;height:180px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border-radius:8px; display:block;}
+    
+    .row{display:flex;gap:10px;align-items:center}
+    .small{font-size:13px;color:var(--muted)}
+    .stats{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+    .stat{background:var(--glass);padding:8px;border-radius:8px;font-size:13px;min-width:80px}
+    
+    .status-indicator { display:inline-block; width:8px; height:8px; border-radius:50%; background:#444; margin-right:8px; }
+    .status-indicator.on { background: #06b6d4; box-shadow: 0 0 8px #06b6d4; }
+    .status-indicator.err { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
+
+    @media (max-width:900px){.grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" stroke="#06b6d4" stroke-width="2"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="#7c3aed" stroke-width="2"/><path d="M12 19v3" stroke="#94a3b8" stroke-width="2"/></svg>
+      <div>
+        <h1>在线麦克风测试（Mic Test Online）</h1>
+        <h2>这是一个免费的在线麦克风测试工具，可用于测试麦克风音量、输入延迟、噪音水平，并帮助你排查麦克风无法识别或声音太小的问题</h2>
+        <div class="small">
+            <span id="statusDot" class="status-indicator"></span>
+            <span id="statusText">初始化中...</span>
+        </div>
+        <button id="permBtn" style="display:none" class="ghost error-btn">
+             ⚠️ 点击允许权限 (或在地址栏重置)
+        </button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card controls">
+        <label>选择麦克风</label>
+        <select id="deviceSelect"></select>
+
+        <label>输入增益 (Gain)</label>
+        <input id="gain" type="range" min="0" max="4" step="0.01" value="1">
+        
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.05);margin:16px 0">
+        
+        <label style="color:#fff; font-weight:600; text-align:center;">测试操作</label>
+        <button id="pttBtn">按住 录音<br><span style="font-size:12px;font-weight:400;opacity:0.8">松开 立即播放</span></button>
+
+        <div style="height:20px"></div>
+        <div class="small" style="font-weight:600;margin-bottom:8px">高级选项</div>
+        <div style="margin-bottom:12px; padding:8px; background:rgba(255,255,255,0.05); border-radius:6px; color:var(--muted)">
+            * 诊断结果已自动显示在统计面板。
+        </div>
+
+        <label class="small"><input id="aec" type="checkbox"> 回声消除 (AEC)</label>
+        <label class="small"><input id="autoGain" type="checkbox"> 自动增益 (AGC)</label>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="row" style="justify-content:space-between;margin-bottom:4px">
+            <div class="small">实时波形 (Waveform)</div>
+            <div class="small">采样率: <span id="samplerate">-</span> Hz</div>
+          </div>
+          <canvas id="waveCanvas" width="800" height="180"></canvas>
+          <div class="stats">
+            <div class="stat">RMS: <span id="rms" style="color:#06b6d4">-</span></div>
+            <div class="stat">峰值: <span id="peak" style="color:#f43f5e">-</span></div>
+            <div class="stat">最低噪底: <span id="minNoise" style="color:#eab308">-</span> dB</div>
+            <div class="stat">延迟: <span id="latencyMs" style="color:var(--latency)">--</span> ms</div>
+            <div class="stat">状态: <span id="playState" style="color:#eab308">待机</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="small" style="margin-bottom:4px">频谱分析 (Frequency)</div>
+          <canvas id="specCanvas" width="800" height="180"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(async function(){
+  const deviceSelect = document.getElementById('deviceSelect');
+  const pttBtn = document.getElementById('pttBtn');
+  const gainSlider = document.getElementById('gain');
+  const waveCanvas = document.getElementById('waveCanvas');
+  const specCanvas = document.getElementById('specCanvas');
+  const samplerateEl = document.getElementById('samplerate');
+  const rmsEl = document.getElementById('rms');
+  const peakEl = document.getElementById('peak');
+  const minNoiseEl = document.getElementById('minNoise');
+  const latencyMsEl = document.getElementById('latencyMs');
+  const playStateEl = document.getElementById('playState');
+  const statusText = document.getElementById('statusText');
+  const statusDot = document.getElementById('statusDot');
+  const permBtn = document.getElementById('permBtn'); // 获取权限按钮
+
+  let audioCtx = null, sourceNode = null, analyser = null, processor = null, gainNode = null;
+  let mediaStream = null;
+  
+  let isRecording = false;
+  let recordedBuffers = [];
+  let rafId = null;
+  let minNoiseDb = 0;
+
+  // --- Utility Functions ---
+
+  async function refreshDevices(){
+    try{
+      // 请求权限以获取完整的设备标签（如果还没授权，这里的label可能是空的）
+      // 注意：enumerateDevices 不会触发弹窗，但必须有权限才能看到设备名
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const inputs = devices.filter(d => d.kind === 'audioinput');
+      deviceSelect.innerHTML='';
+      inputs.forEach(d => {
+        const opt = document.createElement('option'); 
+        opt.value = d.deviceId; 
+        opt.textContent = d.label || '麦克风 ' + (deviceSelect.length + 1); 
+        deviceSelect.appendChild(opt);
+      });
+      if(inputs.length===0) deviceSelect.innerHTML='<option>未检测到麦克风</option>';
+    } catch(e){ console.error(e); }
+  }
+  
+  async function runLatencyTest(){
+      latencyMsEl.textContent = "计算中...";
+      if(!audioCtx) return;
+      await new Promise(r => setTimeout(r, 100)); 
+      const sr = audioCtx.sampleRate;
+      const clickLength = 2048;
+      const buf = audioCtx.createBuffer(1, clickLength, sr); 
+      const bd = buf.getChannelData(0); 
+      bd[0] = 1; 
+      const src = audioCtx.createBufferSource(); 
+      src.buffer = buf; 
+      src.connect(audioCtx.destination);
+      const cap = []; 
+      const sp = audioCtx.createScriptProcessor(1024, 1, 1);
+      analyser.disconnect(); 
+      analyser.connect(sp); 
+      sp.onaudioprocess = e => cap.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+      sp.connect(audioCtx.destination);
+      src.start(0); 
+      await new Promise(r => setTimeout(r, 400));
+      src.stop(); 
+      sp.disconnect(); 
+      analyser.disconnect();
+      analyser.connect(processor); 
+      const full = new Float32Array(cap.reduce((a,b)=>a+b.length,0)); 
+      let o = 0; cap.forEach(b=>{full.set(b,o);o+=b.length});
+      let max = 0, idx = 0;
+      for(let i = 500; i < full.length; i++){ 
+          if(Math.abs(full[i]) > max){ max = Math.abs(full[i]); idx = i; }
+      }
+      const latencyMs = (idx / sr) * 1000;
+      latencyMsEl.textContent = latencyMs.toFixed(1);
+      latencyMsEl.style.color = latencyMs > 100 ? '#f43f5e' : 'var(--latency)';
+  }
+
+  // --- Core Engine ---
+
+  async function startEngine(){
+    // Cleanup existing stream
+    if(mediaStream){ mediaStream.getTracks().forEach(t=>t.stop()); mediaStream=null; }
+    if(audioCtx) { try{ await audioCtx.close(); }catch(e){} audioCtx=null; }
+    
+    const constraints = { audio: { deviceId: deviceSelect.value ? {exact: deviceSelect.value} : undefined, echoCancellation: document.getElementById('aec').checked, autoGainControl: document.getElementById('autoGain').checked, noiseSuppression: false } };
+
+    try {
+      mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      
+      // 成功获取权限：UI更新
+      permBtn.style.display = 'none';
+      statusText.textContent = "运行中";
+      statusText.style.color = "#e6eef6";
+      statusDot.classList.remove('err');
+      statusDot.classList.add('on');
+      
+      // 有了权限后，重新刷新设备列表以获取正确的名称
+      refreshDevices();
+
+    } catch(e) { 
+      // 失败：UI更新
+      console.error(e);
+      statusText.textContent = "权限被拒绝";
+      statusText.style.color = "#f43f5e";
+      statusDot.classList.remove('on');
+      statusDot.classList.add('err');
+      
+      permBtn.style.display = 'inline-block'; // 显示按钮
+      return; 
+    }
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Autoplay Policy Handling
+    if(audioCtx.state === 'suspended'){
+      statusText.textContent = "点击页面激活音频";
+      const resume = async () => { 
+        await audioCtx.resume(); 
+        statusText.textContent = "运行中"; 
+        runLatencyTest();
+      };
+      document.body.addEventListener('click', resume, {once:true});
+    } else {
+      runLatencyTest();
+    }
+
+    samplerateEl.textContent = audioCtx.sampleRate;
+    sourceNode = audioCtx.createMediaStreamSource(mediaStream);
+    gainNode = audioCtx.createGain();
+    gainNode.gain.value = Number(gainSlider.value);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.smoothingTimeConstant = 0.8; 
+    minNoiseDb = 0; 
+    processor = audioCtx.createScriptProcessor(4096, 1, 1);
+    processor.onaudioprocess = (e) => {
+      const input = e.inputBuffer.getChannelData(0);
+      if(isRecording) { recordedBuffers.push(new Float32Array(input)); }
+    };
+    sourceNode.connect(gainNode);
+    gainNode.connect(analyser);
+    analyser.connect(processor);
+    processor.connect(audioCtx.destination); 
+    drawVisuals();
+  }
+
+  function drawVisuals(){
+    const ctx = waveCanvas.getContext('2d');
+    const sctx = specCanvas.getContext('2d');
+    const w = waveCanvas.width; const h = waveCanvas.height;
+    const grad = sctx.createLinearGradient(0, h, 0, 0);
+    grad.addColorStop(0, "rgba(124, 58, 237, 0.2)");
+    grad.addColorStop(1, "rgba(6, 182, 212, 0.8)");
+
+    function loop(){
+      if(!analyser || !audioCtx) return;
+      const timeData = new Float32Array(analyser.fftSize);
+      analyser.getFloatTimeDomainData(timeData);
+      ctx.clearRect(0,0,w,h);
+      ctx.lineWidth = 2; ctx.strokeStyle = '#06b6d4'; ctx.beginPath();
+      const step = Math.ceil(timeData.length / w);
+      for(let i=0; i < timeData.length; i+=step){
+        const v = timeData[i]; const y = (1 - (v+1)/2) * h;
+        if(i===0) ctx.moveTo(i/step, y); else ctx.lineTo(i/step, y);
+      }
+      ctx.stroke();
+
+      let sum=0, peak=0;
+      for(let v of timeData){ const a=Math.abs(v); sum+=a*a; if(a>peak)peak=a; }
+      const rms = Math.sqrt(sum/timeData.length);
+      rmsEl.textContent = rms.toFixed(4);
+      peakEl.textContent = peak.toFixed(4);
+      const db = 20*Math.log10(rms||1e-12);
+      if (minNoiseDb === 0) { minNoiseDb = db; } else { minNoiseDb = Math.min(minNoiseDb + 0.1, db); }
+      minNoiseEl.textContent = minNoiseDb.toFixed(1);
+
+      const freqData = new Float32Array(analyser.frequencyBinCount);
+      analyser.getFloatFrequencyData(freqData);
+      sctx.clearRect(0,0,w,h);
+      sctx.fillStyle = grad; sctx.beginPath(); sctx.moveTo(0, h);
+      const binW = w / freqData.length;
+      for(let i=0; i<freqData.length; i++){
+        const n = (freqData[i] + 100) / 100; 
+        const y = h - (Math.max(0, Math.min(1, n)) * h);
+        sctx.lineTo(i*binW, y);
+      }
+      sctx.lineTo(w, h); sctx.fill();
+      rafId = requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  // --- PTT Logic ---
+  function startRecord(e) {
+    if(e) e.preventDefault(); 
+    if(!audioCtx || audioCtx.state === 'suspended') { audioCtx?.resume(); }
+    if(mediaStream) { // Only record if stream is active
+        isRecording = true;
+        recordedBuffers = []; 
+        pttBtn.classList.add('active');
+        pttBtn.innerHTML = "正在录音... <br><span style='font-size:12px'>松开播放</span>";
+        playStateEl.textContent = "录音中"; playStateEl.style.color = "#f43f5e";
+    } else {
+        startEngine(); // Try to start engine if button clicked but no stream
+    }
+  }
+
+  function stopRecordAndPlay(e) {
+    if(e) e.preventDefault();
+    if(!isRecording) return;
+    isRecording = false;
+    pttBtn.classList.remove('active');
+    pttBtn.innerHTML = "按住 录音<br><span style='font-size:12px;font-weight:400;opacity:0.8'>松开 立即播放</span>";
+    if(recordedBuffers.length === 0) return;
+    playStateEl.textContent = "回放中..."; playStateEl.style.color = "#06b6d4";
+    const totalLen = recordedBuffers.reduce((acc, b) => acc + b.length, 0);
+    const result = new Float32Array(totalLen);
+    let offset = 0; recordedBuffers.forEach(b => { result.set(b, offset); offset += b.length; });
+    const buffer = audioCtx.createBuffer(1, result.length, audioCtx.sampleRate);
+    buffer.copyToChannel(result, 0);
+    const player = audioCtx.createBufferSource();
+    player.buffer = buffer;
+    player.connect(audioCtx.destination);
+    player.onended = () => { playStateEl.textContent = "待机"; playStateEl.style.color = "#eab308"; };
+    player.start();
+  }
+
+  // --- Listeners ---
+  pttBtn.addEventListener('mousedown', startRecord);
+  document.addEventListener('mouseup', () => { if(isRecording) stopRecordAndPlay(); }); 
+  pttBtn.addEventListener('touchstart', startRecord, {passive: false});
+  pttBtn.addEventListener('touchend', stopRecordAndPlay);
+  gainSlider.addEventListener('input', () => { if(gainNode) gainNode.gain.value = gainSlider.value; });
+  deviceSelect.addEventListener('change', startEngine); 
+  
+  // 权限按钮点击重试
+  permBtn.addEventListener('click', () => {
+    statusText.textContent = "请求中...";
+    startEngine();
+  });
+
+  await refreshDevices();
+  startEngine();
+
+})();
+</script>
+</body>
+
+<style>
+/* 外部整体容器 */
+.seo-collapse-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+/* 横条按钮 */
+.seo-collapse-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;   /* ⭐ 让整条内容居中 */
+    position: relative;        /* ⭐ 允许图标绝对定位 */
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    background: rgba(255,255,255,0.06);
+    transition: background 0.2s;
+}
+
+
+.seo-collapse-header:hover {
+    background: rgba(255,255,255,0.09);
+}
+
+/* 左侧小方块图标 */
+.seo-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    position: absolute;  /* ⭐ 固定左侧 */
+    left: 18px;          /* ⭐ 控制与左边距离 */
+}
+
+
+/* 文字 */
+.seo-title {
+    font-size: 17px;
+    color: #dbeafe;
+    padding-left: 40px;   /* ⭐ 给标题加左边补偿，让它看起来真正居中 */
+}
+
+
+/* 内容区域 */
+.seo-collapse-content {
+    display: none;
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    color: #cbd5e1;
+    line-height: 1.75;
+}
+.seo-collapse-content h2,
+.seo-collapse-content h3 {
+    color: #38bdf8;
+}
+</style>
+
+<!-- 1️⃣ 教程折叠 -->
+<div class="seo-collapse-box">
+    <div class="seo-collapse-header" onclick="toggleSeoCollapse(this)">
+        <div class="seo-icon" style="background:#60a5fa;"></div>
+        <div class="seo-title">展开查看：在线麦克风测试工具完整教程</div>
+    </div>
+
+    <div class="seo-collapse-content">
+        <h2>在线麦克风测试工具使用教程</h2>
+        <p>
+            本工具支持实时检测麦克风音量、波形图、频率分析、增益调节等……
+        </p>
+        <p><strong>1. 打开在线麦克风检测页面</strong><br>
+点击浏览器上方的“允许访问麦克风”，否则无法检测。</p>
+
+<p><strong>2. 选择你的麦克风设备</strong><br>
+如果你有多个麦克风（USB 麦、耳机麦、主板麦克风等），在下拉菜单中选择正确的输入设备。</p>
+
+<p><strong>3. 检查麦克风音量</strong><br>
+说话时观察实时音量条是否正常波动。如果音量过低或没有反应，可尝试：<br>
+- 调大系统输入音量<br>
+- 更换麦克风接口<br>
+- 检查是否被其他软件独占（如 Zoom、OBS、Discord）</p>
+
+<p><strong>4. 观看实时波形图</strong><br>
+波形图可以帮助你判断声音是否顺畅：<br>
+- 声音正常 → 曲线平滑、有变化<br>
+- 噪音严重 → 波形密集抖动<br>
+- 麦克风损坏 → 波形固定不动</p>
+
+<p><strong>5. 查看频率分析</strong><br>
+频谱图可用于判断音质：<br>
+- 高频消失 → 声音闷、模糊<br>
+- 低频过强 → 嗡嗡声明显<br>
+- 有尖刺峰值 → 可能存在电流声或底噪</p>
+
+<p><strong>6. 麦克风增益与降噪建议</strong><br>
+若你声音太小，可适度增加麦克风增益，但需避免过高导致失真。<br>
+如有噪音，可启用：<br>
+- Windows 麦克风增强<br>
+- 噪声抑制<br>
+- 自动增益控制</p>
+
+<p><strong>7. 测试完成后的建议</strong><br>
+- 若你的麦克风音质不佳，建议更换更高质量的外置麦克风。<br>
+- 如果你需要录音、直播、会议，请确保音量稳定在绿色-黄色之间。</p>
+
+    </div>
+</div>
+
+<!-- 2️⃣ 常见故障折叠 -->
+<div class="seo-collapse-box">
+    <div class="seo-collapse-header" onclick="toggleSeoCollapse(this)">
+        <div class="seo-icon" style="background:#4ade80;"></div>
+        <div class="seo-title">展开查看：常见麦克风问题解决方案</div>
+    </div>
+
+    <div class="seo-collapse-content">
+        <h2>常见麦克风问题排查</h2>
+        <p>如音量小、杂音、权限问题、虚拟声卡冲突等。</p>
+<p><strong>1. 麦克风声音小或对方听不见</strong><br>
+可能原因：<br>
+- 系统音量过低<br>
+- Windows 隐私权限未开启（设置 → 隐私 → 麦克风）<br>
+- 设备默认输入错误<br>
+解决方法：<br>
+- 在输入设备中选择正确的麦克风<br>
+- 将系统增益调至 80% 以上<br>
+- 关闭占用麦克风的软件</p>
+
+<p><strong>2. 出现杂音、电流声、嘶嘶声</strong><br>
+原因可能包括：<br>
+- 3.5mm 接口接触不良<br>
+- 主板前置音频质量差<br>
+- USB 麦克风供电不稳<br>
+解决办法：<br>
+- 尝试连接主板后置接口<br>
+- 更换 USB 端口（避免 USB Hub）<br>
+- 使用带有独立声卡的麦克风</p>
+
+<p><strong>3. 麦克风有爆音、尖锐声</strong><br>
+通常是输入增益过高或拾音器损坏。<br>
+解决方法：<br>
+- 调低麦克风增益<br>
+- 保持嘴与麦克风距离 10–15 cm<br>
+- 使用防喷罩减少爆破音</p>
+
+<p><strong>4. 麦克风延迟高</strong><br>
+原因可能是：<br>
+- 浏览器采样率不同步<br>
+- 声卡驱动落后<br>
+- 在线会议软件后台占用<br>
+解决步骤：<br>
+- 将系统采样率统一为 44100 Hz<br>
+- 更新声卡驱动<br>
+- 关闭多余的录音软件</p>
+
+<p><strong>5. 虚拟声卡或变声器导致异常</strong><br>
+如使用 iVCam、Voicemod、OBS 虚拟设备，可能造成无声或延迟。<br>
+解决方法：<br>
+- 在测试工具选择真实物理麦克风<br>
+- 临时卸载虚拟声卡进行排查</p>
+
+<p><strong>6. 麦克风完全无法使用</strong><br>
+检查以下步骤：<br>
+- 设备管理器是否识别麦克风<br>
+- 是否被禁用（右键 → 启用）<br>
+- USB 数据线损坏或接触不良<br>
+- 在其他设备上测试是否可用</p>
+
+    </div>
+</div>
+
+<script>
+function toggleSeoCollapse(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.style.display === "block";
+
+    content.style.display = isOpen ? "none" : "block";
+}
+</script>
+
+
+</html>
+
+
