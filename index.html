@@ -3,11 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" data-i18n="desc" content="专业的在线硬件检测工具，包括鼠标、键盘、麦克风和摄像头检测">
-    <title data-i18n="title">HardwareTest 在线硬件检测工具套件</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- 多语言meta描述方案 -->
+    <meta name="description" id="meta-desc-zh" content="专业的在线硬件检测工具 - 鼠标测试、键盘测试、麦克风测试、摄像头测试。免费、无需下载、即点即用的硬件诊断解决方案">
+    <meta name="description" id="meta-desc-en" content="Professional online hardware testing tools - mouse test, keyboard test, microphone test, camera test. Free, no download needed, instant hardware diagnostics solution" hidden>
+    <link rel="canonical" href="https://www.hardwaretest.top/" />
+
+    <title>HardwareTest - 在线硬件检测工具套件</title>
+    
+    <!-- 字体预加载优化 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
+    
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "HardwareTest Pro",
+        "description": "专业的在线 鼠标 键盘 相机 麦克风 测试",
+        "url": "https://www.hardwaretest.top",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "HardwareTest Tools"
+        }
+    }
+    </script>
     
     <style>
         :root {
@@ -19,7 +51,11 @@
             --transition: all 0.3s ease;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
 
         body {
             font-family: 'Roboto', sans-serif;
@@ -34,6 +70,7 @@
                 linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
             overflow-x: hidden;
+            transition: opacity 0.3s ease;
         }
 
         body::before {
@@ -56,7 +93,10 @@
             text-align: center;
         }
 
-        header { margin-bottom: 60px; animation: fadeInDown 1s ease-out; }
+        header { 
+            margin-bottom: 60px; 
+            animation: fadeInDown 1s ease-out; 
+        }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
@@ -78,7 +118,10 @@
             line-height: 1.6;
         }
 
-        .highlight { color: var(--primary-color); font-weight: bold; }
+        .highlight { 
+            color: var(--primary-color); 
+            font-weight: bold; 
+        }
 
         .tools-grid {
             display: grid;
@@ -181,30 +224,43 @@
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
         }
 
-        .btn:hover::before { left: 0; }
-        .btn i { margin-left: 8px; }
+        .btn:hover::before { 
+            left: 0; 
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn i { 
+            margin-left: 8px; 
+        }
 
         .card.purple .card-icon {
             color: var(--secondary-color);
             background: rgba(188, 19, 254, 0.1);
         }
+        
         .card.purple:hover {
             border-color: var(--secondary-color);
             box-shadow: 0 15px 40px rgba(188, 19, 254, 0.15);
         }
+        
         .card.purple .btn {
             border-color: var(--secondary-color);
             color: var(--secondary-color);
         }
+        
         .card.purple .btn::before {
             background: var(--secondary-color);
         }
+        
         .card.purple .btn:hover {
             color: #ffffff;
             box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);
         }
 
-        /* 新增功能样式 */
+        /* 语言切换器样式 */
         .lang-switcher {
             position: absolute;
             top: 20px;
@@ -276,20 +332,69 @@
             text-align: center;
         }
 
+        /* 动画 */
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% { 
+                transform: rotate(0deg); 
+            }
+            100% { 
+                transform: rotate(360deg); 
+            }
         }
         
+        /* 触摸设备优化 */
+        @media (hover: none) {
+            .card:hover {
+                transform: none;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+            
+            .btn:active {
+                transform: scale(0.95);
+            }
+        }
+        
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .tools-grid { grid-template-columns: 1fr; }
-            .lang-switcher { position: relative; top: 0; right: 0; justify-content: center; margin-bottom: 20px; }
+            h1 { 
+                font-size: 2rem; 
+            }
+            
+            .tools-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .lang-switcher { 
+                position: relative; 
+                top: 0; 
+                right: 0; 
+                justify-content: center; 
+                margin-bottom: 20px; 
+            }
+            
+            .container {
+                margin: 30px auto;
+            }
+        }
+
+        /* 无障碍优化 - 减少动画偏好 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -307,7 +412,7 @@
 
     <div class="container">
         <header>
-            <div style="font-size: 3rem; margin-bottom: 10px;">🛠️</div>
+            <div style="font-size: 3rem; margin-bottom: 10px;" aria-hidden="true">🛠️</div>
             <h1>HardwareTest <span style="font-size: 0.5em; border: 1px solid var(--primary-color); padding: 2px 8px; border-radius: 4px; vertical-align: middle;">PRO</span></h1>
             
             <p class="subtitle" data-i18n="subtitle">
@@ -316,39 +421,39 @@
             </p>
         </header>
 
-        <section class="tools-grid">
+        <section class="tools-grid" aria-label="硬件测试工具">
             
-            <div class="card">
-                <div class="card-icon">
+            <div class="card" role="article" aria-labelledby="mouse-title">
+                <div class="card-icon" aria-hidden="true">
                     <i class="fa-solid fa-computer-mouse"></i>
                 </div>
-                <h3>Mouse Test Lab</h3>
+                <h3 id="mouse-title">Mouse Test Lab</h3>
                 <p data-i18n="mouse_desc">毫秒级微动故障分析。实时检测回报率 (Polling Rate)、滚轮及侧键功能。助您精准排查鼠标双击、失灵问题。</p>
-                <a href="https://www.hardwaretest.top/mouse/" target="_blank" class="btn" data-i18n="mouse_btn">
+                <a href="https://www.hardwaretest.top/mouse/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="mouse_btn">
                     开始鼠标检测 <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
-            <div class="card purple">
-                <div class="card-icon">
+            <div class="card purple" role="article" aria-labelledby="keyboard-title">
+                <div class="card-icon" aria-hidden="true">
                     <i class="fa-solid fa-keyboard"></i>
                 </div>
-                <h3>Keyboard Master</h3>
+                <h3 id="keyboard-title">Keyboard Master</h3>
                 <p data-i18n="kb_desc">全键位功能排查与冲突测试。整合硬件知识库与维修指南，解决按键无反应、连触等常见故障。</p>
-                <a href="https://www.hardwaretest.top/keyboard/" target="_blank" class="btn" data-i18n="kb_btn">
+                <a href="https://www.hardwaretest.top/keyboard/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="kb_btn">
                     启动键盘检测 <i class="fa-solid fa-wrench"></i>
                 </a>
             </div>
 
-            <div class="card">
-                <div class="card-icon">
+            <div class="card" role="article" aria-labelledby="av-title">
+                <div class="card-icon" aria-hidden="true">
                     <i class="fa-solid fa-video"></i>
                 </div>
-                <h3>A/V Diagnostics</h3>
+                <h3 id="av-title">A/V Diagnostics</h3>
                 <p data-i18n="av_desc">一键检测网络摄像头与麦克风工作状态。提供分辨率、帧率及声波分析详细参数。支持手机与PC。</p>
                 <div style="display: flex; gap: 10px;">
-                    <a href="https://www.hardwaretest.top/camera/" target="_blank" class="btn" data-i18n="cam_btn">摄像头检测</a>
-                    <a href="https://www.hardwaretest.top/mic/" target="_blank" class="btn" data-i18n="mic_btn">麦克风检测</a>
+                    <a href="https://www.hardwaretest.top/camera/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="cam_btn">摄像头检测</a>
+                    <a href="https://www.hardwaretest.top/mic/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="mic_btn">麦克风检测</a>
                 </div>
             </div>
 
@@ -363,37 +468,40 @@
         // 翻译字典
         const translations = {
             'zh': {
-                title: `在线硬件检测`,
-                desc: `在线鼠标检测，键盘检测，麦克风检测，摄像头检测`,
-                subtitle: `鼠标莫名双击？键盘按键失灵？麦克风声音太小？<br>无需下载，即点即用。专业的<span class="highlight">在线硬件检测实验室</span>。`,
-                mouse_desc: `毫秒级微动故障分析。实时检测回报率 (Polling Rate)、滚轮及侧键功能。助您精准排查鼠标双击、失灵问题。`,
-                mouse_btn: `开始鼠标检测 <i class="fa-solid fa-arrow-right"></i>`,
-                kb_desc: `全键位功能排查与冲突测试。整合硬件知识库与维修指南，解决按键无反应、连触等常见故障。`,
-                kb_btn: `启动键盘检测 <i class="fa-solid fa-wrench"></i>`,
-                av_desc: `一键检测网络摄像头与麦克风工作状态。提供分辨率、帧率及声波分析详细参数。支持手机与PC。`,
-                cam_btn: `摄像头检测`,
-                mic_btn: `麦克风检测`,
-                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`,
-                loading: `正在加载...`
+                'title': 'HardwareTest - 在线硬件检测工具套件',
+                'meta_desc_id':  'meta-desc-zh',
+                'subtitle': '鼠标莫名双击？键盘按键失灵？麦克风声音太小？<br>无需下载，即点即用。专业的<span class="highlight">在线硬件检测实验室</span>。',
+                'mouse_desc': '毫秒级微动故障分析。实时检测回报率 (Polling Rate)、滚轮及侧键功能。助您精准排查鼠标双击、失灵问题。',
+                'mouse_btn': '开始鼠标检测 <i class="fa-solid fa-arrow-right"></i>',
+                'kb_desc': '全键位功能排查与冲突测试。整合硬件知识库与维修指南，解决按键无反应、连触等常见故障。',
+                'kb_btn': '启动键盘检测 <i class="fa-solid fa-wrench"></i>',
+                'av_desc': '一键检测网络摄像头与麦克风工作状态。提供分辨率、帧率及声波分析详细参数。支持手机与PC。',
+                'cam_btn': '摄像头检测',
+                'mic_btn': '麦克风检测',
+                'footer': '&copy; 2023 HardwareTest Tools Official. All Systems Operational.',
+                'loading': '正在加载...'
             },
             'en': {
-                title: `Online Hardware Test`,
-                desc: `Online Mouse test , keyboard test , Microphone test , Camera test`,
-                subtitle: `Mouse double-clicking? Keyboard ghosting? Mic too quiet?<br>No download needed. Professional <span class="highlight">Online Hardware Lab</span>.`,
-                mouse_desc: `Millisecond-level switch analysis. Real-time Polling Rate, scroll wheel & side button tests. Fix double-click issues.`,
-                mouse_btn: `Start Mouse Test <i class="fa-solid fa-arrow-right"></i>`,
-                kb_desc: `Full-key rollover & conflict test. Integrated repair guide for ghosting and unresponsive keys.`,
-                kb_btn: `Launch Keyboard Test <i class="fa-solid fa-wrench"></i>`,
-                av_desc: `One-click webcam & mic check. Detailed resolution, frame rate & waveform analysis. Mobile & PC supported.`,
-                cam_btn: `Webcam Test`,
-                mic_btn: `Mic Test`,
-                footer: `&copy; 2023 HardwareTest Tools Official. All Systems Operational.`,
-                loading: `Loading...`
+                'title': 'HardwareTest - Online Hardware Testing Suite',
+                'meta_desc_id':  'meta-desc-en',
+                'subtitle': 'Mouse double-clicking? Keyboard ghosting? Mic too quiet?<br>No download needed. Professional <span class="highlight">Online Hardware Lab</span>.',
+                'mouse_desc': 'Millisecond-level switch analysis. Real-time Polling Rate, scroll wheel & side button tests. Fix double-click issues.',
+                'mouse_btn': 'Start Mouse Test <i class="fa-solid fa-arrow-right"></i>',
+                'kb_desc': 'Full-key rollover & conflict test. Integrated repair guide for ghosting and unresponsive keys.',
+                'kb_btn': 'Launch Keyboard Test <i class="fa-solid fa-wrench"></i>',
+                'av_desc': 'One-click webcam & mic check. Detailed resolution, frame rate & waveform analysis. Mobile & PC supported.',
+                'cam_btn': 'Webcam Test',
+                'mic_btn': 'Mic Test',
+                'footer': '&copy; 2023 HardwareTest Tools Official. All Systems Operational.',
+                'loading': 'Loading...'
             }
         };
 
         // 检测语言并应用
         function setLanguage(langCode) {
+            // 添加过渡效果
+            document.body.style.opacity = '0.7';
+            
             // 如果没有指定语言，则使用本地存储或浏览器语言
             if (!langCode) {
                 const savedLang = localStorage.getItem('hardwareTestLang');
@@ -414,6 +522,17 @@
             
             const content = translations[langCode];
 
+            // 更新页面标题和meta描述
+            document.title = content.title;
+            // 切换meta描述的显示
+            document.querySelectorAll('meta[name="description"]').forEach(meta => {
+                meta.setAttribute('hidden', '');
+            });
+            const activeMeta = document.getElementById(content.meta_desc_id);
+            if (activeMeta) {
+                    activeMeta.removeAttribute('hidden');
+            }
+
             // 遍历所有带有 data-i18n 属性的元素并替换内容
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
@@ -427,6 +546,11 @@
             
             // 保存语言选择
             localStorage.setItem('hardwareTestLang', langCode);
+            
+            // 恢复透明度
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 150);
         }
 
         // 页面加载时执行
@@ -440,15 +564,33 @@
                 });
             });
             
-            // 添加加载状态到外部链接
+            // 改进的加载状态处理
             document.querySelectorAll('a[target="_blank"]').forEach(link => {
-                link.addEventListener('click', function() {
-                    document.querySelector('.loading').classList.add('active');
-                    setTimeout(() => {
-                        document.querySelector('.loading').classList.remove('active');
-                    }, 2000); // 模拟加载时间，实际应用中应该监听页面加载完成
+                link.addEventListener('click', function(e) {
+                    // 只对同站链接显示加载动画
+                    if (this.hostname === window.location.hostname) {
+                        document.querySelector('.loading').classList.add('active');
+                        // 设置超时自动关闭，防止页面无法加载时动画一直显示
+                        setTimeout(() => {
+                            document.querySelector('.loading').classList.remove('active');
+                        }, 3000);
+                    }
                 });
             });
+            
+            // 监听页面可见性变化，隐藏加载动画
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    document.querySelector('.loading').classList.remove('active');
+                }
+            });
+        });
+
+        // 字体加载失败时的降级处理
+        document.fonts.ready.then(() => {
+            console.log('All fonts loaded');
+        }).catch((error) => {
+            console.warn('Some fonts failed to load:', error);
         });
     </script>
 
