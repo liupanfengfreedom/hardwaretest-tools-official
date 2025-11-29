@@ -25,7 +25,7 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "HardwareTest Pro",
-        "description": "专业的在线 鼠标 键盘 相机 麦克风 测试",
+        "description": "专业的在线鼠标|键盘|相机|麦克风测试工具",
         "url": "https://www.hardwaretest.top",
         "applicationCategory": "UtilityApplication",
         "operatingSystem": "Any",
@@ -128,6 +128,7 @@
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             padding: 20px;
+            margin-bottom: 60px;
         }
 
         .card {
@@ -323,6 +324,123 @@
             font-family: 'Orbitron', sans-serif;
         }
 
+        /* 新增的文档部分样式 */
+        .docs-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .docs-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .docs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .docs-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .docs-toggle {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .docs-toggle:hover {
+            background: var(--primary-color);
+            color: #000;
+        }
+
+        .docs-content {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .docs-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .doc-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .doc-item h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .doc-item p {
+            color: #a0aec0;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .doc-item.purple {
+            border-left-color: var(--secondary-color);
+        }
+
+        .doc-item.purple h4 {
+            color: var(--secondary-color);
+        }
+
+        .features-list {
+            list-style-type: none;
+            margin: 20px 0;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #a0aec0;
+        }
+
+        .features-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
         footer {
             margin-top: auto;
             padding: 40px;
@@ -341,6 +459,15 @@
             to { 
                 opacity: 1; 
                 transform: translateY(0); 
+            }
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+            }
+            to { 
+                opacity: 1; 
             }
         }
 
@@ -385,6 +512,20 @@
             
             .container {
                 margin: 30px auto;
+            }
+            
+            .docs-section {
+                padding: 25px;
+            }
+            
+            .docs-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .docs-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -458,6 +599,78 @@
             </div>
 
         </section>
+
+        <!-- 新增的使用说明文档部分 -->
+        <section class="docs-section">
+            <div class="docs-header">
+                <h2 class="docs-title" data-i18n="docs_title">HardwareTest 使用说明与功能详解</h2>
+                <button class="docs-toggle" data-i18n="docs_toggle">查看使用手册</button>
+            </div>
+            
+            <div class="docs-content">
+                <p data-i18n="docs_intro">HardwareTest 是一套专业的在线硬件检测工具集合，旨在帮助用户快速诊断和解决常见的计算机外设问题。无需安装任何软件，直接在浏览器中即可完成全面的硬件检测。</p>
+                
+                <div class="docs-grid">
+                    <div class="doc-item">
+                        <h4 data-i18n="mouse_doc_title">鼠标检测功能</h4>
+                        <p data-i18n="mouse_doc_desc">全面检测鼠标各项功能，包括左右键点击、滚轮滚动、DPI切换和侧键功能。特别针对常见的双击问题提供精准检测。</p>
+                        <ul class="features-list">
+                            <li data-i18n="mouse_feature1">左右键点击响应测试</li>
+                            <li data-i18n="mouse_feature2">滚轮灵敏度与方向检测</li>
+                            <li data-i18n="mouse_feature3">DPI切换功能验证</li>
+                            <li data-i18n="mouse_feature4">侧键功能完整性检查</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="doc-item purple">
+                        <h4 data-i18n="keyboard_doc_title">键盘检测功能</h4>
+                        <p data-i18n="keyboard_doc_desc">全键位功能测试，包括按键冲突检测、连击问题分析和功能键验证。支持各种布局的机械键盘和薄膜键盘。</p>
+                        <ul class="features-list">
+                            <li data-i18n="keyboard_feature1">全键位功能测试</li>
+                            <li data-i18n="keyboard_feature2">按键冲突检测</li>
+                            <li data-i18n="keyboard_feature3">连击问题分析</li>
+                            <li data-i18n="keyboard_feature4">功能键与组合键验证</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="doc-item">
+                        <h4 data-i18n="camera_doc_title">摄像头检测功能</h4>
+                        <p data-i18n="camera_doc_desc">全面检测摄像头工作状态，包括分辨率、帧率、自动对焦和色彩还原度。支持前后置摄像头切换测试。</p>
+                        <ul class="features-list">
+                            <li data-i18n="camera_feature1">分辨率与画质检测</li>
+                            <li data-i18n="camera_feature2">帧率与流畅度测试</li>
+                            <li data-i18n="camera_feature3">自动对焦功能验证</li>
+                            <li data-i18n="camera_feature4">色彩还原度分析</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="doc-item purple">
+                        <h4 data-i18n="mic_doc_title">麦克风检测功能</h4>
+                        <p data-i18n="mic_doc_desc">精准检测麦克风工作状态，包括灵敏度测试、噪音分析和音频质量评估。提供实时声波可视化反馈。</p>
+                        <ul class="features-list">
+                            <li data-i18n="mic_feature1">麦克风灵敏度测试</li>
+                            <li data-i18n="mic_feature2">背景噪音分析</li>
+                            <li data-i18n="mic_feature3">音频质量评估</li>
+                            <li data-i18n="mic_feature4">实时声波可视化</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(0, 0, 0, 0.2); border-radius: 10px;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;" data-i18n="faq_title">常见问题解答</h3>
+                    <div style="text-align: left;">
+                        <p><strong data-i18n="faq_q1">Q: 这些检测工具需要安装什么软件吗？</strong></p>
+                        <p data-i18n="faq_a1">A: 完全不需要！HardwareTest 是基于Web的在线工具，只需使用现代浏览器（如Chrome、Firefox、Edge等）即可直接使用。</p>
+                        
+                        <p><strong data-i18n="faq_q2">Q: 检测结果准确吗？</strong></p>
+                        <p data-i18n="faq_a2">A: 我们的工具采用专业的检测算法，能够准确反映硬件的工作状态。但请注意，某些高级功能可能需要特定浏览器权限。</p>
+                        
+                        <p><strong data-i18n="faq_q3">Q: 支持移动设备吗？</strong></p>
+                        <p data-i18n="faq_a3">A: 是的！HardwareTest 完全支持在智能手机和平板电脑上使用，可以检测移动设备的摄像头、麦克风等功能。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <footer>
@@ -479,7 +692,42 @@
                 'cam_btn': '摄像头检测',
                 'mic_btn': '麦克风检测',
                 'footer': '&copy; 2023 HardwareTest Tools Official. All Systems Operational.',
-                'loading': '正在加载...'
+                'loading': '正在加载...',
+                // 新增的文档翻译
+                'docs_title': 'HardwareTest 使用说明与功能详解',
+                'docs_toggle': '查看使用手册',
+                'docs_intro': 'HardwareTest 是一套专业的在线硬件检测工具集合，旨在帮助用户快速诊断和解决常见的计算机外设问题。无需安装任何软件，直接在浏览器中即可完成全面的硬件检测。',
+                'mouse_doc_title': '鼠标检测功能',
+                'mouse_doc_desc': '全面检测鼠标各项功能，包括左右键点击、滚轮滚动、DPI切换和侧键功能。特别针对常见的双击问题提供精准检测。',
+                'mouse_feature1': '左右键点击响应测试',
+                'mouse_feature2': '滚轮灵敏度与方向检测',
+                'mouse_feature3': 'DPI切换功能验证',
+                'mouse_feature4': '侧键功能完整性检查',
+                'keyboard_doc_title': '键盘检测功能',
+                'keyboard_doc_desc': '全键位功能测试，包括按键冲突检测、连击问题分析和功能键验证。支持各种布局的机械键盘和薄膜键盘。',
+                'keyboard_feature1': '全键位功能测试',
+                'keyboard_feature2': '按键冲突检测',
+                'keyboard_feature3': '连击问题分析',
+                'keyboard_feature4': '功能键与组合键验证',
+                'camera_doc_title': '摄像头检测功能',
+                'camera_doc_desc': '全面检测摄像头工作状态，包括分辨率、帧率、自动对焦和色彩还原度。支持前后置摄像头切换测试。',
+                'camera_feature1': '分辨率与画质检测',
+                'camera_feature2': '帧率与流畅度测试',
+                'camera_feature3': '自动对焦功能验证',
+                'camera_feature4': '色彩还原度分析',
+                'mic_doc_title': '麦克风检测功能',
+                'mic_doc_desc': '精准检测麦克风工作状态，包括灵敏度测试、噪音分析和音频质量评估。提供实时声波可视化反馈。',
+                'mic_feature1': '麦克风灵敏度测试',
+                'mic_feature2': '背景噪音分析',
+                'mic_feature3': '音频质量评估',
+                'mic_feature4': '实时声波可视化',
+                'faq_title': '常见问题解答',
+                'faq_q1': 'Q: 这些检测工具需要安装什么软件吗？',
+                'faq_a1': 'A: 完全不需要！HardwareTest 是基于Web的在线工具，只需使用现代浏览器（如Chrome、Firefox、Edge等）即可直接使用。',
+                'faq_q2': 'Q: 检测结果准确吗？',
+                'faq_a2': 'A: 我们的工具采用专业的检测算法，能够准确反映硬件的工作状态。但请注意，某些高级功能可能需要特定浏览器权限。',
+                'faq_q3': 'Q: 支持移动设备吗？',
+                'faq_a3': 'A: 是的！HardwareTest 完全支持在智能手机和平板电脑上使用，可以检测移动设备的摄像头、麦克风等功能。'
             },
             'en': {
                 'title': 'HardwareTest - Online Hardware Testing Suite',
@@ -493,7 +741,42 @@
                 'cam_btn': 'Webcam Test',
                 'mic_btn': 'Mic Test',
                 'footer': '&copy; 2023 HardwareTest Tools Official. All Systems Operational.',
-                'loading': 'Loading...'
+                'loading': 'Loading...',
+                // 新增的文档翻译
+                'docs_title': 'HardwareTest User Manual & Features',
+                'docs_toggle': 'View User Manual',
+                'docs_intro': 'HardwareTest is a professional online hardware testing toolset designed to help users quickly diagnose and resolve common computer peripheral issues. No software installation required - complete comprehensive hardware testing directly in your browser.',
+                'mouse_doc_title': 'Mouse Testing Features',
+                'mouse_doc_desc': 'Comprehensive testing of all mouse functions including left/right clicks, scroll wheel, DPI switching, and side buttons. Specialized detection for common double-click issues.',
+                'mouse_feature1': 'Left/right click response testing',
+                'mouse_feature2': 'Scroll wheel sensitivity and direction detection',
+                'mouse_feature3': 'DPI switching function verification',
+                'mouse_feature4': 'Side button functionality check',
+                'keyboard_doc_title': 'Keyboard Testing Features',
+                'keyboard_doc_desc': 'Full key functionality testing including key conflict detection, key chattering analysis, and function key verification. Supports various mechanical and membrane keyboard layouts.',
+                'keyboard_feature1': 'Full key functionality test',
+                'keyboard_feature2': 'Key conflict detection',
+                'keyboard_feature3': 'Key chattering analysis',
+                'keyboard_feature4': 'Function key and combination verification',
+                'camera_doc_title': 'Camera Testing Features',
+                'camera_doc_desc': 'Comprehensive camera status detection including resolution, frame rate, autofocus, and color accuracy. Supports front and rear camera switching tests.',
+                'camera_feature1': 'Resolution and image quality detection',
+                'camera_feature2': 'Frame rate and smoothness testing',
+                'camera_feature3': 'Autofocus function verification',
+                'camera_feature4': 'Color accuracy analysis',
+                'mic_doc_title': 'Microphone Testing Features',
+                'mic_doc_desc': 'Precise microphone status detection including sensitivity testing, noise analysis, and audio quality assessment. Provides real-time waveform visualization.',
+                'mic_feature1': 'Microphone sensitivity testing',
+                'mic_feature2': 'Background noise analysis',
+                'mic_feature3': 'Audio quality assessment',
+                'mic_feature4': 'Real-time waveform visualization',
+                'faq_title': 'Frequently Asked Questions',
+                'faq_q1': 'Q: Do these testing tools require any software installation?',
+                'faq_a1': 'A: Not at all! HardwareTest is a web-based online tool that works directly in modern browsers like Chrome, Firefox, Edge, etc.',
+                'faq_q2': 'Q: Are the test results accurate?',
+                'faq_a2': 'A: Our tools use professional testing algorithms that accurately reflect hardware status. Note that some advanced features may require specific browser permissions.',
+                'faq_q3': 'Q: Does it support mobile devices?',
+                'faq_a3': 'A: Yes! HardwareTest fully supports smartphones and tablets, allowing you to test mobile device cameras, microphones, and other functions.'
             }
         };
 
@@ -530,7 +813,7 @@
             });
             const activeMeta = document.getElementById(content.meta_desc_id);
             if (activeMeta) {
-                    activeMeta.removeAttribute('hidden');
+                activeMeta.removeAttribute('hidden');
             }
 
             // 遍历所有带有 data-i18n 属性的元素并替换内容
@@ -577,6 +860,30 @@
                     }
                 });
             });
+            
+            // 文档切换功能
+            const docsToggle = document.querySelector('.docs-toggle');
+            const docsContent = document.querySelector('.docs-content');
+            
+            if (docsToggle && docsContent) {
+                docsToggle.addEventListener('click', function() {
+                    docsContent.classList.toggle('active');
+                    // 更新按钮文本
+                    if (docsContent.classList.contains('active')) {
+                        if (document.documentElement.lang === 'zh-CN') {
+                            docsToggle.textContent = '收起使用手册';
+                        } else {
+                            docsToggle.textContent = 'Hide User Manual';
+                        }
+                    } else {
+                        if (document.documentElement.lang === 'zh-CN') {
+                            docsToggle.textContent = '查看使用手册';
+                        } else {
+                            docsToggle.textContent = 'View User Manual';
+                        }
+                    }
+                });
+            }
             
             // 监听页面可见性变化，隐藏加载动画
             document.addEventListener('visibilitychange', function() {
