@@ -199,6 +199,88 @@
         @media (max-width: 1000px) {
             .keyboard-container { transform: scale(0.7); margin-top: -50px; }
         }
+        /* 新增的使用说明区域样式 */
+        .instructions-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .instructions-toggle {
+            background: transparent;
+            border: 1px solid var(--highlight);
+            color: var(--highlight);
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .instructions-toggle:hover {
+            background: var(--highlight);
+            color: #000;
+        }
+
+        .instructions-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .instructions-content.active {
+            display: block;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .feature-item {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid var(--highlight);
+        }
+
+        .feature-item h3 {
+            color: var(--highlight);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item h3 {
+            color: var(--info-blue);
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 1000px) {
+            .instructions-section { padding: 20px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+
     </style>
 </head>
 <body>
@@ -390,6 +472,69 @@
         </div>
     </div>
 
+
+        <!-- 新增的使用说明区域 -->
+    <section class="instructions-section">
+        <button class="instructions-toggle" id="instructions-toggle">📖 查看使用说明与功能详解</button>
+        
+        <div class="instructions-content" id="instructions-content">
+            <h2>Keyboard Test Lab - 专业键盘测试工具</h2>
+            <p>这是一个专业的在线键盘测试工具，旨在帮助用户全面检测键盘的各项功能状态，包括按键响应、全键无冲性能、轴体故障等。</p>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>🔍 全键位检测</h3>
+                    <p>逐一测试键盘上的每个按键，确保所有键位都能正常响应。已测试的按键会显示绿色高亮，并记录击键次数。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>⚡ NKRO 无冲测试</h3>
+                    <p>测试键盘的全键无冲(N-Key Rollover)能力。同时按下多个按键，观察"当前并发"计数，了解键盘的防冲突性能。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>⏱️ 响应速度</h3>
+                    <p>实时显示按键时间间隔，帮助您评估键盘的响应延迟和输入流畅度。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>🔧 技术参数</h3>
+                    <p>显示 event.key、event.code、event.which 等底层技术参数，便于开发者和高级用户进行深度分析。</p>
+                </div>
+            </div>
+
+            <h3>🎯 使用指南</h3>
+            <ol>
+                <li><strong>基础测试</strong>：依次按下所有按键，确保每个键都能正常触发并显示绿色</li>
+                <li><strong>无冲测试</strong>：同时按下多个按键（建议10个以上），测试键盘的防冲突能力</li>
+                <li><strong>快速连击</strong>：快速重复按下同一按键，测试轴体响应和防连击功能</li>
+                <li><strong>组合键测试</strong>：测试常用组合键如 Ctrl+C、Alt+Tab 等是否正常工作</li>
+            </ol>
+
+            <h3>❓ 常见问题</h3>
+            <div class="faq-item">
+                <h3>为什么某些按键无法检测？</h3>
+                <p>这可能是由于浏览器安全限制或键盘硬件问题。请确保：1) 使用现代浏览器(Chrome/Firefox/Edge)；2) 焦点在测试页面上；3) 检查键盘连接。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>什么是全键无冲(NKRO)？</h3>
+                <p>全键无冲指键盘可以同时识别无限多个按键输入而不会发生冲突。普通键盘通常支持6键无冲，专业游戏键盘支持全键无冲。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>如何判断键盘故障？</h3>
+                <p>如果某些按键：1) 完全无响应；2) 响应延迟明显；3) 出现连击现象；4) 与其他按键冲突，可能表示键盘存在硬件故障。</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>支持哪些类型的键盘？</h3>
+                <p>支持所有类型的键盘：机械键盘、薄膜键盘、静电容键盘、笔记本键盘等。兼容 Windows、macOS、Linux 系统。</p>
+            </div>
+        </div>
+    </section>
+
+
 <script>
     // --- 本地化配置 ---
     const I18N = {
@@ -413,6 +558,7 @@
             'Ins': '插入', 'Home': 'Home', 'PgUp': '上頁',
             'Del': '刪除', 'End': 'End', 'PgDn': '下頁',
             'Num': '數字', 'Ent': 'Enter',
+            'instructions_toggle': '📖 查看使用说明与功能詳解',
         },
         'en': {
             'title': '⌨️ Pro Keyboard Test Tool | NKRO, Response Speed, Switch Check - Keyboard Test Lab v2.3',
@@ -434,6 +580,7 @@
             'Ins': 'Ins', 'Home': 'Home', 'PgUp': 'PgUp',
             'Del': 'Del', 'End': 'End', 'PgDn': 'PgDn',
             'Num': 'Num', 'Ent': 'Ent',
+            'instructions_toggle': '📖 View Instructions & Features',
         }
     };
 
@@ -494,6 +641,8 @@
         // 5. 数字键盘小键
         document.getElementById('i18n-key-numlk').innerText = texts.Num;
         document.getElementById('i18n-key-numpadenter').innerText = texts.Ent;
+        // 6. 使用说明按钮
+        document.getElementById('instructions-toggle').innerText = texts.instructions_toggle;
     }
 
     // --- 脚本逻辑 ---
@@ -522,6 +671,19 @@
             keyEl.appendChild(counter);
         });
         applyLocalization(); 
+        
+        // 使用说明切换功能
+        const instructionsToggle = document.getElementById('instructions-toggle');
+        const instructionsContent = document.getElementById('instructions-content');
+        
+        instructionsToggle.addEventListener('click', function() {
+            instructionsContent.classList.toggle('active');
+            if (instructionsContent.classList.contains('active')) {
+                this.textContent = currentLang === 'zh' ? '📖 收起使用说明' : '📖 Hide Instructions';
+            } else {
+                this.textContent = texts.instructions_toggle;
+            }
+        });
     });
 
     document.addEventListener('keydown', (e) => {
