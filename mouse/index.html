@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="在线鼠标测试,鼠标点击测试,双击测试,鼠标滚轮测试,鼠标回报率测试,mouse click test,double click test">
+    <meta name="description" id="i18n-meta-desc" content="">
+    <link rel="canonical" href="https://mouse.hardwaretest.top/mouse/" />
+    <title id="i18n-title">🖱️ 鼠标故障检测工具 | 按键测试|双击测试 - Mouse Test Lab </title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --mouse-base: #2a2a2a;
+            --highlight: #00ff88; 
+            --text-main: #e0e0e0;
+            --text-dim: #757575;
+            --border: #444;
+            --accent-red: #ff4444; 
+            --info-blue: #4fc3f7;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-bottom: 10px; font-weight: 300; letter-spacing: 1px; }
+        p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* --- 左侧：鼠标可视化区域 --- */
+        .mouse-visual {
+            position: relative;
+            width: 260px;
+            height: 420px;
+            background-color: var(--mouse-base);
+            border-radius: 130px 130px 100px 100px;
+            border: 2px solid var(--border);
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .btn-zone {
+            position: absolute;
+            background-color: #333;
+            transition: background-color 0.05s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        .btn-zone.active {
+            background-color: var(--highlight);
+            color: #000;
+            box-shadow: 0 0 15px var(--highlight);
+        }
+
+        .left-click { top: 0; left: 0; width: 50%; height: 140px; border-radius: 130px 0 0 0; border-right: 1px solid #111; }
+        .right-click { top: 0; right: 0; width: 50%; height: 140px; border-radius: 0 130px 0 0; border-left: 1px solid #111; }
+        .middle-click { top: 40px; width: 30px; height: 70px; border-radius: 15px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
+        
+        .side-btn { left: -10px; width: 20px; height: 60px; border-radius: 10px 0 0 10px; background-color: #3a3a3a; }
+        .btn-forward { top: 200px; }
+        .btn-back { top: 270px; }
+
+        .scroll-indicator {
+            position: absolute;
+            top: 15px;
+            color: var(--highlight);
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 20px;
+        }
+        .scroll-up { top: -30px; }
+        .scroll-down { top: 120px; z-index: 11; }
+
+        /* --- 右侧：数据面板 --- */
+        .stats-panel {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .stat-box { margin-bottom: 20px; }
+        
+        .stat-header-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reset-btn {
+            background-color: var(--accent-red); 
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 0.75rem;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(255, 68, 68, 0.4); 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.5px;
+        }
+
+        .reset-btn:hover {
+            background-color: #ff6666;
+            transform: scale(1.1); 
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+        }
+        
+        .reset-btn:active {
+            transform: scale(0.95);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-family: 'Courier New', monospace;
+            color: var(--highlight);
+        }
+        
+        .time-delta-value { color: var(--info-blue); }
+        .time-delta-alert { color: var(--accent-red); }
+
+        /* 计数器表格样式 */
+        .counter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .counter-item {
+            background: #252525;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            transition: background-color 0.2s, color 0.1s, transform 0.1s;
+        }
+
+        .counter-item.active-counter {
+            background-color: var(--highlight);
+            color: #000;
+            transform: scale(1.02);
+            transition: none;
+        }
+        
+        .counter-item.active-counter .counter-num { color: #000; }
+
+        .counter-num {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .log-container {
+            height: 120px;
+            overflow-y: auto;
+            background: #111;
+            border: 1px solid #333;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+        .log-item { margin-bottom: 4px; border-bottom: 1px solid #222; padding-bottom: 2px; color: #aaa;}
+        .log-alert { color: var(--accent-red); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1 id="i18n-h1">在线鼠标测试（Mouse Test）</h1>
+    <p id="i18n-p1">点击间隔检测 + 双击故障排查</p>
+
+    <div class="dashboard">
+        <div class="mouse-visual" id="mouseArea">
+            <div class="scroll-indicator scroll-up" id="scrollUp">▲</div>
+            <div class="btn-zone left-click" id="btn0">左键</div>
+            <div class="btn-zone middle-click" id="btn1"></div>
+            <div class="btn-zone right-click" id="btn2">右键</div>
+            <div class="scroll-indicator scroll-down" id="scrollDown">▼</div>
+            <div class="btn-zone side-btn btn-back" id="btn3">B4</div>
+            <div class="btn-zone side-btn btn-forward" id="btn4">B5</div>
+        </div>
+
+        <div class="stats-panel">
+            
+            <div class="stat-box">
+                <div class="stat-header-group">
+                    <div class="stat-label" id="i18n-counter-header">点击计数 (CLICK COUNTERS)</div>
+                    <button class="reset-btn" id="i18n-reset-btn" onclick="resetCounts()">重置所有数据</button>
+                </div>
+                <div class="counter-grid">
+                    <div class="counter-item" id="row-0"><span id="i18n-btn-0">左键</span> <span class="counter-num" id="cnt-0">0</span></div>
+                    <div class="counter-item" id="row-2"><span id="i18n-btn-2">右键</span> <span class="counter-num" id="cnt-2">0</span></div>
+                    <div class="counter-item" id="row-1"><span id="i18n-btn-1">中键</span> <span class="counter-num" id="cnt-1">0</span></div>
+                    <div class="counter-item" id="row-wheel"><span id="i18n-btn-wheel">滚轮</span> <span class="counter-num" id="cnt-wheel">0</span></div>
+                    <div class="counter-item" id="row-3"><span id="i18n-btn-3">侧键(B4)</span> <span class="counter-num" id="cnt-3">0</span></div>
+                    <div class="counter-item" id="row-4"><span id="i18n-btn-4">侧键(B5)</span> <span class="counter-num" id="cnt-4">0</span></div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label" id="i18n-time-delta">点击间隔 (TIME DELTA)</div>
+                <div class="stat-value time-delta-value" id="timeDeltaDisplay">- ms</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label" id="i18n-polling-rate">实时回报率 (POLLING RATE)</div>
+                <div class="stat-value" id="hzDisplay">0 Hz</div>
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-label" id="i18n-event-log">事件日志 (LOG)</div>
+                <div class="log-container" id="eventLog">
+                    <div class="log-item" id="i18n-log-start">等待输入...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- 本地化配置 ---
+    const I18N = {
+        'zh': {
+            'title': '在线 🖱️ 鼠标测试 | 点击测试 | 双击测试 - Mouse Test Lab',
+            'meta_desc': '鼠标双击？滚轮失灵？立即在线检测！Mouse Test Lab 提供毫秒级微动故障分析、实时回报率(Hz)测试及全按键功能排查。无需下载，专业电竞级检测工具。',
+            'subtitle': '点击间隔检测 + 双击故障排查',
+            'h1': '在线鼠标测试（Mouse Test）',
+            'left_click': '左键',
+            'right_click': '右键',
+            'reset_data': '重置所有数据',
+            'counter_header': '点击计数 (CLICK COUNTERS)',
+            'counter_middle': '中键',
+            'counter_wheel': '滚轮',
+            'counter_b4': '侧键(B4)',
+            'counter_b5': '侧键(B5)',
+            'time_delta': '点击间隔 (TIME DELTA)',
+            'polling_rate': '实时回报率 (POLLING RATE)',
+            'event_log': '事件日志 (LOG)',
+            'log_start': '等待输入...',
+            'log_reset': '--- 计数已重置 ---',
+            'log_warning': ' [连击警报!]',
+            'warning_text': ' (警告!)',
+            'start': '开始',
+        },
+        'en': {
+            'title': 'Online 🖱️ Mouse Test Lab | Button click tester & Double Click Tester',
+            'meta_desc': 'Mouse double-clicking? Scroll wheel malfunctioning? Test now! Mouse Test Lab provides millisecond-level fault analysis, real-time polling rate (Hz) testing, and full button diagnostics. No download required, professional esports tool.',
+            'subtitle': 'Time Delta Detection + Double Click Fault Check',
+            'h1': 'Online Mouse Test（Mouse Test）',
+            'left_click': 'Left Click',
+            'right_click': 'Right Click',
+            'reset_data': 'Reset All Data',
+            'counter_header': 'CLICK COUNTERS',
+            'counter_middle': 'Middle',
+            'counter_wheel': 'Scroll',
+            'counter_b4': 'Side (B4)',
+            'counter_b5': 'Side (B5)',
+            'time_delta': 'TIME DELTA',
+            'polling_rate': 'POLLING RATE',
+            'event_log': 'EVENT LOG',
+            'log_start': 'Awaiting input...',
+            'log_reset': '--- Counts Reset ---',
+            'log_warning': ' [DOUBLE CLICK ALERT!]',
+            'warning_text': ' (Warning!)',
+            'start': 'Start',
+        }
+    };
+
+    function getLanguage() {
+        // 获取浏览器首选语言，并简化为主要语言代码 (如 'zh' 或 'en')
+        const userLang = navigator.language || navigator.languages[0];
+        if (userLang.startsWith('zh')) return 'zh';
+        return 'en'; // 默认回退到英文
+    }
+
+    const currentLang = getLanguage();
+    const texts = I18N[currentLang] || I18N['en']; // 如果不支持，默认使用英文
+
+    function applyLocalization() {
+        // 头部信息
+        document.title = texts.title;
+        document.getElementById('i18n-p1').innerText = texts.subtitle;
+        document.getElementById('i18n-h1').innerText = texts.h1;
+        document.getElementById('i18n-meta-desc').setAttribute("content", texts.meta_desc);
+
+
+        // 按钮和区域标题
+        document.getElementById('btn0').innerText = texts.left_click;
+        document.getElementById('btn2').innerText = texts.right_click;
+        document.getElementById('i18n-reset-btn').innerText = texts.reset_data;
+        
+        document.getElementById('i18n-counter-header').innerText = texts.counter_header;
+        document.getElementById('i18n-time-delta').innerText = texts.time_delta;
+        document.getElementById('i18n-polling-rate').innerText = texts.polling_rate;
+        document.getElementById('i18n-event-log').innerText = texts.event_log;
+        document.getElementById('i18n-log-start').innerText = texts.log_start;
+
+
+        // 计数器标签
+        document.getElementById('i18n-btn-0').innerText = texts.left_click.split(' ')[0];
+        document.getElementById('i18n-btn-2').innerText = texts.right_click.split(' ')[0];
+        document.getElementById('i18n-btn-1').innerText = texts.counter_middle;
+        document.getElementById('i18n-btn-wheel').innerText = texts.counter_wheel;
+        document.getElementById('i18n-btn-3').innerText = texts.counter_b4;
+        document.getElementById('i18n-btn-4').innerText = texts.counter_b5;
+
+    }
+
+    // 在 DOM 加载完成后应用本地化
+    document.addEventListener('DOMContentLoaded', applyLocalization);
+
+    // --- 原始脚本变量和函数 ---
+    const logContainer = document.getElementById('eventLog');
+    const scrollUp = document.getElementById('scrollUp');
+    const scrollDown = document.getElementById('scrollDown');
+    const hzDisplay = document.getElementById('hzDisplay');
+    const timeDeltaDisplay = document.getElementById('timeDeltaDisplay');
+
+    let lastClickTime = {}; 
+    let mouseMoveCount = 0;
+    let lastHzTime = Date.now();
+
+    let clickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0, 'wheel':0 };
+
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    /* 按键按下 */
+    document.addEventListener('mousedown', (e) => {
+        const btnId = 'btn' + e.button;
+        const el = document.getElementById(btnId);
+        if (el) el.classList.add('active');
+
+        const now = performance.now();
+        const lastTime = lastClickTime[e.button] || 0;
+        let timeDiff = 0;
+
+        if (lastTime !== 0) {
+            timeDiff = Math.round(now - lastTime);
+            timeDeltaDisplay.innerText = timeDiff + " ms";
+            
+            if (timeDiff < 80) {
+                timeDeltaDisplay.className = "stat-value time-delta-alert";
+                timeDeltaDisplay.innerText += texts.warning_text; // 使用本地化警告
+            } else {
+                timeDeltaDisplay.className = "stat-value time-delta-value";
+            }
+        } else {
+            timeDeltaDisplay.innerText = texts.start; // 使用本地化 "Start" 文本
+            timeDeltaDisplay.className = "stat-value time-delta-value";
+        }
+
+        if (clickCounts.hasOwnProperty(e.button)) {
+            clickCounts[e.button]++;
+            updateCountUI(e.button);
+            highlightRow(e.button); 
+        }
+
+        const btnNameMap = {0:texts.left_click, 1:texts.counter_middle, 2:texts.right_click, 3:texts.counter_b4, 4:texts.counter_b5};
+        const btnName = btnNameMap[e.button] || `Btn ${e.button}`;
+        
+        let logWarning = (timeDiff > 0 && timeDiff < 80) ? texts.log_warning : ""; // 使用本地化警告
+        addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
+        
+        lastClickTime[e.button] = now;
+    });
+
+    document.addEventListener('mouseup', (e) => {
+        const btnId = 'btn' + e.button;
+        const el = document.getElementById(btnId);
+        if (el) el.classList.remove('active');
+    });
+
+    /* 滚轮事件 */
+    document.addEventListener('wheel', (e) => {
+        clickCounts['wheel']++;
+        updateCountUI('wheel');
+        highlightRow('wheel');
+
+        if (e.deltaY < 0) {
+            flashIndicator(scrollUp);
+        } else {
+            flashIndicator(scrollDown);
+        }
+    }, { passive: true });
+
+    function flashIndicator(element) {
+        element.style.opacity = '1';
+        setTimeout(() => { element.style.opacity = '0'; }, 150);
+    }
+
+    /* 回报率检测 */
+    document.addEventListener('mousemove', () => {
+        mouseMoveCount++;
+    });
+
+    setInterval(() => {
+        const now = Date.now();
+        const duration = now - lastHzTime;
+        const hz = Math.round(mouseMoveCount / (duration / 1000));
+        
+        hzDisplay.innerText = hz + " Hz";
+        
+        if(hz > 500) hzDisplay.style.color = "#00ff88";
+        else if(hz > 100) hzDisplay.style.color = "#ffffff";
+        else hzDisplay.style.color = "#757575";
+
+        mouseMoveCount = 0;
+        lastHzTime = now;
+    }, 500);
+
+    function updateCountUI(key) {
+        const el = document.getElementById(`cnt-${key}`);
+        if (el) el.innerText = clickCounts[key];
+    }
+
+    function highlightRow(key) {
+        const row = document.getElementById(`row-${key}`);
+        if(row) {
+            row.classList.remove('active-counter');
+            void row.offsetWidth; 
+            row.classList.add('active-counter');
+            setTimeout(() => {
+                row.classList.remove('active-counter');
+            }, 150);
+        }
+    }
+
+    function resetCounts() {
+        for (let key in clickCounts) clickCounts[key] = 0;
+        document.querySelectorAll('.counter-num').forEach(el => el.innerText = '0');
+        lastClickTime = {}; 
+        timeDeltaDisplay.innerText = "- ms";
+        timeDeltaDisplay.className = "stat-value time-delta-value";
+        addLog(texts.log_reset); // 使用本地化重置文本
+    }
+
+    function addLog(text, className) {
+        const div = document.createElement('div');
+        div.className = 'log-item ' + (className || '');
+        div.innerText = `[${new Date().toLocaleTimeString().split(' ')[0]}] ${text}`;
+        logContainer.prepend(div);
+        if (logContainer.children.length > 20) {
+            logContainer.removeChild(logContainer.lastChild);
+        }
+    }
+</script>
+
+</body>
+</html>

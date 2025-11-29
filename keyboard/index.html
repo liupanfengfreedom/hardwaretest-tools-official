@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="键盘测试,在线键盘测试,键盘按键测试,键盘冲突测试,全键无冲,keyboard test,nkro test">
+    <link rel="canonical" href="https://www.hardwaretest.top/keyboard/" />
+    <title id="i18n-title">⌨️ 专业键盘测试工具 | 全键无冲、响应速度、轴体故障检测 - Keyboard Test Lab v2.3</title>
+    <meta name="description" content="免费在线键盘测试工具，支持全键无冲 (NKRO) 冲突测试、响应速度延迟测量、键位及轴体故障检测。实时显示 event.code 和击键次数，保护您的键盘健康。">
+      <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌨️</text></svg>">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --key-base: #2a2a2a;
+            --key-border: #444;
+            --highlight: #00ff88;
+            --accent-red: #ff4444;
+            --active-color: #ffffff;
+            --text-color: #e0e0e0;
+            --tested-bg: #00552e; 
+            --counter-color: #ffce00; 
+            --info-blue: #4fc3f7; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        h1 { margin: 10px 0; font-weight: 300; letter-spacing: 1px; }
+        
+        /* 顶部统计栏 */
+        .stats-bar {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            font-family: monospace;
+            background: #1e1e1e;
+            padding: 10px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            align-items: center;
+            border: 1px solid #333;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+        .stat-value { color: var(--highlight); font-weight: bold; font-size: 1.2rem; }
+
+        /* 重置按钮 */
+        .btn-reset {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            height: 40px;
+        }
+
+        .btn-reset:hover {
+            background-color: #ff6666;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+        }
+
+        .btn-reset:active { transform: scale(0.95); }
+
+        /* --- 键盘容器 --- */
+        .keyboard-container {
+            display: flex;
+            gap: 15px;
+            background: #181818;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 1200px;
+            transform-origin: top center;
+        }
+        
+        .main-section { display: flex; flex-direction: column; gap: 6px; }
+        .row { display: flex; gap: 6px; }
+        .control-section { display: flex; flex-direction: column; gap: 6px; justify-content: space-between; }
+        .control-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .numpad-section { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+
+        /* 按键样式 */
+        .key {
+            width: 50px;
+            height: 50px;
+            background: var(--key-base);
+            border: 1px solid var(--key-border);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            transition: all 0.05s; 
+            color: #aaa;
+            position: relative; 
+        }
+
+        .key small { font-size: 0.6rem; opacity: 0.6; margin-top: 2px; }
+
+        .key.active {
+            background: var(--active-color) !important;
+            color: #000 !important;
+            transform: translateY(2px);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            border-color: #fff;
+        }
+
+        .key.tested {
+            background: var(--tested-bg);
+            color: var(--highlight);
+            border-color: var(--highlight);
+        }
+
+        .key-counter {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 0.6rem;
+            color: var(--counter-color);
+            font-weight: bold;
+            font-family: monospace;
+            opacity: 0; 
+        }
+        .key.tested .key-counter { opacity: 1; }
+
+        /* 宽度辅助类 */
+        .w-1-5 { width: 78px; } 
+        .w-1-75 { width: 92px; } 
+        .w-2 { width: 106px; } 
+        .w-2-25 { width: 120px; } 
+        .w-2-75 { width: 148px; } 
+        .w-6-25 { width: 346px; } 
+        .h-2 { height: 106px; grid-row: span 2; } 
+
+        /* --- 底部信息面板 (修改为4列) --- */
+        .info-panel {
+            margin-top: 30px;
+            width: 700px; 
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px;
+            text-align: center;
+        }
+        .info-box {
+            position: relative;
+        }
+        /* 给右边加个分隔线，除了最后一个 */
+        .info-box:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 10%;
+            height: 80%;
+            width: 1px;
+            background: #333;
+        }
+
+        .info-box div:first-child { color: #777; font-size: 0.8rem; margin-bottom: 5px; }
+        .info-box div:last-child { color: var(--highlight); font-size: 1.2rem; }
+        
+        /* 单独给时间数据显示蓝色 */
+        #info-time { color: var(--info-blue) !important; }
+
+        @media (max-width: 1000px) {
+            .keyboard-container { transform: scale(0.7); margin-top: -50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="i18n-h1">KEYBOARD TEST LAB v2.3</h1>
+    
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-label" id="i18n-tested-keys">已测试键位</span>
+            <span class="stat-value" id="count-tested">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label" id="i18n-total-strokes">总击键次数</span>
+            <span class="stat-value" id="count-total">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label" id="i18n-active-keys">当前并发(无冲)</span>
+            <span class="stat-value" id="count-active">0</span>
+        </div>
+        <div style="margin-left: 10px; border-left: 1px solid #444; padding-left: 20px; height: 40px; display: flex; align-items: center;">
+            <button class="btn-reset" id="i18n-reset-btn" onclick="resetTest()">重置数据</button>
+        </div>
+    </div>
+
+    <div class="keyboard-container">
+        <div class="main-section">
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="key" data-code="Escape" id="i18n-key-esc">ESC</div>
+                <div style="width: 30px;"></div>
+                <div class="key" data-code="F1">F1</div>
+                <div class="key" data-code="F2">F2</div>
+                <div class="key" data-code="F3">F3</div>
+                <div class="key" data-code="F4">F4</div>
+                <div style="width: 15px;"></div>
+                <div class="key" data-code="F5">F5</div>
+                <div class="key" data-code="F6">F6</div>
+                <div class="key" data-code="F7">F7</div>
+                <div class="key" data-code="F8">F8</div>
+                <div style="width: 15px;"></div>
+                <div class="key" data-code="F9">F9</div>
+                <div class="key" data-code="F10">F10</div>
+                <div class="key" data-code="F11">F11</div>
+                <div class="key" data-code="F12">F12</div>
+            </div>
+
+            <div class="row">
+                <div class="key" data-code="Backquote">`</div>
+                <div class="key" data-code="Digit1">1</div>
+                <div class="key" data-code="Digit2">2</div>
+                <div class="key" data-code="Digit3">3</div>
+                <div class="key" data-code="Digit4">4</div>
+                <div class="key" data-code="Digit5">5</div>
+                <div class="key" data-code="Digit6">6</div>
+                <div class="key" data-code="Digit7">7</div>
+                <div class="key" data-code="Digit8">8</div>
+                <div class="key" data-code="Digit9">9</div>
+                <div class="key" data-code="Digit0">0</div>
+                <div class="key" data-code="Minus">-</div>
+                <div class="key" data-code="Equal">=</div>
+                <div class="key w-2" data-code="Backspace" id="i18n-key-backspace">Bksp</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-1-5" data-code="Tab" id="i18n-key-tab">Tab</div>
+                <div class="key" data-code="KeyQ">Q</div>
+                <div class="key" data-code="KeyW">W</div>
+                <div class="key" data-code="KeyE">E</div>
+                <div class="key" data-code="KeyR">R</div>
+                <div class="key" data-code="KeyT">T</div>
+                <div class="key" data-code="KeyY">Y</div>
+                <div class="key" data-code="KeyU">U</div>
+                <div class="key" data-code="KeyI">I</div>
+                <div class="key" data-code="KeyO">O</div>
+                <div class="key" data-code="KeyP">P</div>
+                <div class="key" data-code="BracketLeft">[</div>
+                <div class="key" data-code="BracketRight">]</div>
+                <div class="key w-1-5" data-code="Backslash">\</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-1-75" data-code="CapsLock" id="i18n-key-caps">Caps</div>
+                <div class="key" data-code="KeyA">A</div>
+                <div class="key" data-code="KeyS">S</div>
+                <div class="key" data-code="KeyD">D</div>
+                <div class="key" data-code="KeyF">F</div>
+                <div class="key" data-code="KeyG">G</div>
+                <div class="key" data-code="KeyH">H</div>
+                <div class="key" data-code="KeyJ">J</div>
+                <div class="key" data-code="KeyK">K</div>
+                <div class="key" data-code="KeyL">L</div>
+                <div class="key" data-code="Semicolon">;</div>
+                <div class="key" data-code="Quote">'</div>
+                <div class="key w-2-25" data-code="Enter" id="i18n-key-enter">Enter</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-2-25" data-code="ShiftLeft" id="i18n-key-lshift">Shift</div>
+                <div class="key" data-code="KeyZ">Z</div>
+                <div class="key" data-code="KeyX">X</div>
+                <div class="key" data-code="KeyC">C</div>
+                <div class="key" data-code="KeyV">V</div>
+                <div class="key" data-code="KeyB">B</div>
+                <div class="key" data-code="KeyN">N</div>
+                <div class="key" data-code="KeyM">M</div>
+                <div class="key" data-code="Comma">,</div>
+                <div class="key" data-code="Period">.</div>
+                <div class="key" data-code="Slash">/</div>
+                <div class="key w-2-75" data-code="ShiftRight" id="i18n-key-rshift">Shift</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-1-5" data-code="ControlLeft" id="i18n-key-lctrl">Ctrl</div>
+                <div class="key w-1-5" data-code="MetaLeft" id="i18n-key-lwin">Win</div>
+                <div class="key w-1-5" data-code="AltLeft" id="i18n-key-lalt">Alt</div>
+                <div class="key w-6-25" data-code="Space" id="i18n-key-space">Space</div>
+                <div class="key w-1-5" data-code="AltRight" id="i18n-key-ralt">Alt</div>
+                <div class="key w-1-5" data-code="MetaRight" id="i18n-key-rwin">Win</div>
+                <div class="key w-1-5" data-code="ContextMenu" id="i18n-key-menu">Menu</div>
+                <div class="key w-1-5" data-code="ControlRight" id="i18n-key-rctrl">Ctrl</div>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <div class="control-group">
+                <div class="key" data-code="PrintScreen"><small id="i18n-key-prtscr">PrtSc</small></div>
+                <div class="key" data-code="ScrollLock"><small id="i18n-key-scrlk">ScrLk</small></div>
+                <div class="key" data-code="Pause"><small id="i18n-key-pause">Pause</small></div>
+            </div>
+            <div class="control-group">
+                <div class="key" data-code="Insert"><small id="i18n-key-ins">Ins</small></div>
+                <div class="key" data-code="Home"><small id="i18n-key-home">Home</small></div>
+                <div class="key" data-code="PageUp"><small id="i18n-key-pgup">PgUp</small></div>
+                <div class="key" data-code="Delete"><small id="i18n-key-del">Del</small></div>
+                <div class="key" data-code="End"><small id="i18n-key-end">End</small></div>
+                <div class="key" data-code="PageDown"><small id="i18n-key-pgdn">PgDn</small></div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: auto;">
+                <div></div>
+                <div class="key" data-code="ArrowUp">↑</div>
+                <div></div>
+                <div class="key" data-code="ArrowLeft">←</div>
+                <div class="key" data-code="ArrowDown">↓</div>
+                <div class="key" data-code="ArrowRight">→</div>
+            </div>
+        </div>
+
+        <div class="numpad-section">
+            <div class="key" data-code="NumLock"><small id="i18n-key-numlk">Num</small></div>
+            <div class="key" data-code="NumpadDivide">/</div>
+            <div class="key" data-code="NumpadMultiply">*</div>
+            <div class="key" data-code="NumpadSubtract">-</div>
+            
+            <div class="key" data-code="Numpad7">7</div>
+            <div class="key" data-code="Numpad8">8</div>
+            <div class="key" data-code="Numpad9">9</div>
+            <div class="key h-2" data-code="NumpadAdd" id="i18n-key-numpadadd">+</div>
+            
+            <div class="key" data-code="Numpad4">4</div>
+            <div class="key" data-code="Numpad5">5</div>
+            <div class="key" data-code="Numpad6">6</div>
+            
+            <div class="key" data-code="Numpad1">1</div>
+            <div class="key" data-code="Numpad2">2</div>
+            <div class="key" data-code="Numpad3">3</div>
+            <div class="key h-2" data-code="NumpadEnter" id="i18n-key-numpadenter">Ent</div>
+            
+            <div class="key w-2" style="grid-column: span 2;" data-code="Numpad0">0</div>
+            <div class="key" data-code="NumpadDecimal">.</div>
+        </div>
+    </div>
+
+    <div class="info-panel">
+        <div class="info-box">
+            <div id="i18n-event-key">event.key</div>
+            <div id="info-key">-</div>
+        </div>
+        <div class="info-box">
+            <div id="i18n-event-code">event.code</div>
+            <div id="info-code">-</div>
+        </div>
+        <div class="info-box">
+            <div id="i18n-event-which">event.which</div>
+            <div id="info-which">-</div>
+        </div>
+        <div class="info-box">
+            <div id="i18n-time-delta">Time Delta</div>
+            <div id="info-time">- ms</div>
+        </div>
+    </div>
+
+<script>
+    // --- 本地化配置 ---
+    const I18N = {
+        'zh': { 
+            'title': '⌨️ 專業鍵盤測試工具 | 全鍵無衝、響應速度、軸體故障檢測 - Keyboard Test Lab v2.3',
+            'tested_keys': '已測試鍵位',
+            'total_strokes': '總擊鍵次數',
+            'active_keys': '當前併發(無衝)',
+            'reset_data': '重置數據',
+            'event_key': 'event.key',
+            'event_code': 'event.code',
+            'event_which': 'event.which',
+            'time_delta': '點擊間隔 (ms)',
+            'start': '開始',
+            
+            // 键盘键名缩写
+            'Bksp': '倒退', 'Tab': 'Tab', 'Caps': '大寫', 'Enter': 'Enter', 'Shift': 'Shift',
+            'Ctrl': 'Ctrl', 'Win': 'Win', 'Alt': 'Alt', 'Menu': 'Menu',
+            'Space': 'Space',
+            'PrtSc': '截圖', 'ScrLk': '鎖定', 'Pause': '暫停',
+            'Ins': '插入', 'Home': 'Home', 'PgUp': '上頁',
+            'Del': '刪除', 'End': 'End', 'PgDn': '下頁',
+            'Num': '數字', 'Ent': 'Enter',
+        },
+        'en': {
+            'title': '⌨️ Pro Keyboard Test Tool | NKRO, Response Speed, Switch Check - Keyboard Test Lab v2.3',
+            'tested_keys': 'TESTED KEYS',
+            'total_strokes': 'TOTAL STROKES',
+            'active_keys': 'ACTIVE (NKRO)',
+            'reset_data': 'RESET DATA',
+            'event_key': 'event.key',
+            'event_code': 'event.code',
+            'event_which': 'event.which',
+            'time_delta': 'Time Delta (ms)',
+            'start': 'Start',
+
+            // Key labels
+            'Bksp': 'Bksp', 'Tab': 'Tab', 'Caps': 'Caps', 'Enter': 'Enter', 'Shift': 'Shift',
+            'Ctrl': 'Ctrl', 'Win': 'Win', 'Alt': 'Alt', 'Menu': 'Menu',
+            'Space': 'Space',
+            'PrtSc': 'PrtSc', 'ScrLk': 'ScrLk', 'Pause': 'Pause',
+            'Ins': 'Ins', 'Home': 'Home', 'PgUp': 'PgUp',
+            'Del': 'Del', 'End': 'End', 'PgDn': 'PgDn',
+            'Num': 'Num', 'Ent': 'Ent',
+        }
+    };
+
+    function getLanguage() {
+        // 检查用户语言，将所有中文变体 (zh-TW, zh-CN, zh-HK) 映射到 'zh'
+        const userLang = navigator.language || navigator.languages[0];
+        if (userLang.startsWith('zh')) return 'zh';
+        return 'en'; // 默认回退到英文
+    }
+
+    const currentLang = getLanguage();
+    const texts = I18N[currentLang] || I18N['en']; 
+
+    function applyLocalization() {
+        // 1. 头部和统计栏
+        document.title = texts.title;
+        document.getElementById('i18n-title').innerText = texts.title.split(' | ')[0];
+        document.getElementById('i18n-tested-keys').innerText = texts.tested_keys;
+        document.getElementById('i18n-total-strokes').innerText = texts.total_strokes;
+        document.getElementById('i18n-active-keys').innerText = texts.active_keys;
+        document.getElementById('i18n-reset-btn').innerText = texts.reset_data;
+
+        // 2. 信息面板标题
+        document.getElementById('i18n-event-key').innerText = texts.event_key;
+        document.getElementById('i18n-event-code').innerText = texts.event_code;
+        document.getElementById('i18n-event-which').innerText = texts.event_which;
+        document.getElementById('i18n-time-delta').innerText = texts.time_delta;
+
+        // 3. 键盘功能键
+        document.getElementById('i18n-key-backspace').innerText = texts.Bksp;
+        document.getElementById('i18n-key-tab').innerText = texts.Tab;
+        document.getElementById('i18n-key-caps').innerText = texts.Caps;
+        document.getElementById('i18n-key-enter').innerText = texts.Enter;
+        
+        document.getElementById('i18n-key-lshift').innerText = texts.Shift;
+        document.getElementById('i18n-key-rshift').innerText = texts.Shift;
+
+        document.getElementById('i18n-key-lctrl').innerText = texts.Ctrl;
+        document.getElementById('i18n-key-rctrl').innerText = texts.Ctrl;
+        document.getElementById('i18n-key-lwin').innerText = texts.Win;
+        document.getElementById('i18n-key-rwin').innerText = texts.Win;
+        document.getElementById('i18n-key-lalt').innerText = texts.Alt;
+        document.getElementById('i18n-key-ralt').innerText = texts.Alt;
+        document.getElementById('i18n-key-menu').innerText = texts.Menu;
+        document.getElementById('i18n-key-space').innerText = texts.Space; 
+
+        // 4. 控制区小键
+        document.getElementById('i18n-key-prtscr').innerText = texts.PrtSc;
+        document.getElementById('i18n-key-scrlk').innerText = texts.ScrLk;
+        document.getElementById('i18n-key-pause').innerText = texts.Pause;
+        document.getElementById('i18n-key-ins').innerText = texts.Ins;
+        document.getElementById('i18n-key-home').innerText = texts.Home;
+        document.getElementById('i18n-key-pgup').innerText = texts.PgUp;
+        document.getElementById('i18n-key-del').innerText = texts.Del;
+        document.getElementById('i18n-key-end').innerText = texts.End;
+        document.getElementById('i18n-key-pgdn').innerText = texts.PgDn;
+
+        // 5. 数字键盘小键
+        document.getElementById('i18n-key-numlk').innerText = texts.Num;
+        document.getElementById('i18n-key-numpadenter').innerText = texts.Ent;
+    }
+
+    // --- 脚本逻辑 ---
+    const activeCountEl = document.getElementById('count-active');
+    const testedCountEl = document.getElementById('count-tested');
+    const totalCountEl = document.getElementById('count-total');
+    
+    const infoKey = document.getElementById('info-key');
+    const infoCode = document.getElementById('info-code');
+    const infoWhich = document.getElementById('info-which');
+    const infoTime = document.getElementById('info-time'); 
+
+    let pressedKeys = new Set(); 
+    let testedKeys = new Set(); 
+    let keyCounts = {};       
+    let totalKeystrokes = 0;
+    
+    let lastKeyTimestamp = 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // 初始化：为所有键位添加计数器 span
+        document.querySelectorAll('.key').forEach(keyEl => {
+            const counter = document.createElement('span');
+            counter.className = 'key-counter';
+            counter.innerText = '0';
+            keyEl.appendChild(counter);
+        });
+        applyLocalization(); 
+    });
+
+    document.addEventListener('keydown', (e) => {
+        e.preventDefault();
+        
+        const currentTimestamp = performance.now(); 
+        let timeDelta = 0;
+
+        // 计算时间差
+        if (lastKeyTimestamp !== 0) {
+            timeDelta = Math.round(currentTimestamp - lastKeyTimestamp);
+            infoTime.innerText = `${timeDelta} ms`;
+        } else {
+            infoTime.innerText = texts.start; 
+        }
+        
+        lastKeyTimestamp = currentTimestamp;
+
+        const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
+        
+        totalKeystrokes++;
+        
+        if (!keyCounts[e.code]) keyCounts[e.code] = 0;
+        keyCounts[e.code]++;
+
+        if (keyEl) {
+            keyEl.classList.add('active');
+            keyEl.classList.add('tested');
+            
+            let counter = keyEl.querySelector('.key-counter');
+            
+            // 鲁棒性修复: 确保即使在某些情况下未找到计数器，也能立即创建并更新。
+            if (!counter) {
+                counter = document.createElement('span');
+                counter.className = 'key-counter';
+                keyEl.appendChild(counter);
+            }
+            counter.innerText = keyCounts[e.code];
+        }
+
+        pressedKeys.add(e.code);
+        testedKeys.add(e.code);
+        
+        updateStats();
+        updateInfo(e);
+    });
+
+    document.addEventListener('keyup', (e) => {
+        e.preventDefault();
+        const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
+        if (keyEl) {
+            keyEl.classList.remove('active');
+        }
+        pressedKeys.delete(e.code);
+        updateStats();
+    });
+
+    function updateStats() {
+        activeCountEl.innerText = pressedKeys.size;
+        testedCountEl.innerText = testedKeys.size;
+        totalCountEl.innerText = totalKeystrokes;
+        
+        // 当并发数超过6时，突出显示警告
+        if (pressedKeys.size > 6) {
+            activeCountEl.style.color = '#ff4444';
+        } else {
+            activeCountEl.style.color = '';
+        }
+    }
+
+    function updateInfo(e) {
+        infoKey.innerText = e.key;
+        infoCode.innerText = e.code;
+        infoWhich.innerText = e.which;
+    }
+
+    function resetTest() {
+        pressedKeys.clear();
+        testedKeys.clear();
+        keyCounts = {};
+        totalKeystrokes = 0;
+        lastKeyTimestamp = 0; 
+
+        // 移除所有按键的视觉状态和计数
+        document.querySelectorAll('.key').forEach(el => {
+            el.classList.remove('active');
+            el.classList.remove('tested');
+            const counter = el.querySelector('.key-counter');
+            if (counter) counter.innerText = '0';
+        });
+
+        updateStats();
+        infoKey.innerText = '-';
+        infoCode.innerText = '-';
+        infoWhich.innerText = '-';
+        infoTime.innerText = '- ms'; // 重置显示
+    }
+
+    // 窗口失焦时清除按键状态，防止粘滞
+    window.addEventListener('blur', () => {
+        pressedKeys.clear();
+        document.querySelectorAll('.key.active').forEach(el => el.classList.remove('active'));
+        updateStats();
+    });
+
+</script>
+
+</body>
+</html>
