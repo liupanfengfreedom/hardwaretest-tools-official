@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专业屏幕坏点检测工具 (防连击优化版)</title>
+    <style>
+        /* --- 全局样式 --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            overflow: hidden;
+            transition: background-color 0.15s ease-out; /* 稍微优化过渡曲线 */
+            user-select: none;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- UI 控制面板 --- */
+        #ui-layer {
+            text-align: center;
+            background: rgba(30, 30, 30, 0.95);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #444;
+            max-width: 600px;
+            z-index: 100;
+            transition: opacity 0.3s;
+        }
+
+        h1 { margin: 0 0 15px 0; font-weight: 300; letter-spacing: 1px; }
+        p { color: #aaa; margin-bottom: 30px; }
+
+        .btn-start {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            padding: 15px 40px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+            transition: transform 0.1s;
+        }
+        .btn-start:active { transform: scale(0.96); }
+
+        /* --- 醒目的提示层 --- */
+        #large-hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 30px 50px;
+            border-radius: 12px;
+            text-align: center;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        #large-hint .main-text { display: block; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        #large-hint .sub-text { display: block; font-size: 16px; color: #ddd; }
+        #large-hint .key { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+
+        .hint-visible { opacity: 1 !important; }
+        body.testing-mode #ui-layer { opacity: 0; pointer-events: none; }
+        body.testing-mode { cursor: none; }
+        body.testing-mode.mouse-moving { cursor: default; }
+
+    </style>
+</head>
+<body>
+
+    <div id="large-hint">
+        <span class="main-text">🖱️ 点击屏幕切换颜色</span>
+        <span class="sub-text">按 <span class="key">Space</span> 或 <span class="key">← →</span> 切换 | 按 <span class="key">ESC</span> 退出</span>
+    </div>
+
+    <div id="ui-layer">
+        <h1>🖥️ 屏幕坏点检测工具</h1>
+        <p>全屏纯色背景，检测亮点、坏点和漏光。</p>
+        <button class="btn-start" onclick="startTest()">开始全屏检测</button>
+        <p style="margin-top:60px; font-size: 50px; opacity: 0.9;"></p>
+    </div>
+
+<script>
+    const colors = ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF'];
+    let colorIndex = 0;
+    let isTesting = false;
+    let hintTimeout, cursorTimeout;
+    
+    // 防抖变量：防止颜色切换过快
+    let lastSwitchTime = 0;
+    const SWITCH_DELAY = 150; // 毫秒
+
+    const body = document.body;
+    const largeHint = document.getElementById('large-hint');
+
+    function startTest() {
+        enterFullScreen();
+        isTesting = true;
+        body.classList.add('testing-mode');
+        colorIndex = 0;
+        applyColor();
+        showHint(3000);
+    }
+
+    function stopTest() {
+        isTesting = false;
+        body.classList.remove('testing-mode');
+        body.style.backgroundColor = '#1a1a1a';
+        largeHint.classList.remove('hint-visible');
+        if (document.fullscreenElement) document.exitFullscreen();
+    }
+
+    // 核心切换函数，包含防抖检查
+    function switchColor(direction) {
+        // 1. 获取当前时间
+        const now = Date.now();
+        // 2. 如果距离上次切换太近，则忽略（防止鼠标双击过快）
+        if (now - lastSwitchTime < SWITCH_DELAY) return;
+        
+        lastSwitchTime = now;
+
+        if (direction === 'next') {
+            colorIndex = (colorIndex + 1) % colors.length;
+        } else {
+            colorIndex = (colorIndex - 1 + colors.length) % colors.length;
+        }
+        applyColor();
+    }
+
+    function applyColor() {
+        body.style.backgroundColor = colors[colorIndex];
+    }
+
+    function showHint(duration = 2000) {
+        if (!isTesting) return;
+        largeHint.classList.add('hint-visible');
+        body.classList.add('mouse-moving');
+        clearTimeout(hintTimeout);
+        clearTimeout(cursorTimeout);
+        if (duration > 0) {
+            hintTimeout = setTimeout(() => largeHint.classList.remove('hint-visible'), duration);
+            cursorTimeout = setTimeout(() => body.classList.remove('mouse-moving'), duration + 500);
+        }
+    }
+
+    function enterFullScreen() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) stopTest();
+    });
+
+    // --- 事件监听修正部分 ---
+
+    // 1. 鼠标点击
+    document.addEventListener('click', () => {
+        if (isTesting) switchColor('next');
+    });
+
+    // 2. 鼠标移动 (唤醒提示)
+    document.addEventListener('mousemove', () => {
+        if (isTesting) showHint(2500);
+    });
+
+    // 3. 键盘控制 (核心修复点)
+    document.addEventListener('keydown', (e) => {
+        if (!isTesting) return;
+        
+        // 🛑 核心修复：检查 event.repeat
+        // 如果用户按住按键不放，e.repeat 会变为 true。这里直接返回，不执行切换。
+        if (e.repeat) return; 
+
+        if (e.code === 'ArrowRight' || e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault(); // 防止按空格导致页面滚动
+            switchColor('next');
+        } else if (e.code === 'ArrowLeft') {
+            e.preventDefault();
+            switchColor('prev');
+        } else if (e.code === 'Escape') {
+            stopTest();
+        }
+    });
+
+</script>
+</body>
+</html>
