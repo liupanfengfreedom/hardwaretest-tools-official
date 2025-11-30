@@ -29,7 +29,7 @@
             width: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             overflow: hidden;
-            transition: background-color 0.15s ease-out; /* 稍微优化过渡曲线 */
+            transition: background-color 0.15s ease-out;
             user-select: none;
         }
 
@@ -68,8 +68,23 @@
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
             transition: transform 0.1s;
+            margin-bottom: 20px;
         }
         .btn-start:active { transform: scale(0.96); }
+
+        .btn-info {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-info:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
 
         /* --- 醒目的提示层 --- */
         #large-hint {
@@ -99,6 +114,125 @@
         body.testing-mode { cursor: none; }
         body.testing-mode.mouse-moving { cursor: default; }
 
+        /* --- 文档说明层 --- */
+        #doc-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #doc-container {
+            background: rgba(40, 40, 40, 0.95);
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .doc-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .doc-close:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .doc-section {
+            display: none;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .doc-section.active {
+            display: block;
+        }
+
+        .doc-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+        }
+
+        .doc-content h3 {
+            color: #4da6ff;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .doc-content p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .doc-content ul {
+            color: #ccc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .doc-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .doc-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .doc-nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .doc-nav-btn.active {
+            background: rgba(0, 123, 255, 0.7);
+            color: white;
+        }
+
+        .doc-nav-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -112,7 +246,85 @@
         <h1>🖥️ 屏幕坏点检测工具</h1>
         <p>全屏纯色背景，检测亮点、坏点和漏光。</p>
         <button class="btn-start" onclick="startTest()">开始全屏检测</button>
-        <p style="margin-top:60px; font-size: 50px; opacity: 0.9;"></p>
+        <div>
+            <button class="btn-info" onclick="showDoc('usage')">使用说明</button>
+            <button class="btn-info" onclick="showDoc('faq')">常见问题</button>
+        </div>
+    </div>
+
+    <!-- 文档说明层 -->
+    <div id="doc-overlay">
+        <div id="doc-container">
+            <button class="doc-close" onclick="hideDoc()">×</button>
+            
+            <div id="doc-usage" class="doc-section active">
+                <h2 class="doc-title">使用说明</h2>
+                <div class="doc-content">
+                    <h3>检测前准备</h3>
+                    <p>在进行屏幕检测前，请确保：</p>
+                    <ul>
+                        <li>显示器已预热至少15-30分钟，以获得准确的显示效果</li>
+                        <li>调整显示器至推荐分辨率和亮度设置</li>
+                        <li>清洁屏幕表面，避免误判灰尘为坏点</li>
+                        <li>确保环境光线适中，避免强光直射屏幕</li>
+                    </ul>
+                    
+                    <h3>检测步骤</h3>
+                    <ol>
+                        <li>点击"开始全屏检测"按钮进入全屏检测模式</li>
+                        <li>屏幕将依次显示多种纯色背景（黑、白、红、绿、蓝等）</li>
+                        <li>仔细观察屏幕上是否有异常的点或区域</li>
+                        <li>使用以下方式切换颜色：
+                            <ul>
+                                <li>鼠标点击屏幕任意位置</li>
+                                <li>按空格键或Enter键</li>
+                                <li>使用左右方向键</li>
+                            </ul>
+                        </li>
+                        <li>按ESC键或退出全屏模式结束检测</li>
+                    </ol>
+                    
+                    <h3>如何识别问题</h3>
+                    <p><strong>亮点（白点）：</strong>在黑色背景下出现的始终亮着的像素点</p>
+                    <p><strong>坏点（黑点）：</strong>在任何颜色下都不亮的像素点</p>
+                    <p><strong>色点：</strong>显示颜色错误的像素点，如在红色背景下显示绿色</p>
+                    <p><strong>漏光：</strong>屏幕边缘出现的光晕现象，在黑色背景下最明显</p>
+                </div>
+            </div>
+            
+            <div id="doc-faq" class="doc-section">
+                <h2 class="doc-title">常见问题</h2>
+                <div class="doc-content">
+                    <h3>什么是屏幕坏点？</h3>
+                    <p>屏幕坏点是液晶显示器上的缺陷像素点，无法正常显示颜色。主要分为亮点（始终亮着的点）、坏点（始终不亮的点）和色点（显示颜色错误的点）。</p>
+                    
+                    <h3>新显示器有坏点正常吗？</h3>
+                    <p>大多数制造商允许一定数量的坏点存在，具体标准因厂商而异。通常，中心区域出现坏点比边缘区域更严重。购买新显示器时，建议检查坏点政策。</p>
+                    
+                    <h3>坏点可以修复吗？</h3>
+                    <p>物理性坏点通常无法修复，但有时"卡住"的像素点可以通过软件方法尝试修复。本工具不提供修复功能，仅用于检测。</p>
+                    
+                    <h3>为什么需要检测多种颜色？</h3>
+                    <p>不同类型的坏点在不同颜色背景下更容易被发现。例如：</p>
+                    <ul>
+                        <li>黑色背景：检测亮点</li>
+                        <li>白色背景：检测坏点</li>
+                        <li>纯色背景（红、绿、蓝）：检测色点</li>
+                    </ul>
+                    
+                    <h3>检测时需要注意什么？</h3>
+                    <p>建议从不同角度观察屏幕，因为某些坏点可能只在特定视角下可见。同时，注意区分屏幕表面的灰尘和实际坏点。</p>
+                    
+                    <h3>检测结果不准确怎么办？</h3>
+                    <p>如果怀疑检测结果，可以使用其他检测工具或在不同环境下重复测试。某些情况下，显卡驱动问题也可能导致显示异常。</p>
+                </div>
+            </div>
+            
+            <div class="doc-nav">
+                <button class="doc-nav-btn active" onclick="switchDoc('usage')">使用说明</button>
+                <button class="doc-nav-btn" onclick="switchDoc('faq')">常见问题</button>
+            </div>
+        </div>
     </div>
 
 <script>
@@ -127,6 +339,7 @@
 
     const body = document.body;
     const largeHint = document.getElementById('large-hint');
+    const docOverlay = document.getElementById('doc-overlay');
 
     function startTest() {
         enterFullScreen();
@@ -184,6 +397,33 @@
         else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
     }
 
+    // 文档说明功能
+    function showDoc(section) {
+        docOverlay.style.display = 'flex';
+        switchDoc(section);
+    }
+
+    function hideDoc() {
+        docOverlay.style.display = 'none';
+    }
+
+    function switchDoc(section) {
+        // 隐藏所有文档部分
+        document.querySelectorAll('.doc-section').forEach(el => {
+            el.classList.remove('active');
+        });
+        
+        // 显示选中的文档部分
+        document.getElementById(`doc-${section}`).classList.add('active');
+        
+        // 更新导航按钮状态
+        document.querySelectorAll('.doc-nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        document.querySelector(`.doc-nav-btn[onclick="switchDoc('${section}')"]`).classList.add('active');
+    }
+
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement) stopTest();
     });
@@ -219,6 +459,12 @@
         }
     });
 
+    // 点击文档层外部关闭文档
+    docOverlay.addEventListener('click', (e) => {
+        if (e.target === docOverlay) {
+            hideDoc();
+        }
+    });
 </script>
 </body>
 </html>
