@@ -481,13 +481,50 @@
     let lastClickTime = {}; 
     let mouseMoveCount = 0;
     let lastHzTime = Date.now();
-
     let clickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0, 'wheel':0 };
+    
+    // 跟踪每个按键的按下状态 (true = 按下, false = 松开)
+    let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
 
+    // 1. 阻止右键菜单
     document.addEventListener('contextmenu', event => event.preventDefault());
 
-    /* 按键按下 */
+    // 2. 阻止原生拖拽
+    document.addEventListener('dragstart', event => event.preventDefault());
+
+    // 3. 辅助函数：统一处理松开逻辑
+    function handleButtonRelease(buttonCode) {
+        if (!isPressed[buttonCode]) return; // 如果已经是松开状态，不重复处理
+
+        isPressed[buttonCode] = false;
+        
+        const btnId = 'btn' + buttonCode;
+        const el = document.getElementById(btnId);
+        if (el) el.classList.remove('active');
+
+        const btnNameMap = {
+            0: texts.left_click, 
+            1: texts.counter_middle, 
+            2: texts.right_click, 
+            3: texts.counter_b4, 
+            4: texts.counter_b5
+        };
+        const btnName = btnNameMap[buttonCode] || `Btn ${buttonCode}`;
+        const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
+        
+        addLog(`${btnName} ↑ (Hold: ${pressDuration}ms)`, 'log-release');
+    }
+
+    // --- 事件监听 ---
+
+    /* Mousedown */
     document.addEventListener('mousedown', (e) => {
+        // 只有当按键之前没被按下时，才执行按下逻辑（防止重复触发）
+        if (isPressed[e.button]) return;
+        
+        e.preventDefault(); 
+        isPressed[e.button] = true;
+
         const btnId = 'btn' + e.button;
         const el = document.getElementById(btnId);
         if (el) el.classList.add('active');
@@ -499,15 +536,14 @@
         if (lastTime !== 0) {
             timeDiff = Math.round(now - lastTime);
             timeDeltaDisplay.innerText = timeDiff + " ms";
-            
             if (timeDiff < 80) {
                 timeDeltaDisplay.className = "stat-value time-delta-alert";
-                timeDeltaDisplay.innerText += texts.warning_text; // 使用本地化警告
+                timeDeltaDisplay.innerText += texts.warning_text; 
             } else {
                 timeDeltaDisplay.className = "stat-value time-delta-value";
             }
         } else {
-            timeDeltaDisplay.innerText = texts.start; // 使用本地化 "Start" 文本
+            timeDeltaDisplay.innerText = texts.start; 
             timeDeltaDisplay.className = "stat-value time-delta-value";
         }
 
@@ -519,35 +555,50 @@
 
         const btnNameMap = {0:texts.left_click, 1:texts.counter_middle, 2:texts.right_click, 3:texts.counter_b4, 4:texts.counter_b5};
         const btnName = btnNameMap[e.button] || `Btn ${e.button}`;
-        
-        let logWarning = (timeDiff > 0 && timeDiff < 80) ? texts.log_warning : ""; // 使用本地化警告
+        let logWarning = (timeDiff > 0 && timeDiff < 80) ? texts.log_warning : ""; 
         addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
         
         lastClickTime[e.button] = now;
     });
 
- /* 按键松开 (修改后：增加了日志记录) */
-    document.addEventListener('mouseup', (e) => {
-        // 1. 处理 UI 样式移除 (原有逻辑)
-        const btnId = 'btn' + e.button;
-        const el = document.getElementById(btnId);
-        if (el) el.classList.remove('active');
+    /* Mouseup */
+    window.addEventListener('mouseup', (e) => {
+        e.preventDefault();
+        handleButtonRelease(e.button);
+    });
 
-        // 2. 新增：记录日志逻辑
-        const btnNameMap = {
-            0: texts.left_click, 
-            1: texts.counter_middle, 
-            2: texts.right_click, 
-            3: texts.counter_b4, 
-            4: texts.counter_b5
-        };
-        const btnName = btnNameMap[e.button] || `Btn ${e.button}`;
-        
-        // 计算按住时长（当前时间 - 按下的时间）
-        const pressDuration = lastClickTime[e.button] ? Math.round(performance.now() - lastClickTime[e.button]) : 0;
+    /* ★ 关键修复：Mousemove 状态纠正 ★ 
+       当鼠标移动时，浏览器会告诉我们 e.buttons (位掩码)
+       1=左键, 2=右键, 4=中键, 8=侧键4, 16=侧键5
+    */
+    document.addEventListener('mousemove', (e) => {
+        mouseMoveCount++; // 处理回报率
 
-        // 添加日志：使用 ↑ 箭头表示松开，并显示按住时长
-        addLog(`${btnName} ↑ (Hold: ${pressDuration}ms)`, 'log-release');
+        // 检查右键 (Button 2): 掩码是 2 (二进制 010)
+        // 如果 UI 认为右键按下了 (isPressed[2] == true)
+        // 但是 e.buttons 告诉我们右键其实没按 ((e.buttons & 2) === 0)
+        // 那么必须强制松开！
+        if (isPressed[2] && (e.buttons & 2) === 0) {
+            handleButtonRelease(2);
+        }
+
+        // 同理检查左键 (Button 0): 掩码是 1
+        if (isPressed[0] && (e.buttons & 1) === 0) {
+            handleButtonRelease(0);
+        }
+
+        // 同理检查中键 (Button 1): 掩码是 4
+        if (isPressed[1] && (e.buttons & 4) === 0) {
+            handleButtonRelease(1);
+        }
+    });
+
+    /* 窗口失焦时的终极保险 */
+    window.addEventListener('blur', () => {
+        // 强制松开所有按键
+        for (let i = 0; i < 5; i++) {
+            if (isPressed[i]) handleButtonRelease(i);
+        }
     });
 
     /* 滚轮事件 */
@@ -555,12 +606,8 @@
         clickCounts['wheel']++;
         updateCountUI('wheel');
         highlightRow('wheel');
-
-        if (e.deltaY < 0) {
-            flashIndicator(scrollUp);
-        } else {
-            flashIndicator(scrollDown);
-        }
+        if (e.deltaY < 0) flashIndicator(scrollUp);
+        else flashIndicator(scrollDown);
     }, { passive: true });
 
     function flashIndicator(element) {
@@ -568,22 +615,15 @@
         setTimeout(() => { element.style.opacity = '0'; }, 150);
     }
 
-    /* 回报率检测 */
-    document.addEventListener('mousemove', () => {
-        mouseMoveCount++;
-    });
-
+    // 回报率计算
     setInterval(() => {
         const now = Date.now();
         const duration = now - lastHzTime;
         const hz = Math.round(mouseMoveCount / (duration / 1000));
-        
         hzDisplay.innerText = hz + " Hz";
-        
         if(hz > 500) hzDisplay.style.color = "#00ff88";
         else if(hz > 100) hzDisplay.style.color = "#ffffff";
         else hzDisplay.style.color = "#757575";
-
         mouseMoveCount = 0;
         lastHzTime = now;
     }, 500);
@@ -599,9 +639,7 @@
             row.classList.remove('active-counter');
             void row.offsetWidth; 
             row.classList.add('active-counter');
-            setTimeout(() => {
-                row.classList.remove('active-counter');
-            }, 150);
+            setTimeout(() => { row.classList.remove('active-counter'); }, 150);
         }
     }
 
@@ -609,15 +647,19 @@
         for (let key in clickCounts) clickCounts[key] = 0;
         document.querySelectorAll('.counter-num').forEach(el => el.innerText = '0');
         lastClickTime = {}; 
+        isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false }; // 重置状态追踪
+        
         timeDeltaDisplay.innerText = "- ms";
         timeDeltaDisplay.className = "stat-value time-delta-value";
-        addLog(texts.log_reset); // 使用本地化重置文本
+        addLog(texts.log_reset); 
+        document.querySelectorAll('.btn-zone').forEach(el => el.classList.remove('active'));
     }
 
     function addLog(text, className) {
         const div = document.createElement('div');
         div.className = 'log-item ' + (className || '');
-        div.innerText = `[${new Date().toLocaleTimeString().split(' ')[0]}] ${text}`;
+        const time = new Date().toLocaleTimeString('en-US', {hour12: false});
+        div.innerText = `[${time}] ${text}`;
         logContainer.prepend(div);
         if (logContainer.children.length > 20) {
             logContainer.removeChild(logContainer.lastChild);
