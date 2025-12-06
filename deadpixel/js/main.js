@@ -18,6 +18,12 @@
         colorIndex = 0;
         applyColor();
         showHint(3000);
+
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            body.classList.remove('sidebar-open');
+        }
     }
 
     function stopTest() {
