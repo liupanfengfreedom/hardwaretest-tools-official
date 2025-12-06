@@ -6,7 +6,6 @@
                 'video_label': '视频输入源 (Video)',
                 'audio_label': '音频输入源 (Audio)',
                 'mirror_btn': '镜像翻转',
-                'snap_btn': '📷 截图下载',
                 'status_header': '设备状态',
                 'run_status': '运行状态',
                 'device_name': '设备名称',
@@ -35,7 +34,6 @@
                 'video_label': 'Video Input Source (Video)',
                 'audio_label': 'Audio Input Source (Audio)',
                 'mirror_btn': 'Mirror Flip',
-                'snap_btn': '📷 Snapshot & Download',
                 'status_header': 'Device Status',
                 'run_status': 'Status',
                 'device_name': 'Device Name',
@@ -75,7 +73,6 @@
             document.getElementById('video-label').textContent = t.video_label;
             document.getElementById('audio-label').textContent = t.audio_label;
             document.getElementById('btn-mirror').textContent = t.mirror_btn;
-            document.getElementById('btn-snap').textContent = t.snap_btn;
             
             document.getElementById('status-header-text').innerHTML = `<span class="status-dot"></span>${t.status_header}`;
             document.getElementById('run-status-label').textContent = t.run_status;
@@ -321,23 +318,6 @@
         };
 
         document.getElementById('btn-mirror').onclick = () => videoElement.classList.toggle('no-mirror');
-
-        document.getElementById('btn-snap').onclick = () => {
-            if (!currentStream) return;
-            const canvasSnap = document.createElement('canvas');
-            canvasSnap.width = videoElement.videoWidth;
-            canvasSnap.height = videoElement.videoHeight;
-            const ctx = canvasSnap.getContext('2d');
-            if (!videoElement.classList.contains('no-mirror')) {
-                ctx.translate(canvasSnap.width, 0);
-                ctx.scale(-1, 1);
-            }
-            ctx.drawImage(videoElement, 0, 0);
-            const link = document.createElement('a');
-            link.download = `snapshot-${Date.now()}.png`;
-            link.href = canvasSnap.toDataURL('image/png');
-            link.click();
-        };
 
         // 页面加载完毕立即执行
         window.addEventListener('load', () => {
