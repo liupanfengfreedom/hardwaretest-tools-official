@@ -1,10 +1,9 @@
-    // --- 1. 语言检测与翻译字典 ---
+// --- 1. 语言检测与翻译字典 ---
         const translations = {
             'zh': {
                 'title': '在线摄像头测试工具, webcam test , camera test',
                 'badge': '自动',
                 'video_label': '视频输入源 (Video)',
-                'audio_label': '音频输入源 (Audio)',
                 'mirror_btn': '镜像翻转',
                 'status_header': '设备状态',
                 'run_status': '运行状态',
@@ -32,7 +31,6 @@
                 'title': 'Webcam Test Tool,camera test,camera check',
                 'badge': 'AUTO',
                 'video_label': 'Video Input Source (Video)',
-                'audio_label': 'Audio Input Source (Audio)',
                 'mirror_btn': 'Mirror Flip',
                 'status_header': 'Device Status',
                 'run_status': 'Status',
@@ -71,7 +69,6 @@
             document.title = t.title;
             document.getElementById('title-text').innerHTML = `Webcam <span style="color:var(--accent)">Test</span> <span class="badge">${t.badge}</span>`;
             document.getElementById('video-label').textContent = t.video_label;
-            document.getElementById('audio-label').textContent = t.audio_label;
             document.getElementById('btn-mirror').textContent = t.mirror_btn;
             
             document.getElementById('status-header-text').innerHTML = `<span class="status-dot"></span>${t.status_header}`;
@@ -85,7 +82,6 @@
             
             // 设置初始状态文本
             document.getElementById('videoSource').innerHTML = `<option>${t.detecting}</option>`;
-            document.getElementById('audioSource').innerHTML = `<option>${t.detecting}</option>`;
             document.getElementById('status-text').textContent = t.req_perm;
         }
         
@@ -94,9 +90,6 @@
         // DOM Elements
         const videoElement = document.getElementById('video');
         const videoSelect = document.getElementById('videoSource');
-        const audioSelect = document.getElementById('audioSource');
-        const canvas = document.getElementById('audio-vis');
-        const canvasCtx = canvas.getContext('2d');
 
         // Stats Elements
         const liveRes = document.getElementById('live-res');
@@ -109,9 +102,6 @@
         const capTable = document.getElementById('capabilities-table');
 
         let currentStream;
-        let audioContext;
-        let analyser;
-        let animationId;
         
         let lastFrameTime = performance.now();
         let frameCount = 0;
@@ -124,7 +114,7 @@
             try {
                 // 步骤 1: 立即请求权限
                 statusText.textContent = t.req_perm;
-                const initialStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                const initialStream = await navigator.mediaDevices.getUserMedia({ video: true });
                 
                 // 步骤 2: 权限通过后，枚举所有设备
                 const currentVideoId = initialStream.getVideoTracks()[0].getSettings().deviceId;
@@ -134,7 +124,7 @@
                 initialStream.getTracks().forEach(track => track.stop());
                 
                 // videoSelect 的值已在 populateDeviceList 中设置
-                startStream(videoSelect.value);
+                startStream();
 
             } catch (error) {
                 console.error("Auto start failed:", error);
@@ -150,7 +140,6 @@
             const devices = await navigator.mediaDevices.enumerateDevices();
             
             videoSelect.innerHTML = '';
-            audioSelect.innerHTML = '';
             let videoFound = false;
 
             devices.forEach(device => {
@@ -164,9 +153,6 @@
                         option.selected = true; // 选中当前活动的设备
                         videoFound = true;
                     }
-                } else if (device.kind === 'audioinput') {
-                    option.text = device.label || `Microphone ${audioSelect.length + 1}`;
-                    audioSelect.appendChild(option);
                 }
             });
 
@@ -180,21 +166,14 @@
             if (currentStream) {
                 currentStream.getTracks().forEach(track => track.stop());
             }
-            if (audioContext) {
-                audioContext.close();
-            }
 
             const videoId = videoSelect.value;
-            const audioId = audioSelect.value;
 
             const constraints = {
                 video: {
                     deviceId: videoId ? { exact: videoId } : undefined,
                     width: { ideal: 1920 },
                     height: { ideal: 1080 } 
-                },
-                audio: {
-                    deviceId: audioId ? { exact: audioId } : undefined
                 }
             };
 
@@ -209,12 +188,8 @@
 
                 const videoTrack = stream.getVideoTracks()[0];
                 analyzeVideoTrack(videoTrack);
-                
-                initAudioVisualizer(stream);
 
-                if (!animationId) {
-                    requestAnimationFrame(updateStats);
-                }
+                requestAnimationFrame(updateStats);
 
             } catch (error) {
                 console.error('Error starting specific stream:', error);
@@ -247,10 +222,10 @@
             capTable.innerHTML = capHtml || `<tr><td colspan="2">${t.no_caps}</td></tr>`;
         }
         
-        // 5. 实时统计循环 (与语言无关，保持不变)
+        // 5. 实时统计循环
         function updateStats(timestamp) {
             if (!currentStream || !currentStream.active) {
-                animationId = requestAnimationFrame(updateStats);
+                requestAnimationFrame(updateStats);
                 return;
             }
 
@@ -270,49 +245,11 @@
                 frameCount = 0;
             }
 
-            drawAudio();
-            animationId = requestAnimationFrame(updateStats);
+            requestAnimationFrame(updateStats);
         }
 
-        // 6. 音频可视化 (与语言无关，保持不变)
-        function initAudioVisualizer(stream) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const source = audioContext.createMediaStreamSource(stream);
-            analyser = audioContext.createAnalyser();
-            analyser.fftSize = 256;
-            source.connect(analyser);
-        }
-
-        function drawAudio() {
-            if(!analyser) return;
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-            analyser.getByteFrequencyData(dataArray);
-
-            const width = canvas.width;
-            const height = canvas.height;
-            canvasCtx.fillStyle = 'rgb(0, 0, 0)';
-            canvasCtx.clearRect(0, 0, width, height);
-
-            const barWidth = (width / bufferLength) * 2.5;
-            let barHeight;
-            let x = 0;
-
-            for(let i = 0; i < bufferLength; i++) {
-                barHeight = dataArray[i] / 2;
-                canvasCtx.fillStyle = `rgb(${barHeight + 50}, ${50 + i}, 255)`;
-                canvasCtx.fillRect(x, height - barHeight, barWidth, barHeight);
-                x += barWidth + 1;
-            }
-        }
-
-        // 7. 事件监听器
+        // 6. 事件监听器
         videoSelect.onchange = () => {
-            statusText.textContent = t.switching;
-            startStream();
-        };
-        
-        audioSelect.onchange = () => {
             statusText.textContent = t.switching;
             startStream();
         };
