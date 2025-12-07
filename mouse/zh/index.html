@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="鼠标点击测试，鼠标测试工具，鼠标按键测试，鼠标测试在线，鼠标检测">
+    <meta property="og:title" content="在线鼠标测试工具 - 检测双击故障、回报率测试">
+    <meta property="og:description" content="免费在线鼠标测试工具，专业检测鼠标双击故障、按键功能、滚轮和回报率。无需下载，立即测试。">
+    <meta property="og:image" content="https://www.hardwaretest.top/mouse/preview.png">
+    <meta property="og:url" content="https://www.hardwaretest.top/mouse/zh/">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="在线鼠标测试工具 - 检测双击故障、回报率测试">
+    <meta name="twitter:description" content="免费在线鼠标测试工具，专业检测鼠标双击故障、按键功能、滚轮和回报率。无需下载，立即测试。">
+    <meta name="twitter:image" content="https://www.hardwaretest.top/mouse/preview.png">
+
+        <!-- 添加到 <head> 中 -->
+    <link rel="alternate" hreflang="en" href="https://www.hardwaretest.top/mouse/" />
+    <link rel="alternate" hreflang="zh" href="https://www.hardwaretest.top/mouse/zh/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.hardwaretest.top/mouse/" />
+    <link rel="canonical" href="https://www.hardwaretest.top/mouse/zh/" />
+    <title>在线鼠标测试 - 点击测试，双击测试，鼠标故障测试</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "在线鼠标测试工具",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "description": "免费在线鼠标测试工具，检测鼠标双击故障、按键功能、滚轮和实时回报率",
+        "url": "https://www.hardwaretest.top/mouse/zh/",
+        "author": {
+            "@type": "Organization",
+            "name": "Hardware Test"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "鼠标双击故障检测",
+            "点击时间间隔测量",
+            "实时回报率测试",
+            "所有按键功能测试",
+            "滚轮功能检测",
+            "侧键测试"
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <button id="menu-button" aria-label="打开菜单">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <div id="sidebar">
+        <button id="close-button" aria-label="关闭菜单">&times;</button>
+        <a href="https://www.hardwaretest.top/"><span class="icon-emoji">🏠</span> 主页</a>
+        <a href="https://www.hardwaretest.top/mouse/"><span class="icon-emoji">🖱️</span> 鼠标</a>
+        <a href="https://www.hardwaretest.top/keyboard/"><span class="icon-emoji">⌨️</span> 键盘</a>
+        <a href="https://www.hardwaretest.top/mic/"><span class="icon-emoji">🎤</span> 麦克风</a>
+        <a href="https://www.hardwaretest.top/camera/"><span class="icon-emoji">📷</span> 摄像头</a>
+        <a href="https://www.hardwaretest.top/deadpixel/"><span class="icon-emoji">🖥️</span> 显示器</a>
+        <!-- Language switcher -->
+        <a href="../"><span class="icon-emoji">🌐</span> English Version</a>
+    </div>
+
+    <h1>在线鼠标测试</h1>
+    <p>点击间隔检测 + 双击故障排查</p>
+
+    <div class="dashboard">
+        <div class="mouse-visual" id="mouseArea">
+            <div class="scroll-indicator scroll-up" id="scrollUp">▲</div>
+            <div class="btn-zone left-click" id="btn0">左键</div>
+            <div class="btn-zone middle-click" id="btn1"></div>
+            <div class="btn-zone right-click" id="btn2">右键</div>
+            <div class="scroll-indicator scroll-down" id="scrollDown">▼</div>
+            <div class="btn-zone side-btn btn-back" id="btn3">B4</div>
+            <div class="btn-zone side-btn btn-forward" id="btn4">B5</div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-box">
+                <div class="stat-header-group">
+                    <div class="stat-label">点击计数 (CLICK COUNTERS)</div>
+                    <button class="reset-btn" onclick="resetCounts()">重置所有数据</button>
+                </div>
+                <div class="counter-grid">
+                    <div class="counter-item" id="row-0"><span>左键</span> <span class="counter-num" id="cnt-0">0</span></div>
+                    <div class="counter-item" id="row-2"><span>右键</span> <span class="counter-num" id="cnt-2">0</span></div>
+                    <div class="counter-item" id="row-1"><span>中键</span> <span class="counter-num" id="cnt-1">0</span></div>
+                    <div class="counter-item" id="row-wheel"><span>滚轮</span> <span class="counter-num" id="cnt-wheel">0</span></div>
+                    <div class="counter-item" id="row-3"><span>侧键(B4)</span> <span class="counter-num" id="cnt-3">0</span></div>
+                    <div class="counter-item" id="row-4"><span>侧键(B5)</span> <span class="counter-num" id="cnt-4">0</span></div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">点击间隔 (TIME DELTA)</div>
+                <div class="stat-value time-delta-value" id="timeDeltaDisplay">- ms</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">实时回报率 (POLLING RATE)</div>
+                <div class="stat-value" id="hzDisplay">0 Hz</div>
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-label">事件日志 (LOG)</div>
+                <div class="log-container" id="eventLog">
+                    <div class="log-item">等待输入...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin: 40px 0 20px 0;">
+        <button id="toggle-guide-btn" class="guide-btn" onclick="toggleGuide()">
+            📖 显示使用说明 & 常见问题
+        </button>
+    </div>
+
+    <div id="guide-container" class="guide-container">
+        <div class="guide-content">
+            <h2>如何使用本站进行鼠标测试？</h2>
+            <p>本工具支持检测鼠标的所有基础功能。在屏幕左侧的鼠标图示区域，按下您鼠标对应的按键（左键、右键、滚轮中键、侧键），如果图示点亮，说明电路通断正常。右侧面板会记录具体的点击次数。</p>
+            
+            <h2>如何检测鼠标双击（连点）故障？</h2>
+            <p>"鼠标双击"是指微动开关老化，导致按下一字却触发两次信号。请关注右侧的"点击间隔 (TIME DELTA)"数据。如果您单击一次，日志中出现了极短时间（例如 < 40ms）的连续点击记录，且数字变成红色，说明您的鼠标微动可能存在双击故障。</p>
+
+            <h2>什么是回报率 (Polling Rate/Hz)？</h2>
+            <p>回报率代表鼠标每秒向电脑报告位置的次数。普通办公鼠标通常为 125Hz，而电竞游戏鼠标通常为 1000Hz 甚至更高。在页面上快速移动鼠标，右侧的"实时回报率"即可显示当前性能。</p>
+            
+            <h3>常见问题排查</h3>
+            <ul style="color: var(--text-dim); line-height: 1.6;">
+                <li><b>滚轮回滚/乱跳：</b> 快速滚动滚轮，观察计数器是否平稳增加。</li>
+                <li><b>按键无反应：</b> 如果按下无反应，可能是微动物理损坏或驱动冲突。</li>
+                <li><b>右键显示持续按下状态：</b> 有些浏览器中在您按下右键的同时滑动鼠标，然后松开右键，这时右键仍然显示按下的状态，所以在测试按键时最好不要滑动鼠标。</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "如何检测鼠标双击故障？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "点击鼠标一次，观察右侧的点击间隔时间。如果出现小于40ms的连续点击记录，说明可能存在双击故障。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "什么是鼠标回报率？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "回报率是鼠标向电脑发送位置信息的频率，单位是Hz。普通鼠标为125Hz，游戏鼠标可达1000Hz以上。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "如何测试鼠标滚轮？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "滚动鼠标滚轮，右侧的滚轮计数器会增加。如果计数不均匀，说明滚轮可能存在故障。"
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <script src="../js/main-zh.js"></script>
+    <script src="../js/sidebar.js"></script>
+</body>
+</html>
