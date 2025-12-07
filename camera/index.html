@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/sidebar.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
@@ -26,7 +26,7 @@
   gtag('config', 'G-J9HR7CNQR9');
 </script>
 <body>
-    <!----------------------- side bar begin ----------------------------------------------------------------------------------------------->
+       <!----------------------- side bar begin ----------------------------------------------------------------------------------------------->
     <button id="menu-button" aria-label="打开菜单">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -45,54 +45,114 @@
     </div>
     <!----------------------- side bar end ---------------------------------------------------------------------------------->
 
-    <h1 id="title-text"></h1>
-
     <div class="container">
-        <section>
-            <div class="card" style="margin-bottom: 20px;">
-                <div class="controls-row">
-                    <div class="select-group">
-                        <label id="video-label" for="videoSource"></label>
-                        <select id="videoSource"><option></option></select>
-                    </div>
-                </div>
-                <div class="controls-row" style="margin-bottom: 0;">
-                    <div class="btn-group">
-                        <button id="btn-mirror" class="secondary"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" style="padding: 10px;">
-                <div class="video-wrapper">
-                    <video id="video" autoplay playsinline muted></video>
-                    <div class="overlay-stats">
-                        <span id="live-res">0x0</span> | <span id="live-fps">0</span> FPS
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <aside>
+        <header>
+            <h1><i class="fas fa-camera"></i> 专业摄像头性能参数检测工具</h1>
+            <p class="subtitle">全面检测摄像头分辨率、帧率、延迟、色彩准确度等关键性能参数，支持静态参数检测</p>
+        </header>
+        
+        <div class="main-content">
             <div class="card">
-                <h3 id="status-header-text"><span class="status-dot"></span></h3>
-                <table class="info-table">
-                    <tr><td id="run-status-label"></td><td id="status-text"></td></tr>
-                    <tr><td id="device-name-label"></td><td id="device-label">-</td></tr>
-                    <tr><td id="actual-res-label"></td><td id="info-res">-</td></tr>
-                    <tr><td id="aspect-ratio-label"></td><td id="info-aspect">-</td></tr>
-                </table>
-
-                <h3 id="caps-header-text" style="margin-top: 20px;"></h3>
-                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;"></div>
-                <table class="info-table" id="capabilities-table">
-                    <tr><td>-</td><td>-</td></tr>
-                </table>
+                <h2 class="card-title"><i class="fas fa-video"></i> 摄像头实时预览</h2>
+                <div class="camera-container">
+                    <video id="cameraFeed" autoplay playsinline></video>
+                    <div class="camera-overlay" id="cameraOverlay">
+                        <span>正在自动启动摄像头...</span>
+                    </div>
+                </div>
+                
+                <div class="camera-controls">
+                    <button class="btn btn-primary" id="startCamera">
+                        <i class="fas fa-play"></i> 启动摄像头
+                    </button>
+                    <button class="btn btn-secondary" id="stopCamera" disabled>
+                        <i class="fas fa-stop"></i> 停止摄像头
+                    </button>
+                    <button class="btn btn-success" id="startTest" disabled>
+                        <i class="fas fa-bolt"></i> 开始性能测试
+                    </button>
+                    <button class="btn btn-danger" id="stopTest" disabled>
+                        <i class="fas fa-stop-circle"></i> 停止测试
+                    </button>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="testProgress"></div>
+                </div>
+                <div class="test-status" id="testStatus">
+                    正在自动启动摄像头...
+                    <span class="auto-mode-indicator" id="autoModeIndicator">自动模式</span>
+                </div>
             </div>
-        </aside>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-chart-line"></i> 实时性能图表</h2>
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                
+                <h2 class="card-title" style="margin-top: 30px;"><i class="fas fa-tachometer-alt"></i> 关键性能指标</h2>
+                <div class="parameter-grid" id="parameterGrid">
+                    <!-- 动态生成参数卡片 -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-info-circle"></i> 摄像头静态参数</h2>
+            <div class="camera-static-info">
+                <div class="static-info-grid" id="staticInfoGrid">
+                    <!-- 动态生成静态参数卡片 -->
+                    <div class="static-info-placeholder">
+                        <i class="fas fa-camera-slash"></i>
+                        <p>启动摄像头后，将显示设备的静态参数信息</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card report-section">
+            <h2 class="card-title"><i class="fas fa-file-alt"></i> 测试报告与数据</h2>
+            <p>完成测试后，您可以查看详细数据或将测试结果导出为JSON格式。</p>
+            
+            <div class="report-actions">
+                <button class="btn btn-primary" id="viewDetails">
+                    <i class="fas fa-chart-bar"></i> 查看完整报告
+                </button>
+                <button class="btn btn-success" id="exportData">
+                    <i class="fas fa-download"></i> 导出测试数据
+                </button>
+                <button class="btn btn-secondary" id="copyResults">
+                    <i class="fas fa-copy"></i> 复制结果
+                </button>
+                <button class="btn btn-secondary" id="saveSettings">
+                    <i class="fas fa-save"></i> 保存设置
+                </button>
+            </div>
+            
+            <div class="loading" id="reportLoading">
+                <div class="spinner"></div>
+                <p>正在处理中，请稍候...</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>专业摄像头性能参数检测工具 v2.0 &copy; 2023 | 基于WebRTC技术开发 | 支持静态参数检测</p>
+        </footer>
     </div>
-
-    <script src="js/main.js"></script>
+    
+    <!-- 详细数据模态框 -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>完整测试报告</h2>
+            <div id="detailedData">
+                <!-- 详细数据将在这里显示 -->
+            </div>
+        </div>
+    </div>
+    
+      <script src="js/main.js"></script>
     <script src="js/sidebar.js"></script>
 </body>
 </html>
