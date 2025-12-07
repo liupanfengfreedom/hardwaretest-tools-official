@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="在线摄像头检测工具，test camera ">
+    <meta name="keywords" content="摄像头测试,webcam test">
+    <meta name="author" content="WebRTC Tool Developer">
+    <meta name="robots" content="index, follow"> 
+    <link rel="canonical" href="https://www.hardwaretest.top/camera/" />
+    <title id="pageTitle">在线摄像头测试工具, webcam test , camera test</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J9HR7CNQR9');
+</script>
+<body>
+    <!----------------------- side bar begin ----------------------------------------------------------------------------------------------->
+    <button id="menu-button" aria-label="打开菜单">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <div id="sidebar">
+        <button id="close-button" aria-label="关闭菜单">&times;</button>
+    
+        <a href="https://www.hardwaretest.top/"><span class="icon-emoji">🏠</span> Home (主页)</a>
+        <a href="https://www.hardwaretest.top/mouse/"><span class="icon-emoji">🖱️</span> Mouse (鼠标)</a>
+        <a href="https://www.hardwaretest.top/keyboard/"><span class="icon-emoji">⌨️</span> Keyboard (键盘)</a>
+        <a href="https://www.hardwaretest.top/mic/"><span class="icon-emoji">🎤</span> Microphone (麦克风)</a>
+        <a href="https://www.hardwaretest.top/camera/"><span class="icon-emoji">📷</span> Camera (摄像头)</a>
+        <a href="https://www.hardwaretest.top/deadpixel/"><span class="icon-emoji">🖥️</span> Screen (显示器)</a>
+    </div>
+    <!----------------------- side bar end ---------------------------------------------------------------------------------->
+
+    <h1 id="title-text"></h1>
+
+    <div class="container">
+        <section>
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="controls-row">
+                    <div class="select-group">
+                        <label id="video-label" for="videoSource"></label>
+                        <select id="videoSource"><option></option></select>
+                    </div>
+                    <div class="select-group">
+                        <label id="audio-label" for="audioSource"></label>
+                        <select id="audioSource"><option></option></select>
+                    </div>
+                </div>
+                <div class="controls-row" style="margin-bottom: 0;">
+                    <div class="btn-group">
+                        <button id="btn-mirror" class="secondary"></button>
+    
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 10px;">
+                <div class="video-wrapper">
+                    <video id="video" autoplay playsinline></video>
+                    <div class="overlay-stats">
+                        <span id="live-res">0x0</span> | <span id="live-fps">0</span> FPS
+                    </div>
+                </div>
+                <canvas id="audio-vis"></canvas>
+            </div>
+        </section>
+
+        <aside>
+            <div class="card">
+                <h3 id="status-header-text"><span class="status-dot"></span></h3>
+                <table class="info-table">
+                    <tr><td id="run-status-label"></td><td id="status-text"></td></tr>
+                    <tr><td id="device-name-label"></td><td id="device-label">-</td></tr>
+                    <tr><td id="actual-res-label"></td><td id="info-res">-</td></tr>
+                    <tr><td id="aspect-ratio-label"></td><td id="info-aspect">-</td></tr>
+                </table>
+
+                <h3 id="caps-header-text" style="margin-top: 20px;"></h3>
+                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;"></div>
+                <table class="info-table" id="capabilities-table">
+                    <tr><td>-</td><td>-</td></tr>
+                </table>
+            </div>
+        </aside>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/sidebar.js"></script>
+
+</body>
+</html>
