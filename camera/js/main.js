@@ -18,6 +18,7 @@ const translations = {
         'active': '正常运行',
         'switching': '切换中...',
         'fail': '启动失败:',
+        'retrying': '重试获取权限...',
         'no_access_alert': '无法访问摄像头。请检查浏览器权限设置，并确保使用 HTTPS 或 localhost。',
         // Capability Table Keys (Internal)
         'res_range': '分辨率范围',
@@ -45,6 +46,7 @@ const translations = {
         'active': 'Active',
         'switching': 'Switching...',
         'fail': 'Start Failed:',
+        'retrying': 'Retrying to get permission...',
         'no_access_alert': 'Cannot access camera. Please check browser permissions and ensure using HTTPS or localhost.',
         // Capability Table Keys (Internal)
         'res_range': 'Resolution Range',
@@ -104,6 +106,9 @@ const capTable = document.getElementById('capabilities-table');
 // 视频流
 let videoStream = null;
 let animationId = null;
+let retryTimer = null;
+let retryCount = 0;
+const MAX_RETRY_COUNT = 100; // 最大重试次数（约50秒）
 
 let lastFrameTime = performance.now();
 let frameCount = 0;
@@ -131,11 +136,69 @@ async function autoStart() {
 
     } catch (error) {
         console.error("Auto start failed:", error);
-        statusHeader.className = 'error';
-        statusText.textContent = t.fail + (error.name || 'Unknown');
-        statusText.style.color = "#ef4444";
-        alert(t.no_access_alert);
+        
+        // 检查是否是权限错误
+        if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+            // 权限被拒绝，开始重试
+            statusText.textContent = t.retrying + ' (' + (retryCount + 1) + ')';
+            statusText.style.color = "#f59e0b"; // 橙色警告色
+            
+            // 清除之前的重试定时器（如果有）
+            if (retryTimer) {
+                clearTimeout(retryTimer);
+            }
+            
+            // 开始重试（每0.5秒一次）
+            startRetry();
+        } else {
+            // 其他错误
+            statusHeader.className = 'error';
+            statusText.textContent = t.fail + (error.name || 'Unknown');
+            statusText.style.color = "#ef4444";
+            alert(t.no_access_alert);
+        }
     }
+}
+
+/**
+ * 开始重试获取权限
+ */
+function startRetry() {
+    retryTimer = setTimeout(async () => {
+        retryCount++;
+        
+        // 检查是否超过最大重试次数
+        if (retryCount >= MAX_RETRY_COUNT) {
+            statusText.textContent = t.fail + 'Max retries exceeded';
+            statusText.style.color = "#ef4444";
+            return;
+        }
+        
+        try {
+            // 尝试重新获取设备
+            await getVideoDevices();
+            
+            // 如果有设备，尝试启动
+            if (videoSelect.options.length > 0) {
+                await startVideoStream(videoSelect.value);
+                
+                // 成功！清除重试定时器
+                if (retryTimer) {
+                    clearTimeout(retryTimer);
+                    retryTimer = null;
+                }
+                retryCount = 0;
+            } else {
+                // 没有设备，继续重试
+                statusText.textContent = t.retrying + ' (' + (retryCount + 1) + ')';
+                startRetry();
+            }
+        } catch (error) {
+            // 再次失败，继续重试
+            statusText.textContent = t.retrying + ' (' + (retryCount + 1) + ')';
+            startRetry();
+        }
+    }, 500); // 0.5秒
 }
 
 // 获取视频设备列表
@@ -165,6 +228,7 @@ async function getVideoDevices() {
         }
     } catch (error) {
         console.error('Error getting video devices:', error);
+        throw error; // 重新抛出错误
     }
 }
 
@@ -199,6 +263,7 @@ async function startVideoStream(deviceId) {
         console.error('Error starting video stream:', error);
         statusText.textContent = t.fail + (error.name || 'Unknown');
         statusHeader.className = 'error';
+        throw error; // 重新抛出错误
     }
 }
 
@@ -255,6 +320,14 @@ function updateStats(timestamp) {
 // 事件监听器
 videoSelect.onchange = async () => {
     statusText.textContent = t.switching;
+    
+    // 清除重试定时器（如果正在重试）
+    if (retryTimer) {
+        clearTimeout(retryTimer);
+        retryTimer = null;
+        retryCount = 0;
+    }
+    
     await startVideoStream(videoSelect.value);
 };
 
@@ -264,4 +337,14 @@ document.getElementById('btn-mirror').onclick = () => videoElement.classList.tog
 window.addEventListener('load', () => {
     setLanguage(); // 首先设置语言
     autoStart();  // 然后自动启动检测
+});
+
+// 页面关闭时清理资源
+window.addEventListener('beforeunload', () => {
+    if (retryTimer) {
+        clearTimeout(retryTimer);
+    }
+    if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+    }
 });
