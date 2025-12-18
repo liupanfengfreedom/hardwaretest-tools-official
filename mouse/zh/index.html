@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="鼠标点击测试，鼠标测试工具，鼠标按键测试，鼠标测试在线，鼠标检测">
-    <meta property="og:title" content="在线鼠标测试工具 - 检测双击故障、回报率测试">
-    <meta property="og:description" content="免费在线鼠标测试工具，专业检测鼠标双击故障、按键功能、滚轮和回报率。无需下载，立即测试。">
+    <meta name="description" content="鼠标点击测试，鼠标测试工具，鼠标按键测试，鼠标测试在线，鼠标检测，CPS测试">
+    <meta property="og:title" content="在线鼠标测试工具 - 检测双击故障、回报率测试、CPS测试">
+    <meta property="og:description" content="免费在线鼠标测试工具，专业检测鼠标双击故障、按键功能、滚轮、回报率和CPS点击测试。无需下载，立即测试。">
     <meta property="og:image" content="https://www.hardwaretest.top/mouse/preview.png">
     <meta property="og:url" content="https://www.hardwaretest.top/mouse/zh/">
     <meta property="og:type" content="website">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="在线鼠标测试工具 - 检测双击故障、回报率测试">
-    <meta name="twitter:description" content="免费在线鼠标测试工具，专业检测鼠标双击故障、按键功能、滚轮和回报率。无需下载，立即测试。">
+    <meta name="twitter:title" content="在线鼠标测试工具 - 检测双击故障、回报率测试、CPS测试">
+    <meta name="twitter:description" content="免费在线鼠标测试工具，专业检测鼠标双击故障、按键功能、滚轮、回报率和CPS点击测试。无需下载，立即测试。">
     <meta name="twitter:image" content="https://www.hardwaretest.top/mouse/preview.png">
 
-    <title>在线鼠标测试 - 点击测试，双击测试，鼠标故障测试</title>
+    <title>在线鼠标测试 - 点击测试，双击测试，鼠标故障测试，CPS测试</title>
     <!-- 添加到 <head> 中 -->
     <link rel="canonical" href="https://www.hardwaretest.top/mouse/zh/" />
     <link rel="alternate" hreflang="en" href="https://www.hardwaretest.top/mouse/" />
@@ -42,7 +42,7 @@
         "name": "在线鼠标测试工具",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Web",
-        "description": "免费在线鼠标测试工具，检测鼠标双击故障、按键功能、滚轮和实时回报率",
+        "description": "免费在线鼠标测试工具，检测鼠标双击故障、按键功能、滚轮、实时回报率和CPS点击测试",
         "url": "https://www.hardwaretest.top/mouse/zh/",
         "author": {
             "@type": "Organization",
@@ -59,7 +59,8 @@
             "实时回报率测试",
             "所有按键功能测试",
             "滚轮功能检测",
-            "侧键测试"
+            "侧键测试",
+            "CPS每秒点击测试"
         ]
     }
     </script>
@@ -85,7 +86,7 @@
     </div>
 
     <h1>在线鼠标测试</h1>
-    <p>点击间隔检测 + 双击故障排查</p>
+    <p>点击间隔检测 + 双击故障排查 + CPS测试</p>
 
     <div class="dashboard">
         <div class="mouse-visual" id="mouseArea">
@@ -125,6 +126,33 @@
             </div>
             
             <div class="stat-box">
+                <div class="stat-label">CPS测试</div>
+                <div class="stat-value" id="cpsDisplay">0.0 CPS</div>
+                <div class="cps-progress-container">
+                    <div class="cps-progress-bar" id="cpsProgress"></div>
+                </div>
+                <div class="cps-buttons-container">
+                    <button class="cps-test-btn" onclick="startCPSTest(5)">5秒测试</button>
+                    <button class="cps-test-btn" onclick="startCPSTest(10)">10秒测试</button>
+                    <button class="cps-test-btn" onclick="startCPSTest(30)">30秒测试</button>
+                </div>
+                <div class="cps-status">
+                    <div class="cps-status-item">
+                        <div>最佳</div>
+                        <div class="cps-status-value" id="bestCPS">0.0</div>
+                    </div>
+                    <div class="cps-status-item">
+                        <div>总计</div>
+                        <div class="cps-status-value" id="totalClicks">0</div>
+                    </div>
+                    <div class="cps-status-item">
+                        <div>当前</div>
+                        <div class="cps-status-value" id="currentCPS">0.0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-box">
                 <div class="stat-label">事件日志 (LOG)</div>
                 <div class="log-container" id="eventLog">
                     <div class="log-item">等待输入...</div>
@@ -150,6 +178,17 @@
             <h2>什么是回报率 (Polling Rate/Hz)？</h2>
             <p>回报率代表鼠标每秒向电脑报告位置的次数。普通办公鼠标通常为 125Hz，而电竞游戏鼠标通常为 1000Hz 甚至更高。在页面上快速移动鼠标，右侧的"实时回报率"即可显示当前性能。</p>
             
+            <h2>什么是CPS（每秒点击次数）测试？</h2>
+            <p>CPS测试用于测量您鼠标左键的点击速度。点击"5秒测试"、"10秒测试"或"30秒测试"按钮开始计时，然后在倒计时期间尽可能快地点击鼠标左键。您的CPS数值将实时显示。</p>
+
+            <h3>CPS评级指南：</h3>
+            <ul style="color: var(--text-dim); line-height: 1.6;">
+                <li><b style="color: #ff4444;">3-5 CPS:</b> 新手 - 需要练习</li>
+                <li><b style="color: #ffcc00;">6-8 CPS:</b> 一般水平 - 适合休闲游戏</li>
+                <li><b style="color: #4fc3f7;">9-11 CPS:</b> 高级水平 - 适合竞技游戏</li>
+                <li><b style="color: #00ff88;">12+ CPS:</b> 专家水平 - 职业选手级别</li>
+            </ul>
+
             <h3>常见问题排查</h3>
             <ul style="color: var(--text-dim); line-height: 1.6;">
                 <li><b>滚轮回滚/乱跳：</b> 快速滚动滚轮，观察计数器是否平稳增加。</li>
@@ -186,6 +225,14 @@
                 "acceptedAnswer": {
                     "@type": "Answer",
                     "text": "滚动鼠标滚轮，右侧的滚轮计数器会增加。如果计数不均匀，说明滚轮可能存在故障。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "什么是CPS测试？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "CPS（每秒点击次数）测试用于测量鼠标左键的点击速度，对于游戏和鼠标性能评估很有用。"
                 }
             }
         ]
