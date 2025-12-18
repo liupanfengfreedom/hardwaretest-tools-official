@@ -9,9 +9,13 @@ const TEXTS = {
     log_warning: " [DOUBLE CLICK ALERT!]",
     warning_text: " (Warning!)",
     start: "Start",
-    log_reset: "--- Counts Reset ---",
+    log_reset: "--- All Data Reset ---",
     btn_guide_show: "📖 Show Guide & FAQ",
-    btn_guide_hide: "📖 Hide Guide"
+    btn_guide_hide: "📖 Hide Guide",
+    cps_testing: "Testing...",
+    cps_complete: "Complete!",
+    cps_ready: "Ready",
+    best_cps: "Best CPS"
 };
 
 // --- Original script variables and functions ---
@@ -28,6 +32,17 @@ let clickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0, 'wheel':0 };
 
 // Track button press state
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
+
+// CPS Test Variables
+let cpsTestActive = false;
+let cpsTestDuration = 0;
+let cpsTestStartTime = 0;
+let cpsTestClicks = 0;
+let bestCPS = 0;
+let totalTestClicks = 0;
+let cpsInterval = null;
+let countdownInterval = null;
+let currentTestDuration = 0;
 
 // 1. Prevent context menu
 document.addEventListener('contextmenu', event => event.preventDefault());
@@ -62,6 +77,19 @@ function handleButtonRelease(buttonCode) {
 
 /* Mousedown */
 document.addEventListener('mousedown', (e) => {
+    // 如果是左键点击且CPS测试激活中
+    if (e.button === 0 && cpsTestActive) {
+        cpsTestClicks++;
+        // 视觉反馈
+        const btn = document.getElementById('btn0');
+        if (btn) {
+            btn.classList.add('cps-active');
+            setTimeout(() => {
+                btn.classList.remove('cps-active');
+            }, 100);
+        }
+    }
+    
     if (isPressed[e.button]) return;
     
     e.preventDefault(); 
@@ -185,15 +213,24 @@ function highlightRow(key) {
 }
 
 function resetCounts() {
+    // 复位点击计数器
     for (let key in clickCounts) clickCounts[key] = 0;
     document.querySelectorAll('.counter-num').forEach(el => el.innerText = '0');
     lastClickTime = {}; 
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
+    // 复位时间显示
     timeDeltaDisplay.innerText = "- ms";
     timeDeltaDisplay.className = "stat-value time-delta-value";
-    addLog(TEXTS.log_reset); 
+    
+    // 复位按钮视觉状态
     document.querySelectorAll('.btn-zone').forEach(el => el.classList.remove('active'));
+    
+    // 复位CPS测试数据（停止当前测试）
+    resetCPSTest();
+    
+    // 记录日志
+    addLog(TEXTS.log_reset); 
 }
 
 function addLog(text, className) {
@@ -221,4 +258,197 @@ function toggleGuide() {
         container.style.height = "0";
         btnText.innerHTML = TEXTS.btn_guide_show;
     }
+}
+
+// --- CPS Test Functions ---
+function startCPSTest(duration) {
+    if (cpsTestActive) {
+        addLog("CPS test already in progress!", "log-alert");
+        return;
+    }
+    
+    // 重置之前的测试
+    resetCPSTest();
+    
+    cpsTestActive = true;
+    currentTestDuration = duration;
+    cpsTestDuration = duration * 1000; // 转换为毫秒
+    cpsTestStartTime = performance.now();
+    cpsTestClicks = 0;
+    
+    // 更新显示
+    const cpsDisplay = document.getElementById('cpsDisplay');
+    cpsDisplay.textContent = "0.0 CPS";
+    cpsDisplay.classList.add('cps-testing');
+    
+    // 添加倒计时显示
+    const buttons = document.querySelectorAll('.cps-test-btn');
+    buttons.forEach(btn => {
+        if (btn.textContent.includes(duration + 's')) {
+            btn.classList.add('cps-test-active');
+            // 添加倒计时元素
+            const countdown = document.createElement('div');
+            countdown.className = 'cps-countdown';
+            countdown.id = 'cpsCountdown';
+            countdown.textContent = duration;
+            btn.appendChild(countdown);
+        }
+    });
+    
+    addLog(`CPS test started (${duration}s)`);
+    
+    // 更新进度条
+    updateCPSProgress();
+    
+    // 更新倒计时
+    startCountdown(duration);
+    
+    // 设置测试结束定时器
+    setTimeout(endCPSTest, cpsTestDuration);
+    
+    // 每秒更新一次显示
+    cpsInterval = setInterval(updateCPSDisplay, 100);
+}
+
+function startCountdown(duration) {
+    let remaining = duration;
+    const countdownElement = document.getElementById('cpsCountdown');
+    
+    countdownInterval = setInterval(() => {
+        remaining--;
+        if (countdownElement) {
+            countdownElement.textContent = remaining;
+            
+            // 最后3秒闪烁效果
+            if (remaining <= 3) {
+                countdownElement.style.animation = 'none';
+                setTimeout(() => {
+                    countdownElement.style.animation = 'pulse 0.5s infinite alternate';
+                }, 10);
+            }
+        }
+        
+        if (remaining <= 0) {
+            clearInterval(countdownInterval);
+        }
+    }, 1000);
+}
+
+function endCPSTest() {
+    if (!cpsTestActive) return;
+    
+    cpsTestActive = false;
+    clearInterval(cpsInterval);
+    clearInterval(countdownInterval);
+    
+    const elapsed = performance.now() - cpsTestStartTime;
+    const actualSeconds = elapsed / 1000;
+    const cps = cpsTestClicks / actualSeconds;
+    
+    // 更新最佳记录
+    if (cps > bestCPS) {
+        bestCPS = cps;
+        document.getElementById('bestCPS').textContent = cps.toFixed(1);
+    }
+    
+    // 更新总点击数
+    totalTestClicks += cpsTestClicks;
+    document.getElementById('totalClicks').textContent = totalTestClicks;
+    
+    // 显示最终结果
+    const cpsDisplay = document.getElementById('cpsDisplay');
+    cpsDisplay.textContent = `${cps.toFixed(1)} CPS`;
+    cpsDisplay.classList.remove('cps-testing');
+    
+    // 根据CPS值设置颜色
+    updateCPSColor(cpsDisplay, cps);
+    
+    // 完成进度条
+    document.getElementById('cpsProgress').style.width = "100%";
+    
+    // 移除按钮上的活动状态和倒计时
+    const buttons = document.querySelectorAll('.cps-test-btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('cps-test-active');
+        const countdown = btn.querySelector('.cps-countdown');
+        if (countdown) {
+            countdown.remove();
+        }
+    });
+    
+    addLog(`CPS test completed: ${cps.toFixed(1)} CPS (${cpsTestClicks} clicks in ${actualSeconds.toFixed(1)}s)`);
+    
+    // 3秒后重置显示状态
+    setTimeout(() => {
+        cpsDisplay.style.color = "";
+        document.getElementById('cpsProgress').style.width = "0%";
+        document.getElementById('currentCPS').textContent = "0.0";
+    }, 3000);
+}
+
+function resetCPSTest() {
+    cpsTestActive = false;
+    cpsTestClicks = 0;
+    clearInterval(cpsInterval);
+    clearInterval(countdownInterval);
+    
+    const cpsDisplay = document.getElementById('cpsDisplay');
+    cpsDisplay.textContent = "0.0 CPS";
+    cpsDisplay.classList.remove('cps-testing');
+    cpsDisplay.style.color = "";
+    document.getElementById('cpsProgress').style.width = "0%";
+    
+    // 移除按钮上的活动状态和倒计时
+    const buttons = document.querySelectorAll('.cps-test-btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('cps-test-active');
+        const countdown = btn.querySelector('.cps-countdown');
+        if (countdown) {
+            countdown.remove();
+        }
+    });
+    
+    // 更新当前CPS显示
+    document.getElementById('currentCPS').textContent = "0.0";
+    
+    // 注意：不添加日志，因为resetCounts会添加总重置日志
+}
+
+function updateCPSDisplay() {
+    if (!cpsTestActive) return;
+    
+    const elapsed = performance.now() - cpsTestStartTime;
+    const seconds = elapsed / 1000;
+    const cps = seconds > 0 ? cpsTestClicks / seconds : 0;
+    
+    const cpsDisplay = document.getElementById('cpsDisplay');
+    cpsDisplay.textContent = `${cps.toFixed(1)} CPS`;
+    
+    // 更新当前CPS显示
+    document.getElementById('currentCPS').textContent = cps.toFixed(1);
+    
+    // 根据CPS值改变颜色
+    updateCPSColor(cpsDisplay, cps);
+}
+
+function updateCPSColor(element, cps) {
+    if (cps >= 12) {
+        element.style.color = "#00ff88"; // 绿色 - 优秀
+    } else if (cps >= 8) {
+        element.style.color = "#4fc3f7"; // 蓝色 - 良好
+    } else if (cps >= 5) {
+        element.style.color = "#ffcc00"; // 黄色 - 一般
+    } else {
+        element.style.color = "#ff4444"; // 红色 - 需要练习
+    }
+}
+
+function updateCPSProgress() {
+    if (!cpsTestActive) return;
+    
+    const elapsed = performance.now() - cpsTestStartTime;
+    const progressPercent = Math.min(100, (elapsed / cpsTestDuration) * 100);
+    document.getElementById('cpsProgress').style.width = `${progressPercent}%`;
+    
+    requestAnimationFrame(updateCPSProgress);
 }

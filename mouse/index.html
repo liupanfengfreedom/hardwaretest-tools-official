@@ -59,7 +59,8 @@
             "Real-time polling rate test",
             "All button function test",
             "Scroll wheel function detection",
-            "Side button test"
+            "Side button test",
+            "CPS (Clicks Per Second) test"
         ]
     }
     </script>
@@ -85,7 +86,7 @@
     </div>
 
     <h1>Online Mouse Test</h1>
-    <p>Click interval detection + Double click fault check</p>
+    <p>Click interval detection + Double click fault check + CPS Test</p>
 
     <div class="dashboard">
         <div class="mouse-visual" id="mouseArea">
@@ -125,6 +126,33 @@
             </div>
             
             <div class="stat-box">
+                <div class="stat-label">CPS TEST</div>
+                <div class="stat-value" id="cpsDisplay">0.0 CPS</div>
+                <div class="cps-progress-container">
+                    <div class="cps-progress-bar" id="cpsProgress"></div>
+                </div>
+                <div class="cps-buttons-container">
+                    <button class="cps-test-btn" onclick="startCPSTest(5)">5s Test</button>
+                    <button class="cps-test-btn" onclick="startCPSTest(10)">10s Test</button>
+                    <button class="cps-test-btn" onclick="startCPSTest(30)">30s Test</button>
+                </div>
+                <div class="cps-status">
+                    <div class="cps-status-item">
+                        <div>Best</div>
+                        <div class="cps-status-value" id="bestCPS">0.0</div>
+                    </div>
+                    <div class="cps-status-item">
+                        <div>Total</div>
+                        <div class="cps-status-value" id="totalClicks">0</div>
+                    </div>
+                    <div class="cps-status-item">
+                        <div>Current</div>
+                        <div class="cps-status-value" id="currentCPS">0.0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-box">
                 <div class="stat-label">EVENT LOG</div>
                 <div class="log-container" id="eventLog">
                     <div class="log-item">Awaiting input...</div>
@@ -150,6 +178,17 @@
             <h2>What is Polling Rate (Hz)?</h2>
             <p>Polling rate measures how often your mouse reports its position to the computer per second. Office mice are usually 125Hz, while Gaming mice are 1000Hz+. Move your mouse quickly to test the real-time Hz.</p>
             
+            <h2>What is CPS (Clicks Per Second) Test?</h2>
+            <p>CPS test measures how fast you can click your mouse button. Click "5s Test", "10s Test", or "30s Test" to start the timer, then click the left mouse button as fast as possible during the countdown. Your CPS will be displayed in real-time.</p>
+
+            <h3>CPS Rating Guide:</h3>
+            <ul style="color: var(--text-dim); line-height: 1.6;">
+                <li><b style="color: #ff4444;">3-5 CPS:</b> Beginner - Needs practice</li>
+                <li><b style="color: #ffcc00;">6-8 CPS:</b> Average - Good for casual gaming</li>
+                <li><b style="color: #4fc3f7;">9-11 CPS:</b> Advanced - Good for competitive gaming</li>
+                <li><b style="color: #00ff88;">12+ CPS:</b> Expert - Professional level</li>
+            </ul>
+
             <h3>Common Troubleshooting</h3>
             <ul style="color: var(--text-dim); line-height: 1.6;">
                 <li><b>Scroll Wheel Jumps:</b> Scroll fast and check if the counter increases smoothly.</li>
@@ -186,6 +225,14 @@
                 "acceptedAnswer": {
                     "@type": "Answer",
                     "text": "Scroll your mouse wheel and the scroll counter will increase. If the count is uneven, your scroll wheel might be faulty."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is CPS test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "CPS (Clicks Per Second) test measures how fast you can click your mouse button. It's useful for gaming and assessing mouse performance."
                 }
             }
         ]
