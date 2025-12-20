@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <meta name="description" content="screen test，dead pixel test, 免费在线屏幕坏点检测,支持 Windows、Mac、Android、iPhone，全平台可用。快速检查屏幕是否有坏点。">
+  <meta name="keywords" content="屏幕坏点检测，screen check , screen test , dead pixel test , monitor test">
+  
+  <meta property="og:title" content="online screen check,display test,dead pixel test">
+  <meta property="og:description" content="免费在线屏幕检测工具">
+  <meta property="og:url" content="https://www.hardwaretest.top/deadpixel/">
+  <meta property="og:image" content="https://www.hardwaretest.top/deadpixel/preview.png">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="在线屏幕测试工具">
+  <meta name="twitter:description" content="专业在线屏幕检测。">
+  
+  <link rel="canonical" href="https://www.hardwaretest.top/deadpixel/" />
+  <link rel="icon" href="/deadpixel/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/deadpixel/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/deadpixel/css/style.css">
+  <link rel="stylesheet" href="/deadpixel/css/sidebar.css">
+  <link rel="stylesheet" href="/deadpixel/css/sidebar_extention.css">
+
+  <title>专业屏幕坏点检测工具,screen check ,screen test</title>
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J9HR7CNQR9');
+</script>
+<body>
+    <!----------------------- side bar begin ----------------------------------------------------------------------------------------------->
+    <button id="menu-button" aria-label="打开菜单">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <div id="sidebar">
+        <button id="close-button" aria-label="关闭菜单">&times;</button>
+        <a href="/main/"><span class="icon-emoji">🏠</span> Home</a>
+        <a href="/mouse/"><span class="icon-emoji">🖱️</span> Mouse</a>
+        <a href="/keyboard/"><span class="icon-emoji">⌨️</span> Keyboard</a>
+        <a href="/mic/"><span class="icon-emoji">🎤</span> Microphone</a>
+        <a href="/camera/"><span class="icon-emoji">📷</span> Camera</a>
+        <a href="/deadpixel/"><span class="icon-emoji">🖥️</span> Screen</a>
+    </div>
+    <!----------------------- side bar end ---------------------------------------------------------------------------------->
+
+    <div id="large-hint">
+        <span class="main-text">🖱️ 点击屏幕切换颜色</span>
+        <span class="sub-text">按 <span class="key">Space</span> 或 <span class="key">← →</span> 切换 | 按 <span class="key">ESC</span> 退出</span>
+    </div>
+
+    <div id="ui-layer">
+        <h1>🖥️ 屏幕坏点检测工具</h1>
+        <p>全屏纯色背景，检测亮点、坏点和漏光。</p>
+        <button class="btn-start" onclick="startTest()">开始全屏检测</button>
+        <div>
+            <button class="btn-info" onclick="showDoc('usage')">使用说明</button>
+            <button class="btn-info" onclick="showDoc('faq')">常见问题</button>
+        </div>
+    </div>
+
+    <!-- 文档说明层 -->
+    <div id="doc-overlay">
+        <div id="doc-container">
+            <button class="doc-close" onclick="hideDoc()">×</button>
+            
+            <div id="doc-usage" class="doc-section active">
+                <h2 class="doc-title">使用说明</h2>
+                <div class="doc-content">
+                    <h3>检测前准备</h3>
+                    <p>在进行屏幕检测前，请确保：</p>
+                    <ul>
+                        <li>显示器已预热至少15-30分钟，以获得准确的显示效果</li>
+                        <li>调整显示器至推荐分辨率和亮度设置</li>
+                        <li>清洁屏幕表面，避免误判灰尘为坏点</li>
+                        <li>确保环境光线适中，避免强光直射屏幕</li>
+                    </ul>
+                    
+                    <h3>检测步骤</h3>
+                    <ol>
+                        <li>点击"开始全屏检测"按钮进入全屏检测模式</li>
+                        <li>屏幕将依次显示多种纯色背景（黑、白、红、绿、蓝等）</li>
+                        <li>仔细观察屏幕上是否有异常的点或区域</li>
+                        <li>使用以下方式切换颜色：
+                            <ul>
+                                <li>鼠标点击屏幕任意位置</li>
+                                <li>按空格键或Enter键</li>
+                                <li>使用左右方向键</li>
+                            </ul>
+                        </li>
+                        <li>按ESC键或退出全屏模式结束检测</li>
+                    </ol>
+                    
+                    <h3>如何识别问题</h3>
+                    <p><strong>亮点（白点）：</strong>在黑色背景下出现的始终亮着的像素点</p>
+                    <p><strong>坏点（黑点）：</strong>在任何颜色下都不亮的像素点</p>
+                    <p><strong>色点：</strong>显示颜色错误的像素点，如在红色背景下显示绿色</p>
+                    <p><strong>漏光：</strong>屏幕边缘出现的光晕现象，在黑色背景下最明显</p>
+                </div>
+            </div>
+            
+            <div id="doc-faq" class="doc-section">
+                <h2 class="doc-title">常见问题</h2>
+                <div class="doc-content">
+                    <h3>什么是屏幕坏点？</h3>
+                    <p>屏幕坏点是液晶显示器上的缺陷像素点，无法正常显示颜色。主要分为亮点（始终亮着的点）、坏点（始终不亮的点）和色点（显示颜色错误的点）。</p>
+                    
+                    <h3>新显示器有坏点正常吗？</h3>
+                    <p>大多数制造商允许一定数量的坏点存在，具体标准因厂商而异。通常，中心区域出现坏点比边缘区域更严重。购买新显示器时，建议检查坏点政策。</p>
+                    
+                    <h3>坏点可以修复吗？</h3>
+                    <p>物理性坏点通常无法修复，但有时"卡住"的像素点可以通过软件方法尝试修复。本工具不提供修复功能，仅用于检测。</p>
+                    
+                    <h3>为什么需要检测多种颜色？</h3>
+                    <p>不同类型的坏点在不同颜色背景下更容易被发现。例如：</p>
+                    <ul>
+                        <li>黑色背景：检测亮点</li>
+                        <li>白色背景：检测坏点</li>
+                        <li>纯色背景（红、绿、蓝）：检测色点</li>
+                    </ul>
+                    
+                    <h3>检测时需要注意什么？</h3>
+                    <p>建议从不同角度观察屏幕，因为某些坏点可能只在特定视角下可见。同时，注意区分屏幕表面的灰尘和实际坏点。</p>
+                    
+                    <h3>检测结果不准确怎么办？</h3>
+                    <p>如果怀疑检测结果，可以使用其他检测工具或在不同环境下重复测试。某些情况下，显卡驱动问题也可能导致显示异常。</p>
+                </div>
+            </div>
+            
+            <div class="doc-nav">
+                <button class="doc-nav-btn active" onclick="switchDoc('usage')">使用说明</button>
+                <button class="doc-nav-btn" onclick="switchDoc('faq')">常见问题</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/deadpixel/js/main.js"></script>
+    <script src="/deadpixel/js/sidebar.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="键盘测试,在线键盘测试,键盘按键测试,键盘冲突测试,全键无冲,keyboard tester,keyboard test online">
+    <link rel="canonical" href="https://www.hardwaretest.top/keyboard/" />
+    <title id="i18n-title">⌨️ 专业键盘测试工具 , 全键无冲、响应速度、轴体故障检测</title>
+    <meta name="description" content="免费在线键盘测试工具，test keyboard">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌨️</text></svg>">
+    <link rel="stylesheet" href="/keyboard/css/style.css">
+    <link rel="stylesheet" href="/keyboard/css/sidebar.css">
+ 
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J9HR7CNQR9');
+</script>
+<body>
+    <!----------------------- side bar begin ----------------------------------------------------------------------------------------------->
+    <button id="menu-button" aria-label="打开菜单">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <div id="sidebar">
+        <button id="close-button" aria-label="关闭菜单">&times;</button>
+        <a href="/main/"><span class="icon-emoji">🏠</span> Home</a>
+        <a href="/mouse/"><span class="icon-emoji">🖱️</span> Mouse</a>
+        <a href="/keyboard/"><span class="icon-emoji">⌨️</span> Keyboard</a>
+        <a href="/mic/"><span class="icon-emoji">🎤</span> Microphone</a>
+        <a href="/camera/"><span class="icon-emoji">📷</span> Camera</a>
+        <a href="/deadpixel/"><span class="icon-emoji">🖥️</span> Screen</a>
+    </div>
+    <!----------------------- side bar end ---------------------------------------------------------------------------------->
+
+    <h1 id="i18n-h1">KEYBOARD TEST LAB v2.3</h1>
+    
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-label" id="i18n-tested-keys">已测试键位</span>
+            <span class="stat-value" id="count-tested">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label" id="i18n-total-strokes">总击键次数</span>
+            <span class="stat-value" id="count-total">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label" id="i18n-active-keys">当前并发(无冲)</span>
+            <span class="stat-value" id="count-active">0</span>
+        </div>
+        <div style="margin-left: 10px; border-left: 1px solid #444; padding-left: 20px; height: 40px; display: flex; align-items: center;">
+            <button class="btn-reset" id="i18n-reset-btn" onclick="resetTest()">重置数据</button>
+        </div>
+    </div>
+
+    <div class="keyboard-container">
+        <div class="main-section">
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="key" data-code="Escape" id="i18n-key-esc">ESC</div>
+                <div style="width: 30px;"></div>
+                <div class="key" data-code="F1">F1</div>
+                <div class="key" data-code="F2">F2</div>
+                <div class="key" data-code="F3">F3</div>
+                <div class="key" data-code="F4">F4</div>
+                <div style="width: 15px;"></div>
+                <div class="key" data-code="F5">F5</div>
+                <div class="key" data-code="F6">F6</div>
+                <div class="key" data-code="F7">F7</div>
+                <div class="key" data-code="F8">F8</div>
+                <div style="width: 15px;"></div>
+                <div class="key" data-code="F9">F9</div>
+                <div class="key" data-code="F10">F10</div>
+                <div class="key" data-code="F11">F11</div>
+                <div class="key" data-code="F12">F12</div>
+            </div>
+
+            <div class="row">
+                <div class="key" data-code="Backquote">`</div>
+                <div class="key" data-code="Digit1">1</div>
+                <div class="key" data-code="Digit2">2</div>
+                <div class="key" data-code="Digit3">3</div>
+                <div class="key" data-code="Digit4">4</div>
+                <div class="key" data-code="Digit5">5</div>
+                <div class="key" data-code="Digit6">6</div>
+                <div class="key" data-code="Digit7">7</div>
+                <div class="key" data-code="Digit8">8</div>
+                <div class="key" data-code="Digit9">9</div>
+                <div class="key" data-code="Digit0">0</div>
+                <div class="key" data-code="Minus">-</div>
+                <div class="key" data-code="Equal">=</div>
+                <div class="key w-2" data-code="Backspace" id="i18n-key-backspace">Bksp</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-1-5" data-code="Tab" id="i18n-key-tab">Tab</div>
+                <div class="key" data-code="KeyQ">Q</div>
+                <div class="key" data-code="KeyW">W</div>
+                <div class="key" data-code="KeyE">E</div>
+                <div class="key" data-code="KeyR">R</div>
+                <div class="key" data-code="KeyT">T</div>
+                <div class="key" data-code="KeyY">Y</div>
+                <div class="key" data-code="KeyU">U</div>
+                <div class="key" data-code="KeyI">I</div>
+                <div class="key" data-code="KeyO">O</div>
+                <div class="key" data-code="KeyP">P</div>
+                <div class="key" data-code="BracketLeft">[</div>
+                <div class="key" data-code="BracketRight">]</div>
+                <div class="key w-1-5" data-code="Backslash">\</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-1-75" data-code="CapsLock" id="i18n-key-caps">Caps</div>
+                <div class="key" data-code="KeyA">A</div>
+                <div class="key" data-code="KeyS">S</div>
+                <div class="key" data-code="KeyD">D</div>
+                <div class="key" data-code="KeyF">F</div>
+                <div class="key" data-code="KeyG">G</div>
+                <div class="key" data-code="KeyH">H</div>
+                <div class="key" data-code="KeyJ">J</div>
+                <div class="key" data-code="KeyK">K</div>
+                <div class="key" data-code="KeyL">L</div>
+                <div class="key" data-code="Semicolon">;</div>
+                <div class="key" data-code="Quote">'</div>
+                <div class="key w-2-25" data-code="Enter" id="i18n-key-enter">Enter</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-2-25" data-code="ShiftLeft" id="i18n-key-lshift">Shift</div>
+                <div class="key" data-code="KeyZ">Z</div>
+                <div class="key" data-code="KeyX">X</div>
+                <div class="key" data-code="KeyC">C</div>
+                <div class="key" data-code="KeyV">V</div>
+                <div class="key" data-code="KeyB">B</div>
+                <div class="key" data-code="KeyN">N</div>
+                <div class="key" data-code="KeyM">M</div>
+                <div class="key" data-code="Comma">,</div>
+                <div class="key" data-code="Period">.</div>
+                <div class="key" data-code="Slash">/</div>
+                <div class="key w-2-75" data-code="ShiftRight" id="i18n-key-rshift">Shift</div>
+            </div>
+
+            <div class="row">
+                <div class="key w-1-5" data-code="ControlLeft" id="i18n-key-lctrl">Ctrl</div>
+                <div class="key w-1-5" data-code="MetaLeft" id="i18n-key-lwin">Win</div>
+                <div class="key w-1-5" data-code="AltLeft" id="i18n-key-lalt">Alt</div>
+                <div class="key w-6-25" data-code="Space" id="i18n-key-space">Space</div>
+                <div class="key w-1-5" data-code="AltRight" id="i18n-key-ralt">Alt</div>
+                <div class="key w-1-5" data-code="MetaRight" id="i18n-key-rwin">Win</div>
+                <div class="key w-1-5" data-code="ContextMenu" id="i18n-key-menu">Menu</div>
+                <div class="key w-1-5" data-code="ControlRight" id="i18n-key-rctrl">Ctrl</div>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <div class="control-group">
+                <div class="key" data-code="PrintScreen"><small id="i18n-key-prtscr">PrtSc</small></div>
+                <div class="key" data-code="ScrollLock"><small id="i18n-key-scrlk">ScrLk</small></div>
+                <div class="key" data-code="Pause"><small id="i18n-key-pause">Pause</small></div>
+            </div>
+            <div class="control-group">
+                <div class="key" data-code="Insert"><small id="i18n-key-ins">Ins</small></div>
+                <div class="key" data-code="Home"><small id="i18n-key-home">Home</small></div>
+                <div class="key" data-code="PageUp"><small id="i18n-key-pgup">PgUp</small></div>
+                <div class="key" data-code="Delete"><small id="i18n-key-del">Del</small></div>
+                <div class="key" data-code="End"><small id="i18n-key-end">End</small></div>
+                <div class="key" data-code="PageDown"><small id="i18n-key-pgdn">PgDn</small></div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: auto;">
+                <div></div>
+                <div class="key" data-code="ArrowUp">↑</div>
+                <div></div>
+                <div class="key" data-code="ArrowLeft">←</div>
+                <div class="key" data-code="ArrowDown">↓</div>
+                <div class="key" data-code="ArrowRight">→</div>
+            </div>
+        </div>
+
+        <div class="numpad-section">
+            <div class="key" data-code="NumLock"><small id="i18n-key-numlk">Num</small></div>
+            <div class="key" data-code="NumpadDivide">/</div>
+            <div class="key" data-code="NumpadMultiply">*</div>
+            <div class="key" data-code="NumpadSubtract">-</div>
+            
+            <div class="key" data-code="Numpad7">7</div>
+            <div class="key" data-code="Numpad8">8</div>
+            <div class="key" data-code="Numpad9">9</div>
+            <div class="key h-2" data-code="NumpadAdd" id="i18n-key-numpadadd">+</div>
+            
+            <div class="key" data-code="Numpad4">4</div>
+            <div class="key" data-code="Numpad5">5</div>
+            <div class="key" data-code="Numpad6">6</div>
+            
+            <div class="key" data-code="Numpad1">1</div>
+            <div class="key" data-code="Numpad2">2</div>
+            <div class="key" data-code="Numpad3">3</div>
+            <div class="key h-2" data-code="NumpadEnter" id="i18n-key-numpadenter">Ent</div>
+            
+            <div class="key w-2" style="grid-column: span 2;" data-code="Numpad0">0</div>
+            <div class="key" data-code="NumpadDecimal">.</div>
+        </div>
+    </div>
+
+    <div class="info-panel">
+        <div class="info-box">
+            <div id="i18n-event-key">event.key</div>
+            <div id="info-key">-</div>
+        </div>
+        <div class="info-box">
+            <div id="i18n-event-code">event.code</div>
+            <div id="info-code">-</div>
+        </div>
+        <div class="info-box">
+            <div id="i18n-event-which">event.which</div>
+            <div id="info-which">-</div>
+        </div>
+        <div class="info-box">
+            <div id="i18n-time-delta">Time Delta</div>
+            <div id="info-time">- ms</div>
+        </div>
+    </div>
+
+
+        <!-- 新增的使用说明区域 -->
+    <section class="instructions-section">
+        <button class="instructions-toggle" id="instructions-toggle">📖 查看使用说明与功能详解</button>
+        
+        <div class="instructions-content" id="instructions-content">
+            <h2>Keyboard Test Lab - 专业键盘测试工具</h2>
+            <p>这是一个专业的在线键盘测试工具，旨在帮助用户全面检测键盘的各项功能状态，包括按键响应、全键无冲性能、轴体故障等。</p>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>🔍 全键位检测</h3>
+                    <p>逐一测试键盘上的每个按键，确保所有键位都能正常响应。已测试的按键会显示绿色高亮，并记录击键次数。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>⚡ NKRO 无冲测试</h3>
+                    <p>测试键盘的全键无冲(N-Key Rollover)能力。同时按下多个按键，观察"当前并发"计数，了解键盘的防冲突性能。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>⏱️ 响应速度</h3>
+                    <p>实时显示按键时间间隔，帮助您评估键盘的响应延迟和输入流畅度。</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>🔧 技术参数</h3>
+                    <p>显示 event.key、event.code、event.which 等底层技术参数，便于开发者和高级用户进行深度分析。</p>
+                </div>
+            </div>
+
+            <h3>🎯 使用指南</h3>
+            <ol>
+                <li><strong>基础测试</strong>：依次按下所有按键，确保每个键都能正常触发并显示绿色</li>
+                <li><strong>无冲测试</strong>：同时按下多个按键（建议10个以上），测试键盘的防冲突能力</li>
+                <li><strong>快速连击</strong>：快速重复按下同一按键，测试轴体响应和防连击功能</li>
+                <li><strong>组合键测试</strong>：测试常用组合键如 Ctrl+C、Alt+Tab 等是否正常工作</li>
+            </ol>
+
+            <h3>❓ 常见问题</h3>
+            <div class="faq-item">
+                <h3>为什么某些按键无法检测？</h3>
+                <p>这可能是由于浏览器安全限制或键盘硬件问题。请确保：1) 使用现代浏览器(Chrome/Firefox/Edge)；2) 焦点在测试页面上；3) 检查键盘连接。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>什么是全键无冲(NKRO)？</h3>
+                <p>全键无冲指键盘可以同时识别无限多个按键输入而不会发生冲突。普通键盘通常支持6键无冲，专业游戏键盘支持全键无冲。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>如何判断键盘故障？</h3>
+                <p>如果某些按键：1) 完全无响应；2) 响应延迟明显；3) 出现连击现象；4) 与其他按键冲突，可能表示键盘存在硬件故障。</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>支持哪些类型的键盘？</h3>
+                <p>支持所有类型的键盘：机械键盘、薄膜键盘、静电容键盘、笔记本键盘等。兼容 Windows、macOS、Linux 系统。</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/keyboard/js/main.js"></script>
+    <script src="/keyboard/js/sidebar.js"></script>
+
+
+</body>
+</html>

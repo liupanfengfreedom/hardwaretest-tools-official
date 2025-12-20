@@ -1,0 +1,472 @@
+:root {
+    --bg-color: #121212;
+    --mouse-base: #2a2a2a;
+    --highlight: #00ff88; 
+    --text-main: #e0e0e0;
+    --text-dim: #757575;
+    --border: #444;
+    --accent-red: #ff4444; 
+    --info-blue: #4fc3f7;
+    --cps-btn-5s: #ff6b6b;    /* 5秒测试 - 红色系 */
+    --cps-btn-10s: #4ecdc4;   /* 10秒测试 - 青色系 */
+    --cps-btn-30s: #45b7d1;   /* 30秒测试 - 蓝色系 */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    user-select: none;
+}
+
+h1 { margin-bottom: 10px; font-weight: 300; letter-spacing: 1px; }
+p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    align-items: start;
+}
+
+/* --- 左侧：鼠标可视化区域 --- */
+.mouse-visual {
+    position: relative;
+    width: 260px;
+    height: 420px;
+    background-color: var(--mouse-base);
+    border-radius: 130px 130px 100px 100px;
+    border: 2px solid var(--border);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.btn-zone {
+    position: absolute;
+    background-color: #333;
+    transition: background-color 0.05s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.btn-zone.active {
+    background-color: var(--highlight);
+    color: #000;
+    box-shadow: 0 0 15px var(--highlight);
+}
+
+.btn-zone.cps-active {
+    background-color: #ffcc00 !important;
+    box-shadow: 0 0 25px #ffcc00 !important;
+    color: #000 !important;
+}
+
+.left-click { top: 0; left: 0; width: 50%; height: 140px; border-radius: 130px 0 0 0; border-right: 1px solid #111; }
+.right-click { top: 0; right: 0; width: 50%; height: 140px; border-radius: 0 130px 0 0; border-left: 1px solid #111; }
+.middle-click { top: 40px; width: 30px; height: 70px; border-radius: 15px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
+
+.side-btn { left: -10px; width: 20px; height: 60px; border-radius: 10px 0 0 10px; background-color: #3a3a3a; }
+.btn-forward { top: 200px; }
+.btn-back { top: 270px; }
+
+.scroll-indicator {
+    position: absolute;
+    top: 15px;
+    color: var(--highlight);
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 20px;
+}
+.scroll-up { top: -30px; }
+.scroll-down { top: 120px; z-index: 11; }
+
+/* --- 右侧：数据面板 --- */
+.stats-panel {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.stat-box { margin-bottom: 20px; }
+
+.stat-header-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.reset-btn {
+    background-color: var(--accent-red); 
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.4); 
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+}
+
+.reset-btn:hover {
+    background-color: #ff6666;
+    transform: scale(1.1); 
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+}
+
+.reset-btn:active {
+    transform: scale(0.95);
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-family: 'Courier New', monospace;
+    color: var(--highlight);
+}
+
+.time-delta-value { color: var(--info-blue); }
+.time-delta-alert { color: var(--accent-red); }
+
+/* 计数器表格样式 */
+.counter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.counter-item {
+    background: #252525;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    transition: background-color 0.2s, color 0.1s, transform 0.1s;
+}
+
+.counter-item.active-counter {
+    background-color: var(--highlight);
+    color: #000;
+    transform: scale(1.02);
+    transition: none;
+}
+
+.counter-item.active-counter .counter-num { color: #000; }
+
+.counter-num {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #fff;
+}
+
+.log-container {
+    height: 120px;
+    overflow-y: auto;
+    background: #111;
+    border: 1px solid #333;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    border-radius: 6px;
+}
+.log-item { margin-bottom: 4px; border-bottom: 1px solid #222; padding-bottom: 2px; color: #aaa;}
+.log-alert { color: var(--accent-red); font-weight: bold; }
+.log-release {
+    color: #555; /* 灰色，比正常日志更暗 */
+    font-style: italic; /* 斜体，表示辅助信息 */
+    font-size: 0.75rem; /* 稍微小一点 */
+}
+
+/* --- SEO 指南区域样式 --- */
+.guide-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 10px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+.guide-btn:hover {
+    border-color: var(--highlight);
+    color: var(--highlight);
+    background: rgba(0, 255, 136, 0.05);
+}
+
+.guide-container {
+    max-width: 800px;
+    width: 90%;
+    height: 0; /* 默认隐藏 */
+    overflow: hidden;
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid transparent;
+}
+
+.guide-container.open {
+    height: auto; /* JS 将计算具体高度 */
+    margin-bottom: 50px;
+    border-bottom: 1px solid #333;
+}
+
+.guide-content {
+    padding: 20px 10px;
+    color: #bbb;
+}
+
+.guide-content h2 { color: var(--text-main); font-size: 1.2rem; margin-top: 25px; margin-bottom: 10px; }
+.guide-content h3 { color: var(--info-blue); font-size: 1rem; margin-top: 20px; }
+.guide-content p { color: #888; line-height: 1.6; margin-bottom: 15px; }
+
+/* --- CPS 测试样式 --- */
+.cps-progress-container {
+    height: 6px;
+    background: #252525;
+    border-radius: 3px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.cps-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #4fc3f7);
+    width: 0%;
+    transition: width 0.1s ease-out;
+    border-radius: 3px;
+}
+
+/* CPS 测试按钮 - 更醒目的样式 */
+.cps-test-btn {
+    flex: 1;
+    border: none;
+    color: white;
+    padding: 12px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 5秒测试按钮样式 */
+.cps-test-btn:nth-child(1) {
+    background: linear-gradient(135deg, var(--cps-btn-5s), #ff8e8e);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.cps-test-btn:nth-child(1):hover {
+    background: linear-gradient(135deg, #ff8e8e, var(--cps-btn-5s));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+.cps-test-btn:nth-child(1):active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+}
+
+/* 10秒测试按钮样式 */
+.cps-test-btn:nth-child(2) {
+    background: linear-gradient(135deg, var(--cps-btn-10s), #6ae3d9);
+    border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.cps-test-btn:nth-child(2):hover {
+    background: linear-gradient(135deg, #6ae3d9, var(--cps-btn-10s));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+}
+
+.cps-test-btn:nth-child(2):active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(78, 205, 196, 0.3);
+}
+
+/* 30秒测试按钮样式 */
+.cps-test-btn:nth-child(3) {
+    background: linear-gradient(135deg, var(--cps-btn-30s), #67c8e1);
+    border: 1px solid rgba(69, 183, 209, 0.3);
+}
+
+.cps-test-btn:nth-child(3):hover {
+    background: linear-gradient(135deg, #67c8e1, var(--cps-btn-30s));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(69, 183, 209, 0.4);
+}
+
+.cps-test-btn:nth-child(3):active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(69, 183, 209, 0.3);
+}
+
+/* 添加按钮按下时的波纹效果 */
+.cps-test-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.cps-test-btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* CPS测试进行中的按钮样式 */
+.cps-test-btn.cps-test-active {
+    animation: pulse-glow 1.5s infinite alternate;
+    position: relative;
+}
+
+.cps-test-btn.cps-test-active::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+    border-radius: 10px;
+    z-index: -1;
+    animation: border-glow 2s infinite alternate;
+}
+
+@keyframes pulse-glow {
+    from {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+}
+
+@keyframes border-glow {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 添加CPS测试按钮容器 */
+.cps-buttons-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+/* 添加按钮图标 */
+.cps-test-btn::before {
+    content: '⚡';
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+/* CPS测试状态显示 */
+.cps-status {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.cps-status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.cps-status-value {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--highlight);
+    margin-top: 2px;
+}
+
+/* 测试进行中倒计时显示 */
+.cps-countdown {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--accent-red);
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(255, 68, 68, 0.5);
+    z-index: 1;
+}
+
+/* CPS 测试中的特殊样式 */
+.cps-testing {
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.7;
+        text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+    }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+    }
+}
