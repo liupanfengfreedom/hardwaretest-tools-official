@@ -142,12 +142,14 @@ document.addEventListener('wheel', (e) => {
         // Scroll up
         wheelCounts.up++;
         updateCountUI('wheel', 'up');
+        highlightWheel('up'); // 添加高亮效果
         flashIndicator(scrollUp);
         addLog("滚轮 ↑");
     } else {
         // Scroll down
         wheelCounts.down++;
         updateCountUI('wheel', 'down');
+        highlightWheel('down'); // 添加高亮效果
         flashIndicator(scrollDown);
         addLog("滚轮 ↓");
     }
@@ -156,6 +158,27 @@ document.addEventListener('wheel', (e) => {
 function flashIndicator(element) {
     element.style.opacity = '1';
     setTimeout(() => { element.style.opacity = '0'; }, 150);
+}
+
+// 添加滚轮高亮函数
+function highlightWheel(direction) {
+    const row = document.getElementById('row-wheel');
+    if (row) {
+        // 先移除其他高亮效果
+        row.classList.remove('wheel-up-highlight', 'wheel-down-highlight');
+        
+        // 根据方向添加相应的高亮类
+        if (direction === 'up') {
+            row.classList.add('wheel-up-highlight');
+        } else {
+            row.classList.add('wheel-down-highlight');
+        }
+        
+        // 150ms后移除高亮效果
+        setTimeout(() => {
+            row.classList.remove('wheel-up-highlight', 'wheel-down-highlight');
+        }, 150);
+    }
 }
 
 function updateCountUI(key, type) {
@@ -205,6 +228,9 @@ function resetCounts() {
     
     // Reset button visual state
     document.querySelectorAll('.btn-zone').forEach(el => el.classList.remove('active'));
+    
+    // Reset counter rows highlight
+    document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight'));
     
     // Add log
     addLog(TEXTS.log_reset); 
