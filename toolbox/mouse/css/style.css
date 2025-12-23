@@ -259,6 +259,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     padding: 20px 10px;
     color: #bbb;
 }
+
 /* 滚轮上滚高亮效果 */
 .wheel-up-highlight {
     background: linear-gradient(135deg, #4fc3f7, #2196f3) !important;
@@ -288,6 +289,56 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     color: #000 !important;
     font-weight: bold !important;
 }
+
+/* 双击事件相关样式 */
+.log-double-click {
+    color: #ff9800; /* 橙色表示双击事件 */
+    font-weight: bold;
+}
+
+.log-double-click-fault {
+    color: var(--accent-red); /* 红色表示故障双击 */
+    font-weight: bold;
+    animation: pulse-alert 1s infinite alternate;
+}
+
+.double-click-effect {
+    background-color: #ff9800 !important;
+    color: #000 !important;
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+.double-click-fault-effect {
+    background-color: var(--accent-red) !important;
+    color: #fff !important;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+/* 新增一个闪光动画用于双击效果 */
+@keyframes double-click-flash {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(255, 152, 0, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(255, 152, 0, 1);
+    }
+}
+
+@keyframes double-click-fault-flash {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(255, 68, 68, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(255, 68, 68, 1);
+    }
+}
+
 .guide-content h2 { color: var(--text-main); font-size: 1.2rem; margin-top: 25px; margin-bottom: 10px; }
 .guide-content h3 { color: var(--info-blue); font-size: 1rem; margin-top: 20px; }
 .guide-content p { color: #888; line-height: 1.6; margin-bottom: 15px; }
