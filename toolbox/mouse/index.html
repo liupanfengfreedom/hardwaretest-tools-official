@@ -36,7 +36,6 @@
     <!-- PWA 清单（可选，如果要做PWA） -->
     <link rel="manifest" href="/manifest.json">
 
-
     <link rel="stylesheet" href="/toolbox/mouse/css/style.css">
     <link rel="stylesheet" href="/toolbox/mouse/css/sidebar.css">
 
@@ -69,7 +68,6 @@
         },
         "featureList": [
             "Mouse double-click fault detection",
-            "Click time interval measurement",
             "All button function test",
             "Scroll wheel function detection",
             "Side button test"
@@ -98,7 +96,7 @@
     </div>
 
     <h1>Online Mouse Test</h1>
-    <p>Click interval detection + Double click fault check</p>
+    <p>Button function test + Scroll wheel test</p>
 
     <div class="dashboard">
         <div class="mouse-visual" id="mouseArea">
@@ -118,18 +116,49 @@
                     <button class="reset-btn" onclick="resetCounts()">Reset All Data</button>
                 </div>
                 <div class="counter-grid">
-                    <div class="counter-item" id="row-0"><span>Left Click</span> <span class="counter-num" id="cnt-0">0</span></div>
-                    <div class="counter-item" id="row-2"><span>Right Click</span> <span class="counter-num" id="cnt-2">0</span></div>
-                    <div class="counter-item" id="row-1"><span>Middle</span> <span class="counter-num" id="cnt-1">0</span></div>
-                    <div class="counter-item" id="row-wheel"><span>Scroll</span> <span class="counter-num" id="cnt-wheel">0</span></div>
-                    <div class="counter-item" id="row-3"><span>Side (B4)</span> <span class="counter-num" id="cnt-3">0</span></div>
-                    <div class="counter-item" id="row-4"><span>Side (B5)</span> <span class="counter-num" id="cnt-4">0</span></div>
+                    <div class="counter-item" id="row-0">
+                        <div>
+                            <div>Left Click</div>
+                            <div class="counter-label">Press: <span class="counter-num" id="cnt-0-down">0</span></div>
+                            <div class="counter-label">Release: <span class="counter-num" id="cnt-0-up">0</span></div>
+                        </div>
+                    </div>
+                    <div class="counter-item" id="row-2">
+                        <div>
+                            <div>Right Click</div>
+                            <div class="counter-label">Press: <span class="counter-num" id="cnt-2-down">0</span></div>
+                            <div class="counter-label">Release: <span class="counter-num" id="cnt-2-up">0</span></div>
+                        </div>
+                    </div>
+                    <div class="counter-item" id="row-1">
+                        <div>
+                            <div>Middle</div>
+                            <div class="counter-label">Press: <span class="counter-num" id="cnt-1-down">0</span></div>
+                            <div class="counter-label">Release: <span class="counter-num" id="cnt-1-up">0</span></div>
+                        </div>
+                    </div>
+                    <div class="counter-item" id="row-wheel">
+                        <div>
+                            <div>Scroll Wheel</div>
+                            <div class="counter-label">Up: <span class="counter-num" id="cnt-wheel-up">0</span></div>
+                            <div class="counter-label">Down: <span class="counter-num" id="cnt-wheel-down">0</span></div>
+                        </div>
+                    </div>
+                    <div class="counter-item" id="row-3">
+                        <div>
+                            <div>Side (B4)</div>
+                            <div class="counter-label">Press: <span class="counter-num" id="cnt-3-down">0</span></div>
+                            <div class="counter-label">Release: <span class="counter-num" id="cnt-3-up">0</span></div>
+                        </div>
+                    </div>
+                    <div class="counter-item" id="row-4">
+                        <div>
+                            <div>Side (B5)</div>
+                            <div class="counter-label">Press: <span class="counter-num" id="cnt-4-down">0</span></div>
+                            <div class="counter-label">Release: <span class="counter-num" id="cnt-4-up">0</span></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="stat-box">
-                <div class="stat-label">TIME DELTA</div>
-                <div class="stat-value time-delta-value" id="timeDeltaDisplay">- ms</div>
             </div>
             
             <div class="stat-box">
@@ -153,13 +182,14 @@
             <p>This tool tests all basic functions of your mouse. Click any button (Left, Right, Middle, Side buttons) to see them light up on the visualizer. The panel on the right tracks your click counts accurately.</p>
             
             <h2>How to detect Mouse Double Clicking?</h2>
-            <p>The "Double Click Bug" happens when a single physical press registers as two inputs due to switch degradation. Watch the "TIME DELTA" field. If a single click registers a very low time (e.g., < 40ms) and turns red, your mouse switch might be failing.</p>
+            <p>The "Double Click Bug" happens when a single physical press registers as two inputs due to switch degradation. Check the event log. If you see two presses for a single click, your mouse switch might be failing.</p>
 
             <h3>Common Troubleshooting</h3>
             <ul style="color: var(--text-dim); line-height: 1.6;">
                 <li><b>Scroll Wheel Jumps:</b> Scroll fast and check if the counter increases smoothly.</li>
                 <li><b>Unresponsive Button:</b> If a button does not light up, the switch may be broken.</li>
                 <li><b>Right-click displaying pressed state:</b> In some browsers, if you press and hold the right mouse button while simultaneously moving the mouse, and then release the right mouse button, the right mouse button will still display as pressed. Therefore, it is best not to move the mouse when testing key presses.</li>
+                <li><b>Button Press/Release Count Mismatch:</b> If press count is much higher than release count, your mouse might have button sticking issues.</li>
             </ul>
         </div>
     </div>
@@ -174,7 +204,7 @@
                 "name": "How to detect mouse double-click fault?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Click your mouse once and observe the time delta. If consecutive clicks appear with less than 40ms interval, it indicates a possible double-click fault."
+                    "text": "Click your mouse once and check the event log. If two press events appear for a single click, it indicates a possible double-click fault."
                 }
             },
             {
@@ -182,7 +212,15 @@
                 "name": "How to test mouse scroll wheel?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Scroll your mouse wheel and the scroll counter will increase. If the count is uneven, your scroll wheel might be faulty."
+                    "text": "Scroll your mouse wheel and the scroll counter will increase separately for up and down scrolling. If the count is uneven or only one direction works, your scroll wheel might be faulty."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What does press and release counting mean?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Press counting tracks how many times you press down the button. Release counting tracks how many times you release the button. These should match for normal mouse operation."
                 }
             }
         ]

@@ -6,9 +6,6 @@ const TEXTS = {
     counter_wheel: "滚轮",
     counter_b4: "侧键(B4)",
     counter_b5: "侧键(B5)",
-    log_warning: " [连击警报!]",
-    warning_text: " (警告!)",
-    start: "开始",
     log_reset: "--- 所有数据已重置 ---",
     btn_guide_show: "📖 显示使用说明 & 常见问题",
     btn_guide_hide: "📖 隐藏使用说明"
@@ -18,10 +15,11 @@ const TEXTS = {
 const logContainer = document.getElementById('eventLog');
 const scrollUp = document.getElementById('scrollUp');
 const scrollDown = document.getElementById('scrollDown');
-const timeDeltaDisplay = document.getElementById('timeDeltaDisplay');
 
-let lastClickTime = {}; 
-let clickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0, 'wheel':0 };
+// Track button press and release counts separately
+let pressCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let releaseCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let wheelCounts = { up:0, down:0 };
 
 // Track button press state
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
@@ -50,9 +48,13 @@ function handleButtonRelease(buttonCode) {
         4: TEXTS.counter_b5
     };
     const btnName = btnNameMap[buttonCode] || `Btn ${buttonCode}`;
-    const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
     
-    addLog(`${btnName} ↑ (按住: ${pressDuration}ms)`, 'log-release');
+    // Update release count
+    releaseCounts[buttonCode]++;
+    updateCountUI(buttonCode, 'up');
+    highlightRow(buttonCode);
+    
+    addLog(`${btnName} ↑`, 'log-release');
 }
 
 // --- Event Listeners ---
@@ -68,29 +70,10 @@ document.addEventListener('mousedown', (e) => {
     const el = document.getElementById(btnId);
     if (el) el.classList.add('active');
 
-    const now = performance.now();
-    const lastTime = lastClickTime[e.button] || 0;
-    let timeDiff = 0;
-
-    if (lastTime !== 0) {
-        timeDiff = Math.round(now - lastTime);
-        timeDeltaDisplay.innerText = timeDiff + " ms";
-        if (timeDiff < 80) {
-            timeDeltaDisplay.className = "stat-value time-delta-alert";
-            timeDeltaDisplay.innerText += TEXTS.warning_text; 
-        } else {
-            timeDeltaDisplay.className = "stat-value time-delta-value";
-        }
-    } else {
-        timeDeltaDisplay.innerText = TEXTS.start; 
-        timeDeltaDisplay.className = "stat-value time-delta-value";
-    }
-
-    if (clickCounts.hasOwnProperty(e.button)) {
-        clickCounts[e.button]++;
-        updateCountUI(e.button);
-        highlightRow(e.button); 
-    }
+    // Update press count
+    pressCounts[e.button]++;
+    updateCountUI(e.button, 'down');
+    highlightRow(e.button);
 
     const btnNameMap = {
         0: TEXTS.left_click, 
@@ -100,10 +83,8 @@ document.addEventListener('mousedown', (e) => {
         4: TEXTS.counter_b5
     };
     const btnName = btnNameMap[e.button] || `Btn ${e.button}`;
-    let logWarning = (timeDiff > 0 && timeDiff < 80) ? TEXTS.log_warning : ""; 
-    addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
     
-    lastClickTime[e.button] = now;
+    addLog(`${btnName} ↓`);
 });
 
 /* Mouseup */
@@ -139,11 +120,19 @@ window.addEventListener('blur', () => {
 
 /* Wheel event */
 document.addEventListener('wheel', (e) => {
-    clickCounts['wheel']++;
-    updateCountUI('wheel');
-    highlightRow('wheel');
-    if (e.deltaY < 0) flashIndicator(scrollUp);
-    else flashIndicator(scrollDown);
+    if (e.deltaY < 0) {
+        // Scroll up
+        wheelCounts.up++;
+        updateCountUI('wheel', 'up');
+        flashIndicator(scrollUp);
+        addLog("滚轮 ↑");
+    } else {
+        // Scroll down
+        wheelCounts.down++;
+        updateCountUI('wheel', 'down');
+        flashIndicator(scrollDown);
+        addLog("滚轮 ↓");
+    }
 }, { passive: true });
 
 function flashIndicator(element) {
@@ -151,9 +140,25 @@ function flashIndicator(element) {
     setTimeout(() => { element.style.opacity = '0'; }, 150);
 }
 
-function updateCountUI(key) {
-    const el = document.getElementById(`cnt-${key}`);
-    if (el) el.innerText = clickCounts[key];
+function updateCountUI(key, type) {
+    let el;
+    
+    if (key === 'wheel') {
+        if (type === 'up') {
+            el = document.getElementById(`cnt-wheel-up`);
+        } else {
+            el = document.getElementById(`cnt-wheel-down`);
+        }
+        if (el) el.innerText = wheelCounts[type];
+    } else {
+        if (type === 'down') {
+            el = document.getElementById(`cnt-${key}-down`);
+            if (el) el.innerText = pressCounts[key];
+        } else {
+            el = document.getElementById(`cnt-${key}-up`);
+            if (el) el.innerText = releaseCounts[key];
+        }
+    }
 }
 
 function highlightRow(key) {
@@ -167,20 +172,23 @@ function highlightRow(key) {
 }
 
 function resetCounts() {
-    // 复位点击计数器
-    for (let key in clickCounts) clickCounts[key] = 0;
+    // Reset press counts
+    for (let key in pressCounts) pressCounts[key] = 0;
+    for (let key in releaseCounts) releaseCounts[key] = 0;
+    wheelCounts.up = 0;
+    wheelCounts.down = 0;
+    
+    // Update all UI counters
     document.querySelectorAll('.counter-num').forEach(el => el.innerText = '0');
+    
+    // Reset button state
     lastClickTime = {}; 
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
-    // 复位时间显示
-    timeDeltaDisplay.innerText = "- ms";
-    timeDeltaDisplay.className = "stat-value time-delta-value";
-    
-    // 复位按钮视觉状态
+    // Reset button visual state
     document.querySelectorAll('.btn-zone').forEach(el => el.classList.remove('active'));
     
-    // 记录日志
+    // Add log
     addLog(TEXTS.log_reset); 
 }
 
