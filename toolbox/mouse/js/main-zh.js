@@ -26,6 +26,12 @@ let wheelCounts = { up:0, down:0 };
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
 let lastClickTime = {}; // Track last click time for delta calculation
 
+// 双击检测相关变量
+let doubleClickLastTime = 0;
+let doubleClickCount = 0;
+const DOUBLE_CLICK_THRESHOLD = 500; // 双击时间阈值，单位ms（通常是200-500ms）
+const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // 故障双击阈值（小于80ms）
+
 // 1. Prevent context menu
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -103,6 +109,42 @@ document.addEventListener('mousedown', (e) => {
     addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
     
     lastClickTime[e.button] = now;
+    
+    // 检测双击（只对左键）
+    if (e.button === 0) {
+        const currentTime = Date.now();
+        
+        // 如果是第一次点击或者距离上次点击超过双击阈值，重置计数
+        if (currentTime - doubleClickLastTime > DOUBLE_CLICK_THRESHOLD) {
+            doubleClickCount = 1;
+        } else {
+            doubleClickCount++;
+        }
+        
+        // 如果是第二次点击且在阈值内，认为是双击
+        if (doubleClickCount === 2) {
+            const clickInterval = currentTime - doubleClickLastTime;
+            
+            // 判断双击是否正常
+            if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
+                // 故障双击（间隔太短）
+                addLog(`左键双击 (间隔: ${clickInterval}ms) [故障双击 - 间隔过短]`, 'log-double-click-fault');
+                // 添加故障双击视觉表现
+                showDoubleClickEffect(el, true);
+            } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
+                // 正常双击
+                addLog(`左键双击 (间隔: ${clickInterval}ms) [正常双击]`, 'log-double-click');
+                // 添加正常双击视觉表现
+                showDoubleClickEffect(el, false);
+            }
+            
+            // 重置点击计数
+            doubleClickCount = 0;
+        }
+        
+        // 更新上次点击时间
+        doubleClickLastTime = currentTime;
+    }
 });
 
 /* Mouseup */
@@ -158,6 +200,31 @@ document.addEventListener('wheel', (e) => {
 function flashIndicator(element) {
     element.style.opacity = '1';
     setTimeout(() => { element.style.opacity = '0'; }, 150);
+}
+
+// 添加双击视觉表现函数
+function showDoubleClickEffect(element, isFaulty) {
+    if (!element) return;
+    
+    // 先移除可能存在的旧效果
+    element.classList.remove('double-click-effect', 'double-click-fault-effect');
+    
+    // 添加新的效果类
+    if (isFaulty) {
+        element.classList.add('double-click-fault-effect');
+        // 添加动画
+        element.style.animation = 'double-click-fault-flash 0.3s ease-in-out 2';
+    } else {
+        element.classList.add('double-click-effect');
+        // 添加动画
+        element.style.animation = 'double-click-flash 0.3s ease-in-out 2';
+    }
+    
+    // 600ms后移除效果（动画持续约600ms）
+    setTimeout(() => {
+        element.classList.remove('double-click-effect', 'double-click-fault-effect');
+        element.style.animation = '';
+    }, 600);
 }
 
 // 添加滚轮高亮函数
@@ -226,8 +293,15 @@ function resetCounts() {
     lastClickTime = {};
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
+    // 重置双击相关变量
+    doubleClickCount = 0;
+    doubleClickLastTime = 0;
+    
     // Reset button visual state
-    document.querySelectorAll('.btn-zone').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.btn-zone').forEach(el => {
+        el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect');
+        el.style.animation = '';
+    });
     
     // Reset counter rows highlight
     document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight'));

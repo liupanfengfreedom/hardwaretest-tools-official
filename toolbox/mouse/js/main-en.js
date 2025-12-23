@@ -26,6 +26,12 @@ let wheelCounts = { up:0, down:0 };
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
 let lastClickTime = {}; // Track last click time for delta calculation
 
+// Double click detection related variables
+let doubleClickLastTime = 0;
+let doubleClickCount = 0;
+const DOUBLE_CLICK_THRESHOLD = 500; // Double click time threshold in ms (usually 200-500ms)
+const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms)
+
 // 1. Prevent context menu
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -103,6 +109,42 @@ document.addEventListener('mousedown', (e) => {
     addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
     
     lastClickTime[e.button] = now;
+    
+    // Detect double click (only for left button)
+    if (e.button === 0) {
+        const currentTime = Date.now();
+        
+        // If it's the first click or time since last click exceeds double click threshold, reset count
+        if (currentTime - doubleClickLastTime > DOUBLE_CLICK_THRESHOLD) {
+            doubleClickCount = 1;
+        } else {
+            doubleClickCount++;
+        }
+        
+        // If it's the second click and within threshold, consider it a double click
+        if (doubleClickCount === 2) {
+            const clickInterval = currentTime - doubleClickLastTime;
+            
+            // Determine if double click is normal
+            if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
+                // Faulty double click (interval too short)
+                addLog(`Left Button Double Click (Interval: ${clickInterval}ms) [Faulty Double Click - Interval Too Short]`, 'log-double-click-fault');
+                // Add faulty double click visual effect
+                showDoubleClickEffect(el, true);
+            } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
+                // Normal double click
+                addLog(`Left Button Double Click (Interval: ${clickInterval}ms) [Normal Double Click]`, 'log-double-click');
+                // Add normal double click visual effect
+                showDoubleClickEffect(el, false);
+            }
+            
+            // Reset click count
+            doubleClickCount = 0;
+        }
+        
+        // Update last click time
+        doubleClickLastTime = currentTime;
+    }
 });
 
 /* Mouseup */
@@ -142,14 +184,14 @@ document.addEventListener('wheel', (e) => {
         // Scroll up
         wheelCounts.up++;
         updateCountUI('wheel', 'up');
-        highlightWheel('up'); // 添加高亮效果
+        highlightWheel('up'); // Add highlight effect
         flashIndicator(scrollUp);
         addLog("Scroll Wheel ↑");
     } else {
         // Scroll down
         wheelCounts.down++;
         updateCountUI('wheel', 'down');
-        highlightWheel('down'); // 添加高亮效果
+        highlightWheel('down'); // Add highlight effect
         flashIndicator(scrollDown);
         addLog("Scroll Wheel ↓");
     }
@@ -160,21 +202,46 @@ function flashIndicator(element) {
     setTimeout(() => { element.style.opacity = '0'; }, 150);
 }
 
-// 添加滚轮高亮函数
+// Add double click visual effect function
+function showDoubleClickEffect(element, isFaulty) {
+    if (!element) return;
+    
+    // Remove any existing old effects
+    element.classList.remove('double-click-effect', 'double-click-fault-effect');
+    
+    // Add new effect class
+    if (isFaulty) {
+        element.classList.add('double-click-fault-effect');
+        // Add animation
+        element.style.animation = 'double-click-fault-flash 0.3s ease-in-out 2';
+    } else {
+        element.classList.add('double-click-effect');
+        // Add animation
+        element.style.animation = 'double-click-flash 0.3s ease-in-out 2';
+    }
+    
+    // Remove effect after 600ms (animation lasts about 600ms)
+    setTimeout(() => {
+        element.classList.remove('double-click-effect', 'double-click-fault-effect');
+        element.style.animation = '';
+    }, 600);
+}
+
+// Add wheel highlight function
 function highlightWheel(direction) {
     const row = document.getElementById('row-wheel');
     if (row) {
-        // 先移除其他高亮效果
+        // Remove other highlight effects first
         row.classList.remove('wheel-up-highlight', 'wheel-down-highlight');
         
-        // 根据方向添加相应的高亮类
+        // Add corresponding highlight class based on direction
         if (direction === 'up') {
             row.classList.add('wheel-up-highlight');
         } else {
             row.classList.add('wheel-down-highlight');
         }
         
-        // 150ms后移除高亮效果
+        // Remove highlight effect after 150ms
         setTimeout(() => {
             row.classList.remove('wheel-up-highlight', 'wheel-down-highlight');
         }, 150);
@@ -226,8 +293,15 @@ function resetCounts() {
     lastClickTime = {};
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
+    // Reset double click related variables
+    doubleClickCount = 0;
+    doubleClickLastTime = 0;
+    
     // Reset button visual state
-    document.querySelectorAll('.btn-zone').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.btn-zone').forEach(el => {
+        el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect');
+        el.style.animation = '';
+    });
     
     // Reset counter rows highlight
     document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight'));
