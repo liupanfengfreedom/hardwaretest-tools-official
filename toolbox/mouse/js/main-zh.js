@@ -6,6 +6,7 @@ const TEXTS = {
     counter_wheel: "滚轮",
     counter_b4: "侧键(B4)",
     counter_b5: "侧键(B5)",
+    log_warning: " [连击警报!]",
     log_reset: "--- 所有数据已重置 ---",
     btn_guide_show: "📖 显示使用说明 & 常见问题",
     btn_guide_hide: "📖 隐藏使用说明"
@@ -21,8 +22,9 @@ let pressCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let releaseCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let wheelCounts = { up:0, down:0 };
 
-// Track button press state
+// Track button press state and last click time
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
+let lastClickTime = {}; // Track last click time for delta calculation
 
 // 1. Prevent context menu
 document.addEventListener('contextmenu', event => event.preventDefault());
@@ -54,7 +56,10 @@ function handleButtonRelease(buttonCode) {
     updateCountUI(buttonCode, 'up');
     highlightRow(buttonCode);
     
-    addLog(`${btnName} ↑`, 'log-release');
+    // Calculate hold duration
+    const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
+    
+    addLog(`${btnName} ↑ (按住: ${pressDuration}ms)`, 'log-release');
 }
 
 // --- Event Listeners ---
@@ -84,7 +89,20 @@ document.addEventListener('mousedown', (e) => {
     };
     const btnName = btnNameMap[e.button] || `Btn ${e.button}`;
     
-    addLog(`${btnName} ↓`);
+    // Calculate time delta since last click of this button
+    const now = performance.now();
+    const lastTime = lastClickTime[e.button] || 0;
+    let timeDiff = 0;
+    
+    if (lastTime !== 0) {
+        timeDiff = Math.round(now - lastTime);
+    }
+    
+    // Log with delta time and warning if too short (possible double click)
+    let logWarning = (timeDiff > 0 && timeDiff < 80) ? TEXTS.log_warning : ""; 
+    addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
+    
+    lastClickTime[e.button] = now;
 });
 
 /* Mouseup */
@@ -181,8 +199,8 @@ function resetCounts() {
     // Update all UI counters
     document.querySelectorAll('.counter-num').forEach(el => el.innerText = '0');
     
-    // Reset button state
-    lastClickTime = {}; 
+    // Reset button state and last click times
+    lastClickTime = {};
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
     // Reset button visual state

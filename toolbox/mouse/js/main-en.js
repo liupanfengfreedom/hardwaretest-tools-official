@@ -6,6 +6,7 @@ const TEXTS = {
     counter_wheel: "Scroll Wheel",
     counter_b4: "Side (B4)",
     counter_b5: "Side (B5)",
+    log_warning: " [DOUBLE CLICK ALERT!]",
     log_reset: "--- All Data Reset ---",
     btn_guide_show: "📖 Show Guide & FAQ",
     btn_guide_hide: "📖 Hide Guide"
@@ -21,8 +22,9 @@ let pressCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let releaseCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let wheelCounts = { up:0, down:0 };
 
-// Track button press state
+// Track button press state and last click time
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
+let lastClickTime = {}; // Track last click time for delta calculation
 
 // 1. Prevent context menu
 document.addEventListener('contextmenu', event => event.preventDefault());
@@ -54,7 +56,10 @@ function handleButtonRelease(buttonCode) {
     updateCountUI(buttonCode, 'up');
     highlightRow(buttonCode);
     
-    addLog(`${btnName} ↑`, 'log-release');
+    // Calculate hold duration
+    const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
+    
+    addLog(`${btnName} ↑ (Hold: ${pressDuration}ms)`, 'log-release');
 }
 
 // --- Event Listeners ---
@@ -84,7 +89,20 @@ document.addEventListener('mousedown', (e) => {
     };
     const btnName = btnNameMap[e.button] || `Btn ${e.button}`;
     
-    addLog(`${btnName} ↓`);
+    // Calculate time delta since last click of this button
+    const now = performance.now();
+    const lastTime = lastClickTime[e.button] || 0;
+    let timeDiff = 0;
+    
+    if (lastTime !== 0) {
+        timeDiff = Math.round(now - lastTime);
+    }
+    
+    // Log with delta time and warning if too short (possible double click)
+    let logWarning = (timeDiff > 0 && timeDiff < 80) ? TEXTS.log_warning : ""; 
+    addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
+    
+    lastClickTime[e.button] = now;
 });
 
 /* Mouseup */
@@ -181,8 +199,8 @@ function resetCounts() {
     // Update all UI counters
     document.querySelectorAll('.counter-num').forEach(el => el.innerText = '0');
     
-    // Reset button state
-    lastClickTime = {}; 
+    // Reset button state and last click times
+    lastClickTime = {};
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
     // Reset button visual state
