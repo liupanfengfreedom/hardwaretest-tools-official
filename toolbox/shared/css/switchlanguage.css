@@ -1,0 +1,116 @@
+
+/* 语言切换器样式 */
+.language-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* 地球图标触发器 */
+.language-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #9b9999;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+}
+
+.language-trigger:hover {
+    color: #1a73e8;
+    transform: scale(1.1);
+}
+
+.language-trigger:active {
+    transform: scale(0.95);
+}
+
+.language-trigger i {
+    font-size: 24px;
+}
+
+/* 语言下拉框 - 黑色半透明背景 */
+.language-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    width: 180px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.language-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.15s ease;
+}
+
+.language-option:last-child {
+    border-bottom: none;
+}
+
+.language-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.language-option.selected {
+    background-color: rgba(59, 130, 246, 0.3);
+    color: #60a5fa;
+    font-weight: 500;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .language-switcher {
+        top: 15px;
+        right: 15px;
+    }
+    
+    .language-trigger i {
+        font-size: 22px;
+    }
+    
+    .language-dropdown {
+        width: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .language-dropdown {
+        position: fixed;
+        top: 70px;
+        right: 15px;
+        width: 160px;
+    }
+    
+    .language-trigger i {
+        font-size: 20px;
+    }
+}
