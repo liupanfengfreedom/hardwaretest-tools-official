@@ -59,6 +59,7 @@
     cursor: pointer;
     padding: 5px;
     outline: none;
+    transition: transform 0.2s ease;
 }
 
 /* Hamburger menu lines */
@@ -69,6 +70,7 @@
     background-color: #aaa9a9;
     margin: 4px 0;
     border-radius: 1px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 /* Sidebar close button */
@@ -84,11 +86,49 @@
     cursor: pointer;
     padding: 10px;
     outline: none;
+    transition: color 0.2s ease;
+}
+
+#close-button:hover {
+    color: white;
 }
 
 /* Hide menu button when sidebar is open */
 body.sidebar-open #menu-button {
     display: none;
+}
+
+/* Add hover zone visual cue (optional) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.1), transparent);
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body:hover::before {
+    opacity: 0.3;
+}
+
+/* Add a subtle pulse animation to menu button when near left edge */
+@keyframes subtle-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+#menu-button:hover {
+    animation: subtle-pulse 2s infinite;
 }
 /*
 **********
