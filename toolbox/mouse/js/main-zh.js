@@ -8,8 +8,7 @@ const TEXTS = {
     counter_b5: "侧键(B5)",
     log_warning: " [连击警报!]",
     log_reset: "--- 所有数据已重置 ---",
-    btn_guide_show: "📖 显示使用说明 & 常见问题",
-    btn_guide_hide: "📖 隐藏使用说明"
+    // 删除指南按钮相关的文本，因为按钮已被移除
 };
 
 // --- Original script variables and functions ---
@@ -345,21 +344,5 @@ function addLog(text, className) {
     logContainer.prepend(div);
     if (logContainer.children.length > 20) {
         logContainer.removeChild(logContainer.lastChild);
-    }
-}
-
-// Guide toggle function
-function toggleGuide() {
-    const container = document.getElementById('guide-container');
-    const btnText = document.getElementById('toggle-guide-btn');
-    
-    container.classList.toggle('open');
-    
-    if (container.classList.contains('open')) {
-        container.style.height = container.scrollHeight + "px";
-        btnText.innerHTML = TEXTS.btn_guide_hide;
-    } else {
-        container.style.height = "0";
-        btnText.innerHTML = TEXTS.btn_guide_show;
     }
 }

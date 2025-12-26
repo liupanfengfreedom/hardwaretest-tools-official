@@ -225,7 +225,8 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     font-size: 0.75rem; /* Slightly smaller */
 }
 
-/* --- Guide area style --- */
+/* 移除指南按钮相关样式 */
+/*
 .guide-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -241,21 +242,26 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     color: var(--highlight);
     background: rgba(0, 255, 136, 0.05);
 }
+*/
 
+/* 修改指南容器样式，使其直接显示 */
 .guide-container {
     max-width: 800px;
     width: 90%;
-    height: 0; /* Hidden by default */
-    overflow: hidden;
-    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    border-bottom: 1px solid transparent;
+    height: auto; /* 直接显示，不需要折叠 */
+    overflow: visible; /* 内容可见 */
+    border-bottom: 1px solid #333; /* 直接显示边框 */
+    margin: 40px 0 50px 0; /* 添加上下边距 */
 }
 
+/* 移除过渡效果，因为现在不需要折叠 */
+/*
 .guide-container.open {
-    height: auto; /* JS will calculate specific height */
+    height: auto;
     margin-bottom: 50px;
     border-bottom: 1px solid #333;
 }
+*/
 
 .guide-content {
     padding: 20px 10px;

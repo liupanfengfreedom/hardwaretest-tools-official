@@ -8,8 +8,7 @@ const TEXTS = {
     counter_b5: "Side (B5)",
     log_warning: " [DOUBLE CLICK ALERT!]",
     log_reset: "--- All Data Reset ---",
-    btn_guide_show: "📖 Show Guide & FAQ",
-    btn_guide_hide: "📖 Hide Guide"
+    // Remove guide button related text since button has been removed
 };
 
 // --- Original script variables and functions ---
@@ -345,21 +344,5 @@ function addLog(text, className) {
     logContainer.prepend(div);
     if (logContainer.children.length > 20) {
         logContainer.removeChild(logContainer.lastChild);
-    }
-}
-
-// Guide toggle function
-function toggleGuide() {
-    const container = document.getElementById('guide-container');
-    const btnText = document.getElementById('toggle-guide-btn');
-    
-    container.classList.toggle('open');
-    
-    if (container.classList.contains('open')) {
-        container.style.height = container.scrollHeight + "px";
-        btnText.innerHTML = TEXTS.btn_guide_hide;
-    } else {
-        container.style.height = "0";
-        btnText.innerHTML = TEXTS.btn_guide_show;
     }
 }
