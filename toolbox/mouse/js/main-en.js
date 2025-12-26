@@ -8,8 +8,12 @@ const TEXTS = {
     counter_b5: "Side (B5)",
     log_warning: " [DOUBLE CLICK ALERT!]",
     log_reset: "--- All Data Reset ---",
-    btn_guide_show: "📖 Show Guide & FAQ",
-    btn_guide_hide: "📖 Hide Guide"
+    test_area_status_ready: "Ready",
+    test_area_status_active: "Active",
+    test_area_status_testing: "Testing",
+    test_area_status_double_click: "Double Click",
+    test_area_status_error: "Error",
+    // Remove guide button related text since button has been removed
 };
 
 // --- Original script variables and functions ---
@@ -32,11 +36,131 @@ let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 const DOUBLE_CLICK_THRESHOLD = 500; // Double click time threshold in ms (usually 200-500ms)
 const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms)
 
+// New: page scroll lock state
+let isScrollLocked = false;
+
+// New: test area state management
+let testArea = null;
+let testAreaStatus = null;
+let testAreaTimeout = null;
+let isMouseInTestArea = false;
+
 // 1. Prevent context menu
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 // 2. Prevent native drag
 document.addEventListener('dragstart', event => event.preventDefault());
+
+// Initialize test area functionality
+function initTestArea() {
+    testArea = document.getElementById('testArea');
+    testAreaStatus = document.getElementById('testAreaStatus');
+    
+    if (!testArea || !testAreaStatus) return;
+    
+    // Set initial state
+    updateTestAreaStatus('ready');
+    
+    // Add event listeners for test area
+    testArea.addEventListener('mouseenter', () => {
+        isMouseInTestArea = true;
+        updateTestAreaStatus('active');
+        testArea.classList.add('active');
+    });
+    
+    testArea.addEventListener('mouseleave', () => {
+        isMouseInTestArea = false;
+        // Don't immediately revert to ready if we're in the middle of testing
+        if (!hasActiveButtonPress()) {
+            updateTestAreaStatus('ready');
+            testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+        }
+    });
+}
+
+// Check if any button is currently pressed
+function hasActiveButtonPress() {
+    for (let i = 0; i < 5; i++) {
+        if (isPressed[i]) return true;
+    }
+    return false;
+}
+
+// Update test area status and visual state
+function updateTestAreaStatus(status) {
+    if (!testArea || !testAreaStatus) return;
+    
+    // Clear any existing timeout
+    if (testAreaTimeout) {
+        clearTimeout(testAreaTimeout);
+        testAreaTimeout = null;
+    }
+    
+    // Remove all status classes
+    testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+    
+    // Update status text and add appropriate class
+    switch (status) {
+        case 'ready':
+            testAreaStatus.textContent = TEXTS.test_area_status_ready;
+            break;
+        case 'active':
+            testAreaStatus.textContent = TEXTS.test_area_status_active;
+            testArea.classList.add('active');
+            break;
+        case 'testing':
+            testAreaStatus.textContent = TEXTS.test_area_status_testing;
+            testArea.classList.add('testing');
+            break;
+        case 'double-click':
+            testAreaStatus.textContent = TEXTS.test_area_status_double_click;
+            testArea.classList.add('double-click-detected');
+            
+            // Reset after 1 second
+            testAreaTimeout = setTimeout(() => {
+                if (isMouseInTestArea) {
+                    updateTestAreaStatus('active');
+                } else {
+                    updateTestAreaStatus('ready');
+                }
+            }, 1000);
+            break;
+        case 'error':
+            testAreaStatus.textContent = TEXTS.test_area_status_error;
+            testArea.classList.add('error');
+            
+            // Reset after 1.5 seconds
+            testAreaTimeout = setTimeout(() => {
+                if (isMouseInTestArea) {
+                    updateTestAreaStatus('active');
+                } else {
+                    updateTestAreaStatus('ready');
+                }
+            }, 1500);
+            break;
+    }
+}
+
+// New: toggle page scroll lock function
+function toggleScrollLock() {
+    isScrollLocked = !isScrollLocked;
+    
+    if (isScrollLocked) {
+        // Lock page scrolling
+        document.body.style.overflow = 'hidden';
+        // Show unlock button
+        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-unlock"></i> Unlock Page Scroll';
+        document.getElementById('scrollLockBtn').style.backgroundColor = '#ff9800';
+        addLog("Page scrolling locked - page won't scroll during wheel test", 'log-release');
+    } else {
+        // Unlock page scrolling
+        document.body.style.overflow = 'auto';
+        // Show lock button
+        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-lock"></i> Lock Page Scroll';
+        document.getElementById('scrollLockBtn').style.backgroundColor = '#4fc3f7';
+        addLog("Page scrolling unlocked - page will scroll during wheel test", 'log-release');
+    }
+}
 
 // 3. Helper function: handle button release
 function handleButtonRelease(buttonCode) {
@@ -66,6 +190,17 @@ function handleButtonRelease(buttonCode) {
     const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
     
     addLog(`${btnName} ↑ (Hold: ${pressDuration}ms)`, 'log-release');
+    
+    // Update test area status if no buttons are pressed
+    if (!hasActiveButtonPress() && testArea) {
+        if (isMouseInTestArea) {
+            updateTestAreaStatus('active');
+            testArea.classList.remove('testing');
+        } else {
+            updateTestAreaStatus('ready');
+            testArea.classList.remove('testing');
+        }
+    }
 }
 
 // --- Event Listeners ---
@@ -119,6 +254,12 @@ document.addEventListener('mousedown', (e) => {
     // Record this press time as reference for next calculation
     lastClickTime[e.button] = now;
     
+    // Update test area status
+    if (testArea) {
+        updateTestAreaStatus('testing');
+        testArea.classList.add('testing');
+    }
+    
     // DOUBLE CLICK DETECTION FOR ALL BUTTONS
     const buttonIndex = e.button;
     const currentTime = Date.now();
@@ -144,12 +285,20 @@ document.addEventListener('mousedown', (e) => {
             className = 'log-double-click-fault';
             // Add faulty double click visual effect
             showDoubleClickEffect(el, true);
+            // Update test area status for faulty double click
+            if (testArea) {
+                updateTestAreaStatus('error');
+            }
         } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
             // Normal double click
             logMessage = `${btnName} Double Click (Interval: ${clickInterval}ms) [Normal Double Click]`;
             className = 'log-double-click';
             // Add normal double click visual effect
             showDoubleClickEffect(el, false);
+            // Update test area status for normal double click
+            if (testArea) {
+                updateTestAreaStatus('double-click');
+            }
         }
         
         if (logMessage) {
@@ -203,10 +352,29 @@ window.addEventListener('blur', () => {
     for (let i = 0; i < 5; i++) {
         if (isPressed[i]) handleButtonRelease(i);
     }
+    
+    // Reset test area status
+    if (testArea) {
+        updateTestAreaStatus('ready');
+        testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+    }
 });
 
 /* Wheel event */
 document.addEventListener('wheel', (e) => {
+    // Only prevent default scrolling behavior when mouse is in mouse testing area
+    const mouseArea = document.getElementById('mouseArea');
+    const isInMouseArea = mouseArea.contains(e.target) || mouseArea === e.target;
+    
+    // If page scrolling is locked, prevent default behavior
+    if (isScrollLocked) {
+        e.preventDefault();
+    }
+    // If in mouse testing area, also prevent default behavior
+    else if (isInMouseArea) {
+        e.preventDefault();
+    }
+    
     if (e.deltaY < 0) {
         // Scroll up
         wheelCounts.up++;
@@ -214,6 +382,12 @@ document.addEventListener('wheel', (e) => {
         highlightWheel('up'); // Add highlight effect
         flashIndicator(scrollUp);
         addLog("Scroll Wheel ↑");
+        
+        // Update test area status when scrolling
+        if (testArea && isMouseInTestArea) {
+            updateTestAreaStatus('testing');
+            testArea.classList.add('testing');
+        }
     } else {
         // Scroll down
         wheelCounts.down++;
@@ -221,8 +395,14 @@ document.addEventListener('wheel', (e) => {
         highlightWheel('down'); // Add highlight effect
         flashIndicator(scrollDown);
         addLog("Scroll Wheel ↓");
+        
+        // Update test area status when scrolling
+        if (testArea && isMouseInTestArea) {
+            updateTestAreaStatus('testing');
+            testArea.classList.add('testing');
+        }
     }
-}, { passive: true });
+}, { passive: false }); // Note: passive must be false to call preventDefault
 
 function flashIndicator(element) {
     element.style.opacity = '1';
@@ -333,6 +513,12 @@ function resetCounts() {
     // Reset counter rows highlight
     document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight'));
     
+    // Reset test area status
+    if (testArea) {
+        updateTestAreaStatus('ready');
+        testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+    }
+    
     // Add log
     addLog(TEXTS.log_reset); 
 }
@@ -348,18 +534,22 @@ function addLog(text, className) {
     }
 }
 
-// Guide toggle function
-function toggleGuide() {
-    const container = document.getElementById('guide-container');
-    const btnText = document.getElementById('toggle-guide-btn');
+// Add scroll lock button after page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Create scroll lock button
+    const scrollLockBtn = document.createElement('button');
+    scrollLockBtn.id = 'scrollLockBtn';
+    scrollLockBtn.className = 'scroll-lock-btn';
+    scrollLockBtn.innerHTML = '<i class="fas fa-lock"></i> Lock Page Scroll';
+    scrollLockBtn.onclick = toggleScrollLock;
     
-    container.classList.toggle('open');
-    
-    if (container.classList.contains('open')) {
-        container.style.height = container.scrollHeight + "px";
-        btnText.innerHTML = TEXTS.btn_guide_hide;
-    } else {
-        container.style.height = "0";
-        btnText.innerHTML = TEXTS.btn_guide_show;
+    // Add button to stats panel header
+    const statHeaderGroup = document.querySelector('.stat-header-group');
+    if (statHeaderGroup) {
+        // Insert button before reset button
+        statHeaderGroup.insertBefore(scrollLockBtn, statHeaderGroup.querySelector('.reset-btn'));
     }
-}
+    
+    // Initialize test area
+    initTestArea();
+});

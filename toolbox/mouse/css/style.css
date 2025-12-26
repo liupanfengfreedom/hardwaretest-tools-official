@@ -9,6 +9,11 @@
     --info-blue: #4fc3f7;
     --double-click-normal: #ff9800;
     --double-click-fault: #ff4444;
+    --test-area-border-default: #4a4a4a;
+    --test-area-border-active: #4fc3f7;
+    --test-area-border-testing: #00ff88;
+    --test-area-border-error: #ff4444;
+    --test-area-border-double-click: #ff9800;
 }
 
 body {
@@ -32,6 +37,134 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     grid-template-columns: 1fr 320px;
     gap: 40px;
     align-items: start;
+}
+
+/* --- 测试区容器样式 --- */
+.test-area-container {
+    position: relative;
+    border: 4px solid var(--test-area-border-default);
+    border-radius: 20px;
+    padding: 25px;
+    background-color: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.test-area-container:hover {
+    border-color: var(--test-area-border-active);
+    box-shadow: 0 0 25px rgba(79, 195, 247, 0.4);
+}
+
+.test-area-container.active {
+    border-color: var(--test-area-border-active);
+    box-shadow: 0 0 30px rgba(79, 195, 247, 0.6);
+    animation: test-area-pulse 2s infinite alternate;
+}
+
+.test-area-container.testing {
+    border-color: var(--test-area-border-testing);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+}
+
+.test-area-container.double-click-detected {
+    border-color: var(--test-area-border-double-click);
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
+    animation: double-click-border 0.5s ease-in-out 2;
+}
+
+.test-area-container.error {
+    border-color: var(--test-area-border-error);
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+}
+
+@keyframes test-area-pulse {
+    from {
+        box-shadow: 0 0 25px rgba(79, 195, 247, 0.4);
+    }
+    to {
+        box-shadow: 0 0 35px rgba(79, 195, 247, 0.7);
+    }
+}
+
+@keyframes double-click-border {
+    0%, 100% {
+        border-color: var(--test-area-border-double-click);
+        box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
+    }
+    50% {
+        border-color: #ffcc80;
+        box-shadow: 0 0 45px rgba(255, 152, 0, 0.9);
+    }
+}
+
+.test-area-label {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background-color: var(--bg-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--text-dim);
+    border: 2px solid var(--test-area-border-default);
+    z-index: 10;
+}
+
+.test-area-icon {
+    color: var(--info-blue);
+}
+
+.test-area-status {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: normal;
+    background-color: var(--test-area-border-default);
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.test-area-container.active .test-area-status {
+    background-color: var(--test-area-border-active);
+    color: #000;
+}
+
+.test-area-container.testing .test-area-status {
+    background-color: var(--test-area-border-testing);
+    color: #000;
+}
+
+.test-area-info {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-item i {
+    color: var(--info-blue);
 }
 
 /* --- Mouse visualization area --- */
@@ -107,6 +240,36 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     color: var(--text-dim);
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+/* 滚动锁定按钮样式 */
+.scroll-lock-btn {
+    background-color: #4fc3f7; 
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.4); 
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.scroll-lock-btn:hover {
+    background-color: #66d4ff;
+    transform: scale(1.1); 
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
+}
+
+.scroll-lock-btn:active {
+    transform: scale(0.95);
 }
 
 .reset-btn {
@@ -225,36 +388,14 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     font-size: 0.75rem; /* Slightly smaller */
 }
 
-/* --- Guide area style --- */
-.guide-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 10px 24px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-}
-.guide-btn:hover {
-    border-color: var(--highlight);
-    color: var(--highlight);
-    background: rgba(0, 255, 136, 0.05);
-}
-
+/* 修改指南容器样式，使其直接显示 */
 .guide-container {
     max-width: 800px;
     width: 90%;
-    height: 0; /* Hidden by default */
-    overflow: hidden;
-    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    border-bottom: 1px solid transparent;
-}
-
-.guide-container.open {
-    height: auto; /* JS will calculate specific height */
-    margin-bottom: 50px;
-    border-bottom: 1px solid #333;
+    height: auto; /* 直接显示，不需要折叠 */
+    overflow: visible; /* 内容可见 */
+    border-bottom: 1px solid #333; /* 直接显示边框 */
+    margin: 40px 0 50px 0; /* 添加上下边距 */
 }
 
 .guide-content {
@@ -384,3 +525,32 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
 .guide-content h2 { color: var(--text-main); font-size: 1.2rem; margin-top: 25px; margin-bottom: 10px; }
 .guide-content h3 { color: var(--info-blue); font-size: 1rem; margin-top: 20px; }
 .guide-content p { color: #888; line-height: 1.6; margin-bottom: 15px; }
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .test-area-container {
+        padding: 15px;
+        min-height: 450px;
+    }
+    
+    .mouse-visual {
+        width: 220px;
+        height: 380px;
+        margin: 0 auto;
+    }
+    
+    .stat-header-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .scroll-lock-btn, .reset-btn {
+        align-self: flex-start;
+    }
+}
