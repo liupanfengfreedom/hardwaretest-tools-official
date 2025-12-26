@@ -106,9 +106,22 @@ document.addEventListener('mousedown', (e) => {
     
     // Log with delta time and warning if too short (possible double click)
     let logWarning = (timeDiff > 0 && timeDiff < 80) ? TEXTS.log_warning : ""; 
-    addLog(`${btnName} ↓ (${timeDiff}ms)` + logWarning, logWarning ? 'log-alert' : '');
     
+    // 修改日志格式，更清晰地显示时间差计算逻辑
+    let timeLog = "";
+    if (lastTime === 0) {
+        timeLog = "(First press - timing starts now)";
+    } else {
+        timeLog = `(${timeDiff}ms since last ↓)`;
+    }
+    
+    addLog(`${btnName} ↓ ${timeLog}` + logWarning, logWarning ? 'log-alert' : '');
+    
+    // 关键：记录这次按下时间，作为下一次计算的基础
     lastClickTime[e.button] = now;
+    if (lastTime === 0) {
+        addLog(`✓ ${btnName} timing reference set. Next press will measure from this moment.`, 'log-release');
+    }
     
     // Detect double click (only for left button)
     if (e.button === 0) {
