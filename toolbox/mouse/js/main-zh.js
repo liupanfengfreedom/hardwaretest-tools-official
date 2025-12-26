@@ -26,9 +26,9 @@ let wheelCounts = { up:0, down:0 };
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
 let lastClickTime = {}; // Track last click time for delta calculation
 
-// 双击检测相关变量
-let doubleClickLastTime = 0;
-let doubleClickCount = 0;
+// 双击检测相关变量 - 为所有按键
+let doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 const DOUBLE_CLICK_THRESHOLD = 500; // 双击时间阈值，单位ms（通常是200-500ms）
 const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // 故障双击阈值（小于80ms）
 
@@ -107,7 +107,6 @@ document.addEventListener('mousedown', (e) => {
     // Log with delta time and warning if too short (possible double click)
     let logWarning = (timeDiff > 0 && timeDiff < 80) ? TEXTS.log_warning : ""; 
     
-    // 修改日志格式，更清晰地显示时间差计算逻辑
     let timeLog = "";
     if (lastTime === 0) {
         timeLog = "(首次按下 - 计时起点)";
@@ -119,45 +118,50 @@ document.addEventListener('mousedown', (e) => {
     
     // 关键：记录这次按下时间，作为下一次计算的基础
     lastClickTime[e.button] = now;
-    if (lastTime === 0) {
-        addLog(`✓ ${btnName} 已设为计时参考点。下一次按下将从此刻开始计时。`, 'log-release');
+    
+    // 为所有按键添加双击检测
+    const buttonIndex = e.button;
+    const currentTime = Date.now();
+    
+    // 如果是第一次点击或者距离上次点击超过双击阈值，重置计数
+    if (currentTime - doubleClickLastTime[buttonIndex] > DOUBLE_CLICK_THRESHOLD) {
+        doubleClickCount[buttonIndex] = 1;
+    } else {
+        doubleClickCount[buttonIndex]++;
     }
     
-    // 检测双击（只对左键）
-    if (e.button === 0) {
-        const currentTime = Date.now();
+    // 如果是第二次点击且在阈值内，认为是双击
+    if (doubleClickCount[buttonIndex] === 2) {
+        const clickInterval = currentTime - doubleClickLastTime[buttonIndex];
         
-        // 如果是第一次点击或者距离上次点击超过双击阈值，重置计数
-        if (currentTime - doubleClickLastTime > DOUBLE_CLICK_THRESHOLD) {
-            doubleClickCount = 1;
-        } else {
-            doubleClickCount++;
+        // 判断双击是否正常
+        let logMessage = '';
+        let className = '';
+        
+        if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
+            // 故障双击（间隔太短）
+            logMessage = `${btnName} 双击 (间隔: ${clickInterval}ms) [故障双击 - 间隔过短]`;
+            className = 'log-double-click-fault';
+            // 添加故障双击视觉表现
+            showDoubleClickEffect(el, true);
+        } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
+            // 正常双击
+            logMessage = `${btnName} 双击 (间隔: ${clickInterval}ms) [正常双击]`;
+            className = 'log-double-click';
+            // 添加正常双击视觉表现
+            showDoubleClickEffect(el, false);
         }
         
-        // 如果是第二次点击且在阈值内，认为是双击
-        if (doubleClickCount === 2) {
-            const clickInterval = currentTime - doubleClickLastTime;
-            
-            // 判断双击是否正常
-            if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
-                // 故障双击（间隔太短）
-                addLog(`左键双击 (间隔: ${clickInterval}ms) [故障双击 - 间隔过短]`, 'log-double-click-fault');
-                // 添加故障双击视觉表现
-                showDoubleClickEffect(el, true);
-            } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
-                // 正常双击
-                addLog(`左键双击 (间隔: ${clickInterval}ms) [正常双击]`, 'log-double-click');
-                // 添加正常双击视觉表现
-                showDoubleClickEffect(el, false);
-            }
-            
-            // 重置点击计数
-            doubleClickCount = 0;
+        if (logMessage) {
+            addLog(logMessage, className);
         }
         
-        // 更新上次点击时间
-        doubleClickLastTime = currentTime;
+        // 重置点击计数
+        doubleClickCount[buttonIndex] = 0;
     }
+    
+    // 更新上次点击时间
+    doubleClickLastTime[buttonIndex] = currentTime;
 });
 
 /* Mouseup */
@@ -181,6 +185,16 @@ document.addEventListener('mousemove', (e) => {
     // Check middle button (Button 1): mask is 4
     if (isPressed[1] && (e.buttons & 4) === 0) {
         handleButtonRelease(1);
+    }
+    
+    // Check side button B4 (Button 3)
+    if (isPressed[3] && (e.buttons & 8) === 0) {
+        handleButtonRelease(3);
+    }
+    
+    // Check side button B5 (Button 4)
+    if (isPressed[4] && (e.buttons & 16) === 0) {
+        handleButtonRelease(4);
     }
 });
 
@@ -306,9 +320,9 @@ function resetCounts() {
     lastClickTime = {};
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
-    // 重置双击相关变量
-    doubleClickCount = 0;
-    doubleClickLastTime = 0;
+    // 重置双击相关变量（所有按键）
+    doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     
     // Reset button visual state
     document.querySelectorAll('.btn-zone').forEach(el => {

@@ -7,6 +7,8 @@
     --border: #444;
     --accent-red: #ff4444; 
     --info-blue: #4fc3f7;
+    --double-click-normal: #ff9800;
+    --double-click-fault: #ff4444;
 }
 
 body {
@@ -318,6 +320,46 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     transform: scale(1.05) !important;
     transition: none !important;
     z-index: 20 !important;
+}
+/* 添加新的双击效果类 - 为不同按钮提供不同的视觉效果 */
+.btn-zone.double-click-effect {
+    background-color: var(--double-click-normal) !important;
+    color: #000 !important;
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+.btn-zone.double-click-fault-effect {
+    background-color: var(--double-click-fault) !important;
+    color: #fff !important;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+/* 为不同按钮的行添加双击高亮效果 */
+.counter-item.double-click-highlight {
+    background-color: rgba(255, 152, 0, 0.2) !important;
+    border: 1px solid rgba(255, 152, 0, 0.5) !important;
+}
+
+.counter-item.double-click-fault-highlight {
+    background-color: rgba(255, 68, 68, 0.2) !important;
+    border: 1px solid rgba(255, 68, 68, 0.5) !important;
+}
+
+/* 按键区域的双击动画 */
+@keyframes button-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.btn-zone.double-click-pulse {
+    animation: button-pulse 0.3s ease-in-out 2;
 }
 
 /* 新增一个闪光动画用于双击效果 */

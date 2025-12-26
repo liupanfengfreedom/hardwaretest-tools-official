@@ -26,9 +26,9 @@ let wheelCounts = { up:0, down:0 };
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
 let lastClickTime = {}; // Track last click time for delta calculation
 
-// Double click detection related variables
-let doubleClickLastTime = 0;
-let doubleClickCount = 0;
+// Double click detection related variables - for ALL buttons
+let doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 const DOUBLE_CLICK_THRESHOLD = 500; // Double click time threshold in ms (usually 200-500ms)
 const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms)
 
@@ -107,7 +107,6 @@ document.addEventListener('mousedown', (e) => {
     // Log with delta time and warning if too short (possible double click)
     let logWarning = (timeDiff > 0 && timeDiff < 80) ? TEXTS.log_warning : ""; 
     
-    // 修改日志格式，更清晰地显示时间差计算逻辑
     let timeLog = "";
     if (lastTime === 0) {
         timeLog = "(First press - timing starts now)";
@@ -117,47 +116,52 @@ document.addEventListener('mousedown', (e) => {
     
     addLog(`${btnName} ↓ ${timeLog}` + logWarning, logWarning ? 'log-alert' : '');
     
-    // 关键：记录这次按下时间，作为下一次计算的基础
+    // Record this press time as reference for next calculation
     lastClickTime[e.button] = now;
-    if (lastTime === 0) {
-        addLog(`✓ ${btnName} timing reference set. Next press will measure from this moment.`, 'log-release');
+    
+    // DOUBLE CLICK DETECTION FOR ALL BUTTONS
+    const buttonIndex = e.button;
+    const currentTime = Date.now();
+    
+    // If it's the first click or time since last click exceeds double click threshold, reset count
+    if (currentTime - doubleClickLastTime[buttonIndex] > DOUBLE_CLICK_THRESHOLD) {
+        doubleClickCount[buttonIndex] = 1;
+    } else {
+        doubleClickCount[buttonIndex]++;
     }
     
-    // Detect double click (only for left button)
-    if (e.button === 0) {
-        const currentTime = Date.now();
+    // If it's the second click and within threshold, consider it a double click
+    if (doubleClickCount[buttonIndex] === 2) {
+        const clickInterval = currentTime - doubleClickLastTime[buttonIndex];
         
-        // If it's the first click or time since last click exceeds double click threshold, reset count
-        if (currentTime - doubleClickLastTime > DOUBLE_CLICK_THRESHOLD) {
-            doubleClickCount = 1;
-        } else {
-            doubleClickCount++;
+        // Determine if double click is normal
+        let logMessage = '';
+        let className = '';
+        
+        if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
+            // Faulty double click (interval too short)
+            logMessage = `${btnName} Double Click (Interval: ${clickInterval}ms) [Faulty Double Click - Interval Too Short]`;
+            className = 'log-double-click-fault';
+            // Add faulty double click visual effect
+            showDoubleClickEffect(el, true);
+        } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
+            // Normal double click
+            logMessage = `${btnName} Double Click (Interval: ${clickInterval}ms) [Normal Double Click]`;
+            className = 'log-double-click';
+            // Add normal double click visual effect
+            showDoubleClickEffect(el, false);
         }
         
-        // If it's the second click and within threshold, consider it a double click
-        if (doubleClickCount === 2) {
-            const clickInterval = currentTime - doubleClickLastTime;
-            
-            // Determine if double click is normal
-            if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
-                // Faulty double click (interval too short)
-                addLog(`Left Button Double Click (Interval: ${clickInterval}ms) [Faulty Double Click - Interval Too Short]`, 'log-double-click-fault');
-                // Add faulty double click visual effect
-                showDoubleClickEffect(el, true);
-            } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
-                // Normal double click
-                addLog(`Left Button Double Click (Interval: ${clickInterval}ms) [Normal Double Click]`, 'log-double-click');
-                // Add normal double click visual effect
-                showDoubleClickEffect(el, false);
-            }
-            
-            // Reset click count
-            doubleClickCount = 0;
+        if (logMessage) {
+            addLog(logMessage, className);
         }
         
-        // Update last click time
-        doubleClickLastTime = currentTime;
+        // Reset click count for this button
+        doubleClickCount[buttonIndex] = 0;
     }
+    
+    // Update last click time for this button
+    doubleClickLastTime[buttonIndex] = currentTime;
 });
 
 /* Mouseup */
@@ -181,6 +185,16 @@ document.addEventListener('mousemove', (e) => {
     // Check middle button (Button 1): mask is 4
     if (isPressed[1] && (e.buttons & 4) === 0) {
         handleButtonRelease(1);
+    }
+    
+    // Check side button B4 (Button 3)
+    if (isPressed[3] && (e.buttons & 8) === 0) {
+        handleButtonRelease(3);
+    }
+    
+    // Check side button B5 (Button 4)
+    if (isPressed[4] && (e.buttons & 16) === 0) {
+        handleButtonRelease(4);
     }
 });
 
@@ -306,9 +320,9 @@ function resetCounts() {
     lastClickTime = {};
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
-    // Reset double click related variables
-    doubleClickCount = 0;
-    doubleClickLastTime = 0;
+    // Reset double click related variables for ALL buttons
+    doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     
     // Reset button visual state
     document.querySelectorAll('.btn-zone').forEach(el => {
