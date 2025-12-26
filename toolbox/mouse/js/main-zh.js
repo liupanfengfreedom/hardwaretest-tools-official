@@ -8,6 +8,11 @@ const TEXTS = {
     counter_b5: "侧键(B5)",
     log_warning: " [连击警报!]",
     log_reset: "--- 所有数据已重置 ---",
+    test_area_status_ready: "就绪",
+    test_area_status_active: "激活",
+    test_area_status_testing: "测试中",
+    test_area_status_double_click: "双击检测",
+    test_area_status_error: "故障",
     // 删除指南按钮相关的文本，因为按钮已被移除
 };
 
@@ -31,11 +36,131 @@ let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 const DOUBLE_CLICK_THRESHOLD = 500; // 双击时间阈值，单位ms（通常是200-500ms）
 const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // 故障双击阈值（小于80ms）
 
+// 新增：页面滚动锁定状态
+let isScrollLocked = false;
+
+// 新增：测试区状态管理
+let testArea = null;
+let testAreaStatus = null;
+let testAreaTimeout = null;
+let isMouseInTestArea = false;
+
 // 1. Prevent context menu
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 // 2. Prevent native drag
 document.addEventListener('dragstart', event => event.preventDefault());
+
+// 初始化测试区功能
+function initTestArea() {
+    testArea = document.getElementById('testArea');
+    testAreaStatus = document.getElementById('testAreaStatus');
+    
+    if (!testArea || !testAreaStatus) return;
+    
+    // 设置初始状态
+    updateTestAreaStatus('ready');
+    
+    // 为测试区添加事件监听
+    testArea.addEventListener('mouseenter', () => {
+        isMouseInTestArea = true;
+        updateTestAreaStatus('active');
+        testArea.classList.add('active');
+    });
+    
+    testArea.addEventListener('mouseleave', () => {
+        isMouseInTestArea = false;
+        // 如果正在测试中，不要立即恢复到就绪状态
+        if (!hasActiveButtonPress()) {
+            updateTestAreaStatus('ready');
+            testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+        }
+    });
+}
+
+// 检查是否有按钮当前被按下
+function hasActiveButtonPress() {
+    for (let i = 0; i < 5; i++) {
+        if (isPressed[i]) return true;
+    }
+    return false;
+}
+
+// 更新测试区状态和视觉状态
+function updateTestAreaStatus(status) {
+    if (!testArea || !testAreaStatus) return;
+    
+    // 清除现有的超时
+    if (testAreaTimeout) {
+        clearTimeout(testAreaTimeout);
+        testAreaTimeout = null;
+    }
+    
+    // 移除所有状态类
+    testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+    
+    // 更新状态文本并添加适当的类
+    switch (status) {
+        case 'ready':
+            testAreaStatus.textContent = TEXTS.test_area_status_ready;
+            break;
+        case 'active':
+            testAreaStatus.textContent = TEXTS.test_area_status_active;
+            testArea.classList.add('active');
+            break;
+        case 'testing':
+            testAreaStatus.textContent = TEXTS.test_area_status_testing;
+            testArea.classList.add('testing');
+            break;
+        case 'double-click':
+            testAreaStatus.textContent = TEXTS.test_area_status_double_click;
+            testArea.classList.add('double-click-detected');
+            
+            // 1秒后重置
+            testAreaTimeout = setTimeout(() => {
+                if (isMouseInTestArea) {
+                    updateTestAreaStatus('active');
+                } else {
+                    updateTestAreaStatus('ready');
+                }
+            }, 1000);
+            break;
+        case 'error':
+            testAreaStatus.textContent = TEXTS.test_area_status_error;
+            testArea.classList.add('error');
+            
+            // 1.5秒后重置
+            testAreaTimeout = setTimeout(() => {
+                if (isMouseInTestArea) {
+                    updateTestAreaStatus('active');
+                } else {
+                    updateTestAreaStatus('ready');
+                }
+            }, 1500);
+            break;
+    }
+}
+
+// 新增：锁定页面滚动功能
+function toggleScrollLock() {
+    isScrollLocked = !isScrollLocked;
+    
+    if (isScrollLocked) {
+        // 锁定页面滚动
+        document.body.style.overflow = 'hidden';
+        // 显示解锁按钮
+        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-unlock"></i> 解锁页面滚动';
+        document.getElementById('scrollLockBtn').style.backgroundColor = '#ff9800';
+        addLog("页面滚动已锁定 - 滚轮测试时页面不会滚动", 'log-release');
+    } else {
+        // 解锁页面滚动
+        document.body.style.overflow = 'auto';
+        // 显示锁定按钮
+        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-lock"></i> 锁定页面滚动';
+        document.getElementById('scrollLockBtn').style.backgroundColor = '#4fc3f7';
+        addLog("页面滚动已解锁 - 滚轮测试时页面会跟随滚动", 'log-release');
+    }
+}
 
 // 3. Helper function: handle button release
 function handleButtonRelease(buttonCode) {
@@ -65,6 +190,17 @@ function handleButtonRelease(buttonCode) {
     const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
     
     addLog(`${btnName} ↑ (按住: ${pressDuration}ms)`, 'log-release');
+    
+    // 如果没有按钮被按下，更新测试区状态
+    if (!hasActiveButtonPress() && testArea) {
+        if (isMouseInTestArea) {
+            updateTestAreaStatus('active');
+            testArea.classList.remove('testing');
+        } else {
+            updateTestAreaStatus('ready');
+            testArea.classList.remove('testing');
+        }
+    }
 }
 
 // --- Event Listeners ---
@@ -118,6 +254,12 @@ document.addEventListener('mousedown', (e) => {
     // 关键：记录这次按下时间，作为下一次计算的基础
     lastClickTime[e.button] = now;
     
+    // 更新测试区状态
+    if (testArea) {
+        updateTestAreaStatus('testing');
+        testArea.classList.add('testing');
+    }
+    
     // 为所有按键添加双击检测
     const buttonIndex = e.button;
     const currentTime = Date.now();
@@ -143,12 +285,20 @@ document.addEventListener('mousedown', (e) => {
             className = 'log-double-click-fault';
             // 添加故障双击视觉表现
             showDoubleClickEffect(el, true);
+            // 为故障双击更新测试区状态
+            if (testArea) {
+                updateTestAreaStatus('error');
+            }
         } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
             // 正常双击
             logMessage = `${btnName} 双击 (间隔: ${clickInterval}ms) [正常双击]`;
             className = 'log-double-click';
             // 添加正常双击视觉表现
             showDoubleClickEffect(el, false);
+            // 为正常双击更新测试区状态
+            if (testArea) {
+                updateTestAreaStatus('double-click');
+            }
         }
         
         if (logMessage) {
@@ -202,10 +352,29 @@ window.addEventListener('blur', () => {
     for (let i = 0; i < 5; i++) {
         if (isPressed[i]) handleButtonRelease(i);
     }
+    
+    // 重置测试区状态
+    if (testArea) {
+        updateTestAreaStatus('ready');
+        testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+    }
 });
 
 /* Wheel event */
 document.addEventListener('wheel', (e) => {
+    // 只有当鼠标在鼠标测试区域内时，才阻止默认滚动行为
+    const mouseArea = document.getElementById('mouseArea');
+    const isInMouseArea = mouseArea.contains(e.target) || mouseArea === e.target;
+    
+    // 如果页面滚动被锁定，阻止默认行为
+    if (isScrollLocked) {
+        e.preventDefault();
+    }
+    // 如果在鼠标测试区域内，也阻止默认行为
+    else if (isInMouseArea) {
+        e.preventDefault();
+    }
+    
     if (e.deltaY < 0) {
         // Scroll up
         wheelCounts.up++;
@@ -213,6 +382,12 @@ document.addEventListener('wheel', (e) => {
         highlightWheel('up'); // 添加高亮效果
         flashIndicator(scrollUp);
         addLog("滚轮 ↑");
+        
+        // 滚动时更新测试区状态
+        if (testArea && isMouseInTestArea) {
+            updateTestAreaStatus('testing');
+            testArea.classList.add('testing');
+        }
     } else {
         // Scroll down
         wheelCounts.down++;
@@ -220,8 +395,14 @@ document.addEventListener('wheel', (e) => {
         highlightWheel('down'); // 添加高亮效果
         flashIndicator(scrollDown);
         addLog("滚轮 ↓");
+        
+        // 滚动时更新测试区状态
+        if (testArea && isMouseInTestArea) {
+            updateTestAreaStatus('testing');
+            testArea.classList.add('testing');
+        }
     }
-}, { passive: true });
+}, { passive: false }); // 注意：passive必须为false才能调用preventDefault
 
 function flashIndicator(element) {
     element.style.opacity = '1';
@@ -332,6 +513,12 @@ function resetCounts() {
     // Reset counter rows highlight
     document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight'));
     
+    // 重置测试区状态
+    if (testArea) {
+        updateTestAreaStatus('ready');
+        testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
+    }
+    
     // Add log
     addLog(TEXTS.log_reset); 
 }
@@ -346,3 +533,23 @@ function addLog(text, className) {
         logContainer.removeChild(logContainer.lastChild);
     }
 }
+
+// 页面加载完成后添加滚动锁定按钮
+document.addEventListener('DOMContentLoaded', function() {
+    // 创建滚动锁定按钮
+    const scrollLockBtn = document.createElement('button');
+    scrollLockBtn.id = 'scrollLockBtn';
+    scrollLockBtn.className = 'scroll-lock-btn';
+    scrollLockBtn.innerHTML = '<i class="fas fa-lock"></i> 锁定页面滚动';
+    scrollLockBtn.onclick = toggleScrollLock;
+    
+    // 将按钮添加到统计面板的头部
+    const statHeaderGroup = document.querySelector('.stat-header-group');
+    if (statHeaderGroup) {
+        // 将按钮插入到重置按钮之前
+        statHeaderGroup.insertBefore(scrollLockBtn, statHeaderGroup.querySelector('.reset-btn'));
+    }
+    
+    // 初始化测试区
+    initTestArea();
+});
