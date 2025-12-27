@@ -36,9 +36,6 @@ let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 const DOUBLE_CLICK_THRESHOLD = 500; // 双击时间阈值，单位ms（通常是200-500ms）
 const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // 故障双击阈值（小于80ms）
 
-// 新增：页面滚动锁定状态
-let isScrollLocked = false;
-
 // 新增：测试区状态管理
 let testArea = null;
 let testAreaStatus = null;
@@ -138,27 +135,6 @@ function updateTestAreaStatus(status) {
                 }
             }, 1500);
             break;
-    }
-}
-
-// 新增：锁定页面滚动功能
-function toggleScrollLock() {
-    isScrollLocked = !isScrollLocked;
-    
-    if (isScrollLocked) {
-        // 锁定页面滚动
-        document.body.style.overflow = 'hidden';
-        // 显示解锁按钮
-        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-unlock"></i> 解锁页面滚动';
-        document.getElementById('scrollLockBtn').style.backgroundColor = '#ff9800';
-        addLog("页面滚动已锁定 - 滚轮测试时页面不会滚动", 'log-release');
-    } else {
-        // 解锁页面滚动
-        document.body.style.overflow = 'auto';
-        // 显示锁定按钮
-        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-lock"></i> 锁定页面滚动';
-        document.getElementById('scrollLockBtn').style.backgroundColor = '#4fc3f7';
-        addLog("页面滚动已解锁 - 滚轮测试时页面会跟随滚动", 'log-release');
     }
 }
 
@@ -366,12 +342,8 @@ document.addEventListener('wheel', (e) => {
     const mouseArea = document.getElementById('mouseArea');
     const isInMouseArea = mouseArea.contains(e.target) || mouseArea === e.target;
     
-    // 如果页面滚动被锁定，阻止默认行为
-    if (isScrollLocked) {
-        e.preventDefault();
-    }
     // 如果在鼠标测试区域内，也阻止默认行为
-    else if (isInMouseArea) {
+    if (isInMouseArea) {
         e.preventDefault();
     }
     
@@ -534,22 +506,8 @@ function addLog(text, className) {
     }
 }
 
-// 页面加载完成后添加滚动锁定按钮
+// 页面加载完成后初始化测试区
 document.addEventListener('DOMContentLoaded', function() {
-    // 创建滚动锁定按钮
-    const scrollLockBtn = document.createElement('button');
-    scrollLockBtn.id = 'scrollLockBtn';
-    scrollLockBtn.className = 'scroll-lock-btn';
-    scrollLockBtn.innerHTML = '<i class="fas fa-lock"></i> 锁定页面滚动';
-    scrollLockBtn.onclick = toggleScrollLock;
-    
-    // 将按钮添加到统计面板的头部
-    const statHeaderGroup = document.querySelector('.stat-header-group');
-    if (statHeaderGroup) {
-        // 将按钮插入到重置按钮之前
-        statHeaderGroup.insertBefore(scrollLockBtn, statHeaderGroup.querySelector('.reset-btn'));
-    }
-    
     // 初始化测试区
     initTestArea();
 });
