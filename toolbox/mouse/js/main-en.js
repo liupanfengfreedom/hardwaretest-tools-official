@@ -36,9 +36,6 @@ let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 const DOUBLE_CLICK_THRESHOLD = 500; // Double click time threshold in ms (usually 200-500ms)
 const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms)
 
-// New: page scroll lock state
-let isScrollLocked = false;
-
 // New: test area state management
 let testArea = null;
 let testAreaStatus = null;
@@ -138,27 +135,6 @@ function updateTestAreaStatus(status) {
                 }
             }, 1500);
             break;
-    }
-}
-
-// New: toggle page scroll lock function
-function toggleScrollLock() {
-    isScrollLocked = !isScrollLocked;
-    
-    if (isScrollLocked) {
-        // Lock page scrolling
-        document.body.style.overflow = 'hidden';
-        // Show unlock button
-        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-unlock"></i> Unlock Page Scroll';
-        document.getElementById('scrollLockBtn').style.backgroundColor = '#ff9800';
-        addLog("Page scrolling locked - page won't scroll during wheel test", 'log-release');
-    } else {
-        // Unlock page scrolling
-        document.body.style.overflow = 'auto';
-        // Show lock button
-        document.getElementById('scrollLockBtn').innerHTML = '<i class="fas fa-lock"></i> Lock Page Scroll';
-        document.getElementById('scrollLockBtn').style.backgroundColor = '#4fc3f7';
-        addLog("Page scrolling unlocked - page will scroll during wheel test", 'log-release');
     }
 }
 
@@ -366,12 +342,8 @@ document.addEventListener('wheel', (e) => {
     const mouseArea = document.getElementById('mouseArea');
     const isInMouseArea = mouseArea.contains(e.target) || mouseArea === e.target;
     
-    // If page scrolling is locked, prevent default behavior
-    if (isScrollLocked) {
-        e.preventDefault();
-    }
-    // If in mouse testing area, also prevent default behavior
-    else if (isInMouseArea) {
+    // If in mouse testing area, prevent default behavior
+    if (isInMouseArea) {
         e.preventDefault();
     }
     
@@ -534,22 +506,8 @@ function addLog(text, className) {
     }
 }
 
-// Add scroll lock button after page loads
+// Add test area initialization after page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Create scroll lock button
-    const scrollLockBtn = document.createElement('button');
-    scrollLockBtn.id = 'scrollLockBtn';
-    scrollLockBtn.className = 'scroll-lock-btn';
-    scrollLockBtn.innerHTML = '<i class="fas fa-lock"></i> Lock Page Scroll';
-    scrollLockBtn.onclick = toggleScrollLock;
-    
-    // Add button to stats panel header
-    const statHeaderGroup = document.querySelector('.stat-header-group');
-    if (statHeaderGroup) {
-        // Insert button before reset button
-        statHeaderGroup.insertBefore(scrollLockBtn, statHeaderGroup.querySelector('.reset-btn'));
-    }
-    
     // Initialize test area
     initTestArea();
 });

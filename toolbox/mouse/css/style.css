@@ -39,16 +39,17 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     align-items: start;
 }
 
-/* --- 测试区容器样式 --- */
+/* --- 测试区容器样式 - 扩大尺寸 --- */
 .test-area-container {
     position: relative;
     border: 4px solid var(--test-area-border-default);
     border-radius: 20px;
-    padding: 25px;
+    padding: 30px; /* 增加内边距 */
     background-color: rgba(30, 30, 30, 0.8);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
-    min-height: 500px;
+    min-height: 550px; /* 增加最小高度 */
+    min-width: 350px; /* 增加最小宽度 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -114,13 +115,23 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     gap: 8px;
     font-size: 0.85rem;
     font-weight: bold;
-    color: var(--text-dim);
-    border: 2px solid var(--test-area-border-default);
+    color: #ffffff; /* 改为纯白色，更醒目 */
+    border: 2px solid var(--test-area-border-active); /* 使用激活状态的颜色 */
     z-index: 10;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5); /* 添加发光效果 */
 }
 
 .test-area-icon {
     color: var(--info-blue);
+    font-size: 1rem; /* 稍微增大图标 */
+}
+
+.test-area-text {
+    font-weight: 700; /* 加粗字体 */
+    text-transform: uppercase; /* 英文版大写字母 */
+    letter-spacing: 1px; /* 增加字母间距 */
+    color: #ffffff; /* 纯白色 */
+    text-shadow: 0 0 8px rgba(79, 195, 247, 0.7); /* 添加文字发光效果 */
 }
 
 .test-area-status {
@@ -128,7 +139,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.75rem;
-    font-weight: normal;
+    font-weight: bold; /* 状态文本加粗 */
     background-color: var(--test-area-border-default);
     color: var(--text-main);
     transition: all 0.3s ease;
@@ -142,6 +153,16 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
 .test-area-container.testing .test-area-status {
     background-color: var(--test-area-border-testing);
     color: #000;
+}
+
+.test-area-container.double-click-detected .test-area-status {
+    background-color: var(--test-area-border-double-click);
+    color: #000;
+}
+
+.test-area-container.error .test-area-status {
+    background-color: var(--test-area-border-error);
+    color: #fff;
 }
 
 .test-area-info {
@@ -170,10 +191,10 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
 /* --- Mouse visualization area --- */
 .mouse-visual {
     position: relative;
-    width: 260px;
-    height: 420px;
+    width: 280px; /* 稍微增加宽度 */
+    height: 440px; /* 稍微增加高度 */
     background-color: var(--mouse-base);
-    border-radius: 130px 130px 100px 100px;
+    border-radius: 140px 140px 110px 110px; /* 根据新尺寸调整圆角 */
     border: 2px solid var(--border);
     display: flex;
     justify-content: center;
@@ -187,7 +208,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* 稍微增大字体 */
     color: #555;
     font-weight: bold;
 }
@@ -198,13 +219,13 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     box-shadow: 0 0 15px var(--highlight);
 }
 
-.left-click { top: 0; left: 0; width: 50%; height: 140px; border-radius: 130px 0 0 0; border-right: 1px solid #111; }
-.right-click { top: 0; right: 0; width: 50%; height: 140px; border-radius: 0 130px 0 0; border-left: 1px solid #111; }
-.middle-click { top: 40px; width: 30px; height: 70px; border-radius: 15px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
+.left-click { top: 0; left: 0; width: 50%; height: 150px; border-radius: 140px 0 0 0; border-right: 1px solid #111; }
+.right-click { top: 0; right: 0; width: 50%; height: 150px; border-radius: 0 140px 0 0; border-left: 1px solid #111; }
+.middle-click { top: 45px; width: 35px; height: 75px; border-radius: 17px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
 
-.side-btn { left: -10px; width: 20px; height: 60px; border-radius: 10px 0 0 10px; background-color: #3a3a3a; }
-.btn-forward { top: 200px; }
-.btn-back { top: 270px; }
+.side-btn { left: -12px; width: 22px; height: 65px; border-radius: 11px 0 0 11px; background-color: #3a3a3a; }
+.btn-forward { top: 210px; }
+.btn-back { top: 285px; }
 
 .scroll-indicator {
     position: absolute;
@@ -212,10 +233,10 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     color: var(--highlight);
     opacity: 0;
     transition: opacity 0.2s;
-    font-size: 20px;
+    font-size: 22px; /* 稍微增大图标 */
 }
-.scroll-up { top: -30px; }
-.scroll-down { top: 120px; z-index: 11; }
+.scroll-up { top: -35px; }
+.scroll-down { top: 130px; z-index: 11; }
 
 /* --- Right side: data panel --- */
 .stats-panel {
@@ -242,35 +263,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     letter-spacing: 1px;
 }
 
-/* 滚动锁定按钮样式 */
-.scroll-lock-btn {
-    background-color: #4fc3f7; 
-    color: white;
-    border: none;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 0.75rem;
-    cursor: pointer;
-    box-shadow: 0 0 8px rgba(79, 195, 247, 0.4); 
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    letter-spacing: 0.5px;
-    margin-right: 8px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.scroll-lock-btn:hover {
-    background-color: #66d4ff;
-    transform: scale(1.1); 
-    box-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
-}
-
-.scroll-lock-btn:active {
-    transform: scale(0.95);
-}
+/* 移除滚动锁定按钮样式 */
 
 .reset-btn {
     background-color: var(--accent-red); 
@@ -534,13 +527,14 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     }
     
     .test-area-container {
-        padding: 15px;
-        min-height: 450px;
+        padding: 20px;
+        min-height: 500px;
+        min-width: 300px;
     }
     
     .mouse-visual {
-        width: 220px;
-        height: 380px;
+        width: 240px;
+        height: 400px;
         margin: 0 auto;
     }
     
@@ -550,7 +544,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
         gap: 10px;
     }
     
-    .scroll-lock-btn, .reset-btn {
+    .reset-btn {
         align-self: flex-start;
     }
 }
