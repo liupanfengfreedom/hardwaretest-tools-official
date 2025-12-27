@@ -336,14 +336,15 @@ window.addEventListener('blur', () => {
     }
 });
 
-/* Wheel event */
+/* Wheel event - FIXED: Check if mouse is in the entire test area */
 document.addEventListener('wheel', (e) => {
-    // Only prevent default scrolling behavior when mouse is in mouse testing area
-    const mouseArea = document.getElementById('mouseArea');
-    const isInMouseArea = mouseArea.contains(e.target) || mouseArea === e.target;
+    // Get the test area container
+    const testArea = document.getElementById('testArea');
+    // Check if mouse is in test area (including label, mouse area, info area)
+    const isInTestArea = testArea.contains(e.target) || testArea === e.target;
     
-    // If in mouse testing area, prevent default behavior
-    if (isInMouseArea) {
+    // If in test area, prevent default scrolling behavior
+    if (isInTestArea) {
         e.preventDefault();
     }
     

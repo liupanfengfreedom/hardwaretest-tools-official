@@ -336,14 +336,15 @@ window.addEventListener('blur', () => {
     }
 });
 
-/* Wheel event */
+/* Wheel event - 修复：检查鼠标是否在整个测试区内 */
 document.addEventListener('wheel', (e) => {
-    // 只有当鼠标在鼠标测试区域内时，才阻止默认滚动行为
-    const mouseArea = document.getElementById('mouseArea');
-    const isInMouseArea = mouseArea.contains(e.target) || mouseArea === e.target;
+    // 获取测试区容器
+    const testArea = document.getElementById('testArea');
+    // 判断鼠标是否在测试区内（包括标签、鼠标区域、信息区域）
+    const isInTestArea = testArea.contains(e.target) || testArea === e.target;
     
-    // 如果在鼠标测试区域内，也阻止默认行为
-    if (isInMouseArea) {
+    // 如果在测试区内，阻止默认滚动行为
+    if (isInTestArea) {
         e.preventDefault();
     }
     

@@ -23,37 +23,51 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* 改为从顶部开始 */
     min-height: 100vh;
     margin: 0;
     user-select: none;
+    padding: 10px 0 30px 0; /* 添加上下内边距 */
 }
 
-h1 { margin-bottom: 10px; font-weight: 300; letter-spacing: 1px; }
-p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
+h1 { 
+    margin-bottom: 8px; /* 减小间距 */
+    font-weight: 300; 
+    letter-spacing: 1px;
+    font-size: 1.8rem; /* 减小标题字体 */
+}
+
+p { 
+    color: var(--text-dim); 
+    margin-bottom: 20px; /* 减小间距 */
+    font-size: 0.9rem; /* 减小副标题字体 */
+}
 
 .dashboard {
     display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 40px;
-    align-items: start;
+    grid-template-columns: 1fr 350px; /* 减小右侧面板宽度 */
+    gap: 25px; /* 减小间距 */
+    align-items: stretch;
+    max-width: 1000px; /* 减小整体最大宽度 */
+    width: 100%;
+    padding: 0 15px; /* 减小内边距 */
+    margin-bottom: 20px; /* 添加底部间距 */
 }
 
-/* --- 测试区容器样式 - 扩大尺寸 --- */
+/* --- 测试区容器样式 - 减小尺寸 --- */
 .test-area-container {
     position: relative;
-    border: 4px solid var(--test-area-border-default);
-    border-radius: 20px;
-    padding: 30px; /* 增加内边距 */
+    border: 3px solid var(--test-area-border-default); /* 减小边框 */
+    border-radius: 15px; /* 减小圆角 */
+    padding: 20px; /* 减小内边距 */
     background-color: rgba(30, 30, 30, 0.8);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    min-height: 550px; /* 增加最小高度 */
-    min-width: 350px; /* 增加最小宽度 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* 减小阴影 */
+    min-height: 420px; /* 显著减小最小高度 */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 .test-area-container:hover {
@@ -188,17 +202,17 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     color: var(--info-blue);
 }
 
-/* --- Mouse visualization area --- */
+/* --- Mouse visualization area - 减小尺寸 --- */
 .mouse-visual {
     position: relative;
-    width: 280px; /* 稍微增加宽度 */
-    height: 440px; /* 稍微增加高度 */
+    width: 220px; /* 减小宽度 */
+    height: 350px; /* 减小高度 */
     background-color: var(--mouse-base);
-    border-radius: 140px 140px 110px 110px; /* 根据新尺寸调整圆角 */
+    border-radius: 110px 110px 90px 90px; /* 根据新尺寸调整圆角 */
     border: 2px solid var(--border);
     display: flex;
     justify-content: center;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 减小阴影 */
 }
 
 .btn-zone {
@@ -219,13 +233,13 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     box-shadow: 0 0 15px var(--highlight);
 }
 
-.left-click { top: 0; left: 0; width: 50%; height: 150px; border-radius: 140px 0 0 0; border-right: 1px solid #111; }
-.right-click { top: 0; right: 0; width: 50%; height: 150px; border-radius: 0 140px 0 0; border-left: 1px solid #111; }
-.middle-click { top: 45px; width: 35px; height: 75px; border-radius: 17px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
+.left-click { top: 0; left: 0; width: 50%; height: 120px; border-radius: 110px 0 0 0; border-right: 1px solid #111; }
+.right-click { top: 0; right: 0; width: 50%; height: 120px; border-radius: 0 110px 0 0; border-left: 1px solid #111; }
+.middle-click { top: 40px; width: 30px; height: 60px; border-radius: 15px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
 
-.side-btn { left: -12px; width: 22px; height: 65px; border-radius: 11px 0 0 11px; background-color: #3a3a3a; }
-.btn-forward { top: 210px; }
-.btn-back { top: 285px; }
+.side-btn { left: -10px; width: 18px; height: 55px; border-radius: 9px 0 0 9px; background-color: #3a3a3a; }
+.btn-forward { top: 170px; }
+.btn-back { top: 235px; }
 
 .scroll-indicator {
     position: absolute;
@@ -235,45 +249,56 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     transition: opacity 0.2s;
     font-size: 22px; /* 稍微增大图标 */
 }
-.scroll-up { top: -35px; }
-.scroll-down { top: 130px; z-index: 11; }
+.scroll-up { top: -30px; }
+.scroll-down { top: 110px; z-index: 11; }
 
-/* --- Right side: data panel --- */
+/* --- Right side: data panel - 减小尺寸并与左侧对齐 --- */
 .stats-panel {
     background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 20px; /* 减小内边距 */
+    border-radius: 15px; /* 减小圆角 */
     width: 100%;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    height: 100%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5); /* 减小阴影 */
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #2a2a2a; /* 添加边框与左侧协调 */
 }
 
-.stat-box { margin-bottom: 20px; }
+.stat-box { 
+    margin-bottom: 20px; /* 减小间距 */
+    flex: 1;
+}
+
+.stat-box:last-child {
+    margin-bottom: 0;
+    flex: 1.2; /* 事件日志区域稍微大一点 */
+}
 
 .stat-header-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* 减小间距 */
 }
 
 .stat-label {
-    font-size: 0.75rem;
+    font-size: 0.8rem; /* 减小字体 */
     color: var(--text-dim);
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-weight: 600; /* 增加字体粗细 */
 }
-
-/* 移除滚动锁定按钮样式 */
 
 .reset-btn {
     background-color: var(--accent-red); 
     color: white;
     border: none;
-    padding: 4px 12px;
-    border-radius: 4px;
+    padding: 6px 12px; /* 减小按钮内边距 */
+    border-radius: 6px; /* 稍微增加圆角 */
     font-family: inherit;
     font-weight: bold;
-    font-size: 0.75rem;
+    font-size: 0.8rem; /* 减小按钮字体 */
     cursor: pointer;
     box-shadow: 0 0 8px rgba(255, 68, 68, 0.4); 
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -282,7 +307,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
 
 .reset-btn:hover {
     background-color: #ff6666;
-    transform: scale(1.1); 
+    transform: scale(1.05); 
     box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
 }
 
@@ -296,20 +321,21 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     color: var(--highlight);
 }
 
-/* Counter table style */
+/* Counter table style - 调整布局和字体 */
 .counter-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 12px; /* 减小间距 */
 }
 
 .counter-item {
     background: #252525;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 12px; /* 减小内边距 */
+    border-radius: 10px; /* 增加圆角 */
     display: flex;
-    font-size: 0.85rem;
+    font-size: 0.85rem; /* 减小字体 */
     transition: background-color 0.2s, color 0.1s, transform 0.1s;
+    min-height: 65px; /* 减小最小高度 */
 }
 
 .counter-item.active-counter {
@@ -325,9 +351,9 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
 }
 
 .counter-label {
-    font-size: 0.75rem;
+    font-size: 0.75rem; /* 减小字体 */
     color: var(--text-dim);
-    margin-top: 2px;
+    margin-top: 4px; /* 减小间距 */
     display: flex;
     justify-content: space-between;
 }
@@ -337,25 +363,28 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     font-weight: bold;
     color: #fff;
     margin-left: 5px;
+    font-size: 1rem; /* 减小数字字体 */
 }
 
-/* Event log container */
+/* Event log container - 调整大小 */
 .log-container {
-    height: 120px;
+    height: 140px; /* 减小高度 */
     overflow-y: auto;
     background: #111;
     border: 1px solid #333;
-    padding: 10px;
+    padding: 12px; /* 减小内边距 */
     font-family: monospace;
-    font-size: 0.8rem;
-    border-radius: 6px;
+    font-size: 0.75rem; /* 减小字体 */
+    border-radius: 8px; /* 增加圆角 */
+    flex: 1;
 }
 
 .log-item { 
     margin-bottom: 4px; 
     border-bottom: 1px solid #222; 
-    padding-bottom: 2px; 
+    padding-bottom: 3px; 
     color: #aaa;
+    line-height: 1.3; /* 减小行高 */
 }
 
 .log-alert { 
@@ -378,7 +407,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
 .log-release {
     color: #555; /* Darker gray than normal log */
     font-style: italic; /* Italic, indicates auxiliary information */
-    font-size: 0.75rem; /* Slightly smaller */
+    font-size: 0.8rem; /* Slightly smaller */
 }
 
 /* 修改指南容器样式，使其直接显示 */
@@ -388,7 +417,7 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     height: auto; /* 直接显示，不需要折叠 */
     overflow: visible; /* 内容可见 */
     border-bottom: 1px solid #333; /* 直接显示边框 */
-    margin: 40px 0 50px 0; /* 添加上下边距 */
+    margin: 25px 0 30px 0; /* 减小上下边距 */
 }
 
 .guide-content {
@@ -438,23 +467,6 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     animation: pulse-alert 1s infinite alternate;
 }
 
-.double-click-effect {
-    background-color: #ff9800 !important;
-    color: #000 !important;
-    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8) !important;
-    transform: scale(1.05) !important;
-    transition: none !important;
-    z-index: 20 !important;
-}
-
-.double-click-fault-effect {
-    background-color: var(--accent-red) !important;
-    color: #fff !important;
-    box-shadow: 0 0 30px rgba(255, 68, 68, 0.8) !important;
-    transform: scale(1.05) !important;
-    transition: none !important;
-    z-index: 20 !important;
-}
 /* 添加新的双击效果类 - 为不同按钮提供不同的视觉效果 */
 .btn-zone.double-click-effect {
     background-color: var(--double-click-normal) !important;
@@ -515,27 +527,77 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     }
 }
 
-.guide-content h2 { color: var(--text-main); font-size: 1.2rem; margin-top: 25px; margin-bottom: 10px; }
-.guide-content h3 { color: var(--info-blue); font-size: 1rem; margin-top: 20px; }
-.guide-content p { color: #888; line-height: 1.6; margin-bottom: 15px; }
+.guide-content h2 { 
+    color: var(--text-main); 
+    font-size: 1.1rem; /* 减小字体 */
+    margin-top: 20px; 
+    margin-bottom: 10px;
+}
+
+.guide-content h3 { 
+    color: var(--info-blue); 
+    font-size: 1rem; /* 减小字体 */
+    margin-top: 18px;
+}
+
+.guide-content p { 
+    color: #888; 
+    line-height: 1.6; 
+    margin-bottom: 12px;
+    font-size: 0.85rem; /* 稍微减小字体 */
+}
 
 /* 响应式设计 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .dashboard {
         grid-template-columns: 1fr;
         gap: 20px;
+        max-width: 800px;
     }
     
     .test-area-container {
-        padding: 20px;
-        min-height: 500px;
-        min-width: 300px;
+        min-height: 380px;
+        padding: 15px;
+    }
+    
+    .stats-panel {
+        min-height: auto;
+        height: auto;
+        padding: 15px;
     }
     
     .mouse-visual {
-        width: 240px;
-        height: 400px;
+        width: 200px;
+        height: 320px;
         margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    p {
+        font-size: 0.8rem;
+    }
+    
+    .dashboard {
+        padding: 0 10px;
+    }
+    
+    .test-area-container {
+        padding: 15px;
+        min-height: 350px;
+    }
+    
+    .stats-panel {
+        padding: 15px;
+    }
+    
+    .mouse-visual {
+        width: 180px;
+        height: 300px;
     }
     
     .stat-header-group {
@@ -546,5 +608,38 @@ p { color: var(--text-dim); margin-bottom: 30px; font-size: 0.9rem; }
     
     .reset-btn {
         align-self: flex-start;
+    }
+    
+    .counter-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .log-container {
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    .test-area-label {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+    }
+    
+    .counter-item {
+        padding: 8px;
+        min-height: 55px;
+    }
+    
+    .counter-label {
+        font-size: 0.7rem;
+    }
+    
+    .counter-num {
+        font-size: 0.9rem;
     }
 }
