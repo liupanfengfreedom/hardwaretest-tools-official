@@ -1,4 +1,4 @@
-  // --- 本地化配置 ---
+// --- 本地化配置 ---
     const I18N = {
         'zh': { 
             'title': '專業鍵盤測試工具,keyboard tester',
@@ -20,7 +20,6 @@
             'Ins': '插入', 'Home': 'Home', 'PgUp': '上頁',
             'Del': '刪除', 'End': 'End', 'PgDn': '下頁',
             'Num': '數字', 'Ent': 'Enter',
-            'instructions_toggle': '📖 查看使用说明与功能詳解',
         },
         'en': {
             'title': 'keyboard tester',
@@ -42,7 +41,6 @@
             'Ins': 'Ins', 'Home': 'Home', 'PgUp': 'PgUp',
             'Del': 'Del', 'End': 'End', 'PgDn': 'PgDn',
             'Num': 'Num', 'Ent': 'Ent',
-            'instructions_toggle': '📖 View Instructions & Features',
         }
     };
 
@@ -103,8 +101,6 @@
         // 5. 数字键盘小键
         document.getElementById('i18n-key-numlk').innerText = texts.Num;
         document.getElementById('i18n-key-numpadenter').innerText = texts.Ent;
-        // 6. 使用说明按钮
-        document.getElementById('instructions-toggle').innerText = texts.instructions_toggle;
     }
 
     // --- 脚本逻辑 ---
@@ -133,19 +129,6 @@
             keyEl.appendChild(counter);
         });
         applyLocalization(); 
-        
-        // 使用说明切换功能
-        const instructionsToggle = document.getElementById('instructions-toggle');
-        const instructionsContent = document.getElementById('instructions-content');
-        
-        instructionsToggle.addEventListener('click', function() {
-            instructionsContent.classList.toggle('active');
-            if (instructionsContent.classList.contains('active')) {
-                this.textContent = currentLang === 'zh' ? '📖 收起使用说明' : '📖 Hide Instructions';
-            } else {
-                this.textContent = texts.instructions_toggle;
-            }
-        });
     });
 
     document.addEventListener('keydown', (e) => {
