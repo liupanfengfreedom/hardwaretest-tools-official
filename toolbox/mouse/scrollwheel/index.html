@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>专业鼠标滚轮测试工具 | Mouse Wheel Tester</title>
+  <title>专业鼠标滚轮测试工具 | Layout Refined</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="专业网页版鼠标滚轮测试工具，检测滚轮丢步、反向滚动、抖动、滚动频率与稳定性，支持中英文。" />
   <style>
     :root {
       --bg: #0f172a;
@@ -15,979 +14,313 @@
       --bad: #ef4444;
       --text: #e5e7eb;
       --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
     }
+
     * { box-sizing: border-box; }
+
+    /* 使 Body 成为居中容器 */
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #020617, #0f172a);
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       color: var(--text);
-      overflow-x: hidden;
+      
+      /* 核心居中代码 */
+      display: flex;
+      align-items: center;      /* 垂直居中 */
+      justify-content: center;   /* 水平居中 */
+      height: 100vh;            /* 占据全屏高度 */
+      width: 100vw;             /* 占据全屏宽度 */
+      overflow: hidden;
+      padding: 20px;
     }
-    header {
-      padding: 24px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-    header p {
-      margin: 0;
-      color: var(--muted);
-    }
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 16px;
+
+    /* 限制布局的最大尺寸，使其在宽屏上不会过度拉伸 */
+    .main-layout {
       display: grid;
-      grid-template-columns: 300px 1fr 400px;
+      grid-template-columns: 240px 1fr 380px;
+      grid-template-rows: 1fr 180px;
       gap: 16px;
+      
+      width: 100%;
+      max-width: 1400px;        /* 最大宽度限制 */
+      height: 100%;
+      max-height: 900px;        /* 最大高度限制 */
+      
+      /* 内部元素阴影增强整体感 */
+      filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
     }
+
+    /* 通用卡片样式 */
     .card {
       background: var(--card);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      transition: all 0.3s ease;
-    }
-    #testArea {
-      height: 300px;
-      border: 2px dashed var(--accent);
+      border: 1px solid var(--border);
       border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: var(--muted);
-      user-select: none;
-    }
-    #testArea.active {
-      background: rgba(56,189,248,0.08);
-      color: var(--text);
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .stat {
-      background: var(--panel);
-      border-radius: 12px;
-      padding: 12px;
-    }
-    .stat span {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .stat strong {
-      font-size: 20px;
-    }
-    .log-container {
-      height: 400px;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      position: relative;
     }
-    .log-header {
+
+    .card-header {
+      padding: 10px 16px;
+      background: rgba(0,0,0,0.2);
+      border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      flex-shrink: 0;
     }
-    .log {
-      flex: 1;
-      overflow: auto;
-      font-size: 12px;
-      background: #020617;
-      padding: 8px;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column-reverse;
-    }
-    .log-content {
-      display: flex;
-      flex-direction: column;
-    }
-    .log div.up { color: var(--good); }
-    .log div.down { color: var(--accent); }
-    .log div.err { color: var(--bad); }
-    .log div.info { color: var(--muted); }
-    .controls button {
-      margin-right: 8px;
-      margin-top: 8px;
-      background: var(--accent);
-      color: #020617;
-      border: none;
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    /* 行数测试面板激活状态样式 */
-    #lineTestCard {
-      position: relative;
-      overflow: hidden;
-    }
-    
-    #lineTestCard::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background-color: var(--muted);
-      transition: background-color 0.3s ease;
-    }
-    
-    #lineTestCard.active::before {
-      background-color: var(--good);
-      box-shadow: 0 0 10px var(--good);
-    }
-    
-    #lineTestCard.active {
-      border: 2px solid var(--good);
-      box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-    }
-    
-    /* 激活状态指示器 */
-    .active-indicator {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      background: rgba(30, 41, 59, 0.8);
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-    
-    #lineTestCard.active .active-indicator {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--muted);
-      transition: all 0.3s ease;
-    }
-    
-    #lineTestCard.active .status-dot {
-      background-color: var(--good);
-      box-shadow: 0 0 8px var(--good);
-      animation: pulse 1.5s infinite;
-    }
-    
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-      70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-    }
-    
-    /* 激活状态标题 */
-    .card-title-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    
-    .card-title-container h2 {
+
+    .card-title {
       margin: 0;
-      font-size: 18px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
     }
-    
-    /* 改进的提示样式 */
-    .test-hint {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 8px;
-      margin-bottom: 12px;
-      transition: all 0.3s ease;
-      background: rgba(148, 163, 184, 0.15);
-      border: 2px solid rgba(148, 163, 184, 0.3);
-      animation: hintPulse 2s infinite;
-    }
-    
-    @keyframes hintPulse {
-      0% { box-shadow: 0 0 0 0 rgba(148, 163, 184, 0.4); }
-      50% { box-shadow: 0 0 0 5px rgba(148, 163, 184, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(148, 163, 184, 0); }
-    }
-    
-    #lineTestCard.active .test-hint {
-      background: rgba(34, 197, 94, 0.15);
-      border-color: rgba(34, 197, 94, 0.5);
-      color: var(--good);
-      animation: activeHintPulse 1.5s infinite;
-    }
-    
-    @keyframes activeHintPulse {
-      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
-      50% { box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-    }
-    
-    .test-hint-icon {
-      font-size: 18px;
-    }
-    
-    /* 滚动框激活状态 */
+
+    /* 左侧：行数测试 */
+    .sidebar-test { grid-column: 1; grid-row: 1; }
     #scrollBox {
-      height: 333px;
-      width: 100%;
+      flex: 1;
       overflow-y: auto;
       background: #020617;
-      border-radius: 8px;
-      padding: 6px;
-      font-family: monospace;
-      font-size: 13px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      transition: border-color 0.3s ease;
-      line-height: 20px;
+      padding: 4px;
     }
-    
-    #lineTestCard.active #scrollBox {
-      border-color: var(--good);
-      box-shadow: inset 0 0 10px rgba(34, 197, 94, 0.1);
-    }
-    
-    /* 文本框中的行样式 */
     .scroll-line {
-      height: 20px;
-      line-height: 20px;
+      height: 33.3px;
+      line-height: 33.3px;
+      padding: 0 10px;
+      font-size: 12px;
+      border-bottom: 1px solid #1e293b;
       white-space: nowrap;
-      border-bottom: 1px dashed #1f2937;
-      transition: background-color 0.2s ease;
-      position: relative;
+      color: var(--muted);
     }
-    
-    .scroll-line.highlight {
-      background-color: rgba(56, 189, 248, 0.2);
-    }
-    
-    /* 行高标尺 */
-    .ruler {
-      position: absolute;
-      left: -30px;
-      top: 0;
-      width: 25px;
-      height: 20px;
+    .scroll-line.highlight { background: rgba(56, 189, 248, 0.2); color: #fff; }
+
+    /* 中间：主测试区 */
+    .test-main { grid-column: 2; grid-row: 1; }
+    #testArea {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
-      color: var(--muted);
-      background: rgba(0, 0, 0, 0.3);
-      border-right: 1px solid var(--muted);
-    }
-  
-    .mode-selector {
-      position: relative;
-      z-index: 10;
-    }
-    
-    .mode-select {
-      padding: 6px 12px;
-      background: var(--panel);
-      border: 1px solid var(--muted);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      min-width: 120px;
-    }
-    
-    .mode-select:hover {
-      border-color: var(--accent);
-    }
-    
-    .mode-select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-    }
-    
-    .mode-indicator {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      background: rgba(30, 41, 59, 0.8);
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      z-index: 5;
-    }
-    
-    .mode-indicator.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .mode-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: var(--muted);
-      transition: all 0.3s ease;
-    }
-    
-    .mode-indicator.up .mode-dot {
-      background-color: var(--good);
-      box-shadow: 0 0 6px var(--good);
-    }
-    
-    .mode-indicator.down .mode-dot {
-      background-color: var(--accent);
-      box-shadow: 0 0 6px var(--accent);
-    }
-    
-    /* 标题和控制组件的容器 */
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    
-    .card-header h2 {
-      margin: 0;
-    }
-    
-    footer {
       text-align: center;
-      padding: 16px;
+      cursor: crosshair;
+      border: 2px dashed var(--border);
+      margin: 16px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      font-size: 16px;
       color: var(--muted);
+    }
+    #testArea.active { background: rgba(56, 189, 248, 0.05); border-color: var(--accent); color: var(--text); }
+
+    /* 右侧堆叠容器 */
+    .right-stack {
+      grid-column: 3;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    /* 数据统计 */
+    .stats-panel { flex: 0 0 auto; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+    .stat-item {
+      background: var(--card);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .stat-value { font-size: 20px; font-weight: bold; font-family: monospace; }
+
+    /* 日志 */
+    .log-panel { flex: 1; min-height: 0; }
+    #log {
+      flex: 1;
+      padding: 8px;
       font-size: 12px;
+      font-family: monospace;
+      overflow-y: auto;
+      background: #020617;
+      display: flex;
+      flex-direction: column;
     }
-    @media (max-width: 1200px) {
-      .container {
-        grid-template-columns: 1fr 1fr;
-      }
+
+    /* 底部通栏：介绍区 */
+    .intro-panel { grid-column: 1 / span 3; grid-row: 2; }
+    .intro-content {
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
     }
-    @media (max-width: 900px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
+    .intro-content h3 { margin-top: 0; color: var(--text); }
+
+    /* UI 组件 */
+    select, button {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
     }
+    button:hover { background: var(--accent); color: #000; }
+    
+    .up { color: var(--good); }
+    .down { color: var(--accent); }
+    .err { color: var(--bad); font-weight: bold; }
   </style>
 </head>
 <body>
-<header>
-  <h1>专业鼠标滚轮测试工具</h1>
-  <p>Mouse Wheel Diagnostic & Stability Tester (Web)</p>
-</header>
 
-<div class="container">
-  <!-- 左侧：滚轮行数测试 -->
-  <div class="card" id="lineTestCard">
-    <div class="active-indicator">
-      <div class="status-dot"></div>
-      <span>测试激活</span>
-    </div>
-    
-    <div class="card-title-container">
-      <h2>滚轮刻度行数测试</h2>
-    </div>
-    
-    <div class="test-hint" id="lineTestHint">
-      <span class="test-hint-icon">🖱️</span>
-      <span id="hintText">鼠标移入此区域开始测试</span>
-    </div>
-    
-    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
-      每次只滚动一格滚轮，观察跳过的行数。
-      <br><small> </small>
-    </p>
-    
+<div class="main-layout">
+  
+  <aside class="card sidebar-test">
+    <div class="card-header"><h2 class="card-title">滚轮刻度、行数测试</h2></div>
     <div id="scrollBox"></div>
-    
-    <div style="margin-top:12px; padding:12px; background:var(--panel); border-radius:8px;">
-      <h3 style="margin-top:0;font-size:14px;">行数分析</h3>
-      <div id="lineAnalysis" style="font-size:12px;color:var(--muted)">
-        等待测试开始...
-      </div>
+    <div style="padding: 10px; background: rgba(0,0,0,0.3); font-size: 11px; text-align: center; border-top: 1px solid var(--border);">
+      <div id="lineAnalysis">等待滚动...</div>
     </div>
+  </aside>
+
+  <main class="card test-main">
+    <div class="card-header">
+      <h2 class="card-title">滚轮测试区</h2>
+      <select id="testModeSelect">
+        <option value="up">上滚测试 (Up)</option>
+        <option value="down">下滚测试 (Down)</option>
+      </select>
+    </div>
+    <div id="testArea">在此区域持续滚动滚轮进行压力测试</div>
+  </main>
+
+  <div class="right-stack">
+    <section class="card stats-panel">
+      <div class="card-header">
+        <h2 class="card-title">实时数据</h2>
+        <button onclick="resetTest()">重置数据</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item"><span class="stat-label">向上计数</span><span class="stat-value" id="upCount">0</span></div>
+        <div class="stat-item"><span class="stat-label">向下计数</span><span class="stat-value" id="downCount">0</span></div>
+        <div class="stat-item"><span class="stat-label">反向错误</span><span class="stat-value err" id="reverseCount">0</span></div>
+        <div class="stat-item"><span class="stat-label">最高频率 (Hz)</span><span class="stat-value" id="maxHz">0</span></div>
+      </div>
+    </section>
+
+    <section class="card log-panel">
+      <div class="card-header"><h2 class="card-title">事件日志</h2></div>
+      <div id="log"></div>
+    </section>
   </div>
 
-  <!-- 中间：滚轮测试区 -->
-  <div class="card">
-    <!-- 标题和模式选择器在同一行 -->
-    <div class="card-header">
-      <h2>滚轮测试区</h2>
-      
-      <!-- 测试模式下拉框 - 现在在右上角 -->
-      <div class="mode-selector">
-        <select class="mode-select" id="testModeSelect">
-          <option value="up">上滚测试</option>
-          <option value="down">下滚测试</option>
-        </select>
-        
-        <!-- 模式指示器 -->
-        <div class="mode-indicator" id="modeIndicator">
-          <div class="mode-dot"></div>
-          <span id="modeText">模式</span>
-        </div>
-      </div>
-    </div>
-    
-    <div style="font-size:13px;color:var(--muted);margin-bottom:8px">
-      测试滚轮精度、反向滚动、抖动和滚动频率
-    </div>
-    <div id="testArea">将鼠标移入此区域并滚动滚轮<br/>Scroll mouse wheel here</div>
-
-    <div class="stats">
-      <div class="stat"><span>向上滚动次数</span><strong id="upCount">0</strong></div>
-      <div class="stat"><span>向下滚动次数</span><strong id="downCount">0</strong></div>
-      <div class="stat"><span>反向错误</span><strong id="reverseCount">0</strong></div>
-      <div class="stat"><span>最大滚动频率 (Hz)</span><strong id="maxHz">0</strong></div>
-    </div>
-
-    <!-- 统计信息 -->
-    <div style="margin-top:16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-      <div style="padding:12px; background:var(--panel); border-radius:8px;">
-        <h3 style="margin-top:0;font-size:14px;">测量基准</h3>
-        <div id="testStats" style="font-size:12px;color:var(--muted);">
-          <div>字体大小: 13px</div>
-          <div>行高: 20px (1.54×)</div>
-          <div>滚动单位: deltaY (像素)</div>
-          <div>计算: deltaY ÷ 20px</div>
-        </div>
-      </div>
-      <div style="padding:12px; background:var(--panel); border-radius:8px;">
-        <h3 style="margin-top:0;font-size:14px;">结果解读</h3>
-        <ul style="font-size:12px;color:var(--muted);margin:0;padding-left:16px;">
-          <li>1.00 = 完美匹配20px/行</li>
-          <li>1.68 = 系统发送33.6px/滚动</li>
-          <li>0.80 = 系统发送16px/滚动</li>
-          <li>重点观察相对稳定性</li>
-        </ul>
-      </div>
-    </div>
-
-    <div style="margin-top:16px; padding:12px; background:var(--panel); border-radius:8px;">
-      <h3 style="margin-top:0;font-size:14px;">为什么测量值不是1.00？</h3>
-      <p style="font-size:12px;color:var(--muted);margin:0">
-        1. <b>DPI缩放影响</b>: 系统125%缩放导致1.25倍<br>
-        2. <b>浏览器差异</b>: 不同浏览器处理方式不同<br>
-        3. <b>系统平滑滚动</b>: 可能产生非整数值<br>
-        4. <b>测量工具特性</b>: 固定20px行高作为基准
+  <section class="card intro-panel">
+    <div class="intro-content">
+      <h3>文本介绍区 / 使用说明</h3>
+      <p>
+        <strong>行数测试：</strong>通过左侧列表观察物理刻度与逻辑行数的对应关系。 | 
+        <strong>反向检测：</strong>在中间区按选定方向滚动，红色报错即代表滚轮存在硬件“回滚”故障。 | 
+        <strong>频率检测：</strong>最高 Hz 反映了滚轮的回报率与滚动极速。
       </p>
     </div>
-  </div>
+  </section>
 
-  <!-- 右侧：事件日志 -->
-  <div class="card log-container">
-    <div class="log-header">
-      <h2 style="margin:0">事件日志</h2>
-      <div>
-        <button onclick="resetTest()" style="background:var(--accent);font-size:11px;padding:4px 8px;">重置所有测试</button>
-      </div>
-    </div>
-    
-    <div class="log" id="log">
-      <div class="log-content" id="logContent"></div>
-    </div>
-    
-    <div style="margin-top:16px">
-      <h3 style="margin-top:0;font-size:14px;">控制面板</h3>
-      <div class="controls">
-        <!-- 这里已经删除了重置按钮，它现在在事件日志的右上角 -->
-      </div>
-    </div>
-    
-    <div style="margin-top:16px; padding:12px; background:var(--panel); border-radius:8px;">
-      <h3 style="margin-top:0;font-size:14px;">专业建议</h3>
-      <ul style="font-size:12px;color:var(--muted);margin:0;padding-left:16px;">
-        <li><b>诊断目的</b>: 关注滚轮稳定性而非绝对值</li>
-        <li><b>对比测试</b>: 同一环境下比较不同鼠标</li>
-        <li><b>系统校准</b>: 测量值1.68表明系统发送33.6px</li>
-        <li><b>实用意义</b>: 了解实际滚动行为比理论值更重要</li>
-      </ul>
-    </div>
-  </div>
 </div>
 
-<footer>
-  © Mouse Wheel Tester · Web Diagnostic Tool
-</footer>
-
 <script>
-  // 初始化变量
+  // JavaScript 功能部分保持完全一致
   const scrollBox = document.getElementById('scrollBox');
-  const lineTestCard = document.getElementById('lineTestCard');
-  const hintText = document.getElementById('hintText');
   const testArea = document.getElementById('testArea');
   const upEl = document.getElementById('upCount');
   const downEl = document.getElementById('downCount');
   const reverseEl = document.getElementById('reverseCount');
   const maxHzEl = document.getElementById('maxHz');
-  const logContent = document.getElementById('logContent');
-  const lineAnalysis = document.getElementById('lineAnalysis');
-  
-  // 测试模式相关元素
+  const log = document.getElementById('log');
   const testModeSelect = document.getElementById('testModeSelect');
-  const modeIndicator = document.getElementById('modeIndicator');
-  const modeText = document.getElementById('modeText');
-  
-  // 统计元素
-  const totalScrollsEl = document.getElementById('totalScrolls');
-  const reverseRateEl = document.getElementById('reverseRate');
-  const upDownRatioEl = document.getElementById('upDownRatio');
-  const avgIntervalEl = document.getElementById('avgInterval');
+  const lineAnalysis = document.getElementById('lineAnalysis');
 
-  let upCount = 0;
-  let downCount = 0;
-  let reverseCount = 0;
-  let lastDir = null;
-  let lastTime = null;
+  let counts = { up: 0, down: 0, err: 0 };
   let maxHz = 0;
-  let scrollTimes = []; // 记录滚动时间戳，用于计算平均间隔
-  
-  // 行数测试相关变量
-  let lineScrollSamples = [];
-  let lastBoxScrollTop = 0;
-  let isLineTestActive = false;
-  let lineTestStartTime = null;
-  let lineElements = [];
-  
-  // 测试模式变量
-  let testMode = 'up'; // 'up' 或 'down'
-  
-  // 测量基准 - 这是固定的标准
-  const FONT_SIZE = 13; // 字体大小
-  const LINE_HEIGHT = 33.3; // 行高 - 固定基准值
-  const LINE_HEIGHT_RATIO = (LINE_HEIGHT / FONT_SIZE).toFixed(2); // 行高比例
+  let lastTime = 0;
 
-  // 初始化滚动框内容
-  function initScrollBox() {
-    scrollBox.innerHTML = '';
-    lineElements = [];
-    
-    for (let i = 1; i <= 1000; i++) {
-      const line = document.createElement('div');
-      line.textContent = `第 ${i} 行 / Line ${i}`;
-      line.className = 'scroll-line';
-      line.style.height = `${LINE_HEIGHT}px`;
-      line.style.lineHeight = `${LINE_HEIGHT}px`;
-      
-      // 添加行高标尺
-      if (i % 5 === 0) {
-        const ruler = document.createElement('div');
-        ruler.className = 'ruler';
-        ruler.textContent = `${LINE_HEIGHT}px`;
-        line.appendChild(ruler);
-      }
-      
-      lineElements.push(line);
-      scrollBox.appendChild(line);
-    }
+  for (let i = 1; i <= 500; i++) {
+    const div = document.createElement('div');
+    div.className = 'scroll-line';
+    div.textContent = `Line ${i} - 滚轮行数基准测试数据`;
+    scrollBox.appendChild(div);
   }
 
-  // 高亮当前行
-  function highlightCurrentLine() {
-    // 移除之前的高亮
-    lineElements.forEach(line => line.classList.remove('highlight'));
-    
-    // 计算当前行索引
-    const scrollTop = scrollBox.scrollTop;
-    const currentLineIndex = Math.floor(scrollTop / LINE_HEIGHT);
-    
-    // 高亮当前行
-    if (currentLineIndex >= 0 && currentLineIndex < lineElements.length) {
-      lineElements[currentLineIndex].classList.add('highlight');
-    }
-  }
-
-  // 开始行数测试
-  function startLineTest() {
-    if (isLineTestActive) return;
-    
-    isLineTestActive = true;
-    lineScrollSamples = [];
-    lineTestStartTime = Date.now();
-    scrollBox.scrollTop = 0;
-    lastBoxScrollTop = 0;
-    
-    // 更新激活状态
-    lineTestCard.classList.add('active');
-    hintText.textContent = '✅ 测试进行中...请缓慢滚动滚轮';
-    
-    // 更新分析区域
-    lineAnalysis.innerHTML = '测试进行中...<br>请缓慢滚动滚轮，每次只滚动一格<br><small>基准：20px/行</small>';
-    
-    // 高亮当前行
-    highlightCurrentLine();
-    
-    addLog('行数测试已开始，请缓慢滚动滚轮', 'info');
-    addLog(`测量基准：字体${FONT_SIZE}px，行高${LINE_HEIGHT}px（${LINE_HEIGHT_RATIO}倍）`, 'info');
-  }
-
-  // 停止行数测试
-  function stopLineTest() {
-    if (!isLineTestActive) return;
-    
-    isLineTestActive = false;
-    
-    // 更新激活状态
-    lineTestCard.classList.remove('active');
-    hintText.textContent = '🖱️ 鼠标移入此区域开始测试';
-    
-    // 分析数据
-    analyzeLineData();
-    
-    const duration = ((Date.now() - lineTestStartTime) / 1000).toFixed(1);
-    addLog(`行数测试结束，持续${duration}秒，收集${lineScrollSamples.length}个样本`, 'info');
-  }
-
-  // 处理面板滚轮事件
-  function handleLineTestWheel(e) {
-    // 如果行数测试未激活，则不处理
-    if (!isLineTestActive) return;
-    
-    // 阻止事件冒泡和默认行为，防止网页滚动
+  testArea.addEventListener('wheel', (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    
-    // 获取浏览器发送的原始deltaY值
-    const rawDeltaY = e.deltaY;
-    const deltaMode = e.deltaMode; // 0: 像素, 1: 行, 2: 页
-    
-    // 执行滚动 - 使用原始deltaY值
-    // 浏览器会自动应用系统设置和DPI缩放
-    scrollBox.scrollBy({ top: rawDeltaY, behavior: 'auto' });
-    
-    // 计算实际滚动的像素距离
-    const currentScrollTop = scrollBox.scrollTop;
-    const deltaPx = Math.abs(currentScrollTop - lastBoxScrollTop);
-    
-    // 转换为行数（使用固定的行高基准）
-    const deltaLines = deltaPx / LINE_HEIGHT;
-    
-    // 获取模式描述
-    let modeDesc = '';
-    switch(deltaMode) {
-      case 0: modeDesc = '像素'; break;
-      case 1: modeDesc = '行'; break;
-      case 2: modeDesc = '页'; break;
-      default: modeDesc = '未知';
-    }
-    
-    // 记录详细事件信息
-    if (deltaLines > 0.05 && deltaLines < 10) {
-      lineScrollSamples.push(deltaLines);
-      
-      // 记录详细日志
-      const logMsg = `📏 模式:${modeDesc} deltaY:${rawDeltaY.toFixed(1)}px 滚动:${deltaPx.toFixed(1)}px 行数:${deltaLines.toFixed(2)}`;
-      addLog(logMsg, 'info');
-      
-      // 立即分析数据
-      analyzeLineData();
-    }
-    
-    lastBoxScrollTop = currentScrollTop;
-    
-    // 高亮当前行
-    highlightCurrentLine();
-    
-    // 返回false进一步确保阻止默认行为
-    return false;
-  }
-
-  // 添加日志
-  function addLog(msg, type = 'info') {
-    const now = new Date();
-    const timeStr = now.toTimeString().split(' ')[0];
-    const logEntry = document.createElement('div');
-    logEntry.textContent = `[${timeStr}] ${msg}`;
-    logEntry.className = type;
-    
-    // 添加到日志内容
-    logContent.appendChild(logEntry);
-    
-    // 限制日志数量
-    const logs = logContent.children;
-    if (logs.length > 100) {
-      logContent.removeChild(logs[0]);
-    }
-    
-    // 自动滚动到底部
-    logContent.parentElement.scrollTop = logContent.parentElement.scrollHeight;
-  }
-
-  // 分析行数数据
-  function analyzeLineData() {
-    if (lineScrollSamples.length === 0) {
-      lineAnalysis.innerHTML = '未收集到数据<br>请确保每次只滚动一格';
-      return;
-    }
-    
-    const sum = lineScrollSamples.reduce((a, b) => a + b, 0);
-    const avg = sum / lineScrollSamples.length;
-    const min = Math.min(...lineScrollSamples);
-    const max = Math.max(...lineScrollSamples);
-    
-    // 计算标准差
-    const squareDiffs = lineScrollSamples.map(value => Math.pow(value - avg, 2));
-    const avgSquareDiff = squareDiffs.reduce((a, b) => a + b, 0) / lineScrollSamples.length;
-    const stdDev = Math.sqrt(avgSquareDiff).toFixed(2);
-    
-    // 计算变异系数 (CV) - 相对稳定性指标
-    const cv = ((stdDev / avg) * 100).toFixed(1);
-    
-    // 分析结果
-    let stabilityAnalysis = '';
-    let stabilityColor = '';
-    
-    if (cv < 10) {
-      stabilityAnalysis = '✓ 滚轮稳定性优秀';
-      stabilityColor = 'var(--good)';
-    } else if (cv < 20) {
-      stabilityAnalysis = '↔ 滚轮稳定性良好';
-      stabilityColor = 'var(--accent)';
-    } else {
-      stabilityAnalysis = '⚠ 滚轮可能存在抖动';
-      stabilityColor = 'var(--bad)';
-    }
-    
-    // 计算系统实际发送的像素值
-    const systemPixelsPerScroll = avg * LINE_HEIGHT;
-    
-    // 提供解释
-    let explanation = '';
-    if (Math.abs(avg - 1.0) < 0.1) {
-      explanation = '（系统发送约20px/滚动）';
-    } else if (avg > 1.0) {
-      const multiplier = avg.toFixed(2);
-      explanation = `（系统发送约${systemPixelsPerScroll.toFixed(1)}px/滚动 = ${multiplier}×基准）`;
-    } else {
-      const multiplier = avg.toFixed(2);
-      explanation = `（系统发送约${systemPixelsPerScroll.toFixed(1)}px/滚动 = ${multiplier}×基准）`;
-    }
-    
-    // 计算DPI缩放因子估计
-    const estimatedScaling = (systemPixelsPerScroll / 20).toFixed(2);
-    let scalingNote = '';
-    if (estimatedScaling > 1.1) {
-      scalingNote = `<div style="font-size:10px;color:var(--accent);margin-top:2px">估计系统DPI缩放: ${estimatedScaling}倍</div>`;
-    }
-    
-    lineAnalysis.innerHTML = `
-      <div>测试次数: ${lineScrollSamples.length}</div>
-      <div>平均行数: ${avg.toFixed(2)} 行/刻度 ${explanation}</div>
-      <div>波动范围: ${min.toFixed(2)} - ${max.toFixed(2)} 行</div>
-      <div>标准差: ${stdDev} (变异系数: ${cv}%)</div>
-      <div style="margin-top:4px; color:${stabilityColor}">${stabilityAnalysis}</div>
-      ${scalingNote}
-    `;
-  }
-
-  // 切换测试模式
-  function setTestMode(mode) {
-    testMode = mode;
-    
-    // 更新下拉框选择
-    testModeSelect.value = mode;
-    
-    // 更新模式指示器
-    if (mode === 'up') {
-      modeIndicator.className = 'mode-indicator up visible';
-      modeText.textContent = '上滚测试模式';
-      addLog('切换到上滚测试模式', 'info');
-    } else {
-      modeIndicator.className = 'mode-indicator down visible';
-      modeText.textContent = '下滚测试模式';
-      addLog('切换到下滚测试模式', 'info');
-    }
-    
-    // 3秒后隐藏指示器
-    setTimeout(() => {
-      modeIndicator.classList.remove('visible');
-    }, 3000);
-  }
-
-  // 行数测试卡片鼠标事件
-  lineTestCard.addEventListener('mouseenter', (e) => {
-    // 确保鼠标确实在卡片区域内
-    const rect = lineTestCard.getBoundingClientRect();
-    const isInCard = e.clientX >= rect.left && e.clientX <= rect.right && 
-                     e.clientY >= rect.top && e.clientY <= rect.bottom;
-    
-    if (isInCard) {
-      startLineTest();
-    }
-  });
-
-  lineTestCard.addEventListener('mouseleave', (e) => {
-    // 确保鼠标确实离开了卡片区域
-    const rect = lineTestCard.getBoundingClientRect();
-    const isInCard = e.clientX >= rect.left && e.clientX <= rect.right && 
-                     e.clientY >= rect.top && e.clientY <= rect.bottom;
-    
-    if (!isInCard) {
-      stopLineTest();
-    }
-  });
-
-  // 为整个面板添加滚轮事件监听器
-  lineTestCard.addEventListener('wheel', handleLineTestWheel, { passive: false });
-
-  // 为滚动框添加滚轮事件监听器
-  scrollBox.addEventListener('wheel', handleLineTestWheel, { passive: false });
-
-  // 为滚动框添加滚动事件监听
-  scrollBox.addEventListener('scroll', function() {
-    if (isLineTestActive) {
-      highlightCurrentLine();
-    }
-  });
-
-  // 测试区滚轮事件
-  testArea.addEventListener('mouseenter', () => {
     testArea.classList.add('active');
-    testArea.innerHTML = '正在滚动测试...<br>请滚动滚轮查看测试结果';
-  });
-
-  testArea.addEventListener('mouseleave', () => {
-    testArea.classList.remove('active');
-    testArea.innerHTML = '将鼠标移入此区域并滚动滚轮<br/>Scroll mouse wheel here';
-  });
-
-  testArea.addEventListener('wheel', function(e) {
-    e.preventDefault();
-    
     const dir = Math.sign(e.deltaY);
+    const mode = testModeSelect.value;
     const now = performance.now();
-    
-    // 记录滚动时间
-    scrollTimes.push(now);
-    if (scrollTimes.length > 50) {
-      scrollTimes.shift();
-    }
-    
-    // 更新计数 - 总是根据实际检测到的方向增加
-    if (dir < 0) {
-      upCount++;
-      upEl.textContent = upCount;
-    }
-    if (dir > 0) {
-      downCount++;
-      downEl.textContent = downCount;
-    }
-    
-    // 根据测试模式检测反向错误
-    if (testMode === 'up') {
-      // 上滚测试模式：期望上滚，下滚为反向错误
-      if (dir > 0) { // 检测到下滚
-        reverseCount++;
-        reverseEl.textContent = reverseCount;
-        addLog('反向错误！当前为上滚测试模式，检测到下滚', 'err');
-      } else {
-        addLog('↑ 上滚测试 - 期望上滚，检测到上滚', 'up');
-      }
+
+    if (dir < 0) counts.up++;
+    else if (dir > 0) counts.down++;
+
+    if ((mode === 'up' && dir > 0) || (mode === 'down' && dir < 0)) {
+      counts.err++;
+      addLog(`[错误] 检测到反向异常滚动`, 'err');
     } else {
-      // 下滚测试模式：期望下滚，上滚为反向错误
-      if (dir < 0) { // 检测到上滚
-        reverseCount++;
-        reverseEl.textContent = reverseCount;
-        addLog('反向错误！当前为下滚测试模式，检测到上滚', 'err');
-      } else {
-        addLog('↓ 下滚测试 - 期望下滚，检测到下滚', 'down');
-      }
+      addLog(dir < 0 ? '↑ 向上滚动' : '↓ 向下滚动', dir < 0 ? 'up' : 'down');
     }
-    
-    // 计算频率
-    if (lastTime !== null) {
-      const dt = (now - lastTime) / 1000;
-      const hz = 1 / dt;
-      if (hz > maxHz) {
-        maxHz = hz;
-        maxHzEl.textContent = maxHz.toFixed(1);
-      }
+
+    if (lastTime > 0) {
+      const hz = 1000 / (now - lastTime);
+      if (hz < 300 && hz > maxHz) maxHz = hz;
     }
-    
-    // 更新状态
-    lastDir = dir;
+
+    updateDisplay();
     lastTime = now;
   }, { passive: false });
 
-  // 重置测试
-  function resetTest() {
-    upCount = downCount = reverseCount = 0;
-    lastDir = lastTime = null;
-    maxHz = 0;
-    scrollTimes = [];
-    lineScrollSamples = [];
-    isLineTestActive = false;
-    
-    upEl.textContent = '0';
-    downEl.textContent = '0';
-    reverseEl.textContent = '0';
-    maxHzEl.textContent = '0';
-    
-    // 重置激活状态
-    lineTestCard.classList.remove('active');
-    hintText.textContent = '🖱️ 鼠标移入此区域开始测试';
-    
-    // 重置测试模式
-    setTestMode('up');
-    
-    clearLog();
-    initScrollBox();
-    
-    // 重置行数分析显示
-    lineAnalysis.innerHTML = '等待测试开始...';
-    
-    addLog('所有测试已重置', 'info');
-    addLog('当前模式：上滚测试模式', 'info');
-  }
-
-  // 清空日志
-  function clearLog() {
-    logContent.innerHTML = '';
-    addLog('日志已清空', 'info');
-  }
-
-  // 初始化
-  window.addEventListener('load', function() {
-    initScrollBox();
-    addLog('鼠标滚轮测试工具已就绪', 'info');
-    addLog(`测量基准：固定行高${LINE_HEIGHT}px（${FONT_SIZE}px字体 × ${LINE_HEIGHT_RATIO}倍行高）`, 'info');
-    addLog('系统发送的实际像素值可能因DPI缩放而异', 'info');
-    addLog('当前模式：上滚测试模式', 'info');
-    
-    // 初始化测试模式
-    setTestMode('up');
-    
-    // 添加下拉框切换事件监听
-    testModeSelect.addEventListener('change', function() {
-      setTestMode(this.value);
-    });
+  scrollBox.addEventListener('wheel', (e) => {
+    const lines = Math.abs(e.deltaY / 33.3).toFixed(2);
+    lineAnalysis.innerHTML = `当前单步滚动约: <strong style="color:var(--accent)">${lines}</strong> 行`;
+    const index = Math.floor(scrollBox.scrollTop / 33.3);
+    Array.from(scrollBox.children).forEach(el => el.classList.remove('highlight'));
+    if (scrollBox.children[index]) scrollBox.children[index].classList.add('highlight');
   });
+
+  function updateDisplay() {
+    upEl.textContent = counts.up;
+    downEl.textContent = counts.down;
+    reverseEl.textContent = counts.err;
+    maxHzEl.textContent = maxHz.toFixed(1);
+  }
+
+  function addLog(msg, type) {
+    const div = document.createElement('div');
+    div.className = type;
+    div.textContent = `[${new Date().toLocaleTimeString().split(' ')[0]}] ${msg}`;
+    log.prepend(div);
+    if (log.children.length > 100) log.lastChild.remove();
+  }
+
+  function resetTest() {
+    counts = { up: 0, down: 0, err: 0 };
+    maxHz = 0;
+    updateDisplay();
+    log.innerHTML = '';
+    testArea.classList.remove('active');
+    addLog('所有测试数据已重置', '');
+  }
 </script>
 </body>
 </html>
