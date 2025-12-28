@@ -9,6 +9,8 @@
     --info-blue: #4fc3f7;
     --double-click-normal: #37ff00;
     --double-click-fault: #ff4444;
+    --slider-track: #444;
+    --slider-thumb: #4fc3f7;
 }
 
 body {
@@ -58,6 +60,178 @@ p {
     align-items: center;
     justify-content: center;
     height: 100%;
+    gap: 25px; /* 增加鼠标和滑块之间的间距 */
+}
+
+/* 滑块容器样式 */
+.slider-container {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+    cursor: default; /* 确保默认光标 */
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.slider-label {
+    font-size: 0.9rem;
+    color: #ddd;
+    font-weight: 500;
+}
+
+.slider-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--slider-thumb);
+    background: rgba(79, 195, 247, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.slider-group {
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    pointer-events: auto; /* 确保事件可以传递到滑块 */
+}
+
+/* 滑块本身 - 确保可点击区域更大 */
+.threshold-slider {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--slider-track);
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 5px;
+    cursor: pointer; /* 添加指针光标 */
+    position: relative;
+    z-index: 1; /* 确保滑块在最上层 */
+}
+
+/* 滑块轨道 */
+.threshold-slider::-webkit-slider-track {
+    width: 100%;
+    height: 8px;
+    background: var(--slider-track);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.threshold-slider::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: var(--slider-track);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 滑块拇指 - 增加可点击区域 */
+.threshold-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--slider-thumb);
+    cursor: grab; /* 拖动时显示抓手光标 */
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2; /* 确保滑块按钮在最上层 */
+}
+
+.threshold-slider::-webkit-slider-thumb:active {
+    cursor: grabbing; /* 拖动时显示正在抓取的光标 */
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+.threshold-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--slider-thumb);
+    cursor: grab;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.threshold-slider::-moz-range-thumb:active {
+    cursor: grabbing;
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+.threshold-slider:hover::-webkit-slider-thumb {
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+.threshold-slider:hover::-moz-range-thumb {
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+/* 滑块刻度 */
+.slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    pointer-events: none; /* 刻度文本不阻止事件 */
+}
+
+.slider-ticks span {
+    position: relative;
+    padding-top: 20px;
+}
+
+.slider-ticks span::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 10px;
+    background: #666;
+}
+
+.slider-description {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+    pointer-events: none; /* 描述文本不阻止事件 */
+}
+
+.slider-description i {
+    color: var(--info-blue);
+    font-size: 0.9rem;
 }
 
 /* 移除鼠标信息区域 */
@@ -276,6 +450,12 @@ p {
     font-size: 0.85rem; /* 增大字体 */
 }
 
+/* 新增：信息日志样式 */
+.log-info {
+    color: #4fc3f7;
+    font-style: italic;
+}
+
 /* 修改指南容器样式，使其直接显示 */
 .guide-container {
     max-width: 800px;
@@ -307,7 +487,7 @@ p {
 .btn-zone.double-click-effect {
     background-color: var(--double-click-normal) !important;
     color: #000 !important;
-    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8) !important;
+    box-shadow: 0 0 30px rgba(55, 255, 0, 0.8) !important;
     transform: scale(1.05) !important;
     transition: none !important;
     z-index: 20 !important;
@@ -325,10 +505,10 @@ p {
 /* 按键区域的双击动画 */
 @keyframes double-click-flash {
     0%, 100% {
-        box-shadow: 0 0 30px rgba(255, 152, 0, 0.8);
+        box-shadow: 0 0 30px rgba(55, 255, 0, 0.8);
     }
     50% {
-        box-shadow: 0 0 50px rgba(255, 152, 0, 1);
+        box-shadow: 0 0 50px rgba(55, 255, 0, 1);
     }
 }
 
@@ -370,7 +550,7 @@ p {
     }
     
     .mouse-visual-container {
-        min-height: 380px;
+        min-height: auto;
         padding: 20px;
     }
     
@@ -402,7 +582,7 @@ p {
     
     .mouse-visual-container {
         padding: 15px;
-        min-height: 350px;
+        min-height: auto;
     }
     
     .stats-panel {
@@ -448,6 +628,18 @@ p {
     .counter-num {
         font-size: 1rem;
     }
+    
+    .slider-container {
+        padding: 15px;
+    }
+    
+    .slider-label {
+        font-size: 0.85rem;
+    }
+    
+    .slider-value {
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -470,5 +662,15 @@ p {
     
     .counter-num {
         font-size: 0.95rem;
+    }
+    
+    .slider-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .slider-value {
+        align-self: flex-start;
     }
 }

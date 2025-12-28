@@ -28,7 +28,15 @@ let pressStartTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 const DOUBLE_CLICK_THRESHOLD = 500; // Double click time threshold in ms (usually 200-500ms)
-const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms)
+let FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms) - now mutable
+
+// DOM elements for slider
+let thresholdSlider;
+let thresholdValueDisplay;
+let thresholdTextElement;
+
+// Track if slider is being dragged
+let isSliderDragging = false;
 
 // Initialize function
 function initMouseTest() {
@@ -39,6 +47,47 @@ function initMouseTest() {
         return;
     }
     
+    // Get slider elements
+    thresholdSlider = document.getElementById('faultyThresholdSlider');
+    thresholdValueDisplay = document.getElementById('thresholdValue');
+    thresholdTextElement = document.getElementById('currentThresholdText');
+    
+    // Set up slider event listeners
+    if (thresholdSlider && thresholdValueDisplay && thresholdTextElement) {
+        // Initialize display
+        updateThresholdDisplay();
+        
+        // Add input event listener for real-time updates
+        thresholdSlider.addEventListener('input', function() {
+            FAULTY_DOUBLE_CLICK_THRESHOLD = parseInt(this.value);
+            updateThresholdDisplay();
+        });
+        
+        // Add change event listener for when user releases slider
+        thresholdSlider.addEventListener('change', function() {
+            addLog(`Faulty double click threshold set to ${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`, 'log-info');
+        });
+        
+        // Add mousedown event to track when slider is being dragged
+        thresholdSlider.addEventListener('mousedown', function(e) {
+            isSliderDragging = true;
+            e.stopPropagation(); // Prevent event from bubbling up
+        });
+        
+        // Add mouseup event to track when slider is released
+        thresholdSlider.addEventListener('mouseup', function(e) {
+            isSliderDragging = false;
+            e.stopPropagation(); // Prevent event from bubbling up
+        });
+        
+        // Also track mouseleave to ensure slider state is reset
+        thresholdSlider.addEventListener('mouseleave', function() {
+            isSliderDragging = false;
+        });
+    } else {
+        console.error('Slider elements not found');
+    }
+    
     // 1. Prevent context menu
     document.addEventListener('contextmenu', event => event.preventDefault());
     
@@ -46,6 +95,19 @@ function initMouseTest() {
     document.addEventListener('dragstart', event => event.preventDefault());
     
     console.log('Mouse test initialized');
+}
+
+// Update threshold display in UI
+function updateThresholdDisplay() {
+    if (thresholdValueDisplay) {
+        thresholdValueDisplay.textContent = `${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`;
+    }
+    if (thresholdTextElement) {
+        thresholdTextElement.textContent = `${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`;
+    }
+    if (thresholdSlider) {
+        thresholdSlider.value = FAULTY_DOUBLE_CLICK_THRESHOLD;
+    }
 }
 
 // Check if any button is currently pressed
@@ -81,6 +143,16 @@ function getHoldDuration(button) {
 
 /* Mousedown */
 function handleMouseDown(e) {
+    // Skip if slider is being dragged
+    if (isSliderDragging) {
+        return;
+    }
+    
+    // Check if the click is on the slider
+    if (e.target.closest('.threshold-slider') || e.target.closest('.slider-container')) {
+        return; // Don't process mouse test events when interacting with slider
+    }
+    
     e.preventDefault(); 
     
     const button = e.button;
@@ -157,6 +229,16 @@ function handleMouseDown(e) {
 
 /* Mouseup */
 function handleMouseUp(e) {
+    // Skip if slider is being dragged
+    if (isSliderDragging) {
+        return;
+    }
+    
+    // Check if the click is on the slider
+    if (e.target.closest('.threshold-slider') || e.target.closest('.slider-container')) {
+        return; // Don't process mouse test events when interacting with slider
+    }
+    
     e.preventDefault();
     handleButtonRelease(e.button);
 }
@@ -193,6 +275,11 @@ function handleButtonRelease(buttonCode) {
 
 /* Mouse move state correction */
 function handleMouseMove(e) {
+    // Skip if slider is being dragged
+    if (isSliderDragging) {
+        return;
+    }
+
     // Check right button (Button 2): mask is 2
     if (isPressed[2] && (e.buttons & 2) === 0) {
         handleButtonRelease(2);
@@ -302,8 +389,16 @@ function resetCounts() {
     // Reset counter rows highlight
     document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter'));
     
+    // Reset faulty double click threshold to default (80ms)
+    FAULTY_DOUBLE_CLICK_THRESHOLD = 80;
+    updateThresholdDisplay();
+    
+    // Reset slider dragging state
+    isSliderDragging = false;
+    
     // Add log
-    addLog(TEXTS.log_reset); 
+    addLog(TEXTS.log_reset, 'log-info');
+    addLog(`Faulty double click threshold reset to ${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`, 'log-info');
 }
 
 function addLog(text, className) {
@@ -333,6 +428,8 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < 5; i++) {
             if (isPressed[i]) handleButtonRelease(i);
         }
+        // Also reset slider dragging state
+        isSliderDragging = false;
     });
     
     console.log('Mouse test event listeners attached');

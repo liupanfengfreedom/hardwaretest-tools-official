@@ -146,6 +146,26 @@
                 <div class="btn-zone side-btn btn-back" id="btn3">B4</div>
                 <div class="btn-zone side-btn btn-forward" id="btn4">B5</div>
             </div>
+            
+            <!-- 滑块区域 -->
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">Faulty Double Click Threshold:</span>
+                    <span class="slider-value" id="thresholdValue">80ms</span>
+                </div>
+                <div class="slider-group">
+                    <input type="range" min="50" max="150" value="80" class="threshold-slider" id="faultyThresholdSlider">
+                    <div class="slider-ticks">
+                        <span>50ms</span>
+                        <span>100ms</span>
+                        <span>150ms</span>
+                    </div>
+                </div>
+                <div class="slider-description">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Shorter = stricter detection. Adjust for sensitivity.</span>
+                </div>
+            </div>
         </div>
 
         <div class="stats-panel">
@@ -218,7 +238,7 @@
             <ul style="color: var(--text-dim); line-height: 1.6;">
                 <li><b>Click:</b> Any button press counts as one click</li>
                 <li><b>Double Click:</b> Two clicks within 80-500ms interval (normal double click)</li>
-                <li><b>Faulty Double Click:</b> Two clicks with interval less than 80ms (indicates hardware issue)</li>
+                <li><b>Faulty Double Click:</b> Two clicks with interval less than <span id="currentThresholdText">80ms</span> (indicates hardware issue)</li>
             </ul>
             
             <h2>All Buttons Can Have Double Click Issues</h2>
