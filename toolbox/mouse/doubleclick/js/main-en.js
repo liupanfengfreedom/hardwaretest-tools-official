@@ -38,6 +38,9 @@ let thresholdTextElement;
 // Track if slider is being dragged
 let isSliderDragging = false;
 
+// Track if double click is in progress to prevent single click highlight
+let isDoubleClickInProgress = { 0:false, 1:false, 2:false, 3:false, 4:false };
+
 // Initialize function
 function initMouseTest() {
     logContainer = document.getElementById('eventLog');
@@ -173,7 +176,6 @@ function handleMouseDown(e) {
     // Update click count
     clickCounts[button]++;
     updateClickCountUI(button);
-    highlightRow(button);
 
     const btnNameMap = {
         0: TEXTS.left_click, 
@@ -209,19 +211,47 @@ function handleMouseDown(e) {
             faultyDoubleClickCounts[button]++;
             updateFaultyDoubleClickCountUI(button);
             addLog(`${btnName} Faulty Double Click (Interval: ${clickInterval}ms)`, 'log-double-click-fault');
-            // Add faulty double click visual effect
+            // Add faulty double click visual effect to mouse button
             showDoubleClickEffect(el, true);
+            // Add faulty double click visual effect to counter row
+            showCounterDoubleClickEffect(button, true);
+            
+            // Mark double click in progress to prevent single click highlight
+            isDoubleClickInProgress[button] = true;
+            // Reset double click flag after animation
+            setTimeout(() => {
+                isDoubleClickInProgress[button] = false;
+            }, 600);
         } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
             // Normal double click
             doubleClickCounts[button]++;
             updateDoubleClickCountUI(button);
             addLog(`${btnName} Double Click (Interval: ${clickInterval}ms)`, 'log-double-click');
-            // Add normal double click visual effect
+            // Add normal double click visual effect to mouse button
             showDoubleClickEffect(el, false);
+            // Add normal double click visual effect to counter row
+            showCounterDoubleClickEffect(button, false);
+            
+            // Mark double click in progress to prevent single click highlight
+            isDoubleClickInProgress[button] = true;
+            // Reset double click flag after animation
+            setTimeout(() => {
+                isDoubleClickInProgress[button] = false;
+            }, 600);
+        } else {
+            // Not a double click (interval too long), show single click highlight
+            if (!isDoubleClickInProgress[button]) {
+                highlightRow(button);
+            }
         }
         
         // Reset click count for this button
         doubleClickCount[button] = 0;
+    } else {
+        // First click in potential double click, show highlight unless double click is in progress
+        if (!isDoubleClickInProgress[button]) {
+            highlightRow(button);
+        }
     }
     
     // Update last press time for this button
@@ -334,6 +364,27 @@ function showDoubleClickEffect(element, isFaulty) {
     }, 600);
 }
 
+// 添加计数器行双击视觉效果函数
+function showCounterDoubleClickEffect(button, isFaulty) {
+    const row = document.getElementById(`row-${button}`);
+    if (!row) return;
+    
+    // 移除任何现有的效果
+    row.classList.remove('active-counter', 'double-click-counter', 'faulty-double-click-counter');
+    
+    // 添加新的效果类
+    if (isFaulty) {
+        row.classList.add('faulty-double-click-counter');
+    } else {
+        row.classList.add('double-click-counter');
+    }
+    
+    // 600ms后移除效果（与按钮效果同步）
+    setTimeout(() => {
+        row.classList.remove('double-click-counter', 'faulty-double-click-counter');
+    }, 600);
+}
+
 function updateClickCountUI(button) {
     const el = document.getElementById(`cnt-${button}-click`);
     if (el) el.innerText = clickCounts[button];
@@ -350,12 +401,21 @@ function updateFaultyDoubleClickCountUI(button) {
 }
 
 function highlightRow(key) {
+    // 如果当前已经有双击效果，不要覆盖它
     const row = document.getElementById(`row-${key}`);
-    if(row) {
+    if (row && !isDoubleClickInProgress[key]) {
+        // 移除双击效果类
+        row.classList.remove('double-click-counter', 'faulty-double-click-counter');
+        
+        // 添加蓝色高亮
         row.classList.remove('active-counter');
         void row.offsetWidth; 
         row.classList.add('active-counter');
-        setTimeout(() => { row.classList.remove('active-counter'); }, 150);
+        
+        // 150ms后移除蓝色高亮
+        setTimeout(() => { 
+            row.classList.remove('active-counter'); 
+        }, 150);
     }
 }
 
@@ -383,14 +443,19 @@ function resetCounts() {
     doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     
+    // Reset double click progress flags
+    isDoubleClickInProgress = { 0:false, 1:false, 2:false, 3:false, 4:false };
+    
     // Reset button visual state
     document.querySelectorAll('.btn-zone').forEach(el => {
         el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect');
         el.style.animation = '';
     });
     
-    // Reset counter rows highlight
-    document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter'));
+    // Reset counter rows highlight and double-click effects
+    document.querySelectorAll('.counter-item').forEach(el => {
+        el.classList.remove('active-counter', 'double-click-counter', 'faulty-double-click-counter');
+    });
     
     // Reset faulty double click threshold to default (80ms)
     FAULTY_DOUBLE_CLICK_THRESHOLD = 80;

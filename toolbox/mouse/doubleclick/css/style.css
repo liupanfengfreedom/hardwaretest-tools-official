@@ -1,14 +1,14 @@
 :root {
     --bg-color: #121212;
     --mouse-base: #2a2a2a;
-    --highlight: #4fc3f7; /* 改为和log-click相同的蓝色 */
+    --highlight: #4fc3f7; /* 蓝色，用于普通点击 */
     --text-main: #e0e0e0;
     --text-dim: #757575;
     --border: #444;
     --accent-red: #ff4444; 
     --info-blue: #4fc3f7;
-    --double-click-normal: #37ff00; /* 保持双击为绿色 */
-    --double-click-fault: #ff4444;
+    --double-click-normal: #37ff00; /* 正常双击绿色 */
+    --double-click-fault: #ff4444;  /* 故障双击红色 */
     --slider-track: #444;
     --slider-thumb: #4fc3f7;
 }
@@ -383,6 +383,21 @@ p {
     color: #000;
 }
 
+/* 计数器行的双击效果 */
+.counter-item.double-click-counter {
+    background-color: rgba(55, 255, 0, 0.1) !important;
+    border: 1px solid var(--double-click-normal) !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.counter-item.faulty-double-click-counter {
+    background-color: rgba(255, 68, 68, 0.1) !important;
+    border: 1px solid var(--double-click-fault) !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
 .button-name {
     font-size: 1rem; /* 按钮名称字体增大 */
     font-weight: 600;
@@ -401,18 +416,31 @@ p {
 .counter-num {
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    color: #fff;
     margin-left: 5px;
     font-size: 1.1rem; /* 增大数字字体 */
 }
 
-/* Faulty double click counter styling */
-.counter-label:nth-child(3) { /* Double click counter */
-    color: var(--double-click-normal); /* 保持绿色 */
+/* 普通点击计数器颜色 */
+.counter-label:nth-child(2) .counter-num { /* Clicks counter */
+    color: var(--highlight); /* 蓝色，与普通点击同步 */
 }
 
+/* 正常双击计数器颜色 */
+.counter-label:nth-child(3) { /* Double click counter */
+    color: var(--double-click-normal);
+}
+
+.counter-label:nth-child(3) .counter-num { /* Double click counter number */
+    color: var(--double-click-normal); /* 绿色，与正常双击同步 */
+}
+
+/* 故障双击计数器颜色 */
 .counter-label:nth-child(4) { /* Faulty double click counter */
     color: var(--double-click-fault);
+}
+
+.counter-label:nth-child(4) .counter-num { /* Faulty double click counter number */
+    color: var(--double-click-fault); /* 红色，与故障双击同步 */
 }
 
 /* Event log container - 增加高度 */
@@ -532,6 +560,34 @@ p {
     50% {
         box-shadow: 0 0 50px rgba(255, 68, 68, 1);
     }
+}
+
+/* 计数器行双击动画 */
+@keyframes counter-double-click-flash {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(55, 255, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(55, 255, 0, 0.6);
+    }
+}
+
+@keyframes counter-double-click-fault-flash {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+    }
+}
+
+/* 应用动画到计数器行 */
+.counter-item.double-click-counter {
+    animation: counter-double-click-flash 0.3s ease-in-out 2;
+}
+
+.counter-item.faulty-double-click-counter {
+    animation: counter-double-click-fault-flash 0.3s ease-in-out 2;
 }
 
 .guide-content h2 { 
