@@ -148,8 +148,10 @@ function handleMouseDown(e) {
         return;
     }
     
-    // Check if the click is on the slider
-    if (e.target.closest('.threshold-slider') || e.target.closest('.slider-container')) {
+    // Check if the click is directly on the slider or its thumb
+    // Only skip if clicking the slider itself, not the entire container
+    if (e.target === thresholdSlider || 
+        e.target.closest('.threshold-slider') === thresholdSlider) {
         return; // Don't process mouse test events when interacting with slider
     }
     
@@ -234,8 +236,9 @@ function handleMouseUp(e) {
         return;
     }
     
-    // Check if the click is on the slider
-    if (e.target.closest('.threshold-slider') || e.target.closest('.slider-container')) {
+    // Check if the click is directly on the slider or its thumb
+    if (e.target === thresholdSlider || 
+        e.target.closest('.threshold-slider') === thresholdSlider) {
         return; // Don't process mouse test events when interacting with slider
     }
     
