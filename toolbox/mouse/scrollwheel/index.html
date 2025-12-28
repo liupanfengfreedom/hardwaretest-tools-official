@@ -296,6 +296,87 @@
       background: rgba(0, 0, 0, 0.3);
       border-right: 1px solid var(--muted);
     }
+  
+    .mode-selector {
+      position: relative;
+      z-index: 10;
+    }
+    
+    .mode-select {
+      padding: 6px 12px;
+      background: var(--panel);
+      border: 1px solid var(--muted);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 120px;
+    }
+    
+    .mode-select:hover {
+      border-color: var(--accent);
+    }
+    
+    .mode-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+    
+    .mode-indicator {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 5;
+    }
+    
+    .mode-indicator.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .mode-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--muted);
+      transition: all 0.3s ease;
+    }
+    
+    .mode-indicator.up .mode-dot {
+      background-color: var(--good);
+      box-shadow: 0 0 6px var(--good);
+    }
+    
+    .mode-indicator.down .mode-dot {
+      background-color: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+    
+    /* 标题和控制组件的容器 */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .card-header h2 {
+      margin: 0;
+    }
     
     footer {
       text-align: center;
@@ -355,7 +436,25 @@
 
   <!-- 中间：滚轮测试区 -->
   <div class="card">
-    <h2>滚轮测试区</h2>
+    <!-- 标题和模式选择器在同一行 -->
+    <div class="card-header">
+      <h2>滚轮测试区</h2>
+      
+      <!-- 测试模式下拉框 - 现在在右上角 -->
+      <div class="mode-selector">
+        <select class="mode-select" id="testModeSelect">
+          <option value="up">上滚测试</option>
+          <option value="down">下滚测试</option>
+        </select>
+        
+        <!-- 模式指示器 -->
+        <div class="mode-indicator" id="modeIndicator">
+          <div class="mode-dot"></div>
+          <span id="modeText">模式</span>
+        </div>
+      </div>
+    </div>
+    
     <div style="font-size:13px;color:var(--muted);margin-bottom:8px">
       测试滚轮精度、反向滚动、抖动和滚动频率
     </div>
@@ -406,10 +505,10 @@
     <div class="log-header">
       <h2 style="margin:0">事件日志</h2>
       <div>
-        <button onclick="clearLog()" style="background:var(--muted);font-size:11px;padding:4px 8px;">清空日志</button>
-        <button onclick="exportData()" style="background:var(--accent);font-size:11px;padding:4px 8px;">导出数据</button>
+        <button onclick="resetTest()" style="background:var(--accent);font-size:11px;padding:4px 8px;">重置所有测试</button>
       </div>
     </div>
+    
     <div class="log" id="log">
       <div class="log-content" id="logContent"></div>
     </div>
@@ -417,7 +516,7 @@
     <div style="margin-top:16px">
       <h3 style="margin-top:0;font-size:14px;">控制面板</h3>
       <div class="controls">
-        <button onclick="resetTest()">重置所有测试</button>
+        <!-- 这里已经删除了重置按钮，它现在在事件日志的右上角 -->
       </div>
     </div>
     
@@ -450,6 +549,11 @@
   const logContent = document.getElementById('logContent');
   const lineAnalysis = document.getElementById('lineAnalysis');
   
+  // 测试模式相关元素
+  const testModeSelect = document.getElementById('testModeSelect');
+  const modeIndicator = document.getElementById('modeIndicator');
+  const modeText = document.getElementById('modeText');
+  
   // 统计元素
   const totalScrollsEl = document.getElementById('totalScrolls');
   const reverseRateEl = document.getElementById('reverseRate');
@@ -470,6 +574,9 @@
   let isLineTestActive = false;
   let lineTestStartTime = null;
   let lineElements = [];
+  
+  // 测试模式变量
+  let testMode = 'up'; // 'up' 或 'down'
   
   // 测量基准 - 这是固定的标准
   const FONT_SIZE = 13; // 字体大小
@@ -611,31 +718,6 @@
     return false;
   }
 
-  // 更新统计信息
-  function updateStats() {
-    const totalScrolls = upCount + downCount;
-    totalScrollsEl.textContent = totalScrolls;
-    
-    // 计算反向错误率
-    const reverseRate = totalScrolls > 0 ? ((reverseCount / totalScrolls) * 100).toFixed(1) : 0;
-    reverseRateEl.textContent = `${reverseRate}%`;
-    
-    // 计算上/下比例
-    upDownRatioEl.textContent = `${upCount}:${downCount}`;
-    
-    // 计算平均间隔
-    if (scrollTimes.length > 1) {
-      const intervals = [];
-      for (let i = 1; i < scrollTimes.length; i++) {
-        intervals.push(scrollTimes[i] - scrollTimes[i-1]);
-      }
-      const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-      avgIntervalEl.textContent = `${avgInterval.toFixed(0)}ms`;
-    } else {
-      avgIntervalEl.textContent = "0ms";
-    }
-  }
-
   // 添加日志
   function addLog(msg, type = 'info') {
     const now = new Date();
@@ -724,6 +806,30 @@
     `;
   }
 
+  // 切换测试模式
+  function setTestMode(mode) {
+    testMode = mode;
+    
+    // 更新下拉框选择
+    testModeSelect.value = mode;
+    
+    // 更新模式指示器
+    if (mode === 'up') {
+      modeIndicator.className = 'mode-indicator up visible';
+      modeText.textContent = '上滚测试模式';
+      addLog('切换到上滚测试模式', 'info');
+    } else {
+      modeIndicator.className = 'mode-indicator down visible';
+      modeText.textContent = '下滚测试模式';
+      addLog('切换到下滚测试模式', 'info');
+    }
+    
+    // 3秒后隐藏指示器
+    setTimeout(() => {
+      modeIndicator.classList.remove('visible');
+    }, 3000);
+  }
+
   // 行数测试卡片鼠标事件
   lineTestCard.addEventListener('mouseenter', (e) => {
     // 确保鼠标确实在卡片区域内
@@ -783,14 +889,35 @@
       scrollTimes.shift();
     }
     
-    // 更新计数
-    if (dir < 0) upCount++;
-    if (dir > 0) downCount++;
+    // 更新计数 - 总是根据实际检测到的方向增加
+    if (dir < 0) {
+      upCount++;
+      upEl.textContent = upCount;
+    }
+    if (dir > 0) {
+      downCount++;
+      downEl.textContent = downCount;
+    }
     
-    // 检测反向滚动
-    if (lastDir !== null && dir !== lastDir) {
-      reverseCount++;
-      addLog('检测到反向滚动！', 'err');
+    // 根据测试模式检测反向错误
+    if (testMode === 'up') {
+      // 上滚测试模式：期望上滚，下滚为反向错误
+      if (dir > 0) { // 检测到下滚
+        reverseCount++;
+        reverseEl.textContent = reverseCount;
+        addLog('反向错误！当前为上滚测试模式，检测到下滚', 'err');
+      } else {
+        addLog('↑ 上滚测试 - 期望上滚，检测到上滚', 'up');
+      }
+    } else {
+      // 下滚测试模式：期望下滚，上滚为反向错误
+      if (dir < 0) { // 检测到上滚
+        reverseCount++;
+        reverseEl.textContent = reverseCount;
+        addLog('反向错误！当前为下滚测试模式，检测到上滚', 'err');
+      } else {
+        addLog('↓ 下滚测试 - 期望下滚，检测到下滚', 'down');
+      }
     }
     
     // 计算频率
@@ -803,29 +930,10 @@
       }
     }
     
-    // 更新显示
-    upEl.textContent = upCount;
-    downEl.textContent = downCount;
-    reverseEl.textContent = reverseCount;
-    
-    // 更新统计信息
-    updateStats();
-    
-    // 添加日志
-    addLog(dir < 0 ? `↑ 上滚动 - 总滚动:${upCount + downCount}` : 
-                     `↓ 下滚动 - 总滚动:${upCount + downCount}`, 
-           dir < 0 ? 'up' : 'down');
-    
     // 更新状态
     lastDir = dir;
     lastTime = now;
   }, { passive: false });
-
-  // 清空日志
-  function clearLog() {
-    logContent.innerHTML = '';
-    addLog('日志已清空', 'info');
-  }
 
   // 重置测试
   function resetTest() {
@@ -845,64 +953,40 @@
     lineTestCard.classList.remove('active');
     hintText.textContent = '🖱️ 鼠标移入此区域开始测试';
     
+    // 重置测试模式
+    setTestMode('up');
+    
     clearLog();
     initScrollBox();
-    updateStats();
     
     // 重置行数分析显示
     lineAnalysis.innerHTML = '等待测试开始...';
     
     addLog('所有测试已重置', 'info');
+    addLog('当前模式：上滚测试模式', 'info');
   }
 
-  // 导出数据
-  function exportData() {
-    const data = {
-      timestamp: new Date().toISOString(),
-      measurementBaseline: {
-        fontSize: FONT_SIZE,
-        lineHeight: LINE_HEIGHT,
-        lineHeightRatio: LINE_HEIGHT_RATIO
-      },
-      basicTest: {
-        upCount,
-        downCount,
-        reverseCount,
-        maxHz
-      },
-      lineTest: {
-        samples: lineScrollSamples,
-        average: lineScrollSamples.length > 0 ? 
-          lineScrollSamples.reduce((a, b) => a + b, 0) / lineScrollSamples.length : 0,
-        min: lineScrollSamples.length > 0 ? Math.min(...lineScrollSamples) : 0,
-        max: lineScrollSamples.length > 0 ? Math.max(...lineScrollSamples) : 0,
-        estimatedSystemPixelsPerScroll: lineScrollSamples.length > 0 ?
-          (lineScrollSamples.reduce((a, b) => a + b, 0) / lineScrollSamples.length) * LINE_HEIGHT : 0
-      },
-      scrollTimes: scrollTimes,
-      note: `测量基准：固定行高${LINE_HEIGHT}px（${FONT_SIZE}px字体 × ${LINE_HEIGHT_RATIO}倍行高）`
-    };
-    
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `mouse-wheel-test-${Date.now()}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    addLog('数据已导出为JSON文件', 'info');
+  // 清空日志
+  function clearLog() {
+    logContent.innerHTML = '';
+    addLog('日志已清空', 'info');
   }
 
   // 初始化
   window.addEventListener('load', function() {
     initScrollBox();
-    updateStats();
     addLog('鼠标滚轮测试工具已就绪', 'info');
     addLog(`测量基准：固定行高${LINE_HEIGHT}px（${FONT_SIZE}px字体 × ${LINE_HEIGHT_RATIO}倍行高）`, 'info');
     addLog('系统发送的实际像素值可能因DPI缩放而异', 'info');
+    addLog('当前模式：上滚测试模式', 'info');
+    
+    // 初始化测试模式
+    setTestMode('up');
+    
+    // 添加下拉框切换事件监听
+    testModeSelect.addEventListener('change', function() {
+      setTestMode(this.value);
+    });
   });
 </script>
 </body>
