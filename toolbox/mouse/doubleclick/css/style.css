@@ -1,13 +1,13 @@
 :root {
     --bg-color: #121212;
     --mouse-base: #2a2a2a;
-    --highlight: #00ff88; 
+    --highlight: #4fc3f7; /* 改为和log-click相同的蓝色 */
     --text-main: #e0e0e0;
     --text-dim: #757575;
     --border: #444;
     --accent-red: #ff4444; 
     --info-blue: #4fc3f7;
-    --double-click-normal: #37ff00;
+    --double-click-normal: #37ff00; /* 保持双击为绿色 */
     --double-click-fault: #ff4444;
     --slider-track: #444;
     --slider-thumb: #4fc3f7;
@@ -278,9 +278,9 @@ p {
 }
 
 .btn-zone.active {
-    background-color: var(--highlight);
+    background-color: var(--highlight); /* 现在显示为蓝色 */
     color: #000;
-    box-shadow: 0 0 15px var(--highlight);
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8); /* 调整为蓝色阴影 */
 }
 
 .left-click { top: 0; left: 0; width: 50%; height: 120px; border-radius: 110px 0 0 0; border-right: 1px solid #111; }
@@ -372,7 +372,7 @@ p {
 }
 
 .counter-item.active-counter {
-    background-color: var(--highlight);
+    background-color: var(--highlight); /* 计数器高亮也改为蓝色 */
     color: #000;
     transform: scale(1.02);
     transition: none;
@@ -408,7 +408,7 @@ p {
 
 /* Faulty double click counter styling */
 .counter-label:nth-child(3) { /* Double click counter */
-    color: var(--double-click-normal);
+    color: var(--double-click-normal); /* 保持绿色 */
 }
 
 .counter-label:nth-child(4) { /* Faulty double click counter */
@@ -454,7 +454,7 @@ p {
 }
 
 .log-click {
-    color: #4fc3f7;
+    color: var(--highlight); /* 使用相同的蓝色 */
 }
 
 .log-release {
@@ -465,7 +465,7 @@ p {
 
 /* 新增：信息日志样式 */
 .log-info {
-    color: #4fc3f7;
+    color: var(--highlight); /* 也使用相同的蓝色 */
     font-style: italic;
 }
 
@@ -498,7 +498,7 @@ p {
 
 /* 添加新的双击效果类 */
 .btn-zone.double-click-effect {
-    background-color: var(--double-click-normal) !important;
+    background-color: var(--double-click-normal) !important; /* 保持双击为绿色 */
     color: #000 !important;
     box-shadow: 0 0 30px rgba(55, 255, 0, 0.8) !important;
     transform: scale(1.05) !important;
