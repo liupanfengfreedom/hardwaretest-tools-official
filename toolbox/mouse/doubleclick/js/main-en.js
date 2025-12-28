@@ -20,6 +20,10 @@ let faultyDoubleClickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 // Track button press state and last click time
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
 
+// Track time of last press for each button
+let lastPressTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let pressStartTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+
 // Double click detection related variables - for ALL buttons
 let doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
@@ -52,6 +56,27 @@ function hasActiveButtonPress() {
     return false;
 }
 
+// Calculate time difference since last press
+function getTimeSinceLastPress(button) {
+    const currentTime = Date.now();
+    if (lastPressTime[button] === 0) {
+        return "First press";
+    } else {
+        const timeDiff = currentTime - lastPressTime[button];
+        return `${timeDiff}ms since last press`;
+    }
+}
+
+// Calculate hold duration
+function getHoldDuration(button) {
+    if (pressStartTime[button] === 0) {
+        return "Unknown";
+    } else {
+        const holdTime = Date.now() - pressStartTime[button];
+        return `${holdTime}ms hold`;
+    }
+}
+
 // --- Event Listeners ---
 
 /* Mousedown */
@@ -61,7 +86,11 @@ function handleMouseDown(e) {
     const button = e.button;
     if (isPressed[button]) return;
     
+    const currentTime = Date.now();
     isPressed[button] = true;
+
+    // Record press start time
+    pressStartTime[button] = currentTime;
 
     const btnId = 'btn' + button;
     const el = document.getElementById(btnId);
@@ -81,11 +110,13 @@ function handleMouseDown(e) {
     };
     const btnName = btnNameMap[button] || `Btn ${button}`;
     
-    // Log the click
-    addLog(`${btnName} ↓`, 'log-click');
+    // Calculate time since last press
+    const timeSinceLastPress = getTimeSinceLastPress(button);
+    
+    // Log the click with time info
+    addLog(`${btnName} ↓ (${timeSinceLastPress})`, 'log-click');
     
     // DOUBLE CLICK DETECTION FOR ALL BUTTONS
-    const currentTime = Date.now();
     
     // If it's the first click or time since last click exceeds double click threshold, reset count
     if (currentTime - doubleClickLastTime[button] > DOUBLE_CLICK_THRESHOLD) {
@@ -119,7 +150,8 @@ function handleMouseDown(e) {
         doubleClickCount[button] = 0;
     }
     
-    // Update last click time for this button
+    // Update last press time for this button
+    lastPressTime[button] = currentTime;
     doubleClickLastTime[button] = currentTime;
 }
 
@@ -133,13 +165,17 @@ function handleMouseUp(e) {
 function handleButtonRelease(buttonCode) {
     if (!isPressed[buttonCode]) return;
 
+    const currentTime = Date.now();
     isPressed[buttonCode] = false;
     
     const btnId = 'btn' + buttonCode;
     const el = document.getElementById(btnId);
     if (el) el.classList.remove('active');
     
-    // Log release
+    // Calculate hold duration
+    const holdDuration = getHoldDuration(buttonCode);
+    
+    // Log release with hold duration only
     const btnNameMap = {
         0: TEXTS.left_click, 
         1: TEXTS.counter_middle, 
@@ -149,7 +185,10 @@ function handleButtonRelease(buttonCode) {
     };
     const btnName = btnNameMap[buttonCode] || `Btn ${buttonCode}`;
     
-    addLog(`${btnName} ↑`, 'log-release');
+    addLog(`${btnName} ↑ (${holdDuration})`, 'log-release');
+    
+    // Reset press start time
+    pressStartTime[buttonCode] = 0;
 }
 
 /* Mouse move state correction */
@@ -235,6 +274,10 @@ function resetCounts() {
     clickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     doubleClickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     faultyDoubleClickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    
+    // Reset all time tracking
+    lastPressTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    pressStartTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     
     // Update all UI counters
     for (let i = 0; i < 5; i++) {
