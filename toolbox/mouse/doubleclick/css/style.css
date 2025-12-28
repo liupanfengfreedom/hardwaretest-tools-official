@@ -1,0 +1,463 @@
+:root {
+    --bg-color: #121212;
+    --mouse-base: #2a2a2a;
+    --highlight: #00ff88; 
+    --text-main: #e0e0e0;
+    --text-dim: #757575;
+    --border: #444;
+    --accent-red: #ff4444; 
+    --info-blue: #4fc3f7;
+    --double-click-normal: #ff9800;
+    --double-click-fault: #ff4444;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    user-select: none;
+    padding: 10px 0 30px 0;
+}
+
+h1 { 
+    margin-bottom: 8px;
+    font-weight: 300; 
+    letter-spacing: 1px;
+    font-size: 1.8rem;
+}
+
+p { 
+    color: var(--text-dim); 
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 25px;
+    align-items: start;
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 15px;
+    margin-bottom: 20px;
+}
+
+/* 鼠标视觉容器 */
+.mouse-visual-container {
+    position: relative;
+    border: 3px solid #4a4a4a;
+    border-radius: 15px;
+    padding: 30px;
+    background-color: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.mouse-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+.mouse-info i {
+    color: var(--info-blue);
+}
+
+/* --- Mouse visualization area --- */
+.mouse-visual {
+    position: relative;
+    width: 220px;
+    height: 350px;
+    background-color: var(--mouse-base);
+    border-radius: 110px 110px 90px 90px;
+    border: 2px solid var(--border);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.btn-zone {
+    position: absolute;
+    background-color: #333;
+    transition: background-color 0.05s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.btn-zone.active {
+    background-color: var(--highlight);
+    color: #000;
+    box-shadow: 0 0 15px var(--highlight);
+}
+
+.left-click { top: 0; left: 0; width: 50%; height: 120px; border-radius: 110px 0 0 0; border-right: 1px solid #111; }
+.right-click { top: 0; right: 0; width: 50%; height: 120px; border-radius: 0 110px 0 0; border-left: 1px solid #111; }
+.middle-click { top: 40px; width: 30px; height: 60px; border-radius: 15px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
+
+.side-btn { left: -10px; width: 18px; height: 55px; border-radius: 9px 0 0 9px; background-color: #3a3a3a; }
+.btn-forward { top: 170px; }
+.btn-back { top: 235px; }
+
+/* --- Right side: data panel --- */
+.stats-panel {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #2a2a2a;
+}
+
+.stat-box { 
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.stat-box:last-child {
+    margin-bottom: 0;
+    flex: 1.2;
+}
+
+.stat-header-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.reset-btn {
+    background-color: var(--accent-red); 
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.4); 
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+}
+
+.reset-btn:hover {
+    background-color: #ff6666;
+    transform: scale(1.05); 
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+}
+
+.reset-btn:active {
+    transform: scale(0.95);
+}
+
+/* Counter table style */
+.counter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.counter-item {
+    background: #252525;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    font-size: 0.85rem;
+    transition: background-color 0.2s, color 0.1s, transform 0.1s;
+    min-height: 85px;
+}
+
+.counter-item.active-counter {
+    background-color: var(--highlight);
+    color: #000;
+    transform: scale(1.02);
+    transition: none;
+}
+
+.counter-item.active-counter .counter-num,
+.counter-item.active-counter .counter-label {
+    color: #000;
+}
+
+.counter-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.counter-num {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #fff;
+    margin-left: 5px;
+    font-size: 1rem;
+}
+
+/* Faulty double click counter styling */
+.counter-label:nth-child(3) { /* Double click counter */
+    color: var(--double-click-normal);
+}
+
+.counter-label:nth-child(4) { /* Faulty double click counter */
+    color: var(--double-click-fault);
+}
+
+/* Event log container */
+.log-container {
+    height: 140px;
+    overflow-y: auto;
+    background: #111;
+    border: 1px solid #333;
+    padding: 12px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.log-item { 
+    margin-bottom: 4px; 
+    border-bottom: 1px solid #222; 
+    padding-bottom: 3px; 
+    color: #aaa;
+    line-height: 1.3;
+}
+
+.log-alert { 
+    color: var(--accent-red); 
+    font-weight: bold; 
+    animation: pulse-alert 1s infinite alternate;
+}
+
+@keyframes pulse-alert {
+    from {
+        opacity: 0.7;
+        text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+    }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+    }
+}
+
+.log-click {
+    color: #4fc3f7;
+}
+
+.log-release {
+    color: #555;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* 修改指南容器样式，使其直接显示 */
+.guide-container {
+    max-width: 800px;
+    width: 90%;
+    height: auto;
+    overflow: visible;
+    border-bottom: 1px solid #333;
+    margin: 25px 0 30px 0;
+}
+
+.guide-content {
+    padding: 20px 10px;
+    color: #bbb;
+}
+
+/* 双击事件相关样式 */
+.log-double-click {
+    color: var(--double-click-normal);
+    font-weight: bold;
+}
+
+.log-double-click-fault {
+    color: var(--double-click-fault);
+    font-weight: bold;
+    animation: pulse-alert 1s infinite alternate;
+}
+
+/* 添加新的双击效果类 */
+.btn-zone.double-click-effect {
+    background-color: var(--double-click-normal) !important;
+    color: #000 !important;
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+.btn-zone.double-click-fault-effect {
+    background-color: var(--double-click-fault) !important;
+    color: #fff !important;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+/* 按键区域的双击动画 */
+@keyframes double-click-flash {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(255, 152, 0, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(255, 152, 0, 1);
+    }
+}
+
+@keyframes double-click-fault-flash {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(255, 68, 68, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(255, 68, 68, 1);
+    }
+}
+
+.guide-content h2 { 
+    color: var(--text-main); 
+    font-size: 1.1rem;
+    margin-top: 20px; 
+    margin-bottom: 10px;
+}
+
+.guide-content h3 { 
+    color: var(--info-blue); 
+    font-size: 1rem;
+    margin-top: 18px;
+}
+
+.guide-content p { 
+    color: #888; 
+    line-height: 1.6; 
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 800px;
+    }
+    
+    .mouse-visual-container {
+        min-height: 380px;
+        padding: 20px;
+    }
+    
+    .stats-panel {
+        min-height: auto;
+        height: auto;
+        padding: 15px;
+    }
+    
+    .mouse-visual {
+        width: 200px;
+        height: 320px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    p {
+        font-size: 0.8rem;
+    }
+    
+    .dashboard {
+        padding: 0 10px;
+    }
+    
+    .mouse-visual-container {
+        padding: 15px;
+        min-height: 350px;
+    }
+    
+    .stats-panel {
+        padding: 15px;
+    }
+    
+    .mouse-visual {
+        width: 180px;
+        height: 300px;
+    }
+    
+    .stat-header-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .reset-btn {
+        align-self: flex-start;
+    }
+    
+    .counter-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .counter-item {
+        min-height: 75px;
+    }
+    
+    .log-container {
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    .counter-item {
+        padding: 8px;
+        min-height: 70px;
+    }
+    
+    .counter-label {
+        font-size: 0.7rem;
+    }
+    
+    .counter-num {
+        font-size: 0.9rem;
+    }
+}
