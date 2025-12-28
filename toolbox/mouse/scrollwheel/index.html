@@ -106,8 +106,114 @@
       transition: all 0.3s;
       font-size: 16px;
       color: var(--muted);
+      position: relative;
     }
     #testArea.active { background: rgba(56, 189, 248, 0.05); border-color: var(--accent); color: var(--text); }
+    #testArea.error {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: var(--bad);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+      animation: error-pulse 0.5s ease-in-out;
+    }
+
+    @keyframes error-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); }
+    }
+
+    /* 鼠标顶视图样式 */
+    .mouse-top-view {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .mouse-body {
+      width: 160px;
+      height: 100px;
+      background: linear-gradient(135deg, #2d3748 0%, #1f2937 100%);
+      border-radius: 50px 50px 60px 60px;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      border: 2px solid #4a5568;
+    }
+
+    .mouse-scroll-wheel {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 25px;
+      background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+      border-radius: 12px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .mouse-scroll-wheel::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 4px;
+      background: #a0aec0;
+      border-radius: 2px;
+    }
+
+    .mouse-buttons {
+      position: absolute;
+      top: 65px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 30px;
+    }
+
+    .mouse-button {
+      width: 25px;
+      height: 35px;
+      background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+      border-radius: 5px;
+      box-shadow: inset 0 1px 3px rgba(255,255,255,0.1);
+    }
+
+    .mouse-led {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: #38bdf8;
+      border-radius: 50%;
+      animation: led-blink 2s infinite;
+    }
+
+    @keyframes led-blink {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    .test-instruction {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+      z-index: 2;
+    }
 
     /* 右侧堆叠容器 */
     .right-stack {
@@ -127,7 +233,50 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      transition: all 0.3s ease;
     }
+    
+    /* 数据变化高亮动画 */
+    .stat-item.up-highlight {
+      background: rgba(34, 197, 94, 0.15);
+      animation: highlight-up 0.5s ease;
+    }
+    
+    .stat-item.down-highlight {
+      background: rgba(56, 189, 248, 0.15);
+      animation: highlight-down 0.5s ease;
+    }
+    
+    .stat-item.error-highlight {
+      background: rgba(239, 68, 68, 0.15);
+      animation: highlight-error 0.5s ease;
+    }
+    
+    .stat-item.frequency-highlight {
+      background: rgba(168, 85, 247, 0.15);
+      animation: highlight-frequency 0.5s ease;
+    }
+    
+    @keyframes highlight-up {
+      0% { background: rgba(34, 197, 94, 0.3); }
+      100% { background: rgba(34, 197, 94, 0.15); }
+    }
+    
+    @keyframes highlight-down {
+      0% { background: rgba(56, 189, 248, 0.3); }
+      100% { background: rgba(56, 189, 248, 0.15); }
+    }
+    
+    @keyframes highlight-error {
+      0% { background: rgba(239, 68, 68, 0.3); }
+      100% { background: rgba(239, 68, 68, 0.15); }
+    }
+    
+    @keyframes highlight-frequency {
+      0% { background: rgba(168, 85, 247, 0.3); }
+      100% { background: rgba(168, 85, 247, 0.15); }
+    }
+    
     .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
     .stat-value { font-size: 20px; font-weight: bold; font-family: monospace; }
 
@@ -194,7 +343,20 @@
         <option value="down">下滚测试 (Down)</option>
       </select>
     </div>
-    <div id="testArea">在此区域持续滚动滚轮进行压力测试</div>
+    <div id="testArea">
+      <!-- 鼠标顶视图 -->
+      <div class="mouse-top-view">
+        <div class="mouse-body">
+          <div class="mouse-scroll-wheel"></div>
+          <div class="mouse-buttons">
+            <div class="mouse-button"></div>
+            <div class="mouse-button"></div>
+          </div>
+          <div class="mouse-led"></div>
+        </div>
+      </div>
+      <div class="test-instruction">在此区域滚动鼠标滚轮进行测试</div>
+    </div>
   </main>
 
   <div class="right-stack">
@@ -204,10 +366,11 @@
         <button onclick="resetTest()">重置数据</button>
       </div>
       <div class="stats-grid">
-        <div class="stat-item"><span class="stat-label">向上计数</span><span class="stat-value" id="upCount">0</span></div>
-        <div class="stat-item"><span class="stat-label">向下计数</span><span class="stat-value" id="downCount">0</span></div>
-        <div class="stat-item"><span class="stat-label">反向错误</span><span class="stat-value err" id="reverseCount">0</span></div>
-        <div class="stat-item"><span class="stat-label">最高频率 (Hz)</span><span class="stat-value" id="maxHz">0</span></div>
+        <!-- 修改这里：将"反向错误"放在第二项，"向下计数"放在第三项 -->
+        <div class="stat-item" id="upCountItem"><span class="stat-label">向上计数</span><span class="stat-value" id="upCount">0</span></div>
+        <div class="stat-item" id="reverseCountItem"><span class="stat-label">反向错误</span><span class="stat-value err" id="reverseCount">0</span></div>
+        <div class="stat-item" id="downCountItem"><span class="stat-label">向下计数</span><span class="stat-value" id="downCount">0</span></div>
+        <div class="stat-item" id="maxHzItem"><span class="stat-label">最高频率 (Hz)</span><span class="stat-value" id="maxHz">0</span></div>
       </div>
     </section>
 
@@ -221,8 +384,8 @@
     <div class="intro-content">
       <h3>文本介绍区 / 使用说明</h3>
       <p>
-        <strong>模式切换：</strong>切换测试方向时，系统会自动重置统计数据以确保测试准确性性。 | 
-        <strong>反向检测：</strong>在中间区按选定方向滚动，红色报错即代表滚轮存在硬件“回滚”故障。 | 
+        <strong>模式切换：</strong>切换测试方向时，系统会自动重置统计数据以确保测试准确性。 | 
+        <strong>反向检测：</strong>在中间区按选定方向滚动，红色报错即代表滚轮存在硬件"回滚"故障。 | 
         <strong>频率检测：</strong>最高 Hz 反映了滚轮的回报率与滚动极速。
       </p>
     </div>
@@ -240,10 +403,17 @@
   const log = document.getElementById('log');
   const testModeSelect = document.getElementById('testModeSelect');
   const lineAnalysis = document.getElementById('lineAnalysis');
+  
+  // 获取统计项的容器元素，用于添加高亮效果
+  const upCountItem = document.getElementById('upCountItem');
+  const downCountItem = document.getElementById('downCountItem');
+  const reverseCountItem = document.getElementById('reverseCountItem');
+  const maxHzItem = document.getElementById('maxHzItem');
 
   let counts = { up: 0, down: 0, err: 0 };
   let maxHz = 0;
   let lastTime = 0;
+  let errorTimeout = null;
 
   // 初始化左侧列表
   for (let i = 1; i <= 500; i++) {
@@ -251,6 +421,41 @@
     div.className = 'scroll-line';
     div.textContent = `Line ${i} - 滚轮行数基准测试数据`;
     scrollBox.appendChild(div);
+  }
+
+  // 移除高亮类
+  function removeHighlight(element) {
+    element.classList.remove('up-highlight', 'down-highlight', 'error-highlight', 'frequency-highlight');
+  }
+
+  // 添加高亮效果
+  function addHighlight(element, type) {
+    removeHighlight(element);
+    element.classList.add(type);
+    
+    // 500毫秒后移除高亮
+    setTimeout(() => {
+      removeHighlight(element);
+    }, 500);
+  }
+
+  // 显示错误警告
+  function showErrorWarning() {
+    // 移除已有的错误警告
+    testArea.classList.remove('error');
+    
+    // 清除之前的定时器
+    if (errorTimeout) {
+      clearTimeout(errorTimeout);
+    }
+    
+    // 添加错误警告样式
+    testArea.classList.add('error');
+    
+    // 2秒后移除错误警告
+    errorTimeout = setTimeout(() => {
+      testArea.classList.remove('error');
+    }, 2000);
   }
 
   // --- 新增功能：监听模式切换，自动重置数据 ---
@@ -265,24 +470,47 @@
     const dir = Math.sign(e.deltaY);
     const mode = testModeSelect.value;
     const now = performance.now();
+    let hasError = false;
 
-    if (dir < 0) counts.up++;
-    else if (dir > 0) counts.down++;
+    if (dir < 0) {
+      counts.up++;
+      // 向上计数增加时，添加上高亮效果
+      addHighlight(upCountItem, 'up-highlight');
+    } else if (dir > 0) {
+      counts.down++;
+      // 向下计数增加时，添加下高亮效果
+      addHighlight(downCountItem, 'down-highlight');
+    }
 
     if ((mode === 'up' && dir > 0) || (mode === 'down' && dir < 0)) {
       counts.err++;
+      hasError = true;
+      // 错误计数增加时，添加错误高亮效果并显示错误警告
+      addHighlight(reverseCountItem, 'error-highlight');
       addLog(`[错误] 检测到反向异常滚动`, 'err');
+      showErrorWarning();
     } else {
       addLog(dir < 0 ? '↑ 向上滚动' : '↓ 向下滚动', dir < 0 ? 'up' : 'down');
     }
 
     if (lastTime > 0) {
       const hz = 1000 / (now - lastTime);
-      if (hz < 300 && hz > maxHz) maxHz = hz;
+      if (hz < 300 && hz > maxHz) {
+        maxHz = hz;
+        // 最高频率更新时，添加频率高亮效果
+        addHighlight(maxHzItem, 'frequency-highlight');
+      }
     }
 
     updateDisplay();
     lastTime = now;
+    
+    // 300毫秒后移除激活状态（如果没有错误的话）
+    if (!hasError) {
+      setTimeout(() => {
+        testArea.classList.remove('active');
+      }, 300);
+    }
   }, { passive: false });
 
   scrollBox.addEventListener('wheel', (e) => {
@@ -314,7 +542,20 @@
     lastTime = 0; // 重置时间戳以防 Hz 计算错误
     updateDisplay();
     log.innerHTML = '';
-    testArea.classList.remove('active');
+    testArea.classList.remove('active', 'error');
+    
+    // 清除错误警告定时器
+    if (errorTimeout) {
+      clearTimeout(errorTimeout);
+      errorTimeout = null;
+    }
+    
+    // 移除所有高亮效果
+    removeHighlight(upCountItem);
+    removeHighlight(downCountItem);
+    removeHighlight(reverseCountItem);
+    removeHighlight(maxHzItem);
+    
     addLog('数据已重置', '');
   }
 </script>
