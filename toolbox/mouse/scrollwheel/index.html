@@ -19,40 +19,32 @@
 
     * { box-sizing: border-box; }
 
-    /* 使 Body 成为居中容器 */
     body {
       margin: 0;
       font-family: system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
-      
-      /* 核心居中代码 */
       display: flex;
-      align-items: center;      /* 垂直居中 */
-      justify-content: center;   /* 水平居中 */
-      height: 100vh;            /* 占据全屏高度 */
-      width: 100vw;             /* 占据全屏宽度 */
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
       overflow: hidden;
       padding: 20px;
     }
 
-    /* 限制布局的最大尺寸，使其在宽屏上不会过度拉伸 */
     .main-layout {
       display: grid;
       grid-template-columns: 240px 1fr 380px;
       grid-template-rows: 1fr 180px;
       gap: 16px;
-      
       width: 100%;
-      max-width: 1400px;        /* 最大宽度限制 */
+      max-width: 1400px;
       height: 100%;
-      max-height: 900px;        /* 最大高度限制 */
-      
-      /* 内部元素阴影增强整体感 */
+      max-height: 900px;
       filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
     }
 
-    /* 通用卡片样式 */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -127,7 +119,6 @@
       overflow: hidden;
     }
 
-    /* 数据统计 */
     .stats-panel { flex: 0 0 auto; }
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
     .stat-item {
@@ -140,7 +131,6 @@
     .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
     .stat-value { font-size: 20px; font-weight: bold; font-family: monospace; }
 
-    /* 日志 */
     .log-panel { flex: 1; min-height: 0; }
     #log {
       flex: 1;
@@ -168,7 +158,6 @@
     }
     .intro-content h3 { margin-top: 0; color: var(--text); }
 
-    /* UI 组件 */
     select, button {
       background: #0f172a;
       border: 1px solid var(--border);
@@ -232,7 +221,7 @@
     <div class="intro-content">
       <h3>文本介绍区 / 使用说明</h3>
       <p>
-        <strong>行数测试：</strong>通过左侧列表观察物理刻度与逻辑行数的对应关系。 | 
+        <strong>模式切换：</strong>切换测试方向时，系统会自动重置统计数据以确保测试准确性性。 | 
         <strong>反向检测：</strong>在中间区按选定方向滚动，红色报错即代表滚轮存在硬件“回滚”故障。 | 
         <strong>频率检测：</strong>最高 Hz 反映了滚轮的回报率与滚动极速。
       </p>
@@ -242,7 +231,6 @@
 </div>
 
 <script>
-  // JavaScript 功能部分保持完全一致
   const scrollBox = document.getElementById('scrollBox');
   const testArea = document.getElementById('testArea');
   const upEl = document.getElementById('upCount');
@@ -257,12 +245,19 @@
   let maxHz = 0;
   let lastTime = 0;
 
+  // 初始化左侧列表
   for (let i = 1; i <= 500; i++) {
     const div = document.createElement('div');
     div.className = 'scroll-line';
     div.textContent = `Line ${i} - 滚轮行数基准测试数据`;
     scrollBox.appendChild(div);
   }
+
+  // --- 新增功能：监听模式切换，自动重置数据 ---
+  testModeSelect.addEventListener('change', () => {
+    resetTest();
+    addLog(`模式已切换至: ${testModeSelect.options[testModeSelect.selectedIndex].text}`, '');
+  });
 
   testArea.addEventListener('wheel', (e) => {
     e.preventDefault();
@@ -316,10 +311,11 @@
   function resetTest() {
     counts = { up: 0, down: 0, err: 0 };
     maxHz = 0;
+    lastTime = 0; // 重置时间戳以防 Hz 计算错误
     updateDisplay();
     log.innerHTML = '';
     testArea.classList.remove('active');
-    addLog('所有测试数据已重置', '');
+    addLog('数据已重置', '');
   }
 </script>
 </body>
