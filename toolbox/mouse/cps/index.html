@@ -1153,6 +1153,7 @@
                     endTime: null,
                     clicks: [],
                     results: null,
+                    lastButtonWarning: null, // 记录上次按钮警告时间
                     settings: {
                         theme: 'dark',
                         soundEnabled: false,
@@ -1221,6 +1222,9 @@
                 
                 // 更新当前模式显示
                 this.updateCurrentModeDisplay();
+                
+                // 更新提示文字
+                this.updateInstructionText();
                 
                 // 更新实时数据
                 this.updateRealTimeStats();
@@ -1383,6 +1387,9 @@
                 // 更新当前模式显示
                 this.updateCurrentModeDisplay();
                 
+                // 更新提示文字
+                this.updateInstructionText();
+                
                 // 更新计时器显示
                 const mode = this.modes[modeId];
                 this.updateTimerDisplay(`准备开始 (${mode.duration}秒测试)`);
@@ -1419,7 +1426,36 @@
                 // 更新当前模式显示
                 this.updateCurrentModeDisplay();
                 
+                // 更新提示文字
+                this.updateInstructionText();
+                
                 this.showNotification(`已切换到${this.buttonModes[modeId].name}`, 'success');
+            }
+            
+            updateInstructionText() {
+                const buttonMode = this.buttonModes[this.state.buttonMode];
+                const instructionElement = document.getElementById('click-instruction');
+                
+                // 根据按钮模式更新提示文字
+                let instructionText = '';
+                switch(this.state.buttonMode) {
+                    case 'any':
+                        instructionText = '移动鼠标到测试区域激活，然后点击鼠标开始倒计时';
+                        break;
+                    case 'left':
+                        instructionText = '移动鼠标到测试区域激活，然后点击鼠标左键开始倒计时';
+                        break;
+                    case 'right':
+                        instructionText = '移动鼠标到测试区域激活，然后点击鼠标右键开始倒计时';
+                        break;
+                    case 'middle':
+                        instructionText = '移动鼠标到测试区域激活，然后点击鼠标中键开始倒计时';
+                        break;
+                    default:
+                        instructionText = '移动鼠标到测试区域激活，然后点击鼠标开始倒计时';
+                }
+                
+                instructionElement.textContent = instructionText;
             }
             
             activateTestArea() {
@@ -1439,11 +1475,31 @@
                 testArea.classList.add('active');
                 
                 // 更新提示信息
+                const buttonMode = this.buttonModes[this.state.buttonMode];
                 document.getElementById('click-title').textContent = '准备开始';
-                document.getElementById('click-instruction').textContent = '点击鼠标开始倒计时';
+                
+                // 根据按钮模式更新点击提示
+                let instructionText = '';
+                switch(this.state.buttonMode) {
+                    case 'any':
+                        instructionText = '点击鼠标开始倒计时';
+                        break;
+                    case 'left':
+                        instructionText = '点击鼠标左键开始倒计时';
+                        break;
+                    case 'right':
+                        instructionText = '点击鼠标右键开始倒计时';
+                        break;
+                    case 'middle':
+                        instructionText = '点击鼠标中键开始倒计时';
+                        break;
+                    default:
+                        instructionText = '点击鼠标开始倒计时';
+                }
+                document.getElementById('click-instruction').textContent = instructionText;
                 this.updateTimerDisplay('点击开始');
                 
-                this.showNotification('测试区域已激活，点击鼠标开始倒计时', 'info');
+                this.showNotification(`测试区域已激活，${instructionText}`, 'info');
             }
             
             deactivateTestArea() {
@@ -1454,7 +1510,10 @@
                     
                     // 更新提示信息
                     document.getElementById('click-title').textContent = '鼠标CPS测试';
-                    document.getElementById('click-instruction').textContent = '移动鼠标到测试区域激活，然后点击鼠标开始倒计时';
+                    
+                    // 根据按钮模式更新提示文字
+                    this.updateInstructionText();
+                    
                     this.updateTimerDisplay('准备开始');
                     
                     this.showNotification('测试区域已取消激活', 'info');
@@ -1480,9 +1539,10 @@
                 }
                 
                 if (this.state.testStatus === 'active') {
-                    // 检查按钮模式
+                    // 检查按钮模式 - 只有当前选中的按钮才允许
                     if (!this.isButtonAllowed(event.button)) {
-                        this.showNotification(`当前模式仅允许${this.buttonModes[this.state.buttonMode].name}`, 'error');
+                        const allowedButton = this.buttonModes[this.state.buttonMode].name;
+                        this.showNotification(`当前模式仅允许${allowedButton}点击`, 'error');
                         return;
                     }
                     
@@ -1492,6 +1552,17 @@
                 }
                 
                 if (this.state.testStatus === 'running') {
+                    // 检查按钮模式 - 只有当前选中的按钮才允许
+                    if (!this.isButtonAllowed(event.button)) {
+                        const allowedButton = this.buttonModes[this.state.buttonMode].name;
+                        // 测试运行中，只显示一次提示，避免干扰
+                        if (!this.state.lastButtonWarning || Date.now() - this.state.lastButtonWarning > 2000) {
+                            this.showNotification(`请使用${allowedButton}点击`, 'error');
+                            this.state.lastButtonWarning = Date.now();
+                        }
+                        return;
+                    }
+                    
                     // 记录点击
                     this.recordClick(event);
                     return;
@@ -1588,7 +1659,26 @@
                 
                 // 更新提示信息
                 document.getElementById('click-title').textContent = '测试进行中';
-                document.getElementById('click-instruction').textContent = '快速点击鼠标！';
+                
+                // 根据按钮模式更新点击提示
+                let instructionText = '';
+                switch(this.state.buttonMode) {
+                    case 'any':
+                        instructionText = '快速点击鼠标！';
+                        break;
+                    case 'left':
+                        instructionText = '快速点击鼠标左键！';
+                        break;
+                    case 'right':
+                        instructionText = '快速点击鼠标右键！';
+                        break;
+                    case 'middle':
+                        instructionText = '快速点击鼠标中键！';
+                        break;
+                    default:
+                        instructionText = '快速点击鼠标！';
+                }
+                document.getElementById('click-instruction').textContent = instructionText;
                 
                 // 更新控制按钮状态
                 this.updateControlButtons();
@@ -1701,6 +1791,7 @@
                 this.state.results = null;
                 this.state.startTime = null;
                 this.state.endTime = null;
+                this.state.lastButtonWarning = null;
                 
                 const testArea = document.getElementById('test-area');
                 testArea.classList.remove('active', 'waiting', 'running', 'finished');
@@ -1710,7 +1801,10 @@
                 
                 // 重置UI
                 document.getElementById('click-title').textContent = '鼠标CPS测试';
-                document.getElementById('click-instruction').textContent = '移动鼠标到测试区域激活，然后点击鼠标开始倒计时';
+                
+                // 根据按钮模式更新提示文字
+                this.updateInstructionText();
+                
                 this.updateTimerDisplay('准备开始');
                 
                 // 隐藏完成测试提示
