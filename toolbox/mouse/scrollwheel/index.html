@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>专业鼠标滚轮测试工具 </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="免费在线鼠标滚轮测试工具，专门针对滚轮回滚、上下乱跳、失灵等常见故障进行精准检测。支持实时频率监控、滚动行数基准测试，兼容罗技、雷蛇等主流电竞鼠标。">
+  <meta name="keywords" content="鼠标滚轮测试,鼠标滚轮回滚,滚轮乱跳检测,鼠标测试工具,硬件检测,鼠标维修,Logitech滚轮测试,雷蛇鼠标测试">
+  <meta name="author" content="Layout Refined">
+  
+  <meta property="og:title" content="鼠标滚轮测试 - 在线检测滚轮回滚、乱跳与滚动精度故障">
+  <meta property="og:description" content="免费在线工具，精准检测鼠标滚轮性能，识别物理故障，评估滚动精度与稳定性。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com/mouse-wheel-test">
+  
+  <link rel="canonical" href="https://yourdomain.com/mouse-wheel-test">
+  <link rel="stylesheet" href="style.css" />
+      <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "专业鼠标滚轮测试工具",
+      "description": "用于检测鼠标滚轮性能、识别回滚故障和评估滚动精度的专业在线工具",
+      "url": "https://yourdomain.com/mouse-wheel-test",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "为什么鼠标滚轮会向上滚动时突然向下跳？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "这通常是由于编码器积灰、磨损或硬件故障引起的物理回滚（Scroll Jitter）。您可以使用本工具的‘反向错误’计数功能来确认是否存在此问题。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "如何判断鼠标滚轮性能优劣？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "性能优异的滚轮在快速滚动时应具有较高的 Hz 频率稳定性，且在指定滚动模式下不应出现任何红色‘!’警告或反向计数。"
+          }
+        }
+      ]
+    }
+  ]
+  </script>
+</head>
+<body>
+
+<!-- 新增的标题区域 -->
+<div class="header">
+  <h1 class="main-title">专业鼠标滚轮测试工具,在线检测滚轮回滚、乱跳</h1>
+  <p class="subtitle">精准检测滚轮性能，识别物理故障，评估滚动精度与稳定性。支持正向/反向测试，实时数据监控与事件日志记录。</p>
+</div>
+
+<div class="main-layout">
+  
+  <aside class="card sidebar-test">
+    <div class="card-header"><h2 class="card-title">滚轮刻度测试</h2></div>
+    <div id="scrollBox"></div>
+    <div style="padding: 10px; background: rgba(0,0,0,0.3); font-size: 11px; text-align: center;">
+      <div id="lineAnalysis">等待滚动...</div>
+    </div>
+  </aside>
+
+  <main class="card test-main">
+    <div class="card-header">
+      <h2 class="card-title">主测试区</h2>
+      <div class="select-wrapper">
+        <select id="testModeSelect" class="test-mode-select">
+          <option value="up">向上滚动测试 (Up)</option>
+          <option value="down">向下滚动测试 (Down)</option>
+        </select>
+      </div>
+    </div>
+    
+    <div id="testArea">
+      <!-- 动态指示箭头 -->
+      <div id="indicator" class="scroll-indicator"></div>
+
+      <!-- 鼠标顶视图 SVG -->
+      <div class="mouse-svg-container" id="mouseIcon">
+        <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+          <!-- 鼠标主体 -->
+          <path class="mouse-body-path" d="M50,5 C30,5 15,25 15,60 C15,100 20,150 50,155 C80,150 85,100 85,60 C85,25 70,5 50,5 Z" />
+          <!-- 按键中缝 -->
+          <line x1="50" y1="5" x2="50" y2="45" stroke="#1a202c" stroke-width="1" />
+          <!-- 滚轮槽 -->
+          <rect x="44" y="25" width="12" height="30" rx="6" fill="#1a202c" />
+          <!-- 滚轮主体 -->
+          <rect id="visualWheel" x="46" y="28" width="8" height="24" rx="4" class="mouse-wheel" />
+          <!-- 滚轮纹理线条 -->
+          <g id="wheelStripes">
+            <line class="wheel-stripe" x1="46" y1="34" x2="54" y2="34" />
+            <line class="wheel-stripe" x1="46" y1="40" x2="54" y2="40" />
+            <line class="wheel-stripe" x1="46" y1="46" x2="54" y2="46" />
+          </g>
+          <!-- 尾部灯光 -->
+          <circle cx="50" cy="130" r="8" class="mouse-light" />
+        </svg>
+      </div>
+
+      <div class="test-instruction">在此区域滚动鼠标滚轮进行测试</div>
+    </div>
+  </main>
+
+  <div class="right-stack">
+    <section class="card stats-panel">
+      <div class="card-header">
+        <h2 class="card-title">实时数据</h2>
+        <button id="resetBtn" class="reset-btn" onclick="resetTest()">重置数据</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item" id="upCountItem"><span class="stat-label">向上计数</span><span class="stat-value up" id="upCount">0</span></div>
+        <div class="stat-item" id="reverseCountItem"><span class="stat-label">反向错误</span><span class="stat-value err" id="reverseCount">0</span></div>
+        <div class="stat-item" id="downCountItem"><span class="stat-label">向下计数</span><span class="stat-value down" id="downCount">0</span></div>
+        <div class="stat-item" id="maxHzItem"><span class="stat-label">最高频率 (Hz)</span><span class="stat-value" id="maxHz">0</span></div>
+      </div>
+    </section>
+
+    <section class="card log-panel">
+      <div class="card-header"><h2 class="card-title">事件日志</h2></div>
+      <div id="log"></div>
+    </section>
+  </div>
+
+  <section class="card intro-panel">
+    <div class="intro-content">
+      <h3>使用说明</h3>
+      <p>
+        <strong>1. 硬件故障检测：</strong> 如果你选定"向上"，但滚动时出现红色"!"和错误计数，说明滚轮存在物理回滚（乱跳）故障。 <br>
+        <strong>2. 频率测试：</strong> 快速滚动时 Hz 值越高说明鼠标回报频率和滚轮速度越稳定。
+      </p>
+    </div>
+  </section>
+</div>
+<section class="seo-content">
+  <h2>鼠标滚轮故障排除指南</h2>
+  <div class="troubleshoot-grid">
+    <article>
+      <h3>滚轮乱跳/回滚 (Scroll Jitter)</h3>
+      <p>如果在测试中频繁出现红色 <strong>“!”</strong> 标记，建议：</p>
+      <ul>
+        <li>使用压缩空气清理滚轮缝隙积灰。</li>
+        <li>如果是驱动问题，尝试卸载并重新安装官方驱动。</li>
+        <li>检查是否存在编码器老化，必要时需更换物理编码器。</li>
+      </ul>
+    </article>
+  </div>
+</section>
+<script src="script.js"></script>
+</body>
+</html>

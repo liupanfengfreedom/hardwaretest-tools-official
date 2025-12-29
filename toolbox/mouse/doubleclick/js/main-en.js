@@ -1,0 +1,507 @@
+// English version of main.js - hardcoded English text
+const TEXTS = {
+    left_click: "Left Click",
+    right_click: "Right Click",
+    counter_middle: "Middle",
+    counter_b4: "Side (B4)",
+    counter_b5: "Side (B5)",
+    log_warning: " [DOUBLE CLICK ALERT!]",
+    log_reset: "--- All Data Reset ---",
+};
+
+// --- Original script variables and functions ---
+let logContainer;
+
+// Track click counts, double click counts, and faulty double click counts
+let clickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let doubleClickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let faultyDoubleClickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+
+// Track button press state and last click time
+let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
+
+// Track time of last press for each button
+let lastPressTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let pressStartTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+
+// Double click detection related variables - for ALL buttons
+let doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+const DOUBLE_CLICK_THRESHOLD = 500; // Double click time threshold in ms (usually 200-500ms)
+let FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms) - now mutable
+
+// DOM elements for slider
+let thresholdSlider;
+let thresholdValueDisplay;
+let thresholdTextElement;
+
+// Track if slider is being dragged
+let isSliderDragging = false;
+
+// Track if double click is in progress to prevent single click highlight
+let isDoubleClickInProgress = { 0:false, 1:false, 2:false, 3:false, 4:false };
+
+// Initialize function
+function initMouseTest() {
+    logContainer = document.getElementById('eventLog');
+    
+    if (!logContainer) {
+        console.error('Event log container not found');
+        return;
+    }
+    
+    // Get slider elements
+    thresholdSlider = document.getElementById('faultyThresholdSlider');
+    thresholdValueDisplay = document.getElementById('thresholdValue');
+    thresholdTextElement = document.getElementById('currentThresholdText');
+    
+    // Set up slider event listeners
+    if (thresholdSlider && thresholdValueDisplay && thresholdTextElement) {
+        // Initialize display
+        updateThresholdDisplay();
+        
+        // Add input event listener for real-time updates
+        thresholdSlider.addEventListener('input', function() {
+            FAULTY_DOUBLE_CLICK_THRESHOLD = parseInt(this.value);
+            updateThresholdDisplay();
+        });
+        
+        // Add change event listener for when user releases slider
+        thresholdSlider.addEventListener('change', function() {
+            addLog(`Faulty double click threshold set to ${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`, 'log-info');
+        });
+        
+        // Add mousedown event to track when slider is being dragged
+        thresholdSlider.addEventListener('mousedown', function(e) {
+            isSliderDragging = true;
+            e.stopPropagation(); // Prevent event from bubbling up
+        });
+        
+        // Add mouseup event to track when slider is released
+        thresholdSlider.addEventListener('mouseup', function(e) {
+            isSliderDragging = false;
+            e.stopPropagation(); // Prevent event from bubbling up
+        });
+        
+        // Also track mouseleave to ensure slider state is reset
+        thresholdSlider.addEventListener('mouseleave', function() {
+            isSliderDragging = false;
+        });
+    } else {
+        console.error('Slider elements not found');
+    }
+    
+    // 1. Prevent context menu
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    
+    // 2. Prevent native drag
+    document.addEventListener('dragstart', event => event.preventDefault());
+    
+    console.log('Mouse test initialized');
+}
+
+// Update threshold display in UI
+function updateThresholdDisplay() {
+    if (thresholdValueDisplay) {
+        thresholdValueDisplay.textContent = `${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`;
+    }
+    if (thresholdTextElement) {
+        thresholdTextElement.textContent = `${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`;
+    }
+    if (thresholdSlider) {
+        thresholdSlider.value = FAULTY_DOUBLE_CLICK_THRESHOLD;
+    }
+}
+
+// Check if any button is currently pressed
+function hasActiveButtonPress() {
+    for (let i = 0; i < 5; i++) {
+        if (isPressed[i]) return true;
+    }
+    return false;
+}
+
+// Calculate time difference since last press
+function getTimeSinceLastPress(button) {
+    const currentTime = Date.now();
+    if (lastPressTime[button] === 0) {
+        return "First press";
+    } else {
+        const timeDiff = currentTime - lastPressTime[button];
+        return `${timeDiff}ms since last press`;
+    }
+}
+
+// Calculate hold duration
+function getHoldDuration(button) {
+    if (pressStartTime[button] === 0) {
+        return "Unknown";
+    } else {
+        const holdTime = Date.now() - pressStartTime[button];
+        return `${holdTime}ms hold`;
+    }
+}
+
+// --- Event Listeners ---
+
+/* Mousedown */
+function handleMouseDown(e) {
+    // Skip if slider is being dragged
+    if (isSliderDragging) {
+        return;
+    }
+    
+    // Check if the click is directly on the slider or its thumb
+    // Only skip if clicking the slider itself, not the entire container
+    if (e.target === thresholdSlider || 
+        e.target.closest('.threshold-slider') === thresholdSlider) {
+        return; // Don't process mouse test events when interacting with slider
+    }
+    
+    e.preventDefault(); 
+    
+    const button = e.button;
+    if (isPressed[button]) return;
+    
+    const currentTime = Date.now();
+    isPressed[button] = true;
+
+    // Record press start time
+    pressStartTime[button] = currentTime;
+
+    const btnId = 'btn' + button;
+    const el = document.getElementById(btnId);
+    if (el) el.classList.add('active');
+
+    // Update click count
+    clickCounts[button]++;
+    updateClickCountUI(button);
+
+    const btnNameMap = {
+        0: TEXTS.left_click, 
+        1: TEXTS.counter_middle, 
+        2: TEXTS.right_click, 
+        3: TEXTS.counter_b4, 
+        4: TEXTS.counter_b5
+    };
+    const btnName = btnNameMap[button] || `Btn ${button}`;
+    
+    // Calculate time since last press
+    const timeSinceLastPress = getTimeSinceLastPress(button);
+    
+    // Log the click with time info
+    addLog(`${btnName} ↓ (${timeSinceLastPress})`, 'log-click');
+    
+    // DOUBLE CLICK DETECTION FOR ALL BUTTONS
+    
+    // If it's the first click or time since last click exceeds double click threshold, reset count
+    if (currentTime - doubleClickLastTime[button] > DOUBLE_CLICK_THRESHOLD) {
+        doubleClickCount[button] = 1;
+    } else {
+        doubleClickCount[button]++;
+    }
+    
+    // If it's the second click and within threshold, consider it a double click
+    if (doubleClickCount[button] === 2) {
+        const clickInterval = currentTime - doubleClickLastTime[button];
+        
+        // Determine if double click is normal
+        if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
+            // Faulty double click (interval too short)
+            faultyDoubleClickCounts[button]++;
+            updateFaultyDoubleClickCountUI(button);
+            addLog(`${btnName} Faulty Double Click (Interval: ${clickInterval}ms)`, 'log-double-click-fault');
+            // Add faulty double click visual effect to mouse button
+            showDoubleClickEffect(el, true);
+            // Add faulty double click visual effect to counter row
+            showCounterDoubleClickEffect(button, true);
+            
+            // Mark double click in progress to prevent single click highlight
+            isDoubleClickInProgress[button] = true;
+            // Reset double click flag after animation
+            setTimeout(() => {
+                isDoubleClickInProgress[button] = false;
+            }, 600);
+        } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
+            // Normal double click
+            doubleClickCounts[button]++;
+            updateDoubleClickCountUI(button);
+            addLog(`${btnName} Double Click (Interval: ${clickInterval}ms)`, 'log-double-click');
+            // Add normal double click visual effect to mouse button
+            showDoubleClickEffect(el, false);
+            // Add normal double click visual effect to counter row
+            showCounterDoubleClickEffect(button, false);
+            
+            // Mark double click in progress to prevent single click highlight
+            isDoubleClickInProgress[button] = true;
+            // Reset double click flag after animation
+            setTimeout(() => {
+                isDoubleClickInProgress[button] = false;
+            }, 600);
+        } else {
+            // Not a double click (interval too long), show single click highlight
+            if (!isDoubleClickInProgress[button]) {
+                highlightRow(button);
+            }
+        }
+        
+        // Reset click count for this button
+        doubleClickCount[button] = 0;
+    } else {
+        // First click in potential double click, show highlight unless double click is in progress
+        if (!isDoubleClickInProgress[button]) {
+            highlightRow(button);
+        }
+    }
+    
+    // Update last press time for this button
+    lastPressTime[button] = currentTime;
+    doubleClickLastTime[button] = currentTime;
+}
+
+/* Mouseup */
+function handleMouseUp(e) {
+    // Skip if slider is being dragged
+    if (isSliderDragging) {
+        return;
+    }
+    
+    // Check if the click is directly on the slider or its thumb
+    if (e.target === thresholdSlider || 
+        e.target.closest('.threshold-slider') === thresholdSlider) {
+        return; // Don't process mouse test events when interacting with slider
+    }
+    
+    e.preventDefault();
+    handleButtonRelease(e.button);
+}
+
+// Helper function: handle button release
+function handleButtonRelease(buttonCode) {
+    if (!isPressed[buttonCode]) return;
+
+    const currentTime = Date.now();
+    isPressed[buttonCode] = false;
+    
+    const btnId = 'btn' + buttonCode;
+    const el = document.getElementById(btnId);
+    if (el) el.classList.remove('active');
+    
+    // Calculate hold duration
+    const holdDuration = getHoldDuration(buttonCode);
+    
+    // Log release with hold duration only
+    const btnNameMap = {
+        0: TEXTS.left_click, 
+        1: TEXTS.counter_middle, 
+        2: TEXTS.right_click, 
+        3: TEXTS.counter_b4, 
+        4: TEXTS.counter_b5
+    };
+    const btnName = btnNameMap[buttonCode] || `Btn ${buttonCode}`;
+    
+    addLog(`${btnName} ↑ (${holdDuration})`, 'log-release');
+    
+    // Reset press start time
+    pressStartTime[buttonCode] = 0;
+}
+
+/* Mouse move state correction */
+function handleMouseMove(e) {
+    // Skip if slider is being dragged
+    if (isSliderDragging) {
+        return;
+    }
+
+    // Check right button (Button 2): mask is 2
+    if (isPressed[2] && (e.buttons & 2) === 0) {
+        handleButtonRelease(2);
+    }
+
+    // Check left button (Button 0): mask is 1
+    if (isPressed[0] && (e.buttons & 1) === 0) {
+        handleButtonRelease(0);
+    }
+
+    // Check middle button (Button 1): mask is 4
+    if (isPressed[1] && (e.buttons & 4) === 0) {
+        handleButtonRelease(1);
+    }
+    
+    // Check side button B4 (Button 3)
+    if (isPressed[3] && (e.buttons & 8) === 0) {
+        handleButtonRelease(3);
+    }
+    
+    // Check side button B5 (Button 4)
+    if (isPressed[4] && (e.buttons & 16) === 0) {
+        handleButtonRelease(4);
+    }
+}
+
+// Add double click visual effect function
+function showDoubleClickEffect(element, isFaulty) {
+    if (!element) return;
+    
+    // Remove any existing old effects
+    element.classList.remove('double-click-effect', 'double-click-fault-effect');
+    
+    // Add new effect class
+    if (isFaulty) {
+        element.classList.add('double-click-fault-effect');
+        // Add animation
+        element.style.animation = 'double-click-fault-flash 0.3s ease-in-out 2';
+    } else {
+        element.classList.add('double-click-effect');
+        // Add animation
+        element.style.animation = 'double-click-flash 0.3s ease-in-out 2';
+    }
+    
+    // Remove effect after 600ms (animation lasts about 600ms)
+    setTimeout(() => {
+        element.classList.remove('double-click-effect', 'double-click-fault-effect');
+        element.style.animation = '';
+    }, 600);
+}
+
+// 添加计数器行双击视觉效果函数
+function showCounterDoubleClickEffect(button, isFaulty) {
+    const row = document.getElementById(`row-${button}`);
+    if (!row) return;
+    
+    // 移除任何现有的效果
+    row.classList.remove('active-counter', 'double-click-counter', 'faulty-double-click-counter');
+    
+    // 添加新的效果类
+    if (isFaulty) {
+        row.classList.add('faulty-double-click-counter');
+    } else {
+        row.classList.add('double-click-counter');
+    }
+    
+    // 600ms后移除效果（与按钮效果同步）
+    setTimeout(() => {
+        row.classList.remove('double-click-counter', 'faulty-double-click-counter');
+    }, 600);
+}
+
+function updateClickCountUI(button) {
+    const el = document.getElementById(`cnt-${button}-click`);
+    if (el) el.innerText = clickCounts[button];
+}
+
+function updateDoubleClickCountUI(button) {
+    const el = document.getElementById(`cnt-${button}-double`);
+    if (el) el.innerText = doubleClickCounts[button];
+}
+
+function updateFaultyDoubleClickCountUI(button) {
+    const el = document.getElementById(`cnt-${button}-faulty`);
+    if (el) el.innerText = faultyDoubleClickCounts[button];
+}
+
+function highlightRow(key) {
+    // 如果当前已经有双击效果，不要覆盖它
+    const row = document.getElementById(`row-${key}`);
+    if (row && !isDoubleClickInProgress[key]) {
+        // 移除双击效果类
+        row.classList.remove('double-click-counter', 'faulty-double-click-counter');
+        
+        // 添加蓝色高亮
+        row.classList.remove('active-counter');
+        void row.offsetWidth; 
+        row.classList.add('active-counter');
+        
+        // 150ms后移除蓝色高亮
+        setTimeout(() => { 
+            row.classList.remove('active-counter'); 
+        }, 150);
+    }
+}
+
+function resetCounts() {
+    // Reset all counts
+    clickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    doubleClickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    faultyDoubleClickCounts = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    
+    // Reset all time tracking
+    lastPressTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    pressStartTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    
+    // Update all UI counters
+    for (let i = 0; i < 5; i++) {
+        updateClickCountUI(i);
+        updateDoubleClickCountUI(i);
+        updateFaultyDoubleClickCountUI(i);
+    }
+    
+    // Reset button state
+    isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
+    
+    // Reset double click related variables for ALL buttons
+    doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
+    
+    // Reset double click progress flags
+    isDoubleClickInProgress = { 0:false, 1:false, 2:false, 3:false, 4:false };
+    
+    // Reset button visual state
+    document.querySelectorAll('.btn-zone').forEach(el => {
+        el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect');
+        el.style.animation = '';
+    });
+    
+    // Reset counter rows highlight and double-click effects
+    document.querySelectorAll('.counter-item').forEach(el => {
+        el.classList.remove('active-counter', 'double-click-counter', 'faulty-double-click-counter');
+    });
+    
+    // Reset faulty double click threshold to default (80ms)
+    FAULTY_DOUBLE_CLICK_THRESHOLD = 80;
+    updateThresholdDisplay();
+    
+    // Reset slider dragging state
+    isSliderDragging = false;
+    
+    // Add log
+    addLog(TEXTS.log_reset, 'log-info');
+    addLog(`Faulty double click threshold reset to ${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`, 'log-info');
+}
+
+function addLog(text, className) {
+    if (!logContainer) return;
+    
+    const div = document.createElement('div');
+    div.className = 'log-item ' + (className || '');
+    const time = new Date().toLocaleTimeString('en-US', {hour12: false});
+    div.innerText = `[${time}] ${text}`;
+    logContainer.prepend(div);
+    if (logContainer.children.length > 20) {
+        logContainer.removeChild(logContainer.lastChild);
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initMouseTest();
+    
+    // Add event listeners
+    document.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mousemove', handleMouseMove);
+    
+    // Ultimate safety on window blur
+    window.addEventListener('blur', () => {
+        for (let i = 0; i < 5; i++) {
+            if (isPressed[i]) handleButtonRelease(i);
+        }
+        // Also reset slider dragging state
+        isSliderDragging = false;
+    });
+    
+    console.log('Mouse test event listeners attached');
+});
+
+// Make resetCounts function available globally
+window.resetCounts = resetCounts;

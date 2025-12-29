@@ -1,0 +1,767 @@
+:root {
+    --bg-color: #121212;
+    --mouse-base: #2a2a2a;
+    --highlight: #4fc3f7; /* 蓝色，用于普通点击 */
+    --text-main: #e0e0e0;
+    --text-dim: #757575;
+    --border: #444;
+    --accent-red: #ff4444; 
+    --info-blue: #4fc3f7;
+    --double-click-normal: #37ff00; /* 正常双击绿色 */
+    --double-click-fault: #ff4444;  /* 故障双击红色 */
+    --slider-track: #444;
+    --slider-thumb: #4fc3f7;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    user-select: none;
+    padding: 10px 0 30px 0;
+}
+
+h1 { 
+    margin-bottom: 8px;
+    font-weight: 300; 
+    letter-spacing: 1px;
+    font-size: 1.8rem;
+}
+
+p { 
+    color: var(--text-dim); 
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 280px 1fr; /* 扩大数据面板宽度 */
+    gap: 25px;
+    align-items: start;
+    max-width: 800px;
+    width: 100%;
+    padding: 0 15px;
+    margin-bottom: 20px;
+}
+
+/* 鼠标视觉容器 - 移除边框 */
+.mouse-visual-container {
+    position: relative;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 25px; /* 增加鼠标和滑块之间的间距 */
+}
+
+/* 滑块容器样式 - 修复事件接收问题 */
+.slider-container {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+    cursor: default; /* 确保默认光标 */
+    /* 确保容器可以接收事件 */
+    pointer-events: auto;
+    position: relative;
+    z-index: 10; /* 确保容器在正确层级 */
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    /* 确保标题可以接收事件 */
+    pointer-events: auto;
+}
+
+.slider-label {
+    font-size: 0.9rem;
+    color: #ddd;
+    font-weight: 500;
+}
+
+.slider-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--slider-thumb);
+    background: rgba(79, 195, 247, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.slider-group {
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    /* 确保事件可以传递到滑块 */
+    pointer-events: auto;
+}
+
+/* 滑块本身 - 确保可点击区域更大 */
+.threshold-slider {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--slider-track);
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 5px;
+    cursor: pointer; /* 添加指针光标 */
+    position: relative;
+    z-index: 20; /* 确保滑块在最上层 */
+    /* 确保滑块可以接收事件 */
+    pointer-events: auto;
+}
+
+/* 滑块轨道 */
+.threshold-slider::-webkit-slider-track {
+    width: 100%;
+    height: 8px;
+    background: var(--slider-track);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.threshold-slider::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: var(--slider-track);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 滑块拇指 - 增加可点击区域 */
+.threshold-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--slider-thumb);
+    cursor: grab; /* 拖动时显示抓手光标 */
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2; /* 确保滑块按钮在最上层 */
+}
+
+.threshold-slider::-webkit-slider-thumb:active {
+    cursor: grabbing; /* 拖动时显示正在抓取的光标 */
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+.threshold-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--slider-thumb);
+    cursor: grab;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.threshold-slider::-moz-range-thumb:active {
+    cursor: grabbing;
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+.threshold-slider:hover::-webkit-slider-thumb {
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+.threshold-slider:hover::-moz-range-thumb {
+    background: #29b6f6;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
+    transform: scale(1.1);
+}
+
+/* 滑块刻度 */
+.slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    /* 刻度文本不阻止事件 */
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+}
+
+.slider-ticks span {
+    position: relative;
+    padding-top: 20px;
+}
+
+.slider-ticks span::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 10px;
+    background: #666;
+}
+
+.slider-description {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+    /* 描述文本不阻止事件 */
+    pointer-events: none;
+}
+
+.slider-description i {
+    color: var(--info-blue);
+    font-size: 0.9rem;
+}
+
+/* 移除鼠标信息区域 */
+.mouse-info {
+    display: none;
+}
+
+/* --- Mouse visualization area --- */
+.mouse-visual {
+    position: relative;
+    width: 220px;
+    height: 350px;
+    background-color: var(--mouse-base);
+    border-radius: 110px 110px 90px 90px;
+    border: 2px solid var(--border);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.btn-zone {
+    position: absolute;
+    background-color: #333;
+    transition: background-color 0.05s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.btn-zone.active {
+    background-color: var(--highlight); /* 现在显示为蓝色 */
+    color: #000;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.8); /* 调整为蓝色阴影 */
+}
+
+.left-click { top: 0; left: 0; width: 50%; height: 120px; border-radius: 110px 0 0 0; border-right: 1px solid #111; }
+.right-click { top: 0; right: 0; width: 50%; height: 120px; border-radius: 0 110px 0 0; border-left: 1px solid #111; }
+.middle-click { top: 40px; width: 30px; height: 60px; border-radius: 15px; background-color: #1a1a1a; z-index: 10; border: 1px solid #444; }
+
+.side-btn { left: -10px; width: 18px; height: 55px; border-radius: 9px 0 0 9px; background-color: #3a3a3a; }
+.btn-forward { top: 170px; }
+.btn-back { top: 235px; }
+
+/* --- Right side: data panel --- 减少底部边缘厚度 */
+.stats-panel {
+    background-color: #1e1e1e;
+    padding: 25px 25px 20px 25px; /* 减少底部内边距从25px到20px */
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #2a2a2a;
+}
+
+.stat-box { 
+    margin-bottom: 20px; /* 减少间距从25px到20px */
+    flex: 1;
+}
+
+.stat-box:last-child {
+    margin-bottom: 0;
+    flex: 1.2;
+}
+
+.stat-header-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* 增加间距 */
+}
+
+.stat-label {
+    font-size: 0.9rem; /* 增大字体 */
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.reset-btn {
+    background-color: var(--accent-red); 
+    color: white;
+    border: none;
+    padding: 8px 16px; /* 增大按钮 */
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.9rem; /* 增大字体 */
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.4); 
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+}
+
+.reset-btn:hover {
+    background-color: #ff6666;
+    transform: scale(1.05); 
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+}
+
+.reset-btn:active {
+    transform: scale(0.95);
+}
+
+/* Counter table style */
+.counter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px; /* 增加间距 */
+}
+
+.counter-item {
+    background: #252525;
+    padding: 15px; /* 增加内边距 */
+    border-radius: 10px;
+    display: flex;
+    font-size: 0.95rem; /* 增大字体 */
+    transition: background-color 0.2s, color 0.1s, transform 0.1s;
+    min-height: 100px; /* 增加高度 */
+}
+
+.counter-item.active-counter {
+    background-color: var(--highlight); /* 计数器高亮也改为蓝色 */
+    color: #000;
+    transform: scale(1.02);
+    transition: none;
+}
+
+.counter-item.active-counter .counter-num,
+.counter-item.active-counter .counter-label {
+    color: #000;
+}
+
+/* 计数器行的双击效果 */
+.counter-item.double-click-counter {
+    background-color: rgba(55, 255, 0, 0.1) !important;
+    border: 1px solid var(--double-click-normal) !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.counter-item.faulty-double-click-counter {
+    background-color: rgba(255, 68, 68, 0.1) !important;
+    border: 1px solid var(--double-click-fault) !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.button-name {
+    font-size: 1rem; /* 按钮名称字体增大 */
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ddd;
+}
+
+.counter-label {
+    font-size: 0.85rem; /* 增大字体 */
+    color: var(--text-dim);
+    margin-top: 6px; /* 增加间距 */
+    display: flex;
+    justify-content: space-between;
+}
+
+.counter-num {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    margin-left: 5px;
+    font-size: 1.1rem; /* 增大数字字体 */
+}
+
+/* 普通点击计数器颜色 */
+.counter-label:nth-child(2) .counter-num { /* Clicks counter */
+    color: var(--highlight); /* 蓝色，与普通点击同步 */
+}
+
+/* 正常双击计数器颜色 */
+.counter-label:nth-child(3) { /* Double click counter */
+    color: var(--double-click-normal);
+}
+
+.counter-label:nth-child(3) .counter-num { /* Double click counter number */
+    color: var(--double-click-normal); /* 绿色，与正常双击同步 */
+}
+
+/* 故障双击计数器颜色 */
+.counter-label:nth-child(4) { /* Faulty double click counter */
+    color: var(--double-click-fault);
+}
+
+.counter-label:nth-child(4) .counter-num { /* Faulty double click counter number */
+    color: var(--double-click-fault); /* 红色，与故障双击同步 */
+}
+
+/* Event log container - 增加高度 */
+.log-container {
+    height: 220px; /* 从140px增加到220px，增加80px高度 */
+    overflow-y: auto;
+    background: #111;
+    border: 1px solid #333;
+    padding: 15px 15px 10px 15px; /* 减少底部内边距 */
+    font-family: monospace;
+    font-size: 0.85rem; /* 增大字体 */
+    border-radius: 8px;
+    flex: 1;
+}
+
+.log-item { 
+    margin-bottom: 5px; /* 减少间距从6px到5px */
+    border-bottom: 1px solid #222; 
+    padding-bottom: 3px; /* 减少内边距从4px到3px */
+    color: #aaa;
+    line-height: 1.4;
+}
+
+.log-alert { 
+    color: var(--accent-red); 
+    font-weight: bold; 
+    animation: pulse-alert 1s infinite alternate;
+}
+
+@keyframes pulse-alert {
+    from {
+        opacity: 0.7;
+        text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+    }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+    }
+}
+
+.log-click {
+    color: var(--highlight); /* 使用相同的蓝色 */
+}
+
+.log-release {
+    color: #555;
+    font-style: italic;
+    font-size: 0.85rem; /* 增大字体 */
+}
+
+/* 新增：信息日志样式 */
+.log-info {
+    color: var(--highlight); /* 也使用相同的蓝色 */
+    font-style: italic;
+}
+
+/* 修改指南容器样式，使其直接显示 */
+.guide-container {
+    max-width: 800px;
+    width: 90%;
+    height: auto;
+    overflow: visible;
+    border-bottom: 1px solid #333;
+    margin: 25px 0 30px 0;
+}
+
+.guide-content {
+    padding: 20px 10px;
+    color: #bbb;
+}
+
+/* 双击事件相关样式 */
+.log-double-click {
+    color: var(--double-click-normal);
+    font-weight: bold;
+}
+
+.log-double-click-fault {
+    color: var(--double-click-fault);
+    font-weight: bold;
+    animation: pulse-alert 1s infinite alternate;
+}
+
+/* 添加新的双击效果类 */
+.btn-zone.double-click-effect {
+    background-color: var(--double-click-normal) !important; /* 保持双击为绿色 */
+    color: #000 !important;
+    box-shadow: 0 0 30px rgba(55, 255, 0, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+.btn-zone.double-click-fault-effect {
+    background-color: var(--double-click-fault) !important;
+    color: #fff !important;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.8) !important;
+    transform: scale(1.05) !important;
+    transition: none !important;
+    z-index: 20 !important;
+}
+
+/* 按键区域的双击动画 */
+@keyframes double-click-flash {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(55, 255, 0, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(55, 255, 0, 1);
+    }
+}
+
+@keyframes double-click-fault-flash {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(255, 68, 68, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(255, 68, 68, 1);
+    }
+}
+
+/* 计数器行双击动画 */
+@keyframes counter-double-click-flash {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(55, 255, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(55, 255, 0, 0.6);
+    }
+}
+
+@keyframes counter-double-click-fault-flash {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+    }
+}
+
+/* 应用动画到计数器行 */
+.counter-item.double-click-counter {
+    animation: counter-double-click-flash 0.3s ease-in-out 2;
+}
+
+.counter-item.faulty-double-click-counter {
+    animation: counter-double-click-fault-flash 0.3s ease-in-out 2;
+}
+
+.guide-content h2 { 
+    color: var(--text-main); 
+    font-size: 1.1rem;
+    margin-top: 20px; 
+    margin-bottom: 10px;
+}
+
+.guide-content h3 { 
+    color: var(--info-blue); 
+    font-size: 1rem;
+    margin-top: 18px;
+}
+
+.guide-content p { 
+    color: #888; 
+    line-height: 1.6; 
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 800px;
+    }
+    
+    .mouse-visual-container {
+        min-height: auto;
+        padding: 20px;
+    }
+    
+    .stats-panel {
+        min-height: auto;
+        height: auto;
+        padding: 20px 20px 15px 20px; /* 调整响应式底部内边距 */
+    }
+    
+    .mouse-visual {
+        width: 200px;
+        height: 320px;
+        margin: 0 auto;
+    }
+    
+    /* 调整平板上的日志高度 */
+    .log-container {
+        height: 180px; /* 平板上的高度适当调整 */
+        padding: 12px 12px 8px 12px; /* 调整响应式内边距 */
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    p {
+        font-size: 0.8rem;
+    }
+    
+    .dashboard {
+        padding: 0 10px;
+    }
+    
+    .mouse-visual-container {
+        padding: 15px;
+        min-height: auto;
+    }
+    
+    .stats-panel {
+        padding: 15px 15px 12px 15px; /* 调整移动端底部内边距 */
+    }
+    
+    .mouse-visual {
+        width: 180px;
+        height: 300px;
+    }
+    
+    .stat-header-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .reset-btn {
+        align-self: flex-start;
+    }
+    
+    .counter-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .counter-item {
+        min-height: 90px;
+    }
+    
+    .log-container {
+        height: 160px; /* 移动端上的高度适当调整 */
+        padding: 10px 10px 6px 10px; /* 调整移动端内边距 */
+    }
+    
+    .button-name {
+        font-size: 0.95rem;
+    }
+    
+    .counter-label {
+        font-size: 0.8rem;
+    }
+    
+    .counter-num {
+        font-size: 1rem;
+    }
+    
+    .slider-container {
+        padding: 15px;
+    }
+    
+    .slider-label {
+        font-size: 0.85rem;
+    }
+    
+    .slider-value {
+        font-size: 1rem;
+    }
+    
+    .log-item {
+        margin-bottom: 4px; /* 调整移动端间距 */
+        padding-bottom: 2px; /* 调整移动端内边距 */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    .counter-item {
+        padding: 12px;
+        min-height: 85px;
+    }
+    
+    .button-name {
+        font-size: 0.9rem;
+    }
+    
+    .counter-label {
+        font-size: 0.75rem;
+    }
+    
+    .counter-num {
+        font-size: 0.95rem;
+    }
+    
+    .slider-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .slider-value {
+        align-self: flex-start;
+    }
+    
+    .log-container {
+        height: 140px; /* 小屏幕上保持适当高度 */
+        padding: 8px 8px 5px 8px; /* 调整小屏幕内边距 */
+    }
+    
+    .log-item {
+        margin-bottom: 3px; /* 调整小屏幕间距 */
+        padding-bottom: 2px; /* 调整小屏幕内边距 */
+    }
+}
