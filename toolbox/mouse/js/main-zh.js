@@ -146,7 +146,10 @@ function handleButtonRelease(buttonCode) {
     
     const btnId = 'btn' + buttonCode;
     const el = document.getElementById(btnId);
-    if (el) el.classList.remove('active');
+    if (el) {
+        el.classList.remove('active');
+        el.classList.remove('click-active'); // 修复：移除click-active类
+    }
 
     const btnNameMap = {
         0: TEXTS.left_click, 
@@ -160,11 +163,12 @@ function handleButtonRelease(buttonCode) {
     // Update release count
     releaseCounts[buttonCode]++;
     updateCountUI(buttonCode, 'up');
-    highlightRow(buttonCode);
+    highlightRow(buttonCode, 'normal');
     
     // Calculate hold duration
     const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
     
+    // 修改：松开的log使用更淡的颜色
     addLog(`${btnName} ↑ (按住: ${pressDuration}ms)`, 'log-release');
     
     // 如果没有按钮被按下，更新测试区状态
@@ -179,6 +183,33 @@ function handleButtonRelease(buttonCode) {
     }
 }
 
+// 高亮数据面板行
+function highlightRow(key, clickType = 'normal') {
+    const row = document.getElementById(`row-${key}`);
+    if(row) {
+        // 清除所有可能的状态类
+        row.classList.remove('click-highlight', 'double-highlight', 'fault-highlight');
+        
+        // 根据点击类型添加相应的类
+        switch(clickType) {
+            case 'normal':
+                row.classList.add('click-highlight');
+                break;
+            case 'double':
+                row.classList.add('double-highlight');
+                break;
+            case 'fault':
+                row.classList.add('fault-highlight');
+                break;
+        }
+        
+        // 150ms后移除高亮
+        setTimeout(() => {
+            row.classList.remove('click-highlight', 'double-highlight', 'fault-highlight');
+        }, 150);
+    }
+}
+
 // --- Event Listeners ---
 
 /* Mousedown */
@@ -190,12 +221,17 @@ document.addEventListener('mousedown', (e) => {
 
     const btnId = 'btn' + e.button;
     const el = document.getElementById(btnId);
-    if (el) el.classList.add('active');
+    
+    // 移除所有可能的激活类
+    if (el) {
+        el.classList.remove('active', 'click-active', 'double-click-active', 'fault-double-click-active');
+        el.classList.add('click-active');
+    }
 
     // Update press count
     pressCounts[e.button]++;
     updateCountUI(e.button, 'down');
-    highlightRow(e.button);
+    highlightRow(e.button, 'normal');
 
     const btnNameMap = {
         0: TEXTS.left_click, 
@@ -225,6 +261,7 @@ document.addEventListener('mousedown', (e) => {
         timeLog = `(距上次↓ ${timeDiff}ms)`;
     }
     
+    // 普通点击日志使用默认颜色
     addLog(`${btnName} ↓ ${timeLog}` + logWarning, logWarning ? 'log-alert' : '');
     
     // 关键：记录这次按下时间，作为下一次计算的基础
@@ -254,13 +291,23 @@ document.addEventListener('mousedown', (e) => {
         // 判断双击是否正常
         let logMessage = '';
         let className = '';
+        let clickType = '';
         
         if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
             // 故障双击（间隔太短）
             logMessage = `${btnName} 双击 (间隔: ${clickInterval}ms) [故障双击 - 间隔过短]`;
             className = 'log-double-click-fault';
+            clickType = 'fault';
+            
             // 添加故障双击视觉表现
-            showDoubleClickEffect(el, true);
+            if (el) {
+                el.classList.remove('click-active', 'double-click-active');
+                el.classList.add('fault-double-click-active');
+            }
+            
+            // 数据面板故障双击高亮
+            highlightRow(buttonIndex, 'fault');
+            
             // 为故障双击更新测试区状态
             if (testArea) {
                 updateTestAreaStatus('error');
@@ -269,8 +316,17 @@ document.addEventListener('mousedown', (e) => {
             // 正常双击
             logMessage = `${btnName} 双击 (间隔: ${clickInterval}ms) [正常双击]`;
             className = 'log-double-click';
+            clickType = 'double';
+            
             // 添加正常双击视觉表现
-            showDoubleClickEffect(el, false);
+            if (el) {
+                el.classList.remove('click-active', 'fault-double-click-active');
+                el.classList.add('double-click-active');
+            }
+            
+            // 数据面板正常双击高亮
+            highlightRow(buttonIndex, 'double');
+            
             // 为正常双击更新测试区状态
             if (testArea) {
                 updateTestAreaStatus('double-click');
@@ -283,6 +339,14 @@ document.addEventListener('mousedown', (e) => {
         
         // 重置点击计数
         doubleClickCount[buttonIndex] = 0;
+        
+        // 修改：缩短双击效果停留时间，从600ms改为300ms
+        setTimeout(() => {
+            if (el) {
+                el.classList.remove('double-click-active', 'fault-double-click-active');
+                el.style.animation = '';
+            }
+        }, 300); // 从600ms改为300ms
     }
     
     // 更新上次点击时间
@@ -382,31 +446,6 @@ function flashIndicator(element) {
     setTimeout(() => { element.style.opacity = '0'; }, 150);
 }
 
-// 添加双击视觉表现函数
-function showDoubleClickEffect(element, isFaulty) {
-    if (!element) return;
-    
-    // 先移除可能存在的旧效果
-    element.classList.remove('double-click-effect', 'double-click-fault-effect');
-    
-    // 添加新的效果类
-    if (isFaulty) {
-        element.classList.add('double-click-fault-effect');
-        // 添加动画
-        element.style.animation = 'double-click-fault-flash 0.3s ease-in-out 2';
-    } else {
-        element.classList.add('double-click-effect');
-        // 添加动画
-        element.style.animation = 'double-click-flash 0.3s ease-in-out 2';
-    }
-    
-    // 600ms后移除效果（动画持续约600ms）
-    setTimeout(() => {
-        element.classList.remove('double-click-effect', 'double-click-fault-effect');
-        element.style.animation = '';
-    }, 600);
-}
-
 // 添加滚轮高亮函数
 function highlightWheel(direction) {
     const row = document.getElementById('row-wheel');
@@ -449,16 +488,6 @@ function updateCountUI(key, type) {
     }
 }
 
-function highlightRow(key) {
-    const row = document.getElementById(`row-${key}`);
-    if(row) {
-        row.classList.remove('active-counter');
-        void row.offsetWidth; 
-        row.classList.add('active-counter');
-        setTimeout(() => { row.classList.remove('active-counter'); }, 150);
-    }
-}
-
 function resetCounts() {
     // Reset press counts
     for (let key in pressCounts) pressCounts[key] = 0;
@@ -479,12 +508,16 @@ function resetCounts() {
     
     // Reset button visual state
     document.querySelectorAll('.btn-zone').forEach(el => {
-        el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect');
+        el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect', 
+                           'click-active', 'double-click-active', 'fault-double-click-active');
         el.style.animation = '';
     });
     
     // Reset counter rows highlight
-    document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight'));
+    document.querySelectorAll('.counter-item').forEach(el => {
+        el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight',
+                           'click-highlight', 'double-highlight', 'fault-highlight');
+    });
     
     // 重置测试区状态
     if (testArea) {
