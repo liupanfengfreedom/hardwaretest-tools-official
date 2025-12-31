@@ -7,13 +7,28 @@
     --border: #444;
     --accent-red: #ff4444; 
     --info-blue: #4fc3f7;
-    --double-click-normal: #ff9800;
+    --double-click-normal: #00ff88; /* 修改：双击改为绿色 */
     --double-click-fault: #ff4444;
     --test-area-border-default: #4a4a4a;
     --test-area-border-active: #4fc3f7;
-    --test-area-border-testing: #00ff88;
+    --test-area-border-testing: #4fc3f7; /* 修改：测试中改为浅蓝色 */
     --test-area-border-error: #ff4444;
-    --test-area-border-double-click: #ff9800;
+    --test-area-border-double-click: #00ff88; /* 修改：双击检测改为绿色 */
+    
+    /* 新增: 按键状态颜色 */
+    --click-normal: var(--info-blue);      /* 颜色A: 普通单击 - 浅蓝色 */
+    --click-double: var(--double-click-normal); /* 颜色B: 正常双击 - 绿色 */
+    --click-fault: var(--double-click-fault);   /* 颜色C: 故障双击 - 红色 */
+    
+    /* 新增: 数据面板状态颜色 */
+    --counter-click-normal: rgba(79, 195, 247, 0.2); /* 浅蓝色半透明 */
+    --counter-click-double: rgba(0, 255, 136, 0.2); /* 绿色半透明 */
+    --counter-click-fault: rgba(255, 68, 68, 0.2); /* 红色半透明 */
+    
+    /* 新增: 日志状态颜色 */
+    --log-click-normal: #4fc3f7; /* 浅蓝色 */
+    --log-click-double: #00ff88; /* 绿色 */
+    --log-click-fault: #ff4444; /* 红色 */
 }
 
 body {
@@ -83,12 +98,12 @@ p {
 
 .test-area-container.testing {
     border-color: var(--test-area-border-testing);
-    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+    box-shadow: 0 0 30px rgba(79, 195, 247, 0.6); /* 修改：使用浅蓝色 */
 }
 
 .test-area-container.double-click-detected {
     border-color: var(--test-area-border-double-click);
-    box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6); /* 修改：使用绿色 */
     animation: double-click-border 0.5s ease-in-out 2;
 }
 
@@ -109,11 +124,11 @@ p {
 @keyframes double-click-border {
     0%, 100% {
         border-color: var(--test-area-border-double-click);
-        box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
     }
     50% {
-        border-color: #ffcc80;
-        box-shadow: 0 0 45px rgba(255, 152, 0, 0.9);
+        border-color: #80ffbf; /* 浅绿色 */
+        box-shadow: 0 0 45px rgba(0, 255, 136, 0.9);
     }
 }
 
@@ -228,9 +243,9 @@ p {
 }
 
 .btn-zone.active {
-    background-color: var(--highlight);
+    background-color: var(--click-normal); /* 修改：使用单击颜色 */
     color: #000;
-    box-shadow: 0 0 15px var(--highlight);
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.7); /* 修改：浅蓝色发光 */
 }
 
 .left-click { top: 0; left: 0; width: 50%; height: 120px; border-radius: 110px 0 0 0; border-right: 1px solid #111; }
@@ -339,7 +354,7 @@ p {
 }
 
 .counter-item.active-counter {
-    background-color: var(--highlight);
+    background-color: var(--click-normal); /* 修改：使用单击颜色 */
     color: #000;
     transform: scale(1.02);
     transition: none;
@@ -388,7 +403,7 @@ p {
 }
 
 .log-alert { 
-    color: var(--accent-red); 
+    color: var(--log-click-fault);  /* 使用故障双击颜色 */
     font-weight: bold; 
     animation: pulse-alert 1s infinite alternate;
 }
@@ -396,18 +411,38 @@ p {
 @keyframes pulse-alert {
     from {
         opacity: 0.7;
-        text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+        text-shadow: 0 0 5px rgba(255, 68, 68, 0.5); /* 使用故障双击颜色 */
     }
     to {
         opacity: 1;
-        text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+        text-shadow: 0 0 15px rgba(255, 68, 68, 0.8); /* 使用故障双击颜色 */
     }
 }
 
+/* 修改：让松开日志颜色更淡 */
 .log-release {
-    color: #555; /* Darker gray than normal log */
+    color: #666666; /* 比原来更淡的灰色 */
     font-style: italic; /* Italic, indicates auxiliary information */
-    font-size: 0.8rem; /* Slightly smaller */
+    font-size: 0.75rem; /* 稍微再小一点 */
+    opacity: 0.8; /* 添加透明度使颜色更淡 */
+}
+
+/* 修改现有的日志样式 */
+/* 普通单击日志样式 */
+.log-item:not(.log-alert):not(.log-double-click):not(.log-double-click-fault):not(.log-release) {
+    color: var(--log-click-normal); /* 使用普通单击颜色 */
+}
+
+/* 修改现有的双击日志样式 */
+.log-double-click {
+    color: var(--log-click-double); /* 使用正常双击颜色 */
+    font-weight: bold;
+}
+
+.log-double-click-fault {
+    color: var(--log-click-fault); /* 使用故障双击颜色 */
+    font-weight: bold;
+    animation: pulse-alert 1s infinite alternate;
 }
 
 /* 修改指南容器样式，使其直接显示 */
@@ -455,23 +490,92 @@ p {
     font-weight: bold !important;
 }
 
-/* 双击事件相关样式 */
-.log-double-click {
-    color: #ff9800; /* 橙色表示双击事件 */
-    font-weight: bold;
+/* 双击事件相关样式 - 更新为新的样式类 */
+/* 鼠标按钮双击效果 */
+.btn-zone.double-click-active {
+    background-color: var(--click-double) !important;
+    color: #000 !important;
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.8) !important;
+    animation: double-click-pulse 0.3s ease-in-out 2;
 }
 
-.log-double-click-fault {
-    color: var(--accent-red); /* 红色表示故障双击 */
-    font-weight: bold;
-    animation: pulse-alert 1s infinite alternate;
+/* 鼠标按钮异常双击效果 */
+.btn-zone.fault-double-click-active {
+    background-color: var(--click-fault) !important;
+    color: #fff !important;
+    box-shadow: 0 0 25px rgba(255, 68, 68, 0.8) !important;
+    animation: fault-double-click-pulse 0.3s ease-in-out 2;
+}
+
+/* 鼠标按钮单击效果 */
+.btn-zone.click-active {
+    background-color: var(--click-normal) !important;
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(79, 195, 247, 0.7) !important;
+    animation: click-pulse 0.2s ease-in-out;
+}
+
+/* ===== 单击状态样式 ===== */
+/* 数据面板单击效果 */
+.counter-item.click-highlight {
+    background-color: var(--counter-click-normal) !important;
+    border: 1px solid rgba(79, 195, 247, 0.4) !important;
+}
+
+/* ===== 正常双击状态样式 ===== */
+/* 数据面板双击效果 */
+.counter-item.double-highlight {
+    background-color: var(--counter-click-double) !important;
+    border: 1px solid rgba(0, 255, 136, 0.5) !important;
+}
+
+/* ===== 异常双击状态样式 ===== */
+/* 数据面板异常双击效果 */
+.counter-item.fault-highlight {
+    background-color: var(--counter-click-fault) !important;
+    border: 1px solid rgba(255, 68, 68, 0.5) !important;
+}
+
+/* ===== 动画定义 ===== */
+@keyframes double-click-pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(0, 255, 136, 0.9);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes fault-double-click-pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(255, 68, 68, 0.9);
+        transform: scale(1.05);
+    }
+}
+
+/* 单击脉冲动画 */
+@keyframes click-pulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(79, 195, 247, 0.8);
+        transform: scale(1.03);
+    }
 }
 
 /* 添加新的双击效果类 - 为不同按钮提供不同的视觉效果 */
 .btn-zone.double-click-effect {
     background-color: var(--double-click-normal) !important;
     color: #000 !important;
-    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8) !important;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.8) !important;
     transform: scale(1.05) !important;
     transition: none !important;
     z-index: 20 !important;
@@ -488,8 +592,8 @@ p {
 
 /* 为不同按钮的行添加双击高亮效果 */
 .counter-item.double-click-highlight {
-    background-color: rgba(255, 152, 0, 0.2) !important;
-    border: 1px solid rgba(255, 152, 0, 0.5) !important;
+    background-color: rgba(0, 255, 136, 0.2) !important;
+    border: 1px solid rgba(0, 255, 136, 0.5) !important;
 }
 
 .counter-item.double-click-fault-highlight {
@@ -511,10 +615,10 @@ p {
 /* 新增一个闪光动画用于双击效果 */
 @keyframes double-click-flash {
     0%, 100% {
-        box-shadow: 0 0 30px rgba(255, 152, 0, 0.8);
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
     }
     50% {
-        box-shadow: 0 0 50px rgba(255, 152, 0, 1);
+        box-shadow: 0 0 50px rgba(0, 255, 136, 1);
     }
 }
 

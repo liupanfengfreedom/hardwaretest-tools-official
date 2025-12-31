@@ -146,7 +146,10 @@ function handleButtonRelease(buttonCode) {
     
     const btnId = 'btn' + buttonCode;
     const el = document.getElementById(btnId);
-    if (el) el.classList.remove('active');
+    if (el) {
+        el.classList.remove('active');
+        el.classList.remove('click-active'); // FIX: Remove click-active class
+    }
 
     const btnNameMap = {
         0: TEXTS.left_click, 
@@ -160,14 +163,15 @@ function handleButtonRelease(buttonCode) {
     // Update release count
     releaseCounts[buttonCode]++;
     updateCountUI(buttonCode, 'up');
-    highlightRow(buttonCode);
+    highlightRow(buttonCode, 'normal');
     
     // Calculate hold duration
     const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
     
+    // MODIFY: Release log uses lighter color
     addLog(`${btnName} ↑ (Hold: ${pressDuration}ms)`, 'log-release');
     
-    // Update test area status if no buttons are pressed
+    // If no buttons are pressed, update test area status
     if (!hasActiveButtonPress() && testArea) {
         if (isMouseInTestArea) {
             updateTestAreaStatus('active');
@@ -176,6 +180,33 @@ function handleButtonRelease(buttonCode) {
             updateTestAreaStatus('ready');
             testArea.classList.remove('testing');
         }
+    }
+}
+
+// Highlight data panel row
+function highlightRow(key, clickType = 'normal') {
+    const row = document.getElementById(`row-${key}`);
+    if(row) {
+        // Remove all possible state classes
+        row.classList.remove('click-highlight', 'double-highlight', 'fault-highlight');
+        
+        // Add appropriate class based on click type
+        switch(clickType) {
+            case 'normal':
+                row.classList.add('click-highlight');
+                break;
+            case 'double':
+                row.classList.add('double-highlight');
+                break;
+            case 'fault':
+                row.classList.add('fault-highlight');
+                break;
+        }
+        
+        // Remove highlight after 150ms
+        setTimeout(() => {
+            row.classList.remove('click-highlight', 'double-highlight', 'fault-highlight');
+        }, 150);
     }
 }
 
@@ -190,12 +221,17 @@ document.addEventListener('mousedown', (e) => {
 
     const btnId = 'btn' + e.button;
     const el = document.getElementById(btnId);
-    if (el) el.classList.add('active');
+    
+    // Remove all possible active classes
+    if (el) {
+        el.classList.remove('active', 'click-active', 'double-click-active', 'fault-double-click-active');
+        el.classList.add('click-active');
+    }
 
     // Update press count
     pressCounts[e.button]++;
     updateCountUI(e.button, 'down');
-    highlightRow(e.button);
+    highlightRow(e.button, 'normal');
 
     const btnNameMap = {
         0: TEXTS.left_click, 
@@ -225,9 +261,10 @@ document.addEventListener('mousedown', (e) => {
         timeLog = `(${timeDiff}ms since last ↓)`;
     }
     
+    // Normal click log uses default color
     addLog(`${btnName} ↓ ${timeLog}` + logWarning, logWarning ? 'log-alert' : '');
     
-    // Record this press time as reference for next calculation
+    // KEY: Record this press time as reference for next calculation
     lastClickTime[e.button] = now;
     
     // Update test area status
@@ -236,7 +273,7 @@ document.addEventListener('mousedown', (e) => {
         testArea.classList.add('testing');
     }
     
-    // DOUBLE CLICK DETECTION FOR ALL BUTTONS
+    // Double click detection for ALL buttons
     const buttonIndex = e.button;
     const currentTime = Date.now();
     
@@ -254,13 +291,23 @@ document.addEventListener('mousedown', (e) => {
         // Determine if double click is normal
         let logMessage = '';
         let className = '';
+        let clickType = '';
         
         if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
             // Faulty double click (interval too short)
             logMessage = `${btnName} Double Click (Interval: ${clickInterval}ms) [Faulty Double Click - Interval Too Short]`;
             className = 'log-double-click-fault';
+            clickType = 'fault';
+            
             // Add faulty double click visual effect
-            showDoubleClickEffect(el, true);
+            if (el) {
+                el.classList.remove('click-active', 'double-click-active');
+                el.classList.add('fault-double-click-active');
+            }
+            
+            // Data panel faulty double click highlight
+            highlightRow(buttonIndex, 'fault');
+            
             // Update test area status for faulty double click
             if (testArea) {
                 updateTestAreaStatus('error');
@@ -269,8 +316,17 @@ document.addEventListener('mousedown', (e) => {
             // Normal double click
             logMessage = `${btnName} Double Click (Interval: ${clickInterval}ms) [Normal Double Click]`;
             className = 'log-double-click';
+            clickType = 'double';
+            
             // Add normal double click visual effect
-            showDoubleClickEffect(el, false);
+            if (el) {
+                el.classList.remove('click-active', 'fault-double-click-active');
+                el.classList.add('double-click-active');
+            }
+            
+            // Data panel normal double click highlight
+            highlightRow(buttonIndex, 'double');
+            
             // Update test area status for normal double click
             if (testArea) {
                 updateTestAreaStatus('double-click');
@@ -281,11 +337,19 @@ document.addEventListener('mousedown', (e) => {
             addLog(logMessage, className);
         }
         
-        // Reset click count for this button
+        // Reset click count
         doubleClickCount[buttonIndex] = 0;
+        
+        // MODIFY: Shorten double click effect duration from 600ms to 300ms
+        setTimeout(() => {
+            if (el) {
+                el.classList.remove('double-click-active', 'fault-double-click-active');
+                el.style.animation = '';
+            }
+        }, 300); // Changed from 600ms to 300ms
     }
     
-    // Update last click time for this button
+    // Update last click time
     doubleClickLastTime[buttonIndex] = currentTime;
 });
 
@@ -382,31 +446,6 @@ function flashIndicator(element) {
     setTimeout(() => { element.style.opacity = '0'; }, 150);
 }
 
-// Add double click visual effect function
-function showDoubleClickEffect(element, isFaulty) {
-    if (!element) return;
-    
-    // Remove any existing old effects
-    element.classList.remove('double-click-effect', 'double-click-fault-effect');
-    
-    // Add new effect class
-    if (isFaulty) {
-        element.classList.add('double-click-fault-effect');
-        // Add animation
-        element.style.animation = 'double-click-fault-flash 0.3s ease-in-out 2';
-    } else {
-        element.classList.add('double-click-effect');
-        // Add animation
-        element.style.animation = 'double-click-flash 0.3s ease-in-out 2';
-    }
-    
-    // Remove effect after 600ms (animation lasts about 600ms)
-    setTimeout(() => {
-        element.classList.remove('double-click-effect', 'double-click-fault-effect');
-        element.style.animation = '';
-    }, 600);
-}
-
 // Add wheel highlight function
 function highlightWheel(direction) {
     const row = document.getElementById('row-wheel');
@@ -449,16 +488,6 @@ function updateCountUI(key, type) {
     }
 }
 
-function highlightRow(key) {
-    const row = document.getElementById(`row-${key}`);
-    if(row) {
-        row.classList.remove('active-counter');
-        void row.offsetWidth; 
-        row.classList.add('active-counter');
-        setTimeout(() => { row.classList.remove('active-counter'); }, 150);
-    }
-}
-
 function resetCounts() {
     // Reset press counts
     for (let key in pressCounts) pressCounts[key] = 0;
@@ -479,12 +508,16 @@ function resetCounts() {
     
     // Reset button visual state
     document.querySelectorAll('.btn-zone').forEach(el => {
-        el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect');
+        el.classList.remove('active', 'double-click-effect', 'double-click-fault-effect', 
+                           'click-active', 'double-click-active', 'fault-double-click-active');
         el.style.animation = '';
     });
     
     // Reset counter rows highlight
-    document.querySelectorAll('.counter-item').forEach(el => el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight'));
+    document.querySelectorAll('.counter-item').forEach(el => {
+        el.classList.remove('active-counter', 'wheel-up-highlight', 'wheel-down-highlight',
+                           'click-highlight', 'double-highlight', 'fault-highlight');
+    });
     
     // Reset test area status
     if (testArea) {
