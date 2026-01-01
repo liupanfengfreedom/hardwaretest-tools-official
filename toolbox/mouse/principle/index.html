@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标工作原理 - 在线鼠标测试</title>
+    <meta name="description" content="深入解析鼠标的工作原理、不同类型鼠标的技术差异以及本测试工具的检测原理。">
+    
+    <!-- 共用样式 -->
+    <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/document.css">
+    <link rel="stylesheet" href="/toolbox/mouse/css/style.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 工作原理页面的特定样式 */
+        .principle-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .principle-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .principle-header h1 {
+            color: var(--info-blue);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .principle-header p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .principle-section {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--info-blue);
+        }
+        
+        .section-icon {
+            color: var(--highlight);
+            font-size: 1.8rem;
+            margin-right: 15px;
+        }
+        
+        .section-title {
+            color: var(--info-blue);
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        
+        .principle-content {
+            color: #ccc;
+            line-height: 1.7;
+        }
+        
+        .principle-content p {
+            margin-bottom: 15px;
+        }
+        
+        .mouse-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .mouse-type-card {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .mouse-type-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .mouse-type-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .type-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--info-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #000;
+            font-size: 1.2rem;
+        }
+        
+        .type-title {
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .tech-feature {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(79, 195, 247, 0.1);
+            border-radius: 5px;
+        }
+        
+        .tech-feature strong {
+            color: var(--info-blue);
+        }
+        
+        .principle-diagram {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #252525;
+            border-radius: 8px;
+        }
+        
+        .diagram-title {
+            color: var(--highlight);
+            margin-bottom: 15px;
+        }
+        
+        .diagram-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .diagram-step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--highlight);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 10px;
+        }
+        
+        .step-desc {
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        .tool-principle {
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            border-left: 4px solid var(--highlight);
+        }
+        
+        .tool-principle h2 {
+            color: var(--highlight);
+            margin-bottom: 20px;
+        }
+        
+        .detection-method {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .method-header {
+            color: #4fc3f7;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-header i {
+            margin-right: 10px;
+        }
+        
+        .back-to-test {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            background: var(--highlight);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #33ff99;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .back-btn i {
+            margin-right: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: var(--info-blue);
+            color: #000;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 10px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item">
+                    <a href="/toolbox/main/zh" class="breadcrumb-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/toolbox/mouse/zh/" class="breadcrumb-link">
+                        鼠标测试工具
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-active">工作原理</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- 语言切换器 -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/toolbox/mouse/zh/principle.html" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/toolbox/mouse/principle.html" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+
+    <div class="principle-container">
+        <!-- 页头 -->
+        <div class="principle-header">
+            <h1>鼠标工作原理与技术解析</h1>
+            <p>深入了解鼠标的内部机制、不同类型鼠标的技术特点以及本测试工具的检测原理</p>
+        </div>
+
+        <!-- 鼠标基本工作原理 -->
+        <div class="principle-section">
+            <div class="section-header">
+                <div class="section-icon">🔧</div>
+                <h2 class="section-title">鼠标基本工作原理</h2>
+            </div>
+            <div class="principle-content">
+                <p>鼠标作为计算机最重要的输入设备之一，其核心功能是将手部运动转换为计算机可识别的数字信号。无论何种类型的鼠标，基本工作原理都包含以下几个关键环节：</p>
+                
+                <div class="principle-diagram">
+                    <h3 class="diagram-title">鼠标工作流程图</h3>
+                    <div class="diagram-steps">
+                        <div class="diagram-step">
+                            <div class="step-number">1</div>
+                            <div class="step-desc">物理运动<br>(手部移动/按键)</div>
+                        </div>
+                        <div class="diagram-step">
+                            <div class="step-number">2</div>
+                            <div class="step-desc">传感器检测<br>(光学/机械)</div>
+                        </div>
+                        <div class="diagram-step">
+                            <div class="step-number">3</div>
+                            <div class="step-desc">信号转换<br>(模拟→数字)</div>
+                        </div>
+                        <div class="diagram-step">
+                            <div class="step-number">4</div>
+                            <div class="step-desc">数据传输<br>(USB/无线)</div>
+                        </div>
+                        <div class="diagram-step">
+                            <div class="step-number">5</div>
+                            <div class="step-desc">系统处理<br>(驱动程序)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-feature">
+                    <strong>关键组件：</strong> 微动开关（负责按键响应）、传感器（跟踪移动）、编码器（滚轮检测）、主控芯片（信号处理）。
+                </div>
+                
+                <p>当您移动鼠标或按下按键时，内部传感器会检测这些物理变化，将其转换为电信号，通过接口传输给计算机，最终由操作系统和驱动程序解析为屏幕上的光标移动或特定操作。</p>
+            </div>
+        </div>
+
+        <!-- 鼠标类型与技术差异 -->
+        <div class="principle-section">
+            <div class="section-header">
+                <div class="section-icon">🖱️</div>
+                <h2 class="section-title">鼠标类型与技术差异</h2>
+            </div>
+            <div class="principle-content">
+                <p>鼠标技术经历了多次革新，从最初的机械鼠标发展到今天的光学、激光鼠标：</p>
+                
+                <div class="mouse-types-grid">
+                    <div class="mouse-type-card">
+                        <div class="mouse-type-header">
+                            <div class="type-icon">⚙️</div>
+                            <h3 class="type-title">机械鼠标</h3>
+                        </div>
+                        <p><strong>工作原理：</strong> 使用橡胶球带动两个垂直滚轴，通过滚轴末端的编码盘检测移动。</p>
+                        <p><strong>特点：</strong> 需要鼠标垫、易积灰尘、精度较低。</p>
+                        <p><strong>流行时期：</strong> 1980-1990年代</p>
+                    </div>
+                    
+                    <div class="mouse-type-card">
+                        <div class="mouse-type-header">
+                            <div class="type-icon">🔦</div>
+                            <h3 class="type-title">光学鼠标</h3>
+                        </div>
+                        <p><strong>工作原理：</strong> 使用LED光源和CMOS传感器，通过捕捉表面图像变化计算移动。</p>
+                        <p><strong>特点：</strong> 无需鼠标垫、精度较高、主流消费级产品。</p>
+                        <p><strong>DPI范围：</strong> 800-3200 DPI</p>
+                    </div>
+                    
+                    <div class="mouse-type-card">
+                        <div class="mouse-type-header">
+                            <div class="type-icon">💎</div>
+                            <h3 class="type-title">激光鼠标</h3>
+                        </div>
+                        <p><strong>工作原理：</strong> 使用激光二极管代替LED，提供更高的表面兼容性和精度。</p>
+                        <p><strong>特点：</strong> 几乎所有表面可用、超高精度、专业级产品。</p>
+                        <p><strong>DPI范围：</strong> 最高可达16000+ DPI</p>
+                    </div>
+                </div>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>技术类型</th>
+                            <th>精度</th>
+                            <th>表面兼容性</th>
+                            <th>功耗</th>
+                            <th>常见应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>机械鼠标</td>
+                            <td>低 (200-400 DPI)</td>
+                            <td>需要专用垫</td>
+                            <td>中等</td>
+                            <td>早期计算机</td>
+                        </tr>
+                        <tr>
+                            <td>光学鼠标</td>
+                            <td>中高 (800-3200 DPI)</td>
+                            <td>大多数非反光表面</td>
+                            <td>低</td>
+                            <td>日常办公、家用</td>
+                        </tr>
+                        <tr>
+                            <td>激光鼠标</td>
+                            <td>极高 (最高16000+ DPI)</td>
+                            <td>几乎所有表面</td>
+                            <td>中等</td>
+                            <td>游戏、专业设计</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 按键与滚轮机制 -->
+        <div class="principle-section">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h2 class="section-title">按键与滚轮工作机制</h2>
+            </div>
+            <div class="principle-content">
+                <p>鼠标的按键和滚轮是用户最常操作的部件，其工作原理直接影响使用体验：</p>
+                
+                <div class="tech-feature">
+                    <strong>微动开关：</strong> 鼠标按键的核心部件。当按下按键时，内部弹簧片接触产生电信号；松开时弹簧片复位。微动开关的寿命通常在500万到2000万次点击之间。
+                </div>
+                
+                <div class="tech-feature">
+                    <strong>滚轮编码器：</strong> 滚轮内部的光学或机械编码器将旋转运动转换为脉冲信号。机械编码器使用金属触点，而光学编码器使用光栅和光电传感器，寿命更长。
+                </div>
+                
+                <p><strong>常见故障机制：</strong></p>
+                <ul>
+                    <li><strong>双击故障：</strong> 微动开关弹簧片氧化或变形，导致接触不良，产生误触发</li>
+                    <li><strong>按键失灵：</strong> 微动开关完全损坏或焊点脱落</li>
+                    <li><strong>滚轮回滚：</strong> 编码器磨损导致定位不准确</li>
+                    <li><strong>侧键失效：</strong> 侧键微动开关损坏或排线接触不良</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 测试工具检测原理 -->
+        <div class="tool-principle">
+            <h2><i class="fas fa-search"></i> 鼠标测试工具的检测原理</h2>
+            <p>本在线测试工具基于Web技术，通过JavaScript事件监听来检测鼠标状态：</p>
+            
+            <div class="detection-method">
+                <div class="method-header">
+                    <i class="fas fa-mouse-pointer"></i> 按键检测原理
+                </div>
+                <p>工具监听浏览器的<code>mousedown</code>和<code>mouseup</code>事件，每个鼠标按键都有对应的button值：左键(0)、中键(1)、右键(2)、侧键B4(3)、侧键B5(4)。当事件触发时，相应的计数器增加。</p>
+            </div>
+            
+            <div class="detection-method">
+                <div class="method-header">
+                    <i class="fas fa-exchange-alt"></i> 双击检测算法
+                </div>
+                <p>工具记录每次按键的时间戳，计算连续两次点击的时间间隔：正常双击(200-500ms)、故障双击(&lt;80ms)。通过时间差判断双击性质，并在UI上以不同颜色反馈。</p>
+            </div>
+            
+            <div class="detection-method">
+                <div class="method-header">
+                    <i class="fas fa-sync-alt"></i> 滚轮检测机制
+                </div>
+                <p>通过监听<code>wheel</code>事件，获取<code>deltaY</code>值判断滚轮方向。正值表示向下滚动，负值表示向上滚动。工具阻止了在测试区内的默认滚动行为。</p>
+            </div>
+            
+            <div class="detection-method">
+                <div class="method-header">
+                    <i class="fas fa-exclamation-triangle"></i> 故障状态判断
+                </div>
+                <p>基于以下标准判断鼠标状态：1) 按下/松开计数不匹配；2) 按键完全无响应；3) 频繁出现故障双击；4) 滚轮单向无响应。这些异常通常对应硬件故障。</p>
+            </div>
+            
+            <p><strong>技术限制：</strong> 由于浏览器安全限制，本工具无法检测DPI、回报率等高级参数，也无法测试需要驱动程序的宏功能。但能够有效检测基本的机械故障。</p>
+        </div>
+
+        <!-- 返回测试按钮 -->
+        <div class="back-to-test">
+            <a href="/toolbox/mouse/zh/" class="back-btn">
+                <i class="fas fa-mouse"></i> 返回鼠标测试工具
+            </a>
+        </div>
+    </div>
+
+    <script src="/toolbox/shared/js/switchlanguage.js"></script>
+</body>
+</html>
