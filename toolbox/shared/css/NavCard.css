@@ -1,0 +1,244 @@
+/* ===== 页面导航卡片样式 - 放置在dashboard和Feature之间 ===== */
+.page-navigation-section {
+    max-width: 1000px;
+    width: 100%;
+    margin: 40px auto 30px;
+    padding: 0 15px;
+}
+
+.navigation-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+}
+
+.navigation-header i {
+    font-size: 2.5rem;
+    color: var(--info-blue);
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.navigation-header h2 {
+    color: var(--info-blue);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.navigation-header p {
+    color: var(--text-dim);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.navigation-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.nav-card {
+    background: linear-gradient(145deg, #1e1e1e, #252525);
+    border-radius: 16px;
+    padding: 30px;
+    text-decoration: none;
+    color: var(--text-main);
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.8s;
+}
+
+.nav-card:hover::before {
+    left: 100%;
+}
+
+.nav-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.nav-card:first-child {
+    border-top: 4px solid var(--highlight);
+}
+
+.nav-card:first-child:hover {
+    border-color: #33ff99;
+}
+
+.nav-card:last-child {
+    border-top: 4px solid var(--info-blue);
+}
+
+.nav-card:last-child:hover {
+    border-color: #66d9ff;
+}
+
+.nav-card-icon {
+    font-size: 2.2rem;
+    color: var(--highlight);
+    background: rgba(0, 255, 136, 0.1);
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.4s ease;
+}
+
+.nav-card:last-child .nav-card-icon {
+    color: var(--info-blue);
+    background: rgba(79, 195, 247, 0.1);
+}
+
+.nav-card:hover .nav-card-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.nav-card-content {
+    flex: 1;
+}
+
+.nav-card-content h3 {
+    margin: 0 0 15px 0;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.nav-card-content p {
+    margin: 0 0 20px 0;
+    color: #bbb;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.nav-card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--highlight);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.nav-card:last-child .nav-card-action {
+    color: var(--info-blue);
+    background: rgba(79, 195, 247, 0.1);
+    border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.nav-card:hover .nav-card-action {
+    gap: 15px;
+    padding: 8px 20px;
+    background: rgba(0, 255, 136, 0.2);
+    border-color: rgba(0, 255, 136, 0.6);
+}
+
+.nav-card:last-child:hover .nav-card-action {
+    background: rgba(79, 195, 247, 0.2);
+    border-color: rgba(79, 195, 247, 0.6);
+}
+
+.nav-card-action i {
+    transition: transform 0.3s ease;
+}
+
+.nav-card:hover .nav-card-action i {
+    transform: translateX(8px);
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+    .navigation-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .nav-card {
+        padding: 25px;
+    }
+    
+    .nav-card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-navigation-section {
+        margin: 30px auto 20px;
+    }
+    
+    .navigation-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .navigation-header p {
+        font-size: 0.95rem;
+    }
+    
+    .nav-card {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .nav-card-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+    }
+    
+    .nav-card-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .nav-card-content p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation-header i {
+        font-size: 2rem;
+    }
+    
+    .navigation-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .nav-card-action {
+        width: 100%;
+        justify-content: center;
+    }
+}
