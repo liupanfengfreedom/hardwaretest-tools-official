@@ -1,3 +1,4 @@
+
 /* 新增：横向排列工具卡片网格 */
 .tools-navigation-grid {
     display: grid;
@@ -8,27 +9,88 @@
 
 .tool-card {
     background: linear-gradient(145deg, #252525, #1e1e1e);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 12px;
     text-decoration: none;
     color: var(--text-main);
     display: flex;
     flex-direction: column;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid #333;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     height: 100%;
-    min-height: auto; /* 移除固定最小高度，让内容决定 */
-    height: auto; /* 改为自动高度 */
+    min-height: auto;
+    height: auto;
+}
+
+/* 添加悬停时的发光边框效果 */
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 11px;
+    border: 2px solid transparent;
+    background: linear-gradient(45deg, 
+        rgba(79, 195, 247, 0.3), 
+        rgba(0, 255, 136, 0.3), 
+        rgba(156, 39, 176, 0.3), 
+        rgba(79, 195, 247, 0.3)) border-box;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tool-card:hover::before {
+    opacity: 1;
+    animation: borderRotate 3s linear infinite;
+}
+
+@keyframes borderRotate {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 200%;
+    }
+}
+
+/* 添加卡片内部光晕效果 */
+.tool-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+        rgba(79, 195, 247, 0.1) 0%, 
+        rgba(79, 195, 247, 0.05) 20%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.tool-card:hover::after {
+    opacity: 1;
 }
 
 .tool-card-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100%; /* 确保内容区域填充整个卡片 */
+    height: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .tool-card-header {
@@ -36,7 +98,7 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 8px;
-    flex-shrink: 0; /* 防止标题区域被压缩 */
+    flex-shrink: 0;
 }
 
 .tool-card-icon {
@@ -49,12 +111,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 添加图标背景光晕 */
+.tool-card-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(79, 195, 247, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.tool-card:hover .tool-card-icon::before {
+    width: 100%;
+    height: 100%;
 }
 
 .tool-card:hover .tool-card-icon {
-    transform: scale(1.05);
+    transform: scale(1.05) rotate(5deg);
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.4);
 }
 
 .tool-card-content h3 {
@@ -63,7 +147,13 @@
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.2;
-    flex-shrink: 0; /* 防止标题被压缩 */
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.tool-card:hover .tool-card-content h3 {
+    color: #4fc3f7;
+    text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
 }
 
 .tool-card-content p {
@@ -71,30 +161,126 @@
     color: #888;
     font-size: 0.75rem;
     line-height: 1.4;
-    flex-grow: 1; /* 让描述区域填充剩余空间 */
+    flex-grow: 1;
     display: flex;
-    align-items: flex-start; /* 顶部对齐 */
+    align-items: flex-start;
+    transition: all 0.2s ease;
+}
+
+.tool-card:hover .tool-card-content p {
+    color: #ccc;
+    transform: translateY(-2px);
+}
+
+/* 添加卡片浮起和阴影增强效果 */
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-color: rgba(79, 195, 247, 0.5);
 }
 
 /* 不同工具卡片的特色颜色 */
+.tools-navigation-grid .tool-card:nth-child(1) .tool-card-icon {
+    color: #4fc3f7;
+    background: rgba(79, 195, 247, 0.1);
+}
+
 .tools-navigation-grid .tool-card:nth-child(2) .tool-card-icon {
     color: #ff9800;
-    background: rgba(255, 152, 0, 0.08);
+    background: rgba(255, 152, 0, 0.1);
 }
 
 .tools-navigation-grid .tool-card:nth-child(3) .tool-card-icon {
     color: #9c27b0;
-    background: rgba(156, 39, 176, 0.08);
+    background: rgba(156, 39, 176, 0.1);
 }
 
 .tools-navigation-grid .tool-card:nth-child(4) .tool-card-icon {
     color: #4caf50;
-    background: rgba(76, 175, 80, 0.08);
+    background: rgba(76, 175, 80, 0.1);
 }
 
 .tools-navigation-grid .tool-card:nth-child(5) .tool-card-icon {
     color: #f44336;
-    background: rgba(244, 67, 54, 0.08);
+    background: rgba(244, 67, 54, 0.1);
+}
+
+/* 为每个卡片添加不同的悬停效果 */
+.tools-navigation-grid .tool-card:nth-child(1):hover {
+    border-color: rgba(79, 195, 247, 0.6);
+}
+
+.tools-navigation-grid .tool-card:nth-child(2):hover {
+    border-color: rgba(255, 152, 0, 0.6);
+}
+
+.tools-navigation-grid .tool-card:nth-child(2):hover .tool-card-icon::before {
+    background: rgba(255, 152, 0, 0.3);
+}
+
+.tools-navigation-grid .tool-card:nth-child(2):hover .tool-card-content h3 {
+    color: #ff9800;
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
+
+.tools-navigation-grid .tool-card:nth-child(3):hover {
+    border-color: rgba(156, 39, 176, 0.6);
+}
+
+.tools-navigation-grid .tool-card:nth-child(3):hover .tool-card-icon::before {
+    background: rgba(156, 39, 176, 0.3);
+}
+
+.tools-navigation-grid .tool-card:nth-child(3):hover .tool-card-content h3 {
+    color: #9c27b0;
+    text-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
+}
+
+.tools-navigation-grid .tool-card:nth-child(4):hover {
+    border-color: rgba(76, 175, 80, 0.6);
+}
+
+.tools-navigation-grid .tool-card:nth-child(4):hover .tool-card-icon::before {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.tools-navigation-grid .tool-card:nth-child(4):hover .tool-card-content h3 {
+    color: #4caf50;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.tools-navigation-grid .tool-card:nth-child(5):hover {
+    border-color: rgba(244, 67, 54, 0.6);
+}
+
+.tools-navigation-grid .tool-card:nth-child(5):hover .tool-card-icon::before {
+    background: rgba(244, 67, 54, 0.3);
+}
+
+.tools-navigation-grid .tool-card:nth-child(5):hover .tool-card-content h3 {
+    color: #f44336;
+    text-shadow: 0 0 10px rgba(244, 67, 54, 0.3);
+}
+
+/* 为每个卡片的图标添加单独的悬停效果 */
+.tools-navigation-grid .tool-card:nth-child(1):hover .tool-card-icon {
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.4);
+}
+
+.tools-navigation-grid .tool-card:nth-child(2):hover .tool-card-icon {
+    box-shadow: 0 0 15px rgba(255, 152, 0, 0.4);
+}
+
+.tools-navigation-grid .tool-card:nth-child(3):hover .tool-card-icon {
+    box-shadow: 0 0 15px rgba(156, 39, 176, 0.4);
+}
+
+.tools-navigation-grid .tool-card:nth-child(4):hover .tool-card-icon {
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
+}
+
+.tools-navigation-grid .tool-card:nth-child(5):hover .tool-card-icon {
+    box-shadow: 0 0 15px rgba(244, 67, 54, 0.4);
 }
 
 /* 响应式调整 - 修改为适应横向排列 */
@@ -121,7 +307,7 @@
     
     .tool-card {
         padding: 10px;
-        min-height: auto; /* 移除最小高度 */
+        min-height: auto;
     }
     
     .tool-card-header {
@@ -142,6 +328,11 @@
     .tool-card-content p {
         font-size: 0.7rem;
         line-height: 1.3;
+    }
+    
+    /* 移动端简化悬停效果 */
+    .tool-card:hover {
+        transform: translateY(-3px);
     }
 }
 
