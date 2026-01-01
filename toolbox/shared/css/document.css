@@ -327,3 +327,170 @@
         font-size: 1.2rem;
     }
 }
+/* 在 document.css 文件末尾添加以下样式 */
+
+/* ===== FAQ链接优化样式 ===== */
+.faq-item .faq-link-container {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.faq-item .faq-tip-text {
+    color: #bbb;
+    font-size: 0.85rem;
+    font-style: italic;
+    flex-shrink: 0;
+}
+
+.faq-item .faq-link {
+    color: #4fc3f7;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 4px 12px 4px 14px;
+    border-radius: 6px;
+    background: rgba(79, 195, 247, 0.15);
+    border: 1px solid rgba(79, 195, 247, 0.4);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding-right: 42px;
+    font-size: 0.9rem;
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.2);
+    position: relative;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.faq-item .faq-link:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.7s;
+}
+
+.faq-item .faq-link:hover:before {
+    left: 100%;
+}
+
+.faq-item .faq-link:after {
+    content: "➔";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+    font-weight: 900;
+    font-size: 1.1em;
+    color: #29b6f6;
+    text-shadow: 
+        0 0 3px rgba(41, 182, 246, 0.8),
+        0 0 6px rgba(41, 182, 246, 0.6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 
+        0 0 0 1.5px rgba(41, 182, 246, 0.4),
+        0 0 8px rgba(41, 182, 246, 0.3);
+    font-family: "Arial Black", "Segoe UI", sans-serif;
+}
+
+.faq-item .faq-link:hover {
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(79, 195, 247, 0.25);
+    border-color: rgba(79, 195, 247, 0.8);
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
+    transform: translateY(-2px);
+}
+
+.faq-item .faq-link:hover:after {
+    right: 6px;
+    color: #ffffff;
+    text-shadow: 
+        0 0 5px rgba(255, 255, 255, 1),
+        0 0 10px rgba(255, 255, 255, 0.8);
+    background: rgba(41, 182, 246, 0.4);
+    box-shadow: 
+        0 0 0 2px rgba(41, 182, 246, 0.7),
+        0 0 15px rgba(41, 182, 246, 0.6);
+    animation: arrow-pulse 0.5s ease-in-out;
+}
+
+/* 针对特定FAQ项的特殊样式 */
+.faq-item:nth-child(4) .faq-link,
+.faq-item:nth-child(5) .faq-link {
+    color: #00ff88;
+    background: rgba(0, 255, 136, 0.15);
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
+}
+
+.faq-item:nth-child(4) .faq-link:after,
+.faq-item:nth-child(5) .faq-link:after {
+    color: #00cc6a;
+    box-shadow: 
+        0 0 0 1.5px rgba(0, 255, 136, 0.4),
+        0 0 8px rgba(0, 255, 136, 0.3);
+}
+
+.faq-item:nth-child(4) .faq-link:hover,
+.faq-item:nth-child(5) .faq-link:hover {
+    background: rgba(0, 255, 136, 0.25);
+    border-color: rgba(0, 255, 136, 0.8);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+}
+
+.faq-item:nth-child(4) .faq-link:hover:after,
+.faq-item:nth-child(5) .faq-link:hover:after {
+    background: rgba(0, 255, 136, 0.4);
+    box-shadow: 
+        0 0 0 2px rgba(0, 255, 136, 0.7),
+        0 0 15px rgba(0, 255, 136, 0.6);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .faq-item .faq-link-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .faq-item .faq-link {
+        font-size: 0.85rem;
+        padding: 3px 10px 3px 12px;
+        padding-right: 38px;
+    }
+    
+    .faq-item .faq-link:after {
+        width: 20px;
+        height: 20px;
+        font-size: 1em;
+        right: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-item .faq-tip-text {
+        font-size: 0.8rem;
+    }
+    
+    .faq-item .faq-link {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
