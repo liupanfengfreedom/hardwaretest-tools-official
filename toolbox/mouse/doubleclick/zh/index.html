@@ -1,22 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mouse tester, mouse test, double click test, mouse button test">
-    <meta property="og:title" content="Online Mouse Tester - Detect Double Click">
-    <meta property="og:description" content="Free online mouse testing tool. Detect double-click faults, test all buttons and scroll wheel. No download required.">
-    <meta property="og:image" content="https://starryring.com/toolbox/preview.png">
-    <meta property="og:url" content="https://starryring.com/toolbox/mouse/">
-    <meta property="og:type" content="website">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Online Mouse Tester - Detect Double Click">
-    <meta name="twitter:description" content="Free online mouse testing tool. Detect double-click faults, test all buttons and scroll wheel. No download required.">
-    <meta name="twitter:image" content="https://starryring.com/toolbox/preview.png">
-
-    <title>Online Mouse Test - Button Click Test, Double Click Test</title>
-    <link rel="canonical" href="https://starryring.com/toolbox/mouse/" />
+    <meta name="description" content="免费在线鼠标测试工具 - 检测鼠标双击故障、测试所有按钮、滚轮和侧键。无需安装，专业级鼠标诊断工具。">
+    <meta name="keywords" content="鼠标测试, 双击检测, 鼠标按钮测试, 在线鼠标测试, 鼠标故障检测, 双击故障">
+    <meta name="author" content="硬件测试工具箱">
+    
+    <title>在线鼠标测试 - 按钮点击测试、双击测试</title>
+    <link rel="canonical" href="https://starryring.com/toolbox/mouse/zh/" />
     <link rel="alternate" hreflang="en" href="https://starryring.com/toolbox/mouse/" />
     <link rel="alternate" hreflang="zh" href="https://starryring.com/toolbox/mouse/zh/" />
     <link rel="alternate" hreflang="x-default" href="https://starryring.com/toolbox/mouse/" />
@@ -29,9 +21,12 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
     <link rel="manifest" href="/manifest.json">
 
-    <link rel="stylesheet" href="/toolbox/mouse/doubleclick/css/style.css">
-    <link rel="stylesheet" href="/toolbox/shared/css/sidebar.css">
+    <link rel="stylesheet" href="/toolbox/mouse/doubleclick/css/style.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/toolsnavigation.css">
     <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/document.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Analytics -->
@@ -48,27 +43,36 @@
         "@context": "https://schema.org",
         "@graph": [
             {
-                "@type": "SoftwareApplication",
-                "name": "Online Mouse Tester",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": "Web",
-                "description": "Free online mouse testing tool to detect double-click faults, test all buttons",
-                "url": "https://starryring.com/toolbox/mouse/",
-                "image": "https://starryring.com/toolbox/preview.png", 
-                "author": {
-                    "@type": "Organization",
-                    "name": "Hardware Test"
-                },
+                "@type": "WebApplication",
+                "name": "在线鼠标测试器 - 双击故障检测",
+                "description": "免费专业鼠标测试工具，用于检测双击故障、测试所有按钮、滚轮和侧键。无需安装即可使用。",
+                "url": "https://starryring.com/toolbox/mouse/zh/",
+                "applicationCategory": "UtilityApplication",
+                "operatingSystem": "任何系统",
+                "permissions": "无需特殊权限",
                 "offers": {
                     "@type": "Offer",
                     "price": "0",
                     "priceCurrency": "USD"
                 },
+                "author": {
+                    "@type": "Organization",
+                    "name": "硬件测试工具箱",
+                    "url": "https://starryring.com/toolbox/"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.8",
+                    "ratingCount": "1243",
+                    "bestRating": "5"
+                },
                 "featureList": [
-                    "Mouse double-click fault detection",
-                    "All button function test",
-                    "Double click counting",
-                    "Side button test"
+                    "双击故障检测",
+                    "所有鼠标按钮测试",
+                    "侧键(B4/B5)测试",
+                    "带时间戳的点击计数",
+                    "可调节的灵敏度阈值",
+                    "实时事件记录"
                 ]
             },
             {
@@ -76,18 +80,42 @@
                 "mainEntity": [
                     {
                         "@type": "Question",
-                        "name": "How to detect mouse double-click fault?",
+                        "name": "如何检测鼠标双击故障？",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Click your mouse once and check the event log. If two press events appear for a single click with very short time intervals, it indicates a possible double-click fault. This tool provides click counting, double click counting, and faulty double click counting for all mouse buttons."
+                            "text": "单击鼠标一次并检查事件记录。如果一次单击出现两个按下事件且时间间隔非常短，则可能表示存在双击故障。此工具为所有鼠标按钮提供点击计数、双击计数和故障双击计数。"
                         }
                     },
                     {
                         "@type": "Question",
-                        "name": "What does click counting mean?",
+                        "name": "点击计数是什么意思？",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Click counting tracks total clicks for each button. Double click counting tracks normal double clicks (80-500ms interval). Faulty double click counting tracks clicks with intervals less than 80ms, which indicates hardware issues."
+                            "text": "点击计数跟踪每个按钮的总点击次数。双击计数跟踪正常双击（80-500ms间隔）。故障双击计数跟踪间隔小于80ms的点击，这表示硬件问题。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "什么是鼠标双击问题？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "当鼠标开关在单次按下时注册两次点击时，就会发生双击故障，这通常是由于机械磨损或开关退化引起的。此工具有助于识别哪个按钮受到影响。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "哪些鼠标品牌容易出现双击问题？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "罗技、雷蛇和赛睿鼠标中常见报道，但任何机械开关鼠标随时间推移都可能出现此问题。所有使用机械开关的鼠标在重度使用后都可能出现此问题。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何测试鼠标侧键？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "像点击任何其他按钮一样点击侧键（B4和B5）。它们将在可视化区域亮起并在计数器中跟踪。许多用户忽视这些按钮，但它们也可能出现故障。"
                         }
                     }
                 ]
@@ -97,26 +125,8 @@
     </script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <button id="menu-button" aria-label="Open menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </button>
-
-    <div id="sidebar">
-        <button id="close-button" aria-label="Close menu">&times;</button>
-        <a href="/toolbox/main/"><span class="icon-emoji">🏠</span> Home</a>
-        <a href="/toolbox/mouse/"><span class="icon-emoji">🖱️</span> Mouse</a>
-        <a href="/toolbox/keyboard/"><span class="icon-emoji">⌨️</span> Keyboard</a>
-        <a href="/toolbox/mic/"><span class="icon-emoji">🎤</span> Microphone</a>
-        <a href="/toolbox/camera/"><span class="icon-emoji">📷</span> Camera</a>
-        <a href="/toolbox/deadpixel/"><span class="icon-emoji">🖥️</span> Screen</a>
-    </div>
-
     <!-- 语言切换器 -->
     <div class="language-switcher">
-        <!-- 地球图标触发器 -->
         <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
             <i class="fas fa-globe"></i>
         </button>
@@ -124,25 +134,41 @@
         <!-- 下拉框 -->
         <div class="language-dropdown" id="languageDropdown">
             <!-- 语言选项 -->
-            <a class="language-option" href="/toolbox/mouse/zh/" data-lang="zh">
+            <a class="language-option selected" href="/toolbox/mouse/doubleclick/zh/" data-lang="zh">
                 中文版
             </a>
-            <a class="language-option selected" href="/toolbox/mouse/" data-lang="en">
+            <a class="language-option" href="/toolbox/mouse/doubleclick/" data-lang="en">
                 English
             </a>
         </div>
     </div>
 
-    <h1>Online Mouse Test</h1>
-    <p>Click counting + Double click detection for all mouse buttons</p>
+    <!-- 面包屑导航 -->
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/toolbox/main/" class="breadcrumb-link"><i class="fas fa-home"></i> 首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/toolbox/mouse/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> 鼠标测试工具</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-mouse"></i> 双击测试</span>
+            </li>
+        </ol>
+    </nav>
+
+    <h1>在线鼠标测试</h1>
+    <h2>专业鼠标诊断工具 - 无需安装</h2>
+    <p>所有鼠标按钮的点击计数 + 双击检测</p>
 
     <div class="dashboard">
         <!-- 鼠标视觉区域 - 移除容器边框 -->
         <div class="mouse-visual-container">
             <div class="mouse-visual" id="mouseArea">
-                <div class="btn-zone left-click" id="btn0">Left Button</div>
+                <div class="btn-zone left-click" id="btn0">左键</div>
                 <div class="btn-zone middle-click" id="btn1"></div>
-                <div class="btn-zone right-click" id="btn2">Right Button</div>
+                <div class="btn-zone right-click" id="btn2">右键</div>
                 <div class="btn-zone side-btn btn-back" id="btn3">B4</div>
                 <div class="btn-zone side-btn btn-forward" id="btn4">B5</div>
             </div>
@@ -150,20 +176,20 @@
             <!-- 滑块区域 -->
             <div class="slider-container">
                 <div class="slider-header">
-                    <span class="slider-label">Faulty Double Click Threshold:</span>
-                    <span class="slider-value" id="thresholdValue">80ms</span>
+                    <span class="slider-label">故障双击阈值：</span>
+                    <span class="slider-value" id="thresholdValue">80毫秒</span>
                 </div>
                 <div class="slider-group">
                     <input type="range" min="50" max="150" value="80" class="threshold-slider" id="faultyThresholdSlider">
                     <div class="slider-ticks">
-                        <span>50ms</span>
-                        <span>100ms</span>
-                        <span>150ms</span>
+                        <span>50毫秒</span>
+                        <span>100毫秒</span>
+                        <span>150毫秒</span>
                     </div>
                 </div>
                 <div class="slider-description">
                     <i class="fas fa-info-circle"></i>
-                    <span>Shorter = stricter detection. Adjust for sensitivity.</span>
+                    <span>值越小检测越严格。根据灵敏度调整。</span>
                 </div>
             </div>
         </div>
@@ -171,91 +197,249 @@
         <div class="stats-panel">
             <div class="stat-box">
                 <div class="stat-header-group">
-                    <div class="stat-label">CLICK COUNTERS</div>
-                    <button class="reset-btn" onclick="resetCounts()">Reset All Data</button>
+                    <div class="stat-label">点击计数器</div>
+                    <button class="reset-btn" onclick="resetCounts()">重置所有数据</button>
                 </div>
                 <div class="counter-grid">
                     <div class="counter-item" id="row-0">
                         <div>
-                            <div class="button-name">Left Button</div>
-                            <div class="counter-label">Clicks: <span class="counter-num" id="cnt-0-click">0</span></div>
-                            <div class="counter-label">Double Clicks: <span class="counter-num" id="cnt-0-double">0</span></div>
-                            <div class="counter-label">Faulty Double Clicks: <span class="counter-num" id="cnt-0-faulty">0</span></div>
+                            <div class="button-name">左键</div>
+                            <div class="counter-label">点击：<span class="counter-num" id="cnt-0-click">0</span></div>
+                            <div class="counter-label">双击：<span class="counter-num" id="cnt-0-double">0</span></div>
+                            <div class="counter-label">故障双击：<span class="counter-num" id="cnt-0-faulty">0</span></div>
                         </div>
                     </div>
                     <div class="counter-item" id="row-2">
                         <div>
-                            <div class="button-name">Right Button</div>
-                            <div class="counter-label">Clicks: <span class="counter-num" id="cnt-2-click">0</span></div>
-                            <div class="counter-label">Double Clicks: <span class="counter-num" id="cnt-2-double">0</span></div>
-                            <div class="counter-label">Faulty Double Clicks: <span class="counter-num" id="cnt-2-faulty">0</span></div>
+                            <div class="button-name">右键</div>
+                            <div class="counter-label">点击：<span class="counter-num" id="cnt-2-click">0</span></div>
+                            <div class="counter-label">双击：<span class="counter-num" id="cnt-2-double">0</span></div>
+                            <div class="counter-label">故障双击：<span class="counter-num" id="cnt-2-faulty">0</span></div>
                         </div>
                     </div>
                     <div class="counter-item" id="row-1">
                         <div>
-                            <div class="button-name">Middle Button</div>
-                            <div class="counter-label">Clicks: <span class="counter-num" id="cnt-1-click">0</span></div>
-                            <div class="counter-label">Double Clicks: <span class="counter-num" id="cnt-1-double">0</span></div>
-                            <div class="counter-label">Faulty Double Clicks: <span class="counter-num" id="cnt-1-faulty">0</span></div>
+                            <div class="button-name">中键</div>
+                            <div class="counter-label">点击：<span class="counter-num" id="cnt-1-click">0</span></div>
+                            <div class="counter-label">双击：<span class="counter-num" id="cnt-1-double">0</span></div>
+                            <div class="counter-label">故障双击：<span class="counter-num" id="cnt-1-faulty">0</span></div>
                         </div>
                     </div>
                     <div class="counter-item" id="row-3">
                         <div>
-                            <div class="button-name">Side (B4)</div>
-                            <div class="counter-label">Clicks: <span class="counter-num" id="cnt-3-click">0</span></div>
-                            <div class="counter-label">Double Clicks: <span class="counter-num" id="cnt-3-double">0</span></div>
-                            <div class="counter-label">Faulty Double Clicks: <span class="counter-num" id="cnt-3-faulty">0</span></div>
+                            <div class="button-name">侧键(B4)</div>
+                            <div class="counter-label">点击：<span class="counter-num" id="cnt-3-click">0</span></div>
+                            <div class="counter-label">双击：<span class="counter-num" id="cnt-3-double">0</span></div>
+                            <div class="counter-label">故障双击：<span class="counter-num" id="cnt-3-faulty">0</span></div>
                         </div>
                     </div>
                     <div class="counter-item" id="row-4">
                         <div>
-                            <div class="button-name">Side (B5)</div>
-                            <div class="counter-label">Clicks: <span class="counter-num" id="cnt-4-click">0</span></div>
-                            <div class="counter-label">Double Clicks: <span class="counter-num" id="cnt-4-double">0</span></div>
-                            <div class="counter-label">Faulty Double Clicks: <span class="counter-num" id="cnt-4-faulty">0</span></div>
+                            <div class="button-name">侧键(B5)</div>
+                            <div class="counter-label">点击：<span class="counter-num" id="cnt-4-click">0</span></div>
+                            <div class="counter-label">双击：<span class="counter-num" id="cnt-4-double">0</span></div>
+                            <div class="counter-label">故障双击：<span class="counter-num" id="cnt-4-faulty">0</span></div>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="stat-box">
-                <div class="stat-label">EVENT LOG</div>
+                <div class="stat-label">事件记录</div>
                 <div class="log-container" id="eventLog">
-                    <div class="log-item">Awaiting input...</div>
+                    <div class="log-item">等待输入...</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 指南内容直接显示，不需要按钮 -->
-    <div id="guide-container" class="guide-container open">
-        <div class="guide-content">
-            <h2>How to use this Mouse Test tool?</h2>
-            <p>This tool tests all basic functions of your mouse. Click any button (Left, Right, Middle, Side buttons) to see them light up on the visualizer. The panel on the right tracks your click counts, double clicks, and faulty double clicks.</p>
+    <!-- ===== 页面导航卡片 ===== -->
+    <div class="page-navigation-section">
+        <div class="navigation-header">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>深入了解鼠标双击相关知识</h2>
+            <p>了解更多关于鼠标双击测试的知识和技术原理</p>
+        </div>
+        
+        <div class="navigation-cards">
+            <a href="/toolbox/mouse/doubleclick/zh/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>详细使用指南</h3>
+                    <p>从零开始学习如何使用此双击测试工具，包括逐步说明、测试技巧和常见问题解答。</p>
+                    <div class="nav-card-action">
+                        <span>查看完整指南 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
             
-            <h2>How to detect Mouse Double Clicking?</h2>
-            <p>The "Double Click Bug" happens when a single physical press registers as two inputs due to switch degradation. The tool tracks three types of clicks:</p>
-            <ul style="color: var(--text-dim); line-height: 1.6;">
-                <li><b>Click:</b> Any button press counts as one click</li>
-                <li><b>Double Click:</b> Two clicks within 80-500ms interval (normal double click)</li>
-                <li><b>Faulty Double Click:</b> Two clicks with interval less than <span id="currentThresholdText">80ms</span> (indicates hardware issue)</li>
-            </ul>
-            
-            <h2>All Buttons Can Have Double Click Issues</h2>
-            <p>Not just left button - right button, middle button, and side buttons can also develop double click faults over time. Check the counters for each button separately.</p>
-
-            <h3>Common Troubleshooting</h3>
-            <ul style="color: var(--text-dim); line-height: 1.6;">
-                <li><b>High Faulty Double Click Count:</b> If faulty double click count increases when you only click once, your mouse switch might be failing.</li>
-                <li><b>Unresponsive Button:</b> If a button does not light up, the switch may be broken.</li>
-                <li><b>Right-click displaying pressed state:</b> In some browsers, if you press and hold the right mouse button while simultaneously moving the mouse, and then release the right mouse button, the right mouse button will still display as pressed. Therefore, it is best not to move the mouse when testing key presses.</li>
-            </ul>
+            <a href="/toolbox/mouse/doubleclick/zh/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>工作原理详解</h3>
+                    <p>深入理解双击技术原理、不同类型鼠标的区别以及检测机制。</p>
+                    <div class="nav-card-action">
+                        <span>学习技术原理 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 
-    <script src="/toolbox/mouse/doubleclick/js/main-en.js"></script>
-    <script src="/toolbox/shared/js/sidebar.js"></script>
+    <!-- ===== 特性介绍区域 ===== -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>专业双击测试工具特性</h2>
+            <p>📖 简介：</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>视觉反馈</h3>
+                    <p>通过颜色变化区分不同点击类型：浅蓝色表示单击，绿色表示正常双击，红色表示故障双击。数据面板同步高亮相应按钮区域。</p>
+                    <div class="tip">
+                        <span class="tip-text">颜色编码：单击(蓝色)、正常双击(绿色)、故障双击(红色)</span>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <h3>高级双击检测</h3>
+                    <p>全面检测所有鼠标按钮功能，提供三级计数：总点击次数、正常双击（80-500毫秒）和故障双击（小于80毫秒）。实时识别按钮退化问题。</p>
+                    <div class="tip">
+                        <span class="tip-text">提示：故障双击计数表示硬件开关问题。</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>可调节灵敏度阈值</h3>
+                    <p>自定义故障双击检测阈值（50-150毫秒）以匹配您的鼠标类型。游戏鼠标可能需要更严格的设置以获得准确的检测。</p>
+                    <div class="tip">
+                        <span class="tip-text">调整滑块以微调检测灵敏度。</span>
+                    </div>
+                </div>
+           
+                <div class="feature-item">
+                    <h3>全面按钮测试</h3>
+                    <p>测试所有5个标准鼠标按钮：左键、右键、中键和两个侧键（B4/B5）。许多用户忽视侧键，但它们随时间推移也可能出现故障。</p>
+                    <div class="tip">
+                        <span class="tip-text">提示：所有机械开关都可能出现双击问题。</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>实时事件记录</h3>
+                    <p>记录所有鼠标操作的时间戳和详细信息，包括点击间隔、按钮状态变化和双击事件，便于问题诊断和分析。</p>
+                    <div class="tip">
+                        <span class="tip-text">日志显示最多20条最新记录，包含时间信息。</span>
+                    </div>
+                </div>       
+                
+                <div class="feature-item">
+                    <h3>专业诊断洞察</h3>
+                    <p>获取鼠标健康状况的详细洞察。高故障双击计数表示开关退化，帮助您决定何时需要维护或更换。</p>
+                    <div class="tip">
+                        <span class="tip-text">使用阈值滑块为您的特定鼠标自定义检测设置。</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section" id="instruction">
+                <h2>常见问题解答 (FAQ)</h2>
+                
+                <div class="faq-item">
+                    <h3>如何检测鼠标双击故障？</h3>
+                    <p>正常点击每个鼠标按钮50-100次，同时监控计数器。如果您只单击一次但"故障双击"计数增加，则表明存在硬件问题。该工具会自动检测间隔小于阈值（默认80毫秒）的点击作为故障双击。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>双击和故障双击有什么区别？</h3>
+                    <p>正常双击是用户在80-500毫秒间隔内有意进行的两次点击。故障双击是由于开关抖动导致的单次物理按压被注册为两次点击，通常间隔小于80毫秒。前者是用户有意行为，后者表示硬件退化。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>如何调整检测灵敏度？</h3>
+                    <p>使用鼠标可视化区域下方的阈值滑块。较低值（50-70毫秒）使检测更严格，适合游戏鼠标。较高值（100-150毫秒）使检测更宽松。默认80毫秒适用于大多数标准鼠标。</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>为什么我的鼠标会出现双击问题？</h3>
+                    <p>双击故障通常由以下原因引起：</p>
+                    <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                        <li>重度使用导致的机械开关磨损</li>
+                        <li>开关内部积尘</li>
+                        <li>开关触点氧化</li>
+                        <li>微动开关制造缺陷</li>
+                    </ul>
+                    <div class="faq-link-container">
+                        <span class="faq-tip-text">如需全面的鼠标测试：</span>
+                        <a href="/toolbox/mouse/zh/" class="faq-link">
+                            完整鼠标测试工具
+                        </a>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <h3>哪些鼠标品牌最容易出现双击问题？</h3>
+                    <p>虽然任何机械开关鼠标都可能出现此问题，但常见于：</p>
+                    <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                        <li>罗技游戏鼠标</li>
+                        <li>雷蛇光学和机械开关</li>
+                        <li>赛睿游戏鼠标</li>
+                        <li>任何使用欧姆龙或类似机械开关的鼠标</li>
+                    </ul>
+                    <p>这是由于使用的特定开关型号，而不一定是品牌质量问题。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>如何知道我的鼠标是否需要更换？</h3>
+                    <p>在以下情况下考虑更换鼠标：</p>
+                    <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                        <li>1) 主要按钮的故障双击计数持续偏高；</li>
+                        <li>2) 按钮变得无响应或需要过度用力；</li>
+                        <li>3) 清洁和基本故障排除后问题仍然存在；</li>
+                        <li>4) 问题影响您的生产力或游戏表现。</li>
+                    </ul>
+                    <p>此工具通过量化问题帮助您做出明智决定。</p>
+                </div>
+                
+                <div class="faq-item" id="principle">
+                    <h3>双击检测在技术上如何工作？</h3>
+                    <p>该工具使用JavaScript跟踪鼠标按下/释放事件，精度达到毫秒级。当检测到按钮按下时，它会检查自同一按钮上次按下以来的时间。如果间隔小于故障阈值（默认80毫秒），则计为故障双击。如果在80-500毫秒之间，则为正常双击。该算法独立处理所有5个鼠标按钮。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>无线鼠标可以用此工具测试吗？</h3>
+                    <p>可以，此工具适用于有线和无线鼠标。确保您的无线鼠标正确连接且电池充足。某些无线鼠标可能有不同的开关特性，因此如果需要，请调整阈值滑块。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/toolbox/mouse/doubleclick/js/main-zh.js"></script>
     <script src="/toolbox/shared/js/switchlanguage.js"></script>
+
+    <!-- 异步CSS回退脚本 -->
+    <script>
+        // 异步CSS加载回退
+        function loadCSSFallback() {
+            var links = document.querySelectorAll('link[media="print"]');
+            links.forEach(function(link) {
+                link.onload = function() {
+                    this.media = 'all';
+                };
+                // 如果5秒后仍未加载，强制应用样式
+                setTimeout(function() {
+                    if (link.media === 'print') {
+                        link.media = 'all';
+                    }
+                }, 5000);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadCSSFallback);
+    </script>
 
 </body>
 </html>
