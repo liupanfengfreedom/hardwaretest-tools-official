@@ -166,9 +166,19 @@ body {
   }
 }
 
+/* 使用CSS变量定义默认值（英文） */
+:root {
+  --error-warning-text: "⚠️ Wheel Backfire Warning!";
+}
+
+/* 中文版本覆盖变量 */
+html[lang="zh-CN"] {
+  --error-warning-text: "⚠️ 滚轮回滚警告！";
+}
+
 /* 错误状态警告图标 */
 #testArea.error::after {
-  content: "⚠️ 滚轮回滚警告！";
+  content: var(--error-warning-text);
   position: absolute;
   top: 20px;
   left: 50%;
