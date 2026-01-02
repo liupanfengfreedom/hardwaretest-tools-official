@@ -9,7 +9,7 @@ class CPSTester {
             endTime: null,
             clicks: [],
             results: null,
-            lastButtonWarning: null, // Track last button warning time
+            lastButtonWarning: null, // Record last button warning time
             settings: {
                 theme: 'dark',
                 soundEnabled: false,
@@ -21,7 +21,7 @@ class CPSTester {
         };
         
         this.modes = {
-            normal_10s: { name: '10-Second Normal Test', duration: 10, allowDoubleClick: true },
+            normal_10s: { name: '10-Second Standard Test', duration: 10, allowDoubleClick: true },
             precision_5s: { name: '5-Second Precision Test', duration: 5, allowDoubleClick: false },
             burst_1s: { name: '1-Second Burst Test', duration: 1, allowDoubleClick: true },
             endurance_60s: { name: '60-Second Endurance Test', duration: 60, allowDoubleClick: false }
@@ -31,22 +31,22 @@ class CPSTester {
             any: { 
                 name: 'Any Button', 
                 icon: 'fas fa-mouse',
-                description: 'Left, right, and middle clicks allowed'
+                description: 'Left, right, and middle buttons can all be clicked'
             },
             left: { 
                 name: 'Left Button Mode', 
                 icon: 'fas fa-hand-point-up',
-                description: 'Mouse left clicks only'
+                description: 'Only use mouse left button to click'
             },
             right: { 
                 name: 'Right Button Mode', 
                 icon: 'fas fa-hand-point-down',
-                description: 'Mouse right clicks only'
+                description: 'Only use mouse right button to click'
             },
             middle: { 
                 name: 'Middle Button Mode', 
                 icon: 'fas fa-mouse-pointer',
-                description: 'Mouse middle clicks only'
+                description: 'Only use mouse middle button to click'
             }
         };
         
@@ -64,16 +64,16 @@ class CPSTester {
         this.bindEvents();
         
         // Show welcome notification
-        this.showNotification('Move mouse to test area to activate, then click to start countdown', 'info');
+        this.showNotification('Move mouse to test area to activate, then click mouse to start countdown', 'info');
         
-        console.log('CPS Tester initialized');
+        console.log('CPS Tester initialization completed');
     }
     
     initUI() {
         // Create test mode selector
         this.createTestInterface();
         
-        // Create button mode selector
+        // Create mouse button mode selector
         this.createButtonModeSelector();
         
         // Update current mode display
@@ -88,7 +88,7 @@ class CPSTester {
         // Load history data
         this.loadHistory();
         
-        // Update control button states
+        // Update control button status
         this.updateControlButtons();
     }
     
@@ -154,7 +154,7 @@ class CPSTester {
         // Test area events
         const testArea = document.getElementById('test-area');
         
-        // Mouse enter to activate test area
+        // Mouse enter activates test area
         testArea.addEventListener('mouseenter', () => {
             if (this.state.testStatus === 'idle' || this.state.testStatus === 'finished') {
                 this.activateTestArea();
@@ -171,14 +171,14 @@ class CPSTester {
         // Mouse click event (supports left, right, middle buttons)
         testArea.addEventListener('mousedown', (e) => this.handleMouseDown(e));
         
-        // Prevent right-click context menu in test area
+        // Prevent right-click context menu on test area
         testArea.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             e.stopPropagation();
             return false;
         });
         
-        // Prevent middle button scroll in test area
+        // Prevent middle button scroll on test area
         testArea.addEventListener('auxclick', (e) => {
             if (e.button === 1) { // Middle button
                 e.preventDefault();
@@ -187,9 +187,9 @@ class CPSTester {
             }
         });
         
-        // Prevent mouse wheel events in test area (prevent middle button scroll)
+        // Prevent mouse wheel events on test area (prevent middle button scroll)
         testArea.addEventListener('wheel', (e) => {
-            // Only prevent during active test
+            // Only prevent wheel during active testing
             if (this.state.testStatus === 'running') {
                 e.preventDefault();
                 e.stopPropagation();
@@ -200,7 +200,7 @@ class CPSTester {
         // Touch events
         testArea.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            // Touch event simulates left click
+            // Touch event simulates left button click
             this.handleMouseDown({ button: 0, clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
         });
         
@@ -226,13 +226,13 @@ class CPSTester {
     
     setMode(modeId) {
         if (this.state.testStatus === 'running' || this.state.testStatus === 'counting') {
-            this.showNotification('Test in progress, cannot switch mode!', 'error');
+            this.showNotification('Test in progress, cannot switch modes!', 'error');
             return;
         }
         
         this.state.currentMode = modeId;
         
-        // Update mode button states
+        // Update mode button status
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.classList.remove('active');
             if (btn.dataset.mode === modeId) {
@@ -248,7 +248,7 @@ class CPSTester {
         
         // Update timer display
         const mode = this.modes[modeId];
-        this.updateTimerDisplay(`Ready to start (${mode.duration}-second test)`);
+        this.updateTimerDisplay(`Ready to start (${mode.duration}s test)`);
         
         // Reset progress bar
         document.getElementById('test-progress').style.width = '0%';
@@ -267,7 +267,7 @@ class CPSTester {
     setButtonMode(modeId) {
         this.state.buttonMode = modeId;
         
-        // Update button mode option states
+        // Update button mode option status
         document.querySelectorAll('.mode-option').forEach(option => {
             option.classList.remove('active');
             const checkIcon = option.querySelector('.fa-check');
@@ -296,19 +296,19 @@ class CPSTester {
         let instructionText = '';
         switch(this.state.buttonMode) {
             case 'any':
-                instructionText = 'Move mouse to test area to activate, then click to start countdown';
+                instructionText = 'Move mouse to test area to activate, then click mouse to start countdown';
                 break;
             case 'left':
-                instructionText = 'Move mouse to test area to activate, then left-click to start countdown';
+                instructionText = 'Move mouse to test area to activate, then click mouse left button to start countdown';
                 break;
             case 'right':
-                instructionText = 'Move mouse to test area to activate, then right-click to start countdown';
+                instructionText = 'Move mouse to test area to activate, then click mouse right button to start countdown';
                 break;
             case 'middle':
-                instructionText = 'Move mouse to test area to activate, then middle-click to start countdown';
+                instructionText = 'Move mouse to test area to activate, then click mouse middle button to start countdown';
                 break;
             default:
-                instructionText = 'Move mouse to test area to activate, then click to start countdown';
+                instructionText = 'Move mouse to test area to activate, then click mouse to start countdown';
         }
         
         instructionElement.textContent = instructionText;
@@ -319,7 +319,7 @@ class CPSTester {
             return;
         }
         
-        // If test is completed, user must click "Restart" button first
+        // If test is completed, user needs to click "Restart Test" button first
         if (this.state.testStatus === 'finished') {
             this.showNotification('Test completed, please click "Restart Test" button to start new test', 'info');
             return;
@@ -334,23 +334,23 @@ class CPSTester {
         const buttonMode = this.buttonModes[this.state.buttonMode];
         document.getElementById('click-title').textContent = 'Ready to Start';
         
-        // Update click instruction based on button mode
+        // Update click prompt based on button mode
         let instructionText = '';
         switch(this.state.buttonMode) {
             case 'any':
-                instructionText = 'Click to start countdown';
+                instructionText = 'Click mouse to start countdown';
                 break;
             case 'left':
-                instructionText = 'Left-click to start countdown';
+                instructionText = 'Click mouse left button to start countdown';
                 break;
             case 'right':
-                instructionText = 'Right-click to start countdown';
+                instructionText = 'Click mouse right button to start countdown';
                 break;
             case 'middle':
-                instructionText = 'Middle-click to start countdown';
+                instructionText = 'Click mouse middle button to start countdown';
                 break;
             default:
-                instructionText = 'Click to start countdown';
+                instructionText = 'Click mouse to start countdown';
         }
         document.getElementById('click-instruction').textContent = instructionText;
         this.updateTimerDisplay('Click to Start');
@@ -383,19 +383,19 @@ class CPSTester {
         
         // Check current status
         if (this.state.testStatus === 'idle') {
-            // If test area is not activated, activate it first
+            // If test area not activated, activate first
             this.activateTestArea();
             return;
         }
         
-        // If test is completed, don't respond to clicks
+        // If test completed, don't respond to clicks
         if (this.state.testStatus === 'finished') {
             this.showNotification('Test completed, please click "Restart Test" button to start new test', 'info');
             return;
         }
         
         if (this.state.testStatus === 'active') {
-            // Check button mode - only allow selected button
+            // Check button mode - only selected button is allowed
             if (!this.isButtonAllowed(event.button)) {
                 const allowedButton = this.buttonModes[this.state.buttonMode].name;
                 this.showNotification(`Current mode only allows ${allowedButton} clicks`, 'error');
@@ -408,12 +408,12 @@ class CPSTester {
         }
         
         if (this.state.testStatus === 'running') {
-            // Check button mode - only allow selected button
+            // Check button mode - only selected button is allowed
             if (!this.isButtonAllowed(event.button)) {
                 const allowedButton = this.buttonModes[this.state.buttonMode].name;
-                // During test, only show warning once to avoid interference
+                // During test running, only show prompt once to avoid interference
                 if (!this.state.lastButtonWarning || Date.now() - this.state.lastButtonWarning > 2000) {
-                    this.showNotification(`Please use ${allowedButton} for clicking`, 'error');
+                    this.showNotification(`Please use ${allowedButton} to click`, 'error');
                     this.state.lastButtonWarning = Date.now();
                 }
                 return;
@@ -463,10 +463,10 @@ class CPSTester {
         testArea.classList.add('waiting');
         
         // Update instruction information
-        document.getElementById('click-title').textContent = 'Getting Ready';
-        document.getElementById('click-instruction').textContent = 'Countdown starting soon';
+        document.getElementById('click-title').textContent = 'Ready to Start';
+        document.getElementById('click-instruction').textContent = 'Countdown will start soon';
         
-        // Brief delay before countdown
+        // Start countdown after brief delay
         setTimeout(() => {
             this.beginCountdown();
         }, 500);
@@ -516,27 +516,27 @@ class CPSTester {
         // Update instruction information
         document.getElementById('click-title').textContent = 'Test in Progress';
         
-        // Update click instruction based on button mode
+        // Update click prompt based on button mode
         let instructionText = '';
         switch(this.state.buttonMode) {
             case 'any':
-                instructionText = 'Click rapidly!';
+                instructionText = 'Click mouse quickly!';
                 break;
             case 'left':
-                instructionText = 'Left-click rapidly!';
+                instructionText = 'Click mouse left button quickly!';
                 break;
             case 'right':
-                instructionText = 'Right-click rapidly!';
+                instructionText = 'Click mouse right button quickly!';
                 break;
             case 'middle':
-                instructionText = 'Middle-click rapidly!';
+                instructionText = 'Click mouse middle button quickly!';
                 break;
             default:
-                instructionText = 'Click rapidly!';
+                instructionText = 'Click mouse quickly!';
         }
         document.getElementById('click-instruction').textContent = instructionText;
         
-        // Update control button states
+        // Update control button status
         this.updateControlButtons();
         
         // Update timer
@@ -616,10 +616,10 @@ class CPSTester {
         testArea.classList.remove('running');
         testArea.classList.add('finished');
         
-        // Update control button states
+        // Update control button status
         this.updateControlButtons();
         
-        // Calculate statistics
+        // Calculate statistics results
         this.calculateResults();
         
         // Display results
@@ -631,14 +631,14 @@ class CPSTester {
         }
         
         // Update instruction information - clearly tell user how to restart
-        document.getElementById('click-title').textContent = 'Test Complete';
+        document.getElementById('click-title').textContent = 'Test Completed';
         document.getElementById('click-instruction').textContent = 'Click "Restart Test" button below to start new test';
         this.updateTimerDisplay('Complete!');
         
         // Show test completion notice
         document.getElementById('test-complete-notice').style.display = 'block';
         
-        this.showNotification('Test complete! Click "Restart Test" button to start new test', 'success');
+        this.showNotification('Test completed! Click "Restart Test" button to start new test', 'success');
     }
     
     resetTest() {
@@ -652,7 +652,7 @@ class CPSTester {
         const testArea = document.getElementById('test-area');
         testArea.classList.remove('active', 'waiting', 'running', 'finished');
         
-        // Update control button states
+        // Update control button status
         this.updateControlButtons();
         
         // Reset UI
@@ -678,7 +678,7 @@ class CPSTester {
             <h2><i class="fas fa-chart-bar"></i> Test Results</h2>
             <div class="no-results">
                 <i class="fas fa-mouse-pointer" style="font-size: 3rem; color: var(--text-muted); display: block; text-align: center; margin: 20px 0;"></i>
-                <p style="text-align: center; color: var(--text-secondary);">Complete a test to view results</p>
+                <p style="text-align: center; color: var(--text-secondary);">View results after completing the test</p>
             </div>
         `;
         
@@ -763,7 +763,7 @@ class CPSTester {
             }
         }
         
-        // Calculate consistency - fix issue: when only one click, consistency should be 100%
+        // Calculate consistency - Fix issue: when only one click, consistency should be 100%
         let consistency = 100;
         if (this.state.clicks.length >= 2) {
             const intervals = [];
@@ -795,22 +795,22 @@ class CPSTester {
         let score = 0;
         
         if (totalClicks > 0) {
-            // Base score: CPS points (10 points per CPS)
+            // Base score: CPS score (10 points per 1 CPS)
             const cpsScore = averageCPS * 10;
             
-            // Consistency factor (0-1)
+            // Consistency coefficient (between 0-1)
             const consistencyFactor = consistency / 100;
             
-            // Bonus: max CPS reward
+            // Bonus points: max CPS reward
             const maxCpsBonus = maxCPS * 2;
             
-            // Click count bonus
+            // Click count reward
             const clickCountBonus = Math.min(totalClicks * 0.5, 50);
             
-            // Total score = (base score * consistency factor) + bonuses
+            // Total score = (base score * consistency coefficient) + bonus points
             score = Math.round((cpsScore * consistencyFactor) + maxCpsBonus + clickCountBonus);
             
-            // Ensure score is not zero
+            // Ensure score is not 0
             score = Math.max(score, Math.round(averageCPS * 5));
         }
         
@@ -828,7 +828,7 @@ class CPSTester {
             buttonMode: this.buttonModes[this.state.buttonMode].name
         };
         
-        console.log('Results calculated:', this.state.results);
+        console.log('Calculated results:', this.state.results);
     }
     
     displayResults() {
@@ -848,7 +848,7 @@ class CPSTester {
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <span style="color: var(--text-secondary);">${buttonName}:</span>
                                 <span style="font-weight: 600; color: var(--primary-color);">
-                                    ${count} clicks (${((count / results.totalClicks) * 100).toFixed(1)}%)
+                                    ${count} times (${((count / results.totalClicks) * 100).toFixed(1)}%)
                                 </span>
                             </div>
                         `).join('')}
@@ -884,7 +884,7 @@ class CPSTester {
                 </div>
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
                     <span class="result-label">Test Duration</span>
-                    <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.duration.toFixed(2)}s</span>
+                    <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.duration.toFixed(2)} seconds</span>
                 </div>
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
                     <span class="result-label">Min CPS</span>
@@ -922,7 +922,7 @@ class CPSTester {
         
         const historyList = document.getElementById('history-list');
         
-        // Remove empty state message
+        // Remove empty state prompt
         const emptyHistory = historyList.querySelector('.empty-history');
         if (emptyHistory) {
             emptyHistory.remove();
@@ -963,7 +963,7 @@ class CPSTester {
             const history = JSON.parse(localStorage.getItem('cps-history') || '[]');
             history.unshift(item);
             
-            // Limit history count
+            // Limit history record count
             if (history.length > 20) {
                 history.pop();
             }
@@ -981,7 +981,7 @@ class CPSTester {
             
             if (history.length === 0) return;
             
-            // Remove empty state message
+            // Remove empty state prompt
             const emptyHistory = historyList.querySelector('.empty-history');
             if (emptyHistory) {
                 emptyHistory.remove();
@@ -1032,7 +1032,7 @@ class CPSTester {
             const savedResults = JSON.parse(localStorage.getItem('cps-saved-results') || '[]');
             savedResults.unshift(resultData);
             
-            // Limit saved results count
+            // Limit saved count
             if (savedResults.length > 50) {
                 savedResults.pop();
             }
@@ -1049,7 +1049,7 @@ class CPSTester {
         let totalClicks = this.state.clicks.length;
         
         if (this.state.testStatus === 'running') {
-            // Calculate CPS for last 1 second
+            // Calculate CPS in last 1 second
             const now = performance.now();
             const recentClicks = this.state.clicks.filter(
                 click => now - click.timestamp <= 1000
@@ -1183,7 +1183,7 @@ class CPSTester {
                 <div class="setting-group">
                     <label class="setting-label">
                         <input type="checkbox" id="autosave-toggle" ${settings.autoSaveResults ? 'checked' : ''}>
-                        <span>Auto-save Test Results</span>
+                        <span>Auto-Save Test Results</span>
                     </label>
                 </div>
                 <div class="setting-buttons">
@@ -1232,7 +1232,7 @@ class CPSTester {
         document.getElementById('clear-btn').addEventListener('click', () => {
             if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
                 localStorage.clear();
-                this.showNotification('Data cleared successfully', 'success');
+                this.showNotification('Data cleared', 'success');
                 setTimeout(() => location.reload(), 1000);
             }
         });
@@ -1267,7 +1267,7 @@ class CPSTester {
     }
     
     applySettings() {
-        // Add other settings application logic here
+        // Other settings application logic can be added here
     }
     
     loadSettings() {
@@ -1321,7 +1321,7 @@ class CPSTester {
     }
     
     handleKeydown(event) {
-        // Prevent shortcut triggers in input fields
+        // Prevent triggering shortcuts in input fields
         if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
             return;
         }
@@ -1402,7 +1402,7 @@ class CPSTester {
         const angleRad = angle;
         const vel = velocity;
         
-        // Use inline styles to control animation
+        // Use inline style to control animation
         particle.style.setProperty('--angle', `${angleRad}rad`);
         particle.style.setProperty('--velocity', `${vel}`);
         
