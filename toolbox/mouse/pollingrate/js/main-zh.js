@@ -1,5 +1,5 @@
-// --- State Management ---
-let isRunning = true; // 預設開啟
+// --- 状态管理 ---
+let isRunning = true; // 默认开启
 let lastTimestamp = 0;
 let intervalHistory = [];
 let hzHistory = [];
@@ -11,7 +11,7 @@ let maxHz = 0;
 const MAX_DATA_POINTS = 100;
 const LOG_LIMIT = 200;
 
-// --- DOM Elements ---
+// --- DOM 元素 ---
 const clearBtn = document.getElementById('clearBtn');
 const testArea = document.getElementById('testArea');
 const logContainer = document.getElementById('log-container');
@@ -23,7 +23,7 @@ const maxHzEl = document.getElementById('maxHz');
 const avgHzEl = document.getElementById('avgHz');
 const jitterEl = document.getElementById('jitter');
 
-// --- Chart Initialization ---
+// --- 图表初始化 ---
 function initChart() {
     const ctx = document.getElementById('pollingChart').getContext('2d');
     chart = new Chart(ctx, {
@@ -31,7 +31,7 @@ function initChart() {
         data: {
             labels: Array(MAX_DATA_POINTS).fill(''),
             datasets: [{
-                label: 'Polling Rate (Hz)',
+                label: '事件频率 (Hz)',
                 data: Array(MAX_DATA_POINTS).fill(null),
                 borderColor: '#3b82f6',
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
@@ -65,13 +65,13 @@ function initChart() {
     });
 }
 
-// --- Core Logic ---
+// --- 核心逻辑 ---
 function handleMouseMove(e) {
     if (!isRunning) return;
 
     const now = performance.now();
     
-    // Move Visual Indicator
+    // 移动视觉指示器
     const rect = testArea.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -82,7 +82,7 @@ function handleMouseMove(e) {
         if (interval > 0) {
             const currentHz = Math.round(1000 / interval);
             
-            // Filter outlier
+            // 过滤异常值
             if (currentHz > 10000) return;
 
             updateStats(currentHz, interval);
@@ -122,7 +122,7 @@ function updateChart(hz) {
 }
 
 function addLog(hz, interval) {
-    const time = new Date().toLocaleTimeString('en-GB', { hour12: false }) + '.' + (performance.now() % 1000).toFixed(0).padStart(3, '0');
+    const time = new Date().toLocaleTimeString('zh-CN', { hour12: false }) + '.' + (performance.now() % 1000).toFixed(0).padStart(3, '0');
     const logEntry = { time, hz, interval: interval.toFixed(2) };
     logs.unshift(logEntry);
     if (logs.length > 5000) logs.pop();
@@ -132,7 +132,7 @@ function addLog(hz, interval) {
     div.innerHTML = `
         <span class="text-slate-500">${time}</span>
         <span class="font-bold text-blue-400">${hz} Hz</span>
-        <span class="text-slate-400">${interval.toFixed(2)}ms</span>
+        <span class="text-slate-400">${interval.toFixed(2)}毫秒</span>
     `;
     
     if (logContainer.children.length === 1 && logContainer.innerText.includes('等待')) {
@@ -144,10 +144,10 @@ function addLog(hz, interval) {
         logContainer.removeChild(logContainer.lastChild);
     }
     
-    eventCountEl.innerText = `${logs.length} Events`;
+    eventCountEl.innerText = `${logs.length} 个事件`;
 }
 
-// --- Controls ---
+// --- 控制功能 ---
 function clearData() {
     hzHistory = [];
     intervalHistory = [];
@@ -157,16 +157,16 @@ function clearData() {
     currHzEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">Hz</small>`;
     maxHzEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">Hz</small>`;
     avgHzEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">Hz</small>`;
-    jitterEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">ms</small>`;
-    logContainer.innerHTML = '<div class="text-slate-500 italic">等待數據中...</div>';
-    eventCountEl.innerText = `0 Events`;
+    jitterEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">毫秒</small>`;
+    logContainer.innerHTML = '<div class="text-slate-500 italic">等待数据中...</div>';
+    eventCountEl.innerText = `0 个事件`;
     chart.data.datasets[0].data = Array(MAX_DATA_POINTS).fill(null);
     chart.update();
 }
 
 function downloadCSV() {
     if (logs.length === 0) return;
-    let csv = "Timestamp,Polling Rate (Hz),Interval (ms)\n";
+    let csv = "时间戳,事件频率 (Hz),间隔 (毫秒)\n";
     logs.forEach(row => {
         csv += `${row.time},${row.hz},${row.interval}\n`;
     });
@@ -175,7 +175,7 @@ function downloadCSV() {
     const a = document.createElement('a');
     a.setAttribute('hidden', '');
     a.setAttribute('href', url);
-    a.setAttribute('download', `mouse_test_${new Date().getTime()}.csv`);
+    a.setAttribute('download', `鼠标测试_${new Date().getTime()}.csv`);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -209,7 +209,7 @@ function initImportantNotePanel() {
     });
 }
 
-// --- Event Listeners ---
+// --- 事件监听器 ---
 document.addEventListener('DOMContentLoaded', () => {
     initChart();
     initImportantNotePanel();
