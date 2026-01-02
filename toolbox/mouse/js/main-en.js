@@ -1,18 +1,18 @@
 // English version of main.js - hardcoded English text
 const TEXTS = {
-    left_click: "Left Click",
-    right_click: "Right Click",
-    counter_middle: "Middle",
-    counter_wheel: "Scroll Wheel",
-    counter_b4: "Side (B4)",
-    counter_b5: "Side (B5)",
-    log_warning: " [DOUBLE CLICK ALERT!]",
+    left_click: "Left Button",
+    right_click: "Right Button",
+    counter_middle: "Middle Button",
+    counter_wheel: "Wheel",
+    counter_b4: "Side Button (B4)",
+    counter_b5: "Side Button (B5)",
+    log_warning: " [Repeated Click Alert!]",
     log_reset: "--- All Data Reset ---",
     test_area_status_ready: "Ready",
     test_area_status_active: "Active",
     test_area_status_testing: "Testing",
-    test_area_status_double_click: "Double Click",
-    test_area_status_error: "Error",
+    test_area_status_double_click: "Double-Click Detected",
+    test_area_status_error: "Fault",
     // Remove guide button related text since button has been removed
 };
 
@@ -30,13 +30,13 @@ let wheelCounts = { up:0, down:0 };
 let isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
 let lastClickTime = {}; // Track last click time for delta calculation
 
-// Double click detection related variables - for ALL buttons
+// Double-click detection related variables - for all buttons
 let doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
 let doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
-const DOUBLE_CLICK_THRESHOLD = 500; // Double click time threshold in ms (usually 200-500ms)
-const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less than 80ms)
+const DOUBLE_CLICK_THRESHOLD = 500; // Double-click time threshold in ms (typically 200-500ms)
+const FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double-click threshold (less than 80ms)
 
-// New: test area state management
+// New: Test area status management
 let testArea = null;
 let testAreaStatus = null;
 let testAreaTimeout = null;
@@ -55,7 +55,7 @@ function initTestArea() {
     
     if (!testArea || !testAreaStatus) return;
     
-    // Set initial state
+    // Set initial status
     updateTestAreaStatus('ready');
     
     // Add event listeners for test area
@@ -67,7 +67,7 @@ function initTestArea() {
     
     testArea.addEventListener('mouseleave', () => {
         isMouseInTestArea = false;
-        // Don't immediately revert to ready if we're in the middle of testing
+        // If currently testing, don't immediately return to ready status
         if (!hasActiveButtonPress()) {
             updateTestAreaStatus('ready');
             testArea.classList.remove('active', 'testing', 'double-click-detected', 'error');
@@ -87,7 +87,7 @@ function hasActiveButtonPress() {
 function updateTestAreaStatus(status) {
     if (!testArea || !testAreaStatus) return;
     
-    // Clear any existing timeout
+    // Clear existing timeout
     if (testAreaTimeout) {
         clearTimeout(testAreaTimeout);
         testAreaTimeout = null;
@@ -148,7 +148,7 @@ function handleButtonRelease(buttonCode) {
     const el = document.getElementById(btnId);
     if (el) {
         el.classList.remove('active');
-        el.classList.remove('click-active'); // FIX: Remove click-active class
+        el.classList.remove('click-active'); // Fix: remove click-active class
     }
 
     const btnNameMap = {
@@ -168,10 +168,10 @@ function handleButtonRelease(buttonCode) {
     // Calculate hold duration
     const pressDuration = lastClickTime[buttonCode] ? Math.round(performance.now() - lastClickTime[buttonCode]) : 0;
     
-    // MODIFY: Release log uses lighter color
+    // Modified: Release log uses lighter color
     addLog(`${btnName} ↑ (Hold: ${pressDuration}ms)`, 'log-release');
     
-    // If no buttons are pressed, update test area status
+    // If no button is pressed, update test area status
     if (!hasActiveButtonPress() && testArea) {
         if (isMouseInTestArea) {
             updateTestAreaStatus('active');
@@ -187,7 +187,7 @@ function handleButtonRelease(buttonCode) {
 function highlightRow(key, clickType = 'normal') {
     const row = document.getElementById(`row-${key}`);
     if(row) {
-        // Remove all possible state classes
+        // Clear all possible status classes
         row.classList.remove('click-highlight', 'double-highlight', 'fault-highlight');
         
         // Add appropriate class based on click type
@@ -256,15 +256,15 @@ document.addEventListener('mousedown', (e) => {
     
     let timeLog = "";
     if (lastTime === 0) {
-        timeLog = "(First press - timing starts now)";
+        timeLog = "(First press - timing start)";
     } else {
-        timeLog = `(${timeDiff}ms since last ↓)`;
+        timeLog = `(Since last↓ ${timeDiff}ms)`;
     }
     
-    // Normal click log uses default color
+    // Regular click log uses default color
     addLog(`${btnName} ↓ ${timeLog}` + logWarning, logWarning ? 'log-alert' : '');
     
-    // KEY: Record this press time as reference for next calculation
+    // Key: Record this press time as basis for next calculation
     lastClickTime[e.button] = now;
     
     // Update test area status
@@ -273,61 +273,61 @@ document.addEventListener('mousedown', (e) => {
         testArea.classList.add('testing');
     }
     
-    // Double click detection for ALL buttons
+    // Add double-click detection for all buttons
     const buttonIndex = e.button;
     const currentTime = Date.now();
     
-    // If it's the first click or time since last click exceeds double click threshold, reset count
+    // If first click or time since last click exceeds double-click threshold, reset count
     if (currentTime - doubleClickLastTime[buttonIndex] > DOUBLE_CLICK_THRESHOLD) {
         doubleClickCount[buttonIndex] = 1;
     } else {
         doubleClickCount[buttonIndex]++;
     }
     
-    // If it's the second click and within threshold, consider it a double click
+    // If second click and within threshold, consider it a double-click
     if (doubleClickCount[buttonIndex] === 2) {
         const clickInterval = currentTime - doubleClickLastTime[buttonIndex];
         
-        // Determine if double click is normal
+        // Determine if double-click is normal
         let logMessage = '';
         let className = '';
         let clickType = '';
         
         if (clickInterval < FAULTY_DOUBLE_CLICK_THRESHOLD) {
-            // Faulty double click (interval too short)
-            logMessage = `${btnName} Double Click (Interval: ${clickInterval}ms) [Faulty Double Click - Interval Too Short]`;
+            // Faulty double-click (interval too short)
+            logMessage = `${btnName} Double-click (interval: ${clickInterval}ms) [Faulty Double-click - Interval Too Short]`;
             className = 'log-double-click-fault';
             clickType = 'fault';
             
-            // Add faulty double click visual effect
+            // Add faulty double-click visual effect
             if (el) {
                 el.classList.remove('click-active', 'double-click-active');
                 el.classList.add('fault-double-click-active');
             }
             
-            // Data panel faulty double click highlight
+            // Data panel faulty double-click highlight
             highlightRow(buttonIndex, 'fault');
             
-            // Update test area status for faulty double click
+            // Update test area status for faulty double-click
             if (testArea) {
                 updateTestAreaStatus('error');
             }
         } else if (clickInterval <= DOUBLE_CLICK_THRESHOLD) {
-            // Normal double click
-            logMessage = `${btnName} Double Click (Interval: ${clickInterval}ms) [Normal Double Click]`;
+            // Normal double-click
+            logMessage = `${btnName} Double-click (interval: ${clickInterval}ms) [Normal Double-click]`;
             className = 'log-double-click';
             clickType = 'double';
             
-            // Add normal double click visual effect
+            // Add normal double-click visual effect
             if (el) {
                 el.classList.remove('click-active', 'fault-double-click-active');
                 el.classList.add('double-click-active');
             }
             
-            // Data panel normal double click highlight
+            // Data panel normal double-click highlight
             highlightRow(buttonIndex, 'double');
             
-            // Update test area status for normal double click
+            // Update test area status for normal double-click
             if (testArea) {
                 updateTestAreaStatus('double-click');
             }
@@ -340,7 +340,7 @@ document.addEventListener('mousedown', (e) => {
         // Reset click count
         doubleClickCount[buttonIndex] = 0;
         
-        // MODIFY: Shorten double click effect duration from 600ms to 300ms
+        // Modified: Shorten double-click effect duration from 600ms to 300ms
         setTimeout(() => {
             if (el) {
                 el.classList.remove('double-click-active', 'fault-double-click-active');
@@ -400,14 +400,14 @@ window.addEventListener('blur', () => {
     }
 });
 
-/* Wheel event - FIXED: Check if mouse is in the entire test area */
+/* Wheel event - Fix: Check if mouse is in the entire test area */
 document.addEventListener('wheel', (e) => {
-    // Get the test area container
+    // Get test area container
     const testArea = document.getElementById('testArea');
-    // Check if mouse is in test area (including label, mouse area, info area)
+    // Determine if mouse is in test area (including label, mouse area, info area)
     const isInTestArea = testArea.contains(e.target) || testArea === e.target;
     
-    // If in test area, prevent default scrolling behavior
+    // If in test area, prevent default scroll behavior
     if (isInTestArea) {
         e.preventDefault();
     }
@@ -418,7 +418,7 @@ document.addEventListener('wheel', (e) => {
         updateCountUI('wheel', 'up');
         highlightWheel('up'); // Add highlight effect
         flashIndicator(scrollUp);
-        addLog("Scroll Wheel ↑");
+        addLog("Wheel ↑");
         
         // Update test area status when scrolling
         if (testArea && isMouseInTestArea) {
@@ -431,7 +431,7 @@ document.addEventListener('wheel', (e) => {
         updateCountUI('wheel', 'down');
         highlightWheel('down'); // Add highlight effect
         flashIndicator(scrollDown);
-        addLog("Scroll Wheel ↓");
+        addLog("Wheel ↓");
         
         // Update test area status when scrolling
         if (testArea && isMouseInTestArea) {
@@ -502,7 +502,7 @@ function resetCounts() {
     lastClickTime = {};
     isPressed = { 0:false, 1:false, 2:false, 3:false, 4:false };
     
-    // Reset double click related variables for ALL buttons
+    // Reset double-click related variables (all buttons)
     doubleClickCount = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     doubleClickLastTime = { 0:0, 1:0, 2:0, 3:0, 4:0 };
     
@@ -540,7 +540,7 @@ function addLog(text, className) {
     }
 }
 
-// Add test area initialization after page loads
+// Initialize test area after page load
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize test area
     initTestArea();
