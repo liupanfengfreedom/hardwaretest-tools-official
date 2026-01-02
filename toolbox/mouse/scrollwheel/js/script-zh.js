@@ -6,14 +6,15 @@ const visualWheel = document.getElementById('visualWheel');
 const upEl = document.getElementById('upCount');
 const downEl = document.getElementById('downCount');
 const reverseEl = document.getElementById('reverseCount');
-const maxHzEl = document.getElementById('maxHz');
+const avgIntervalEl = document.getElementById('avgInterval'); // 修改：改为平均间隔
 const log = document.getElementById('log');
 const testModeSelect = document.getElementById('testModeSelect');
 const lineAnalysis = document.getElementById('lineAnalysis');
 const resetBtn = document.getElementById('resetBtn');
 
 let counts = { up: 0, down: 0, err: 0 };
-let maxHz = 0;
+let intervals = []; // 存储滚动间隔时间
+let intervalSum = 0; // 间隔时间总和
 let lastTime = 0;
 let indicatorTimeout, errorTimeout;
 let wheelRotation = 0;
@@ -48,6 +49,28 @@ function rotateWheel(dir) {
   setTimeout(() => visualWheel.setAttribute('y', 28), 50);
 }
 
+// 计算并更新平均间隔时间
+function updateAverageInterval() {
+  if (intervals.length > 0) {
+    const avg = intervalSum / intervals.length;
+    avgIntervalEl.textContent = avg.toFixed(1);
+    
+    // 根据间隔时间添加颜色反馈
+    if (avg < 50) {
+      avgIntervalEl.style.color = 'var(--good)'; // 绿色 - 快速滚动
+    } else if (avg < 150) {
+      avgIntervalEl.style.color = 'var(--accent)'; // 蓝色 - 正常滚动
+    } else if (avg < 300) {
+      avgIntervalEl.style.color = '#fbbf24'; // 黄色 - 较慢滚动
+    } else {
+      avgIntervalEl.style.color = 'var(--muted)'; // 灰色 - 慢速滚动
+    }
+  } else {
+    avgIntervalEl.textContent = '0';
+    avgIntervalEl.style.color = 'inherit';
+  }
+}
+
 // 处理测试区域滚轮事件
 function handleTestAreaWheel(e) {
   e.preventDefault();
@@ -79,12 +102,26 @@ function handleTestAreaWheel(e) {
     }
   }
 
+  // 计算时间间隔（替换原来的频率计算）
   if (lastTime > 0) {
-    const hz = 1000 / (now - lastTime);
-    if (hz < 500 && hz > maxHz) {
-      maxHz = hz;
-      highlightItem('maxHzItem', '');
+    const interval = now - lastTime;
+    
+    // 添加到间隔数组
+    intervals.push(interval);
+    intervalSum += interval;
+    
+    // 保持数组大小，只保留最近20次
+    if (intervals.length > 20) {
+      const removed = intervals.shift();
+      intervalSum -= removed;
     }
+    
+    // 更新平均间隔显示
+    updateAverageInterval();
+    highlightItem('avgIntervalItem', 'up-highlight');
+  } else {
+    // 第一次滚动，初始化lastTime
+    updateAverageInterval(); // 确保显示为0
   }
 
   updateDisplay();
@@ -118,6 +155,8 @@ function handleError() {
     testModeSelect.classList.remove('error-mode');
     
     // 移除错误提示标签
+    const selectWrapper = testModeSelect.parentElement;
+    const errorLabel = selectWrapper.querySelector('.error-mode-label');
     if (errorLabel && errorLabel.parentNode) {
       errorLabel.remove();
     }
@@ -150,7 +189,7 @@ function updateDisplay() {
   upEl.textContent = counts.up;
   downEl.textContent = counts.down;
   reverseEl.textContent = counts.err;
-  maxHzEl.textContent = maxHz.toFixed(1);
+  // 平均间隔时间已在 updateAverageInterval 中更新
 }
 
 // 添加日志
@@ -169,9 +208,13 @@ function resetTest() {
   
   // 重置数据
   counts = { up: 0, down: 0, err: 0 };
-  maxHz = 0;
+  intervals = [];
+  intervalSum = 0;
   lastTime = 0;
+  
   updateDisplay();
+  updateAverageInterval(); // 重置平均间隔显示
+  
   log.innerHTML = '';
   addLog('数据已重置', '');
   
@@ -248,6 +291,7 @@ function initApp() {
   initScrollBox();
   initEventListeners();
   updateDisplay();
+  updateAverageInterval(); // 确保初始显示为0
   addLog('应用已初始化，请开始测试', '');
 }
 

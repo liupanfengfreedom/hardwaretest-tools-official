@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>专业鼠标滚轮测试工具</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="免费在线鼠标滚轮测试工具，专门针对滚轮回滚、上下乱跳、失灵等常见故障进行精准检测。支持实时频率监控、滚动行数基准测试，兼容罗技、雷蛇等主流电竞鼠标。">
+  <meta name="description" content="免费在线鼠标滚轮测试工具，专门针对滚轮回滚、上下乱跳、失灵等常见故障进行精准检测。支持实时频率监控、滚动行数基准测试。">
   <meta name="keywords" content="鼠标滚轮测试,鼠标滚轮回滚,滚轮乱跳检测,鼠标测试工具,硬件检测,鼠标维修,Logitech滚轮测试,雷蛇鼠标测试">
   <meta name="author" content="Layout Refined">
   
@@ -177,7 +177,7 @@
         <div class="stat-item" id="upCountItem"><span class="stat-label">向上计数</span><span class="stat-value up" id="upCount">0</span></div>
         <div class="stat-item" id="reverseCountItem"><span class="stat-label">反向错误</span><span class="stat-value err" id="reverseCount">0</span></div>
         <div class="stat-item" id="downCountItem"><span class="stat-label">向下计数</span><span class="stat-value down" id="downCount">0</span></div>
-        <div class="stat-item" id="maxHzItem"><span class="stat-label">最高频率 (Hz)</span><span class="stat-value" id="maxHz">0</span></div>
+        <div class="stat-item" id="avgIntervalItem"><span class="stat-label">平均间隔 (ms)</span><span class="stat-value" id="avgInterval">0</span></div>
       </div>
     </section>
 
@@ -233,10 +233,10 @@
         <p>📖 简介：</p>
         <div class="feature-grid">
             <div class="feature-item">
-                <h3>实时频率监控</h3>
-                <p>实时监测鼠标滚轮滚动频率（Hz），评估滚轮响应速度和稳定性。频率越高表示滚轮响应越灵敏，性能越优秀。</p>
+                <h3>实时滚动监控</h3>
+                <p>实时监测鼠标滚轮滚动间隔时间（ms），评估滚轮响应速度和稳定性。间隔时间越短表示滚轮响应越灵敏，性能越优秀。</p>
                 <div class="tip">
-                    <span class="tip-text">高性能游戏鼠标通常能达到100+ Hz频率</span>
+                    <span class="tip-text">高性能游戏鼠标通常间隔时间小于50ms</span>
                 </div>
             </div>
 
@@ -268,7 +268,7 @@
                 <h3>滚轮刻度基准测试</h3>
                 <p>提供500行滚动测试数据，精确测量每步滚动行数，评估滚轮刻度的准确性和一致性。</p>
                 <div class="tip">
-                    <span class="tip-text">标准鼠标滚轮每步应滚动3-5行文本</span>
+                    <span class="tip-text">标准鼠标滚轮每步滚动行文本行数取决于您的操作系统设置</span>
                 </div>
             </div>       
             
@@ -302,24 +302,23 @@
             </div>
             
             <div class="faq-item">
-                <h3>频率（Hz）测试有什么意义？</h3>
-                <p>频率测试反映滚轮的响应速度和稳定性：</p>
+                <h3>平均间隔时间测试有什么意义？</h3>
+                <p>平均间隔时间反映滚轮的响应速度和稳定性：</p>
                 <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
-                    <li><strong>低于10 Hz：</strong> 滚轮响应缓慢，可能存在性能问题</li>
-                    <li><strong>10-50 Hz：</strong> 标准办公鼠标正常范围</li>
-                    <li><strong>50-100 Hz：</strong> 游戏鼠标良好表现</li>
-                    <li><strong>100+ Hz：</strong> 高性能游戏鼠标表现</li>
+                    <li><strong>低于50ms：</strong> 滚轮响应非常灵敏，游戏鼠标表现</li>
+                    <li><strong>50-150ms：</strong> 标准办公鼠标正常范围</li>
+                    <li><strong>150-300ms：</strong> 滚轮响应较慢</li>
+                    <li><strong>300ms以上：</strong> 可能存在性能问题或用户滚动较慢</li>
                 </ul>
-                <p>快速滚动时频率应保持相对稳定，剧烈波动可能表示存在问题。</p>
+                <p>滚动时平均间隔时间应保持相对稳定，剧烈波动可能表示存在问题。</p>
             </div>
 
             <div class="faq-item">
-                <h3>哪些鼠标品牌容易出现滚轮问题？</h3>
+                <h3>哪些鼠标容易出现滚轮问题？</h3>
                 <p>滚轮问题常见于以下情况：</p>
                 <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
                     <li>使用机械编码器的传统鼠标</li>
                     <li>长时间重度使用的游戏鼠标</li>
-                    <li>罗技、雷蛇等常见品牌的特定型号</li>
                     <li>任何暴露在灰尘环境中的鼠标</li>
                 </ul>
                 <div class="faq-link-container">
@@ -360,7 +359,7 @@
                 <p>该工具使用JavaScript监听滚轮事件，精确计算以下参数：</p>
                 <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
                     <li><strong>滚动方向：</strong> 通过deltaY值判断向上或向下滚动</li>
-                    <li><strong>滚动频率：</strong> 基于滚动事件时间间隔计算Hz</li>
+                    <li><strong>滚动间隔：</strong> 基于滚动事件时间间隔计算平均响应时间</li>
                     <li><strong>反向检测：</strong> 对比实际滚动方向与测试模式</li>
                     <li><strong>滚动精度：</strong> 测量每步滚动行数（通常为3-5行）</li>
                 </ul>
