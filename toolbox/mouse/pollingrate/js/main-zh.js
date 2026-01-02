@@ -181,38 +181,9 @@ function downloadCSV() {
     document.body.removeChild(a);
 }
 
-// --- 重要说明面板交互 ---
-function initImportantNotePanel() {
-    const toggleBtn = document.getElementById('importantNoteToggle');
-    const content = document.getElementById('importantNoteContent');
-    const toggleIcon = document.getElementById('toggleIcon');
-    
-    // 默认展开
-    content.classList.remove('max-h-0');
-    content.classList.add('max-h-[2000px]'); // 足够大的值来容纳所有内容
-    toggleIcon.style.transform = 'rotate(180deg)';
-    
-    toggleBtn.addEventListener('click', () => {
-        const isExpanded = content.classList.contains('max-h-0');
-        
-        if (isExpanded) {
-            // 展开
-            content.classList.remove('max-h-0');
-            content.classList.add('max-h-[2000px]');
-            toggleIcon.style.transform = 'rotate(180deg)';
-        } else {
-            // 折叠
-            content.classList.remove('max-h-[2000px]');
-            content.classList.add('max-h-0');
-            toggleIcon.style.transform = 'rotate(0deg)';
-        }
-    });
-}
-
 // --- 事件监听器 ---
 document.addEventListener('DOMContentLoaded', () => {
     initChart();
-    initImportantNotePanel();
     
     clearBtn.addEventListener('click', clearData);
     document.getElementById('downloadBtn').addEventListener('click', downloadCSV);
