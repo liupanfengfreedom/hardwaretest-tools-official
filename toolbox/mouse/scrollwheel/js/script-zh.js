@@ -104,6 +104,23 @@ function handleError() {
   // 统计面板错误高亮
   highlightItem('reverseCountItem', 'error-highlight');
   
+  // 选择框错误效果
+  testModeSelect.classList.add('error-mode');
+  
+  // 在选择框上方显示错误提示
+  const selectWrapper = testModeSelect.parentElement;
+  let errorLabel = selectWrapper.querySelector('.error-mode-label');
+  
+  if (!errorLabel) {
+    errorLabel = document.createElement('div');
+    errorLabel.className = 'error-mode-label';
+    errorLabel.textContent = '⚠️ 回滚检测中';
+    errorLabel.setAttribute('aria-live', 'assertive'); // 为屏幕阅读器添加
+    
+    // 将错误标签添加到select-wrapper中
+    selectWrapper.appendChild(errorLabel);
+  }
+  
   // 添加错误日志
   addLog('[❌ 错误] 检测到回滚! 滚动方向与测试模式不符', 'err');
   
@@ -111,6 +128,13 @@ function handleError() {
   clearTimeout(errorTimeout);
   errorTimeout = setTimeout(() => {
     testArea.classList.remove('error');
+    // 清除选择框错误状态
+    testModeSelect.classList.remove('error-mode');
+    
+    // 移除错误提示标签
+    if (errorLabel && errorLabel.parentNode) {
+      errorLabel.remove();
+    }
     
     // 恢复鼠标SVG到正常状态
     const mouseIcon = document.getElementById('mouseIcon');
@@ -167,6 +191,14 @@ function resetTest() {
   
   // 确保移除所有错误状态
   testArea.classList.remove('error');
+  testModeSelect.classList.remove('error-mode');
+  
+  // 移除选择框错误提示标签
+  const selectWrapper = testModeSelect.parentElement;
+  const errorLabel = selectWrapper.querySelector('.error-mode-label');
+  if (errorLabel) {
+    errorLabel.remove();
+  }
   
   // 移除动画效果
   setTimeout(() => {
@@ -197,6 +229,16 @@ function initEventListeners() {
   testModeSelect.addEventListener('change', () => {
     // 添加选择框切换的视觉反馈
     testModeSelect.style.boxShadow = '0 0 0 3px rgba(56, 189, 248, 0.3)';
+    // 清除可能的错误状态
+    testModeSelect.classList.remove('error-mode');
+    
+    // 移除可能存在的错误提示标签
+    const selectWrapper = testModeSelect.parentElement;
+    const errorLabel = selectWrapper.querySelector('.error-mode-label');
+    if (errorLabel) {
+      errorLabel.remove();
+    }
+    
     setTimeout(() => {
       testModeSelect.style.boxShadow = '';
     }, 300);

@@ -87,6 +87,8 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
 .card-title {
@@ -396,6 +398,7 @@ html[lang="zh-CN"] {
 .select-wrapper {
   position: relative;
   display: inline-block;
+  z-index: 100; /* 创建层叠上下文 */
 }
 
 .select-wrapper::after {
@@ -734,7 +737,146 @@ html[lang="zh-CN"] {
   }
 }
 
-/* 响应式调整 */
+/* ========== 选择框回滚错误提示效果 ========== */
+.test-mode-select.error-mode {
+  background: linear-gradient(145deg, #4a1f1f, #6b2a2a) !important;
+  border-color: #ef4444 !important;
+  border-width: 2px !important;
+  color: #ff9999 !important;
+  animation: select-error-pulse 1s infinite !important;
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.3),
+    0 4px 12px rgba(239, 68, 68, 0.4) !important;
+}
+
+@keyframes select-error-pulse {
+  0%, 100% { 
+    background: linear-gradient(145deg, #4a1f1f, #6b2a2a) !important;
+    box-shadow: 
+      0 0 0 3px rgba(239, 68, 68, 0.3),
+      0 4px 12px rgba(239, 68, 68, 0.4) !important;
+  }
+  50% { 
+    background: linear-gradient(145deg, #6b2a2a, #8b0000) !important;
+    box-shadow: 
+      0 0 0 3px rgba(239, 68, 68, 0.5),
+      0 4px 16px rgba(239, 68, 68, 0.6) !important;
+  }
+}
+
+/* 选择框错误模式的下拉箭头 */
+.test-mode-select.error-mode + .select-wrapper::after {
+  color: #ff9999 !important;
+  animation: arrow-pulse 1s infinite;
+}
+
+@keyframes arrow-pulse {
+  0%, 100% { 
+    color: #ff9999;
+    transform: translateY(-50%);
+  }
+  50% { 
+    color: #ff6666;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+/* 选择框错误模式的选项背景 */
+.test-mode-select.error-mode option {
+  background: #4a1f1f !important;
+  color: #ff9999 !important;
+}
+
+/* 选择框错误模式的悬停效果 */
+.test-mode-select.error-mode:hover {
+  background: linear-gradient(145deg, #6b2a2a, #8b0000) !important;
+  border-color: #ff3333 !important;
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.5),
+    0 6px 20px rgba(239, 68, 68, 0.5) !important;
+}
+
+/* 选择框错误模式的聚焦效果 */
+.test-mode-select.error-mode:focus {
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.5),
+    0 4px 20px rgba(239, 68, 68, 0.6) !important;
+  border-color: #ff3333 !important;
+}
+
+/* ========== 修复错误提示标签被遮挡问题 ========== */
+.select-wrapper {
+  position: relative;
+  z-index: 1000; /* 创建层叠上下文，确保错误提示可以显示在顶部 */
+}
+
+/* 错误提示标签 - 在选择框正上方显示，使用极高的z-index */
+.error-mode-label {
+  position: absolute;
+  top: -50px; /* 提高位置，确保不被其他元素遮挡 */
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(145deg, #ef4444, #dc2626);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  z-index: 9999; /* 使用极高的z-index确保在最上层 */
+  white-space: nowrap;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  border: 2px solid #fecaca;
+  animation: fadeInDown 0.3s ease forwards;
+  pointer-events: none; /* 防止干扰鼠标事件 */
+}
+
+/* 淡入动画 */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* 错误提示标签的箭头 */
+.error-mode-label::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #ef4444;
+}
+
+/* 确保主布局不会遮挡错误提示 */
+.main-layout {
+  position: relative;
+  z-index: 1;
+}
+
+/* 确保卡片不会创建新的层叠上下文 */
+.card {
+  position: relative;
+  z-index: auto;
+}
+
+/* 悬停提示在错误提示之下 */
+.test-hover-hint {
+  z-index: 100;
+}
+
+/* 确保测试区域错误状态不会遮挡错误提示 */
+#testArea.error {
+  z-index: 1;
+}
+
+/* ========== 响应式调整 ========== */
 @media (max-width: 1200px) {
   .test-hover-hint {
     font-size: 11px;
@@ -753,6 +895,13 @@ html[lang="zh-CN"] {
     padding: 8px 16px;
     top: 15px;
   }
+  
+  /* 响应式调整错误提示标签 */
+  .error-mode-label {
+    font-size: 12px;
+    padding: 6px 12px;
+    top: -45px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -763,5 +912,22 @@ html[lang="zh-CN"] {
     white-space: normal;
     max-width: 90%;
     text-align: center;
+  }
+  
+  .error-mode-label {
+    font-size: 11px;
+    padding: 6px 10px;
+    top: -50px;
+    max-width: 200px;
+    white-space: normal;
+    text-align: center;
+    z-index: 9999; /* 保持高z-index */
+  }
+  
+  .error-mode-label::after {
+    bottom: -6px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #ef4444;
   }
 }
