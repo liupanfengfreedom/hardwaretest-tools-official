@@ -1,283 +1,405 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鼠标工作原理 - 在线鼠标测试</title>
-    <meta name="description" content="深入解析鼠标的工作原理、不同类型鼠标的技术差异以及本测试工具的检测原理。">
     
-    <!-- 共用样式 -->
+    <!-- Primary SEO Elements -->
+    <title>How Mouse Works: Optical vs Laser vs Mechanical Mouse Technology Explained</title>
+    <meta name="description" content="Comprehensive guide to mouse working principles, including optical, laser, and mechanical mouse technologies. Learn about micro switches, scroll wheel encoders, sensors, and mouse testing tool detection methods.">
+    
+    <!-- Keywords Optimization -->
+    <meta name="keywords" content="mouse working principle, optical mouse, laser mouse, mechanical mouse, micro switch, scroll wheel encoder, mouse sensor, DPI, mouse testing, mouse troubleshooting">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How Mouse Works: Optical vs Laser vs Mechanical Mouse Technology Explained">
+    <meta property="og:description" content="Detailed explanation of mouse working mechanisms, technology differences, and testing principles. Learn how optical, laser, and mechanical mice work and their key differences.">
+    <meta property="og:image" content="https://assets.starryring.com/mouse/theprincipleofmouseen.png">
+    <meta property="og:url" content="https://starryring.com/toolbox/mouse/principle.html">
+    <meta property="og:site_name" content="Online Toolbox">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How Mouse Works: Optical vs Laser vs Mechanical Mouse Technology Explained">
+    <meta name="twitter:description" content="Detailed explanation of mouse working mechanisms, technology differences, and testing principles. Learn how optical, laser, and mechanical mice work and their key differences.">
+    <meta name="twitter:image" content="https://assets.starryring.com/mouse/theprincipleofmouseen.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://starryring.com/toolbox/mouse/principle.html">
+    
+    <!-- Hreflang for multilingual support -->
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/toolbox/mouse/zh/principle.html">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/toolbox/mouse/principle.html">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/toolbox/mouse/principle.html">
+    
+    <!-- Structured Data - Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "How Mouse Works: Optical vs Laser vs Mechanical Mouse Technology Explained",
+        "description": "Detailed explanation of mouse working mechanisms, technology differences, and testing principles. Learn how optical, laser, and mechanical mice work and their key differences.",
+        "image": "https://assets.starryring.com/mouse/theprincipleofmouseen.png",
+        "author": {
+            "@type": "Organization",
+            "name": "Online Toolbox"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Online Toolbox",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://starryring.com/logo.png"
+            }
+        },
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-01-01",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://starryring.com/toolbox/mouse/principle.html"
+        },
+        "inLanguage": "en"
+    }
+    </script>
+    
+    <!-- Structured Data - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://starryring.com/toolbox/main/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Mouse Test Tool",
+                "item": "https://starryring.com/toolbox/mouse/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Working Principle"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Structured Data - FAQ (for common questions) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the main difference between optical and laser mice?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Optical mice use LED light and CMOS sensors to track movement on most non-reflective surfaces. Laser mice use laser diodes for higher precision and work on almost any surface including glass."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does a mouse detect double-click issues?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Double-click issues are detected by measuring time intervals between consecutive clicks. Normal double-clicks occur between 200-500ms, while faulty double-clicks happen in less than 80ms due to micro switch degradation."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is DPI in mouse technology?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "DPI (Dots Per Inch) measures mouse sensitivity. Higher DPI means the cursor moves further with less physical mouse movement. Optical mice typically have 800-3200 DPI, while laser mice can reach 16000+ DPI."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Shared Styles -->
     <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
     <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
     <link rel="stylesheet" href="/toolbox/shared/css/document.css">
     <link rel="stylesheet" href="/toolbox/mouse/css/style.css">
     
-    <!-- 工作原理页面特定样式 -->
+    <!-- Working Principle Page Specific Styles -->
     <link rel="stylesheet" href="/toolbox/mouse/principle/css/style.css">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <!-- 面包屑导航 -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
+<body itemscope itemtype="https://schema.org/WebPage">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-section" aria-label="Breadcrumb navigation">
+        <nav aria-label="Breadcrumb">
             <ol class="breadcrumb-modern">
                 <li class="breadcrumb-item">
-                    <a href="/toolbox/main/zh" class="breadcrumb-link">
-                        <i class="fas fa-home"></i> 首页
+                    <a href="/toolbox/main/" class="breadcrumb-link" title="Return to Home">
+                        <i class="fas fa-home" aria-hidden="true"></i> Home
                     </a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="/toolbox/mouse/zh/" class="breadcrumb-link">
-                        鼠标测试工具
+                    <a href="/toolbox/mouse/" class="breadcrumb-link" title="Mouse Test Tool">
+                        Mouse Test Tool
                     </a>
                 </li>
                 <li class="breadcrumb-item">
-                    <span class="breadcrumb-active">工作原理</span>
+                    <span class="breadcrumb-active" aria-current="page">Working Principle</span>
                 </li>
             </ol>
         </nav>
     </div>
 
-    <!-- 语言切换器 -->
+    <!-- Language Switcher -->
     <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
-            <i class="fas fa-globe"></i>
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+            <i class="fas fa-globe" aria-hidden="true"></i>
         </button>
         <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/toolbox/mouse/zh/principle.html" data-lang="zh">
-                中文版
-            </a>
-            <a class="language-option" href="/toolbox/mouse/principle.html" data-lang="en">
+            <a class="language-option" href="/toolbox/mouse/principle/" data-lang="en" hreflang="en" title="English Version">
                 English
+            </a>
+            <a class="language-option" href="/toolbox/mouse/principle/zh/" data-lang="zh" hreflang="zh" title="中文版">
+                中文版
             </a>
         </div>
     </div>
 
-    <!-- 图片放大模态框 -->
-    <div class="image-modal" id="imageModal">
+    <!-- Image Zoom Modal -->
+    <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="Image zoom view" hidden>
         <div class="modal-content" id="modalContent">
-            <button class="modal-close" id="modalClose">&times;</button>
-            <img id="modalImage" src="" alt="">
-            <button class="modal-zoom" id="modalZoom">
-                <i class="fas fa-search-plus"></i>
+            <button class="modal-close" id="modalClose" aria-label="Close image view">&times;</button>
+            <img id="modalImage" src="" alt="" itemprop="image">
+            <button class="modal-zoom" id="modalZoom" aria-label="Zoom in/out image">
+                <i class="fas fa-search-plus" aria-hidden="true"></i>
             </button>
             <div class="modal-caption" id="modalCaption"></div>
         </div>
     </div>
 
-    <div class="principle-container">
-        <!-- 页头 -->
-        <div class="principle-header">
-            <h1>鼠标工作原理与技术解析</h1>
-            <p>深入了解鼠标的内部机制、不同类型鼠标的技术特点以及本测试工具的检测原理</p>
-        </div>
+    <main class="principle-container" role="main">
+        <!-- Page Header -->
+        <header class="principle-header">
+            <h1 itemprop="headline">Mouse Working Principle & Technical Analysis</h1>
+            <p itemprop="description">Deep dive into mouse internal mechanisms, different mouse technologies, and how our testing tool detects issues</p>
+        </header>
 
-        <!-- 鼠标基本工作原理 -->
-        <div class="principle-section">
+        <!-- Basic Mouse Working Principle -->
+        <section class="principle-section" itemprop="articleBody">
             <div class="section-header">
-                <div class="section-icon">🔧</div>
-                <h2 class="section-title">鼠标基本工作原理</h2>
+                <div class="section-icon" aria-hidden="true">🔧</div>
+                <h2 class="section-title">Basic Mouse Working Principle</h2>
             </div>
             <div class="principle-content">
-                <p>鼠标作为计算机最重要的输入设备之一，其核心功能是将手部运动转换为计算机可识别的数字信号。无论何种类型的鼠标，基本工作原理都包含以下几个关键环节：</p>
+                <p>As one of the most important computer input devices, the mouse's core function is to convert hand movements into digital signals that computers can understand. Regardless of mouse type, the basic working principle involves these key steps:</p>
                 
-                <div class="principle-diagram">
-                    <h3 class="diagram-title">鼠标工作流程图</h3>
+                <div class="principle-diagram" role="figure" aria-label="Mouse working process flowchart">
+                    <h3 class="diagram-title">Mouse Working Process Flowchart</h3>
                     <div class="diagram-steps">
                         <div class="diagram-step">
                             <div class="step-number">1</div>
-                            <div class="step-desc">物理运动<br>(手部移动/按键)</div>
+                            <div class="step-desc">Physical Movement<br>(Hand movement/Clicking)</div>
                         </div>
                         <div class="diagram-step">
                             <div class="step-number">2</div>
-                            <div class="step-desc">传感器检测<br>(光学/机械)</div>
+                            <div class="step-desc">Sensor Detection<br>(Optical/Mechanical)</div>
                         </div>
                         <div class="diagram-step">
                             <div class="step-number">3</div>
-                            <div class="step-desc">信号转换<br>(模拟→数字)</div>
+                            <div class="step-desc">Signal Conversion<br>(Analog→Digital)</div>
                         </div>
                         <div class="diagram-step">
                             <div class="step-number">4</div>
-                            <div class="step-desc">数据传输<br>(USB/无线)</div>
+                            <div class="step-desc">Data Transmission<br>(USB/Wireless)</div>
                         </div>
                         <div class="diagram-step">
                             <div class="step-number">5</div>
-                            <div class="step-desc">系统处理<br>(驱动程序)</div>
+                            <div class="step-desc">System Processing<br>(Driver software)</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 优化后的图片显示 -->
-                <div class="principle-image" data-image="https://assets.starryring.com/mouse/theprincipleofmousezh.png">
-                    <img src="https://assets.starryring.com/mouse/theprincipleofmousezh.png" 
-                         alt="鼠标工作原理示意图"
-                         loading="lazy">
-                    <div class="image-caption">鼠标工作原理示意图 - 展示了从物理输入到系统处理的完整流程</div>
-                    <div class="image-hint">双击图片可放大查看</div>
-                </div>
+                <!-- Optimized Image Display -->
+                <figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/theprincipleofmouseen.png">
+                    <img src="https://assets.starryring.com/mouse/theprincipleofmouseen.png" 
+                         alt="Mouse working principle diagram showing complete process from physical input to system processing"
+                         loading="lazy"
+                         itemprop="contentUrl">
+                    <figcaption class="image-caption" itemprop="caption">
+                        Mouse Working Principle Diagram - Shows complete process from physical input to system processing
+                    </figcaption>
+                    <div class="image-hint" aria-hidden="true">Double-click image to zoom</div>
+                </figure>
                 
                 <div class="tech-feature">
-                    <strong>关键组件：</strong> 微动开关（负责按键响应）、传感器（跟踪移动）、编码器（滚轮检测）、主控芯片（信号处理）。
+                    <strong>Key Components:</strong> Micro switches (for button response), Sensor (tracks movement), Encoder (scroll wheel detection), Main control chip (signal processing).
                 </div>
                 
-                <p>当您移动鼠标或按下按键时，内部传感器会检测这些物理变化，将其转换为电信号，通过接口传输给计算机，最终由操作系统和驱动程序解析为屏幕上的光标移动或特定操作。</p>
+                <p>When you move the mouse or press buttons, internal sensors detect these physical changes, convert them into electrical signals, transmit them through the interface to your computer, and finally the operating system and drivers interpret them as cursor movement or specific actions on screen.</p>
             </div>
-        </div>
+        </section>
 
-        <!-- 鼠标类型与技术差异 -->
-        <div class="principle-section">
+        <!-- Mouse Types & Technology Differences -->
+        <section class="principle-section">
             <div class="section-header">
-                <div class="section-icon">🖱️</div>
-                <h2 class="section-title">鼠标类型与技术差异</h2>
+                <div class="section-icon" aria-hidden="true">🖱️</div>
+                <h2 class="section-title">Mouse Types & Technology Differences</h2>
             </div>
             <div class="principle-content">
-                <p>鼠标技术经历了多次革新，从最初的机械鼠标发展到今天的光学、激光鼠标：</p>
+                <p>Mouse technology has evolved through several revolutions, from original mechanical mice to today's optical and laser mice:</p>
                 
                 <div class="mouse-types-grid">
-                    <div class="mouse-type-card">
+                    <div class="mouse-type-card" itemscope itemtype="https://schema.org/Product">
                         <div class="mouse-type-header">
-                            <div class="type-icon">⚙️</div>
-                            <h3 class="type-title">机械鼠标</h3>
+                            <div class="type-icon" aria-hidden="true">⚙️</div>
+                            <h3 class="type-title" itemprop="name">Mechanical Mouse</h3>
                         </div>
-                        <p><strong>工作原理：</strong> 使用橡胶球带动两个垂直滚轴，通过滚轴末端的编码盘检测移动。</p>
-                        <p><strong>特点：</strong> 需要鼠标垫、易积灰尘、精度较低。</p>
-                        <p><strong>流行时期：</strong> 1980-1990年代</p>
+                        <p itemprop="description"><strong>Working Principle:</strong> Uses rubber ball to drive two perpendicular rollers, with encoding disks at roller ends detecting movement.</p>
+                        <p><strong>Characteristics:</strong> Requires mouse pad, collects dust easily, lower precision.</p>
+                        <p><strong>Popular Era:</strong> 1980s-1990s</p>
                     </div>
                     
-                    <div class="mouse-type-card">
+                    <div class="mouse-type-card" itemscope itemtype="https://schema.org/Product">
                         <div class="mouse-type-header">
-                            <div class="type-icon">🔦</div>
-                            <h3 class="type-title">光学鼠标</h3>
+                            <div class="type-icon" aria-hidden="true">🔦</div>
+                            <h3 class="type-title" itemprop="name">Optical Mouse</h3>
                         </div>
-                        <p><strong>工作原理：</strong> 使用LED光源和CMOS传感器，通过捕捉表面图像变化计算移动。</p>
-                        <p><strong>特点：</strong> 无需鼠标垫、精度较高、主流消费级产品。</p>
-                        <p><strong>DPI范围：</strong> 800-3200 DPI</p>
+                        <p itemprop="description"><strong>Working Principle:</strong> Uses LED light source and CMOS sensor to calculate movement by capturing surface image changes.</p>
+                        <p><strong>Characteristics:</strong> No mouse pad needed, higher precision, mainstream consumer products.</p>
+                        <p><strong>DPI Range:</strong> 800-3200 DPI</p>
                     </div>
                     
-                    <div class="mouse-type-card">
+                    <div class="mouse-type-card" itemscope itemtype="https://schema.org/Product">
                         <div class="mouse-type-header">
-                            <div class="type-icon">💎</div>
-                            <h3 class="type-title">激光鼠标</h3>
+                            <div class="type-icon" aria-hidden="true">💎</div>
+                            <h3 class="type-title" itemprop="name">Laser Mouse</h3>
                         </div>
-                        <p><strong>工作原理：</strong> 使用激光二极管代替LED，提供更高的表面兼容性和精度。</p>
-                        <p><strong>特点：</strong> 几乎所有表面可用、超高精度、专业级产品。</p>
-                        <p><strong>DPI范围：</strong> 最高可达16000+ DPI</p>
+                        <p itemprop="description"><strong>Working Principle:</strong> Uses laser diode instead of LED, providing higher surface compatibility and precision.</p>
+                        <p><strong>Characteristics:</strong> Works on almost any surface, ultra-high precision, professional-grade products.</p>
+                        <p><strong>DPI Range:</strong> Up to 16000+ DPI</p>
                     </div>
                 </div>
                 
-                <table class="comparison-table">
+                <table class="comparison-table" role="table" aria-label="Different mouse types technical parameter comparison">
+                    <caption class="sr-only">Optical, laser and mechanical mouse technical parameter comparison table</caption>
                     <thead>
                         <tr>
-                            <th>技术类型</th>
-                            <th>精度</th>
-                            <th>表面兼容性</th>
-                            <th>功耗</th>
-                            <th>常见应用</th>
+                            <th scope="col">Technology Type</th>
+                            <th scope="col">Precision</th>
+                            <th scope="col">Surface Compatibility</th>
+                            <th scope="col">Power Consumption</th>
+                            <th scope="col">Common Applications</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>机械鼠标</td>
-                            <td>低 (200-400 DPI)</td>
-                            <td>需要专用垫</td>
-                            <td>中等</td>
-                            <td>早期计算机</td>
+                            <th scope="row">Mechanical Mouse</th>
+                            <td>Low (200-400 DPI)</td>
+                            <td>Requires special pad</td>
+                            <td>Medium</td>
+                            <td>Early computers</td>
                         </tr>
                         <tr>
-                            <td>光学鼠标</td>
-                            <td>中高 (800-3200 DPI)</td>
-                            <td>大多数非反光表面</td>
-                            <td>低</td>
-                            <td>日常办公、家用</td>
+                            <th scope="row">Optical Mouse</th>
+                            <td>Medium-High (800-3200 DPI)</td>
+                            <td>Most non-reflective surfaces</td>
+                            <td>Low</td>
+                            <td>Daily office, home use</td>
                         </tr>
                         <tr>
-                            <td>激光鼠标</td>
-                            <td>极高 (最高16000+ DPI)</td>
-                            <td>几乎所有表面</td>
-                            <td>中等</td>
-                            <td>游戏、专业设计</td>
+                            <th scope="row">Laser Mouse</th>
+                            <td>Extremely High (Up to 16000+ DPI)</td>
+                            <td>Almost any surface</td>
+                            <td>Medium</td>
+                            <td>Gaming, professional design</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
-        <!-- 按键与滚轮机制 -->
-        <div class="principle-section">
+        <!-- Button & Scroll Wheel Mechanisms -->
+        <section class="principle-section">
             <div class="section-header">
-                <div class="section-icon">⚡</div>
-                <h2 class="section-title">按键与滚轮工作机制</h2>
+                <div class="section-icon" aria-hidden="true">⚡</div>
+                <h2 class="section-title">Button & Scroll Wheel Working Mechanisms</h2>
             </div>
             <div class="principle-content">
-                <p>鼠标的按键和滚轮是用户最常操作的部件，其工作原理直接影响使用体验：</p>
+                <p>Mouse buttons and scroll wheels are the most frequently operated components, and their working principles directly affect user experience:</p>
                 
                 <div class="tech-feature">
-                    <strong>微动开关：</strong> 鼠标按键的核心部件。当按下按键时，内部弹簧片接触产生电信号；松开时弹簧片复位。微动开关的寿命通常在500万到2000万次点击之间。
+                    <strong>Micro Switches:</strong> The core component of mouse buttons. When a button is pressed, internal spring contacts create electrical signals; when released, the spring resets. Micro switch lifespan typically ranges from 5 million to 20 million clicks.
                 </div>
                 
                 <div class="tech-feature">
-                    <strong>滚轮编码器：</strong> 滚轮内部的光学或机械编码器将旋转运动转换为脉冲信号。机械编码器使用金属触点，而光学编码器使用光栅和光电传感器，寿命更长。
+                    <strong>Scroll Wheel Encoder:</strong> The optical or mechanical encoder inside the scroll wheel converts rotational motion into pulse signals. Mechanical encoders use metal contacts, while optical encoders use gratings and photoelectric sensors for longer lifespan.
                 </div>
                 
-                <p><strong>常见故障机制：</strong></p>
+                <p><strong>Common Failure Mechanisms:</strong></p>
                 <ul>
-                    <li><strong>双击故障：</strong> 微动开关弹簧片氧化或变形，导致接触不良，产生误触发</li>
-                    <li><strong>按键失灵：</strong> 微动开关完全损坏或焊点脱落</li>
-                    <li><strong>滚轮回滚：</strong> 编码器磨损导致定位不准确</li>
-                    <li><strong>侧键失效：</strong> 侧键微动开关损坏或排线接触不良</li>
+                    <li><strong>Double-click Failure:</strong> Micro switch spring oxidation or deformation causes poor contact and false triggering</li>
+                    <li><strong>Button Failure:</strong> Complete micro switch damage or solder joint detachment</li>
+                    <li><strong>Scroll Wheel Reverse Scroll:</strong> Encoder wear causes inaccurate positioning</li>
+                    <li><strong>Side Button Failure:</strong> Side button micro switch damage or ribbon cable connection issues</li>
                 </ul>
             </div>
-        </div>
+        </section>
 
-        <!-- 测试工具检测原理 -->
-        <div class="tool-principle">
-            <h2><i class="fas fa-search"></i> 鼠标测试工具的检测原理</h2>
-            <p>本在线测试工具基于Web技术，通过JavaScript事件监听来检测鼠标状态：</p>
+        <!-- Testing Tool Detection Principle -->
+        <section class="tool-principle">
+            <h2><i class="fas fa-search" aria-hidden="true"></i> Mouse Testing Tool Detection Principle</h2>
+            <p>This online testing tool uses web technology to detect mouse status through JavaScript event listeners:</p>
             
             <div class="detection-method">
                 <div class="method-header">
-                    <i class="fas fa-mouse-pointer"></i> 按键检测原理
+                    <i class="fas fa-mouse-pointer" aria-hidden="true"></i> Button Detection Principle
                 </div>
-                <p>工具监听浏览器的<code>mousedown</code>和<code>mouseup</code>事件，每个鼠标按键都有对应的button值：左键(0)、中键(1)、右键(2)、侧键B4(3)、侧键B5(4)。当事件触发时，相应的计数器增加。</p>
+                <p>The tool listens to browser <code>mousedown</code> and <code>mouseup</code> events, with each mouse button having corresponding button values: Left(0), Middle(1), Right(2), Side B4(3), Side B5(4). When events trigger, corresponding counters increase.</p>
             </div>
             
             <div class="detection-method">
                 <div class="method-header">
-                    <i class="fas fa-exchange-alt"></i> 双击检测算法
+                    <i class="fas fa-exchange-alt" aria-hidden="true"></i> Double-click Detection Algorithm
                 </div>
-                <p>工具记录每次按键的时间戳，计算连续两次点击的时间间隔：正常双击(200-500ms)、故障双击(&lt;80ms)。通过时间差判断双击性质，并在UI上以不同颜色反馈。</p>
+                <p>The tool records timestamps for each click, calculates time intervals between consecutive clicks: Normal double-click(200-500ms), Faulty double-click(&lt;80ms). Determines double-click nature by time difference and provides feedback with different colors in UI.</p>
             </div>
             
             <div class="detection-method">
                 <div class="method-header">
-                    <i class="fas fa-sync-alt"></i> 滚轮检测机制
+                    <i class="fas fa-sync-alt" aria-hidden="true"></i> Scroll Wheel Detection Mechanism
                 </div>
-                <p>通过监听<code>wheel</code>事件，获取<code>deltaY</code>值判断滚轮方向。正值表示向下滚动，负值表示向上滚动。工具阻止了在测试区内的默认滚动行为。</p>
+                <p>By listening to <code>wheel</code> events, obtains <code>deltaY</code> value to determine scroll direction. Positive values indicate downward scrolling, negative values indicate upward scrolling. The tool prevents default scrolling behavior in the test area.</p>
             </div>
             
             <div class="detection-method">
                 <div class="method-header">
-                    <i class="fas fa-exclamation-triangle"></i> 故障状态判断
+                    <i class="fas fa-exclamation-triangle" aria-hidden="true"></i> Fault Status Judgment
                 </div>
-                <p>基于以下标准判断鼠标状态：1) 按下/松开计数不匹配；2) 按键完全无响应；3) 频繁出现故障双击；4) 滚轮单向无响应。这些异常通常对应硬件故障。</p>
+                <p>Determines mouse status based on: 1) Press/release count mismatch; 2) Complete button unresponsiveness; 3) Frequent faulty double-clicks; 4) Scroll wheel unidirectional unresponsiveness. These abnormalities typically correspond to hardware faults.</p>
             </div>
             
-            <p><strong>技术限制：</strong> 由于浏览器安全限制，本工具无法检测DPI、回报率等高级参数，也无法测试需要驱动程序的宏功能。但能够有效检测基本的机械故障。</p>
-        </div>
+            <p><strong>Technical Limitations:</strong> Due to browser security restrictions, this tool cannot detect advanced parameters like DPI, polling rate, nor test macro functions requiring drivers. However, it can effectively detect basic mechanical faults.</p>
+        </section>
 
-        <!-- 返回测试按钮 -->
+        <!-- Back to Test Button -->
         <div class="back-to-test">
-            <a href="/toolbox/mouse/zh/" class="back-btn">
-                <i class="fas fa-mouse"></i> 返回鼠标测试工具
+            <a href="/toolbox/mouse/" class="back-btn" title="Return to Mouse Test Tool">
+                <i class="fas fa-mouse" aria-hidden="true"></i> Return to Mouse Test Tool
             </a>
         </div>
-    </div>
+    </main>
 
     <script src="/toolbox/shared/js/switchlanguage.js"></script>
     
-    <!-- 工作原理页面特定脚本 -->
+    <!-- Working Principle Page Specific Script -->
     <script src="/toolbox/mouse/principle/js/principle.js"></script>
 </body>
 </html>
