@@ -97,12 +97,26 @@ function handleTestAreaWheel(e) {
 function handleError() {
   counts.err++;
   showIndicator('error');
-  testArea.classList.add('error');
-  highlightItem('reverseCountItem', 'error-highlight');
-  addLog('[错误] 检测到回滚!', 'err');
   
+  // 主测试区错误效果 - 变红并震荡
+  testArea.classList.add('error');
+  
+  // 统计面板错误高亮
+  highlightItem('reverseCountItem', 'error-highlight');
+  
+  // 添加错误日志
+  addLog('[❌ 错误] 检测到回滚! 滚动方向与测试模式不符', 'err');
+  
+  // 清除错误状态
   clearTimeout(errorTimeout);
-  errorTimeout = setTimeout(() => testArea.classList.remove('error'), 400);
+  errorTimeout = setTimeout(() => {
+    testArea.classList.remove('error');
+    
+    // 恢复鼠标SVG到正常状态
+    const mouseIcon = document.getElementById('mouseIcon');
+    mouseIcon.style.transform = 'scale(1)';
+    mouseIcon.style.transition = 'transform 0.3s ease';
+  }, 1000);
 }
 
 // 高亮项目
@@ -151,6 +165,9 @@ function resetTest() {
   log.innerHTML = '';
   addLog('数据已重置', '');
   
+  // 确保移除所有错误状态
+  testArea.classList.remove('error');
+  
   // 移除动画效果
   setTimeout(() => {
     resetBtn.classList.remove('pulse');
@@ -161,6 +178,21 @@ function resetTest() {
 function initEventListeners() {
   testArea.addEventListener('wheel', handleTestAreaWheel, { passive: false });
   scrollBox.addEventListener('wheel', handleScrollBoxWheel);
+  
+  // 添加鼠标悬停事件
+  testArea.addEventListener('mouseenter', () => {
+    testArea.style.cursor = 'crosshair';
+    // 添加悬停状态类
+    testArea.classList.add('hover-ready');
+  });
+  
+  testArea.addEventListener('mouseleave', () => {
+    testArea.classList.remove('hover-ready');
+  });
+  
+  scrollBox.addEventListener('mouseenter', () => {
+    scrollBox.style.cursor = 'pointer';
+  });
   
   testModeSelect.addEventListener('change', () => {
     // 添加选择框切换的视觉反馈
