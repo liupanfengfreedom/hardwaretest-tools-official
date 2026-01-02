@@ -1,21 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>专业鼠标滚轮测试工具 </title>
+  <title>Professional Mouse Wheel Testing Tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="免费在线鼠标滚轮测试工具，专门针对滚轮回滚、上下乱跳、失灵等常见故障进行精准检测。支持实时频率监控、滚动行数基准测试，兼容罗技、雷蛇等主流电竞鼠标。">
-  <meta name="keywords" content="鼠标滚轮测试,鼠标滚轮回滚,滚轮乱跳检测,鼠标测试工具,硬件检测,鼠标维修,Logitech滚轮测试,雷蛇鼠标测试">
+  <meta name="description" content="Free online mouse wheel testing tool for precise detection of scroll backfire, random jumping, and malfunction issues. Supports real-time frequency monitoring, scroll line count benchmarking, compatible with Logitech, Razer and other mainstream gaming mice.">
+  <meta name="keywords" content="mouse wheel test, mouse scroll backfire, wheel jump detection, mouse testing tool, hardware diagnostics, mouse repair, Logitech wheel test, Razer mouse test">
   <meta name="author" content="Layout Refined">
   
-  <meta property="og:title" content="鼠标滚轮测试 - 在线检测滚轮回滚、乱跳与滚动精度故障">
-  <meta property="og:description" content="免费在线工具，精准检测鼠标滚轮性能，识别物理故障，评估滚动精度与稳定性。">
+  <meta property="og:title" content="Mouse Wheel Testing - Online Detection for Backfire, Jumping and Scroll Accuracy Issues">
+  <meta property="og:description" content="Free online tool for precise mouse wheel performance testing, identifying physical faults, evaluating scroll accuracy and stability.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yourdomain.com/mouse-wheel-test">
   
   <link rel="canonical" href="https://yourdomain.com/mouse-wheel-test">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/toolbox/mouse/scrollwheel/css/style.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/document.css">
+
       <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Analytics -->
@@ -32,15 +36,15 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "专业鼠标滚轮测试工具",
-      "description": "用于检测鼠标滚轮性能、识别回滚故障和评估滚动精度的专业在线工具",
+      "name": "Professional Mouse Wheel Testing Tool",
+      "description": "Professional online tool for detecting mouse wheel performance, identifying backfire issues and evaluating scroll accuracy",
       "url": "https://yourdomain.com/mouse-wheel-test",
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
       "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "CNY"
+        "priceCurrency": "USD"
       }
     },
     {
@@ -49,18 +53,18 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "为什么鼠标滚轮会向上滚动时突然向下跳？",
+          "name": "Why does the mouse wheel suddenly jump downward when scrolling up?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "这通常是由于编码器积灰、磨损或硬件故障引起的物理回滚（Scroll Jitter）。您可以使用本工具的‘反向错误’计数功能来确认是否存在此问题。"
+            "text": "This is usually caused by dust accumulation, wear, or hardware failure in the encoder, known as scroll jitter or backfire. You can use the 'Reverse Error' counter in this tool to confirm if this issue exists."
           }
         },
         {
           "@type": "Question",
-          "name": "如何判断鼠标滚轮性能优劣？",
+          "name": "How to determine if a mouse wheel has good performance?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "性能优异的滚轮在快速滚动时应具有较高的 Hz 频率稳定性，且在指定滚动模式下不应出现任何红色‘!’警告或反向计数。"
+            "text": "A high-quality wheel should maintain stable Hz frequency during fast scrolling and should not show any red '!' warnings or reverse counts in the specified scroll mode."
           }
         }
       ]
@@ -69,109 +73,316 @@
   </script>
 </head>
 <body>
+  <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+               
+        <!-- Dropdown -->
+        <div class="language-dropdown" id="languageDropdown">
+            <!-- Language Options -->
+            <a class="language-option" href="/toolbox/mouse/scrollwheel/zh/" data-lang="zh">
+                Chinese
+            </a>
+            <a class="language-option selected" href="/toolbox/mouse/scrollwheel/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
 
-<!-- 新增的标题区域 -->
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/toolbox/main/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/toolbox/mouse/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> Mouse Testing Tools</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-mouse"></i> Wheel Test</span>
+            </li>
+        </ol>
+    </nav>
+
+<!-- New Title Section -->
 <div class="header">
-  <h1 class="main-title">专业鼠标滚轮测试工具,在线检测滚轮回滚、乱跳</h1>
-  <p class="subtitle">精准检测滚轮性能，识别物理故障，评估滚动精度与稳定性。支持正向/反向测试，实时数据监控与事件日志记录。</p>
+  <h1 class="main-title">Professional Mouse Wheel Testing Tool - Online Detection for Backfire & Jumping</h1>
+  <p class="subtitle">Precisely test wheel performance, identify physical faults, evaluate scroll accuracy and stability. Supports forward/reverse testing, real-time data monitoring and event logging.</p>
 </div>
 
 <div class="main-layout">
   
   <aside class="card sidebar-test">
-    <div class="card-header"><h2 class="card-title">滚轮刻度测试</h2></div>
+    <div class="card-header"><h2 class="card-title">Wheel Step Test</h2></div>
+    <!-- Hover Hint -->
+    <div class="test-hover-hint">Click here to start wheel step test</div>
     <div id="scrollBox"></div>
     <div style="padding: 10px; background: rgba(0,0,0,0.3); font-size: 11px; text-align: center;">
-      <div id="lineAnalysis">等待滚动...</div>
+      <div id="lineAnalysis">Waiting for scroll...</div>
     </div>
   </aside>
 
   <main class="card test-main">
     <div class="card-header">
-      <h2 class="card-title">主测试区</h2>
+      <h2 class="card-title">Main Test Area</h2>
       <div class="select-wrapper">
         <select id="testModeSelect" class="test-mode-select">
-          <option value="up">向上滚动测试 (Up)</option>
-          <option value="down">向下滚动测试 (Down)</option>
+          <option value="up">Upward Scroll Test (Up)</option>
+          <option value="down">Downward Scroll Test (Down)</option>
         </select>
       </div>
     </div>
+    <!-- Hover Hint -->
+    <div class="test-hover-hint">Click here to start main wheel test</div>
     
     <div id="testArea">
-      <!-- 动态指示箭头 -->
+      <!-- Dynamic Indicator Arrow -->
       <div id="indicator" class="scroll-indicator"></div>
 
-      <!-- 鼠标顶视图 SVG -->
+      <!-- Mouse Top View SVG -->
       <div class="mouse-svg-container" id="mouseIcon">
         <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-          <!-- 鼠标主体 -->
+          <!-- Mouse Body -->
           <path class="mouse-body-path" d="M50,5 C30,5 15,25 15,60 C15,100 20,150 50,155 C80,150 85,100 85,60 C85,25 70,5 50,5 Z" />
-          <!-- 按键中缝 -->
+          <!-- Button Gap -->
           <line x1="50" y1="5" x2="50" y2="45" stroke="#1a202c" stroke-width="1" />
-          <!-- 滚轮槽 -->
+          <!-- Wheel Slot -->
           <rect x="44" y="25" width="12" height="30" rx="6" fill="#1a202c" />
-          <!-- 滚轮主体 -->
+          <!-- Wheel Body -->
           <rect id="visualWheel" x="46" y="28" width="8" height="24" rx="4" class="mouse-wheel" />
-          <!-- 滚轮纹理线条 -->
+          <!-- Wheel Texture Lines -->
           <g id="wheelStripes">
             <line class="wheel-stripe" x1="46" y1="34" x2="54" y2="34" />
             <line class="wheel-stripe" x1="46" y1="40" x2="54" y2="40" />
             <line class="wheel-stripe" x1="46" y1="46" x2="54" y2="46" />
           </g>
-          <!-- 尾部灯光 -->
+          <!-- Tail Light -->
           <circle cx="50" cy="130" r="8" class="mouse-light" />
         </svg>
       </div>
 
-      <div class="test-instruction">在此区域滚动鼠标滚轮进行测试</div>
+      <div class="test-instruction">Scroll mouse wheel in this area to test</div>
     </div>
   </main>
 
   <div class="right-stack">
     <section class="card stats-panel">
       <div class="card-header">
-        <h2 class="card-title">实时数据</h2>
-        <button id="resetBtn" class="reset-btn" onclick="resetTest()">重置数据</button>
+        <h2 class="card-title">Real-time Data</h2>
+        <button id="resetBtn" class="reset-btn" onclick="resetTest()">Reset Data</button>
       </div>
       <div class="stats-grid">
-        <div class="stat-item" id="upCountItem"><span class="stat-label">向上计数</span><span class="stat-value up" id="upCount">0</span></div>
-        <div class="stat-item" id="reverseCountItem"><span class="stat-label">反向错误</span><span class="stat-value err" id="reverseCount">0</span></div>
-        <div class="stat-item" id="downCountItem"><span class="stat-label">向下计数</span><span class="stat-value down" id="downCount">0</span></div>
-        <div class="stat-item" id="maxHzItem"><span class="stat-label">最高频率 (Hz)</span><span class="stat-value" id="maxHz">0</span></div>
+        <div class="stat-item" id="upCountItem"><span class="stat-label">Up Count</span><span class="stat-value up" id="upCount">0</span></div>
+        <div class="stat-item" id="reverseCountItem"><span class="stat-label">Reverse Error</span><span class="stat-value err" id="reverseCount">0</span></div>
+        <div class="stat-item" id="downCountItem"><span class="stat-label">Down Count</span><span class="stat-value down" id="downCount">0</span></div>
+        <div class="stat-item" id="maxHzItem"><span class="stat-label">Max Frequency (Hz)</span><span class="stat-value" id="maxHz">0</span></div>
       </div>
     </section>
 
     <section class="card log-panel">
-      <div class="card-header"><h2 class="card-title">事件日志</h2></div>
+      <div class="card-header"><h2 class="card-title">Event Log</h2></div>
       <div id="log"></div>
     </section>
   </div>
 
-  <section class="card intro-panel">
-    <div class="intro-content">
-      <h3>使用说明</h3>
-      <p>
-        <strong>1. 硬件故障检测：</strong> 如果你选定"向上"，但滚动时出现红色"!"和错误计数，说明滚轮存在物理回滚（乱跳）故障。 <br>
-        <strong>2. 频率测试：</strong> 快速滚动时 Hz 值越高说明鼠标回报频率和滚轮速度越稳定。
-      </p>
-    </div>
-  </section>
 </div>
-<section class="seo-content">
-  <h2>鼠标滚轮故障排除指南</h2>
-  <div class="troubleshoot-grid">
-    <article>
-      <h3>滚轮乱跳/回滚 (Scroll Jitter)</h3>
-      <p>如果在测试中频繁出现红色 <strong>“!”</strong> 标记，建议：</p>
-      <ul>
-        <li>使用压缩空气清理滚轮缝隙积灰。</li>
-        <li>如果是驱动问题，尝试卸载并重新安装官方驱动。</li>
-        <li>检查是否存在编码器老化，必要时需更换物理编码器。</li>
-      </ul>
-    </article>
-  </div>
-</section>
-<script src="/toolbox/mouse/scrollwheel/js/script-zh.js"></script>
+
+<!-- ===== Page Navigation Cards ===== -->
+<div class="page-navigation-section">
+    <div class="navigation-header">
+        <i class="fas fa-graduation-cap"></i>
+        <h2>Learn More About Mouse Wheel Technology</h2>
+        <p>Explore more knowledge about mouse wheel testing and technical principles</p>
+    </div>
+    
+    <div class="navigation-cards">
+        <a href="/toolbox/mouse/scrollwheel/guide/" class="nav-card">
+            <div class="nav-card-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <div class="nav-card-content">
+                <h3>Detailed User Guide</h3>
+                <p>Learn how to use this wheel testing tool from scratch, including step-by-step instructions, testing tips, and FAQs.</p>
+                <div class="nav-card-action">
+                    <span>View Complete Guide <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+        
+        <a href="/toolbox/mouse/scrollwheel/how-it-works/" class="nav-card">
+            <div class="nav-card-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div class="nav-card-content">
+                <h3>Technical Principles Explained</h3>
+                <p>Deep dive into wheel technology principles, encoder mechanisms, and fault detection algorithms.</p>
+                <div class="nav-card-action">
+                    <span>Learn Technical Principles <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- ===== Feature Introduction Section ===== -->
+<div class="instructions-section">
+    <div class="instructions-content">
+        <h2>Professional Wheel Testing Tool Features</h2>
+        <p>📖 Introduction:</p>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h3>Real-time Frequency Monitoring</h3>
+                <p>Monitor mouse wheel scroll frequency (Hz) in real-time to evaluate wheel response speed and stability. Higher frequency indicates more responsive and better performance.</p>
+                <div class="tip">
+                    <span class="tip-text">High-performance gaming mice typically achieve 100+ Hz frequency</span>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <h3>Precise Backfire Detection</h3>
+                <p>Professional detection of scroll backfire (Scroll Jitter) issues. When reverse scrolling is detected, red warnings are displayed and error count increases, accurately identifying hardware faults.</p>
+                <div class="tip">
+                    <span class="tip-text">Tip: Reverse error count indicates physical backfire issues</span>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <h3>Bidirectional Test Modes</h3>
+                <p>Supports both upward and downward scroll testing modes, allowing independent testing of wheel performance in each direction for comprehensive wheel health assessment.</p>
+                <div class="tip">
+                    <span class="tip-text">Switch test modes to detect scrolling issues in different directions</span>
+                </div>
+            </div>
+       
+            <div class="feature-item">
+                <h3>Visual Feedback System</h3>
+                <p>Real-time visual feedback: Green arrow indicates normal upward scroll, blue arrow indicates normal downward scroll, red exclamation mark indicates detected backfire fault.</p>
+                <div class="tip">
+                    <span class="tip-text">Tip: Quickly identify scroll status through colors</span>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <h3>Wheel Step Benchmark Test</h3>
+                <p>Provides 500 lines of scroll test data, precisely measuring lines per step to evaluate wheel step accuracy and consistency.</p>
+                <div class="tip">
+                    <span class="tip-text">Standard mouse wheels should scroll 3-5 lines of text per step</span>
+                </div>
+            </div>       
+            
+            <div class="feature-item">
+                <h3>Detailed Event Logging</h3>
+                <p>Complete scroll event log recording including timestamps, scroll directions, and error events for easy problem analysis and diagnosis.</p>
+                <div class="tip">
+                    <span class="tip-text">Log records all scroll operations and error events</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-section" id="instruction">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            
+            <div class="faq-item">
+                <h3>What is Scroll Backfire (Scroll Jitter)?</h3>
+                <p>Scroll backfire refers to the phenomenon where the mouse suddenly jumps downward when scrolling up, or jumps upward when scrolling down. This is usually caused by dust accumulation, wear, or hardware failure in the encoder. In testing, when the selected direction shows opposite scrolling, the tool will display a red "!" mark and increase the reverse error count.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>How to Determine if a Mouse Wheel Has Physical Faults?</h3>
+                <p>Perform the following tests to assess wheel condition:</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>Select "Upward Scroll Test" mode, continuously scroll upward 20-30 times</li>
+                    <li>Observe if any red "!" warnings appear</li>
+                    <li>Check if the "Reverse Error" counter increases</li>
+                    <li>Repeat test for downward scroll mode</li>
+                </ul>
+                <p>If reverse errors occur frequently, the wheel has physical faults.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What is the Significance of Frequency (Hz) Testing?</h3>
+                <p>Frequency testing reflects wheel response speed and stability:</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li><strong>Below 10 Hz:</strong> Slow wheel response, potential performance issues</li>
+                    <li><strong>10-50 Hz:</strong> Normal range for standard office mice</li>
+                    <li><strong>50-100 Hz:</strong> Good performance for gaming mice</li>
+                    <li><strong>100+ Hz:</strong> High-performance gaming mouse performance</li>
+                </ul>
+                <p>Frequency should remain relatively stable during fast scrolling; severe fluctuations may indicate problems.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Which Mouse Brands Are Prone to Wheel Issues?</h3>
+                <p>Wheel issues commonly occur in these situations:</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>Traditional mice using mechanical encoders</li>
+                    <li>Heavily used gaming mice over long periods</li>
+                    <li>Specific models from common brands like Logitech, Razer</li>
+                    <li>Any mouse exposed to dusty environments</li>
+                </ul>
+                <div class="faq-link-container">
+                    <span class="faq-tip-text">To test other mouse functions:</span>
+                    <a href="/toolbox/mouse/doubleclick/" class="faq-link">
+                        Mouse Double Click Test Tool
+                    </a>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3>How to Fix Random Wheel Jumping Issues?</h3>
+                <p>Depending on severity, try these repair methods:</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li><strong>Mild Issues:</strong> Use compressed air to clean wheel gaps</li>
+                    <li><strong>Moderate Issues:</strong> Disassemble mouse to clean encoder</li>
+                    <li><strong>Severe Issues:</strong> Replace wheel encoder component</li>
+                    <li><strong>Software Issues:</strong> Update or reinstall mouse drivers</li>
+                </ul>
+                <p>Most physical issues require mouse disassembly for cleaning or part replacement.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>How to Know if My Mouse Wheel Needs Replacement?</h3>
+                <p>Consider repair or replacement in these situations:</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>1) Reverse error count remains consistently high during testing;</li>
+                    <li>2) Noticeable stuttering sensation when scrolling;</li>
+                    <li>3) Issues persist after cleaning and basic troubleshooting;</li>
+                    <li>4) Wheel completely unresponsive or requires excessive force;</li>
+                    <li>5) Issues affect your work efficiency or gaming experience.</li>
+                </ul>
+                <p>This tool helps you make informed decisions through quantifiable test results.</p>
+            </div>
+            
+            <div class="faq-item" id="principle">
+                <h3>How Does Wheel Testing Work Technically?</h3>
+                <p>This tool uses JavaScript to monitor wheel events, precisely calculating these parameters:</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li><strong>Scroll Direction:</strong> Determined by deltaY value for up or down scroll</li>
+                    <li><strong>Scroll Frequency:</strong> Calculates Hz based on time intervals between scroll events</li>
+                    <li><strong>Reverse Detection:</strong> Compares actual scroll direction with test mode</li>
+                    <li><strong>Scroll Accuracy:</strong> Measures lines per step (typically 3-5 lines)</li>
+                </ul>
+                <p>All calculations are performed locally in real-time without server processing.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Can Wireless Mice Be Tested with This Tool?</h3>
+                <p>Yes, this tool works with both wired and wireless mice. Ensure your wireless mouse is properly connected with sufficient battery. Some wireless mice may have different wheel characteristics, but testing principles remain the same. If test results are abnormal, try:</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>Replace batteries</li>
+                    <li>Re-pair receiver</li>
+                    <li>Test in wired mode (if available)</li>
+                    <li>Test with different USB ports</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <script src="/toolbox/mouse/scrollwheel/js/script-en.js"></script>
+  <script src="/toolbox/shared/js/switchlanguage.js"></script>
 
 </body>
 </html>

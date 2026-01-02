@@ -10,6 +10,7 @@
   --border: rgba(255, 255, 255, 0.1);
   --accent-dark: #0ea5e9;
   --accent-glow: rgba(56, 189, 248, 0.3);
+  --error-glow: rgba(239, 68, 68, 0.5);
 }
 
 * { box-sizing: border-box; }
@@ -131,15 +132,15 @@ body {
 }
 #testArea.active { background: rgba(56, 189, 248, 0.05); border-color: var(--accent); }
 
-/* 强化错误状态 */
+/* ========== 强化反向错误效果 ========== */
 #testArea.error {
-  background: linear-gradient(45deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.3)) !important;
+  background: linear-gradient(45deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.4)) !important;
   border-color: #ef4444 !important;
   border-width: 3px;
-  animation: shake 0.4s;
+  animation: shake 0.4s, error-pulse 1s infinite !important;
   box-shadow: 
-    0 0 20px rgba(239, 68, 68, 0.4),
-    inset 0 0 30px rgba(239, 68, 68, 0.15);
+    0 0 25px rgba(239, 68, 68, 0.5),
+    inset 0 0 35px rgba(239, 68, 68, 0.2);
 }
 
 /* 强化摇动动画 */
@@ -147,6 +148,57 @@ body {
   0%, 100% { transform: translateX(0); }
   10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
   20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* 错误脉冲动画 */
+@keyframes error-pulse {
+  0%, 100% { 
+    background: linear-gradient(45deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.4)) !important;
+    box-shadow: 
+      0 0 25px rgba(239, 68, 68, 0.5),
+      inset 0 0 35px rgba(239, 68, 68, 0.2);
+  }
+  50% { 
+    background: linear-gradient(45deg, rgba(239, 68, 68, 0.5), rgba(239, 68, 68, 0.6)) !important;
+    box-shadow: 
+      0 0 35px rgba(239, 68, 68, 0.7),
+      inset 0 0 40px rgba(239, 68, 68, 0.3);
+  }
+}
+
+/* 错误状态警告图标 */
+#testArea.error::after {
+  content: "⚠️ 滚轮回滚警告！";
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(239, 68, 68, 0.95);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  animation: warning-fade 2s ease-out;
+  border: 2px solid white;
+}
+
+@keyframes warning-fade {
+  0% { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  20%, 80% { 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
 }
 
 /* --- 优化后的鼠标顶视图 --- */
@@ -241,7 +293,15 @@ body {
 
 .stat-item.up-highlight { background: rgba(34, 197, 94, 0.1); }
 .stat-item.down-highlight { background: rgba(56, 189, 248, 0.1); }
-.stat-item.error-highlight { background: rgba(239, 68, 68, 0.1); }
+.stat-item.error-highlight { 
+  background: rgba(239, 68, 68, 0.15);
+  animation: stat-error-pulse 0.8s infinite alternate;
+}
+
+@keyframes stat-error-pulse {
+  from { background: rgba(239, 68, 68, 0.15); }
+  to { background: rgba(239, 68, 68, 0.3); }
+}
 
 .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; display: block; }
 .stat-value { font-size: 20px; font-weight: bold; font-family: monospace; }
@@ -260,10 +320,17 @@ body {
 #log .err {
   color: #ff6666;
   font-weight: bold;
-  background: rgba(239, 68, 68, 0.1);
-  padding: 4px 8px;
-  border-left: 3px solid #ef4444;
-  margin: 2px 0;
+  background: rgba(239, 68, 68, 0.15);
+  padding: 6px 10px;
+  border-left: 4px solid #ef4444;
+  margin: 4px 0;
+  border-radius: 0 4px 4px 0;
+  animation: log-error-pulse 1s infinite;
+}
+
+@keyframes log-error-pulse {
+  0%, 100% { background: rgba(239, 68, 68, 0.15); }
+  50% { background: rgba(239, 68, 68, 0.25); }
 }
 
 /* 底部通栏 */
@@ -567,29 +634,38 @@ body {
   background: rgba(34, 197, 94, 0.05) !important;
 }
 
-/* 错误时鼠标SVG整体变红 */
+/* ========== 强化反向错误的鼠标SVG效果 ========== */
 #testArea.error .mouse-svg-container {
   filter: 
-    drop-shadow(0 0 8px rgba(239, 68, 68, 0.7))
-    hue-rotate(300deg)
-    saturate(2);
+    drop-shadow(0 0 12px rgba(239, 68, 68, 0.9))
+    hue-rotate(320deg)
+    saturate(2.5);
+  animation: svg-shake 0.5s infinite alternate;
+}
+
+@keyframes svg-shake {
+  0% { transform: translateX(0) scale(1); }
+  100% { transform: translateX(3px) scale(1.05); }
 }
 
 /* 错误时鼠标身体变红 */
 #testArea.error .mouse-body-path {
   fill: #4a1f1f;
   stroke: #ef4444;
+  stroke-width: 3;
 }
 
 /* 错误时滚轮变红 */
 #testArea.error .mouse-wheel {
   fill: #8b0000;
   stroke: #ef4444;
+  stroke-width: 3;
 }
 
 /* 错误时滚轮纹理变红 */
 #testArea.error .wheel-stripe {
   stroke: #ef4444;
+  stroke-width: 3;
 }
 
 /* 错误时鼠标灯光变红并闪烁 */
@@ -616,8 +692,36 @@ body {
 /* 错误时测试说明文字变红 */
 #testArea.error .test-instruction {
   color: #ff9999;
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  font-weight: bold;
+  animation: text-pulse 1s infinite;
+}
+
+@keyframes text-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* 错误时指示器强化 */
+#testArea.error .scroll-indicator.error {
+  font-size: 70px;
+  text-shadow: 
+    0 0 15px rgba(239, 68, 68, 0.9),
+    0 0 30px rgba(239, 68, 68, 0.7),
+    0 0 45px rgba(239, 68, 68, 0.5);
+  animation: error-pulse-big 0.3s infinite alternate;
+}
+
+@keyframes error-pulse-big {
+  from { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  to { 
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+  }
 }
 
 /* 响应式调整 */
@@ -631,5 +735,23 @@ body {
   .sidebar-test:hover .test-hover-hint,
   .test-main:hover .test-hover-hint {
     top: -40px;
+  }
+  
+  /* 响应式调整错误警告 */
+  #testArea.error::after {
+    font-size: 13px;
+    padding: 8px 16px;
+    top: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  #testArea.error::after {
+    font-size: 12px;
+    padding: 6px 12px;
+    top: 10px;
+    white-space: normal;
+    max-width: 90%;
+    text-align: center;
   }
 }
