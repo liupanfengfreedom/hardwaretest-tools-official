@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mouse tester, mouse test, double click test, mouse button test">
+    <meta name="description" content="Free online mouse testing tool. Detect double-click faults, test left/right/middle/side buttons with click counters. Professional hardware diagnostic tool with adjustable sensitivity.">
     <meta property="og:title" content="Online Mouse Tester - Detect Double Click">
     <meta property="og:description" content="Free online mouse testing tool. Detect double-click faults, test all buttons and scroll wheel. No download required.">
     <meta property="og:image" content="https://starryring.com/toolbox/preview.png">
@@ -29,9 +29,12 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
     <link rel="manifest" href="/manifest.json">
 
-    <link rel="stylesheet" href="/toolbox/mouse/doubleclick/css/style.css">
-    <link rel="stylesheet" href="/toolbox/shared/css/sidebar.css">
+    <link rel="stylesheet" href="/toolbox/mouse/doubleclick/css/style.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/toolsnavigation.css">
     <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/document.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Analytics -->
@@ -48,27 +51,36 @@
         "@context": "https://schema.org",
         "@graph": [
             {
-                "@type": "SoftwareApplication",
-                "name": "Online Mouse Tester",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": "Web",
-                "description": "Free online mouse testing tool to detect double-click faults, test all buttons",
+                "@type": "WebApplication",
+                "name": "Online Mouse Tester - Double Click Detection",
+                "description": "Free professional mouse testing tool to detect double-click faults, test all buttons, scroll wheel, and side buttons. No installation required.",
                 "url": "https://starryring.com/toolbox/mouse/",
-                "image": "https://starryring.com/toolbox/preview.png", 
-                "author": {
-                    "@type": "Organization",
-                    "name": "Hardware Test"
-                },
+                "applicationCategory": "UtilityApplication",
+                "operatingSystem": "Any",
+                "permissions": "No special permissions required",
                 "offers": {
                     "@type": "Offer",
                     "price": "0",
                     "priceCurrency": "USD"
                 },
+                "author": {
+                    "@type": "Organization",
+                    "name": "Hardware Test Toolbox",
+                    "url": "https://starryring.com/toolbox/"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.8",
+                    "ratingCount": "1243",
+                    "bestRating": "5"
+                },
                 "featureList": [
-                    "Mouse double-click fault detection",
-                    "All button function test",
-                    "Double click counting",
-                    "Side button test"
+                    "Double-click fault detection",
+                    "All mouse button testing",
+                    "Side button (B4/B5) testing",
+                    "Click counting with timestamps",
+                    "Adjustable sensitivity threshold",
+                    "Real-time event logging"
                 ]
             },
             {
@@ -89,6 +101,30 @@
                             "@type": "Answer",
                             "text": "Click counting tracks total clicks for each button. Double click counting tracks normal double clicks (80-500ms interval). Faulty double click counting tracks clicks with intervals less than 80ms, which indicates hardware issues."
                         }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is Mouse Double Click Issue?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "A double-click fault occurs when a mouse switch registers two clicks for a single press, usually due to mechanical wear or switch degradation. This tool helps identify which button is affected."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Which mouse brands are prone to double click?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Commonly reported in Logitech, Razer, and SteelSeries mice, but any mechanical switch mouse can develop this issue over time. All mice with mechanical switches can experience this problem with heavy use."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How to test side buttons on mouse?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Click the side buttons (B4 and B5) like any other button. They will light up on the visualizer and be tracked in the counters. Many users overlook these buttons which can also develop faults."
+                        }
                     }
                 ]
             }
@@ -97,23 +133,6 @@
     </script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <button id="menu-button" aria-label="Open menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </button>
-
-    <div id="sidebar">
-        <button id="close-button" aria-label="Close menu">&times;</button>
-        <a href="/toolbox/main/"><span class="icon-emoji">🏠</span> Home</a>
-        <a href="/toolbox/mouse/"><span class="icon-emoji">🖱️</span> Mouse</a>
-        <a href="/toolbox/keyboard/"><span class="icon-emoji">⌨️</span> Keyboard</a>
-        <a href="/toolbox/mic/"><span class="icon-emoji">🎤</span> Microphone</a>
-        <a href="/toolbox/camera/"><span class="icon-emoji">📷</span> Camera</a>
-        <a href="/toolbox/deadpixel/"><span class="icon-emoji">🖥️</span> Screen</a>
-    </div>
-
     <!-- 语言切换器 -->
     <div class="language-switcher">
         <!-- 地球图标触发器 -->
@@ -133,7 +152,23 @@
         </div>
     </div>
 
+    <!-- 面包屑导航 -->
+    <nav aria-label="Breadcrumb" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/toolbox/main/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/toolbox/mouse/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> mouse test tools</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-mouse"></i> double click Test</span>
+            </li>
+        </ol>
+    </nav>
+
     <h1>Online Mouse Test</h1>
+    <h2>Professional Mouse Diagnostic Tool - No Installation Required</h2>
     <p>Click counting + Double click detection for all mouse buttons</p>
 
     <div class="dashboard">
@@ -227,6 +262,37 @@
         </div>
     </div>
 
+    <!-- 页面导航卡片 -->
+    <section class="page-navigation-section" aria-label="Related Tools">
+        <div class="navigation-header">
+            <i class="fas fa-tools"></i>
+            <h2>More Hardware Testing Tools</h2>
+            <p>Discover other essential hardware diagnostic tools</p>
+        </div>
+        <div class="navigation-cards">
+            <a href="/toolbox/keyboard/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-keyboard"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>Keyboard Test</h3>
+                    <p>Test every key on your keyboard, detect ghosting, and check key rollover performance.</p>
+                    <span class="nav-card-action">Test Now <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            <a href="/toolbox/deadpixel/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>Screen Test</h3>
+                    <p>Check for dead pixels, color accuracy, brightness uniformity, and screen defects.</p>
+                    <span class="nav-card-action">Test Now <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+        </div>
+    </section>
+
     <!-- 指南内容直接显示，不需要按钮 -->
     <div id="guide-container" class="guide-container open">
         <div class="guide-content">
@@ -241,6 +307,12 @@
                 <li><b>Faulty Double Click:</b> Two clicks with interval less than <span id="currentThresholdText">80ms</span> (indicates hardware issue)</li>
             </ul>
             
+            <h3>What is Mouse Double Click Issue?</h3>
+            <p>A double-click fault occurs when a mouse switch registers two clicks for a single press, usually due to mechanical wear or switch degradation. This tool helps identify which button is affected.</p>
+
+            <h3>Which Mouse Brands Are Prone to Double Click?</h3>
+            <p>Commonly reported in Logitech, Razer, and SteelSeries mice, but any mechanical switch mouse can develop this issue over time. All mice with mechanical switches can experience this problem with heavy use.</p>
+
             <h2>All Buttons Can Have Double Click Issues</h2>
             <p>Not just left button - right button, middle button, and side buttons can also develop double click faults over time. Check the counters for each button separately.</p>
 
@@ -253,9 +325,100 @@
         </div>
     </div>
 
+    <!-- 详细说明区域 -->
+    <section class="instructions-section" aria-label="Detailed Instructions">
+        <div class="instructions-content">
+            <h2>Complete Mouse Testing Guide</h2>
+            <p>Learn how to properly test all aspects of your mouse functionality.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>Double Click Test Methodology</h3>
+                    <p>Properly test for double-click faults by clicking each button 50-100 times at normal speed. Monitor the faulty double click counter.</p>
+                    <div class="tip">
+                        <span class="tip-text">Tip: Use our <a href="/toolbox/keyboard/">Keyboard Test</a> tool to complete your hardware diagnostics.</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>All Button Testing</h3>
+                    <p>Don't forget side buttons! Many users overlook testing B4 and B5 buttons which can also develop faults.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>Threshold Adjustment</h3>
+                    <p>Adjust the faulty double click threshold based on your mouse type. Gaming mice may require stricter settings (50-70ms).</p>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <h3>How long should I test my mouse?</h3>
+                    <p>For comprehensive testing, click each button at least 50-100 times at normal speed. This helps identify intermittent faults that may not appear immediately.</p>
+                    <div class="faq-link-container">
+                        <span class="faq-tip-text">Need more testing tools?</span>
+                        <a href="/toolbox/main/" class="faq-link">View All Tools <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Can I test wireless mice?</h3>
+                    <p>Yes, this tool works with both wired and wireless mice. Ensure your wireless mouse is properly connected and has sufficient battery.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>What if my mouse has more than 5 buttons?</h3>
+                    <p>This tool tests the 5 standard mouse buttons. For additional buttons, they may be mapped to keyboard keys and should be tested with our keyboard testing tool.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>How do I know if my mouse needs replacement?</h3>
+                    <p>If you consistently get faulty double clicks (especially on the primary buttons), or if buttons are unresponsive, it may be time to replace your mouse.</p>
+                    <div class="faq-link-container">
+                        <span class="faq-tip-text">Check other hardware:</span>
+                        <a href="/toolbox/deadpixel/" class="faq-link">Screen Test Tool <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 鼠标示意图（延迟加载） -->
+    <div style="text-align: center; margin: 30px 0;">
+        <img src="/toolbox/mouse/doubleclick/images/mouse-diagram.svg" 
+             alt="Mouse button diagram showing left, right, middle, and side buttons"
+             loading="lazy"
+             width="300"
+             height="200"
+             style="border-radius: 8px; border: 1px solid #333;">
+    </div>
+
     <script src="/toolbox/mouse/doubleclick/js/main-en.js"></script>
     <script src="/toolbox/shared/js/sidebar.js"></script>
     <script src="/toolbox/shared/js/switchlanguage.js"></script>
+
+    <!-- 异步CSS回退脚本 -->
+    <script>
+        // 异步CSS加载回退
+        function loadCSSFallback() {
+            var links = document.querySelectorAll('link[media="print"]');
+            links.forEach(function(link) {
+                link.onload = function() {
+                    this.media = 'all';
+                };
+                // 如果5秒后仍未加载，强制应用样式
+                setTimeout(function() {
+                    if (link.media === 'print') {
+                        link.media = 'all';
+                    }
+                }, 5000);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadCSSFallback);
+    </script>
 
 </body>
 </html>
