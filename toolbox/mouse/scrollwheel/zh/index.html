@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>专业鼠标滚轮测试工具 </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="免费在线鼠标滚轮测试工具，专门针对滚轮回滚、上下乱跳、失灵等常见故障进行精准检测。支持实时频率监控、滚动行数基准测试，兼容罗技、雷蛇等主流电竞鼠标。">
   <meta name="keywords" content="鼠标滚轮测试,鼠标滚轮回滚,滚轮乱跳检测,鼠标测试工具,硬件检测,鼠标维修,Logitech滚轮测试,雷蛇鼠标测试">
   <meta name="author" content="Layout Refined">
@@ -16,6 +15,11 @@
   
   <link rel="canonical" href="https://yourdomain.com/mouse-wheel-test">
   <link rel="stylesheet" href="/toolbox/mouse/scrollwheel/css/style.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/document.css">
+
       <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Analytics -->
@@ -52,7 +56,7 @@
           "name": "为什么鼠标滚轮会向上滚动时突然向下跳？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "这通常是由于编码器积灰、磨损或硬件故障引起的物理回滚（Scroll Jitter）。您可以使用本工具的‘反向错误’计数功能来确认是否存在此问题。"
+            "text": "这通常是由于编码器积灰、磨损或硬件故障引起的物理回滚（Scroll Jitter）。您可以使用本工具的'反向错误'计数功能来确认是否存在此问题。"
           }
         },
         {
@@ -60,7 +64,7 @@
           "name": "如何判断鼠标滚轮性能优劣？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "性能优异的滚轮在快速滚动时应具有较高的 Hz 频率稳定性，且在指定滚动模式下不应出现任何红色‘!’警告或反向计数。"
+            "text": "性能优异的滚轮在快速滚动时应具有较高的 Hz 频率稳定性，且在指定滚动模式下不应出现任何红色'!'警告或反向计数。"
           }
         }
       ]
@@ -69,6 +73,38 @@
   </script>
 </head>
 <body>
+  <!-- 语言切换器 -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+               
+        <!-- 下拉框 -->
+        <div class="language-dropdown" id="languageDropdown">
+            <!-- 语言选项 -->
+            <a class="language-option selected" href="/toolbox/mouse/doubleclick/zh/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/toolbox/mouse/doubleclick/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+
+    <!-- 面包屑导航 -->
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/toolbox/main/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 首页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/toolbox/mouse/zh/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> 鼠标测试工具</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-mouse"></i> 滚轮测试</span>
+            </li>
+        </ol>
+    </nav>
 
 <!-- 新增的标题区域 -->
 <div class="header">
@@ -147,30 +183,200 @@
     </section>
   </div>
 
-  <section class="card intro-panel">
-    <div class="intro-content">
-      <h3>使用说明</h3>
-      <p>
-        <strong>1. 硬件故障检测：</strong> 如果你选定"向上"，但滚动时出现红色"!"和错误计数，说明滚轮存在物理回滚（乱跳）故障。 <br>
-        <strong>2. 频率测试：</strong> 快速滚动时 Hz 值越高说明鼠标回报频率和滚轮速度越稳定。
-      </p>
-    </div>
-  </section>
 </div>
-<section class="seo-content">
-  <h2>鼠标滚轮故障排除指南</h2>
-  <div class="troubleshoot-grid">
-    <article>
-      <h3>滚轮乱跳/回滚 (Scroll Jitter)</h3>
-      <p>如果在测试中频繁出现红色 <strong>“!”</strong> 标记，建议：</p>
-      <ul>
-        <li>使用压缩空气清理滚轮缝隙积灰。</li>
-        <li>如果是驱动问题，尝试卸载并重新安装官方驱动。</li>
-        <li>检查是否存在编码器老化，必要时需更换物理编码器。</li>
-      </ul>
-    </article>
-  </div>
-</section>
+
+<!-- ===== 页面导航卡片 ===== -->
+<div class="page-navigation-section">
+    <div class="navigation-header">
+        <i class="fas fa-graduation-cap"></i>
+        <h2>深入了解鼠标滚轮相关知识</h2>
+        <p>了解更多关于鼠标滚轮测试的知识和技术原理</p>
+    </div>
+    
+    <div class="navigation-cards">
+        <a href="/toolbox/mouse/scrollwheel/zh/guide/" class="nav-card">
+            <div class="nav-card-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <div class="nav-card-content">
+                <h3>详细使用指南</h3>
+                <p>从零开始学习如何使用此滚轮测试工具，包括逐步说明、测试技巧和常见问题解答。</p>
+                <div class="nav-card-action">
+                    <span>查看完整指南 <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+        
+        <a href="/toolbox/mouse/scrollwheel/zh/how-it-works/" class="nav-card">
+            <div class="nav-card-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div class="nav-card-content">
+                <h3>工作原理详解</h3>
+                <p>深入理解滚轮技术原理、编码器机制以及故障检测算法。</p>
+                <div class="nav-card-action">
+                    <span>学习技术原理 <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- ===== 特性介绍区域 ===== -->
+<div class="instructions-section">
+    <div class="instructions-content">
+        <h2>专业滚轮测试工具特性</h2>
+        <p>📖 简介：</p>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h3>实时频率监控</h3>
+                <p>实时监测鼠标滚轮滚动频率（Hz），评估滚轮响应速度和稳定性。频率越高表示滚轮响应越灵敏，性能越优秀。</p>
+                <div class="tip">
+                    <span class="tip-text">高性能游戏鼠标通常能达到100+ Hz频率</span>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <h3>精准回滚检测</h3>
+                <p>专业检测滚轮回滚（Scroll Jitter）问题，当检测到反向滚动时会显示红色警告并增加错误计数，准确识别硬件故障。</p>
+                <div class="tip">
+                    <span class="tip-text">提示：反向错误计数表示存在物理回滚问题</span>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <h3>双向测试模式</h3>
+                <p>支持向上和向下两种滚动测试模式，可独立测试每个方向的滚轮性能，全面评估滚轮健康状况。</p>
+                <div class="tip">
+                    <span class="tip-text">切换测试模式以分别检测不同方向的滚动问题</span>
+                </div>
+            </div>
+       
+            <div class="feature-item">
+                <h3>视觉反馈系统</h3>
+                <p>实时视觉反馈系统：绿色箭头表示正常向上滚动，蓝色箭头表示正常向下滚动，红色感叹号表示检测到回滚故障。</p>
+                <div class="tip">
+                    <span class="tip-text">提示：通过颜色快速识别滚动状态</span>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <h3>滚轮刻度基准测试</h3>
+                <p>提供500行滚动测试数据，精确测量每步滚动行数，评估滚轮刻度的准确性和一致性。</p>
+                <div class="tip">
+                    <span class="tip-text">标准鼠标滚轮每步应滚动3-5行文本</span>
+                </div>
+            </div>       
+            
+            <div class="feature-item">
+                <h3>详细事件记录</h3>
+                <p>完整的滚动事件日志记录，包括时间戳、滚动方向和错误事件，便于问题分析和诊断。</p>
+                <div class="tip">
+                    <span class="tip-text">日志记录所有滚动操作和错误事件</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-section" id="instruction">
+            <h2>常见问题解答 (FAQ)</h2>
+            
+            <div class="faq-item">
+                <h3>什么是滚轮回滚（Scroll Jitter）？</h3>
+                <p>滚轮回滚是指向上滚动时鼠标突然向下跳，或向下滚动时突然向上跳的现象。这通常是由于编码器积灰、磨损或硬件故障引起的。在测试中，当选定一个方向但出现相反方向的滚动时，工具会显示红色"!"标记并增加反向错误计数。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>如何判断鼠标滚轮是否存在物理故障？</h3>
+                <p>进行以下测试来判断滚轮状态：</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>选择"向上滚动测试"模式，连续向上滚动20-30次</li>
+                    <li>观察是否有红色"!"警告出现</li>
+                    <li>检查"反向错误"计数器是否增加</li>
+                    <li>重复测试向下滚动模式</li>
+                </ul>
+                <p>如果频繁出现反向错误，说明滚轮存在物理故障。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>频率（Hz）测试有什么意义？</h3>
+                <p>频率测试反映滚轮的响应速度和稳定性：</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li><strong>低于10 Hz：</strong> 滚轮响应缓慢，可能存在性能问题</li>
+                    <li><strong>10-50 Hz：</strong> 标准办公鼠标正常范围</li>
+                    <li><strong>50-100 Hz：</strong> 游戏鼠标良好表现</li>
+                    <li><strong>100+ Hz：</strong> 高性能游戏鼠标表现</li>
+                </ul>
+                <p>快速滚动时频率应保持相对稳定，剧烈波动可能表示存在问题。</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>哪些鼠标品牌容易出现滚轮问题？</h3>
+                <p>滚轮问题常见于以下情况：</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>使用机械编码器的传统鼠标</li>
+                    <li>长时间重度使用的游戏鼠标</li>
+                    <li>罗技、雷蛇等常见品牌的特定型号</li>
+                    <li>任何暴露在灰尘环境中的鼠标</li>
+                </ul>
+                <div class="faq-link-container">
+                    <span class="faq-tip-text">如需测试鼠标其他功能：</span>
+                    <a href="/toolbox/mouse/doubleclick/zh/" class="faq-link">
+                        鼠标双击测试工具
+                    </a>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3>滚轮乱跳问题如何修复？</h3>
+                <p>根据问题的严重程度，可以尝试以下修复方法：</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li><strong>轻度问题：</strong> 使用压缩空气清理滚轮缝隙</li>
+                    <li><strong>中度问题：</strong> 拆解鼠标清洁编码器</li>
+                    <li><strong>严重问题：</strong> 更换滚轮编码器组件</li>
+                    <li><strong>软件问题：</strong> 更新或重新安装鼠标驱动</li>
+                </ul>
+                <p>大多数物理问题需要拆解鼠标进行清洁或更换部件。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>如何知道我的鼠标滚轮是否需要更换？</h3>
+                <p>在以下情况下考虑维修或更换鼠标：</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>1) 测试中反向错误计数持续偏高；</li>
+                    <li>2) 滚轮滚动时出现明显卡顿感；</li>
+                    <li>3) 清洁和基本故障排除后问题仍然存在；</li>
+                    <li>4) 滚轮完全无响应或需要过度用力；</li>
+                    <li>5) 问题影响您的工作效率或游戏体验。</li>
+                </ul>
+                <p>此工具通过量化测试结果帮助您做出明智决定。</p>
+            </div>
+            
+            <div class="faq-item" id="principle">
+                <h3>滚轮测试在技术上如何工作？</h3>
+                <p>该工具使用JavaScript监听滚轮事件，精确计算以下参数：</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li><strong>滚动方向：</strong> 通过deltaY值判断向上或向下滚动</li>
+                    <li><strong>滚动频率：</strong> 基于滚动事件时间间隔计算Hz</li>
+                    <li><strong>反向检测：</strong> 对比实际滚动方向与测试模式</li>
+                    <li><strong>滚动精度：</strong> 测量每步滚动行数（通常为3-5行）</li>
+                </ul>
+                <p>所有计算在本地浏览器中实时完成，无需服务器处理。</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>无线鼠标可以用此工具测试吗？</h3>
+                <p>可以，此工具适用于有线和无线鼠标。确保您的无线鼠标正确连接且电池充足。某些无线鼠标可能有不同的滚轮特性，但测试原理相同。如果测试结果异常，可以尝试：</p>
+                <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                    <li>更换新电池</li>
+                    <li>重新配对接收器</li>
+                    <li>使用有线模式测试（如果有）</li>
+                    <li>在不同USB端口测试</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
   <script src="/toolbox/mouse/scrollwheel/js/script-zh.js"></script>
 </body>
 </html>
