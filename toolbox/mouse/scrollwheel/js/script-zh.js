@@ -107,20 +107,6 @@ function handleError() {
   // 选择框错误效果
   testModeSelect.classList.add('error-mode');
   
-  // 在选择框上方显示错误提示
-  const selectWrapper = testModeSelect.parentElement;
-  let errorLabel = selectWrapper.querySelector('.error-mode-label');
-  
-  if (!errorLabel) {
-    errorLabel = document.createElement('div');
-    errorLabel.className = 'error-mode-label';
-    errorLabel.textContent = '⚠️ 回滚检测中';
-    errorLabel.setAttribute('aria-live', 'assertive'); // 为屏幕阅读器添加
-    
-    // 将错误标签添加到select-wrapper中
-    selectWrapper.appendChild(errorLabel);
-  }
-  
   // 添加错误日志
   addLog('[❌ 错误] 检测到回滚! 滚动方向与测试模式不符', 'err');
   
