@@ -21,9 +21,8 @@
     <link rel="stylesheet" href="/toolbox/mouse/cps/css/themes.css">
     <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
     <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
-
-
-
+    <link rel="stylesheet" href="/toolbox/shared/css/document.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -34,45 +33,42 @@
     </script>
 </head>
 <body>
-        <div class="breadcrumb-section">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb-modern">
-                        <li class="breadcrumb-item">
-                            <a href="/toolbox/main/zh/" class="breadcrumb-link">
-                                <i class="fas fa-home"></i> 首页
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="/toolbox/mouse/zh/" class="breadcrumb-link">
-                                <i class="fas fa-home"></i> 鼠标测试工具
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item">                   
-                            <span class="breadcrumb-active">点击速度测试</span>
-                        </li>
-                    </ol>
-                </nav>
-        </div>
-            <!-- 语言切换器 -->
-        <div class="language-switcher">
-            <!-- 地球图标触发器 -->
-            <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item">
+                    <a href="/toolbox/main/zh/" class="breadcrumb-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/toolbox/mouse/zh/" class="breadcrumb-link">
+                        <i class="fas fa-mouse"></i> 鼠标测试工具
+                    </a>
+                </li>
+                <li class="breadcrumb-item">                   
+                    <span class="breadcrumb-active">点击速度测试</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
             <i class="fas fa-globe"></i>
-            </button>
-            
-            <!-- 下拉框 -->
-            <div class="language-dropdown" id="languageDropdown">
-                <!-- 语言选项 -->
-                <a class="language-option selected" href="/toolbox/mouse/cps/zh/" data-lang="zh">
-                    中文版
-                </a>
-                <a class="language-option" href="/toolbox/mouse/cps/" data-lang="en">
-                    English
-                </a>
-            </div>
+        </button>
+        
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/toolbox/mouse/cps/zh/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/toolbox/mouse/cps/" data-lang="en">
+                English
+            </a>
         </div>
+    </div>
+    
     <div class="app-container">
-        <!-- 顶部导航 -->
         <header class="app-header">
             <div class="logo-section">
                 <div class="logo">CPS</div>
@@ -91,28 +87,20 @@
             </div>
         </header>
 
-        <!-- 主内容区域 -->
         <main class="main-content">
             <div class="left-panel">
-                <!-- 测试模式选择 -->
                 <div class="mode-selector card">
                     <h2><i class="fas fa-sliders-h"></i> 测试模式</h2>
-                    <div class="mode-buttons" id="mode-buttons">
-                        <!-- 模式按钮由JS动态生成 -->
-                    </div>
+                    <div class="mode-buttons" id="mode-buttons"></div>
                 </div>
 
-                <!-- 鼠标按钮模式选择 -->
                 <div class="button-mode-selector card">
                     <h2><i class="fas fa-mouse-pointer"></i> 鼠标按钮模式</h2>
-                    <div id="button-mode-options">
-                        <!-- 按钮模式选项由JS动态生成 -->
-                    </div>
+                    <div id="button-mode-options"></div>
                 </div>
             </div>
 
             <div class="center-panel">
-                <!-- 点击测试区域 -->
                 <div class="test-area-wrapper">
                     <div id="test-area" class="test-area" role="button" aria-label="点击测试区域">
                         <div class="click-indicator">
@@ -145,7 +133,6 @@
                     </div>
                 </div>
 
-                <!-- 结果仪表板 -->
                 <section id="results-dashboard" class="results-dashboard card" aria-live="polite">
                     <h2><i class="fas fa-chart-bar"></i> 测试结果</h2>
                     <div class="no-results">
@@ -156,7 +143,6 @@
             </div>
 
             <div class="right-panel">
-                <!-- 实时统计数据 -->
                 <section class="real-time-stats card">
                     <h2><i class="fas fa-chart-line"></i> 实时数据</h2>
                     <div id="real-time-stats">
@@ -181,7 +167,6 @@
                     </div>
                 </section>
 
-                <!-- 历史记录 -->
                 <section class="history-panel card">
                     <h2><i class="fas fa-history"></i> 最近记录</h2>
                     <div id="history-list" class="history-list">
@@ -191,21 +176,176 @@
             </div>
         </main>
 
-        <!-- 设置面板 (模态框) -->
         <div id="settings-modal" class="modal" role="dialog" aria-labelledby="settings-title" aria-hidden="true">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 id="settings-title"><i class="fas fa-cog"></i> 设置</h2>
                     <button id="close-settings" class="close-modal" aria-label="关闭设置">&times;</button>
                 </div>
-                <div class="modal-body" id="settings-content">
-                    <!-- 设置内容由JS动态生成 -->
-                </div>
+                <div class="modal-body" id="settings-content"></div>
             </div>
         </div>
 
-        <!-- 通知区域 -->
         <div id="notification-area" class="notification-area" aria-live="polite"></div>
+    </div>
+
+    <!-- 页面导航卡片 -->
+    <div class="page-navigation-section">
+        <div class="navigation-header">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>深入学习CPS测试</h2>
+            <p>了解更多关于CPS测试的知识和技术原理</p>
+        </div>
+        
+        <div class="navigation-cards">
+            <a href="/toolbox/mouse/cps/instruction/zh" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>详细使用指南</h3>
+                    <p>从零开始学习如何使用CPS测试工具，包含分步操作说明、测试技巧和常见问题解答。</p>
+                    <div class="nav-card-action">
+                        <span>查看完整指南 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/toolbox/mouse/cps/principle/zh/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>工作原理详解</h3>
+                    <p>深入了解CPS测试的技术原理、不同测试模式的差异以及点击速度的分析方法。</p>
+                    <div class="nav-card-action">
+                        <span>学习技术原理 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 功能说明和FAQ部分 -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>CPS测试工具特色功能</h2>
+            <p>📖 简介：专业鼠标点击速度测试工具，帮助您测量和提升点击反应能力。</p>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>多模式测试</h3>
+                    <p>提供多种测试模式：10秒常规测试、5秒精准测试、1秒爆发测试和60秒耐力测试。不同模式适合不同需求，全面评估您的点击能力。</p>
+                    <div class="tip">
+                        <span class="tip-text">10秒模式适合常规测试，60秒模式测试耐力</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>多按钮支持</h3>
+                    <p>支持任意按钮、左键模式、右键模式和中键模式。可以测试不同手指的点击速度，全面评估鼠标操作能力。</p>
+                    <div class="tip">
+                        <span class="tip-text">建议：左键用于常规测试，右键测试小指灵活性</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>实时数据分析</h3>
+                    <p>实时显示CPS（每秒点击次数）、总点击次数、平均间隔时间和点击稳定性。数据即时更新，让您随时了解表现。</p>
+                    <div class="tip">
+                        <span class="tip-text">稳定性指数反映点击节奏的一致性</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>综合评分系统</h3>
+                    <p>基于点击速度、稳定性和总点击次数计算综合评分。分数越高表示整体表现越好，便于横向对比。</p>
+                    <div class="tip">
+                        <span class="tip-text">评分 = (CPS×10×一致性系数) + 最大CPS奖励 + 点击次数奖励</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>历史记录保存</h3>
+                    <p>自动保存最近测试记录，包括时间、模式、CPS和评分。支持数据导出，便于长期跟踪进步。</p>
+                    <div class="tip">
+                        <span class="tip-text">历史记录最多保存20条，支持JSON格式导出</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>多主题支持</h3>
+                    <p>提供暗色主题、亮色主题、高对比度主题和护眼模式。根据个人偏好和环境光线选择合适的显示主题。</p>
+                    <div class="tip">
+                        <span class="tip-text">护眼模式适合长时间测试，减少视觉疲劳</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>常见问题解答 (FAQ)</h2>
+                
+                <div class="faq-item">
+                    <h3>什么是CPS？</h3>
+                    <p>CPS（Clicks Per Second）即每秒点击次数，是衡量鼠标点击速度的重要指标。它反映了您的手指反应速度和点击频率。普通用户的CPS通常在4-8之间，游戏玩家可以达到10-15以上。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>如何提高CPS分数？</h3>
+                    <p>提高CPS需要练习和技巧：1) 保持放松的手腕姿势；2) 使用正确的手指肌肉；3) 练习节奏感；4) 使用合适的鼠标；5) 定期训练保持手感。建议从5秒模式开始，逐渐增加难度。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>为什么测试结果会波动？</h3>
+                    <p>CPS测试结果可能因多种因素波动：1) 手指疲劳程度；2) 环境温度；3) 鼠标表面材质；4) 心理状态；5) 测试时间。建议在相同条件下多次测试取平均值。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>不同测试模式有什么区别？</h3>
+                    <p>不同测试模式针对不同能力：</p>
+                    <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                        <li>1秒爆发测试：测试最大瞬时点击速度</li>
+                        <li>5秒精准测试：测试短期稳定点击能力</li>
+                        <li>10秒常规测试：综合评估点击能力</li>
+                        <li>60秒耐力测试：测试长时间持续点击能力</li>
+                    </ul>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>为什么需要测试不同鼠标按钮？</h3>
+                    <p>测试不同按钮可以全面评估鼠标操作能力：</p>
+                    <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                        <li>左键测试：常规点击能力，适用于大多数应用</li>
+                        <li>右键测试：小指灵活性，对某些游戏很重要</li>
+                        <li>中键测试：中指力量和精确度</li>
+                        <li>任意模式：整体协调能力</li>
+                    </ul>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>如何判断我的CPS水平？</h3>
+                    <p>根据统计数据，CPS水平大致分为：</p>
+                    <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                        <li>普通水平：4-8 CPS</li>
+                        <li>良好水平：8-12 CPS</li>
+                        <li>优秀水平：12-16 CPS</li>
+                        <li>专业水平：16+ CPS</li>
+                    </ul>
+                    <p>但请注意，不同测试模式的结果会有差异。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>CPS测试有什么实际应用？</h3>
+                    <p>CPS测试在多个领域有实际应用：</p>
+                    <ul style="color: #bbb; font-size: 0.9rem; margin: 8px 0 12px 20px; line-height: 1.5;">
+                        <li>游戏性能：影响FPS游戏中的反应速度</li>
+                        <li>办公效率：影响数据录入和文档处理速度</li>
+                        <li>手部协调：作为手部协调性的评估指标</li>
+                        <li>康复训练：用于手部受伤后的康复评估</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="/toolbox/mouse/cps/js/script-zh.js"></script>

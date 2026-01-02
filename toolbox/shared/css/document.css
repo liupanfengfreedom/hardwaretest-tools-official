@@ -1,11 +1,11 @@
-/* 新增的使用说明区域样式 */
+/* 新增的使用说明区域样式 - 适配CPS页面主题色 */
 .instructions-section {
-    max-width: 1200px; /* 增加最大宽度以容纳3列 */
+    max-width: 1200px;
     margin: 40px auto;
     padding: 30px;
-    background: #1e1e1e;
+    background: #1a2236; /* CPS页面次要背景色 */
     border-radius: 12px;
-    border: 1px solid #333;
+    border: 1px solid #2d3748; /* CPS页面边框色 */
 }
 
 .instructions-content {
@@ -21,10 +21,10 @@
 }
 
 .feature-item {
-    background: #2a2a2a;
+    background: #222d44; /* CPS页面卡片背景色 */
     padding: 20px;
     border-radius: 8px;
-    border-left: 3px solid #9c27b0; /* 修改：改为紫色 */
+    border-left: 3px solid #4a6bff; /* CPS页面主色 */
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -36,27 +36,25 @@
 }
 
 .feature-item h3 {
-    color: #9c27b0; /* 修改：改为紫色 */
+    color: #4a6bff; /* CPS页面主色 */
     margin-top: 0;
-    margin-bottom: 15px; /* 增加底部间距，使标题和内容有更好的分离 */
-    font-size: 1.1rem; /* 稍微调整字体大小 */
+    margin-bottom: 15px;
+    font-size: 1.1rem;
     line-height: 1.3;
-    flex-shrink: 0; /* 防止标题被压缩 */
+    flex-shrink: 0;
 }
 
-/* 当p为空时隐藏，避免空白 */
 .feature-item p:empty {
     display: none;
 }
 
 .feature-item p {
-    color: #ccc; /* 增加亮度，从#aaa改为#ccc */
+    color: #a0aec0; /* CPS页面次要文本色 */
     line-height: 1.5;
     margin-bottom: 15px;
-    flex-grow: 1; /* 让描述部分填充可用空间 */
+    flex-grow: 1;
 }
 
-/* 当p有内容时添加顶部边距 */
 .feature-item p:not(:empty) {
     margin-top: 0;
     margin-bottom: 15px;
@@ -64,11 +62,11 @@
 
 .feature-item .tip {
     font-size: 0.9em;
-    color: #ddd;
+    color: #cccccc;
     line-height: 1.4;
     padding-top: 12px;
-    border-top: 1px solid #555;
-    background: linear-gradient(90deg, rgba(79, 195, 247, 0.15), transparent);
+    border-top: 1px solid #2d3748; /* CPS页面边框色 */
+    background: linear-gradient(90deg, rgba(74, 107, 255, 0.15), transparent); /* CPS主色渐变 */
     padding: 12px 15px;
     border-radius: 6px;
     position: relative;
@@ -78,57 +76,53 @@
     align-items: center;
     gap: 5px;
     flex-shrink: 0;
-    padding-left: 25px; /* 增加左边距为灯泡图标留出空间 */
+    padding-left: 25px;
 }
 
 .feature-item .tip:before {
     content: "💡";
     position: absolute;
-    left: 0px; /* 调整位置，使其在内部左侧 */
+    left: 0px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.2em;
     opacity: 0.8;
-    /* 移除背景色，因为现在它在容器内部 */
 }
 
-/* 当p为空时，调整tip的样式，使其更紧凑 */
 .feature-item p:empty + .tip {
     border-top: none;
     padding-top: 0;
     background: none;
     margin-top: 0;
     padding-top: 10px;
-    border-top: 1px solid #444;
-    padding-left: 25px; /* 保持一致 */
+    border-top: 1px solid #2d3748; /* CPS页面边框色 */
+    padding-left: 25px;
 }
 
-/* 当p为空时，调整灯泡图标位置 */
 .feature-item p:empty + .tip:before {
-    left: 8px; /* 保持一致 */
+    left: 8px;
 }
 
 .feature-item .tip-text {
-    color: #ddd;
+    color: #cccccc;
     font-weight: 500;
-    /* 确保文本不会与图标重叠 */
 }
 
 .feature-item .tip a {
-    color: #4fc3f7; /* 使用info-blue颜色 */
+    color: #4a6bff; /* CPS页面主色 */
     text-decoration: none;
-    font-weight: 600; /* 加粗字体 */
+    font-weight: 600;
     padding: 2px 8px 2px 10px;
     border-radius: 4px;
-    background: rgba(79, 195, 247, 0.15);
-    border: 1px solid rgba(79, 195, 247, 0.4);
+    background: rgba(74, 107, 255, 0.15); /* 主色透明背景 */
+    border: 1px solid rgba(74, 107, 255, 0.4); /* 主色边框 */
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     position: relative;
-    padding-right: 40px; /* 增加右侧内边距，为更大的箭头留出空间 */
-    flex-shrink: 0; /* 防止链接被压缩 */
-    box-shadow: 0 0 5px rgba(79, 195, 247, 0.2);
+    padding-right: 40px;
+    flex-shrink: 0;
+    box-shadow: 0 0 5px rgba(74, 107, 255, 0.2); /* 主色阴影 */
     position: relative;
     overflow: hidden;
 }
@@ -149,55 +143,55 @@
 }
 
 .feature-item .tip a:after {
-    content: "➔"; /* 使用更粗的箭头字符 */
+    content: "➔";
     position: absolute;
     right: 8px;
     top: 50%;
     transform: translateY(-50%);
     opacity: 1;
-    font-weight: 900; /* 最大粗度 */
-    font-size: 1.2em; /* 增大字体 */
-    color: #29b6f6;
+    font-weight: 900;
+    font-size: 1.2em;
+    color: #4a6bff; /* CPS页面主色 */
     text-shadow: 
-        0 0 3px rgba(41, 182, 246, 0.8),
-        0 0 6px rgba(41, 182, 246, 0.6),
-        0 0 9px rgba(41, 182, 246, 0.4); /* 多层发光效果，模拟加粗 */
+        0 0 3px rgba(74, 107, 255, 0.8),
+        0 0 6px rgba(74, 107, 255, 0.6),
+        0 0 9px rgba(74, 107, 255, 0.4);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
-    width: 24px; /* 增大容器 */
+    width: 24px;
     height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     line-height: 1;
     box-shadow: 
-        0 0 0 1.5px rgba(41, 182, 246, 0.4),
-        0 0 8px rgba(41, 182, 246, 0.3); /* 增强边框阴影 */
-    font-family: "Arial Black", "Segoe UI", sans-serif; /* 使用更粗的字体 */
+        0 0 0 1.5px rgba(74, 107, 255, 0.4),
+        0 0 8px rgba(74, 107, 255, 0.3);
+    font-family: "Arial Black", "Segoe UI", sans-serif;
 }
 
 .feature-item .tip a:hover {
     text-decoration: none;
     color: #ffffff;
-    background: rgba(79, 195, 247, 0.25);
-    border-color: rgba(79, 195, 247, 0.8);
-    box-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
+    background: rgba(74, 107, 255, 0.25); /* 悬停时加深 */
+    border-color: rgba(74, 107, 255, 0.8); /* 悬停时加深 */
+    box-shadow: 0 0 15px rgba(74, 107, 255, 0.6); /* 悬停时加强阴影 */
     transform: translateY(-2px);
 }
 
 .feature-item .tip a:hover:after {
-    right: 4px; /* 悬停时向右移动更多 */
+    right: 4px;
     color: #ffffff;
     text-shadow: 
         0 0 5px rgba(255, 255, 255, 1),
         0 0 10px rgba(255, 255, 255, 0.8),
-        0 0 15px rgba(255, 255, 255, 0.6); /* 增强悬停发光 */
-    background: rgba(41, 182, 246, 0.4);
+        0 0 15px rgba(255, 255, 255, 0.6);
+    background: rgba(74, 107, 255, 0.4); /* 主色背景 */
     box-shadow: 
-        0 0 0 2px rgba(41, 182, 246, 0.7),
-        0 0 15px rgba(41, 182, 246, 0.6),
-        0 0 25px rgba(41, 182, 246, 0.4); /* 增强悬停阴影 */
+        0 0 0 2px rgba(74, 107, 255, 0.7),
+        0 0 15px rgba(74, 107, 255, 0.6),
+        0 0 25px rgba(74, 107, 255, 0.4);
     animation: arrow-pulse 0.5s ease-in-out;
 }
 
@@ -206,20 +200,19 @@
         transform: translateY(-50%); 
     }
     50% { 
-        transform: translateY(-50%) scale(1.4); /* 增大脉冲效果 */
+        transform: translateY(-50%) scale(1.4);
     }
 }
 
-/* 添加链接的点击反馈效果 */
 .feature-item .tip a:active {
     transform: translateY(0);
-    box-shadow: 0 0 6px rgba(79, 195, 247, 0.4);
+    box-shadow: 0 0 6px rgba(74, 107, 255, 0.4);
 }
 
 .faq-item {
     margin-bottom: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #2d3748; /* CPS页面边框色 */
 }
 
 .faq-item:last-child {
@@ -227,12 +220,11 @@
 }
 
 .faq-item h3 {
-    color: #9c27b0; /* 修改：改为紫色 */
+    color: #4a6bff; /* CPS页面主色 */
     margin-bottom: 10px;
 }
 
 /* 响应式设计 - 修复断点设置 */
-/* 中等屏幕：2列（900px-1200px之间） */
 @media (max-width: 1200px) {
     .instructions-section {
         max-width: 1000px;
@@ -243,7 +235,6 @@
     }
 }
 
-/* 小屏幕：1列（600px-900px之间） */
 @media (max-width: 900px) {
     .instructions-section {
         padding: 20px;
@@ -254,7 +245,6 @@
     }
 }
 
-/* 超小屏幕：优化显示 */
 @media (max-width: 600px) {
     .feature-item {
         padding: 15px;
@@ -277,7 +267,6 @@
     }
 }
 
-/* 添加淡入动画 */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -293,24 +282,24 @@
 .faq-section {
     margin-top: 40px;
     padding-top: 30px;
-    border-top: 1px solid #333;
+    border-top: 1px solid #2d3748; /* CPS页面边框色 */
 }
 
 .faq-section h2 {
-    color: var(--info-blue);
+    color: #4a6bff; /* CPS页面主色 */
     margin-bottom: 25px;
     font-size: 1.4rem;
     text-align: center;
 }
 
 .faq-item h3 {
-    color: #9c27b0; /* 修改：改为紫色 */
+    color: #4a6bff; /* CPS页面主色 */
     margin-bottom: 10px;
     font-size: 1rem;
 }
 
 .faq-item p {
-    color: #bbb;
+    color: #a0aec0; /* CPS页面次要文本色 */
     line-height: 1.6;
     margin-bottom: 0;
     font-size: 0.9rem;
@@ -327,9 +316,8 @@
         font-size: 1.2rem;
     }
 }
-/* 在 document.css 文件末尾添加以下样式 */
 
-/* ===== FAQ链接优化样式 ===== */
+/* FAQ链接优化样式 */
 .faq-item .faq-link-container {
     margin-top: 12px;
     display: flex;
@@ -339,27 +327,27 @@
 }
 
 .faq-item .faq-tip-text {
-    color: #bbb;
+    color: #a0aec0; /* CPS页面次要文本色 */
     font-size: 0.85rem;
     font-style: italic;
     flex-shrink: 0;
 }
 
 .faq-item .faq-link {
-    color: #9c27b0; /* 修改：改为紫色 */
+    color: #4a6bff; /* CPS页面主色 */
     text-decoration: none;
     font-weight: 600;
     padding: 4px 12px 4px 14px;
     border-radius: 6px;
-    background: rgba(156, 39, 176, 0.15); /* 修改：改为紫色 */
-    border: 1px solid rgba(156, 39, 176, 0.4); /* 修改：改为紫色 */
+    background: rgba(74, 107, 255, 0.15); /* 主色透明背景 */
+    border: 1px solid rgba(74, 107, 255, 0.4); /* 主色边框 */
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     position: relative;
     padding-right: 42px;
     font-size: 0.9rem;
-    box-shadow: 0 0 8px rgba(156, 39, 176, 0.2); /* 修改：改为紫色 */
+    box-shadow: 0 0 8px rgba(74, 107, 255, 0.2); /* 主色阴影 */
     position: relative;
     overflow: hidden;
     line-height: 1.4;
@@ -389,10 +377,10 @@
     opacity: 1;
     font-weight: 900;
     font-size: 1.1em;
-    color: #9c27b0; /* 修改：改为紫色 */
+    color: #4a6bff; /* CPS页面主色 */
     text-shadow: 
-        0 0 3px rgba(156, 39, 176, 0.8),
-        0 0 6px rgba(156, 39, 176, 0.6);
+        0 0 3px rgba(74, 107, 255, 0.8),
+        0 0 6px rgba(74, 107, 255, 0.6);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
@@ -403,17 +391,17 @@
     justify-content: center;
     line-height: 1;
     box-shadow: 
-        0 0 0 1.5px rgba(156, 39, 176, 0.4), /* 修改：改为紫色 */
-        0 0 8px rgba(156, 39, 176, 0.3); /* 修改：改为紫色 */
+        0 0 0 1.5px rgba(74, 107, 255, 0.4),
+        0 0 8px rgba(74, 107, 255, 0.3);
     font-family: "Arial Black", "Segoe UI", sans-serif;
 }
 
 .faq-item .faq-link:hover {
     text-decoration: none;
     color: #ffffff;
-    background: rgba(156, 39, 176, 0.25); /* 修改：改为紫色 */
-    border-color: rgba(156, 39, 176, 0.8); /* 修改：改为紫色 */
-    box-shadow: 0 0 15px rgba(156, 39, 176, 0.6); /* 修改：改为紫色 */
+    background: rgba(74, 107, 255, 0.25); /* 悬停时加深 */
+    border-color: rgba(74, 107, 255, 0.8); /* 悬停时加深 */
+    box-shadow: 0 0 15px rgba(74, 107, 255, 0.6); /* 悬停时加强阴影 */
     transform: translateY(-2px);
 }
 
@@ -423,43 +411,11 @@
     text-shadow: 
         0 0 5px rgba(255, 255, 255, 1),
         0 0 10px rgba(255, 255, 255, 0.8);
-    background: rgba(156, 39, 176, 0.4); /* 修改：改为紫色 */
+    background: rgba(74, 107, 255, 0.4); /* 主色背景 */
     box-shadow: 
-        0 0 0 2px rgba(156, 39, 176, 0.7), /* 修改：改为紫色 */
-        0 0 15px rgba(156, 39, 176, 0.6); /* 修改：改为紫色 */
+        0 0 0 2px rgba(74, 107, 255, 0.7),
+        0 0 15px rgba(74, 107, 255, 0.6);
     animation: arrow-pulse 0.5s ease-in-out;
-}
-
-/* 针对特定FAQ项的特殊样式 */
-.faq-item:nth-child(4) .faq-link,
-.faq-item:nth-child(5) .faq-link {
-    color: #9c27b0; /* 修改：改为紫色 */
-    background: rgba(156, 39, 176, 0.15); /* 修改：改为紫色 */
-    border: 1px solid rgba(156, 39, 176, 0.4); /* 修改：改为紫色 */
-    box-shadow: 0 0 8px rgba(156, 39, 176, 0.2); /* 修改：改为紫色 */
-}
-
-.faq-item:nth-child(4) .faq-link:after,
-.faq-item:nth-child(5) .faq-link:after {
-    color: #7b1fa2; /* 修改：改为深紫色 */
-    box-shadow: 
-        0 0 0 1.5px rgba(156, 39, 176, 0.4), /* 修改：改为紫色 */
-        0 0 8px rgba(156, 39, 176, 0.3); /* 修改：改为紫色 */
-}
-
-.faq-item:nth-child(4) .faq-link:hover,
-.faq-item:nth-child(5) .faq-link:hover {
-    background: rgba(156, 39, 176, 0.25); /* 修改：改为紫色 */
-    border-color: rgba(156, 39, 176, 0.8); /* 修改：改为紫色 */
-    box-shadow: 0 0 15px rgba(156, 39, 176, 0.6); /* 修改：改为紫色 */
-}
-
-.faq-item:nth-child(4) .faq-link:hover:after,
-.faq-item:nth-child(5) .faq-link:hover:after {
-    background: rgba(156, 39, 176, 0.4); /* 修改：改为紫色 */
-    box-shadow: 
-        0 0 0 2px rgba(156, 39, 176, 0.7), /* 修改：改为紫色 */
-        0 0 15px rgba(156, 39, 176, 0.6); /* 修改：改为紫色 */
 }
 
 /* 响应式调整 */
