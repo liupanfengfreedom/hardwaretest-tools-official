@@ -1,0 +1,1449 @@
+// 主应用类
+class CPSTester {
+    constructor() {
+        this.state = {
+            currentMode: 'normal_10s',
+            buttonMode: 'any', // any, left, right, middle
+            testStatus: 'idle', // idle, active, waiting, counting, running, finished
+            startTime: null,
+            endTime: null,
+            clicks: [],
+            results: null,
+            lastButtonWarning: null, // 记录上次按钮警告时间
+            settings: {
+                theme: 'dark',
+                soundEnabled: false,
+                animationsEnabled: true,
+                showParticles: true,
+                autoSaveResults: true,
+                countdownDuration: 3
+            }
+        };
+        
+        this.modes = {
+            normal_10s: { name: '10秒常规测试', duration: 10, allowDoubleClick: true },
+            precision_5s: { name: '5秒精准测试', duration: 5, allowDoubleClick: false },
+            burst_1s: { name: '1秒爆发测试', duration: 1, allowDoubleClick: true },
+            endurance_60s: { name: '60秒耐力测试', duration: 60, allowDoubleClick: false }
+        };
+        
+        this.buttonModes = {
+            any: { 
+                name: '任意按钮', 
+                icon: 'fas fa-mouse',
+                description: '左键、右键、中键均可点击'
+            },
+            left: { 
+                name: '左键模式', 
+                icon: 'fas fa-hand-point-up',
+                description: '仅使用鼠标左键点击'
+            },
+            right: { 
+                name: '右键模式', 
+                icon: 'fas fa-hand-point-down',
+                description: '仅使用鼠标右键点击'
+            },
+            middle: { 
+                name: '中键模式', 
+                icon: 'fas fa-mouse-pointer',
+                description: '仅使用鼠标中键点击'
+            }
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        // 加载保存的设置
+        this.loadSettings();
+        
+        // 初始化UI
+        this.initUI();
+        
+        // 绑定事件
+        this.bindEvents();
+        
+        // 显示欢迎通知
+        this.showNotification('鼠标移入测试区域激活，然后点击鼠标开始倒计时', 'info');
+        
+        console.log('CPS测试工具初始化完成');
+    }
+    
+    initUI() {
+        // 创建测试模式选择器
+        this.createTestInterface();
+        
+        // 创建鼠标按钮模式选择器
+        this.createButtonModeSelector();
+        
+        // 更新当前模式显示
+        this.updateCurrentModeDisplay();
+        
+        // 更新提示文字
+        this.updateInstructionText();
+        
+        // 更新实时数据
+        this.updateRealTimeStats();
+        
+        // 加载历史数据
+        this.loadHistory();
+        
+        // 更新控制按钮状态
+        this.updateControlButtons();
+    }
+    
+    createTestInterface() {
+        const container = document.getElementById('mode-buttons');
+        container.innerHTML = '';
+        
+        Object.entries(this.modes).forEach(([modeId, mode]) => {
+            const button = document.createElement('button');
+            button.className = 'mode-btn';
+            button.dataset.mode = modeId;
+            
+            button.innerHTML = `
+                <div class="mode-name">${mode.name}</div>
+                <div class="mode-desc">${mode.duration}秒 | ${mode.allowDoubleClick ? '允许连点' : '单点模式'}</div>
+            `;
+            
+            button.addEventListener('click', () => {
+                this.setMode(modeId);
+            });
+            
+            container.appendChild(button);
+        });
+        
+        // 设置默认激活的模式
+        this.setMode('normal_10s');
+    }
+    
+    createButtonModeSelector() {
+        const container = document.getElementById('button-mode-options');
+        container.innerHTML = '';
+        
+        Object.entries(this.buttonModes).forEach(([modeId, mode]) => {
+            const option = document.createElement('div');
+            option.className = 'mode-option';
+            option.dataset.mode = modeId;
+            
+            option.innerHTML = `
+                <div class="mode-icon">
+                    <i class="${mode.icon}"></i>
+                </div>
+                <div class="mode-info">
+                    <div class="mode-title">${mode.name}</div>
+                    <div class="mode-description">${mode.description}</div>
+                </div>
+                <div class="mode-check">
+                    <i class="fas fa-check" style="display: none; color: var(--primary-color);"></i>
+                </div>
+            `;
+            
+            option.addEventListener('click', () => {
+                this.setButtonMode(modeId);
+            });
+            
+            container.appendChild(option);
+        });
+        
+        // 设置默认按钮模式
+        this.setButtonMode('any');
+    }
+    
+    bindEvents() {
+        // 测试区域事件
+        const testArea = document.getElementById('test-area');
+        
+        // 鼠标移入激活测试区域
+        testArea.addEventListener('mouseenter', () => {
+            if (this.state.testStatus === 'idle' || this.state.testStatus === 'finished') {
+                this.activateTestArea();
+            }
+        });
+        
+        // 鼠标移出测试区域
+        testArea.addEventListener('mouseleave', () => {
+            if (this.state.testStatus === 'active') {
+                this.deactivateTestArea();
+            }
+        });
+        
+        // 鼠标点击事件（支持左键、右键、中键）
+        testArea.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+        
+        // 屏蔽测试区域的右键菜单
+        testArea.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+        
+        // 屏蔽测试区域的中键滚动
+        testArea.addEventListener('auxclick', (e) => {
+            if (e.button === 1) { // 中键
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+        
+        // 屏蔽测试区域的鼠标滚轮事件（防止中键滚动）
+        testArea.addEventListener('wheel', (e) => {
+            // 仅在测试进行中屏蔽滚轮
+            if (this.state.testStatus === 'running') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+        
+        // 触摸事件
+        testArea.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            // 触摸事件模拟左键点击
+            this.handleMouseDown({ button: 0, clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
+        });
+        
+        // 重新开始按钮事件
+        document.getElementById('restart-btn').addEventListener('click', () => this.resetTest());
+        
+        // 主题切换
+        document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
+        
+        // 全屏切换
+        document.getElementById('fullscreen-toggle').addEventListener('click', () => this.toggleFullscreen());
+        
+        // 设置面板
+        document.getElementById('settings-toggle').addEventListener('click', () => this.showSettings());
+        document.getElementById('close-settings').addEventListener('click', () => this.hideSettings());
+        
+        // 键盘快捷键
+        document.addEventListener('keydown', (e) => this.handleKeydown(e));
+        
+        // 窗口事件
+        window.addEventListener('beforeunload', () => this.saveSettings());
+    }
+    
+    setMode(modeId) {
+        if (this.state.testStatus === 'running' || this.state.testStatus === 'counting') {
+            this.showNotification('测试进行中，无法切换模式！', 'error');
+            return;
+        }
+        
+        this.state.currentMode = modeId;
+        
+        // 更新模式按钮状态
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.mode === modeId) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // 更新当前模式显示
+        this.updateCurrentModeDisplay();
+        
+        // 更新提示文字
+        this.updateInstructionText();
+        
+        // 更新计时器显示
+        const mode = this.modes[modeId];
+        this.updateTimerDisplay(`准备开始 (${mode.duration}秒测试)`);
+        
+        // 重置进度条
+        document.getElementById('test-progress').style.width = '0%';
+        
+        this.showNotification(`已切换到${mode.name}`, 'success');
+    }
+    
+    updateCurrentModeDisplay() {
+        const mode = this.modes[this.state.currentMode];
+        const buttonMode = this.buttonModes[this.state.buttonMode];
+        
+        document.getElementById('current-mode-value').textContent = 
+            `${mode.name} | ${buttonMode.name}`;
+    }
+    
+    setButtonMode(modeId) {
+        this.state.buttonMode = modeId;
+        
+        // 更新按钮模式选项状态
+        document.querySelectorAll('.mode-option').forEach(option => {
+            option.classList.remove('active');
+            const checkIcon = option.querySelector('.fa-check');
+            checkIcon.style.display = 'none';
+            
+            if (option.dataset.mode === modeId) {
+                option.classList.add('active');
+                checkIcon.style.display = 'block';
+            }
+        });
+        
+        // 更新当前模式显示
+        this.updateCurrentModeDisplay();
+        
+        // 更新提示文字
+        this.updateInstructionText();
+        
+        this.showNotification(`已切换到${this.buttonModes[modeId].name}`, 'success');
+    }
+    
+    updateInstructionText() {
+        const buttonMode = this.buttonModes[this.state.buttonMode];
+        const instructionElement = document.getElementById('click-instruction');
+        
+        // 根据按钮模式更新提示文字
+        let instructionText = '';
+        switch(this.state.buttonMode) {
+            case 'any':
+                instructionText = '移动鼠标到测试区域激活，然后点击鼠标开始倒计时';
+                break;
+            case 'left':
+                instructionText = '移动鼠标到测试区域激活，然后点击鼠标左键开始倒计时';
+                break;
+            case 'right':
+                instructionText = '移动鼠标到测试区域激活，然后点击鼠标右键开始倒计时';
+                break;
+            case 'middle':
+                instructionText = '移动鼠标到测试区域激活，然后点击鼠标中键开始倒计时';
+                break;
+            default:
+                instructionText = '移动鼠标到测试区域激活，然后点击鼠标开始倒计时';
+        }
+        
+        instructionElement.textContent = instructionText;
+    }
+    
+    activateTestArea() {
+        if (this.state.testStatus !== 'idle' && this.state.testStatus !== 'finished') {
+            return;
+        }
+        
+        // 如果测试已完成，需要用户先点击"重新开始"按钮
+        if (this.state.testStatus === 'finished') {
+            this.showNotification('测试已完成，请点击"重新开始测试"按钮开始新测试', 'info');
+            return;
+        }
+        
+        this.state.testStatus = 'active';
+        const testArea = document.getElementById('test-area');
+        testArea.classList.remove('finished');
+        testArea.classList.add('active');
+        
+        // 更新提示信息
+        const buttonMode = this.buttonModes[this.state.buttonMode];
+        document.getElementById('click-title').textContent = '准备开始';
+        
+        // 根据按钮模式更新点击提示
+        let instructionText = '';
+        switch(this.state.buttonMode) {
+            case 'any':
+                instructionText = '点击鼠标开始倒计时';
+                break;
+            case 'left':
+                instructionText = '点击鼠标左键开始倒计时';
+                break;
+            case 'right':
+                instructionText = '点击鼠标右键开始倒计时';
+                break;
+            case 'middle':
+                instructionText = '点击鼠标中键开始倒计时';
+                break;
+            default:
+                instructionText = '点击鼠标开始倒计时';
+        }
+        document.getElementById('click-instruction').textContent = instructionText;
+        this.updateTimerDisplay('点击开始');
+        
+        this.showNotification(`测试区域已激活，${instructionText}`, 'info');
+    }
+    
+    deactivateTestArea() {
+        if (this.state.testStatus === 'active') {
+            this.state.testStatus = 'idle';
+            const testArea = document.getElementById('test-area');
+            testArea.classList.remove('active');
+            
+            // 更新提示信息
+            document.getElementById('click-title').textContent = '鼠标CPS测试';
+            
+            // 根据按钮模式更新提示文字
+            this.updateInstructionText();
+            
+            this.updateTimerDisplay('准备开始');
+            
+            this.showNotification('测试区域已取消激活', 'info');
+        }
+    }
+    
+    handleMouseDown(event) {
+        // 阻止默认行为，屏蔽右键菜单和中键滚动
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // 检查当前状态
+        if (this.state.testStatus === 'idle') {
+            // 如果测试区域未激活，先激活
+            this.activateTestArea();
+            return;
+        }
+        
+        // 如果测试已完成，不响应点击
+        if (this.state.testStatus === 'finished') {
+            this.showNotification('测试已完成，请点击"重新开始测试"按钮开始新测试', 'info');
+            return;
+        }
+        
+        if (this.state.testStatus === 'active') {
+            // 检查按钮模式 - 只有当前选中的按钮才允许
+            if (!this.isButtonAllowed(event.button)) {
+                const allowedButton = this.buttonModes[this.state.buttonMode].name;
+                this.showNotification(`当前模式仅允许${allowedButton}点击`, 'error');
+                return;
+            }
+            
+            // 开始倒计时
+            this.startCountdown();
+            return;
+        }
+        
+        if (this.state.testStatus === 'running') {
+            // 检查按钮模式 - 只有当前选中的按钮才允许
+            if (!this.isButtonAllowed(event.button)) {
+                const allowedButton = this.buttonModes[this.state.buttonMode].name;
+                // 测试运行中，只显示一次提示，避免干扰
+                if (!this.state.lastButtonWarning || Date.now() - this.state.lastButtonWarning > 2000) {
+                    this.showNotification(`请使用${allowedButton}点击`, 'error');
+                    this.state.lastButtonWarning = Date.now();
+                }
+                return;
+            }
+            
+            // 记录点击
+            this.recordClick(event);
+            return;
+        }
+    }
+    
+    isButtonAllowed(buttonCode) {
+        const buttonMode = this.state.buttonMode;
+        
+        // 0: 左键, 1: 中键, 2: 右键
+        const buttonMap = {
+            'left': 0,
+            'middle': 1,
+            'right': 2
+        };
+        
+        if (buttonMode === 'any') {
+            return true;
+        }
+        
+        return buttonCode === buttonMap[buttonMode];
+    }
+    
+    getButtonName(buttonCode) {
+        const buttonNames = {
+            0: '左键',
+            1: '中键',
+            2: '右键'
+        };
+        
+        return buttonNames[buttonCode] || '未知按钮';
+    }
+    
+    startCountdown() {
+        if (this.state.testStatus !== 'active') {
+            return;
+        }
+        
+        this.state.testStatus = 'waiting';
+        const testArea = document.getElementById('test-area');
+        testArea.classList.remove('active');
+        testArea.classList.add('waiting');
+        
+        // 更新提示信息
+        document.getElementById('click-title').textContent = '准备开始';
+        document.getElementById('click-instruction').textContent = '倒计时即将开始';
+        
+        // 短暂延迟后开始倒计时
+        setTimeout(() => {
+            this.beginCountdown();
+        }, 500);
+    }
+    
+    beginCountdown() {
+        this.state.testStatus = 'counting';
+        const testArea = document.getElementById('test-area');
+        testArea.classList.remove('waiting');
+        
+        let count = this.state.settings.countdownDuration;
+        const countdownElement = document.getElementById('timer-display');
+        countdownElement.classList.add('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            countdownElement.textContent = count > 0 ? count.toString() : '开始!';
+            countdownElement.classList.add('countdown-animation');
+            
+            // 移除动画类以重新触发动画
+            setTimeout(() => {
+                countdownElement.classList.remove('countdown-animation');
+            }, 500);
+            
+            if (count <= 0) {
+                clearInterval(countdownInterval);
+                setTimeout(() => {
+                    this.beginTest();
+                }, 500);
+            }
+            
+            count--;
+        }, 1000);
+    }
+    
+    beginTest() {
+        this.state.testStatus = 'running';
+        this.state.startTime = performance.now();
+        this.state.clicks = [];
+        
+        const testArea = document.getElementById('test-area');
+        testArea.classList.remove('waiting');
+        testArea.classList.add('running');
+        
+        const mode = this.modes[this.state.currentMode];
+        const duration = mode.duration * 1000; // 转换为毫秒
+        
+        // 更新提示信息
+        document.getElementById('click-title').textContent = '测试进行中';
+        
+        // 根据按钮模式更新点击提示
+        let instructionText = '';
+        switch(this.state.buttonMode) {
+            case 'any':
+                instructionText = '快速点击鼠标！';
+                break;
+            case 'left':
+                instructionText = '快速点击鼠标左键！';
+                break;
+            case 'right':
+                instructionText = '快速点击鼠标右键！';
+                break;
+            case 'middle':
+                instructionText = '快速点击鼠标中键！';
+                break;
+            default:
+                instructionText = '快速点击鼠标！';
+        }
+        document.getElementById('click-instruction').textContent = instructionText;
+        
+        // 更新控制按钮状态
+        this.updateControlButtons();
+        
+        // 更新计时器
+        this.updateTimer();
+        
+        // 开始进度条动画
+        const progressBar = document.getElementById('test-progress');
+        progressBar.style.transition = `width ${duration}ms linear`;
+        progressBar.style.width = '100%';
+        
+        // 设置测试结束定时器
+        setTimeout(() => this.finishTest(), duration);
+        
+        this.showNotification('测试开始！', 'success');
+    }
+    
+    updateTimer() {
+        if (this.state.testStatus !== 'running') return;
+        
+        const elapsed = performance.now() - this.state.startTime;
+        const mode = this.modes[this.state.currentMode];
+        const remaining = Math.max(0, (mode.duration * 1000) - elapsed);
+        
+        // 格式化显示时间
+        const seconds = Math.floor(remaining / 1000);
+        const milliseconds = Math.floor((remaining % 1000) / 10);
+        const display = `${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
+        
+        document.getElementById('timer-display').textContent = display;
+        document.getElementById('timer-display').classList.remove('countdown');
+        
+        // 继续更新
+        requestAnimationFrame(() => this.updateTimer());
+    }
+    
+    updateTimerDisplay(text) {
+        const timerDisplay = document.getElementById('timer-display');
+        timerDisplay.textContent = text;
+        timerDisplay.classList.remove('countdown');
+    }
+    
+    recordClick(event) {
+        if (this.state.testStatus !== 'running') return;
+        
+        // 检查按钮模式
+        if (!this.isButtonAllowed(event.button)) {
+            return;
+        }
+        
+        const clickTime = performance.now();
+        const clickData = {
+            timestamp: clickTime,
+            button: event.button,
+            buttonName: this.getButtonName(event.button),
+            position: { x: event.clientX, y: event.clientY },
+            delayFromLast: this.state.clicks.length > 0 ? 
+                clickTime - this.state.clicks[this.state.clicks.length - 1].timestamp : 0
+        };
+        
+        // 添加到点击记录
+        this.state.clicks.push(clickData);
+        
+        // 显示点击动画
+        if (this.state.settings.animationsEnabled) {
+            this.showClickAnimation(event.clientX, event.clientY);
+        }
+        
+        // 更新实时统计数据
+        this.updateRealTimeStats();
+    }
+    
+    finishTest() {
+        this.state.testStatus = 'finished';
+        this.state.endTime = performance.now();
+        
+        const testArea = document.getElementById('test-area');
+        testArea.classList.remove('running');
+        testArea.classList.add('finished');
+        
+        // 更新控制按钮状态
+        this.updateControlButtons();
+        
+        // 计算统计结果
+        this.calculateResults();
+        
+        // 显示结果
+        this.displayResults();
+        
+        // 保存结果
+        if (this.state.settings.autoSaveResults) {
+            this.saveResults();
+        }
+        
+        // 更新提示信息 - 明确告诉用户如何重新开始
+        document.getElementById('click-title').textContent = '测试完成';
+        document.getElementById('click-instruction').textContent = '点击下方"重新开始测试"按钮开始新测试';
+        this.updateTimerDisplay('完成!');
+        
+        // 显示完成测试提示
+        document.getElementById('test-complete-notice').style.display = 'block';
+        
+        this.showNotification('测试完成！点击"重新开始测试"按钮开始新测试', 'success');
+    }
+    
+    resetTest() {
+        this.state.testStatus = 'idle';
+        this.state.clicks = [];
+        this.state.results = null;
+        this.state.startTime = null;
+        this.state.endTime = null;
+        this.state.lastButtonWarning = null;
+        
+        const testArea = document.getElementById('test-area');
+        testArea.classList.remove('active', 'waiting', 'running', 'finished');
+        
+        // 更新控制按钮状态
+        this.updateControlButtons();
+        
+        // 重置UI
+        document.getElementById('click-title').textContent = '鼠标CPS测试';
+        
+        // 根据按钮模式更新提示文字
+        this.updateInstructionText();
+        
+        this.updateTimerDisplay('准备开始');
+        
+        // 隐藏完成测试提示
+        document.getElementById('test-complete-notice').style.display = 'none';
+        
+        // 更新当前模式显示
+        this.updateCurrentModeDisplay();
+        
+        document.getElementById('test-progress').style.width = '0%';
+        document.getElementById('test-progress').style.transition = 'none';
+        
+        // 清除结果展示
+        const resultsDashboard = document.getElementById('results-dashboard');
+        resultsDashboard.innerHTML = `
+            <h2><i class="fas fa-chart-bar"></i> 测试结果</h2>
+            <div class="no-results">
+                <i class="fas fa-mouse-pointer" style="font-size: 3rem; color: var(--text-muted); display: block; text-align: center; margin: 20px 0;"></i>
+                <p style="text-align: center; color: var(--text-secondary);">完成测试后查看结果</p>
+            </div>
+        `;
+        
+        this.updateRealTimeStats();
+        
+        this.showNotification('已重置，移动鼠标到测试区域激活开始新测试', 'info');
+    }
+    
+    updateControlButtons() {
+        const restartBtn = document.getElementById('restart-btn');
+        
+        switch (this.state.testStatus) {
+            case 'running':
+                restartBtn.disabled = true;
+                restartBtn.classList.remove('highlight');
+                restartBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 测试进行中...';
+                break;
+                
+            case 'counting':
+            case 'waiting':
+                restartBtn.disabled = false;
+                restartBtn.classList.remove('highlight');
+                restartBtn.innerHTML = '<i class="fas fa-redo"></i> 重新开始测试';
+                break;
+                
+            case 'finished':
+                restartBtn.disabled = false;
+                restartBtn.classList.add('highlight');
+                restartBtn.innerHTML = '<i class="fas fa-play-circle"></i> 点击开始新测试';
+                break;
+                
+            default:
+                restartBtn.disabled = false;
+                restartBtn.classList.remove('highlight');
+                restartBtn.innerHTML = '<i class="fas fa-redo"></i> 重新开始测试';
+                break;
+        }
+    }
+    
+    calculateResults() {
+        const mode = this.modes[this.state.currentMode];
+        const duration = (this.state.endTime - this.state.startTime) / 1000; // 秒
+        const totalClicks = this.state.clicks.length;
+        const averageCPS = totalClicks / duration;
+        
+        // 计算最大CPS（1秒窗口）
+        let maxCPS = 0;
+        for (let i = 0; i < this.state.clicks.length; i++) {
+            const windowStart = this.state.clicks[i].timestamp;
+            const windowEnd = windowStart + 1000;
+            
+            let count = 1;
+            for (let j = i + 1; j < this.state.clicks.length; j++) {
+                if (this.state.clicks[j].timestamp <= windowEnd) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            
+            const cps = count;
+            if (cps > maxCPS) {
+                maxCPS = cps;
+            }
+        }
+        
+        // 计算最小CPS（1秒窗口）
+        let minCPS = totalClicks;
+        const totalSeconds = Math.ceil(duration);
+        
+        // 将测试时间分成1秒的段
+        for (let second = 0; second < totalSeconds; second++) {
+            const startTime = this.state.startTime + second * 1000;
+            const endTime = startTime + 1000;
+            
+            const clicksInSecond = this.state.clicks.filter(click => 
+                click.timestamp >= startTime && click.timestamp < endTime
+            ).length;
+            
+            if (clicksInSecond < minCPS) {
+                minCPS = clicksInSecond;
+            }
+        }
+        
+        // 计算一致性 - 修复问题：当只有一次点击时，consistency应为100%
+        let consistency = 100;
+        if (this.state.clicks.length >= 2) {
+            const intervals = [];
+            for (let i = 1; i < this.state.clicks.length; i++) {
+                intervals.push(this.state.clicks[i].timestamp - this.state.clicks[i-1].timestamp);
+            }
+            
+            const avg = intervals.reduce((a, b) => a + b) / intervals.length;
+            const variance = intervals.reduce((sum, interval) => {
+                return sum + Math.pow(interval - avg, 2);
+            }, 0) / intervals.length;
+            
+            // 修复：防止除以0
+            if (avg > 0) {
+                consistency = Math.max(0, 100 - (Math.sqrt(variance) / avg) * 100);
+            } else {
+                consistency = 100;
+            }
+        }
+        
+        // 计算按钮使用分布
+        const buttonDistribution = {};
+        this.state.clicks.forEach(click => {
+            const buttonName = click.buttonName;
+            buttonDistribution[buttonName] = (buttonDistribution[buttonName] || 0) + 1;
+        });
+        
+        // 修复评分计算问题
+        let score = 0;
+        
+        if (totalClicks > 0) {
+            // 基础分：CPS分数 (每1 CPS得10分)
+            const cpsScore = averageCPS * 10;
+            
+            // 一致性系数 (0-1之间)
+            const consistencyFactor = consistency / 100;
+            
+            // 额外加分：最大CPS奖励
+            const maxCpsBonus = maxCPS * 2;
+            
+            // 点击次数奖励
+            const clickCountBonus = Math.min(totalClicks * 0.5, 50);
+            
+            // 总评分 = (基础分 * 一致性系数) + 额外加分
+            score = Math.round((cpsScore * consistencyFactor) + maxCpsBonus + clickCountBonus);
+            
+            // 确保分数不为0
+            score = Math.max(score, Math.round(averageCPS * 5));
+        }
+        
+        this.state.results = {
+            totalClicks,
+            averageCPS,
+            maxCPS,
+            minCPS,
+            duration,
+            consistency,
+            buttonDistribution,
+            score,
+            timestamp: new Date().toLocaleString(),
+            mode: this.modes[this.state.currentMode].name,
+            buttonMode: this.buttonModes[this.state.buttonMode].name
+        };
+        
+        console.log('计算结果:', this.state.results);
+    }
+    
+    displayResults() {
+        if (!this.state.results) return;
+        
+        const results = this.state.results;
+        const resultsDashboard = document.getElementById('results-dashboard');
+        
+        // 创建按钮分布HTML
+        let buttonDistributionHTML = '';
+        if (results.buttonDistribution && Object.keys(results.buttonDistribution).length > 0) {
+            buttonDistributionHTML = `
+                <div style="margin-top: 15px;">
+                    <h3 style="font-size: var(--font-size-base); margin-bottom: 10px; color: var(--text-primary);">按钮使用分布:</h3>
+                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                        ${Object.entries(results.buttonDistribution).map(([buttonName, count]) => `
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: var(--text-secondary);">${buttonName}:</span>
+                                <span style="font-weight: 600; color: var(--primary-color);">
+                                    ${count} 次 (${((count / results.totalClicks) * 100).toFixed(1)}%)
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        resultsDashboard.innerHTML = `
+            <h2><i class="fas fa-chart-bar"></i> 测试结果</h2>
+            <div class="results-grid">
+                <div class="result-card primary">
+                    <div class="result-value">${results.averageCPS.toFixed(1)}</div>
+                    <div class="result-label">平均CPS</div>
+                </div>
+                <div class="result-card secondary">
+                    <div class="result-value">${results.maxCPS.toFixed(1)}</div>
+                    <div class="result-label">最高CPS</div>
+                </div>
+                <div class="result-card accent">
+                    <div class="result-value">${results.totalClicks}</div>
+                    <div class="result-label">总点击次数</div>
+                </div>
+            </div>
+            <div class="detailed-results" style="margin-top: 20px; background-color: var(--bg-secondary); border-radius: 8px; padding: 15px;">
+                <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                    <span class="result-label">测试模式</span>
+                    <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.mode}</span>
+                </div>
+                <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                    <span class="result-label">按钮模式</span>
+                    <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.buttonMode}</span>
+                </div>
+                <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                    <span class="result-label">测试时长</span>
+                    <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.duration.toFixed(2)}秒</span>
+                </div>
+                <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                    <span class="result-label">最低CPS</span>
+                    <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.minCPS.toFixed(1)}</span>
+                </div>
+                <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                    <span class="result-label">点击稳定性</span>
+                    <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.consistency.toFixed(1)}%</span>
+                </div>
+                <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0;">
+                    <span class="result-label">综合评分</span>
+                    <span class="result-value score" style="font-weight: 600; color: var(--secondary-color); font-size: 1.2em;">${results.score}</span>
+                </div>
+            </div>
+            ${buttonDistributionHTML}
+            <div style="margin-top: 15px; text-align: center; color: var(--text-secondary); font-size: 0.9em;">
+                ${results.timestamp}
+            </div>
+        `;
+        
+        // 添加到历史记录
+        this.addToHistory();
+    }
+    
+    addToHistory() {
+        const historyItem = {
+            id: Date.now(),
+            mode: this.modes[this.state.currentMode].name,
+            buttonMode: this.buttonModes[this.state.buttonMode].name,
+            timestamp: new Date().toLocaleTimeString(),
+            cps: this.state.results.averageCPS,
+            totalClicks: this.state.results.totalClicks,
+            score: this.state.results.score
+        };
+        
+        const historyList = document.getElementById('history-list');
+        
+        // 移除空状态提示
+        const emptyHistory = historyList.querySelector('.empty-history');
+        if (emptyHistory) {
+            emptyHistory.remove();
+        }
+        
+        const historyElement = document.createElement('div');
+        historyElement.className = 'history-item';
+        historyElement.innerHTML = `
+            <div class="history-header" style="display: flex; justify-content: space-between;">
+                <span class="history-time">${historyItem.timestamp}</span>
+                <span class="history-mode">${historyItem.mode}</span>
+            </div>
+            <div class="history-body" style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                <span class="history-cps">${historyItem.cps.toFixed(1)} CPS</span>
+                <span class="history-clicks" style="color: var(--text-secondary); font-size: 0.9em;">${historyItem.totalClicks} 次点击</span>
+            </div>
+            <div class="history-footer" style="display: flex; justify-content: space-between; font-size: 0.8em; color: var(--text-muted); margin-top: 5px;">
+                <span>${historyItem.buttonMode}</span>
+                <span style="color: var(--secondary-color); font-weight: 600;">评分: ${historyItem.score}</span>
+            </div>
+        `;
+        
+        // 添加到列表顶部
+        historyList.insertBefore(historyElement, historyList.firstChild);
+        
+        // 限制列表长度
+        const items = historyList.querySelectorAll('.history-item');
+        if (items.length > 5) {
+            historyList.removeChild(items[items.length - 1]);
+        }
+        
+        // 保存到本地存储
+        this.saveHistory(historyItem);
+    }
+    
+    saveHistory(item) {
+        try {
+            const history = JSON.parse(localStorage.getItem('cps-history') || '[]');
+            history.unshift(item);
+            
+            // 限制历史记录数量
+            if (history.length > 20) {
+                history.pop();
+            }
+            
+            localStorage.setItem('cps-history', JSON.stringify(history));
+        } catch (error) {
+            console.error('保存历史记录失败:', error);
+        }
+    }
+    
+    loadHistory() {
+        try {
+            const history = JSON.parse(localStorage.getItem('cps-history') || '[]');
+            const historyList = document.getElementById('history-list');
+            
+            if (history.length === 0) return;
+            
+            // 移除空状态提示
+            const emptyHistory = historyList.querySelector('.empty-history');
+            if (emptyHistory) {
+                emptyHistory.remove();
+            }
+            
+            // 添加历史记录（最多5条）
+            history.slice(0, 5).forEach(item => {
+                const historyElement = document.createElement('div');
+                historyElement.className = 'history-item';
+                historyElement.innerHTML = `
+                    <div class="history-header" style="display: flex; justify-content: space-between;">
+                        <span class="history-time">${item.timestamp}</span>
+                        <span class="history-mode">${item.mode}</span>
+                    </div>
+                    <div class="history-body" style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                        <span class="history-cps">${item.cps.toFixed(1)} CPS</span>
+                        <span class="history-clicks" style="color: var(--text-secondary); font-size: 0.9em;">${item.totalClicks} 次点击</span>
+                    </div>
+                    <div class="history-footer" style="display: flex; justify-content: space-between; font-size: 0.8em; color: var(--text-muted); margin-top: 5px;">
+                        <span>${item.buttonMode}</span>
+                        <span style="color: var(--secondary-color); font-weight: 600;">评分: ${item.score || 0}</span>
+                    </div>
+                `;
+                
+                historyList.appendChild(historyElement);
+            });
+        } catch (error) {
+            console.error('加载历史记录失败:', error);
+        }
+    }
+    
+    saveResults() {
+        if (!this.state.results) {
+            return;
+        }
+        
+        try {
+            const resultData = {
+                id: Date.now(),
+                mode: this.state.currentMode,
+                modeName: this.modes[this.state.currentMode].name,
+                buttonMode: this.state.buttonMode,
+                buttonModeName: this.buttonModes[this.state.buttonMode].name,
+                timestamp: new Date().toISOString(),
+                results: this.state.results
+            };
+            
+            const savedResults = JSON.parse(localStorage.getItem('cps-saved-results') || '[]');
+            savedResults.unshift(resultData);
+            
+            // 限制保存数量
+            if (savedResults.length > 50) {
+                savedResults.pop();
+            }
+            
+            localStorage.setItem('cps-saved-results', JSON.stringify(savedResults));
+            
+        } catch (error) {
+            console.error('保存结果失败:', error);
+        }
+    }
+    
+    updateRealTimeStats() {
+        let currentCPS = 0;
+        let totalClicks = this.state.clicks.length;
+        
+        if (this.state.testStatus === 'running') {
+            // 计算最近1秒的CPS
+            const now = performance.now();
+            const recentClicks = this.state.clicks.filter(
+                click => now - click.timestamp <= 1000
+            );
+            currentCPS = recentClicks.length;
+        }
+        
+        // 更新显示
+        document.getElementById('current-cps').textContent = currentCPS.toFixed(1);
+        document.getElementById('total-clicks').textContent = totalClicks;
+        document.getElementById('click-interval').textContent = this.getAverageInterval();
+        document.getElementById('consistency').textContent = this.calculateConsistency();
+    }
+    
+    getAverageInterval() {
+        if (this.state.clicks.length < 2) return '0.0';
+        
+        const intervals = [];
+        for (let i = 1; i < this.state.clicks.length; i++) {
+            intervals.push(this.state.clicks[i].timestamp - this.state.clicks[i-1].timestamp);
+        }
+        
+        const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+        return avg.toFixed(1);
+    }
+    
+    calculateConsistency() {
+        if (this.state.clicks.length < 2) return '100%';
+        
+        const intervals = [];
+        for (let i = 1; i < this.state.clicks.length; i++) {
+            intervals.push(this.state.clicks[i].timestamp - this.state.clicks[i-1].timestamp);
+        }
+        
+        const avg = intervals.reduce((a, b) => a + b) / intervals.length;
+        const variance = intervals.reduce((sum, interval) => {
+            return sum + Math.pow(interval - avg, 2);
+        }, 0) / intervals.length;
+        
+        // 修复：防止除以0
+        let consistency = 100;
+        if (avg > 0) {
+            consistency = Math.max(0, 100 - (Math.sqrt(variance) / avg) * 100);
+        }
+        
+        return consistency.toFixed(1) + '%';
+    }
+    
+    toggleTheme() {
+        const themes = ['dark', 'light', 'high-contrast', 'eye-care'];
+        const currentIndex = themes.indexOf(this.state.settings.theme);
+        const nextIndex = (currentIndex + 1) % themes.length;
+        const nextTheme = themes[nextIndex];
+        
+        this.updateSettings({ ...this.state.settings, theme: nextTheme });
+        this.showNotification(`已切换到${nextTheme}主题`, 'success');
+    }
+    
+    toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.error(`全屏请求失败: ${err.message}`);
+                this.showNotification('无法进入全屏模式', 'error');
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+    
+    showSettings() {
+        document.getElementById('settings-modal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        this.createSettingsPanel();
+    }
+    
+    hideSettings() {
+        document.getElementById('settings-modal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    createSettingsPanel() {
+        const container = document.getElementById('settings-content');
+        const settings = this.state.settings;
+        
+        container.innerHTML = `
+            <div class="settings-section">
+                <h3><i class="fas fa-palette"></i> 外观设置</h3>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <span>主题</span>
+                        <select id="theme-select" class="setting-input">
+                            <option value="dark" ${settings.theme === 'dark' ? 'selected' : ''}>暗色主题</option>
+                            <option value="light" ${settings.theme === 'light' ? 'selected' : ''}>亮色主题</option>
+                            <option value="high-contrast" ${settings.theme === 'high-contrast' ? 'selected' : ''}>高对比度</option>
+                            <option value="eye-care" ${settings.theme === 'eye-care' ? 'selected' : ''}>护眼模式</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3><i class="fas fa-film"></i> 动画效果</h3>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="animations-toggle" ${settings.animationsEnabled ? 'checked' : ''}>
+                        <span>启用动画</span>
+                    </label>
+                    <label class="setting-label">
+                        <input type="checkbox" id="particles-toggle" ${settings.showParticles ? 'checked' : ''}>
+                        <span>显示点击粒子效果</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3><i class="fas fa-cogs"></i> 测试设置</h3>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <span>倒计时时长</span>
+                        <select id="countdown-select" class="setting-input">
+                            <option value="3" ${settings.countdownDuration === 3 ? 'selected' : ''}>3秒</option>
+                            <option value="5" ${settings.countdownDuration === 5 ? 'selected' : ''}>5秒</option>
+                            <option value="10" ${settings.countdownDuration === 10 ? 'selected' : ''}>10秒</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3><i class="fas fa-save"></i> 数据管理</h3>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="autosave-toggle" ${settings.autoSaveResults ? 'checked' : ''}>
+                        <span>自动保存测试结果</span>
+                    </label>
+                </div>
+                <div class="setting-buttons">
+                    <button id="export-btn" class="setting-btn">
+                        <i class="fas fa-download"></i> 导出数据
+                    </button>
+                    <button id="clear-btn" class="setting-btn danger">
+                        <i class="fas fa-trash"></i> 清空数据
+                    </button>
+                </div>
+            </div>
+            
+            <div class="settings-footer">
+                <button id="reset-settings" class="setting-btn">
+                    <i class="fas fa-undo"></i> 恢复默认设置
+                </button>
+            </div>
+        `;
+        
+        // 绑定设置更改事件
+        document.getElementById('theme-select').addEventListener('change', (e) => {
+            this.updateSettings({ ...settings, theme: e.target.value });
+        });
+        
+        document.getElementById('animations-toggle').addEventListener('change', (e) => {
+            this.updateSettings({ ...settings, animationsEnabled: e.target.checked });
+        });
+        
+        document.getElementById('particles-toggle').addEventListener('change', (e) => {
+            this.updateSettings({ ...settings, showParticles: e.target.checked });
+        });
+        
+        document.getElementById('autosave-toggle').addEventListener('change', (e) => {
+            this.updateSettings({ ...settings, autoSaveResults: e.target.checked });
+        });
+        
+        document.getElementById('countdown-select').addEventListener('change', (e) => {
+            this.updateSettings({ ...settings, countdownDuration: parseInt(e.target.value) });
+        });
+        
+        // 数据管理按钮
+        document.getElementById('export-btn').addEventListener('click', () => {
+            this.exportData();
+        });
+        
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            if (confirm('确定要清空所有数据吗？此操作不可恢复。')) {
+                localStorage.clear();
+                this.showNotification('数据已清空', 'success');
+                setTimeout(() => location.reload(), 1000);
+            }
+        });
+        
+        document.getElementById('reset-settings').addEventListener('click', () => {
+            if (confirm('确定要恢复默认设置吗？')) {
+                this.updateSettings({
+                    theme: 'dark',
+                    soundEnabled: false,
+                    animationsEnabled: true,
+                    showParticles: true,
+                    autoSaveResults: true,
+                    countdownDuration: 3
+                });
+                this.showNotification('已恢复默认设置', 'success');
+            }
+        });
+    }
+    
+    updateSettings(newSettings) {
+        this.state.settings = newSettings;
+        
+        // 应用主题
+        document.body.className = '';
+        document.body.classList.add(`${newSettings.theme}-theme`);
+        
+        // 应用其他设置
+        this.applySettings();
+        
+        // 保存设置
+        this.saveSettings();
+    }
+    
+    applySettings() {
+        // 这里可以添加其他设置的应用逻辑
+    }
+    
+    loadSettings() {
+        try {
+            const saved = localStorage.getItem('cps-tester-settings');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                this.state.settings = { ...this.state.settings, ...parsed };
+                this.applySettings();
+            }
+        } catch (error) {
+            console.error('加载设置失败:', error);
+        }
+    }
+    
+    saveSettings() {
+        try {
+            localStorage.setItem('cps-tester-settings', JSON.stringify(this.state.settings));
+        } catch (error) {
+            console.error('保存设置失败:', error);
+        }
+    }
+    
+    exportData() {
+        try {
+            const data = {
+                settings: this.state.settings,
+                history: JSON.parse(localStorage.getItem('cps-history') || '[]'),
+                savedResults: JSON.parse(localStorage.getItem('cps-saved-results') || '[]'),
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {
+                type: 'application/json'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cps-tester-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            this.showNotification('数据导出成功', 'success');
+        } catch (error) {
+            console.error('导出数据失败:', error);
+            this.showNotification('导出失败，请重试', 'error');
+        }
+    }
+    
+    handleKeydown(event) {
+        // 防止在输入框中触发快捷键
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+            return;
+        }
+        
+        switch (event.code) {
+            case 'Space':
+                event.preventDefault();
+                if (this.state.testStatus === 'running') {
+                    this.finishTest();
+                } else if (this.state.testStatus === 'idle' || this.state.testStatus === 'finished') {
+                    // 模拟鼠标点击开始
+                    this.activateTestArea();
+                    setTimeout(() => {
+                        this.startCountdown();
+                    }, 100);
+                }
+                break;
+                
+            case 'KeyR':
+                if (event.ctrlKey || event.metaKey) {
+                    event.preventDefault();
+                    this.resetTest();
+                }
+                break;
+                
+            case 'KeyF':
+                if (event.ctrlKey || event.metaKey) {
+                    event.preventDefault();
+                    this.toggleFullscreen();
+                }
+                break;
+                
+            case 'Escape':
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+                break;
+                
+            case 'Digit1':
+            case 'Digit2':
+            case 'Digit3':
+            case 'Digit4':
+                const modeIndex = parseInt(event.code.replace('Digit', '')) - 1;
+                const modeIds = Object.keys(this.modes);
+                if (modeIndex < modeIds.length) {
+                    this.setMode(modeIds[modeIndex]);
+                }
+                break;
+        }
+    }
+    
+    showClickAnimation(x, y) {
+        if (!this.state.settings.showParticles) return;
+        
+        const particleCount = 3;
+        for (let i = 0; i < particleCount; i++) {
+            this.createParticle(x, y);
+        }
+    }
+    
+    createParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // 随机大小和颜色
+        const size = Math.random() * 4 + 2;
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 2 + 1;
+        const color = Math.random() > 0.5 ? 'var(--primary-color)' : 'var(--secondary-color)';
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.backgroundColor = color;
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        
+        // 设置动画参数
+        const angleRad = angle;
+        const vel = velocity;
+        
+        // 使用内联样式控制动画
+        particle.style.setProperty('--angle', `${angleRad}rad`);
+        particle.style.setProperty('--velocity', `${vel}`);
+        
+        document.body.appendChild(particle);
+        
+        // 动画结束后移除元素
+        setTimeout(() => {
+            if (particle.parentNode) {
+                particle.parentNode.removeChild(particle);
+            }
+        }, 800);
+    }
+    
+    showNotification(message, type = 'info', duration = 3000) {
+        const notificationArea = document.getElementById('notification-area');
+        
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        notificationArea.appendChild(notification);
+        
+        // 自动移除通知
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, duration);
+        
+        return notification;
+    }
+}
+
+// 页面加载完成后初始化应用
+document.addEventListener('DOMContentLoaded', () => {
+    // 创建应用实例
+    window.cpsTester = new CPSTester();
+});
