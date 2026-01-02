@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專業級滑鼠回報率測試工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/toolbox/mouse/pollingrate/css/style.css">
+
+
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto space-y-6">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">Browser Mouse Event Rate (Web-Limited),Not Mouse Polling Rate Tester</h1>
+                <p class="text-slate-400">專業級滑鼠採樣率監測與抖動分析工具 (已自動開啟測試)</p>
+            </div>
+            <div class="flex gap-3">
+                <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                    <span class="text-sm font-semibold text-blue-400">監測中</span>
+                </div>
+                <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition">
+                    清除數據
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left: Stats & Test Area -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="stat-card p-4 rounded-lg">
+                        <div class="text-xs text-slate-400 uppercase font-bold">當前頻率</div>
+                        <div id="currHz" class="text-3xl font-bold mono text-blue-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
+                    </div>
+                    <div class="stat-card p-4 rounded-lg border-emerald-500">
+                        <div class="text-xs text-slate-400 uppercase font-bold">最高頻率</div>
+                        <div id="maxHz" class="text-3xl font-bold mono text-emerald-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
+                    </div>
+                    <div class="stat-card p-4 rounded-lg border-purple-500">
+                        <div class="text-xs text-slate-400 uppercase font-bold">平均頻率</div>
+                        <div id="avgHz" class="text-3xl font-bold mono text-purple-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
+                    </div>
+                    <div class="stat-card p-4 rounded-lg border-orange-500">
+                        <div class="text-xs text-slate-400 uppercase font-bold">抖動 (Jitter)</div>
+                        <div id="jitter" class="text-3xl font-bold mono text-orange-400">0<small class="text-sm ml-1 text-slate-500">ms</small></div>
+                    </div>
+                </div>
+
+                <!-- Live Chart -->
+                <div class="glass-panel p-6 h-80">
+                    <canvas id="pollingChart"></canvas>
+                </div>
+
+                <!-- Test Interaction Area -->
+                <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border">
+                    <div class="text-center pointer-events-none">
+                        <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75">
+                             <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        </div>
+                        <p class="text-lg font-medium">在此區域內快速移動滑鼠進行測試</p>
+                        <p class="text-sm text-slate-500">無需點擊，移動即可實時捕獲數據</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Log -->
+            <div class="flex flex-col h-full">
+                <div class="glass-panel flex flex-col h-full max-h-[740px]">
+                    <div class="p-4 border-b border-slate-700 flex justify-between items-center">
+                        <h3 class="font-bold">即時日誌</h3>
+                        <span id="eventCount" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400">0 Events</span>
+                    </div>
+                    <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-2 text-xs mono">
+                        <div class="text-slate-500 italic">等待數據中...</div>
+                    </div>
+                    <div class="p-4 border-t border-slate-700">
+                        <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600">
+                            導出 CSV 日誌
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 重要说明面板 -->
+        <div class="glass-panel overflow-hidden mt-6">
+            <!-- 面板标题 -->
+            <button id="importantNoteToggle" class="w-full p-4 flex items-center justify-between bg-slate-800/50 hover:bg-slate-800 transition-colors">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">⚠️</span>
+                    <div class="text-left">
+                        <h4 class="font-bold text-white">关于网页回报率测试的重要说明</h4>
+                        <p class="text-sm text-slate-400 mt-1">点击展开查看详细说明</p>
+                    </div>
+                </div>
+                <svg id="toggleIcon" class="w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <!-- 内容区域 -->
+            <div id="importantNoteContent" class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed max-h-0 overflow-hidden transition-all duration-300">
+                
+                <div class="pt-4 border-t border-slate-700">
+                    <p class="mb-4"><b>本页面显示的"回报率（Hz）并不等同于鼠标的真实 USB 回报率"。</b></p>
+                </div>
+                
+                <!-- 为什么网页测试结果通常只有 60Hz / 120Hz？ -->
+                <div class="bg-slate-800/30 p-4 rounded-lg">
+                    <h5 class="font-bold text-blue-300 mb-2">🤔 为什么网页测试结果通常只有 60Hz / 120Hz？</h5>
+                    <p class="mb-3">在 Web 浏览器环境中：</p>
+                    <ul class="space-y-2 ml-4 list-disc list-outside">
+                        <li>鼠标数据是通过 <b>浏览器事件（mousemove / pointermove）</b> 获取的</li>
+                        <li>浏览器会对事件进行 <b>节流与合并</b></li>
+                        <li>事件触发频率通常 <b>与屏幕刷新率同步</b></li>
+                    </ul>
+                </div>
+                
+                <!-- 显示器刷新率对比表格 -->
+                <div class="overflow-x-auto">
+                    <h5 class="font-bold text-white mb-3">🖥️ 显示器刷新率与网页观测频率对比</h5>
+                    <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden">
+                        <thead class="bg-slate-800">
+                            <tr>
+                                <th class="p-3 text-left border-b border-slate-700">显示器刷新率</th>
+                                <th class="p-3 text-left border-b border-slate-700">网页可观测事件频率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-700/50">
+                                <td class="p-3">60Hz</td>
+                                <td class="p-3">≈ 60Hz</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50">
+                                <td class="p-3">120Hz</td>
+                                <td class="p-3">≈ 120Hz</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50">
+                                <td class="p-3">144Hz</td>
+                                <td class="p-3">≈ 120–144Hz</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">240Hz</td>
+                                <td class="p-3">≈ 200Hz 左右</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 技术说明 -->
+                <div class="bg-slate-800/30 p-4 rounded-lg">
+                    <p class="mb-3">
+                        <b>即使你的鼠标硬件设置为 1000Hz USB Polling Rate，<br>
+                        网页环境也无法直接访问 USB HID 层的真实数据。</b>
+                    </p>
+                    <p class="text-sm text-slate-400">那真实的 1000Hz 在哪里体现？</p>
+                    <p class="mt-2">真实的 USB 回报率存在于：</p>
+                    <ul class="space-y-1 ml-4 mt-1">
+                        <li>• 操作系统的 Raw Input / HID 层</li>
+                        <li>• 游戏引擎（如 Unreal Engine、Unity）</li>
+                        <li>• 桌面级测试工具（非网页）</li>
+                    </ul>
+                </div>
+                
+                <!-- 适用场景 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 适合做什么 -->
+                    <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-emerald-400 text-lg">✅</span>
+                            <h5 class="font-bold text-emerald-300">本工具适合用来做什么？</h5>
+                        </div>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start gap-2">
+                                <span class="text-emerald-400 mt-1">•</span>
+                                <span>检测鼠标在浏览器中的输入是否流畅</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-emerald-400 mt-1">•</span>
+                                <span>对比不同浏览器 / 显示器下的事件表现</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-emerald-400 mt-1">•</span>
+                                <span>检查是否存在卡顿、事件丢失或异常节流</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 不适合做什么 -->
+                    <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-rose-400 text-lg">❌</span>
+                            <h5 class="font-bold text-rose-300">本工具不适合用来做什么？</h5>
+                        </div>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>判断鼠标是否支持 500Hz / 1000Hz</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>替代桌面级 USB Polling 测试工具</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 建议和提示 -->
+                <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-blue-400 text-lg">💡</span>
+                        <h5 class="font-bold text-blue-300">建议</h5>
+                    </div>
+                    <p class="mb-3">
+                        如果你需要验证鼠标的真实 USB 回报率，<br>
+                        请使用厂商驱动或桌面级 Raw Input 测试软件。
+                    </p>
+                    <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3">
+                        <span class="text-blue-400 text-lg mt-0.5">📌</span>
+                        <div>
+                            <p class="font-medium text-blue-200">提示：</p>
+                            <p class="text-sm mt-1">请确保浏览器窗口处于前台、标签页为激活状态，否则浏览器会主动降低事件频率。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/toolbox/mouse/pollingrate/js/main-zh.js" defer></script>
+</body>
+</html>
