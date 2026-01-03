@@ -62,7 +62,7 @@ h1 i { color: var(--primary); }
 }
 
 .slider-value {
-    background: var(--primary); color: #white;
+    background: var(--primary); color: white;
     padding: 6px 20px; border-radius: 30px; font-weight: bold; font-size: 1.2rem;
 }
 
@@ -93,7 +93,11 @@ h1 i { color: var(--primary); }
     display: flex; flex-direction: column; align-items: center;
 }
 
-.freq-btn:hover, .freq-btn.active {
+.freq-btn:hover {
+    background: rgba(255,255,255,0.1); color: white; border-color: #666;
+}
+
+.freq-btn.active {
     background: var(--primary); color: white; border-color: var(--primary-light);
 }
 
@@ -108,9 +112,22 @@ h1 i { color: var(--primary); }
 }
 
 .btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #0066d6; }
+.btn-primary.active { background: #0056cc; box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3); }
+
 .btn-secondary { background: #333; color: #eee; }
+.btn-secondary:hover { background: #444; }
+.btn-secondary.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3);
+}
+
 .btn-danger { background: #ff3b30; color: white; }
+.btn-danger:hover { background: #e0352b; }
+
 .btn-toggle { background: #34c759; color: white; }
+.btn-toggle:hover { background: #2db54e; }
 .btn-toggle.playing { background: #ff3b30; }
 
 /* 状态栏适配键盘工具 */
@@ -138,7 +155,42 @@ h1 i { color: var(--primary); }
 .sweeping .sweep-indicator { display: block; animation: sweepAnim 10s linear; }
 @keyframes sweepAnim { from { left: 0; } to { left: 100%; } }
 
+/* 声道按钮激活状态 */
+.channel-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary-light);
+}
+
+/* 噪音按钮激活状态 */
+.noise-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary-light);
+}
+
+/* 扫频按钮激活状态 */
+#sweepBtn.active {
+    background: #0056cc;
+    color: white;
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3);
+}
+
+/* 预设频率按钮激活状态 */
+.freq-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary-light);
+}
+
+/* 在播放状态下的正弦波播放按钮 */
+.btn-toggle.playing {
+    background: #ff3b30;
+    color: white;
+}
+
 @media (max-width: 768px) {
     .preset-freq { grid-template-columns: repeat(2, 1fr); }
     .status-bar { grid-template-columns: 1fr; }
+    .controls button { min-width: 100px; }
 }
