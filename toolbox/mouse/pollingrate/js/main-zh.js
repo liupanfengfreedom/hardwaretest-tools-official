@@ -23,6 +23,10 @@ const maxHzEl = document.getElementById('maxHz');
 const avgHzEl = document.getElementById('avgHz');
 const jitterEl = document.getElementById('jitter');
 
+// --- 性能优化变量 ---
+let rafId = null;
+let perfObserver = null;
+
 // --- 图表初始化 ---
 function initChart() {
     const ctx = document.getElementById('pollingChart').getContext('2d');
@@ -91,6 +95,19 @@ function handleMouseMove(e) {
         }
     }
     lastTimestamp = now;
+}
+
+// 使用requestAnimationFrame优化性能
+function optimizedMouseMove(e) {
+    if (!isRunning) return;
+    
+    if (rafId) {
+        cancelAnimationFrame(rafId);
+    }
+    
+    rafId = requestAnimationFrame(() => {
+        handleMouseMove(e);
+    });
 }
 
 function updateStats(hz, interval) {
@@ -162,30 +179,129 @@ function clearData() {
     eventCountEl.innerText = `0 个事件`;
     chart.data.datasets[0].data = Array(MAX_DATA_POINTS).fill(null);
     chart.update();
+    
+    // 发送分析事件
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'data_cleared', {
+            'event_category': 'interaction',
+            'event_label': '清除测试数据'
+        });
+    }
 }
 
 function downloadCSV() {
-    if (logs.length === 0) return;
+    if (logs.length === 0) {
+        alert('没有数据可导出，请先进行测试。');
+        return;
+    }
+    
+    const date = new Date();
+    const fileName = `鼠标事件频率测试_${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}_${date.getHours()}${date.getMinutes()}.csv`;
+    
     let csv = "时间戳,事件频率 (Hz),间隔 (毫秒)\n";
     logs.forEach(row => {
         csv += `${row.time},${row.hz},${row.interval}\n`;
     });
-    const blob = new Blob([csv], { type: 'text/csv' });
+    
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.setAttribute('hidden', '');
     a.setAttribute('href', url);
-    a.setAttribute('download', `鼠标测试_${new Date().getTime()}.csv`);
+    a.setAttribute('download', fileName);
+    a.setAttribute('aria-label', `下载测试数据文件: ${fileName}`);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    
+    // 发送下载完成事件（用于分析）
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'csv_download', {
+            'event_category': 'engagement',
+            'event_label': '鼠标测试数据下载',
+            'value': logs.length
+        });
+    }
+}
+
+// --- 性能监控 ---
+function initPerformanceMonitoring() {
+    if ('PerformanceObserver' in window) {
+        try {
+            perfObserver = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (entry.name === 'mouse-event-processing') {
+                        console.log('鼠标事件处理耗时:', entry.duration.toFixed(2), 'ms');
+                    }
+                }
+            });
+            
+            perfObserver.observe({ entryTypes: ['measure'] });
+        } catch (e) {
+            console.log('PerformanceObserver 初始化失败:', e);
+        }
+    }
+}
+
+// --- 页面可见性API支持 ---
+function initVisibilityAPI() {
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            console.log('页面隐藏，暂停数据收集');
+            // 可以在这里暂停数据收集以节省资源
+        } else {
+            console.log('页面可见，恢复数据收集');
+            // 恢复数据收集
+        }
+    });
+}
+
+// --- 初始化 ---
+function init() {
+    initChart();
+    initPerformanceMonitoring();
+    initVisibilityAPI();
+    
+    // 添加事件监听器
+    clearBtn.addEventListener('click', clearData);
+    document.getElementById('downloadBtn').addEventListener('click', downloadCSV);
+    testArea.addEventListener('mousemove', optimizedMouseMove);
+    
+    // 设置初始加载状态
+    testArea.classList.add('loading');
+    
+    // 页面加载完成后的初始日志
+    const startTime = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+    const initialLog = document.createElement('div');
+    initialLog.className = 'text-green-500 italic border-b border-slate-800 pb-1';
+    initialLog.textContent = `测试工具已就绪 (${startTime}) - 开始移动鼠标进行测试`;
+    logContainer.prepend(initialLog);
+    
+    // 移除加载状态
+    setTimeout(() => {
+        testArea.classList.remove('loading');
+    }, 500);
 }
 
 // --- 事件监听器 ---
-document.addEventListener('DOMContentLoaded', () => {
-    initChart();
+document.addEventListener('DOMContentLoaded', init);
+
+// --- 添加页面卸载前的清理 ---
+window.addEventListener('beforeunload', () => {
+    if (rafId) {
+        cancelAnimationFrame(rafId);
+    }
     
-    clearBtn.addEventListener('click', clearData);
-    document.getElementById('downloadBtn').addEventListener('click', downloadCSV);
-    testArea.addEventListener('mousemove', handleMouseMove);
+    if (perfObserver) {
+        perfObserver.disconnect();
+    }
+});
+
+// --- 添加页面焦点事件 ---
+window.addEventListener('focus', () => {
+    console.log('页面获得焦点，可以开始测试');
+});
+
+window.addEventListener('blur', () => {
+    console.log('页面失去焦点，测试可能不准确');
 });
