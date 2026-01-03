@@ -9,7 +9,7 @@ const SWITCH_DELAY = 150; // 毫秒
 
 const body = document.body;
 const largeHint = document.getElementById('large-hint');
-const docOverlay = document.getElementById('doc-overlay');
+const contentContainer = document.getElementById('content-container');
 
 // 关闭语言下拉菜单的辅助函数
 function closeLanguageDropdown() {
@@ -35,11 +35,10 @@ function startTest() {
     if (languageSwitcher) {
         languageSwitcher.style.pointerEvents = 'none';
     }
-
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar && sidebar.classList.contains('open')) {
-        sidebar.classList.remove('open');
-        body.classList.remove('sidebar-open');
+    
+    // 隐藏所有内容面板
+    if (contentContainer) {
+        contentContainer.style.display = 'none';
     }
 }
 
@@ -57,6 +56,11 @@ function stopTest() {
     
     // 关闭语言下拉菜单
     closeLanguageDropdown();
+    
+    // 显示所有内容面板
+    if (contentContainer) {
+        contentContainer.style.display = 'flex';
+    }
     
     if (document.fullscreenElement) document.exitFullscreen();
 }
@@ -78,6 +82,21 @@ function switchColor(direction) {
     applyColor();
 }
 
+// 快速切换到指定颜色
+function switchToColor(color) {
+    // 如果不在测试模式，先进入测试模式
+    if (!isTesting) {
+        startTest();
+    }
+    
+    colorIndex = colors.indexOf(color);
+    if (colorIndex === -1) colorIndex = 0;
+    applyColor();
+    
+    // 显示提示
+    showHint(2000);
+}
+
 function applyColor() {
     body.style.backgroundColor = colors[colorIndex];
 }
@@ -96,46 +115,31 @@ function showHint(duration = 2000) {
 
 function enterFullScreen() {
     const elem = document.documentElement;
-    if (elem.requestFullscreen) elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-}
-
-// 文档说明功能
-function showDoc(section) {
-    docOverlay.style.display = 'flex';
-    switchDoc(section);
-}
-
-function hideDoc() {
-    docOverlay.style.display = 'none';
-}
-
-function switchDoc(section) {
-    // 隐藏所有文档部分
-    document.querySelectorAll('.doc-section').forEach(el => {
-        el.classList.remove('active');
-    });
-    
-    // 显示选中的文档部分
-    document.getElementById(`doc-${section}`).classList.add('active');
-    
-    // 更新导航按钮状态
-    document.querySelectorAll('.doc-nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    document.querySelector(`.doc-nav-btn[onclick="switchDoc('${section}')"]`).classList.add('active');
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+    } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    }
 }
 
 document.addEventListener('fullscreenchange', () => {
-    if (!document.fullscreenElement) stopTest();
+    if (!document.fullscreenElement) {
+        stopTest();
+    }
 });
 
 // --- 事件监听修正部分 ---
 
 // 1. 鼠标点击
-document.addEventListener('click', () => {
-    if (isTesting) switchColor('next');
+document.addEventListener('click', (e) => {
+    // 确保点击的不是按钮或其他交互元素
+    if (isTesting && !e.target.closest('button')) {
+        switchColor('next');
+    }
 });
 
 // 2. 鼠标移动 (唤醒提示)
@@ -149,7 +153,7 @@ document.addEventListener('keydown', (e) => {
     
     // 🛑 核心修复：检查 event.repeat
     // 如果用户按住按键不放，e.repeat 会变为 true。这里直接返回，不执行切换。
-    if (e.repeat) return; 
+    if (e.repeat) return;
 
     if (e.code === 'ArrowRight' || e.code === 'Space' || e.code === 'Enter') {
         e.preventDefault(); // 防止按空格导致页面滚动
@@ -159,12 +163,5 @@ document.addEventListener('keydown', (e) => {
         switchColor('prev');
     } else if (e.code === 'Escape') {
         stopTest();
-    }
-});
-
-// 点击文档层外部关闭文档
-docOverlay.addEventListener('click', (e) => {
-    if (e.target === docOverlay) {
-        hideDoc();
     }
 });
