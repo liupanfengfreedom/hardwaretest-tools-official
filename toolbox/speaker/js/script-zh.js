@@ -12,6 +12,8 @@ let isSweeping = false;
 let isNoisePlaying = false;
 let currentChannel = "双声道"; // 默认声道模式
 let noiseType = null; // 当前噪音类型
+let sweepStartTime = null; // 扫频开始时间
+let sweepInterval = null; // 扫频更新间隔
 
 const freqSlider = document.getElementById('freqSlider');
 const freqVal = document.getElementById('freqVal');
@@ -24,6 +26,7 @@ const currentFrequencyDisplay = document.getElementById('currentFrequency');
 const currentChannelDisplay = document.getElementById('currentChannel');
 const audioStatusDisplay = document.getElementById('audioStatus');
 const playStopText = document.getElementById('playStopText');
+
 function initAudio() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -103,10 +106,17 @@ function stopAll() {
         noiseSource = null;
     }
     
+    // 清除扫频更新间隔
+    if (sweepInterval) {
+        clearInterval(sweepInterval);
+        sweepInterval = null;
+    }
+    
     isPlaying = false;
     isSweeping = false;
     isNoisePlaying = false;
     noiseType = null;
+    sweepStartTime = null;
     visualizerContainer.classList.remove('sweeping');
     playStopBtn.classList.remove('playing');
     playStopText.innerText = '开始播放';
@@ -161,13 +171,35 @@ function startSweep() {
     oscillator.stop(startTime + duration);
     
     isSweeping = true;
+    sweepStartTime = startTime;
     visualizerContainer.classList.add('sweeping');
     audioStatusDisplay.innerText = '扫频中';
     playStopBtn.disabled = true;
     
+    // 更新当前频率显示为扫频起始频率
+    currentFrequencyDisplay.innerText = '10 Hz';
+    
+    // 设置扫频频率更新
+    sweepInterval = setInterval(() => {
+        if (isSweeping && sweepStartTime) {
+            const elapsed = audioCtx.currentTime - sweepStartTime;
+            if (elapsed < duration) {
+                // 指数扫频公式: f(t) = f0 * (f1/f0)^(t/duration)
+                const f0 = 10;
+                const f1 = 20000;
+                const currentFreq = f0 * Math.pow(f1 / f0, elapsed / duration);
+                currentFrequencyDisplay.innerText = Math.round(currentFreq) + ' Hz';
+            }
+        }
+    }, 50); // 每50ms更新一次
+    
     oscillator.onended = function() {
         stopAll();
+        currentFrequencyDisplay.innerText = '20000 Hz';
         audioStatusDisplay.innerText = '扫频完成';
+        setTimeout(() => {
+            currentFrequencyDisplay.innerText = '-';
+        }, 1000);
     };
 }
 
