@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta name="description" content="在线摄像头检测工具，test camera ">
-    <meta name="keywords" content="摄像头测试,webcam test">
+    <meta name="description" content="在线摄像头检测工具，摄像头测试">
+    <meta name="keywords" content="摄像头测试,摄像头检测,webcam test">
     <meta name="author" content="WebRTC Tool Developer">
     <meta name="robots" content="index, follow"> 
     <link rel="canonical" href="https://starryring.com/toolbox/camera/" />
-    <title id="pageTitle">在线摄像头测试工具, webcam test , camera test</title>
+    <title>在线摄像头测试工具 - 摄像头检测</title>
     
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
@@ -18,21 +17,11 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
     <link rel="manifest" href="/manifest.json">
     
-    
     <link rel="shortcut icon" href="/toolbox/camera/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/toolbox/camera/css/style.css">
     <link rel="stylesheet" href="/toolbox/shared/css/sidebar.css">
-
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-J9HR7CNQR9');
-</script>
 <body>
     <!----------------------- side bar begin ----------------------------------------------------------------------------------------------->
     <button id="menu-button" aria-label="打开菜单">
@@ -43,29 +32,29 @@
 
     <div id="sidebar">
         <button id="close-button" aria-label="关闭菜单">&times;</button>
-        <a href="/toolbox/main/"><span class="icon-emoji">🏠</span> Home</a>
-        <a href="/toolbox/mouse/"><span class="icon-emoji">🖱️</span> Mouse</a>
-        <a href="/toolbox/keyboard/"><span class="icon-emoji">⌨️</span> Keyboard</a>
-        <a href="/toolbox/mic/"><span class="icon-emoji">🎤</span> Microphone</a>
-        <a href="/toolbox/camera/"><span class="icon-emoji">📷</span> Camera</a>
-        <a href="/toolbox/deadpixel/"><span class="icon-emoji">🖥️</span> Screen</a>
+        <a href="/toolbox/main/"><span class="icon-emoji">🏠</span> 首页</a>
+        <a href="/toolbox/mouse/"><span class="icon-emoji">🖱️</span> 鼠标测试</a>
+        <a href="/toolbox/keyboard/"><span class="icon-emoji">⌨️</span> 键盘测试</a>
+        <a href="/toolbox/mic/"><span class="icon-emoji">🎤</span> 麦克风测试</a>
+        <a href="/toolbox/camera/"><span class="icon-emoji">📷</span> 摄像头测试</a>
+        <a href="/toolbox/deadpixel/"><span class="icon-emoji">🖥️</span> 屏幕测试</a>
     </div>
     <!----------------------- side bar end ---------------------------------------------------------------------------------->
 
-    <h1 id="title-text"></h1>
+    <h1 id="title-text">摄像头<span style="color:var(--accent)">测试</span> <span class="badge">自动</span></h1>
 
     <div class="container">
         <section>
             <div class="card" style="margin-bottom: 20px;">
                 <div class="controls-row">
                     <div class="select-group">
-                        <label id="video-label" for="videoSource"></label>
-                        <select id="videoSource"><option></option></select>
+                        <label id="video-label" for="videoSource">视频输入源 (Video)</label>
+                        <select id="videoSource"><option>正在检测设备...</option></select>
                     </div>
                 </div>
                 <div class="controls-row" style="margin-bottom: 0;">
                     <div class="btn-group">
-                        <button id="btn-mirror" class="secondary"></button>
+                        <button id="btn-mirror" class="secondary">镜像翻转</button>
                     </div>
                 </div>
             </div>
@@ -82,16 +71,16 @@
 
         <aside>
             <div class="card">
-                <h3 id="status-header-text"><span class="status-dot"></span></h3>
+                <h3 id="status-header-text"><span class="status-dot"></span>设备状态</h3>
                 <table class="info-table">
-                    <tr><td id="run-status-label"></td><td id="status-text"></td></tr>
-                    <tr><td id="device-name-label"></td><td id="device-label">-</td></tr>
-                    <tr><td id="actual-res-label"></td><td id="info-res">-</td></tr>
-                    <tr><td id="aspect-ratio-label"></td><td id="info-aspect">-</td></tr>
+                    <tr><td id="run-status-label">运行状态</td><td id="status-text">请求权限中...</td></tr>
+                    <tr><td id="device-name-label">设备名称</td><td id="device-label">-</td></tr>
+                    <tr><td id="actual-res-label">实际分辨率</td><td id="info-res">-</td></tr>
+                    <tr><td id="aspect-ratio-label">画面比例</td><td id="info-aspect">-</td></tr>
                 </table>
 
-                <h3 id="caps-header-text" style="margin-top: 20px;"></h3>
-                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;"></div>
+                <h3 id="caps-header-text" style="margin-top: 20px;">硬件能力 (Capabilities)</h3>
+                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">* 浏览器读取的底层驱动参数</div>
                 <table class="info-table" id="capabilities-table">
                     <tr><td>-</td><td>-</td></tr>
                 </table>
@@ -101,6 +90,5 @@
 
     <script src="/toolbox/camera/js/main.js"></script>
     <script src="/toolbox/shared/js/sidebar.js"></script>
-
 </body>
 </html>
