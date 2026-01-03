@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扬声器在线测试工具 | 5Hz-21kHz 全频段测试</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/toolbox/speaker/css/style.css">
+
+</head>
+<body>
+
+<div class="card">
+    <h1><i class="fas fa-wave-square"></i> 扬声器全频段测试</h1>
+    <p class="subtitle">专业级扬声器测试工具，覆盖5Hz至21kHz全频段，检测您的音频设备性能与频率响应</p>
+    
+    <div class="frequency-range">
+        <div class="range-label low">
+            <div class="range-value">5 Hz</div>
+            <div class="range-desc">次声波<br>超低音</div>
+        </div>
+        <div class="range-label mid">
+            <div class="range-value">1,000 Hz</div>
+            <div class="range-desc">中频<br>人声范围</div>
+        </div>
+        <div class="range-label high">
+            <div class="range-value">21,000 Hz</div>
+            <div class="range-desc">超声波<br>超高音</div>
+        </div>
+    </div>
+    
+    <!-- 人耳听力范围提示 -->
+    <div class="hearing-info">
+        <i class="fas fa-ear-listen"></i>
+        <span>人耳可听范围通常为 <strong>20Hz - 20,000Hz</strong>（年轻人），年龄增长会导致高频听力下降</span>
+    </div>
+    
+    <!-- 实时可视化 -->
+    <div class="visualizer-container" id="visualizer-container">
+        <canvas id="visualizer"></canvas>
+        <div class="visualizer-label">实时频谱分析</div>
+        <div class="sweep-indicator"></div>
+    </div>
+    
+    <!-- 频率测试 -->
+    <div class="section">
+        <div class="section-title">
+            <i class="fas fa-sliders-h"></i>
+            <span>频率测试 (5Hz - 21,000Hz)</span>
+        </div>
+        
+        <div class="slider-container">
+            <div class="slider-header">
+                <span>选择测试频率</span>
+                <div class="slider-value" id="freqVal">440 Hz</div>
+            </div>
+            <input type="range" class="freq-slider" id="freqSlider" min="5" max="21000" value="440" step="1">
+            <div class="slider-labels">
+                <span>5 Hz (次声波)</span>
+                <span>21,000 Hz (超声波)</span>
+            </div>
+        </div>
+        
+        <div class="volume-control">
+            <i class="fas fa-volume-up" style="color: var(--primary);"></i>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+            <div class="volume-value" id="volumeValue">50%</div>
+        </div>
+        
+        <div class="preset-freq">
+            <div class="freq-btn low" data-freq="20">
+                <div>20 Hz</div>
+                <small>可听下限</small>
+            </div>
+            <div class="freq-btn low" data-freq="60">
+                <div>60 Hz</div>
+                <small>重低音</small>
+            </div>
+            <div class="freq-btn low" data-freq="250">
+                <div>250 Hz</div>
+                <small>低音</small>
+            </div>
+            <div class="freq-btn mid" data-freq="1000">
+                <div>1,000 Hz</div>
+                <small>中音</small>
+            </div>
+            <div class="freq-btn mid" data-freq="3000">
+                <div>3,000 Hz</div>
+                <small>中高音</small>
+            </div>
+            <div class="freq-btn high" data-freq="8000">
+                <div>8,000 Hz</div>
+                <small>高音</small>
+            </div>
+            <div class="freq-btn high" data-freq="16000">
+                <div>16,000 Hz</div>
+                <small>超高音</small>
+            </div>
+            <div class="freq-btn high" data-freq="20000">
+                <div>20,000 Hz</div>
+                <small>可听上限</small>
+            </div>
+        </div>
+        
+        <div class="controls" style="margin-top: 1.5rem;">
+            <button class="btn-toggle" id="playStopBtn">
+                <i class="fas fa-play" id="playStopIcon"></i>
+                <span id="playStopText">播放测试音</span>
+            </button>
+            <button class="btn-primary" id="sweepBtn">
+                <i class="fas fa-chart-line"></i> 频率扫描
+            </button>
+            <button class="btn-danger" id="stopAllBtn">
+                <i class="fas fa-stop"></i> 停止所有
+            </button>
+        </div>
+    </div>
+    
+    <!-- 声道测试 -->
+    <div class="section">
+        <div class="section-title">
+            <i class="fas fa-balance-scale"></i>
+            <span>声道平衡测试</span>
+        </div>
+        <p class="compact-text" style="color: var(--text-secondary); margin-bottom: 1.2rem;">检查左右扬声器是否正常工作，平衡是否一致。</p>
+        <div class="controls">
+            <button class="btn-primary channel-btn channel-left" id="leftChannelBtn">
+                <div class="channel-icon">
+                    <i class="fas fa-volume-up"></i>
+                    <i class="fas fa-arrow-left" style="margin-left: -8px; font-size: 1.2rem;"></i>
+                </div>
+                <div class="channel-text">左声道</div>
+            </button>
+            <button class="btn-primary channel-btn channel-both" id="bothChannelsBtn">
+                <div class="channel-icon">
+                    <i class="fas fa-volume-up"></i>
+                    <i class="fas fa-volume-up" style="margin-left: -8px;"></i>
+                </div>
+                <div class="channel-text">双声道</div>
+            </button>
+            <button class="btn-primary channel-btn channel-right" id="rightChannelBtn">
+                <div class="channel-icon">
+                    <i class="fas fa-arrow-right" style="margin-right: -8px; font-size: 1.2rem;"></i>
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <div class="channel-text">右声道</div>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 噪音测试 -->
+    <div class="section">
+        <div class="section-title">
+            <i class="fas fa-broadcast-tower"></i>
+            <span>噪音测试</span>
+        </div>
+        <p class="compact-text" style="color: var(--text-secondary); margin-bottom: 1.2rem;">测试扬声器在不同噪音类型下的表现。</p>
+        <div class="controls">
+            <button class="btn-secondary" id="whiteNoiseBtn">
+                <i class="fas fa-random"></i> 白噪音
+            </button>
+            <button class="btn-secondary" id="pinkNoiseBtn">
+                <i class="fas fa-wave-square"></i> 粉红噪音
+            </button>
+        </div>
+    </div>
+    
+    <div class="warning-box">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div class="compact-text">
+            <strong>安全提示：</strong> 测试时请从较低音量开始，避免高频或过大音量对听力造成损伤。某些频率（特别是低于20Hz或高于18kHz）可能无法被所有人听到，这属于正常现象。如果您听不到18kHz以上的声音，可能是因为年龄或听力损伤。
+        </div>
+    </div>
+    
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-item">
+            <span class="status-label">当前状态</span>
+            <span class="status-value" id="currentStatus">就绪</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">当前频率</span>
+            <span class="status-value" id="currentFrequency">-</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">声道模式</span>
+            <span class="status-value" id="currentChannel">-</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">音频状态</span>
+            <span class="status-value" id="audioStatus">待激活</span>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>专业扬声器测试工具 © 2023 | 频率范围: 5Hz - 21,000Hz | 使用 Web Audio API 构建</p>
+        <p style="margin-top: 6px; font-size: 0.8rem;">提示: 人耳可听范围通常为20Hz-20,000Hz，年龄和听力损伤会影响高频感知。儿童可能听到高达20kHz的声音，而成年人通常只能听到15-18kHz。</p>
+    </div>
+</div>
+
+<script src="/toolbox/speaker/js/script-zh.js"></script>
+</body>
+</html>
