@@ -53,8 +53,10 @@ function updateStatus(status) {
     currentStatus.textContent = status;
     if (status === '播放中' || status === '扫描中') {
         currentStatus.classList.add('playing');
+        playStopBtn.setAttribute('aria-label', '停止播放');
     } else {
         currentStatus.classList.remove('playing');
+        playStopBtn.setAttribute('aria-label', '播放测试音');
     }
 }
 
@@ -68,10 +70,12 @@ function updatePlayStopButton(isPlaying) {
         playStopBtn.classList.add('playing');
         playStopIcon.className = 'fas fa-stop';
         playStopText.textContent = '停止播放';
+        playStopBtn.setAttribute('aria-label', '停止播放');
     } else {
         playStopBtn.classList.remove('playing');
         playStopIcon.className = 'fas fa-play';
         playStopText.textContent = '播放测试音';
+        playStopBtn.setAttribute('aria-label', '播放测试音');
     }
 }
 
@@ -79,6 +83,9 @@ function updatePlayStopButton(isPlaying) {
 function updateVolume(value) {
     currentVolume = value / 100;
     volumeValue.textContent = value + '%';
+    volumeSlider.setAttribute('aria-valuenow', value);
+    volumeSlider.setAttribute('aria-valuetext', value + '百分比');
+    
     if (gainNode && isPlaying) {
         gainNode.gain.value = currentVolume;
     }
@@ -130,12 +137,21 @@ function testChannel(side) {
     if (side === 'left') {
         panner.pan.setValueAtTime(-1, audioCtx.currentTime);
         currentChannel = '左声道';
+        leftChannelBtn.setAttribute('aria-pressed', 'true');
+        bothChannelsBtn.setAttribute('aria-pressed', 'false');
+        rightChannelBtn.setAttribute('aria-pressed', 'false');
     } else if (side === 'right') {
         panner.pan.setValueAtTime(1, audioCtx.currentTime);
         currentChannel = '右声道';
+        leftChannelBtn.setAttribute('aria-pressed', 'false');
+        bothChannelsBtn.setAttribute('aria-pressed', 'false');
+        rightChannelBtn.setAttribute('aria-pressed', 'true');
     } else {
         panner.pan.setValueAtTime(0, audioCtx.currentTime);
         currentChannel = '双声道';
+        leftChannelBtn.setAttribute('aria-pressed', 'false');
+        bothChannelsBtn.setAttribute('aria-pressed', 'true');
+        rightChannelBtn.setAttribute('aria-pressed', 'false');
     }
     
     // 设置音量
@@ -186,11 +202,18 @@ function startOscillator() {
     currentChannel = '双声道';
     updatePlayStopButton(true);
     
+    // 重置声道按钮状态
+    leftChannelBtn.setAttribute('aria-pressed', 'false');
+    bothChannelsBtn.setAttribute('aria-pressed', 'true');
+    rightChannelBtn.setAttribute('aria-pressed', 'false');
+    
     // 标记当前频率的按钮
     document.querySelectorAll('.freq-btn').forEach(btn => {
         btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
         if (parseInt(btn.getAttribute('data-freq')) === parseInt(freq)) {
             btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
         }
     });
 }
@@ -216,6 +239,7 @@ function startSweep() {
     
     // 添加扫描动画
     visualizerContainer.classList.add('sweeping');
+    sweepBtn.setAttribute('aria-label', '停止频率扫描');
     
     updateStatus('扫描中');
     currentChannelDisplay.textContent = '双声道';
@@ -246,6 +270,7 @@ function startSweep() {
             // 扫描完成
             stopAll();
             updateStatus('扫描完成');
+            sweepBtn.setAttribute('aria-label', '开始频率扫描');
         }
     }
     
@@ -254,6 +279,9 @@ function startSweep() {
 
 function updateFreq(val) {
     freqVal.textContent = val + ' Hz';
+    freqSlider.setAttribute('aria-valuenow', val);
+    freqSlider.setAttribute('aria-valuetext', val + '赫兹');
+    
     if (oscillator && isPlaying && !isSweeping) {
         oscillator.frequency.setTargetAtTime(val, audioCtx.currentTime, 0.05);
         currentFrequency.textContent = val + ' Hz';
@@ -261,9 +289,11 @@ function updateFreq(val) {
         // 更新频率按钮状态
         document.querySelectorAll('.freq-btn').forEach(btn => {
             btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
             const btnFreq = parseInt(btn.getAttribute('data-freq'));
             if (Math.abs(btnFreq - parseInt(val)) < 10) {
                 btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
             }
         });
     }
@@ -283,6 +313,8 @@ function playNoise(type) {
         for (let i = 0; i < bufferSize; i++) {
             output[i] = Math.random() * 2 - 1;
         }
+        whiteNoiseBtn.setAttribute('aria-pressed', 'true');
+        pinkNoiseBtn.setAttribute('aria-pressed', 'false');
     } else {
         // 粉红噪音 (简化版本)
         let b0, b1, b2, b3, b4, b5, b6;
@@ -299,6 +331,8 @@ function playNoise(type) {
             output[i] *= 0.11; // 调整增益
             b6 = white * 0.115926;
         }
+        whiteNoiseBtn.setAttribute('aria-pressed', 'false');
+        pinkNoiseBtn.setAttribute('aria-pressed', 'true');
     }
     
     currentSource = audioCtx.createBufferSource();
@@ -393,10 +427,28 @@ function initEventListeners() {
     playStopBtn.addEventListener('click', toggleOscillator);
     
     // 频率扫描按钮事件
-    sweepBtn.addEventListener('click', startSweep);
+    sweepBtn.addEventListener('click', function() {
+        if (isSweeping) {
+            stopAll();
+        } else {
+            startSweep();
+        }
+    });
     
     // 停止所有按钮事件
-    stopAllBtn.addEventListener('click', stopAll);
+    stopAllBtn.addEventListener('click', function() {
+        stopAll();
+        // 重置所有按钮状态
+        leftChannelBtn.setAttribute('aria-pressed', 'false');
+        bothChannelsBtn.setAttribute('aria-pressed', 'false');
+        rightChannelBtn.setAttribute('aria-pressed', 'false');
+        whiteNoiseBtn.setAttribute('aria-pressed', 'false');
+        pinkNoiseBtn.setAttribute('aria-pressed', 'false');
+        document.querySelectorAll('.freq-btn').forEach(btn => {
+            btn.setAttribute('aria-pressed', 'false');
+        });
+        sweepBtn.setAttribute('aria-label', '开始频率扫描');
+    });
     
     // 声道按钮事件
     leftChannelBtn.addEventListener('click', () => testChannel('left'));
@@ -413,13 +465,21 @@ function initEventListeners() {
             const freq = this.getAttribute('data-freq');
             freqSlider.value = freq;
             updateFreq(freq);
-            
-            // 更新按钮状态
-            document.querySelectorAll('.freq-btn').forEach(b => {
-                b.classList.remove('active');
-            });
-            this.classList.add('active');
+            startOscillator();
         });
+    });
+    
+    // 键盘导航支持
+    document.addEventListener('keydown', function(e) {
+        // 空格键控制播放/暂停
+        if (e.code === 'Space' && !e.target.matches('input, button')) {
+            e.preventDefault();
+            toggleOscillator();
+        }
+        // ESC键停止所有音频
+        if (e.code === 'Escape') {
+            stopAll();
+        }
     });
     
     // 音频上下文激活
@@ -434,8 +494,23 @@ function initEventListeners() {
     updateAudioStatus('点击页面激活');
     updatePlayStopButton(false);
     
-    // 默认激活500Hz按钮
+    // 为所有交互元素添加初始ARIA属性
+    freqSlider.setAttribute('aria-valuemin', '5');
+    freqSlider.setAttribute('aria-valuemax', '21000');
+    freqSlider.setAttribute('aria-valuenow', '440');
+    freqSlider.setAttribute('aria-valuetext', '440赫兹');
+    
+    volumeSlider.setAttribute('aria-valuemin', '0');
+    volumeSlider.setAttribute('aria-valuemax', '100');
+    volumeSlider.setAttribute('aria-valuenow', '50');
+    volumeSlider.setAttribute('aria-valuetext', '50百分比');
+    
+    // 初始激活1000Hz按钮
     document.querySelector('.freq-btn[data-freq="1000"]').classList.add('active');
+    document.querySelector('.freq-btn[data-freq="1000"]').setAttribute('aria-pressed', 'true');
+    
+    // 激活双声道按钮
+    bothChannelsBtn.setAttribute('aria-pressed', 'true');
 }
 
 // 页面加载完成后初始化

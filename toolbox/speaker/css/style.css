@@ -43,7 +43,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 15px 40px var(--shadow);
     width: 100%;
-    max-width: 750px;
+    max-width: 800px;
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -57,6 +57,30 @@ body {
     width: 100%;
     height: 4px;
     background: var(--gradient-freq);
+}
+
+/* 面包屑导航 */
+.breadcrumb {
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.breadcrumb a {
+    color: var(--primary-light);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+    color: var(--primary);
+}
+
+.breadcrumb [aria-current="page"] {
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 h1 {
@@ -89,6 +113,29 @@ h1 i {
     margin-left: auto;
     margin-right: auto;
     line-height: 1.5;
+}
+
+/* 介绍文本 */
+.intro-text {
+    margin: 1.5rem 0;
+    padding: 1rem 1.2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border-left: 3px solid var(--primary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.intro-text p {
+    margin-bottom: 0.8rem;
+}
+
+.intro-text p:last-child {
+    margin-bottom: 0;
+}
+
+.intro-text strong {
+    color: var(--primary-light);
 }
 
 .frequency-range {
@@ -253,6 +300,11 @@ button:active {
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
 }
 
+button:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
 .btn-primary {
     background: var(--gradient-primary);
     color: white;
@@ -365,6 +417,16 @@ button:active {
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.5);
 }
 
+.freq-slider::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary);
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+}
+
 .slider-labels {
     display: flex;
     justify-content: space-between;
@@ -393,6 +455,16 @@ button:active {
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary);
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -433,6 +505,7 @@ button:active {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: none;
 }
 
 .freq-btn:hover {
@@ -465,6 +538,79 @@ button:active {
     color: inherit;
     opacity: 0.9;
     margin-top: 4px;
+}
+
+/* 使用说明 */
+.instructions {
+    padding-left: 1.5rem;
+}
+
+.instructions ol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    counter-reset: instruction-counter;
+    list-style: none;
+}
+
+.instructions li {
+    padding-left: 2rem;
+    position: relative;
+    line-height: 1.5;
+    counter-increment: instruction-counter;
+}
+
+.instructions li::before {
+    content: counter(instruction-counter) ". ";
+    color: var(--primary);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* 相关工具 */
+.related-tools {
+    margin-top: 2rem;
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.related-tools h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.related-tools ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+}
+
+.related-tools li {
+    flex: 1;
+    min-width: 180px;
+}
+
+.related-tools a {
+    display: block;
+    padding: 0.8rem 1rem;
+    background: rgba(0, 122, 255, 0.1);
+    border-radius: 8px;
+    color: var(--primary-light);
+    text-decoration: none;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.related-tools a:hover {
+    background: rgba(0, 122, 255, 0.2);
+    transform: translateY(-2px);
+    text-decoration: underline;
 }
 
 .status-bar {
@@ -506,6 +652,17 @@ button:active {
     border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
+.footer a {
+    color: var(--primary-light);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
 .warning-box {
     background: rgba(247, 37, 133, 0.1);
     border-radius: 10px;
@@ -522,6 +679,19 @@ button:active {
     color: #f72585;
     font-size: 1.1rem;
     margin-top: 2px;
+}
+
+/* 隐藏标题（仅供屏幕阅读器使用） */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 @media (max-width: 768px) {
@@ -573,6 +743,22 @@ button:active {
         width: 100%;
         height: 70px;
     }
+    
+    .related-tools ul {
+        flex-direction: column;
+    }
+    
+    .related-tools li {
+        min-width: 100%;
+    }
+    
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+    
+    .channel-btn {
+        height: 80px;
+    }
 }
 
 /* 动画效果 */
@@ -600,9 +786,11 @@ button:active {
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
     z-index: 1;
+    display: none;
 }
 
 .sweeping .sweep-indicator {
+    display: block;
     animation: sweep 10s linear infinite;
 }
 
