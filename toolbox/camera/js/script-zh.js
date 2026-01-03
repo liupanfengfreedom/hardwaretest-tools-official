@@ -18,18 +18,199 @@ let frameCount = 0;
 let lastFpsUpdate = 0;
 let perfStart = performance.now();
 
+// 权限请求弹窗
+function showPermissionRequestModal() {
+    return new Promise((resolve) => {
+        // 创建弹窗遮罩
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = 'permission-modal-overlay';
+        modalOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        `;
+
+        // 创建弹窗内容
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        `;
+
+        // 弹窗标题
+        const title = document.createElement('h2');
+        title.textContent = '摄像头权限请求';
+        title.style.cssText = `
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 300;
+        `;
+
+        // 弹窗描述
+        const description = document.createElement('p');
+        description.textContent = '摄像头测试工具需要访问您的摄像头设备来检测性能参数。请确认是否允许访问？';
+        description.style.cssText = `
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 16px;
+        `;
+
+        // 注意事项
+        const notice = document.createElement('div');
+        notice.style.cssText = `
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 3px solid #4CAF50;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            text-align: left;
+        `;
+        
+        const noticeIcon = document.createElement('i');
+        noticeIcon.className = 'fas fa-info-circle';
+        noticeIcon.style.cssText = 'color: #4CAF50; margin-right: 8px;';
+        
+        const noticeText = document.createElement('span');
+        noticeText.textContent = '我们保证：所有数据仅在本地处理，不会上传到任何服务器。';
+        noticeText.style.cssText = 'color: #b0b0b0; font-size: 14px;';
+        
+        notice.appendChild(noticeIcon);
+        notice.appendChild(noticeText);
+
+        // 按钮容器
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = `
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        `;
+
+        // 允许按钮
+        const allowButton = document.createElement('button');
+        allowButton.textContent = '允许访问';
+        allowButton.style.cssText = `
+            padding: 12px 30px;
+            border-radius: 6px;
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+            flex: 1;
+            min-width: 140px;
+        `;
+        allowButton.onmouseover = () => allowButton.style.background = 'var(--accent-hover)';
+        allowButton.onmouseout = () => allowButton.style.background = 'var(--accent)';
+        allowButton.onclick = () => {
+            modalOverlay.remove();
+            resolve(true);
+        };
+
+        // 拒绝按钮
+        const denyButton = document.createElement('button');
+        denyButton.textContent = '拒绝访问';
+        denyButton.style.cssText = `
+            padding: 12px 30px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 140px;
+        `;
+        denyButton.onmouseover = () => {
+            denyButton.style.background = 'rgba(239, 68, 68, 0.1)';
+            denyButton.style.color = 'var(--danger)';
+            denyButton.style.borderColor = 'var(--danger)';
+        };
+        denyButton.onmouseout = () => {
+            denyButton.style.background = 'transparent';
+            denyButton.style.color = 'var(--text-muted)';
+            denyButton.style.borderColor = 'var(--border)';
+        };
+        denyButton.onclick = () => {
+            modalOverlay.remove();
+            resolve(false);
+        };
+
+        // 组装弹窗
+        buttonContainer.appendChild(allowButton);
+        buttonContainer.appendChild(denyButton);
+        
+        modalContent.appendChild(title);
+        modalContent.appendChild(description);
+        modalContent.appendChild(notice);
+        modalContent.appendChild(buttonContainer);
+        modalOverlay.appendChild(modalContent);
+        
+        // 添加到页面
+        document.body.appendChild(modalOverlay);
+        
+        // ESC键关闭弹窗
+        const escHandler = (e) => {
+            if (e.key === 'Escape') {
+                modalOverlay.remove();
+                document.removeEventListener('keydown', escHandler);
+                resolve(false);
+            }
+        };
+        document.addEventListener('keydown', escHandler);
+    });
+}
+
 /**
- * 自动启动：页面加载即运行
+ * 新的启动流程：先请求用户确认，再启动摄像头
  */
-async function autoStart() {
+async function initCameraTool() {
     try {
         // 性能监控开始
         perfStart = performance.now();
         
-        // 步骤 1: 立即请求权限
-        statusText.textContent = '请求权限中...';
+        // 步骤 1: 显示权限请求弹窗
+        statusText.textContent = '等待用户确认...';
         updateStatus('loading');
         
+        const userConfirmed = await showPermissionRequestModal();
+        
+        if (!userConfirmed) {
+            // 用户拒绝，跳转到主页
+            statusText.textContent = '用户拒绝访问权限';
+            updateStatus('error');
+            
+            // 延迟跳转，让用户看到状态变化
+            setTimeout(() => {
+                window.location.href = '/toolbox/main/';
+            }, 1000);
+            return;
+        }
+        
+        // 用户同意，继续原来的流程
+        statusText.textContent = '请求权限中...';
+        
+        // 步骤 2: 请求摄像头权限
         const initialStream = await navigator.mediaDevices.getUserMedia({ 
             video: { 
                 width: { ideal: 1280 },
@@ -37,11 +218,11 @@ async function autoStart() {
             } 
         });
         
-        // 步骤 2: 权限通过后，枚举所有设备
+        // 步骤 3: 权限通过后，枚举所有设备
         const currentVideoId = initialStream.getVideoTracks()[0].getSettings().deviceId;
         await populateDeviceList(currentVideoId);
 
-        // 步骤 3: 关闭初始流，使用选择的第一个设备开始正式显示
+        // 步骤 4: 关闭初始流，使用选择的第一个设备开始正式显示
         initialStream.getTracks().forEach(track => track.stop());
         
         // videoSelect 的值已在 populateDeviceList 中设置
@@ -51,12 +232,12 @@ async function autoStart() {
         logPerformance();
 
     } catch (error) {
-        console.error("Auto start failed:", error);
+        console.error("Camera tool initialization failed:", error);
         handleError(error);
     }
 }
 
-// 填充设备列表
+// 填充设备列表（保持不变）
 async function populateDeviceList(activeVideoId) {
     try {
         const devices = await navigator.mediaDevices.enumerateDevices();
@@ -104,7 +285,7 @@ async function populateDeviceList(activeVideoId) {
     }
 }
 
-// 启动指定的流
+// 启动指定的流（保持不变）
 async function startStream() {
     if (currentStream) {
         currentStream.getTracks().forEach(track => track.stop());
@@ -159,7 +340,7 @@ async function startStream() {
     }
 }
 
-// 分析硬件参数
+// 分析硬件参数（保持不变）
 function analyzeVideoTrack(track) {
     const settings = track.getSettings();
     const capabilities = track.getCapabilities ? track.getCapabilities() : {};
@@ -211,7 +392,7 @@ function analyzeVideoTrack(track) {
     capTable.innerHTML = capHtml || `<tr><td colspan="2">无法获取详细驱动信息</td></tr>`;
 }
 
-// 实时统计循环
+// 实时统计循环（保持不变）
 let animationFrameId = null;
 function updateStats(timestamp) {
     if (!currentStream || !currentStream.active) {
@@ -251,7 +432,7 @@ function updateStats(timestamp) {
     animationFrameId = requestAnimationFrame(updateStats);
 }
 
-// 更新状态指示器
+// 更新状态指示器（保持不变）
 function updateStatus(state) {
     statusHeader.className = '';
     statusHeader.classList.add(state);
@@ -269,7 +450,7 @@ function updateStatus(state) {
     }
 }
 
-// 错误处理
+// 错误处理（保持不变）
 function handleError(error) {
     console.error("Camera error:", error);
     updateStatus('error');
@@ -298,7 +479,7 @@ function handleError(error) {
     }
 }
 
-// 性能监控
+// 性能监控（保持不变）
 function logPerformance() {
     const perfEnd = performance.now();
     const loadTime = Math.round(perfEnd - perfStart);
@@ -333,7 +514,7 @@ function trackPerformanceEvent(eventName, category, value = null) {
     // sendToAnalytics(perfData);
 }
 
-// 清理资源
+// 清理资源（保持不变）
 function cleanup() {
     if (currentStream) {
         currentStream.getTracks().forEach(track => track.stop());
@@ -354,7 +535,7 @@ function cleanup() {
     statusText.style.color = "var(--text-muted)";
 }
 
-// 事件监听器
+// 事件监听器（保持不变）
 videoSelect.onchange = () => {
     statusText.textContent = '切换中...';
     updateStatus('loading');
@@ -380,7 +561,7 @@ document.getElementById('btn-mirror').onclick = () => {
     btn.textContent = isMirrored ? '镜像翻转' : '取消镜像';
 };
 
-// 页面可见性变化处理
+// 页面可见性变化处理（保持不变）
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         // 页面隐藏时停止动画帧以节省资源
@@ -396,13 +577,13 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// 页面卸载前清理
+// 页面卸载前清理（保持不变）
 window.addEventListener('beforeunload', () => {
     cleanup();
     trackPerformanceEvent('page_unload', 'session');
 });
 
-// 页面加载完毕立即执行
+// 页面加载完毕执行新的初始化流程
 window.addEventListener('load', () => {
     // 检查是否支持getUserMedia
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -415,10 +596,11 @@ window.addEventListener('load', () => {
         console.warn('摄像头功能在非HTTPS环境下可能受限');
     }
     
-    autoStart();
+    // 使用新的初始化流程，显示权限请求弹窗
+    initCameraTool();
 });
 
-// 错误全局捕获
+// 错误全局捕获（保持不变）
 window.addEventListener('error', function(e) {
     console.error('摄像头工具全局错误:', e.error);
     
@@ -429,7 +611,7 @@ window.addEventListener('error', function(e) {
     e.preventDefault();
 });
 
-// 未处理的Promise拒绝
+// 未处理的Promise拒绝（保持不变）
 window.addEventListener('unhandledrejection', function(e) {
     console.error('未处理的Promise拒绝:', e.reason);
     
@@ -442,7 +624,7 @@ window.addEventListener('unhandledrejection', function(e) {
 // 导出函数供测试使用（如果需要）
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
-        autoStart,
+        initCameraTool,
         startStream,
         cleanup,
         updateStats
