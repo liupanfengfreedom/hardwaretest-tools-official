@@ -4,51 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="免费在线摄像头检测工具，即时测试您的网络摄像头是否正常工作，检测摄像头分辨率、帧率、硬件参数，无需下载任何软件。">
-    <meta name="keywords" content="摄像头测试,摄像头检测,网络摄像头检测,摄像头分辨率测试,摄像头帧率检测,在线摄像头工具,摄像头检查,摄像头参数">
-    <meta name="author" content="星环工具箱">
-    
-    <!-- 结构化数据 -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "在线摄像头测试工具",
-        "description": "免费在线摄像头检测工具，帮助用户测试网络摄像头性能",
-        "url": "https://starryring.com/toolbox/camera/",
-        "applicationCategory": "UtilityApplication",
-        "operatingSystem": "任何",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "CNY"
-        },
-        "author": {
-            "@type": "Organization",
-            "name": "星环工具箱"
-        }
-    }
-    </script>
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="在线摄像头测试工具 - 免费检测您的网络摄像头">
-    <meta property="og:description" content="立即测试您的摄像头分辨率、帧率和硬件参数，无需安装任何软件。">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://starryring.com/toolbox/camera/">
-    <meta property="og:image" content="https://starryring.com/toolbox/camera/og-image.jpg">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="在线摄像头测试工具 - 免费检测网络摄像头">
-    <meta name="twitter:description" content="测试摄像头性能，检测分辨率、帧率等硬件参数，完全免费使用。">
-    
+    <meta name="description" content="在线摄像头检测工具，test camera ">
+    <meta name="keywords" content="摄像头测试,webcam test">
+    <meta name="author" content="WebRTC Tool Developer">
+    <meta name="robots" content="index, follow"> 
     <link rel="canonical" href="https://starryring.com/toolbox/camera/" />
+    <title id="pageTitle">在线摄像头测试工具, webcam test , camera test</title>
     
-    <!-- 优化的标题 -->
-    <title>在线摄像头测试工具 - 免费检测网络摄像头分辨率、帧率 | 星环工具箱</title>
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -56,134 +18,89 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
     <link rel="manifest" href="/manifest.json">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- 样式表 -->
     <link rel="shortcut icon" href="/toolbox/camera/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/toolbox/camera/css/style.css">
-    
+    <link rel="stylesheet" href="/toolbox/shared/css/sidebar.css">
+
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J9HR7CNQR9');
+</script>
 <body>
+    <!----------------------- side bar begin ----------------------------------------------------------------------------------------------->
+    <button id="menu-button" aria-label="打开菜单">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
 
-    <!-- 主标题 -->
-    <h1>摄像头 <span style="color:var(--accent)">检测</span> <span class="badge">在线工具</span></h1>
-    
-    <!-- 页面描述 -->
-    <p class="page-description">
-        免费在线摄像头测试工具，帮助您检测网络摄像头是否正常工作，查看实时分辨率、帧率和硬件参数。完全基于WebRTC技术，无需下载任何软件。
-    </p>
-    
-    <!-- 主要内容容器 -->
+    <div id="sidebar">
+        <button id="close-button" aria-label="关闭菜单">&times;</button>
+        <a href="/toolbox/main/"><span class="icon-emoji">🏠</span> Home</a>
+        <a href="/toolbox/mouse/"><span class="icon-emoji">🖱️</span> Mouse</a>
+        <a href="/toolbox/keyboard/"><span class="icon-emoji">⌨️</span> Keyboard</a>
+        <a href="/toolbox/mic/"><span class="icon-emoji">🎤</span> Microphone</a>
+        <a href="/toolbox/camera/"><span class="icon-emoji">📷</span> Camera</a>
+        <a href="/toolbox/deadpixel/"><span class="icon-emoji">🖥️</span> Screen</a>
+    </div>
+    <!----------------------- side bar end ---------------------------------------------------------------------------------->
+
+    <h1 id="title-text"></h1>
+
     <div class="container">
-        <main>
-            <section>
-                <div class="card" style="margin-bottom: 20px;">
-                    <div class="controls-row">
-                        <div class="select-group">
-                            <label for="videoSource">视频输入源</label>
-                            <select id="videoSource" aria-label="选择视频输入设备">
-                                <option>正在检测设备...</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="controls-row" style="margin-bottom: 0;">
-                        <div class="btn-group">
-                            <button id="btn-mirror" class="secondary">镜像翻转</button>
-                        </div>
+        <section>
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="controls-row">
+                    <div class="select-group">
+                        <label id="video-label" for="videoSource"></label>
+                        <select id="videoSource"><option></option></select>
                     </div>
                 </div>
+                <div class="controls-row" style="margin-bottom: 0;">
+                    <div class="btn-group">
+                        <button id="btn-mirror" class="secondary"></button>
+                    </div>
+                </div>
+            </div>
 
-                <div class="card" style="padding: 10px;">
-                    <div class="video-wrapper">
-                        <video id="video" autoplay playsinline aria-label="摄像头实时画面"></video>
-                        <div class="overlay-stats">
-                            <span id="live-res">0x0</span> | <span id="live-fps">0</span> FPS
-                        </div>
+            <div class="card" style="padding: 10px;">
+                <div class="video-wrapper">
+                    <video id="video" autoplay playsinline></video>
+                    <div class="overlay-stats">
+                        <span id="live-res">0x0</span> | <span id="live-fps">0</span> FPS
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </section>
 
         <aside>
             <div class="card">
-                <h3><span class="status-dot"></span>设备状态</h3>
+                <h3 id="status-header-text"><span class="status-dot"></span></h3>
                 <table class="info-table">
-                    <tr><th scope="row">运行状态</th><td id="status-text">请求权限中...</td></tr>
-                    <tr><th scope="row">设备名称</th><td id="device-label">-</td></tr>
-                    <tr><th scope="row">实际分辨率</th><td id="info-res">-</td></tr>
-                    <tr><th scope="row">画面比例</th><td id="info-aspect">-</td></tr>
+                    <tr><td id="run-status-label"></td><td id="status-text"></td></tr>
+                    <tr><td id="device-name-label"></td><td id="device-label">-</td></tr>
+                    <tr><td id="actual-res-label"></td><td id="info-res">-</td></tr>
+                    <tr><td id="aspect-ratio-label"></td><td id="info-aspect">-</td></tr>
                 </table>
 
-                <h3 style="margin-top: 20px;">硬件能力</h3>
-                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
-                    * 浏览器读取的底层驱动参数
-                </div>
+                <h3 id="caps-header-text" style="margin-top: 20px;"></h3>
+                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;"></div>
                 <table class="info-table" id="capabilities-table">
-                    <tr><th scope="row">-</th><td>-</td></tr>
+                    <tr><td>-</td><td>-</td></tr>
                 </table>
             </div>
         </aside>
     </div>
-    
-    <!-- FAQ常见问题 -->
-    <section class="faq-section">
-        <h2>常见问题解答</h2>
-        <div class="faq-item">
-            <h3>这个摄像头测试工具是免费的吗？</h3>
-            <p>是的，完全免费使用，无需注册或下载任何软件。</p>
-        </div>
-        <div class="faq-item">
-            <h3>支持哪些浏览器？</h3>
-            <p>支持Chrome、Firefox、Edge、Safari等现代浏览器，需要支持WebRTC技术。</p>
-        </div>
-        <div class="faq-item">
-            <h3>我的摄像头数据安全吗？</h3>
-            <p>所有摄像头数据都在本地处理，不会上传到服务器，保护您的隐私安全。</p>
-        </div>
-        <div class="faq-item">
-            <h3>为什么需要摄像头权限？</h3>
-            <p>为了实时显示摄像头画面，需要您授权访问摄像头，这是正常的浏览器安全机制。</p>
-        </div>
-        <div class="faq-item">
-            <h3>检测不到摄像头怎么办？</h3>
-            <p>1. 确保摄像头已正确连接<br>2. 检查浏览器权限设置<br>3. 确保使用HTTPS或localhost访问</p>
-        </div>
-    </section>
-    
-    <!-- 相关工具 -->
-    <section class="related-tools">
-        <h2>其他实用工具</h2>
-        <div class="tool-links">
-            <a href="/toolbox/keyboard/">在线键盘测试</a>
-            <a href="/toolbox/microphone/">麦克风测试</a>
-            <a href="/toolbox/screen/">屏幕检测</a>
-            <a href="/toolbox/audio/">音频测试</a>
-        </div>
-    </section>
-    
-    <!-- 页脚 -->
-    <footer>
-        <p>&copy; 2024 星环工具箱 - 专业在线工具平台</p>
-        <p>基于WebRTC技术 | 隐私保护 | 无数据收集</p>
-        <nav>
-            <a href="/privacy/">隐私政策</a> | 
-            <a href="/terms/">使用条款</a> | 
-            <a href="/contact/">联系我们</a>
-        </nav>
-    </footer>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-J9HR7CNQR9');
-    </script>
-    
-    <!-- 主脚本 -->
     <script src="/toolbox/camera/js/main.js"></script>
+    <script src="/toolbox/shared/js/sidebar.js"></script>
 
 </body>
 </html>
