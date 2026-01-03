@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  
+  <!-- 主SEO优化 -->
+  <title>在线麦克风测试工具 - 免费检测麦克风音量、噪声、延迟 | 实时音频分析</title>
+  <meta name="description" content="免费在线麦克风测试工具，专业检测麦克风音量、波形、频率、噪声、延迟。实时音频分析、麦克风故障诊断、声卡测试。支持USB麦克风、蓝牙麦克风、笔记本内置麦克风测试。">
+  <meta name="keywords" content="麦克风测试,在线麦克风测试,Mic Test,麦克风检测,麦克风音量测试,麦克风噪音测试,麦克风延迟测试,麦克风故障诊断,声卡测试,音频测试,USB麦克风测试,蓝牙麦克风测试,笔记本麦克风测试,麦克风没声音怎么办,麦克风声音小">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="免费在线麦克风测试工具 - 实时音频分析">
+  <meta property="og:description" content="专业检测麦克风音量、噪声、延迟，支持波形和频谱分析，快速诊断麦克风故障。">
+  <meta property="og:url" content="https://starryring.com/toolbox/mic/">
+  <meta property="og:image" content="https://starryring.com/toolbox/mic/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="StarryRing工具箱">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="专业在线麦克风测试工具">
+  <meta name="twitter:description" content="实时检测麦克风音量、噪声、波形、频率分析，专业音频故障排查。">
+  <meta name="twitter:image" content="https://starryring.com/toolbox/mic/twitter-preview.jpg">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://starryring.com/toolbox/mic/" />
+  
+  <!-- 移动端优化 -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- 预加载关键资源 -->
+  <link rel="preload" href="/toolbox/mic/js/script-zh.js" as="script">
+  <link rel="preload" href="/toolbox/shared/js/switchlanguage.js" as="script">
+  <link rel="preload" href="/toolbox/mic/css/style.css" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  
+  <!-- 样式表 -->
+  <link rel="stylesheet" href="/toolbox/mic/css/style.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/toolsnavigation.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/document.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
+  <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- JSON-LD 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "在线麦克风测试工具",
+    "description": "专业在线麦克风测试工具，实时音量、波形、频率、噪声检测。",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript and microphone access",
+    "url": "https://starryring.com/toolbox/mic/",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CNY"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "StarryRing",
+      "url": "https://starryring.com"
+    },
+    "keywords": "麦克风测试,在线麦克风测试,音频测试,声卡测试,Mic Test",
+    "datePublished": "2024-01-01",
+    "dateModified": "2024-01-01",
+    "mainEntity": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "为什么麦克风没有声音？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "这可能是由于浏览器权限、系统设置或硬件问题。请确保：1) 已允许浏览器访问麦克风；2) 系统默认输入设备正确；3) 麦克风硬件连接正常。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "如何判断麦克风故障？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "如果麦克风：1) 完全没有波形显示；2) 音量极低；3) 有明显电流声或杂音；4) 延迟非常高，可能表示麦克风存在硬件故障。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "什么是RMS和峰值？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RMS（均方根）表示平均音量，峰值表示最大瞬时音量。正常语音的RMS应该在-20dB左右，峰值不超过-6dB以避免削波失真。"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
+  <!-- BreadcrumbList 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "首页",
+        "item": "https://starryring.com/toolbox/main/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "音频测试工具箱",
+        "item": "https://starryring.com/toolbox/audio/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "麦克风测试工具",
+        "item": "https://starryring.com/toolbox/mic/"
+      }
+    ]
+  }
+  </script>
+
+</head>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J9HR7CNQR9');
+</script>
+
+<body>
+  <!-- Language Switcher -->
+  <div class="language-switcher">
+    <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+      <i class="fas fa-globe"></i>
+    </button>
+    
+    <div class="language-dropdown" id="languageDropdown">
+      <a class="language-option selected" href="/toolbox/mic/zh/" data-lang="zh">
+        中文版
+      </a>
+      <a class="language-option" href="/toolbox/mic/" data-lang="en">
+        English
+      </a>
+    </div>
+  </div>
+
+  <!-- 面包屑导航栏 -->
+  <div class="breadcrumb-section">
+    <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <ol class="breadcrumb-modern">
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/toolbox/main/" class="breadcrumb-link" itemprop="item">
+            <i class="fas fa-home" aria-hidden="true"></i> 
+            <span itemprop="name">首页</span>
+          </a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/toolbox/audio/" class="breadcrumb-link" itemprop="item">
+            <span itemprop="name">音频测试工具箱</span>
+          </a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span class="breadcrumb-active" itemprop="name">麦克风测试工具</span>
+          <meta itemprop="position" content="3" />
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- 页面主标题 -->
+  <div class="app">
+    <header>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" stroke="#06b6d4" stroke-width="2"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="#7c3aed" stroke-width="2"/><path d="M12 19v3" stroke="#94a3b8" stroke-width="2"/></svg>
+      <div>
+        <h1>在线麦克风测试工具 - 免费实时音频分析</h1>
+        <h2>专业检测麦克风音量、波形、频谱、噪声、延迟</h2>
+        <div class="small">
+          <span id="statusDot" class="status-indicator"></span>
+          <span id="statusText">初始化中...</span>
+        </div>
+        <button id="permBtn" style="display:none" class="ghost error-btn">
+          ⚠️ 点击允许权限 (或在地址栏重置)
+        </button>
+      </div>
+    </header>
+
+    <!-- 引导性内容 -->
+    <div class="intro-section">
+      <p>本工具帮助您全面检测麦克风性能，包括：<strong>实时音量检测</strong>、<strong>波形分析</strong>、<strong>频谱分析</strong>、<strong>噪声测量</strong>、<strong>延迟测试</strong>。适用于所有类型的麦克风，包括USB麦克风、3.5mm接口麦克风、蓝牙麦克风、笔记本内置麦克风等。</p>
+
+      <div class="keyboard-types">
+        <span class="keyboard-type-tag">USB麦克风测试</span>
+        <span class="keyboard-type-tag">游戏麦克风测试</span>
+        <span class="keyboard-type-tag">笔记本麦克风测试</span>
+        <span class="keyboard-type-tag">无线麦克风测试</span>
+        <span class="keyboard-type-tag">蓝牙麦克风测试</span>
+        <span class="keyboard-type-tag">专业录音麦克风测试</span>
+      </div>
+    </div>
+
+    <!-- 统计栏 -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-label">当前音量</span>
+        <span class="stat-value" id="currentVolume">-</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">峰值音量</span>
+        <span class="stat-value" id="peakVolume">-</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">信噪比</span>
+        <span class="stat-value" id="snRatio">-</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">音频延迟</span>
+        <span class="stat-value" id="audioLatency">-</span>
+      </div>
+      <!-- 新增：设备信息 -->
+      <div class="stat-item">
+        <span class="stat-label">麦克风状态</span>
+        <span class="stat-value" id="micStatusDisplay">未连接</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">采样率</span>
+        <span class="stat-value" id="sampleRateDisplay">-</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">声道数</span>
+        <span class="stat-value" id="channelsDisplay">-</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">比特深度</span>
+        <span class="stat-value" id="bitDepthDisplay">-</span>
+      </div>
+    </div>
+
+    <!-- 音频测试工具导航卡片 -->
+    <div class="tools-navigation-section">
+      <h2 class="tools-navigation-title">
+        <i class="fas fa-microphone" aria-hidden="true"></i> 音频测试工具箱
+      </h2>
+      <p class="tools-navigation-subtitle">选择您需要的音频测试工具，全面检测麦克风和音频系统性能</p>
+      <div class="tools-navigation-grid">  
+        <a href="/toolbox/mic/" class="tool-card">
+          <div class="tool-card-content">
+            <div class="tool-card-header">
+              <div class="tool-card-icon">
+                <i class="fas fa-waveform" aria-hidden="true"></i>
+              </div>
+              <h3>麦克风测试</h3>
+            </div>
+            <p>实时音量、波形、频谱分析，麦克风故障诊断</p>
+          </div>
+        </a>
+        
+        <a href="/toolbox/speaker/" class="tool-card" title="在线扬声器测试工具">
+          <div class="tool-card-content">
+            <div class="tool-card-header">
+              <div class="tool-card-icon">
+                <i class="fas fa-volume-up" aria-hidden="true"></i>
+              </div>
+              <h3>扬声器测试</h3>
+            </div>
+            <p>测试扬声器声音、立体声平衡、频率响应</p>
+          </div>
+        </a>
+        
+        <a href="/toolbox/headphone/" class="tool-card" title="在线耳机测试工具">
+          <div class="tool-card-content">
+            <div class="tool-card-header">
+              <div class="tool-card-icon">
+                <i class="fas fa-headphones" aria-hidden="true"></i>
+              </div>
+              <h3>耳机测试</h3>
+            </div>
+            <p>测试耳机左右声道、音频定位、声音质量</p>
+          </div>
+        </a>
+        
+        <a href="/toolbox/audio-latency/" class="tool-card" title="音频延迟测试工具">
+          <div class="tool-card-content">
+            <div class="tool-card-header">
+              <div class="tool-card-icon">
+                <i class="fas fa-clock" aria-hidden="true"></i>
+              </div>
+              <h3>音频延迟</h3>
+            </div>
+            <p>测量输入输出延迟，检测音频同步问题</p>
+          </div>
+        </a>
+        
+        <a href="/toolbox/recording/" class="tool-card" title="在线录音测试工具">
+          <div class="tool-card-content">
+            <div class="tool-card-header">
+              <div class="tool-card-icon">
+                <i class="fas fa-file-audio" aria-hidden="true"></i>
+              </div>
+              <h3>录音测试</h3>
+            </div>
+            <p>录音质量测试，格式兼容性检查</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 主测试界面 -->
+    <div class="grid">
+      <div class="card controls">
+        <label>选择麦克风</label>
+        <select id="deviceSelect"></select>
+
+        <label>输入增益 (Gain)</label>
+        <input id="gain" type="range" min="0" max="4" step="0.01" value="1">
+        
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.05);margin:16px 0">
+        
+        <label style="color:#fff; font-weight:600; text-align:center;">测试操作</label>
+        <button id="pttBtn">按住 录音<br><span style="font-size:12px;font-weight:400;opacity:0.8">松开 立即播放</span></button>
+
+        <div style="height:20px"></div>
+        <div class="small" style="font-weight:600;margin-bottom:8px">高级选项</div>
+        <div style="margin-bottom:12px; padding:8px; background:rgba(255,255,255,0.05); border-radius:6px; color:var(--muted)">
+          * 诊断结果已自动显示在统计面板。
+        </div>
+
+        <label class="small"><input id="aec" type="checkbox"> 回声消除 (AEC)</label>
+        <label class="small"><input id="autoGain" type="checkbox"> 自动增益 (AGC)</label>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="row" style="justify-content:space-between;margin-bottom:4px">
+            <div class="small">实时波形 (Waveform)</div>
+            <div class="small">采样率: <span id="samplerate">-</span> Hz</div>
+          </div>
+          <canvas id="waveCanvas" width="800" height="180"></canvas>
+          <div class="stats">
+            <div class="stat">RMS: <span id="rms" style="color:#06b6d4">-</span></div>
+            <div class="stat">峰值: <span id="peak" style="color:#f43f5e">-</span></div>
+            <div class="stat">最低噪底: <span id="minNoise" style="color:#eab308">-</span> dB</div>
+            <div class="stat">延迟: <span id="latencyMs" style="color:var(--latency)">--</span> ms</div>
+            <div class="stat">状态: <span id="playState" style="color:#eab308">待机</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="small" style="margin-bottom:4px">频谱分析 (Frequency)</div>
+          <canvas id="specCanvas" width="800" height="180"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页面导航卡片 -->
+  <div class="page-navigation-section">
+    <div class="navigation-header">
+      <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+      <h2>深入学习音频测试</h2>
+      <p>了解更多关于音频测试的知识和技术原理</p>
+    </div>
+    
+    <div class="navigation-cards">
+      <a href="/toolbox/mic/guide/" class="nav-card" title="麦克风测试使用指南">
+        <div class="nav-card-icon">
+          <i class="fas fa-book-open" aria-hidden="true"></i>
+        </div>
+        <div class="nav-card-content">
+          <h3>详细使用指南</h3>
+          <p>从零开始学习如何使用本工具，包含分步操作说明、测试技巧和常见问题解答。</p>
+          <div class="nav-card-action">
+            <span>查看完整指南 <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="/toolbox/mic/how-it-works/" class="nav-card" title="麦克风测试工作原理">
+        <div class="nav-card-icon">
+          <i class="fas fa-cogs" aria-hidden="true"></i>
+        </div>
+        <div class="nav-card-content">
+          <h3>工作原理详解</h3>
+          <p>深入了解麦克风的技术原理、音频信号处理和本工具的检测机制。</p>
+          <div class="nav-card-action">
+            <span>学习技术原理 <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 功能说明和FAQ部分 -->
+  <section class="instructions-section">
+    <div class="instructions-content" id="instructions-content">
+      <h2>专业麦克风测试工具特色</h2>
+      <p>📖 简介：专业麦克风测试工具提供全面的音频检测功能，从基本音量测试到高级频谱分析，帮助您全面了解麦克风状态。支持所有类型麦克风，包括USB麦克风、3.5mm接口麦克风、笔记本内置麦克风等。</p>
+      
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3>🔍 实时音量检测</h3>
+          <p>实时显示麦克风输入音量，包括RMS值、峰值电平和当前音量百分比。帮助您判断麦克风灵敏度是否正常。</p>
+          <div class="tip">
+            <span class="tip-text">提示：正常语音应该在-20dB到-6dB之间</span>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <h3>⚡ 波形分析</h3>
+          <p>实时绘制音频波形图，可视化显示声音信号的振幅变化。帮助您识别削波失真、静音段或异常噪声。</p>
+          <div class="tip">
+            <span class="tip-text">正常波形</span>
+            <a href="/toolbox/mic/waveform-guide/" title="波形图解读指南">
+              波形图解读指南
+            </a>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <h3>⏱️ 频谱分析</h3>
+          <p>实时FFT频谱分析，显示声音在不同频率上的能量分布。帮助您识别共振频率、噪声类型和音质问题。</p>
+          <div class="tip">
+            <span class="tip-text">关注频谱图，识别异常频率峰值</span>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <h3>🔧 延迟测试</h3>
+          <p>精确测量麦克风输入到播放输出的延迟时间。对于录音、直播和实时通信应用至关重要。</p>
+          <div class="tip">
+            <span class="tip-text">专业音频接口延迟通常小于10ms</span>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <h3>🎯 噪声测量</h3>
+          <p>测量麦克风的最低噪底和信噪比，量化评估麦克风的噪声性能。识别电流声、环境噪声等问题。</p>
+          <div class="tip">
+            <span class="tip-text">高质量麦克风信噪比应大于70dB</span>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <h3>📊 多设备支持</h3>
+          <p>支持所有类型的音频输入设备，自动检测系统可用的麦克风列表。一键切换测试不同麦克风。</p>
+          <div class="tip">
+            <span class="tip-text">支持USB、3.5mm、蓝牙等多种接口</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="faq-section">
+        <h2>常见问题解答 (FAQ)</h2>
+        
+        <div class="faq-item">
+          <h3>为什么麦克风没有声音？</h3>
+          <p>这可能是由于浏览器权限、系统设置或硬件问题。请确保：1) 已允许浏览器访问麦克风；2) 系统默认输入设备正确；3) 麦克风硬件连接正常。检查音频延迟问题，可使用<a href="/toolbox/audio-latency/" title="音频延迟测试工具">音频延迟测试工具</a>。</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>如何判断麦克风故障？</h3>
+          <p>如果麦克风：1) 完全没有波形显示；2) 音量极低；3) 有明显电流声或杂音；4) 延迟非常高，可能表示麦克风存在硬件故障。</p>
+          <div class="faq-link-container">
+            <span class="faq-tip-text">故障诊断：</span>
+            <a href="/toolbox/mic/troubleshoot/" class="faq-link" title="麦克风故障诊断指南">
+              麦克风故障诊断指南
+            </a>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <h3>什么是RMS和峰值？</h3>
+          <p>RMS（均方根）表示平均音量，峰值表示最大瞬时音量。正常语音的RMS应该在-20dB左右，峰值不超过-6dB以避免削波失真。</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>支持哪些类型的麦克风？</h3>
+          <p>支持所有类型的麦克风：USB麦克风、3.5mm接口麦克风、XLR麦克风（需接口）、笔记本内置麦克风、蓝牙麦克风等。兼容Windows、macOS、Linux系统。</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>如何测试麦克风延迟？</h3>
+          <p>工具会自动进行延迟测试。系统会发出测试音并测量从输入到输出的往返延迟时间，结果显示在"音频延迟"统计项中。</p>
+          <div class="faq-link-container">
+            <span class="faq-tip-text">专项测试：</span>
+            <a href="/toolbox/mic/latency/" class="faq-link" title="音频延迟专项测试">
+              音频延迟专项测试
+            </a>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <h3>测试数据会保存吗？</h3>
+          <p>所有测试数据仅保存在当前浏览器会话中，刷新页面或关闭标签页后数据将丢失。如需保存结果，请使用截图功能或手动记录数据。</p>
+          <div class="faq-link-container">
+            <span class="faq-tip-text">数据安全：所有音频处理均在本地进行</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="/toolbox/mic/js/script-zh.js"></script>
+  <script src="/toolbox/shared/js/switchlanguage.js"></script>
+
+</body>
+</html>

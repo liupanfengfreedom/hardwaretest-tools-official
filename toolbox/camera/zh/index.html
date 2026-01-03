@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="免费在线摄像头测试工具，实时检测摄像头性能、分辨率、帧率、硬件参数。支持笔记本电脑摄像头、USB摄像头、网络摄像头等多种设备检测。无需下载，一键测试摄像头质量。">
+    <meta name="keywords" content="摄像头测试,摄像头检测,网络摄像头测试,摄像头分辨率测试,摄像头帧率测试,在线摄像头检测,摄像头质量测试,webcam test,camera test,摄像头性能检测">
+    <meta name="author" content="WebRTC Tool Developer">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Open Graph 标签 -->
+    <meta property="og:title" content="在线摄像头测试工具 - 专业摄像头检测">
+    <meta property="og:description" content="免费在线摄像头测试工具，实时检测摄像头性能、分辨率、帧率、硬件参数">
+    <meta property="og:image" content="https://starryring.com/toolbox/camera/og-image.jpg">
+    <meta property="og:url" content="https://starryring.com/toolbox/camera/zh/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing工具箱">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="在线摄像头测试工具 - 专业摄像头检测">
+    <meta name="twitter:description" content="免费在线摄像头测试工具，实时检测摄像头性能、分辨率、帧率、硬件参数">
+    <meta name="twitter:image" content="https://starryring.com/toolbox/camera/og-image.jpg">
+    
+    <link rel="canonical" href="https://starryring.com/toolbox/camera/zh/" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-tools.xml">
+    <title>在线摄像头测试工具 - 专业摄像头检测、分辨率/帧率测试 | StarryRing</title>
+    
+    <!-- 预加载和预连接 -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="/toolbox/camera/css/style.css" as="style">
+    <link rel="preload" href="/toolbox/camera/js/script-zh.js" as="script">
+    
+    <!-- 关键路径CSS（首屏样式） -->
+    <style>
+        /* 关键路径CSS - 首屏样式 */
+        :root { 
+            --bg-color: #121212; 
+            --card-bg: #1e1e1e; 
+            --text-main: #e0e0e0; 
+            --text-muted: #a0a0a0; 
+            --accent: #4a6bff; 
+            --accent-hover: #3a5bef; 
+            --border: #333; 
+            --success: #00d4aa; 
+            --danger: #ef4444; 
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        
+        h1 { 
+            margin-bottom: 20px; 
+            font-weight: 300; 
+            margin-top: 20px; 
+            text-align: center; 
+            font-size: clamp(1.5rem, 4vw, 2.2rem); 
+        }
+        
+        .badge { 
+            background: var(--success); 
+            color: white; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-size: 0.6rem; 
+            vertical-align: middle; 
+            margin-left: 8px; 
+            font-weight: 600; 
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+        }
+        
+        /* 移动端触摸优化 */
+        @media (hover: none) and (pointer: coarse) {
+            button, select {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* 减少动画（无障碍） */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+    
+    <!-- 图标 -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/toolbox/camera/favicon.ico" type="image/x-icon">
+    
+    <!-- WebP图标格式（如果支持） -->
+    <link rel="icon" type="image/webp" sizes="96x96" href="/favicon-96x96.webp">
+    <link rel="icon" type="image/webp" sizes="48x48" href="/favicon-48x48.webp">
+    
+    <!-- 非关键CSS异步加载 -->
+    <link rel="stylesheet" href="/toolbox/camera/css/style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/toolbox/camera/css/style.css"></noscript>
+    
+    <!-- 共享样式表 -->
+    <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/toolsnavigation.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/document.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "在线摄像头测试工具",
+        "description": "专业的在线摄像头检测工具，提供全面的摄像头性能测试",
+        "url": "https://starryring.com/toolbox/camera/zh/",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "StarryRing",
+            "url": "https://starryring.com"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://starryring.com/toolbox/camera/zh/"
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/toolbox/camera/zh/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option " href="/toolbox/camera/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    
+    <!-- 面包屑导航栏 -->
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/toolbox/main/" class="breadcrumb-link" itemprop="item">
+                        <i class="fas fa-home" aria-hidden="true"></i> 
+                        <span itemprop="name">首页</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span class="breadcrumb-active" itemprop="name">摄像头测试工具</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- 摄像头测试工具导航卡片 -->
+    <div class="tools-navigation-section">
+        <h2 class="tools-navigation-title">
+            <i class="fas fa-camera" aria-hidden="true"></i> 摄像头测试工具箱
+        </h2>
+        <p class="tools-navigation-subtitle">选择您需要的测试工具，全面检测摄像头性能</p>
+        <div class="tools-navigation-grid">  
+            <a href="/toolbox/camera/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-video" aria-hidden="true"></i>
+                        </div>
+                        <h3>视频测试</h3>
+                    </div>
+                    <p>检测摄像头视频流质量和稳定性</p>
+                </div>
+            </a>
+            
+            <a href="/toolbox/camera/resolution/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-expand-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3>分辨率测试</h3>
+                    </div>
+                    <p>测试摄像头支持的各种分辨率模式</p>
+                </div>
+            </a>
+            
+            <a href="/toolbox/camera/fps/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3>帧率测试</h3>
+                    </div>
+                    <p>检测摄像头帧率和流畅度表现</p>
+                </div>
+            </a>
+            
+            <a href="/toolbox/camera/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                        </div>
+                        <h3>低光测试</h3>
+                    </div>
+                    <p>测试摄像头在低光照条件下的表现</p>
+                </div>
+            </a>
+            
+            <a href="/toolbox/camera/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-focus" aria-hidden="true"></i>
+                        </div>
+                        <h3>对焦测试</h3>
+                    </div>
+                    <p>测试摄像头自动对焦和手动对焦能力</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 页面主标题 -->
+    <h1 id="title-text">专业摄像头测试工具 - 实时摄像头检测、分辨率/帧率分析<span class="badge">免费在线工具</span></h1>
+
+    <!-- 引导性内容 -->
+    <div class="intro-section">
+        <p>免费在线摄像头测试工具，无需安装任何软件。本工具基于WebRTC技术开发，可实时检测摄像头性能指标，包括：<strong>视频流质量测试</strong>、<strong>分辨率检测</strong>、<strong>帧率(FPS)分析</strong>、<strong>硬件能力检测</strong>。支持多种设备类型：</p>
+        <div class="keyboard-types">
+            <span class="keyboard-type-tag">笔记本电脑摄像头</span>
+            <span class="keyboard-type-tag">USB外接摄像头</span>
+            <span class="keyboard-type-tag">网络摄像头</span>
+            <span class="keyboard-type-tag">高清摄像头</span>
+            <span class="keyboard-type-tag">会议摄像头</span>
+            <span class="keyboard-type-tag">直播摄像头</span>
+            <span class="keyboard-type-tag">手机摄像头(需浏览器支持)</span>
+        </div>
+        <div class="compatibility-note">
+            <i class="fas fa-info-circle"></i> <strong>兼容性提示：</strong>本工具支持Chrome、Firefox、Edge、Safari等现代浏览器，需要HTTPS环境或localhost访问。
+        </div>
+    </div>
+
+    <div class="container">
+        <section>
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="controls-row">
+                    <div class="select-group">
+                        <label id="video-label" for="videoSource">视频输入源 (Video)</label>
+                        <select id="videoSource"><option>正在检测设备...</option></select>
+                    </div>
+                </div>
+                <div class="controls-row" style="margin-bottom: 0;">
+                    <div class="btn-group">
+                        <button id="btn-mirror" class="secondary">镜像翻转</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 10px;">
+                <div class="video-wrapper">
+                    <video id="video" autoplay playsinline aria-label="摄像头实时画面"></video>
+                    <div class="overlay-stats">
+                        <span id="live-res">0x0</span> | <span id="live-fps">0</span> FPS
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside>
+            <div class="card">
+                <h3 id="status-header-text"><span class="status-dot"></span>设备状态</h3>
+                <table class="info-table">
+                    <tr><td id="run-status-label">运行状态</td><td id="status-text">请求权限中...</td></tr>
+                    <tr><td id="device-name-label">设备名称</td><td id="device-label">-</td></tr>
+                    <tr><td id="actual-res-label">实际分辨率</td><td id="info-res">-</td></tr>
+                    <tr><td id="aspect-ratio-label">画面比例</td><td id="info-aspect">-</td></tr>
+                </table>
+
+                <h3 id="caps-header-text" style="margin-top: 20px;">硬件能力 (Capabilities)</h3>
+                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">* 浏览器读取的底层驱动参数</div>
+                <table class="info-table" id="capabilities-table">
+                    <tr><td>-</td><td>-</td></tr>
+                </table>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 核心优势展示 -->
+    <div class="stats-section">
+        <h2>摄像头测试工具核心优势</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-title">免费使用</div>
+                <p>无需注册，无任何费用</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">实时</div>
+                <div class="stat-title">即时检测</div>
+                <p>立即显示摄像头各项参数</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">隐私</div>
+                <div class="stat-title">安全保护</div>
+                <p>数据仅存本地，不上传</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">多设备</div>
+                <div class="stat-title">全面兼容</div>
+                <p>支持各类摄像头设备</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页面导航卡片 -->
+    <div class="page-navigation-section">
+        <div class="navigation-header">
+            <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+            <h2>深入学习摄像头测试</h2>
+            <p>了解更多关于摄像头测试的知识和技术原理</p>
+        </div>
+        
+        <div class="navigation-cards">
+            <a href="/toolbox/camera/guide/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-book-open" aria-hidden="true"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>详细使用指南</h3>
+                    <p>从零开始学习如何使用本工具，包含分步操作说明、测试技巧和常见问题解答。</p>
+                    <div class="nav-card-action">
+                        <span>查看完整指南 <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/toolbox/camera/tech/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-cogs" aria-hidden="true"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>工作原理详解</h3>
+                    <p>深入了解摄像头的技术原理、不同类型摄像头的差异以及本工具的检测机制。</p>
+                    <div class="nav-card-action">
+                        <span>学习技术原理 <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 功能说明和FAQ部分 -->
+    <section class="instructions-section">
+        <div class="instructions-content" id="instructions-content">
+            <h2>专业摄像头测试工具特色</h2>
+            <p>📖 简介：专业摄像头测试工具提供全面的摄像头检测功能，从基本视频流到高级性能分析，帮助您全面了解摄像头状态。支持所有类型摄像头，包括笔记本电脑内置摄像头、USB外接摄像头、网络摄像头等。</p>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>🔍 实时视频流检测</h3>
+                    <p>实时显示摄像头视频流，检测视频传输是否稳定流畅，是否有卡顿、延迟或丢帧现象。</p>
+                    <div class="tip">
+                        <span class="tip-text">提示：观察视频流是否平滑，有无卡顿现象</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>📊 分辨率与帧率测试</h3>
+                    <p>检测摄像头支持的最大分辨率、最佳分辨率和各种帧率模式，显示实时分辨率和FPS数据。</p>
+                    <div class="tip">
+                        <span class="tip-text">专业摄像头</span>
+                        <a href="/toolbox/camera/resolution/">
+                            分辨率专项测试
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>⚙️ 硬件能力分析</h3>
+                    <p>显示摄像头底层硬件参数，包括支持的分辨率范围、帧率范围、对焦模式、白平衡等。</p>
+                    <div class="tip">
+                        <span class="tip-text">关注硬件能力参数，了解摄像头真实性能</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>🎯 设备切换与管理</h3>
+                    <p>支持多摄像头设备切换，自动检测并列出所有可用摄像头，方便测试不同设备性能。</p>
+                    <div class="tip">
+                        <span class="tip-text">可以切换不同摄像头进行对比测试</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>🔄 镜像翻转功能</h3>
+                    <p>提供镜像翻转开关，模拟自拍模式，测试摄像头镜像处理能力和显示效果。</p>
+                    <div class="tip">
+                        <span class="tip-text">镜像功能适合视频会议和自拍场景</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <h3>📈 性能实时监控</h3>
+                    <p>实时显示FPS、分辨率、运行状态等关键参数，量化评估摄像头性能表现。</p>
+                    <div class="tip">
+                        <span class="tip-text">数据监控帮助您系统性地评估摄像头状态</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>常见问题解答 (FAQ)</h2>
+                
+                <div class="faq-item">
+                    <h3>为什么摄像头无法正常显示？</h3>
+                    <p>这可能是由于浏览器权限限制或摄像头硬件问题。请确保：1) 允许浏览器访问摄像头；2) 检查摄像头连接；3) 确保没有其他程序占用摄像头。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>如何测试摄像头帧率？</h3>
+                    <p>查看页面右上角的实时FPS数值。专业摄像头通常支持30fps以上，高端摄像头可达60fps甚至更高。稳定的帧率是视频流畅的关键。</p>
+                    <div class="faq-link-container">
+                        <span class="faq-tip-text">了解更多：</span>
+                        <a href="/toolbox/camera/fps/" class="faq-link">
+                            FPS帧率专项测试
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>如何判断摄像头质量问题？</h3>
+                    <p>如果摄像头：1) 视频模糊不清；2) 帧率过低导致卡顿；3) 色彩失真；4) 在低光下表现差，可能表示摄像头质量有问题。</p>
+                    <div class="faq-link-container">
+                        <span class="faq-tip-text">故障诊断：</span>
+                        <a href="/toolbox/camera/troubleshoot/" class="faq-link">
+                            摄像头故障诊断指南
+                        </a>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <h3>支持哪些类型的摄像头？</h3>
+                    <p>支持所有类型的摄像头：笔记本电脑内置摄像头、USB外接摄像头、网络摄像头、会议摄像头、直播摄像头等。兼容Windows、macOS、Linux系统。</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>如何测试摄像头分辨率？</h3>
+                    <p>工具会自动显示当前分辨率。高质量摄像头通常支持1080p(1920x1080)或更高分辨率，普通摄像头可能只支持720p(1280x720)。</p>
+                    <div class="faq-link-container">
+                        <span class="faq-tip-text">专项测试：</span>
+                        <a href="/toolbox/camera/resolution/" class="faq-link">
+                            摄像头分辨率专项测试
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>测试数据会保存吗？</h3>
+                    <p>所有测试数据仅保存在当前浏览器会话中，刷新页面或关闭标签页后数据将丢失。我们不会收集或上传任何摄像头数据，确保您的隐私安全。</p>
+                    <div class="faq-link-container">
+                        <span class="faq-tip-text">数据安全：所有数据仅在本地处理</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 结构化数据 - FAQ部分 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "为什么摄像头无法正常显示？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "这可能是由于浏览器权限限制或摄像头硬件问题。请确保：1) 允许浏览器访问摄像头；2) 检查摄像头连接；3) 确保没有其他程序占用摄像头。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "如何测试摄像头帧率？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "查看页面右上角的实时FPS数值。专业摄像头通常支持30fps以上，高端摄像头可达60fps甚至更高。稳定的帧率是视频流畅的关键。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "支持哪些类型的摄像头？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "支持所有类型的摄像头：笔记本电脑内置摄像头、USB外接摄像头、网络摄像头、会议摄像头、直播摄像头等。兼容Windows、macOS、Linux系统。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "如何判断摄像头质量问题？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "如果摄像头：1) 视频模糊不清；2) 帧率过低导致卡顿；3) 色彩失真；4) 在低光下表现差，可能表示摄像头质量有问题。"
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- 脚本 -->
+    <script src="/toolbox/camera/js/script-zh.js"></script>
+    <script src="/toolbox/shared/js/switchlanguage.js"></script>
+    
+    <!-- Google Analytics (请替换GA_MEASUREMENT_ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            'page_title': '摄像头测试工具',
+            'page_location': window.location.href,
+            'page_path': '/toolbox/camera/zh/'
+        });
+    </script>
+</body>
+</html>

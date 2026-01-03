@@ -1,0 +1,84 @@
+/* 粒子动画 */
+.particle {
+    --angle: 0;
+    --velocity: 1;
+    animation: particleFloat 0.8s ease-out forwards;
+}
+
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: 
+            translate(
+                calc(cos(var(--angle)) * var(--velocity) * 50px),
+                calc(sin(var(--angle)) * var(--velocity) * 50px - 50px)
+            ) 
+            scale(0);
+    }
+}
+
+/* 主题样式 */
+body.light-theme {
+    --primary-color: #4a6bff;
+    --primary-dark: #3a56cc;
+    --primary-light: #6d85ff;
+    --secondary-color: #00d4aa;
+    --accent-color: #ff6b9d;
+    
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #f0f2f5;
+    
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    
+    --border-color: #e2e8f0;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body.high-contrast-theme {
+    --primary-color: #00ff00;
+    --primary-dark: #00cc00;
+    --primary-light: #33ff33;
+    --secondary-color: #ffff00;
+    --accent-color: #ff0000;
+    
+    --bg-primary: #000000;
+    --bg-secondary: #111111;
+    --bg-card: #222222;
+    --bg-hover: #333333;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #999999;
+    
+    --border-color: #444444;
+    --shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    --shadow-light: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+body.eye-care-theme {
+    --primary-color: #8a6dff;
+    --primary-dark: #7156d4;
+    --primary-light: #a28aff;
+    --secondary-color: #5cd6b3;
+    --accent-color: #ff9d76;
+    
+    --bg-primary: #1a1f2e;
+    --bg-secondary: #22283a;
+    --bg-card: #2a3044;
+    --bg-hover: #32384e;
+    
+    --text-primary: #e6e9f0;
+    --text-secondary: #b3b9cc;
+    --text-muted: #8a91a6;
+    
+    --border-color: #3a4056;
+}

@@ -1,244 +1,879 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>專業級滑鼠回報率測試工具</title>
+    <title>Professional Mouse Event Frequency Tester | Mouse Polling Rate/Sampling Rate Detection | Browser Mouse Performance Test</title>
+    
+    <!-- SEO meta information -->
+    <meta name="description" content="Free online mouse event frequency testing tool. Real-time detection of mouse movement event sampling rate, jitter analysis, and performance monitoring in browsers. Professional mouse polling rate testing with CSV data export and real-time chart display.">
+    <meta name="keywords" content="mouse event frequency test, mouse polling rate, mouse sampling rate, mouse jitter test, browser mouse test, mouse performance test">
+    <meta name="author" content="Hardware Test">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://starryring.com/toolbox/mouse/pollingrate/">
+    <meta property="og:title" content="Professional Mouse Event Frequency Tester | Online Mouse Polling Rate Detection">
+    <meta property="og:description" content="Free online mouse event frequency testing tool, professional detection of browser mouse event sampling rate, jitter analysis, real-time chart display. Supports Chrome, Firefox, Edge and other major browsers.">
+    <meta property="og:image" content="https://starryring.com/preview-polling.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://starryring.com/toolbox/mouse/pollingrate/">
+    <meta property="twitter:title" content="Online Mouse Event Frequency Tester">
+    <meta property="twitter:description" content="Free online mouse event frequency testing tool, professional detection of browser mouse event sampling rate, jitter analysis, real-time chart display">
+    <meta property="twitter:image" content="https://starryring.com/preview-polling.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://starryring.com/toolbox/mouse/pollingrate/">
+    
+    <!-- Multilingual links -->
+    <link rel="alternate" hreflang="en" href="https://starryring.com/toolbox/mouse/pollingrate/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/toolbox/mouse/pollingrate/zh/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/toolbox/mouse/pollingrate/" />
+    
+    <!-- External resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Project styles -->
+    <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/document.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/switchlanguage.css">
     <link rel="stylesheet" href="/toolbox/mouse/pollingrate/css/style.css">
-
-
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Online Mouse Event Frequency Tester",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "description": "Professional mouse event frequency testing tool, detecting sampling rate, jitter analysis and performance monitoring of mouse movement events in browsers",
+        "url": "https://starryring.com/toolbox/mouse/pollingrate/",
+        "image": "https://starryring.com/preview-polling.png",
+        "author": {
+            "@type": "Organization",
+            "name": "Hardware Test"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Real-time frequency monitoring",
+            "Jitter analysis",
+            "Event sampling rate detection",
+            "Real-time chart display",
+            "CSV data export"
+        ]
+    }
+    </script>
+    
+    <!-- Breadcrumb navigation structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://starryring.com/toolbox/main/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Mouse Test Toolbox",
+                "item": "https://starryring.com/toolbox/mouse/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Mouse Event Frequency Tester"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- FAQ structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why does the web test show lower mouse event frequency than the actual USB polling rate?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mouse events in the browser environment are limited by multiple layers: browser event throttling, display refresh rate synchronization, operating system scheduling, etc. Web pages cannot directly access raw data from the USB HID layer, only through the mouse event interface provided by the browser."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How to get more accurate test results?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "1. Ensure the browser window is in the foreground and active\n2. Close unnecessary tabs and applications\n3. Perform fast, continuous mouse movements within the test area\n4. Maintain a stable testing posture to avoid hand shaking"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is Jitter? Why is it important?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Jitter reflects the stability of mouse event interval times. Low jitter means event intervals are uniform, resulting in smooth mouse movement feeling. High jitter may cause mouse movement to feel stuttering or unstable, even if the average frequency is high."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do different browsers show different test results?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Different browsers (Chrome, Firefox, Edge, Safari) use different event processing mechanisms, throttling strategies, and performance optimizations. Chrome usually provides higher event frequency, but specific performance also depends on the operating system and hardware configuration."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How to determine if mouse event performance is normal?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Normal situations:\n- 60Hz display: event frequency ≈ 60Hz\n- 120Hz display: event frequency ≈ 120Hz\n- 144Hz display: event frequency ≈ 120-144Hz\n- 240Hz display: event frequency ≈ 200Hz\nIf frequency is much lower than the display refresh rate, there may be performance issues."
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 <body class="p-4 md:p-8">
-    <div class="max-w-6xl mx-auto space-y-6">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-bold tracking-tight text-white">Browser Mouse Event Rate (Web-Limited),Not Mouse Polling Rate Tester</h1>
-                <p class="text-slate-400">專業級滑鼠採樣率監測與抖動分析工具 (已自動開啟測試)</p>
-            </div>
-            <div class="flex gap-3">
-                <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50">
-                    <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                    <span class="text-sm font-semibold text-blue-400">監測中</span>
-                </div>
-                <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition">
-                    清除數據
-                </button>
-            </div>
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item">
+                    <a href="/toolbox/main/" class="breadcrumb-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/toolbox/mouse/" class="breadcrumb-link">
+                        Mouse Test Toolbox
+                    </a>
+                </li>
+                <li class="breadcrumb-item">                   
+                    <span class="breadcrumb-active">Polling Rate Test</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <!-- Globe icon trigger -->
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        
+        <!-- Dropdown -->
+        <div class="language-dropdown" id="languageDropdown">
+            <!-- Language options -->
+            <a class="language-option" href="/toolbox/mouse/pollingrate/zh/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/toolbox/mouse/pollingrate/" data-lang="en">
+                English
+            </a>
         </div>
+    </div>
+    
+    <main class="max-w-6xl mx-auto space-y-6" itemscope itemtype="https://schema.org/SoftwareApplication">
+        <meta itemprop="applicationCategory" content="UtilitiesApplication">
+        <meta itemprop="operatingSystem" content="Web">
+        
+        <!-- Header -->
+        <header>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight text-white" itemprop="name">
+                        Browser Mouse Event Frequency Tester (Not
+                        <a href="#desktop-tool-section" 
+                           class="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors">
+                            Real USB Polling Rate
+                        </a>
+                        )
+                    </h1>
+                    <p class="text-slate-400" itemprop="description">Professional mouse sampling rate monitoring and jitter analysis tool (Automatically started)</p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                        <span class="text-sm font-semibold text-blue-400">Monitoring</span>
+                    </div>
+                    <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition">
+                        Clear Data
+                    </button>
+                </div>
+            </div>
+        </header>
 
         <!-- Main Dashboard -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- Left: Stats & Test Area -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="stat-card p-4 rounded-lg">
-                        <div class="text-xs text-slate-400 uppercase font-bold">當前頻率</div>
-                        <div id="currHz" class="text-3xl font-bold mono text-blue-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
-                    </div>
-                    <div class="stat-card p-4 rounded-lg border-emerald-500">
-                        <div class="text-xs text-slate-400 uppercase font-bold">最高頻率</div>
-                        <div id="maxHz" class="text-3xl font-bold mono text-emerald-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
-                    </div>
-                    <div class="stat-card p-4 rounded-lg border-purple-500">
-                        <div class="text-xs text-slate-400 uppercase font-bold">平均頻率</div>
-                        <div id="avgHz" class="text-3xl font-bold mono text-purple-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
-                    </div>
-                    <div class="stat-card p-4 rounded-lg border-orange-500">
-                        <div class="text-xs text-slate-400 uppercase font-bold">抖動 (Jitter)</div>
-                        <div id="jitter" class="text-3xl font-bold mono text-orange-400">0<small class="text-sm ml-1 text-slate-500">ms</small></div>
-                    </div>
-                </div>
-
-                <!-- Live Chart -->
-                <div class="glass-panel p-6 h-80">
-                    <canvas id="pollingChart"></canvas>
-                </div>
-
-                <!-- Test Interaction Area -->
-                <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border">
-                    <div class="text-center pointer-events-none">
-                        <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75">
-                             <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+        <section aria-label="Mouse frequency test main panel">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Left: Statistics and test area -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Statistics grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="stat-card p-4 rounded-lg">
+                            <div class="text-xs text-slate-400 uppercase font-bold">Current Frequency</div>
+                            <div id="currHz" class="text-3xl font-bold mono text-blue-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
                         </div>
-                        <p class="text-lg font-medium">在此區域內快速移動滑鼠進行測試</p>
-                        <p class="text-sm text-slate-500">無需點擊，移動即可實時捕獲數據</p>
+                        <div class="stat-card p-4 rounded-lg border-emerald-500">
+                            <div class="text-xs text-slate-400 uppercase font-bold">Maximum Frequency</div>
+                            <div id="maxHz" class="text-3xl font-bold mono text-emerald-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
+                        </div>
+                        <div class="stat-card p-4 rounded-lg border-purple-500">
+                            <div class="text-xs text-slate-400 uppercase font-bold">Average Frequency</div>
+                            <div id="avgHz" class="text-3xl font-bold mono text-purple-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
+                        </div>
+                        <div class="stat-card p-4 rounded-lg border-orange-500">
+                            <div class="text-xs text-slate-400 uppercase font-bold">Jitter</div>
+                            <div id="jitter" class="text-3xl font-bold mono text-orange-400">0<small class="text-sm ml-1 text-slate-500">ms</small></div>
+                        </div>
+                    </div>
+
+                    <!-- Real-time chart -->
+                    <div class="glass-panel p-6 h-80">
+                        <canvas id="pollingChart"></canvas>
+                    </div>
+
+                    <!-- Test interaction area -->
+                    <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border">
+                        <div class="text-center pointer-events-none">
+                            <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75">
+                                 <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            </div>
+                            <p class="text-lg font-medium">Move mouse quickly in this area to test</p>
+                            <p class="text-sm text-slate-500">No click required, just move to capture data in real-time</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Log -->
+                <div class="flex flex-col h-full">
+                    <div class="glass-panel flex flex-col h-full max-h-[740px]">
+                        <div class="p-4 border-b border-slate-700 flex justify-between items-center">
+                            <h3 class="font-bold">Real-time Log</h3>
+                            <span id="eventCount" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400">0 events</span>
+                        </div>
+                        <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-2 text-xs mono">
+                            <div class="text-slate-500 italic">Waiting for data...</div>
+                        </div>
+                        <div class="p-4 border-t border-slate-700">
+                            <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600">
+                                Export CSV Log
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
+        
+        <!-- Page navigation cards (User guide and principle explanation) -->
+        <section aria-label="Learning resources navigation">
+            <div class="page-navigation-section">
+                <div class="navigation-header">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h2>Learn More About Mouse Event Frequency Testing</h2>
+                    <p>Learn more about mouse event sampling rates and browser limitations</p>
+                </div>
+                
+                <div class="navigation-cards">
+                    <a href="/toolbox/mouse/pollingrate/" class="nav-card">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Detailed User Guide</h3>
+                            <p>Learn how to use this tool from scratch, including step-by-step instructions, testing tips, and FAQ.</p>
+                            <div class="nav-card-action">
+                                <span>View Complete Guide <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="/toolbox/mouse/pollingrate/" class="nav-card">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>How It Works Explained</h3>
+                            <p>Learn about browser event mechanisms, mouse sampling rate limitations, and how to interpret test results.</p>
+                            <div class="nav-card-action">
+                                <span>Learn Technical Principles <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-            <!-- Right: Log -->
-            <div class="flex flex-col h-full">
-                <div class="glass-panel flex flex-col h-full max-h-[740px]">
-                    <div class="p-4 border-b border-slate-700 flex justify-between items-center">
-                        <h3 class="font-bold">即時日誌</h3>
-                        <span id="eventCount" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400">0 Events</span>
+        <!-- Feature description and FAQ section -->
+        <section aria-label="Feature introduction">
+            <div class="instructions-section">
+                <div class="instructions-content">
+                    <h2>Professional Mouse Event Frequency Tester Features</h2>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <h3>Real-time Frequency Monitoring</h3>
+                            <p>Real-time display of current mouse event frequency (Hz), helping you understand the actual speed at which the browser processes mouse movement events.</p>
+                            <div class="tip">
+                                <span class="tip-text">Note: Web environment is limited by browser and display refresh rate</span>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <h3>Jitter Analysis</h3>
+                            <p>Calculate the standard deviation of event intervals, reflecting the time stability of mouse events. Lower jitter values indicate more stable events.</p>
+                            <div class="tip">
+                                <span class="tip-text">High jitter may cause mouse movement to feel not smooth</span>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <h3>Maximum Frequency Recording</h3>
+                            <p>Automatically record the highest event frequency achieved during testing, helping you understand the best performance of your system.</p>
+                            <div class="tip">
+                                <span class="tip-text">Web environment usually cannot reach real USB polling rate</span>
+                            </div>
+                        </div>
+                   
+                        <div class="feature-item">
+                            <h3>Average Frequency Calculation</h3>
+                            <p>Calculate average event frequency based on historical data, providing more stable performance reference indicators.</p>
+                            <div class="tip">
+                                <span class="tip-text">Longer testing time gives more accurate average</span>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <h3>Real-time Chart Display</h3>
+                            <p>Visualize frequency change trends through dynamic line charts, making it easy to observe performance fluctuations and anomalies.</p>
+                            <div class="tip">
+                                <span class="tip-text">Chart shows trends of the last 100 data points</span>
+                            </div>
+                        </div>       
+                        
+                        <div class="feature-item">
+                            <h3>CSV Data Export</h3>
+                            <p>Support exporting complete test logs in CSV format for deep analysis and data preservation.</p>
+                            <div class="tip">
+                                <span class="tip-text">Exported data can be used for further analysis with Excel, Python, etc.</span>
+                            </div>
+                        </div>
                     </div>
-                    <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-2 text-xs mono">
-                        <div class="text-slate-500 italic">等待數據中...</div>
-                    </div>
-                    <div class="p-4 border-t border-slate-700">
-                        <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600">
-                            導出 CSV 日誌
-                        </button>
+                    
+                    <div class="faq-section">
+                        <h2>Frequently Asked Questions (FAQ)</h2>
+                        
+                        <div class="faq-item">
+                            <h3>Why does the web test show lower mouse event frequency than the actual USB polling rate?</h3>
+                            <p>Mouse events in the browser environment are limited by multiple layers: browser event throttling, display refresh rate synchronization, operating system scheduling, etc. Web pages cannot directly access raw data from the USB HID layer, only through the mouse event interface provided by the browser.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <h3>How to get more accurate test results?</h3>
+                            <p>1. Ensure the browser window is in the foreground and active<br>
+                               2. Close unnecessary tabs and applications<br>
+                               3. Perform fast, continuous mouse movements within the <a href="#testArea" class="text-blue-400 hover:text-blue-300">test area</a><br>
+                               4. View the <a href="/toolbox/mouse/pollingrate/" class="text-blue-400 hover:text-blue-300">detailed user guide</a> for more tips</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <h3>What is Jitter? Why is it important?</h3>
+                            <p>Jitter reflects the stability of mouse event interval times. Low jitter means event intervals are uniform, resulting in smooth mouse movement feeling. High jitter may cause mouse movement to feel stuttering or unstable, even if the average frequency is high.</p>
+                        </div>
+
+                        <div class="faq-item">
+                            <h3>Why do different browsers show different test results?</h3>
+                            <p>Different browsers (Chrome, Firefox, Edge, Safari) use different event processing mechanisms, throttling strategies, and performance optimizations. Chrome usually provides higher event frequency, but specific performance also depends on the operating system and hardware configuration.</p>
+                        </div>
+
+                        <div class="faq-item">
+                            <h3>How to determine if mouse event performance is normal?</h3>
+                            <p>Normal situations:<br>
+                               - 60Hz display: event frequency ≈ 60Hz<br>
+                               - 120Hz display: event frequency ≈ 120Hz<br>
+                               - 144Hz display: event frequency ≈ 120-144Hz<br>
+                               - 240Hz display: event frequency ≈ 200Hz<br>
+                               If frequency is much lower than the display refresh rate, there may be performance issues.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <h3>When should I test mouse event frequency?</h3>
+                            <p>Recommended testing situations:<br>
+                               - Feeling mouse movement stuttering or not responsive<br>
+                               - Comparing input performance between different browsers or systems<br>
+                               - Evaluating the impact of new displays or graphics cards on input latency<br>
+                               - Diagnosing mouse response issues in web applications</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 重要说明面板 -->
-        <div class="glass-panel overflow-hidden mt-6">
-            <!-- 面板标题 -->
-            <button id="importantNoteToggle" class="w-full p-4 flex items-center justify-between bg-slate-800/50 hover:bg-slate-800 transition-colors">
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl">⚠️</span>
-                    <div class="text-left">
-                        <h4 class="font-bold text-white">关于网页回报率测试的重要说明</h4>
-                        <p class="text-sm text-slate-400 mt-1">点击展开查看详细说明</p>
+        <!-- Important note panel (Always expanded) -->
+        <section aria-label="Important usage notes">
+            <div class="glass-panel mt-6">
+                <!-- Panel title -->
+                <div class="w-full p-4 bg-slate-800/50">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">⚠️</span>
+                        <div class="text-left">
+                            <h4 class="font-bold text-white">Important Notes About Web Polling Rate Testing</h4>
+                            <p class="text-sm text-slate-400 mt-1">Please read the following notes carefully to correctly understand test results</p>
+                        </div>
                     </div>
                 </div>
-                <svg id="toggleIcon" class="w-6 h-6 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-            
-            <!-- 内容区域 -->
-            <div id="importantNoteContent" class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed max-h-0 overflow-hidden transition-all duration-300">
                 
-                <div class="pt-4 border-t border-slate-700">
-                    <p class="mb-4"><b>本页面显示的"回报率（Hz）并不等同于鼠标的真实 USB 回报率"。</b></p>
-                </div>
-                
-                <!-- 为什么网页测试结果通常只有 60Hz / 120Hz？ -->
-                <div class="bg-slate-800/30 p-4 rounded-lg">
-                    <h5 class="font-bold text-blue-300 mb-2">🤔 为什么网页测试结果通常只有 60Hz / 120Hz？</h5>
-                    <p class="mb-3">在 Web 浏览器环境中：</p>
-                    <ul class="space-y-2 ml-4 list-disc list-outside">
-                        <li>鼠标数据是通过 <b>浏览器事件（mousemove / pointermove）</b> 获取的</li>
-                        <li>浏览器会对事件进行 <b>节流与合并</b></li>
-                        <li>事件触发频率通常 <b>与屏幕刷新率同步</b></li>
-                    </ul>
-                </div>
-                
-                <!-- 显示器刷新率对比表格 -->
-                <div class="overflow-x-auto">
-                    <h5 class="font-bold text-white mb-3">🖥️ 显示器刷新率与网页观测频率对比</h5>
-                    <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden">
-                        <thead class="bg-slate-800">
-                            <tr>
-                                <th class="p-3 text-left border-b border-slate-700">显示器刷新率</th>
-                                <th class="p-3 text-left border-b border-slate-700">网页可观测事件频率</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-slate-700/50">
-                                <td class="p-3">60Hz</td>
-                                <td class="p-3">≈ 60Hz</td>
-                            </tr>
-                            <tr class="border-b border-slate-700/50">
-                                <td class="p-3">120Hz</td>
-                                <td class="p-3">≈ 120Hz</td>
-                            </tr>
-                            <tr class="border-b border-slate-700/50">
-                                <td class="p-3">144Hz</td>
-                                <td class="p-3">≈ 120–144Hz</td>
-                            </tr>
-                            <tr>
-                                <td class="p-3">240Hz</td>
-                                <td class="p-3">≈ 200Hz 左右</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- 技术说明 -->
-                <div class="bg-slate-800/30 p-4 rounded-lg">
-                    <p class="mb-3">
-                        <b>即使你的鼠标硬件设置为 1000Hz USB Polling Rate，<br>
-                        网页环境也无法直接访问 USB HID 层的真实数据。</b>
-                    </p>
-                    <p class="text-sm text-slate-400">那真实的 1000Hz 在哪里体现？</p>
-                    <p class="mt-2">真实的 USB 回报率存在于：</p>
-                    <ul class="space-y-1 ml-4 mt-1">
-                        <li>• 操作系统的 Raw Input / HID 层</li>
-                        <li>• 游戏引擎（如 Unreal Engine、Unity）</li>
-                        <li>• 桌面级测试工具（非网页）</li>
-                    </ul>
-                </div>
-                
-                <!-- 适用场景 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- 适合做什么 -->
-                    <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="text-emerald-400 text-lg">✅</span>
-                            <h5 class="font-bold text-emerald-300">本工具适合用来做什么？</h5>
-                        </div>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start gap-2">
-                                <span class="text-emerald-400 mt-1">•</span>
-                                <span>检测鼠标在浏览器中的输入是否流畅</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-emerald-400 mt-1">•</span>
-                                <span>对比不同浏览器 / 显示器下的事件表现</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-emerald-400 mt-1">•</span>
-                                <span>检查是否存在卡顿、事件丢失或异常节流</span>
-                            </li>
+                <!-- Content area (Always expanded) -->
+                <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed">
+                    
+                    <div class="pt-4 border-t border-slate-700">
+                        <p class="mb-4"><b>The "polling rate (Hz)" displayed on this page is NOT equivalent to your mouse's real USB polling rate.</b></p>
+                    </div>
+                    
+                    <!-- Why web test results are usually only 60Hz / 120Hz? -->
+                    <div class="bg-slate-800/30 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-300 mb-2">🤔 Why are web test results usually only 60Hz / 120Hz?</h5>
+                        <p class="mb-3">In the web browser environment:</p>
+                        <ul class="space-y-2 ml-4 list-disc list-outside">
+                            <li>Mouse data is obtained through <b>browser events (mousemove / pointermove)</b></li>
+                            <li>Browsers <b>throttle and merge</b> events</li>
+                            <li>Event triggering frequency is usually <b>synchronized with screen refresh rate</b></li>
                         </ul>
                     </div>
                     
-                    <!-- 不适合做什么 -->
-                    <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="text-rose-400 text-lg">❌</span>
-                            <h5 class="font-bold text-rose-300">本工具不适合用来做什么？</h5>
-                        </div>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start gap-2">
-                                <span class="text-rose-400 mt-1">•</span>
-                                <span>判断鼠标是否支持 500Hz / 1000Hz</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-rose-400 mt-1">•</span>
-                                <span>替代桌面级 USB Polling 测试工具</span>
-                            </li>
+                    <!-- Display refresh rate comparison table -->
+                    <div class="overflow-x-auto">
+                        <h5 class="font-bold text-white mb-3">🖥️ Display Refresh Rate vs Web Observable Frequency</h5>
+                        <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden">
+                            <thead class="bg-slate-800">
+                                <tr>
+                                    <th class="p-3 text-left border-b border-slate-700">Display Refresh Rate</th>
+                                    <th class="p-3 text-left border-b border-slate-700">Web Observable Event Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3">60Hz</td>
+                                    <td class="p-3">≈ 60Hz</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3">120Hz</td>
+                                    <td class="p-3">≈ 120Hz</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="p-3">144Hz</td>
+                                    <td class="p-3">≈ 120-144Hz</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3">240Hz</td>
+                                    <td class="p-3">≈ 200Hz</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Technical explanation -->
+                    <div class="bg-slate-800/30 p-4 rounded-lg">
+                        <p class="mb-3">
+                            <b>Even if your mouse hardware is set to 1000Hz USB polling rate,<br>
+                            the web environment cannot directly access real data from the USB HID layer.</b>
+                        </p>
+                        <p class="text-sm text-slate-400">Where is the real 1000Hz reflected?</p>
+                        <p class="mt-2">Real USB polling rate exists in:</p>
+                        <ul class="space-y-1 ml-4 mt-1">
+                            <li>• Operating system raw input / HID layer</li>
+                            <li>• Game engines (like Unreal Engine, Unity)</li>
+                            <li>• Desktop-level testing tools (not web-based)</li>
                         </ul>
                     </div>
-                </div>
-                
-                <!-- 建议和提示 -->
-                <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="text-blue-400 text-lg">💡</span>
-                        <h5 class="font-bold text-blue-300">建议</h5>
+                    
+                    <!-- Applicable scenarios -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Suitable for -->
+                        <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-emerald-400 text-lg">✅</span>
+                                <h5 class="font-bold text-emerald-300">What is this tool suitable for?</h5>
+                            </div>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">•</span>
+                                    <span>Detecting if mouse input in browser is smooth</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">•</span>
+                                    <span>Comparing event performance across different browsers / displays</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">•</span>
+                                    <span>Checking for stuttering, event loss, or abnormal throttling</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Not suitable for -->
+                        <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-rose-400 text-lg">❌</span>
+                                <h5 class="font-bold text-rose-300">What is this tool NOT suitable for?</h5>
+                            </div>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-rose-400 mt-1">•</span>
+                                    <span>Determining if mouse supports 500Hz / 1000Hz</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-rose-400 mt-1">•</span>
+                                    <span>Replacing desktop USB polling rate testing tools</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <p class="mb-3">
-                        如果你需要验证鼠标的真实 USB 回报率，<br>
-                        请使用厂商驱动或桌面级 Raw Input 测试软件。
-                    </p>
-                    <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3">
-                        <span class="text-blue-400 text-lg mt-0.5">📌</span>
-                        <div>
-                            <p class="font-medium text-blue-200">提示：</p>
-                            <p class="text-sm mt-1">请确保浏览器窗口处于前台、标签页为激活状态，否则浏览器会主动降低事件频率。</p>
+                    
+                    <!-- Suggestions and tips -->
+                    <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-blue-400 text-lg">💡</span>
+                            <h5 class="font-bold text-blue-300">Suggestions</h5>
+                        </div>
+                        <p class="mb-3">
+                            If you need to verify your mouse's real USB polling rate,<br>
+                            use manufacturer drivers or <a href="#desktop-tool-section" class="text-blue-400 hover:text-blue-300 underline transition">desktop raw input testing software</a>.
+                        </p>
+                        <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3">
+                            <span class="text-blue-400 text-lg mt-0.5">📌</span>
+                            <div>
+                                <p class="font-medium text-blue-200">Tip:</p>
+                                <p class="text-sm mt-1">Make sure the browser window is in the foreground and the tab is active, otherwise the browser will actively reduce event frequency.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <script src="/toolbox/mouse/pollingrate/js/main-zh.js" defer></script>
+        <!-- Python desktop tool introduction - Modified version -->
+        <section aria-label="Desktop testing tool introduction">
+            <div id="desktop-tool-section" class="glass-panel mt-6">
+                <!-- Panel title - Consistent structure with above -->
+                <div class="w-full p-4 bg-blue-900/20">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🐍</span>
+                        <div class="text-left">
+                            <h4 class="font-bold text-white">Desktop Mouse Real Polling Rate Testing Tool</h4>
+                            <p class="text-sm text-slate-400 mt-1">Python Professional Tool - Break Through Browser Limitations</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content area (Always expanded) - Consistent structure with above -->
+                <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed">
+                    <!-- Tool introduction -->
+                    <div class="bg-slate-800/30 p-4 rounded-lg">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                <span class="text-2xl">🔧</span>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-blue-300 mb-2">Why do you need a desktop tool?</h5>
+                                <p class="mb-2">Web testing is limited by browsers and operating systems, unable to access real polling data from the USB HID layer. Desktop tools capture mouse raw input directly through system-level APIs, providing real USB Polling Rate data.</p>
+                                <div class="mt-3 p-3 bg-slate-900/50 rounded">
+                                    <p class="text-emerald-400 font-medium">🌐 Browser Test vs 🐍 Python Desktop Tool</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                                        <div class="space-y-1">
+                                            <p class="text-sm text-slate-400">📊 Data Source</p>
+                                            <p>Browser events (mousemove)</p>
+                                            <p class="text-xs text-red-400">Limited</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-sm text-slate-400">🔧 Data Source</p>
+                                            <p>System raw input (Raw Input)</p>
+                                            <p class="text-xs text-emerald-400">Unlimited</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-sm text-slate-400">📈 Maximum Precision</p>
+                                            <p>≈ Display refresh rate</p>
+                                            <p class="text-xs text-red-400">~200Hz</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-sm text-slate-400">🚀 Maximum Precision</p>
+                                            <p>USB real polling rate</p>
+                                            <p class="text-xs text-emerald-400">~8000Hz</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature highlights -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Core features -->
+                        <div class="bg-slate-800/30 p-4 rounded-lg border border-blue-700/30">
+                            <h5 class="font-bold text-white mb-3 flex items-center gap-2">
+                                <span>✨</span> Core Features
+                            </h5>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span><b>Real polling rate detection</b> - Direct measurement of USB HID layer data</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span><b>Automatic gear recognition</b> - Smart recognition of 125/250/500/1000/2000/4000/8000Hz</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span><b>Professional stability analysis</b> - Standard deviation, P95 values, jitter evaluation</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span><b>Real-time waveform chart</b> - Visualize polling rate change trends</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span><b>Multi-language support</b> - English/Chinese interface switching</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Technical advantages -->
+                        <div class="bg-slate-800/30 p-4 rounded-lg border border-purple-700/30">
+                            <h5 class="font-bold text-white mb-3 flex items-center gap-2">
+                                <span>⚡</span> Technical Advantages
+                            </h5>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">•</span>
+                                    <span><b>System-level access</b> - Bypass browser limitations, communicate directly with hardware</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">•</span>
+                                    <span><b>Nanosecond precision</b> - Based on Python time.perf_counter_ns()</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">•</span>
+                                    <span><b>Smart filtering algorithm</b> - Automatically filter abnormal data for more accurate results</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">•</span>
+                                    <span><b>Real-time analysis engine</b> - 600 data point sampling window, 150 point waveform display</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">•</span>
+                                    <span><b>Professional evaluation system</b> - Stability scoring and rating assessment</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Supported devices -->
+                    <div class="bg-slate-800/30 p-4 rounded-lg">
+                        <h5 class="font-bold text-white mb-3 flex items-center gap-2">
+                            <span>🎮</span> Supported Devices & Polling Rate Gears
+                        </h5>
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead class="bg-slate-800">
+                                    <tr>
+                                        <th class="p-3 text-left border-b border-slate-700">Polling Rate</th>
+                                        <th class="p-3 text-left border-b border-slate-700">Suitable Devices</th>
+                                        <th class="p-3 text-left border-b border-slate-700">Latency</th>
+                                        <th class="p-3 text-left border-b border-slate-700">Features</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-slate-700/50">
+                                        <td class="p-3 font-mono">125Hz</td>
+                                        <td class="p-3">Regular office mice</td>
+                                        <td class="p-3 text-orange-400">8ms</td>
+                                        <td class="p-3 text-sm text-slate-400">Basic USB rate</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-700/50">
+                                        <td class="p-3 font-mono">250Hz</td>
+                                        <td class="p-3">Entry-level gaming mice</td>
+                                        <td class="p-3 text-yellow-400">4ms</td>
+                                        <td class="p-3 text-sm text-slate-400">Common game settings</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-700/50">
+                                        <td class="p-3 font-mono">500Hz</td>
+                                        <td class="p-3">Mid-range gaming mice</td>
+                                        <td class="p-3 text-blue-400">2ms</td>
+                                        <td class="p-3 text-sm text-slate-400">High performance mode</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-700/50">
+                                        <td class="p-3 font-mono">1000Hz</td>
+                                        <td class="p-3">High-end e-sports mice</td>
+                                        <td class="p-3 text-emerald-400">1ms</td>
+                                        <td class="p-3 text-sm text-slate-400">E-sports low latency</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-700/50">
+                                        <td class="p-3 font-mono">2000Hz</td>
+                                        <td class="p-3">Advanced e-sports mice</td>
+                                        <td class="p-3 text-emerald-300">0.5ms</td>
+                                        <td class="p-3 text-sm text-slate-400">Ultra low latency</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-700/50">
+                                        <td class="p-3 font-mono">4000Hz</td>
+                                        <td class="p-3">Top e-sports mice</td>
+                                        <td class="p-3 text-emerald-200">0.25ms</td>
+                                        <td class="p-3 text-sm text-slate-400">Professional grade</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">8000Hz</td>
+                                        <td class="p-3">Extreme e-sports mice</td>
+                                        <td class="p-3 text-emerald-100">0.125ms</td>
+                                        <td class="p-3 text-sm text-slate-400">Flagship grade</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Usage scenario comparison -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg">
+                            <h5 class="font-bold text-emerald-300 mb-3">✅ When to use Python tool</h5>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">•</span>
+                                    <span>Verify mouse real USB polling rate settings</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">•</span>
+                                    <span>Compare different mouse polling rate performance</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">•</span>
+                                    <span>Test oversampling rate mice (2000Hz+)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-emerald-400 mt-1">•</span>
+                                    <span>Professional e-sports equipment performance evaluation</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-slate-800/30 p-4 rounded-lg">
+                            <h5 class="font-bold text-white mb-3">🔄 When to use web test</h5>
+                            <ul class="space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span>Quickly check browser input smoothness</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span>Compare different browser performance</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span>Cross-platform basic mouse testing</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-400 mt-1">•</span>
+                                    <span>Quick test without installation</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- GitHub link and download -->
+                    <div class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-4 rounded-lg border border-blue-700/50">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h5 class="font-bold text-white text-lg mb-2">🚀 Get Python Desktop Tool</h5>
+                                <p class="text-slate-300 mb-1">Open source free · Professional grade accuracy · Continuously updated</p>
+                                <p class="text-sm text-slate-400">Supports Windows/macOS/Linux systems</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/tree/main" 
+                                   class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition flex items-center gap-2 border border-slate-600">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                                    </svg>
+                                    GitHub Repository
+                                </a>
+                                <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/blob/main/out/mouse_polling_gui_pro.7z" 
+                                   class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition flex items-center gap-2">
+                                    <span>📦 Download Latest Version</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Social sharing section -->
+        <div class="glass-panel mt-6 p-4">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                    <h5 class="font-bold text-white">Find this tool useful?</h5>
+                    <p class="text-sm text-slate-400">Share with other users who may need it</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-slate-400 hidden md:inline">Share to:</span>
+                    <a href="https://twitter.com/share?url=https://starryring.com/toolbox/mouse/pollingrate/&text=Professional mouse event frequency testing tool, real-time detection of mouse movement event sampling rate and jitter analysis" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-600 transition duration-300"
+                       aria-label="Share on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.reddit.com/submit?url=https://starryring.com/toolbox/mouse/pollingrate/&title=Mouse Event Frequency Tester - Professional detection of browser mouse event sampling rate" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-orange-600 transition duration-300"
+                       aria-label="Share on Reddit">
+                        <i class="fab fa-reddit"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://starryring.com/toolbox/mouse/pollingrate/" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-700 transition duration-300"
+                       aria-label="Share on Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://t.me/share/url?url=https://starryring.com/toolbox/mouse/pollingrate/&text=Mouse event frequency testing tool" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-500 transition duration-300"
+                       aria-label="Share on Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Add language switcher JS -->
+    <script src="/toolbox/shared/js/switchlanguage.js"></script>
+    <script src="/toolbox/mouse/pollingrate/js/script-en.js" defer></script>
 </body>
 </html>

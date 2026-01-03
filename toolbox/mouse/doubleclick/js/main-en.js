@@ -33,7 +33,6 @@ let FAULTY_DOUBLE_CLICK_THRESHOLD = 80; // Faulty double click threshold (less t
 // DOM elements for slider
 let thresholdSlider;
 let thresholdValueDisplay;
-let thresholdTextElement;
 
 // Track if slider is being dragged
 let isSliderDragging = false;
@@ -53,10 +52,9 @@ function initMouseTest() {
     // Get slider elements
     thresholdSlider = document.getElementById('faultyThresholdSlider');
     thresholdValueDisplay = document.getElementById('thresholdValue');
-    thresholdTextElement = document.getElementById('currentThresholdText');
     
     // Set up slider event listeners
-    if (thresholdSlider && thresholdValueDisplay && thresholdTextElement) {
+    if (thresholdSlider && thresholdValueDisplay) {
         // Initialize display
         updateThresholdDisplay();
         
@@ -64,23 +62,17 @@ function initMouseTest() {
         thresholdSlider.addEventListener('input', function() {
             FAULTY_DOUBLE_CLICK_THRESHOLD = parseInt(this.value);
             updateThresholdDisplay();
-        });
-        
-        // Add change event listener for when user releases slider
-        thresholdSlider.addEventListener('change', function() {
             addLog(`Faulty double click threshold set to ${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`, 'log-info');
         });
         
         // Add mousedown event to track when slider is being dragged
         thresholdSlider.addEventListener('mousedown', function(e) {
             isSliderDragging = true;
-            e.stopPropagation(); // Prevent event from bubbling up
         });
         
         // Add mouseup event to track when slider is released
-        thresholdSlider.addEventListener('mouseup', function(e) {
+        thresholdSlider.addEventListener('mouseup', function() {
             isSliderDragging = false;
-            e.stopPropagation(); // Prevent event from bubbling up
         });
         
         // Also track mouseleave to ensure slider state is reset
@@ -104,9 +96,6 @@ function initMouseTest() {
 function updateThresholdDisplay() {
     if (thresholdValueDisplay) {
         thresholdValueDisplay.textContent = `${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`;
-    }
-    if (thresholdTextElement) {
-        thresholdTextElement.textContent = `${FAULTY_DOUBLE_CLICK_THRESHOLD}ms`;
     }
     if (thresholdSlider) {
         thresholdSlider.value = FAULTY_DOUBLE_CLICK_THRESHOLD;
@@ -155,7 +144,8 @@ function handleMouseDown(e) {
     // Only skip if clicking the slider itself, not the entire container
     if (e.target === thresholdSlider || 
         e.target.closest('.threshold-slider') === thresholdSlider) {
-        return; // Don't process mouse test events when interacting with slider
+        // Don't process mouse test events when clicking slider
+        return;
     }
     
     e.preventDefault(); 
@@ -261,15 +251,18 @@ function handleMouseDown(e) {
 
 /* Mouseup */
 function handleMouseUp(e) {
-    // Skip if slider is being dragged
-    if (isSliderDragging) {
+    // Check if the click is on the slider
+    if (e.target === thresholdSlider || 
+        e.target.closest('.threshold-slider') === thresholdSlider) {
+        // Don't process mouse test events when clicking slider
+        isSliderDragging = false;
         return;
     }
     
-    // Check if the click is directly on the slider or its thumb
-    if (e.target === thresholdSlider || 
-        e.target.closest('.threshold-slider') === thresholdSlider) {
-        return; // Don't process mouse test events when interacting with slider
+    // Skip if slider is being dragged
+    if (isSliderDragging) {
+        isSliderDragging = false;
+        return;
     }
     
     e.preventDefault();

@@ -1,5 +1,5 @@
-// --- State Management ---
-let isRunning = true; // 預設開啟
+// --- 状态管理 ---
+let isRunning = true; // 默认开启
 let lastTimestamp = 0;
 let intervalHistory = [];
 let hzHistory = [];
@@ -11,7 +11,7 @@ let maxHz = 0;
 const MAX_DATA_POINTS = 100;
 const LOG_LIMIT = 200;
 
-// --- DOM Elements ---
+// --- DOM 元素 ---
 const clearBtn = document.getElementById('clearBtn');
 const testArea = document.getElementById('testArea');
 const logContainer = document.getElementById('log-container');
@@ -23,7 +23,11 @@ const maxHzEl = document.getElementById('maxHz');
 const avgHzEl = document.getElementById('avgHz');
 const jitterEl = document.getElementById('jitter');
 
-// --- Chart Initialization ---
+// --- 性能优化变量 ---
+let rafId = null;
+let perfObserver = null;
+
+// --- 图表初始化 ---
 function initChart() {
     const ctx = document.getElementById('pollingChart').getContext('2d');
     chart = new Chart(ctx, {
@@ -31,7 +35,7 @@ function initChart() {
         data: {
             labels: Array(MAX_DATA_POINTS).fill(''),
             datasets: [{
-                label: 'Polling Rate (Hz)',
+                label: '事件频率 (Hz)',
                 data: Array(MAX_DATA_POINTS).fill(null),
                 borderColor: '#3b82f6',
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
@@ -65,13 +69,13 @@ function initChart() {
     });
 }
 
-// --- Core Logic ---
+// --- 核心逻辑 ---
 function handleMouseMove(e) {
     if (!isRunning) return;
 
     const now = performance.now();
     
-    // Move Visual Indicator
+    // 移动视觉指示器
     const rect = testArea.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -82,7 +86,7 @@ function handleMouseMove(e) {
         if (interval > 0) {
             const currentHz = Math.round(1000 / interval);
             
-            // Filter outlier
+            // 过滤异常值
             if (currentHz > 10000) return;
 
             updateStats(currentHz, interval);
@@ -91,6 +95,19 @@ function handleMouseMove(e) {
         }
     }
     lastTimestamp = now;
+}
+
+// 使用requestAnimationFrame优化性能
+function optimizedMouseMove(e) {
+    if (!isRunning) return;
+    
+    if (rafId) {
+        cancelAnimationFrame(rafId);
+    }
+    
+    rafId = requestAnimationFrame(() => {
+        handleMouseMove(e);
+    });
 }
 
 function updateStats(hz, interval) {
@@ -122,7 +139,7 @@ function updateChart(hz) {
 }
 
 function addLog(hz, interval) {
-    const time = new Date().toLocaleTimeString('en-GB', { hour12: false }) + '.' + (performance.now() % 1000).toFixed(0).padStart(3, '0');
+    const time = new Date().toLocaleTimeString('zh-CN', { hour12: false }) + '.' + (performance.now() % 1000).toFixed(0).padStart(3, '0');
     const logEntry = { time, hz, interval: interval.toFixed(2) };
     logs.unshift(logEntry);
     if (logs.length > 5000) logs.pop();
@@ -132,7 +149,7 @@ function addLog(hz, interval) {
     div.innerHTML = `
         <span class="text-slate-500">${time}</span>
         <span class="font-bold text-blue-400">${hz} Hz</span>
-        <span class="text-slate-400">${interval.toFixed(2)}ms</span>
+        <span class="text-slate-400">${interval.toFixed(2)}毫秒</span>
     `;
     
     if (logContainer.children.length === 1 && logContainer.innerText.includes('等待')) {
@@ -144,10 +161,10 @@ function addLog(hz, interval) {
         logContainer.removeChild(logContainer.lastChild);
     }
     
-    eventCountEl.innerText = `${logs.length} Events`;
+    eventCountEl.innerText = `${logs.length} 个事件`;
 }
 
-// --- Controls ---
+// --- 控制功能 ---
 function clearData() {
     hzHistory = [];
     intervalHistory = [];
@@ -157,64 +174,134 @@ function clearData() {
     currHzEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">Hz</small>`;
     maxHzEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">Hz</small>`;
     avgHzEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">Hz</small>`;
-    jitterEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">ms</small>`;
-    logContainer.innerHTML = '<div class="text-slate-500 italic">等待數據中...</div>';
-    eventCountEl.innerText = `0 Events`;
+    jitterEl.innerHTML = `0<small class="text-sm ml-1 text-slate-500">毫秒</small>`;
+    logContainer.innerHTML = '<div class="text-slate-500 italic">等待数据中...</div>';
+    eventCountEl.innerText = `0 个事件`;
     chart.data.datasets[0].data = Array(MAX_DATA_POINTS).fill(null);
     chart.update();
+    
+    // 发送分析事件
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'data_cleared', {
+            'event_category': 'interaction',
+            'event_label': '清除测试数据'
+        });
+    }
 }
 
 function downloadCSV() {
-    if (logs.length === 0) return;
-    let csv = "Timestamp,Polling Rate (Hz),Interval (ms)\n";
+    if (logs.length === 0) {
+        alert('没有数据可导出，请先进行测试。');
+        return;
+    }
+    
+    const date = new Date();
+    const fileName = `鼠标事件频率测试_${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}_${date.getHours()}${date.getMinutes()}.csv`;
+    
+    let csv = "时间戳,事件频率 (Hz),间隔 (毫秒)\n";
     logs.forEach(row => {
         csv += `${row.time},${row.hz},${row.interval}\n`;
     });
-    const blob = new Blob([csv], { type: 'text/csv' });
+    
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.setAttribute('hidden', '');
     a.setAttribute('href', url);
-    a.setAttribute('download', `mouse_test_${new Date().getTime()}.csv`);
+    a.setAttribute('download', fileName);
+    a.setAttribute('aria-label', `下载测试数据文件: ${fileName}`);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    
+    // 发送下载完成事件（用于分析）
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'csv_download', {
+            'event_category': 'engagement',
+            'event_label': '鼠标测试数据下载',
+            'value': logs.length
+        });
+    }
 }
 
-// --- 重要说明面板交互 ---
-function initImportantNotePanel() {
-    const toggleBtn = document.getElementById('importantNoteToggle');
-    const content = document.getElementById('importantNoteContent');
-    const toggleIcon = document.getElementById('toggleIcon');
-    
-    // 默认展开
-    content.classList.remove('max-h-0');
-    content.classList.add('max-h-[2000px]'); // 足够大的值来容纳所有内容
-    toggleIcon.style.transform = 'rotate(180deg)';
-    
-    toggleBtn.addEventListener('click', () => {
-        const isExpanded = content.classList.contains('max-h-0');
-        
-        if (isExpanded) {
-            // 展开
-            content.classList.remove('max-h-0');
-            content.classList.add('max-h-[2000px]');
-            toggleIcon.style.transform = 'rotate(180deg)';
+// --- 性能监控 ---
+function initPerformanceMonitoring() {
+    if ('PerformanceObserver' in window) {
+        try {
+            perfObserver = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (entry.name === 'mouse-event-processing') {
+                        console.log('鼠标事件处理耗时:', entry.duration.toFixed(2), 'ms');
+                    }
+                }
+            });
+            
+            perfObserver.observe({ entryTypes: ['measure'] });
+        } catch (e) {
+            console.log('PerformanceObserver 初始化失败:', e);
+        }
+    }
+}
+
+// --- 页面可见性API支持 ---
+function initVisibilityAPI() {
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            console.log('页面隐藏，暂停数据收集');
+            // 可以在这里暂停数据收集以节省资源
         } else {
-            // 折叠
-            content.classList.remove('max-h-[2000px]');
-            content.classList.add('max-h-0');
-            toggleIcon.style.transform = 'rotate(0deg)';
+            console.log('页面可见，恢复数据收集');
+            // 恢复数据收集
         }
     });
 }
 
-// --- Event Listeners ---
-document.addEventListener('DOMContentLoaded', () => {
+// --- 初始化 ---
+function init() {
     initChart();
-    initImportantNotePanel();
+    initPerformanceMonitoring();
+    initVisibilityAPI();
     
+    // 添加事件监听器
     clearBtn.addEventListener('click', clearData);
     document.getElementById('downloadBtn').addEventListener('click', downloadCSV);
-    testArea.addEventListener('mousemove', handleMouseMove);
+    testArea.addEventListener('mousemove', optimizedMouseMove);
+    
+    // 设置初始加载状态
+    testArea.classList.add('loading');
+    
+    // 页面加载完成后的初始日志
+    const startTime = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+    const initialLog = document.createElement('div');
+    initialLog.className = 'text-green-500 italic border-b border-slate-800 pb-1';
+    initialLog.textContent = `测试工具已就绪 (${startTime}) - 开始移动鼠标进行测试`;
+    logContainer.prepend(initialLog);
+    
+    // 移除加载状态
+    setTimeout(() => {
+        testArea.classList.remove('loading');
+    }, 500);
+}
+
+// --- 事件监听器 ---
+document.addEventListener('DOMContentLoaded', init);
+
+// --- 添加页面卸载前的清理 ---
+window.addEventListener('beforeunload', () => {
+    if (rafId) {
+        cancelAnimationFrame(rafId);
+    }
+    
+    if (perfObserver) {
+        perfObserver.disconnect();
+    }
+});
+
+// --- 添加页面焦点事件 ---
+window.addEventListener('focus', () => {
+    console.log('页面获得焦点，可以开始测试');
+});
+
+window.addEventListener('blur', () => {
+    console.log('页面失去焦点，测试可能不准确');
 });

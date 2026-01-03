@@ -1,0 +1,924 @@
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --card: #1f2933;
+  --accent: #38bdf8;
+  --good: #22c55e;
+  --bad: #ef4444;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --accent-dark: #0ea5e9;
+  --accent-glow: rgba(56, 189, 248, 0.3);
+  --error-glow: rgba(239, 68, 68, 0.5);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  padding: 20px;
+}
+
+/* 标题区域 */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  background: linear-gradient(90deg, var(--accent), #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  line-height: 1.5;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr 380px;
+  grid-template-rows: 1fr 1px;
+  gap: 16px;
+  width: 100%;
+  max-width: 1400px;
+  height: auto;
+  min-height: 700px;
+  max-height: 900px;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-header {
+  padding: 10px 16px;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* 左侧：行数测试 */
+.sidebar-test { grid-column: 1; grid-row: 1; }
+#scrollBox {
+  flex: 1;
+  overflow-y: auto;
+  background: #020617;
+  padding: 4px;
+}
+.scroll-line {
+  height: 33.3px;
+  line-height: 33.3px;
+  padding: 0 10px;
+  font-size: 12px;
+  border-bottom: 1px solid #1e293b;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.scroll-line.highlight { background: rgba(56, 189, 248, 0.2); color: #fff; }
+
+/* 中间：主测试区 */
+.test-main { grid-column: 2; grid-row: 1; }
+#testArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: crosshair;
+  border: 2px dashed var(--border);
+  margin: 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+#testArea.active { background: rgba(56, 189, 248, 0.05); border-color: var(--accent); }
+
+/* ========== 强化反向错误效果 ========== */
+#testArea.error {
+  background: linear-gradient(45deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.4)) !important;
+  border-color: #ef4444 !important;
+  border-width: 3px;
+  animation: shake 0.4s, error-pulse 1s infinite !important;
+  box-shadow: 
+    0 0 25px rgba(239, 68, 68, 0.5),
+    inset 0 0 35px rgba(239, 68, 68, 0.2);
+}
+
+/* 强化摇动动画 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* 错误脉冲动画 */
+@keyframes error-pulse {
+  0%, 100% { 
+    background: linear-gradient(45deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.4)) !important;
+    box-shadow: 
+      0 0 25px rgba(239, 68, 68, 0.5),
+      inset 0 0 35px rgba(239, 68, 68, 0.2);
+  }
+  50% { 
+    background: linear-gradient(45deg, rgba(239, 68, 68, 0.5), rgba(239, 68, 68, 0.6)) !important;
+    box-shadow: 
+      0 0 35px rgba(239, 68, 68, 0.7),
+      inset 0 0 40px rgba(239, 68, 68, 0.3);
+  }
+}
+
+/* 使用CSS变量定义默认值（英文） */
+:root {
+  --error-warning-text: "⚠️ Wheel Backfire Warning!";
+}
+
+/* 中文版本覆盖变量 */
+html[lang="zh-CN"] {
+  --error-warning-text: "⚠️ 滚轮回滚警告！";
+}
+
+/* 错误状态警告图标 */
+#testArea.error::after {
+  content: var(--error-warning-text);
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(239, 68, 68, 0.95);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  animation: warning-fade 2s ease-out;
+  border: 2px solid white;
+}
+
+@keyframes warning-fade {
+  0% { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  20%, 80% { 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+
+/* --- 优化后的鼠标顶视图 --- */
+.mouse-svg-container {
+  width: 240px;
+  height: 360px;
+  position: relative;
+  transition: transform 0.1s;
+}
+
+.mouse-body-path {
+  fill: #2d3748;
+  stroke: #4a5568;
+  stroke-width: 2;
+}
+
+.mouse-wheel {
+  fill: #1a202c;
+  stroke: var(--accent);
+  stroke-width: 2;
+  transition: all 0.1s;
+}
+
+.wheel-stripe {
+  stroke: #4a5568;
+  stroke-width: 2;
+}
+
+.mouse-light {
+  fill: var(--accent);
+  filter: blur(2px);
+  opacity: 0.5;
+}
+
+/* 指示箭头 */
+.scroll-indicator {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.scroll-indicator.up { color: var(--good); transform: translate(-50%, -80%); opacity: 0.8; }
+.scroll-indicator.down { color: var(--accent); transform: translate(-50%, -20%); opacity: 0.8; }
+.scroll-indicator.error { 
+  color: var(--bad); 
+  opacity: 1; 
+  font-size: 60px;
+  text-shadow: 
+    0 0 10px rgba(239, 68, 68, 0.8),
+    0 0 20px rgba(239, 68, 68, 0.6);
+  animation: pulse-big 0.5s infinite alternate;
+}
+
+@keyframes pulse-big {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to { transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.test-instruction {
+  position: absolute;
+  bottom: 30px;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(0,0,0,0.4);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* 右侧堆叠容器 */
+.right-stack {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.stats-panel { flex: 0 0 auto; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.stat-item {
+  background: var(--card);
+  padding: 12px;
+  transition: background 0.3s;
+}
+
+.stat-item.up-highlight { background: rgba(34, 197, 94, 0.1); }
+.stat-item.down-highlight { background: rgba(56, 189, 248, 0.1); }
+.stat-item.error-highlight { 
+  background: rgba(239, 68, 68, 0.15);
+  animation: stat-error-pulse 0.8s infinite alternate;
+}
+
+@keyframes stat-error-pulse {
+  from { background: rgba(239, 68, 68, 0.15); }
+  to { background: rgba(239, 68, 68, 0.3); }
+}
+
+.stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; display: block; }
+.stat-value { 
+  font-size: 20px; 
+  font-weight: bold; 
+  font-family: monospace; 
+  transition: color 0.3s ease;
+}
+
+/* 平均间隔时间特殊样式 */
+.stat-item#avgIntervalItem .stat-value {
+  color: var(--accent); /* 默认蓝色 */
+}
+
+.log-panel { flex: 1; min-height: 0; }
+#log {
+  flex: 1;
+  padding: 8px;
+  font-size: 12px;
+  font-family: monospace;
+  overflow-y: auto;
+  background: #020617;
+}
+
+/* 错误日志样式强化 */
+#log .err {
+  color: #ff6666;
+  font-weight: bold;
+  background: rgba(239, 68, 68, 0.15);
+  padding: 6px 10px;
+  border-left: 4px solid #ef4444;
+  margin: 4px 0;
+  border-radius: 0 4px 4px 0;
+  animation: log-error-pulse 1s infinite;
+}
+
+@keyframes log-error-pulse {
+  0%, 100% { background: rgba(239, 68, 68, 0.15); }
+  50% { background: rgba(239, 68, 68, 0.25); }
+}
+
+/* 底部通栏 */
+.intro-panel { grid-column: 1 / span 3; grid-row: 2; }
+.intro-content {
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: center;
+}
+.intro-content h3 { margin-top: 0; color: var(--text); }
+
+/* ========== 增强的选择框样式 ========== */
+.test-mode-select {
+  position: relative;
+  background: linear-gradient(145deg, #0f172a, #1a2238);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--text);
+  padding: 8px 36px 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 180px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.test-mode-select:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+  transform: translateY(-1px);
+}
+
+.test-mode-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 4px 12px rgba(56, 189, 248, 0.2);
+  transform: translateY(-1px);
+}
+
+.test-mode-select option {
+  background: var(--card);
+  color: var(--text);
+  padding: 10px;
+}
+
+/* 自定义下拉箭头 */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  z-index: 100; /* 创建层叠上下文 */
+}
+
+.select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: var(--accent);
+  pointer-events: none;
+  transition: transform 0.2s;
+}
+
+.test-mode-select:focus + .select-wrapper::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* ========== 增强的按钮样式 ========== */
+.reset-btn {
+  position: relative;
+  background: linear-gradient(145deg, #0f172a, #1a2238);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  padding: 8px 16px 8px 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+  overflow: hidden;
+}
+
+.reset-btn::before {
+  content: "↻";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+.reset-btn:hover {
+  background: linear-gradient(145deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.15));
+  border-color: #ef4444;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px);
+}
+
+.reset-btn:hover::before {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.reset-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.reset-btn:focus {
+  outline: none;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3), 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* 按钮内的微光效果 */
+.reset-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: rotate(30deg);
+  transition: all 0.6s;
+  opacity: 0;
+}
+
+.reset-btn:hover::after {
+  opacity: 1;
+  transform: rotate(30deg) translate(10%, 10%);
+}
+
+/* 按钮脉冲动画 */
+@keyframes pulse-reset {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.reset-btn.pulse {
+  animation: pulse-reset 1.5s infinite;
+}
+
+.up { color: var(--good); }
+.down { color: var(--accent); }
+.err { 
+  color: #ff6666; 
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+  animation: err-pulse 1.5s infinite;
+}
+
+@keyframes err-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    color: #ff6666;
+  }
+  50% { 
+    transform: scale(1.1);
+    color: #ff3333;
+  }
+}
+
+/* ========== 鼠标悬停反馈效果 ========== */
+.sidebar-test:hover,
+.test-main:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 左侧滚轮刻度测试面板悬停效果 */
+.sidebar-test:hover {
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(56, 189, 248, 0.5);
+}
+
+/* 中间主测试区面板悬停效果 */
+.test-main:hover {
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(34, 197, 94, 0.5);
+}
+
+/* 测试区域悬停提示文本 */
+.test-hover-hint {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, top 0.3s;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.test-hover-hint::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--accent);
+}
+
+/* 左侧面板悬停提示 */
+.sidebar-test:hover .test-hover-hint {
+  opacity: 1;
+  top: -50px;
+}
+
+/* 中间面板悬停提示 */
+.test-main:hover .test-hover-hint {
+  opacity: 1;
+  top: -50px;
+}
+
+/* 为两个面板添加相对定位以容纳提示 */
+.sidebar-test,
+.test-main {
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* 测试区域内部的悬停效果增强 */
+#testArea:hover {
+  border-color: rgba(34, 197, 94, 0.5);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+}
+
+#scrollBox:hover {
+  box-shadow: inset 0 0 15px rgba(56, 189, 248, 0.1);
+}
+
+/* 添加测试就绪光标 */
+.sidebar-test:hover,
+.test-main:hover {
+  cursor: pointer;
+}
+
+/* 测试区域悬停时鼠标SVG的微动效 */
+.test-main:hover .mouse-svg-container {
+  transform: scale(1.02);
+  transition: transform 0.3s;
+}
+
+/* 左侧滚动框悬停时的高亮效果 */
+.sidebar-test:hover .scroll-line:nth-child(odd) {
+  background: rgba(56, 189, 248, 0.03);
+}
+
+.sidebar-test:hover .scroll-line:nth-child(even) {
+  background: rgba(56, 189, 248, 0.01);
+}
+
+/* 主测试区悬停时的灯光效果 */
+.test-main:hover .mouse-light {
+  animation: pulse-light 1.5s infinite;
+  opacity: 0.7;
+}
+
+@keyframes pulse-light {
+  0%, 100% {
+    filter: blur(2px);
+    opacity: 0.5;
+  }
+  50% {
+    filter: blur(1px);
+    opacity: 0.8;
+  }
+}
+
+/* 悬就绪状态 */
+#testArea.hover-ready {
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  background: rgba(34, 197, 94, 0.05) !important;
+}
+
+/* ========== 强化反向错误的鼠标SVG效果 ========== */
+#testArea.error .mouse-svg-container {
+  filter: 
+    drop-shadow(0 0 12px rgba(239, 68, 68, 0.9))
+    hue-rotate(320deg)
+    saturate(2.5);
+  animation: svg-shake 0.5s infinite alternate;
+}
+
+@keyframes svg-shake {
+  0% { transform: translateX(0) scale(1); }
+  100% { transform: translateX(3px) scale(1.05); }
+}
+
+/* 错误时鼠标身体变红 */
+#testArea.error .mouse-body-path {
+  fill: #4a1f1f;
+  stroke: #ef4444;
+  stroke-width: 3;
+}
+
+/* 错误时滚轮变红 */
+#testArea.error .mouse-wheel {
+  fill: #8b0000;
+  stroke: #ef4444;
+  stroke-width: 3;
+}
+
+/* 错误时滚轮纹理变红 */
+#testArea.error .wheel-stripe {
+  stroke: #ef4444;
+  stroke-width: 3;
+}
+
+/* 错误时鼠标灯光变红并闪烁 */
+#testArea.error .mouse-light {
+  fill: #ef4444;
+  filter: blur(1px);
+  animation: pulse-red 0.6s infinite;
+  opacity: 0.9;
+}
+
+@keyframes pulse-red {
+  0%, 100% {
+    filter: blur(2px);
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    filter: blur(1px);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* 错误时测试说明文字变红 */
+#testArea.error .test-instruction {
+  color: #ff9999;
+  background: rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  font-weight: bold;
+  animation: text-pulse 1s infinite;
+}
+
+@keyframes text-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* 错误时指示器强化 */
+#testArea.error .scroll-indicator.error {
+  font-size: 70px;
+  text-shadow: 
+    0 0 15px rgba(239, 68, 68, 0.9),
+    0 0 30px rgba(239, 68, 68, 0.7),
+    0 0 45px rgba(239, 68, 68, 0.5);
+  animation: error-pulse-big 0.3s infinite alternate;
+}
+
+@keyframes error-pulse-big {
+  from { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  to { 
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+  }
+}
+
+/* ========== 选择框回滚错误提示效果 ========== */
+.test-mode-select.error-mode {
+  background: linear-gradient(145deg, #4a1f1f, #6b2a2a) !important;
+  border-color: #ef4444 !important;
+  border-width: 2px !important;
+  color: #ff9999 !important;
+  animation: select-error-pulse 1s infinite !important;
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.3),
+    0 4px 12px rgba(239, 68, 68, 0.4) !important;
+}
+
+@keyframes select-error-pulse {
+  0%, 100% { 
+    background: linear-gradient(145deg, #4a1f1f, #6b2a2a) !important;
+    box-shadow: 
+      0 0 0 3px rgba(239, 68, 68, 0.3),
+      0 4px 12px rgba(239, 68, 68, 0.4) !important;
+  }
+  50% { 
+    background: linear-gradient(145deg, #6b2a2a, #8b0000) !important;
+    box-shadow: 
+      0 0 0 3px rgba(239, 68, 68, 0.5),
+      0 4px 16px rgba(239, 68, 68, 0.6) !important;
+  }
+}
+
+/* 选择框错误模式的下拉箭头 */
+.test-mode-select.error-mode + .select-wrapper::after {
+  color: #ff9999 !important;
+  animation: arrow-pulse 1s infinite;
+}
+
+@keyframes arrow-pulse {
+  0%, 100% { 
+    color: #ff9999;
+    transform: translateY(-50%);
+  }
+  50% { 
+    color: #ff6666;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+/* 选择框错误模式的选项背景 */
+.test-mode-select.error-mode option {
+  background: #4a1f1f !important;
+  color: #ff9999 !important;
+}
+
+/* 选择框错误模式的悬停效果 */
+.test-mode-select.error-mode:hover {
+  background: linear-gradient(145deg, #6b2a2a, #8b0000) !important;
+  border-color: #ff3333 !important;
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.5),
+    0 6px 20px rgba(239, 68, 68, 0.5) !important;
+}
+
+/* 选择框错误模式的聚焦效果 */
+.test-mode-select.error-mode:focus {
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.5),
+    0 4px 20px rgba(239, 68, 68, 0.6) !important;
+  border-color: #ff3333 !important;
+}
+
+/* ========== 修复错误提示标签被遮挡问题 ========== */
+.select-wrapper {
+  position: relative;
+  z-index: 1000; /* 创建层叠上下文，确保错误提示可以显示在顶部 */
+}
+
+
+/* 淡入动画 */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* 错误提示标签的箭头 */
+.error-mode-label::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #ef4444;
+}
+
+/* 确保主布局不会遮挡错误提示 */
+.main-layout {
+  position: relative;
+  z-index: 1;
+}
+
+/* 确保卡片不会创建新的层叠上下文 */
+.card {
+  position: relative;
+  z-index: auto;
+}
+
+/* 悬停提示在错误提示之下 */
+.test-hover-hint {
+  z-index: 100;
+}
+
+/* 确保测试区域错误状态不会遮挡错误提示 */
+#testArea.error {
+  z-index: 1;
+}
+
+/* ========== 响应式调整 ========== */
+@media (max-width: 1200px) {
+  .test-hover-hint {
+    font-size: 11px;
+    padding: 5px 10px;
+    top: -35px;
+  }
+  
+  .sidebar-test:hover .test-hover-hint,
+  .test-main:hover .test-hover-hint {
+    top: -40px;
+  }
+  
+  /* 响应式调整错误警告 */
+  #testArea.error::after {
+    font-size: 13px;
+    padding: 8px 16px;
+    top: 15px;
+  }
+  
+  /* 响应式调整错误提示标签 */
+  .error-mode-label {
+    font-size: 12px;
+    padding: 6px 12px;
+    top: -45px;
+  }
+}
+
+@media (max-width: 768px) {
+  #testArea.error::after {
+    font-size: 12px;
+    padding: 6px 12px;
+    top: 10px;
+    white-space: normal;
+    max-width: 90%;
+    text-align: center;
+  }
+  
+  .error-mode-label {
+    font-size: 11px;
+    padding: 6px 10px;
+    top: -50px;
+    max-width: 200px;
+    white-space: normal;
+    text-align: center;
+    z-index: 9999; /* 保持高z-index */
+  }
+  
+  .error-mode-label::after {
+    bottom: -6px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #ef4444;
+  }
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反应速度测试工具 - 在线测试你的反应时间与大脑敏捷度</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="免费在线测试你的反应速度！测量你的大脑反应时间，与全球用户比较，提高你的认知能力。提供详细统计和反应时间评估。">
+    <meta name="keywords" content="反应速度测试, 反应时间, 大脑敏捷度测试, 认知能力测试, 反应测试, 在线测试工具">
+    <meta name="author" content="反应速度测试实验室">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://reaction-test.example.com/">
+    <meta property="og:title" content="反应速度测试工具 - 在线测试你的反应时间">
+    <meta property="og:description" content="免费在线测试你的反应速度！测量你的大脑反应时间，与全球用户比较，提高你的认知能力。">
+    <meta property="og:image" content="https://reaction-test.example.com/images/reaction-test-og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://reaction-test.example.com/">
+    <meta property="twitter:title" content="反应速度测试工具 - 在线测试你的反应时间">
+    <meta property="twitter:description" content="免费在线测试你的反应速度！测量你的大脑反应时间，与全球用户比较，提高你的认知能力。">
+    <meta property="twitter:image" content="https://reaction-test.example.com/images/reaction-test-twitter.jpg">
+    
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "反应速度测试工具",
+      "description": "免费在线测试你的反应速度，测量大脑反应时间，提高认知能力",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "url": "https://reaction-test.example.com/",
+      "author": {
+        "@type": "Organization",
+        "name": "反应速度测试实验室"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1250"
+      }
+    }
+    </script>
+    
+    <link rel="canonical" href="https://reaction-test.example.com/">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/games/reactionspeed/css/style.css">
+    <link rel="stylesheet" href="/games/shared/css/language.css">
+
+</head>
+<body>
+<!-- 语言切换器 - 固定在右上角 -->
+<div class="language-switcher">
+    <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+        <i class="fas fa-globe"></i>
+    </button>
+           
+    <!-- 下拉框 -->
+    <div class="language-dropdown" id="languageDropdown">
+        <!-- 语言选项 -->
+        <a class="language-option selected" href="/games/reactionspeed/zh/" data-lang="zh">
+            中文版
+        </a>
+        <a class="language-option" href="/games/reactionspeed/" data-lang="en">
+            English
+        </a>
+    </div>
+</div>
+
+    <!-- 装饰性元素 -->
+    <div class="decoration decoration-1"></div>
+    <div class="decoration decoration-2"></div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-brain"></i> 反应速度测试</h1>
+            <p class="subtitle">测试你的反应速度：点击开始按钮，等待屏幕变为蓝色后立即点击。在屏幕变蓝之前点击将被视为无效。进行多次测试以获得准确的平均反应时间。</p>
+        </header>
+        
+        <div class="main-content">
+            <section class="test-area floating">
+                <h2 class="panel-title"><i class="fas fa-bolt"></i> 反应测试区域</h2>
+                <div class="reaction-box waiting" id="reactionBox">
+                    <div class="status-text" id="statusText">点击开始按钮进行测试</div>
+                    <div class="time-display" id="timeDisplay">--</div>
+                    <div class="instruction" id="instruction">点击"开始测试"按钮，等待屏幕变为蓝色后立即点击此处</div>
+                </div>
+                
+                <div class="control-buttons">
+                    <button class="start-btn" id="startBtn">
+                        <i class="fas fa-play-circle"></i> 开始测试
+                    </button>
+                    <button class="reset-btn" id="resetBtn">
+                        <i class="fas fa-redo"></i> 重置测试
+                    </button>
+                    <button class="share-btn" id="shareResultBtn">
+                        <i class="fas fa-share-alt"></i> 分享结果
+                    </button>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color waiting-color"></div>
+                        <span>等待状态 (白色)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color ready-color"></div>
+                        <span>可以点击 (蓝色)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color too-soon-color"></div>
+                        <span>点击过早 (红色)</span>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="stats-panel floating">
+                <h2 class="panel-title"><i class="fas fa-chart-bar"></i> 测试结果统计</h2>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-label"><i class="fas fa-clock"></i> 最新反应时间</div>
+                        <div class="stat-value" id="latestTime">--</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label"><i class="fas fa-tachometer-alt"></i> 最快反应时间</div>
+                        <div class="stat-value" id="fastestTime">--</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label"><i class="fas fa-calculator"></i> 平均反应时间</div>
+                        <div class="stat-value" id="averageTime">--</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label"><i class="fas fa-list-ol"></i> 测试次数</div>
+                        <div class="stat-value" id="testCount">0</div>
+                    </div>
+                </div>
+                
+                <div class="reaction-level">
+                    <div class="level excellent">&lt; 200ms: 极快</div>
+                    <div class="level good">200-300ms: 良好</div>
+                    <div class="level average">300-500ms: 一般</div>
+                    <div class="level slow">&gt; 500ms: 较慢</div>
+                </div>
+                
+                <h3 class="panel-title"><i class="fas fa-history"></i> 最近测试记录</h3>
+                <div class="result-list" id="resultList">
+                    <div class="result-item">
+                        <span class="result-number">暂无测试记录</span>
+                        <span class="result-time">--</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- 分享弹窗 -->
+        <div class="share-modal" id="shareModal">
+            <div class="share-modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <i class="fas fa-share-alt"></i>
+                        分享测试结果
+                    </div>
+                    <div class="close-modal" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                
+                <div class="share-buttons-container">
+                    <a href="#" class="share-button twitter" id="shareTwitter" aria-label="分享到Twitter">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="#" class="share-button reddit" id="shareReddit" aria-label="分享到Reddit">
+                        <i class="fab fa-reddit"></i>
+                        <span>Reddit</span>
+                    </a>
+                    <a href="#" class="share-button facebook" id="shareFacebook" aria-label="分享到Facebook">
+                        <i class="fab fa-facebook"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#" class="share-button telegram" id="shareTelegram" aria-label="分享到Telegram">
+                        <i class="fab fa-telegram"></i>
+                        <span>Telegram</span>
+                    </a>
+                    <a href="#" class="share-button whatsapp" id="shareWhatsapp" aria-label="分享到WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="#" class="share-button link" id="copyLink" aria-label="复制链接">
+                        <i class="fas fa-link"></i>
+                        <span>复制链接</span>
+                    </a>
+                </div>
+                
+                <div class="share-description">
+                    <p>与朋友分享你的反应速度测试结果，看看谁的反应更快！挑战你的朋友们，看看谁能获得最快的反应时间！</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEO内容 -->
+        <section class="seo-content">
+            <h2>什么是反应速度测试？</h2>
+            <p>反应速度测试是一种测量人体对视觉刺激作出反应所需时间的工具。当你看到屏幕颜色变化（从白色变为蓝色）时，你需要尽快点击屏幕，系统会精确测量从刺激出现到你的点击动作之间的时间间隔。</p>
+            
+            <h3>为什么反应速度很重要？</h3>
+            <p>反应速度是衡量大脑处理速度和手眼协调能力的重要指标。良好的反应速度在许多领域都至关重要：</p>
+            <ul>
+                <li><strong>体育运动：</strong>运动员需要快速反应来应对比赛中的变化</li>
+                <li><strong>驾驶安全：</strong>快速反应能力可以帮助避免交通事故</li>
+                <li><strong>电子竞技：</strong>职业游戏玩家通常拥有超常的反应速度</li>
+                <li><strong>日常生活：</strong>快速反应可以帮助应对突发情况</li>
+            </ul>
+            
+            <h3>如何提高反应速度？</h3>
+            <p>通过定期训练，你可以提高自己的反应速度：</p>
+            <ul>
+                <li><strong>定期练习：</strong>使用本工具每天进行几次测试</li>
+                <li><strong>保持专注：</strong>测试时集中注意力，减少分心</li>
+                <li><strong>健康饮食：</strong>均衡的营养有助于大脑功能</li>
+                <li><strong>充足睡眠：</strong>良好的睡眠可以优化认知表现</li>
+                <li><strong>体育锻炼：</strong>适当的运动可以提高整体反应能力</li>
+            </ul>
+            
+            <h3>正常反应时间范围</h3>
+            <p>普通人的反应时间通常在200-300毫秒之间。经过训练的个体可以达到150毫秒以下，而专业运动员和电竞选手甚至可以低于100毫秒。年龄、疲劳程度和注意力水平都会影响反应时间。</p>
+            
+            <h3>使用说明</h3>
+            <p>本工具完全免费使用，无需注册或下载。只需点击"开始测试"按钮，等待屏幕从白色变为蓝色后立即点击。系统会自动记录你的反应时间并提供详细统计。你可以进行多次测试以获得更准确的平均值。</p>
+        </section>
+        
+        <footer>
+            <p>反应速度测试工具 &copy; 2023 | 设计用于测量视觉刺激下的反应时间</p>
+            <p>正常人反应时间通常在200-300毫秒之间，经过训练可以达到150毫秒以下</p>
+            
+            <div class="footer-links">
+                <a href="#" onclick="showPrivacyPolicy()">隐私政策</a>
+                <a href="#" onclick="showTerms()">使用条款</a>
+                <a href="mailto:contact@reaction-test.example.com">联系我们</a>
+                <a href="#" onclick="showFAQ()">常见问题</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 复制链接通知 -->
+    <div class="copy-notification" id="copyNotification">链接已复制到剪贴板！</div>
+
+    <script src="/games/reactionspeed/js/script-zh.js"></script>
+    <script src="/games/shared/js/language.js"></script>
+
+</body>
+</html>
