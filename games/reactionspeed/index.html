@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反应速度测试器</title>
+    <style>
+        :root {
+            --blue: #2b8a3e;
+            --red: #fa5252;
+            --green: #40c057;
+            --dark-blue: #228be6;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none; /* 防止频繁点击选中文字 */
+        }
+
+        #game-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+            color: white;
+            text-align: center;
+        }
+
+        /* 初始/闲置状态 */
+        .idle { background-color: var(--dark-blue); }
+        /* 等待变绿状态 */
+        .waiting { background-color: var(--red); }
+        /* 变绿状态 */
+        .ready { background-color: var(--green); }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        h1 { font-size: 3rem; margin: 0; }
+        p { font-size: 1.5rem; }
+
+        .stats {
+            position: absolute;
+            bottom: 20px;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container" class="idle">
+        <div class="icon" id="icon">⚡</div>
+        <h1 id="main-text">反应速度测试</h1>
+        <p id="sub-text">点击任何地方开始</p>
+        
+        <div class="stats">
+            最佳成绩: <span id="best-score">--</span> ms
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('game-container');
+        const mainText = document.getElementById('main-text');
+        const subText = document.getElementById('sub-text');
+        const icon = document.getElementById('icon');
+        const bestScoreDisplay = document.getElementById('best-score');
+
+        let state = 'idle'; // idle, waiting, ready, result
+        let startTime, timeoutId;
+        let bestScore = Infinity;
+
+        // 核心逻辑逻辑处理
+        function handleClick() {
+            if (state === 'idle' || state === 'result') {
+                startTest();
+            } else if (state === 'waiting') {
+                tooEarly();
+            } else if (state === 'ready') {
+                endTest();
+            }
+        }
+
+        // 1. 开始测试，进入等待状态
+        function startTest() {
+            state = 'waiting';
+            container.className = 'waiting';
+            mainText.innerText = '等待绿色...';
+            subText.innerText = '看到绿色时立即点击';
+            icon.innerText = '...';
+
+            // 随机 2-5 秒后变绿
+            const delay = Math.floor(Math.random() * 3000) + 2000;
+            timeoutId = setTimeout(() => {
+                state = 'ready';
+                container.className = 'ready';
+                mainText.innerText = '点击！';
+                icon.innerText = '🎯';
+                startTime = performance.now(); // 使用高精度时间戳
+            }, delay);
+        }
+
+        // 2. 成功点击
+        function endTest() {
+            const endTime = performance.now();
+            const reactionTime = Math.round(endTime - startTime);
+            state = 'result';
+            container.className = 'idle';
+            
+            mainText.innerText = reactionTime + ' ms';
+            subText.innerText = '点击以重试';
+            icon.innerText = '🕒';
+
+            if (reactionTime < bestScore) {
+                bestScore = reactionTime;
+                bestScoreDisplay.innerText = bestScore;
+            }
+        }
+
+        // 3. 点击过快
+        function tooEarly() {
+            clearTimeout(timeoutId);
+            state = 'result';
+            container.className = 'idle';
+            mainText.innerText = '太快了！';
+            subText.innerText = '变绿之前不能点击，再次点击重试';
+            icon.innerText = '⚠️';
+        }
+
+        // 绑定点击和触摸事件（兼容手机）
+        container.addEventListener('mousedown', (e) => {
+            if (e.button === 0) handleClick(); // 仅左键点击有效
+        });
+        
+        container.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // 防止双击缩放
+            handleClick();
+        });
+    </script>
+</body>
+</html>
