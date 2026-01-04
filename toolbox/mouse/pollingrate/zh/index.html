@@ -1,47 +1,231 @@
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>专业级鼠标事件频率测试工具 | 鼠标回报率/采样率检测 | 浏览器鼠标性能测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
-    <!-- 添加SEO meta信息 -->
-    <meta name="description" content="免费在线鼠标事件频率测试工具，实时检测浏览器中鼠标移动事件的采样率、抖动分析和性能监测。专业级鼠标回报率测试，支持CSV数据导出和实时图表展示。">
-    <meta name="keywords" content="鼠标事件频率测试,鼠标回报率,鼠标采样率,鼠标抖动测试,浏览器鼠标测试,鼠标性能测试">
-    <meta name="author" content="Hardware Test">
-    <meta name="robots" content="index, follow">
+    <!-- SEO Meta Tags -->
+    <title>鼠标轮询率测试在线工具 - 事件频率与抖动分析</title>
+    <meta name="description" content="免费在线鼠标事件频率测试工具。实时检测鼠标移动采样率、抖动分析和浏览器性能监控。无需下载。">
     
+    <!-- Canonical & Internationalization -->
+    <link rel="canonical" href="https://starryring.com/toolbox/mouse/pollingrate/zh/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/toolbox/mouse/pollingrate/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/toolbox/mouse/pollingrate/zh/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://starryring.com/toolbox/mouse/pollingrate/zh/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://starryring.com/toolbox/mouse/pollingrate/zh-tw/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/toolbox/mouse/pollingrate/" />
+   
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Author -->
+    <meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://starryring.com/toolbox/mouse/pollingrate/zh/">
-    <meta property="og:title" content="专业级鼠标事件频率测试工具 | 在线鼠标回报率检测">
-    <meta property="og:description" content="免费在线鼠标事件频率测试工具，专业检测浏览器鼠标事件采样率，抖动分析，实时图表展示。支持Chrome、Firefox、Edge等主流浏览器。">
-    <meta property="og:image" content="https://starryring.com/preview-polling.png">
+    <meta property="og:title" content="🖱️ 鼠标轮询率测试在线工具 - 事件频率与抖动分析">
+    <meta property="og:description" content="免费在线鼠标事件频率测试工具。实时检测鼠标移动采样率、抖动分析和浏览器性能监控。">
+    <meta property="og:image" content="https://starryring.com/toolbox/mouse/pollingrate/og-image-zh.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="鼠标轮询率测试工具界面预览">
+    <meta property="og:site_name" content="StarryRing 工具箱">
     
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://starryring.com/toolbox/mouse/pollingrate/zh/">
-    <meta property="twitter:title" content="在线鼠标事件频率测试工具">
-    <meta property="twitter:description" content="免费在线鼠标事件频率测试工具，专业检测浏览器鼠标事件采样率，抖动分析，实时图表展示">
-    <meta property="twitter:image" content="https://starryring.com/preview-polling.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/toolbox/mouse/pollingrate/zh/">
+    <meta name="twitter:title" content="🖱️ 鼠标轮询率测试在线工具 - 事件频率与抖动分析">
+    <meta name="twitter:description" content="免费在线鼠标事件频率测试工具。实时检测鼠标移动采样率、抖动分析和浏览器性能监控。">
+    <meta name="twitter:image" content="https://starryring.com/toolbox/mouse/pollingrate/twitter-image-zh.png">
+    <meta name="twitter:creator" content="@starryring">
+
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="鼠标轮询率测试">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://starryring.com/toolbox/mouse/pollingrate/zh/">
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <link rel="preload" href="/toolbox/mouse/pollingrate/css/style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
     
-    <!-- 多语言链接 -->
-    <link rel="alternate" hreflang="en" href="https://starryring.com/toolbox/mouse/pollingrate/" />
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/toolbox/mouse/pollingrate/zh/" />
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/toolbox/mouse/pollingrate/" />
-    
-    <!-- 外部资源 -->
+    <!-- Structured Data Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "鼠标事件频率测试工具",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Web",
+                "description": "免费在线鼠标事件频率测试工具，实时检测鼠标移动采样率、抖动分析、浏览器性能监控",
+                "url": "https://starryring.com/toolbox/mouse/pollingrate/zh/",
+                "image": "https://starryring.com/toolbox/mouse/pollingrate/og-image-zh.png",
+                "screenshot": "https://starryring.com/toolbox/mouse/pollingrate/screenshot-zh.png",
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com",
+                    "logo": "https://starryring.com/logo.png"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "实时频率监控",
+                    "抖动分析",
+                    "事件采样率检测",
+                    "实时图表显示",
+                    "CSV数据导出",
+                    "浏览器性能对比"
+                ],
+                "operatingSystem": ["Windows", "macOS", "Linux", "Chrome OS"],
+                "softwareVersion": "2.1.0",
+                "datePublished": "2024-01-01",
+                "dateModified": "2024-12-20"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "为什么网页测试显示的鼠标事件频率低于实际USB轮询率？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "浏览器环境中的鼠标事件受多重限制：浏览器事件节流、显示器刷新率同步、操作系统调度等。网页无法直接访问USB HID层的原始数据，只能通过浏览器提供的鼠标事件接口。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何获得更准确的测试结果？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "1. 确保浏览器窗口在前台且处于活动状态。2. 关闭不必要的标签页和应用程序。3. 在测试区域内快速连续移动鼠标。4. 保持稳定的测试姿势，避免手部抖动。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "什么是抖动？为什么它很重要？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "抖动反映了鼠标事件时间间隔的稳定性。低抖动意味着事件间隔均匀，从而带来流畅的鼠标移动感。高抖动可能导致鼠标移动感觉卡顿或不稳定，即使平均频率很高。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "为什么不同浏览器显示不同的测试结果？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "不同浏览器（Chrome、Firefox、Edge、Safari）使用不同的事件处理机制、节流策略和性能优化。Chrome通常提供更高的事件频率，但具体性能还取决于操作系统和硬件配置。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何判断鼠标事件性能是否正常？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "正常情况：60Hz显示器：事件频率≈60Hz。120Hz显示器：事件频率≈120Hz。144Hz显示器：事件频率≈120-144Hz。240Hz显示器：事件频率≈200Hz。如果频率远低于显示器刷新率，可能存在性能问题。"
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "首页",
+                        "item": "https://starryring.com/toolbox/main/zh/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "鼠标测试工具箱",
+                        "item": "https://starryring.com/toolbox/mouse/zh/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "鼠标轮询率测试",
+                        "item": "https://starryring.com/toolbox/mouse/pollingrate/zh/"
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "如何使用鼠标轮询率测试工具",
+                "description": "逐步指南，测试鼠标事件频率和性能",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "name": "进入测试区域",
+                        "text": "将鼠标移动到页面上的蓝色测试区域开始监控鼠标事件。",
+                        "image": "https://starryring.com/toolbox/mouse/pollingrate/step1-zh.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "进行快速移动",
+                        "text": "在测试区域内快速连续移动鼠标以生成事件数据。",
+                        "image": "https://starryring.com/toolbox/mouse/pollingrate/step2-zh.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "监控实时频率",
+                        "text": "观察当前频率显示和实时图表，查看鼠标事件采样率。",
+                        "image": "https://starryring.com/toolbox/mouse/pollingrate/step3-zh.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "检查抖动值",
+                        "text": "观察抖动测量值以评估鼠标事件间隔的稳定性。",
+                        "image": "https://starryring.com/toolbox/mouse/pollingrate/step4-zh.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "导出数据分析",
+                        "text": "使用CSV导出功能保存测试数据进行详细分析。",
+                        "image": "https://starryring.com/toolbox/mouse/pollingrate/step5-zh.png"
+                    }
+                ],
+                "totalTime": "PT3M"
+            }
+        ]
+    }
+    </script>
+
+    <!-- External resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
-    <!-- 项目样式 -->
+    <!-- Project styles -->
     <link rel="stylesheet" href="/toolbox/shared/css/BreadNav.css">
     <link rel="stylesheet" href="/toolbox/shared/css/NavCard.css">
     <link rel="stylesheet" href="/toolbox/shared/css/document.css">
@@ -50,126 +234,21 @@
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-J9HR7CNQR9');
-    </script>
-   
-    <!-- JSON-LD结构化数据 -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "在线鼠标事件频率测试工具",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Web",
-        "description": "专业级鼠标事件频率测试工具，检测浏览器中鼠标移动事件的采样率、抖动分析和性能监测",
-        "url": "https://starryring.com/toolbox/mouse/pollingrate/zh/",
-        "image": "https://starryring.com/preview-polling.png",
-        "author": {
-            "@type": "Organization",
-            "name": "Hardware Test"
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "featureList": [
-            "实时频率监测",
-            "抖动分析",
-            "事件采样率检测",
-            "实时图表展示",
-            "CSV数据导出"
-        ]
-    }
-    </script>
-    
-    <!-- 面包屑导航结构化数据 -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "首页",
-                "item": "https://starryring.com/toolbox/main/zh/"
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "鼠标测试工具箱",
-                "item": "https://starryring.com/toolbox/mouse/zh/"
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "鼠标事件频率测试工具"
-            }
-        ]
-    }
-    </script>
-    
-    <!-- FAQ结构化数据 -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "为什么网页测试的鼠标事件频率比真实USB轮询率低？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "浏览器环境中的鼠标事件受到多层限制：浏览器事件节流、显示器刷新率同步、操作系统调度等。网页无法直接访问USB HID层的原始数据，只能通过浏览器提供的鼠标事件接口。"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "如何获得更准确的测试结果？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "1. 确保浏览器窗口处于前台激活状态\n2. 关闭不必要的标签页和应用程序\n3. 在测试区域内进行快速、连续的鼠标移动\n4. 保持稳定的测试姿势，避免手部抖动"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "什么是抖动（Jitter）？为什么它很重要？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "抖动反映了鼠标事件间隔时间的稳定性。低抖动意味着事件间隔均匀，鼠标移动感觉平滑。高抖动可能导致鼠标移动感觉卡顿或不稳定，即使平均频率较高。"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "为什么不同浏览器测试结果不同？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "不同浏览器（Chrome、Firefox、Edge、Safari）使用不同的事件处理机制、节流策略和性能优化。Chrome通常提供较高的事件频率，但具体表现还取决于操作系统和硬件配置。"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "如何判断鼠标事件性能是否正常？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "正常情况：\n- 60Hz显示器：事件频率≈60Hz\n- 120Hz显示器：事件频率≈120Hz\n- 144Hz显示器：事件频率≈120-144Hz\n- 240Hz显示器：事件频率≈200Hz左右\n如果频率远低于显示器刷新率，可能存在性能问题。"
-                }
-            }
-        ]
-    }
-    </script>
 </head>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J9HR7CNQR9');
+</script>
+
 <body class="p-4 md:p-8">
-    <!-- 面包导航栏 -->
+    <!-- Breadcrumb Navigation -->
     <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
+        <nav aria-label="面包屑导航">
             <ol class="breadcrumb-modern">
                 <li class="breadcrumb-item">
                     <a href="/toolbox/main/zh/" class="breadcrumb-link">
@@ -182,22 +261,22 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item">                   
-                    <span class="breadcrumb-active">回报率测试</span>
+                    <span class="breadcrumb-active">轮询率测试</span>
                 </li>
             </ol>
         </nav>
     </div>
     
-    <!-- 语言切换器 -->
+    <!-- Language Switcher -->
     <div class="language-switcher">
-        <!-- 地球图标触发器 -->
+        <!-- Globe icon trigger -->
         <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
             <i class="fas fa-globe"></i>
         </button>
         
-        <!-- 下拉框 -->
+        <!-- Dropdown -->
         <div class="language-dropdown" id="languageDropdown">
-            <!-- 语言选项 -->
+            <!-- Language options -->
             <a class="language-option selected" href="/toolbox/mouse/pollingrate/zh/" data-lang="zh">
                 中文版
             </a>
@@ -211,24 +290,24 @@
         <meta itemprop="applicationCategory" content="UtilitiesApplication">
         <meta itemprop="operatingSystem" content="Web">
         
-        <!-- 头部 -->
+        <!-- Header -->
         <header>
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 class="text-3xl font-bold tracking-tight text-white" itemprop="name">
-                        浏览器鼠标事件频率测试工具（非
+                        浏览器鼠标事件频率测试器（非
                         <a href="#desktop-tool-section" 
                            class="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors">
                             真实USB轮询率
                         </a>
                         ）
                     </h1>
-                    <p class="text-slate-400" itemprop="description">专业级鼠标采样率监测与抖动分析工具（已自动开启测试）</p>
+                    <p class="text-slate-400" itemprop="description">专业鼠标采样率监控和抖动分析工具（自动启动）</p>
                 </div>
                 <div class="flex gap-3">
                     <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50">
                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                        <span class="text-sm font-semibold text-blue-400">监测中</span>
+                        <span class="text-sm font-semibold text-blue-400">监控中</span>
                     </div>
                     <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition">
                         清除数据
@@ -237,13 +316,13 @@
             </div>
         </header>
 
-        <!-- 主仪表板 -->
+        <!-- Main Dashboard -->
         <section aria-label="鼠标频率测试主面板">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- 左侧：统计数据与测试区域 -->
+                <!-- Left: Statistics and test area -->
                 <div class="lg:col-span-2 space-y-6">
-                    <!-- 统计网格 -->
+                    <!-- Statistics grid -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="stat-card p-4 rounded-lg">
                             <div class="text-xs text-slate-400 uppercase font-bold">当前频率</div>
@@ -258,29 +337,29 @@
                             <div id="avgHz" class="text-3xl font-bold mono text-purple-400">0<small class="text-sm ml-1 text-slate-500">Hz</small></div>
                         </div>
                         <div class="stat-card p-4 rounded-lg border-orange-500">
-                            <div class="text-xs text-slate-400 uppercase font-bold">抖动 (Jitter)</div>
-                            <div id="jitter" class="text-3xl font-bold mono text-orange-400">0<small class="text-sm ml-1 text-slate-500">ms</small></div>
+                            <div class="text-xs text-slate-400 uppercase font-bold">抖动</div>
+                            <div id="jitter" class="text-3xl font-bold mono text-orange-400">0<small class="text-sm ml-1 text-slate-500">毫秒</small></div>
                         </div>
                     </div>
 
-                    <!-- 实时图表 -->
+                    <!-- Real-time chart -->
                     <div class="glass-panel p-6 h-80">
                         <canvas id="pollingChart"></canvas>
                     </div>
 
-                    <!-- 测试交互区域 -->
+                    <!-- Test interaction area -->
                     <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border">
                         <div class="text-center pointer-events-none">
                             <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75">
                                  <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
                             </div>
-                            <p class="text-lg font-medium">在此区域内快速移动鼠标进行测试</p>
-                            <p class="text-sm text-slate-500">无需点击，移动即可实时捕获数据</p>
+                            <p class="text-lg font-medium">在此区域快速移动鼠标进行测试</p>
+                            <p class="text-sm text-slate-500">无需点击，只需移动即可实时捕获数据</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 右侧：日志 -->
+                <!-- Right: Log -->
                 <div class="flex flex-col h-full">
                     <div class="glass-panel flex flex-col h-full max-h-[740px]">
                         <div class="p-4 border-b border-slate-700 flex justify-between items-center">
@@ -292,7 +371,7 @@
                         </div>
                         <div class="p-4 border-t border-slate-700">
                             <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600">
-                                导出 CSV 日志
+                                导出CSV日志
                             </button>
                         </div>
                     </div>
@@ -300,36 +379,36 @@
             </div>
         </section>
         
-        <!-- 页面导航卡片（使用指南和原理说明） -->
+        <!-- Page navigation cards (User guide and principle explanation) -->
         <section aria-label="学习资源导航">
             <div class="page-navigation-section">
                 <div class="navigation-header">
                     <i class="fas fa-graduation-cap"></i>
-                    <h2>深入学习鼠标事件频率测试</h2>
-                    <p>了解更多关于鼠标事件采样率和浏览器限制的知识</p>
+                    <h2>深入了解鼠标事件频率测试</h2>
+                    <p>了解更多关于鼠标事件采样率和浏览器限制</p>
                 </div>
                 
                 <div class="navigation-cards">
-                    <a href="/toolbox/mouse/pollingrate/instruction/zh" class="nav-card">
+                    <a href="/toolbox/mouse/pollingrate/zh/" class="nav-card">
                         <div class="nav-card-icon">
                             <i class="fas fa-book-open"></i>
                         </div>
                         <div class="nav-card-content">
                             <h3>详细使用指南</h3>
-                            <p>从零开始学习如何使用本工具，包含分步操作说明、测试技巧和常见问题解答。</p>
+                            <p>从零开始学习如何使用此工具，包括分步说明、测试技巧和常见问题解答。</p>
                             <div class="nav-card-action">
                                 <span>查看完整指南 <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </div>
                     </a>
                     
-                    <a href="/toolbox/mouse/pollingrate/principle/zh/" class="nav-card">
+                    <a href="/toolbox/mouse/pollingrate/zh/" class="nav-card">
                         <div class="nav-card-icon">
                             <i class="fas fa-cogs"></i>
                         </div>
                         <div class="nav-card-content">
                             <h3>工作原理详解</h3>
-                            <p>深入了解浏览器事件机制、鼠标采样率限制以及如何解读测试结果。</p>
+                            <p>了解浏览器事件机制、鼠标采样率限制以及如何解读测试结果。</p>
                             <div class="nav-card-action">
                                 <span>学习技术原理 <i class="fas fa-arrow-right"></i></span>
                             </div>
@@ -339,17 +418,17 @@
             </div>
         </section>
 
-        <!-- 功能说明和FAQ部分 -->
-        <section aria-label="功能特色介绍">
+        <!-- Feature description and FAQ section -->
+        <section aria-label="特性介绍">
             <div class="instructions-section">
                 <div class="instructions-content">
-                    <h2>专业鼠标事件频率测试工具特色</h2>
+                    <h2>专业鼠标事件频率测试工具特性</h2>
                     <div class="feature-grid">
                         <div class="feature-item">
-                            <h3>实时频率监测</h3>
-                            <p>实时显示当前鼠标事件频率（Hz），帮助你了解浏览器处理鼠标移动事件的实际速度。</p>
+                            <h3>实时频率监控</h3>
+                            <p>实时显示当前鼠标事件频率（Hz），帮助您了解浏览器处理鼠标移动事件的实际速度。</p>
                             <div class="tip">
-                                <span class="tip-text">注意：网页环境受浏览器和显示器刷新率限制</span>
+                                <span class="tip-text">注意：Web环境受浏览器和显示器刷新率限制</span>
                             </div>
                         </div>
 
@@ -363,9 +442,9 @@
                         
                         <div class="feature-item">
                             <h3>最高频率记录</h3>
-                            <p>自动记录测试期间达到的最高事件频率，帮助你了解系统的最佳性能表现。</p>
+                            <p>自动记录测试期间达到的最高事件频率，帮助您了解系统的最佳性能。</p>
                             <div class="tip">
-                                <span class="tip-text">网页环境通常无法达到真实USB轮询率</span>
+                                <span class="tip-text">Web环境通常无法达到真实USB轮询率</span>
                             </div>
                         </div>
                    
@@ -373,13 +452,13 @@
                             <h3>平均频率计算</h3>
                             <p>基于历史数据计算平均事件频率，提供更稳定的性能参考指标。</p>
                             <div class="tip">
-                                <span class="tip-text">长时间测试可获得更准确的平均值</span>
+                                <span class="tip-text">测试时间越长，平均值越准确</span>
                             </div>
                         </div>
                         
                         <div class="feature-item">
-                            <h3>实时图表展示</h3>
-                            <p>通过动态折线图直观展示频率变化趋势，便于观察性能波动和异常。</p>
+                            <h3>实时图表显示</h3>
+                            <p>通过动态折线图可视化频率变化趋势，便于观察性能波动和异常。</p>
                             <div class="tip">
                                 <span class="tip-text">图表显示最近100个数据点的趋势</span>
                             </div>
@@ -387,9 +466,9 @@
                         
                         <div class="feature-item">
                             <h3>CSV数据导出</h3>
-                            <p>支持导出完整的测试日志为CSV格式，便于深度分析和数据保存。</p>
+                            <p>支持以CSV格式导出完整的测试日志，用于深度分析和数据保存。</p>
                             <div class="tip">
-                                <span class="tip-text">导出数据可用于Excel、Python等工具进一步分析</span>
+                                <span class="tip-text">导出的数据可用于Excel、Python等进一步分析</span>
                             </div>
                         </div>
                     </div>
@@ -398,86 +477,86 @@
                         <h2>常见问题解答 (FAQ)</h2>
                         
                         <div class="faq-item">
-                            <h3>为什么网页测试的鼠标事件频率比真实USB轮询率低？</h3>
-                            <p>浏览器环境中的鼠标事件受到多层限制：浏览器事件节流、显示器刷新率同步、操作系统调度等。网页无法直接访问USB HID层的原始数据，只能通过浏览器提供的鼠标事件接口。</p>
+                            <h3>为什么网页测试显示的鼠标事件频率低于实际USB轮询率？</h3>
+                            <p>浏览器环境中的鼠标事件受多重限制：浏览器事件节流、显示器刷新率同步、操作系统调度等。网页无法直接访问USB HID层的原始数据，只能通过浏览器提供的鼠标事件接口。</p>
                         </div>
                         
                         <div class="faq-item">
                             <h3>如何获得更准确的测试结果？</h3>
-                            <p>1. 确保浏览器窗口处于前台激活状态<br>
+                            <p>1. 确保浏览器窗口在前台且处于活动状态<br>
                                2. 关闭不必要的标签页和应用程序<br>
-                               3. 在<a href="#testArea" class="text-blue-400 hover:text-blue-300">测试区域</a>内进行快速、连续的鼠标移动<br>
+                               3. 在<a href="#testArea" class="text-blue-400 hover:text-blue-300">测试区域</a>内快速连续移动鼠标<br>
                                4. 查看<a href="/toolbox/mouse/pollingrate/zh/" class="text-blue-400 hover:text-blue-300">详细使用指南</a>获取更多技巧</p>
                         </div>
                         
                         <div class="faq-item">
-                            <h3>什么是抖动（Jitter）？为什么它很重要？</h3>
-                            <p>抖动反映了鼠标事件间隔时间的稳定性。低抖动意味着事件间隔均匀，鼠标移动感觉平滑。高抖动可能导致鼠标移动感觉卡顿或不稳定，即使平均频率较高。</p>
+                            <h3>什么是抖动？为什么它很重要？</h3>
+                            <p>抖动反映了鼠标事件时间间隔的稳定性。低抖动意味着事件间隔均匀，从而带来流畅的鼠标移动感。高抖动可能导致鼠标移动感觉卡顿或不稳定，即使平均频率很高。</p>
                         </div>
 
                         <div class="faq-item">
-                            <h3>为什么不同浏览器测试结果不同？</h3>
-                            <p>不同浏览器（Chrome、Firefox、Edge、Safari）使用不同的事件处理机制、节流策略和性能优化。Chrome通常提供较高的事件频率，但具体表现还取决于操作系统和硬件配置。</p>
+                            <h3>为什么不同浏览器显示不同的测试结果？</h3>
+                            <p>不同浏览器（Chrome、Firefox、Edge、Safari）使用不同的事件处理机制、节流策略和性能优化。Chrome通常提供更高的事件频率，但具体性能还取决于操作系统和硬件配置。</p>
                         </div>
 
                         <div class="faq-item">
                             <h3>如何判断鼠标事件性能是否正常？</h3>
                             <p>正常情况：<br>
-                               - 60Hz显示器：事件频率≈60Hz<br>
-                               - 120Hz显示器：事件频率≈120Hz<br>
-                               - 144Hz显示器：事件频率≈120-144Hz<br>
-                               - 240Hz显示器：事件频率≈200Hz左右<br>
+                               - 60Hz显示器：事件频率 ≈ 60Hz<br>
+                               - 120Hz显示器：事件频率 ≈ 120Hz<br>
+                               - 144Hz显示器：事件频率 ≈ 120-144Hz<br>
+                               - 240Hz显示器：事件频率 ≈ 200Hz<br>
                                如果频率远低于显示器刷新率，可能存在性能问题。</p>
                         </div>
                         
                         <div class="faq-item">
-                            <h3>什么时候需要测试鼠标事件频率？</h3>
-                            <p>以下情况建议测试：<br>
-                               - 感觉鼠标移动卡顿、不跟手<br>
-                               - 对比不同浏览器或系统的输入性能<br>
+                            <h3>何时应该测试鼠标事件频率？</h3>
+                            <p>推荐测试的情况：<br>
+                               - 感觉鼠标移动卡顿或不响应<br>
+                               - 比较不同浏览器或系统之间的输入性能<br>
                                - 评估新显示器或显卡对输入延迟的影响<br>
-                               - 诊断网页应用中的鼠标响应问题</p>
+                               - 诊断网页应用程序中的鼠标响应问题</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 重要说明面板（始终展开） -->
+        <!-- Important note panel (Always expanded) -->
         <section aria-label="重要使用说明">
             <div class="glass-panel mt-6">
-                <!-- 面板标题 -->
+                <!-- Panel title -->
                 <div class="w-full p-4 bg-slate-800/50">
                     <div class="flex items-center gap-3">
                         <span class="text-2xl">⚠️</span>
                         <div class="text-left">
-                            <h4 class="font-bold text-white">关于网页回报率测试的重要说明</h4>
+                            <h4 class="font-bold text-white">关于网页轮询率测试的重要说明</h4>
                             <p class="text-sm text-slate-400 mt-1">请仔细阅读以下说明以正确理解测试结果</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 内容区域（始终展开） -->
+                <!-- Content area (Always expanded) -->
                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed">
                     
                     <div class="pt-4 border-t border-slate-700">
-                        <p class="mb-4"><b>本页面显示的"回报率（Hz）并不等同于鼠标的真实 USB 回报率"。</b></p>
+                        <p class="mb-4"><b>本页显示的"轮询率（Hz）"不等同于您鼠标的真实USB轮询率。</b></p>
                     </div>
                     
-                    <!-- 为什么网页测试结果通常只有 60Hz / 120Hz？ -->
+                    <!-- Why web test results are usually only 60Hz / 120Hz? -->
                     <div class="bg-slate-800/30 p-4 rounded-lg">
-                        <h5 class="font-bold text-blue-300 mb-2">🤔 为什么网页测试结果通常只有 60Hz / 120Hz？</h5>
-                        <p class="mb-3">在 Web 浏览器环境中：</p>
+                        <h5 class="font-bold text-blue-300 mb-2">🤔 为什么网页测试结果通常只有60Hz/120Hz？</h5>
+                        <p class="mb-3">在网页浏览器环境中：</p>
                         <ul class="space-y-2 ml-4 list-disc list-outside">
-                            <li>鼠标数据是通过 <b>浏览器事件（mousemove / pointermove）</b> 获取的</li>
-                            <li>浏览器会对事件进行 <b>节流与合并</b></li>
-                            <li>事件触发频率通常 <b>与屏幕刷新率同步</b></li>
+                            <li>鼠标数据通过<b>浏览器事件（mousemove / pointermove）</b>获取</li>
+                            <li>浏览器<b>节流和合并</b>事件</li>
+                            <li>事件触发频率通常<b>与屏幕刷新率同步</b></li>
                         </ul>
                     </div>
                     
-                    <!-- 显示器刷新率对比表格 -->
+                    <!-- Display refresh rate comparison table -->
                     <div class="overflow-x-auto">
-                        <h5 class="font-bold text-white mb-3">🖥️ 显示器刷新率与网页观测频率对比</h5>
+                        <h5 class="font-bold text-white mb-3">🖥️ 显示器刷新率 vs 网页可观测频率</h5>
                         <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden">
                             <thead class="bg-slate-800">
                                 <tr>
@@ -500,85 +579,85 @@
                                 </tr>
                                 <tr>
                                     <td class="p-3">240Hz</td>
-                                    <td class="p-3">≈ 200Hz 左右</td>
+                                    <td class="p-3">≈ 200Hz</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     
-                    <!-- 技术说明 -->
+                    <!-- Technical explanation -->
                     <div class="bg-slate-800/30 p-4 rounded-lg">
                         <p class="mb-3">
-                            <b>即使你的鼠标硬件设置为 1000Hz USB 轮询率，<br>
-                            网页环境也无法直接访问 USB HID 层的真实数据。</b>
+                            <b>即使您的鼠标硬件设置为1000Hz USB轮询率，<br>
+                            网页环境也无法直接访问USB HID层的真实数据。</b>
                         </p>
-                        <p class="text-sm text-slate-400">那真实的 1000Hz 在哪里体现？</p>
-                        <p class="mt-2">真实的 USB 轮询率存在于：</p>
+                        <p class="text-sm text-slate-400">真实的1000Hz在哪里体现？</p>
+                        <p class="mt-2">真实的USB轮询率存在于：</p>
                         <ul class="space-y-1 ml-4 mt-1">
-                            <li>• 操作系统的原始输入 / HID 层</li>
-                            <li>• 游戏引擎（如 Unreal Engine、Unity）</li>
-                            <li>• 桌面级测试工具（非网页）</li>
+                            <li>• 操作系统原始输入 / HID层</li>
+                            <li>• 游戏引擎（如Unreal Engine、Unity）</li>
+                            <li>• 桌面级测试工具（非基于Web）</li>
                         </ul>
                     </div>
                     
-                    <!-- 适用场景 -->
+                    <!-- Applicable scenarios -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- 适合做什么 -->
+                        <!-- Suitable for -->
                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg">
                             <div class="flex items-center gap-2 mb-3">
                                 <span class="text-emerald-400 text-lg">✅</span>
-                                <h5 class="font-bold text-emerald-300">本工具适合用来做什么？</h5>
+                                <h5 class="font-bold text-emerald-300">此工具适合什么？</h5>
                             </div>
                             <ul class="space-y-2 text-sm">
                                 <li class="flex items-start gap-2">
                                     <span class="text-emerald-400 mt-1">•</span>
-                                    <span>检测鼠标在浏览器中的输入是否流畅</span>
+                                    <span>检测浏览器中鼠标输入是否流畅</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-emerald-400 mt-1">•</span>
-                                    <span>对比不同浏览器 / 显示器下的事件表现</span>
+                                    <span>比较不同浏览器/显示器的事件性能</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-emerald-400 mt-1">•</span>
-                                    <span>检查是否存在卡顿、事件丢失或异常节流</span>
+                                    <span>检查是否有卡顿、事件丢失或异常节流</span>
                                 </li>
                             </ul>
                         </div>
                         
-                        <!-- 不适合做什么 -->
+                        <!-- Not suitable for -->
                         <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg">
                             <div class="flex items-center gap-2 mb-3">
                                 <span class="text-rose-400 text-lg">❌</span>
-                                <h5 class="font-bold text-rose-300">本工具不适合用来做什么？</h5>
+                                <h5 class="font-bold text-rose-300">此工具不适合什么？</h5>
                             </div>
                             <ul class="space-y-2 text-sm">
                                 <li class="flex items-start gap-2">
                                     <span class="text-rose-400 mt-1">•</span>
-                                    <span>判断鼠标是否支持 500Hz / 1000Hz</span>
+                                    <span>判断鼠标是否支持500Hz/1000Hz</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-rose-400 mt-1">•</span>
-                                    <span>替代桌面级 USB 轮询率测试工具</span>
+                                    <span>替代桌面USB轮询率测试工具</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     
-                    <!-- 建议和提示 -->
+                    <!-- Suggestions and tips -->
                     <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="text-blue-400 text-lg">💡</span>
                             <h5 class="font-bold text-blue-300">建议</h5>
                         </div>
                         <p class="mb-3">
-                            如果你需要验证鼠标的真实 USB 轮询率，<br>
-                            请使用厂商驱动或<a href="#desktop-tool-section" class="text-blue-400 hover:text-blue-300 underline transition">桌面级原始输入测试软件</a>。
+                            如果您需要验证鼠标的真实USB轮询率，<br>
+                            请使用制造商驱动程序或<a href="#desktop-tool-section" class="text-blue-400 hover:text-blue-300 underline transition">桌面原始输入测试软件</a>。
                         </p>
                         <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3">
                             <span class="text-blue-400 text-lg mt-0.5">📌</span>
                             <div>
                                 <p class="font-medium text-blue-200">提示：</p>
-                                <p class="text-sm mt-1">请确保浏览器窗口处于前台、标签页为激活状态，否则浏览器会主动降低事件频率。</p>
+                                <p class="text-sm mt-1">确保浏览器窗口在前台且标签页处于活动状态，否则浏览器会主动降低事件频率。</p>
                             </div>
                         </div>
                     </div>
@@ -586,38 +665,38 @@
             </div>
         </section>
 
-        <!-- Python桌面工具介绍 - 修改后版本 -->
-        <section aria-label="桌面级测试工具介绍">
+        <!-- Python desktop tool introduction - Modified version -->
+        <section aria-label="桌面测试工具介绍">
             <div id="desktop-tool-section" class="glass-panel mt-6">
-                <!-- 面板标题 - 与上方保持一致的结构 -->
+                <!-- Panel title - Consistent structure with above -->
                 <div class="w-full p-4 bg-blue-900/20">
                     <div class="flex items-center gap-3">
                         <span class="text-2xl">🐍</span>
                         <div class="text-left">
-                            <h4 class="font-bold text-white">桌面级鼠标真实轮询率测试工具</h4>
-                            <p class="text-sm text-slate-400 mt-1">Python版专业工具 - 突破浏览器限制</p>
+                            <h4 class="font-bold text-white">桌面鼠标真实轮询率测试工具</h4>
+                            <p class="text-sm text-slate-400 mt-1">Python专业工具 - 突破浏览器限制</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 内容区域（始终展开） - 与上方保持一致的结构 -->
+                <!-- Content area (Always expanded) - Consistent structure with above -->
                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed">
-                    <!-- 工具简介 -->
+                    <!-- Tool introduction -->
                     <div class="bg-slate-800/30 p-4 rounded-lg">
                         <div class="flex items-start gap-3">
                             <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
                                 <span class="text-2xl">🔧</span>
                             </div>
                             <div>
-                                <h5 class="font-bold text-blue-300 mb-2">为什么需要桌面版工具？</h5>
-                                <p class="mb-2">网页测试受浏览器和操作系统限制，无法访问USB HID层的真实轮询数据。桌面工具通过系统级API直接捕获鼠标原始输入，提供真实的USB Polling Rate数据。</p>
+                                <h5 class="font-bold text-blue-300 mb-2">为什么需要桌面工具？</h5>
+                                <p class="mb-2">网页测试受浏览器和操作系统限制，无法访问USB HID层的真实轮询数据。桌面工具通过系统级API直接捕获鼠标原始输入，提供真实的USB轮询率数据。</p>
                                 <div class="mt-3 p-3 bg-slate-900/50 rounded">
                                     <p class="text-emerald-400 font-medium">🌐 浏览器测试 vs 🐍 Python桌面工具</p>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                                         <div class="space-y-1">
                                             <p class="text-sm text-slate-400">📊 数据来源</p>
                                             <p>浏览器事件 (mousemove)</p>
-                                            <p class="text-xs text-red-400">有限制</p>
+                                            <p class="text-xs text-red-400">受限</p>
                                         </div>
                                         <div class="space-y-1">
                                             <p class="text-sm text-slate-400">🔧 数据来源</p>
@@ -625,13 +704,13 @@
                                             <p class="text-xs text-emerald-400">无限制</p>
                                         </div>
                                         <div class="space-y-1">
-                                            <p class="text-sm text-slate-400">📈 最高精度</p>
+                                            <p class="text-sm text-slate-400">📈 最大精度</p>
                                             <p>≈ 显示器刷新率</p>
                                             <p class="text-xs text-red-400">~200Hz</p>
                                         </div>
                                         <div class="space-y-1">
-                                            <p class="text-sm text-slate-400">🚀 最高精度</p>
-                                            <p>USB 真实轮询率</p>
+                                            <p class="text-sm text-slate-400">🚀 最大精度</p>
+                                            <p>USB真实轮询率</p>
                                             <p class="text-xs text-emerald-400">~8000Hz</p>
                                         </div>
                                     </div>
@@ -640,9 +719,9 @@
                         </div>
                     </div>
                     
-                    <!-- 功能特点 -->
+                    <!-- Feature highlights -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- 核心功能 -->
+                        <!-- Core features -->
                         <div class="bg-slate-800/30 p-4 rounded-lg border border-blue-700/30">
                             <h5 class="font-bold text-white mb-3 flex items-center gap-2">
                                 <span>✨</span> 核心功能
@@ -671,7 +750,7 @@
                             </ul>
                         </div>
                         
-                        <!-- 技术优势 -->
+                        <!-- Technical advantages -->
                         <div class="bg-slate-800/30 p-4 rounded-lg border border-purple-700/30">
                             <h5 class="font-bold text-white mb-3 flex items-center gap-2">
                                 <span>⚡</span> 技术优势
@@ -691,17 +770,17 @@
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-purple-400 mt-1">•</span>
-                                    <span><b>实时分析引擎</b> - 600数据点采样窗口，150点波形显示</span>
+                                    <span><b>实时分析引擎</b> - 600个数据点采样窗口，150个点波形显示</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-purple-400 mt-1">•</span>
-                                    <span><b>专业评估体系</b> - 稳定性评分与等级评定</span>
+                                    <span><b>专业评估系统</b> - 稳定性评分和评级评估</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     
-                    <!-- 支持设备 -->
+                    <!-- Supported devices -->
                     <div class="bg-slate-800/30 p-4 rounded-lg">
                         <h5 class="font-bold text-white mb-3 flex items-center gap-2">
                             <span>🎮</span> 支持设备与轮询率档位
@@ -720,43 +799,43 @@
                                     <tr class="border-b border-slate-700/50">
                                         <td class="p-3 font-mono">125Hz</td>
                                         <td class="p-3">普通办公鼠标</td>
-                                        <td class="p-3 text-orange-400">8ms</td>
+                                        <td class="p-3 text-orange-400">8毫秒</td>
                                         <td class="p-3 text-sm text-slate-400">基础USB速率</td>
                                     </tr>
                                     <tr class="border-b border-slate-700/50">
                                         <td class="p-3 font-mono">250Hz</td>
-                                        <td class="p-3">入门游戏鼠标</td>
-                                        <td class="p-3 text-yellow-400">4ms</td>
+                                        <td class="p-3">入门级游戏鼠标</td>
+                                        <td class="p-3 text-yellow-400">4毫秒</td>
                                         <td class="p-3 text-sm text-slate-400">常见游戏设置</td>
                                     </tr>
                                     <tr class="border-b border-slate-700/50">
                                         <td class="p-3 font-mono">500Hz</td>
                                         <td class="p-3">中端游戏鼠标</td>
-                                        <td class="p-3 text-blue-400">2ms</td>
+                                        <td class="p-3 text-blue-400">2毫秒</td>
                                         <td class="p-3 text-sm text-slate-400">高性能模式</td>
                                     </tr>
                                     <tr class="border-b border-slate-700/50">
                                         <td class="p-3 font-mono">1000Hz</td>
                                         <td class="p-3">高端电竞鼠标</td>
-                                        <td class="p-3 text-emerald-400">1ms</td>
+                                        <td class="p-3 text-emerald-400">1毫秒</td>
                                         <td class="p-3 text-sm text-slate-400">电竞低延迟</td>
                                     </tr>
                                     <tr class="border-b border-slate-700/50">
                                         <td class="p-3 font-mono">2000Hz</td>
-                                        <td class="p-3">高级电竞鼠标</td>
-                                        <td class="p-3 text-emerald-300">0.5ms</td>
+                                        <td class="p-3">进阶电竞鼠标</td>
+                                        <td class="p-3 text-emerald-300">0.5毫秒</td>
                                         <td class="p-3 text-sm text-slate-400">超低延迟</td>
                                     </tr>
                                     <tr class="border-b border-slate-700/50">
                                         <td class="p-3 font-mono">4000Hz</td>
                                         <td class="p-3">顶级电竞鼠标</td>
-                                        <td class="p-3 text-emerald-200">0.25ms</td>
+                                        <td class="p-3 text-emerald-200">0.25毫秒</td>
                                         <td class="p-3 text-sm text-slate-400">专业级</td>
                                     </tr>
                                     <tr>
                                         <td class="p-3 font-mono">8000Hz</td>
                                         <td class="p-3">极致电竞鼠标</td>
-                                        <td class="p-3 text-emerald-100">0.125ms</td>
+                                        <td class="p-3 text-emerald-100">0.125毫秒</td>
                                         <td class="p-3 text-sm text-slate-400">旗舰级</td>
                                     </tr>
                                 </tbody>
@@ -764,10 +843,10 @@
                         </div>
                     </div>
                     
-                    <!-- 使用场景对比 -->
+                    <!-- Usage scenario comparison -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg">
-                            <h5 class="font-bold text-emerald-300 mb-3">✅ 应该使用Python工具的场景</h5>
+                            <h5 class="font-bold text-emerald-300 mb-3">✅ 何时使用Python工具</h5>
                             <ul class="space-y-2">
                                 <li class="flex items-start gap-2">
                                     <span class="text-emerald-400 mt-1">•</span>
@@ -775,11 +854,11 @@
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-emerald-400 mt-1">•</span>
-                                    <span>对比不同鼠标轮询率性能</span>
+                                    <span>比较不同鼠标轮询率性能</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-emerald-400 mt-1">•</span>
-                                    <span>测试超采样率鼠标 (2000Hz+)</span>
+                                    <span>测试超采样率鼠标（2000Hz+）</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-emerald-400 mt-1">•</span>
@@ -789,7 +868,7 @@
                         </div>
                         
                         <div class="bg-slate-800/30 p-4 rounded-lg">
-                            <h5 class="font-bold text-white mb-3">🔄 应该使用网页测试的场景</h5>
+                            <h5 class="font-bold text-white mb-3">🔄 何时使用网页测试</h5>
                             <ul class="space-y-2">
                                 <li class="flex items-start gap-2">
                                     <span class="text-blue-400 mt-1">•</span>
@@ -797,11 +876,11 @@
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-blue-400 mt-1">•</span>
-                                    <span>对比不同浏览器性能</span>
+                                    <span>比较不同浏览器性能</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-blue-400 mt-1">•</span>
-                                    <span>跨平台基础鼠标测试</span>
+                                    <span>跨平台基本鼠标测试</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <span class="text-blue-400 mt-1">•</span>
@@ -811,13 +890,13 @@
                         </div>
                     </div>
                     
-                    <!-- GitHub链接与下载 -->
+                    <!-- GitHub link and download -->
                     <div class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-4 rounded-lg border border-blue-700/50">
                         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                             <div>
-                                <h5 class="font-bold text-white text-lg mb-2">🚀 获取Python桌面版工具</h5>
+                                <h5 class="font-bold text-white text-lg mb-2">🚀 获取Python桌面工具</h5>
                                 <p class="text-slate-300 mb-1">开源免费 · 专业级精度 · 持续更新</p>
-                                <p class="text-sm text-slate-400">适用于Windows/macOS/Linux系统</p>
+                                <p class="text-sm text-slate-400">支持Windows/macOS/Linux系统</p>
                             </div>
                             <div class="flex gap-3">
                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/tree/main" 
@@ -829,7 +908,7 @@
                                 </a>
                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/blob/main/out/mouse_polling_gui_pro.7z" 
                                    class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition flex items-center gap-2">
-                                    <span>📦 下载最新版</span>
+                                    <span>📦 下载最新版本</span>
                                 </a>
                             </div>
                         </div>
@@ -838,23 +917,23 @@
             </div>
         </section>
         
-        <!-- 社交分享部分 -->
+        <!-- Social sharing section -->
         <div class="glass-panel mt-6 p-4">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
-                    <h5 class="font-bold text-white">觉得这个工具有用吗？</h5>
-                    <p class="text-sm text-slate-400">分享给其他有需要的用户</p>
+                    <h5 class="font-bold text-white">觉得这个工具有用？</h5>
+                    <p class="text-sm text-slate-400">分享给其他可能需要它的用户</p>
                 </div>
                 <div class="flex items-center gap-4">
-                    <span class="text-slate-400 hidden md:inline">分享到:</span>
-                    <a href="https://twitter.com/share?url=https://starryring.com/toolbox/mouse/pollingrate/zh/&text=专业的鼠标事件频率测试工具，实时检测浏览器中鼠标移动事件的采样率和抖动分析" 
+                    <span class="text-slate-400 hidden md:inline">分享到：</span>
+                    <a href="https://twitter.com/share?url=https://starryring.com/toolbox/mouse/pollingrate/zh/&text=专业鼠标事件频率测试工具，实时检测鼠标移动事件采样率和抖动分析" 
                        target="_blank" 
                        rel="noopener noreferrer"
                        class="p-2 rounded-lg bg-slate-800 hover:bg-blue-600 transition duration-300"
                        aria-label="分享到Twitter">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="https://www.reddit.com/submit?url=https://starryring.com/toolbox/mouse/pollingrate/zh/&title=鼠标事件频率测试工具 - 专业检测浏览器鼠标事件采样率" 
+                    <a href="https://www.reddit.com/submit?url=https://starryring.com/toolbox/mouse/pollingrate/zh/&title=鼠标事件频率测试器 - 专业检测浏览器鼠标事件采样率" 
                        target="_blank" 
                        rel="noopener noreferrer"
                        class="p-2 rounded-lg bg-slate-800 hover:bg-orange-600 transition duration-300"
@@ -880,7 +959,7 @@
         </div>
     </main>
     
-    <!-- 添加语言切换器JS -->
+    <!-- Add language switcher JS -->
     <script src="/toolbox/shared/js/switchlanguage.js"></script>
     <script src="/toolbox/mouse/pollingrate/js/script-zh.js" defer></script>
 </body>
