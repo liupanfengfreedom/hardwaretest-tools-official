@@ -202,7 +202,7 @@ async function initCameraTool() {
             
             // Delay redirect to let user see status change
             setTimeout(() => {
-                window.location.href = '/toolbox/main/en/';
+                window.location.href = '/toolbox/en/';
             }, 1000);
             return;
         }
