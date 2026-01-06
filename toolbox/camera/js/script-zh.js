@@ -202,7 +202,7 @@ async function initCameraTool() {
             
             // 延迟跳转，让用户看到状态变化
             setTimeout(() => {
-                window.location.href = '/toolbox/main/zh/';
+                window.location.href = '/toolbox/zh/';
             }, 1000);
             return;
         }
