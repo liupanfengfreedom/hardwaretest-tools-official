@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标测试工具 - 完整使用指南</title>
+    <link rel="stylesheet" href="/toolbox/mouse/doubleclick/principle/css/style.css">
+
+</head>
+<body>
+
+<nav>
+    <h2>目录</h2>
+    <a href="#prep">1. 测试前准备</a>
+    <a href="#t1">2. 双击 / 连击测试</a>
+    <a href="#t2">3. 拖拽丢包测试</a>
+    <a href="#t3">4. 漏点 / 不响应</a>
+    <a href="#t4">5. 卡键 / 自动按住</a>
+    <a href="#t5">6. 滚轮反向 / 跳动</a>
+    <a href="#t6">7. 滚轮失灵 / 卡顿</a>
+</nav>
+
+<main>
+    <h1>如何使用本工具</h1>
+    <p>本指南将帮助您通过数据面板精准诊断鼠标硬件问题。</p>
+
+    <section id="prep" class="section">
+        <h2>测试前准备</h2>
+        <div class="prep-list">
+            <strong>A : 外部环境</strong>
+            <p>请把鼠标放在干净的鼠标垫上，确保光学引擎不受杂质干扰。</p>
+            
+            <strong>B : 通信检查</strong>
+            <ul>
+                <li><strong>有线鼠标：</strong>确保鼠标 USB 与电脑连接正常。</li>
+                <li><strong>无线鼠标：</strong>
+                    <ol>
+                        <li>请确保鼠标电量充足。</li>
+                        <li>鼠标尽量靠近无线接收器。</li>
+                        <li>确认无线通信频段（通常为 2.4G），关闭其他相同频段设备（如部分蓝牙、Wi-Fi）以减少干扰。</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <strong>C : 软件初始化</strong>
+            <p>首先点击数据面板右上角的<strong>"重置所有数据"</strong>按钮，然后把鼠标指针放到测试区。</p>
+        </div>
+        <div class="media-box">【此处嵌入：测试前界面截图】</div>
+        
+    </section>
+
+    <section id="t1" class="section">
+        <h2>1：双击 / 连击</h2>
+        <p><strong>现象：</strong>明明只点击了一次左键，实际效果却是双击甚至是多次连击。</p>
+        
+        <div class="media-box">【此处嵌入：测试操作演示视频】</div>
+
+        <h3>如何测试：</h3>
+        <p>反复点击鼠标左键（速度不用太快，1s 点击一次即可，这样不会触发正常双击）。记住您点击的次数，同时观察面板：</p>
+        <ul>
+            <li><strong>正常：</strong>按下和松开的计数值相等，且等于您的点击次数。</li>
+            <li><strong>异常：</strong>计数值大于实际点击次数。日志区会输出<span class="error-text">红色双击异常日志</span>。</li>
+        </ul>
+
+        <div class="logic-box">
+            <strong>判定逻辑：</strong>若距上次按下的时间间隔 <strong> < 80ms</strong>，则判定为异常（因为人类反应速度极难在 80ms 内完成连续两次点击）。
+        </div>
+
+        <h3>正常双击日志示例：</h3>
+        <div class="log-demo">
+            [10:00:01] Left Button Down<br>
+            [10:00:01] Left Button Up (Interval: 45ms) -> <span style="color: #fb7185;">DETECTED CHATTERING</span>
+        </div>
+        <div class="media-box">【此处嵌入：日志含义解释图片】</div>
+
+        <div class="solution">
+            <strong>原因：</strong>1. 微动开关老化（触点抖动）；2. 防抖时间不足；3. 内部异物。<br>
+            <strong>解决方案：</strong>拆开用酒精清洗触点。若无效，建议更换鼠标。
+        </div>
+    </section>
+
+    <section id="t2" class="section">
+        <h2>2：拖拽异常</h2>
+        <p><strong>现象：</strong>拖拽文件或窗口时莫名其妙自动松开了。</p>
+        <h3>如何测试：</h3>
+        <p>按住左键不要松开，做出拖拽动作。观察数据面板：</p>
+        <ul>
+            <li><strong>正常：</strong>按下 1 次，松开 0 次。</li>
+            <li><strong>异常：</strong>按下 > 1 次，松开 > 0 次。</li>
+        </ul>
+        <div class="media-box">【此处嵌入：正常拖拽状态截图】</div>
+
+        <div class="solution">
+            <strong>原因：</strong>微动触点接触不良或老化。<br>
+            <strong>解决方案：</strong>清洗或更换鼠标。
+        </div>
+    </section>
+
+    <section id="t3" class="section">
+        <h2>3：漏点 / 不响应</h2>
+        <p><strong>现象：</strong>有时点不动，需要用力按才有反应。</p>
+        <h3>如何测试：</h3>
+        <p>同拖拽测试，观察在正常按压力量下，面板是否能实时准确记录每一次按下动作。</p>
+        <div class="solution">
+            <strong>原因：</strong>1. 微动弹片失效；2. 触点氧化；3. 按键行程偏移。<br>
+            <strong>解决方案：</strong>换一个鼠标吧。
+        </div>
+    </section>
+
+    <section id="t4" class="section">
+        <h2>4：卡键 / 自动按住</h2>
+        <p><strong>现象：</strong>松开左键后，文件或窗口依然跟着光标移动。</p>
+        <h3>如何测试：</h3>
+        <p>按下左键 1s 后松开，反复操作。观察：</p>
+        <ul>
+            <li><strong>正常：</strong>松开时，按下次数始终等于松开次数。</li>
+            <li><strong>异常：</strong>手已松开，但按下次数 > 松开次数。</li>
+        </ul>
+        <div class="solution">
+            <strong>原因：</strong>微动回弹不良。<br>
+            <strong>解决方案：</strong>换一个鼠标吧。
+        </div>
+    </section>
+
+    <section id="t5" class="section">
+        <h2>5：滚轮反向 / 跳动</h2>
+        <p><strong>现象：</strong>1. 滚动方向与预期相反；2. 滚动一下却移动了巨大距离。</p>
+        <h3>如何测试：</h3>
+        <p><strong>向上/下</strong>滚动若干次并计数。观察面板：</p>
+        <ul>
+            <li><strong>正常：</strong>对应方向计数等于实际次数，反方向计数为 0。</li>
+            <li><strong>异常：</strong>出现反向计数，或数值与实际滚动量严重不符。</li>
+        </ul>
+        <div class="media-box">【此处嵌入：滚轮测试正常数据截图】</div>
+
+        <div class="solution">
+            <strong>原因：</strong>编码器脏污、磨损或信号抖动。<br>
+            <strong>解决方案：</strong>换一个鼠标吧。
+        </div>
+    </section>
+
+    <section id="t6" class="section">
+        <h2>6：滚轮失灵 / 卡顿</h2>
+        <p><strong>现象：</strong>滚动多下，页面几乎不移动。</p>
+        <h3>如何测试：</h3>
+        <p>匀速滚动滚轮，观察计数值增长。若计数值明显小于实际物理刻度感次数，即为失灵。</p>
+        <div class="solution">
+            <strong>解决方案：</strong>换一个鼠标吧。
+        </div>
+    </section>
+</main>
+
+<script src="/toolbox/mouse/doubleclick/principle/js/script-zh.js"></script>
+
+</body>
+</html>
