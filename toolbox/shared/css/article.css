@@ -105,3 +105,53 @@ h3 { color: var(--primary); margin-top: 30px; }
     nav { display: none; }
     main { margin-left: 0; }
 }
+/* 添加到 style.css 末尾 */
+
+/* 优化主内容区布局 */
+main {
+    flex: 1;
+    margin-left: 300px;
+    max-width: calc(100% - 320px);
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+/* 优化内容区域 */
+.section {
+    max-width: 1000px; /* 限制内容区域的最大宽度 */
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* 优化段落和列表的可读性 */
+.section p, .section ul, .section ol {
+    max-width: 800px; /* 限制文本宽度，提高可读性 */
+}
+
+/* 宽屏优化 */
+@media (min-width: 1600px) {
+    .section {
+        max-width: 1200px;
+    }
+}
+
+/* 中等屏幕调整 */
+@media (max-width: 1300px) {
+    main {
+        margin-left: 280px;
+        max-width: calc(100% - 300px);
+    }
+    nav {
+        width: 240px;
+    }
+}
+
+/* 移动端保持不变 */
+@media (max-width: 768px) {
+    nav { display: none; }
+    main { 
+        margin-left: 0; 
+        max-width: 100%;
+        padding: 20px;
+    }
+}
