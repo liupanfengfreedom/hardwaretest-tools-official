@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>鼠标测试工具 - 完整使用指南</title>
     <link rel="stylesheet" href="/toolbox/mouse/doubleclick/principle/css/style.css">
+    <link rel="stylesheet" href="/toolbox/shared/css/image-modal.css">
 
 </head>
 <body>
@@ -45,7 +46,35 @@
             <strong>C : 软件初始化</strong>
             <p>首先点击数据面板右上角的<strong>"重置所有数据"</strong>按钮，然后把鼠标指针放到测试区。</p>
         </div>
-        <div class="media-box">【此处嵌入：测试前界面截图】</div>
+     
+
+            <!-- 图片放大模态框 -->
+            <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="图片放大视图" hidden>
+                <div class="modal-content" id="modalContent">
+                    <button class="modal-close" id="modalClose" aria-label="关闭图片视图">&times;</button>
+                    <img id="modalImage" src="" alt="" itemprop="image">
+                    <button class="modal-zoom" id="modalZoom" aria-label="放大/缩小图片">
+                        <i class="fas fa-search-plus" aria-hidden="true"></i>
+                    </button>
+                    <div class="modal-caption" id="modalCaption"></div>
+                </div>
+            </div>
+           <!-- 优化后的图片显示 -->
+                <figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/theprincipleofmousezh.png">
+                    <img src="https://assets.starryring.com/mouse/theprincipleofmousezh.png" 
+                         alt="鼠标工作原理示意图：展示从物理输入到系统处理的完整流程"
+                         loading="lazy"
+                         itemprop="contentUrl">
+                    <figcaption class="image-caption" itemprop="caption">
+                        鼠标工作原理示意图 - 展示了从物理输入到系统处理的完整流程
+                    </figcaption>
+                    <div class="image-hint" aria-hidden="true">双击图片可放大查看</div>
+                </figure>
+                
+                <div class="tech-feature">
+                    <strong>关键组件：</strong> 微动开关（负责按键响应）、传感器（跟踪移动）、编码器（滚轮检测）、主控芯片（信号处理）。
+                </div>
+
         
     </section>
 
@@ -151,6 +180,7 @@
 </main>
 
 <script src="/toolbox/mouse/doubleclick/principle/js/script-zh.js"></script>
+<script src="/toolbox/shared/js/image-modal.js"></script>
 
 </body>
 </html>
