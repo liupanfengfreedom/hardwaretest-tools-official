@@ -15,39 +15,20 @@
     <h2>目录</h2>
     <a href="#prep">1. 鼠标是如何工作的</a>
     <a href="#t1">2. 什么是双击</a>
-    <a href="#t2">2. 什么是故障双击</a>
-    <a href="#t3">3. 故障双击是如何发生的</a>
-    <a href="#t4">4. 本工具为什么可以检测到故障双击</a>
-
+    <a href="#t2">3. 什么是故障双击</a>
+    <a href="#t3">4. 故障双击是如何发生的</a>
+    <a href="#t4">5. 本工具为什么可以检测到故障双击</a>
 </nav>
 
 <main>
-    <h1>如何使用本工具</h1>
-    <p>本指南将帮助您通过数据面板精准诊断鼠标硬件问题。</p>
+    <h1>双击测试工具 - 工作原理详解</h1>
+    <p>本文详细介绍了鼠标双击问题的原理、成因及本工具的检测机制。</p>
 
     <section id="prep" class="section">
-        <h2>测试前准备</h2>
-        <div class="prep-list">
-            <strong>A : 外部环境</strong>
-            <p>请把鼠标放在干净的鼠标垫上，确保光学引擎不受杂质干扰。</p>
-            
-            <strong>B : 通信检查</strong>
-            <ul>
-                <li><strong>有线鼠标：</strong>确保鼠标 USB 与电脑连接正常。</li>
-                <li><strong>无线鼠标：</strong>
-                    <ol>
-                        <li>请确保鼠标电量充足。</li>
-                        <li>鼠标尽量靠近无线接收器。</li>
-                        <li>确认无线通信频段（通常为 2.4G），关闭其他相同频段设备（如部分蓝牙、Wi-Fi）以减少干扰。</li>
-                    </ol>
-                </li>
-            </ul>
+        <h2>1. 鼠标是如何工作的</h2>
+        <p>鼠标通过内部多个关键组件协同工作，将用户的物理操作转化为计算机可识别的信号。</p>
 
-            <strong>C : 软件初始化</strong>
-            <p>首先点击数据面板右上角的<strong>"重置所有数据"</strong>按钮，然后把鼠标指针放到测试区。</p>
-        </div>
-     
-
+       
             <!-- 图片放大模态框 -->
             <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="图片放大视图" hidden>
                 <div class="modal-content" id="modalContent">
@@ -75,107 +56,75 @@
                     <strong>关键组件：</strong> 微动开关（负责按键响应）、传感器（跟踪移动）、编码器（滚轮检测）、主控芯片（信号处理）。
                 </div>
 
-        
+
+        <div class="tech-feature">
+            <strong>关键组件：</strong> 
+            <ul>
+                <li><strong>微动开关：</strong>负责按键响应，每次按压会产生电信号。</li>
+                <li><strong>传感器：</strong>跟踪鼠标移动，转换为坐标变化。</li>
+                <li><strong>编码器：</strong>检测滚轮滚动方向和步进。</li>
+                <li><strong>主控芯片：</strong>处理所有信号，打包后发送给计算机。</li>
+            </ul>
+        </div>
     </section>
 
     <section id="t1" class="section">
-        <h2>1：双击 / 连击</h2>
-        <p><strong>现象：</strong>明明只点击了一次左键，实际效果却是双击甚至是多次连击。</p>
-        
-        <div class="media-box">【此处嵌入：测试操作演示视频】</div>
-
-        <h3>如何测试：</h3>
-        <p>反复点击鼠标左键（速度不用太快，1s 点击一次即可，这样不会触发正常双击）。记住您点击的次数，同时观察面板：</p>
-        <ul>
-            <li><strong>正常：</strong>按下和松开的计数值相等，且等于您的点击次数。</li>
-            <li><strong>异常：</strong>计数值大于实际点击次数。日志区会输出<span class="error-text">红色双击异常日志</span>。</li>
-        </ul>
-
-        <div class="logic-box">
-            <strong>判定逻辑：</strong>若距上次按下的时间间隔 <strong> < 80ms</strong>，则判定为异常（因为人类反应速度极难在 80ms 内完成连续两次点击）。
-        </div>
-
-        <h3>正常双击日志示例：</h3>
-        <div class="log-demo">
-            [10:00:01] Left Button Down<br>
-            [10:00:01] Left Button Up (Interval: 45ms) -> <span style="color: #fb7185;">DETECTED CHATTERING</span>
-        </div>
-        <div class="media-box">【此处嵌入：日志含义解释图片】</div>
-
-        <div class="solution">
-            <strong>原因：</strong>1. 微动开关老化（触点抖动）；2. 防抖时间不足；3. 内部异物。<br>
-            <strong>解决方案：</strong>拆开用酒精清洗触点。若无效，建议更换鼠标。
-        </div>
+        <h2>2. 什么是双击</h2>
+        <p><strong>双击</strong>是指用户在短时间内连续点击两次鼠标按键的操作，通常用于打开文件、选中词语等。系统会设定一个时间阈值（如 500ms）来识别是否为双击操作。</p>
+        <p>正常双击是由用户主动触发的两次点击，间隔时间通常大于 100ms 但小于系统设定的双击识别时间。</p>
     </section>
 
     <section id="t2" class="section">
-        <h2>2：拖拽异常</h2>
-        <p><strong>现象：</strong>拖拽文件或窗口时莫名其妙自动松开了。</p>
-        <h3>如何测试：</h3>
-        <p>按住左键不要松开，做出拖拽动作。观察数据面板：</p>
+        <h2>3. 什么是故障双击</h2>
+        <p><strong>故障双击（又称连击、抖动双击）</strong>是指用户只点击了一次，但由于鼠标硬件问题，系统却收到了多次点击信号的现象。</p>
+        <p>故障双击通常表现为：</p>
         <ul>
-            <li><strong>正常：</strong>按下 1 次，松开 0 次。</li>
-            <li><strong>异常：</strong>按下 > 1 次，松开 > 0 次。</li>
+            <li>点击一次，文件被打开又迅速关闭（选中取消）</li>
+            <li>拖拽时突然中断</li>
+            <li>在文本中点击一次却选中了两个词</li>
         </ul>
-        <div class="media-box">【此处嵌入：正常拖拽状态截图】</div>
-
-        <div class="solution">
-            <strong>原因：</strong>微动触点接触不良或老化。<br>
-            <strong>解决方案：</strong>清洗或更换鼠标。
-        </div>
+        <div class="media-box">【此处可嵌入故障双击现象演示动画】</div>
     </section>
 
     <section id="t3" class="section">
-        <h2>3：漏点 / 不响应</h2>
-        <p><strong>现象：</strong>有时点不动，需要用力按才有反应。</p>
-        <h3>如何测试：</h3>
-        <p>同拖拽测试，观察在正常按压力量下，面板是否能实时准确记录每一次按下动作。</p>
-        <div class="solution">
-            <strong>原因：</strong>1. 微动弹片失效；2. 触点氧化；3. 按键行程偏移。<br>
-            <strong>解决方案：</strong>换一个鼠标吧。
-        </div>
+        <h2>4. 故障双击是如何发生的</h2>
+        <p>故障双击的根本原因在于<strong>微动开关内部触点的异常通断</strong>，常见原因包括：</p>
+        <ul>
+            <li><strong>微动老化：</strong>长期使用后金属弹片疲劳，回弹不畅。</li>
+            <li><strong>触点氧化：</strong>空气中硫化物等导致触点表面氧化，接触电阻增大。</li>
+            <li><strong>灰尘或异物：</strong>进入微动内部导致接触不稳定。</li>
+            <li><strong>机械磨损：</strong>触点表面磨损，造成接触不良。</li>
+        </ul>
+        <p>这些物理变化会导致一次按压过程中，电路出现多次短暂通断，从而被系统误判为多次点击。</p>
+        <div class="media-box">【此处可嵌入微动开关内部结构及故障原理示意图】</div>
     </section>
 
     <section id="t4" class="section">
-        <h2>4：卡键 / 自动按住</h2>
-        <p><strong>现象：</strong>松开左键后，文件或窗口依然跟着光标移动。</p>
-        <h3>如何测试：</h3>
-        <p>按下左键 1s 后松开，反复操作。观察：</p>
+        <h2>5. 本工具为什么可以检测到故障双击</h2>
+        <p>本工具通过高精度计时与事件监听，结合智能算法，准确识别出非人为的异常点击信号。</p>
+        
+        <h3>检测原理：</h3>
         <ul>
-            <li><strong>正常：</strong>松开时，按下次数始终等于松开次数。</li>
-            <li><strong>异常：</strong>手已松开，但按下次数 > 松开次数。</li>
+            <li><strong>事件监听：</strong>实时捕获鼠标的 <code>mousedown</code> 和 <code>mouseup</code> 事件。</li>
+            <li><strong>时间戳记录：</strong>为每次事件记录精确到毫秒的时间戳。</li>
+            <li><strong>间隔分析：</strong>计算连续两次 <code>mousedown</code> 之间的时间间隔。</li>
         </ul>
-        <div class="solution">
-            <strong>原因：</strong>微动回弹不良。<br>
-            <strong>解决方案：</strong>换一个鼠标吧。
-        </div>
-    </section>
 
-    <section id="t5" class="section">
-        <h2>5：滚轮反向 / 跳动</h2>
-        <p><strong>现象：</strong>1. 滚动方向与预期相反；2. 滚动一下却移动了巨大距离。</p>
-        <h3>如何测试：</h3>
-        <p><strong>向上/下</strong>滚动若干次并计数。观察面板：</p>
-        <ul>
-            <li><strong>正常：</strong>对应方向计数等于实际次数，反方向计数为 0。</li>
-            <li><strong>异常：</strong>出现反向计数，或数值与实际滚动量严重不符。</li>
-        </ul>
-        <div class="media-box">【此处嵌入：滚轮测试正常数据截图】</div>
+        <h3>判定逻辑：</h3>
+        <p>若两次 <code>mousedown</code> 之间的间隔 <strong>小于 80ms</strong>，则判定为故障双击。因为人类正常双击的间隔通常大于 100ms，短于 80ms 的连续点击极大概率是硬件抖动所致。</p>
 
-        <div class="solution">
-            <strong>原因：</strong>编码器脏污、磨损或信号抖动。<br>
-            <strong>解决方案：</strong>换一个鼠标吧。
+        <div class="logic-box">
+            <strong>判定公式：</strong><br>
+            if (timeBetweenPresses < 80ms) → 判定为故障双击
         </div>
-    </section>
 
-    <section id="t6" class="section">
-        <h2>6：滚轮失灵 / 卡顿</h2>
-        <p><strong>现象：</strong>滚动多下，页面几乎不移动。</p>
-        <h3>如何测试：</h3>
-        <p>匀速滚动滚轮，观察计数值增长。若计数值明显小于实际物理刻度感次数，即为失灵。</p>
-        <div class="solution">
-            <strong>解决方案：</strong>换一个鼠标吧。
+        <div class="log-demo">
+            <strong>故障双击日志示例：</strong><br>
+            [10:00:01] Left Button Down<br>
+            [10:00:01] Left Button Up (Interval: 45ms) → <span style="color: #fb7185;">DETECTED CHATTERING</span>
         </div>
+
+        <p>工具还会统计故障双击次数、频率，并绘制时间分布图，帮助用户判断鼠标健康状况。</p>
     </section>
 </main>
 
