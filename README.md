@@ -1,91 +1,125 @@
-HardwareTest Official Online Testing Tools Suite
-Have you ever experienced mysterious mouse double-clicks when you only clicked once? Or occasional keyboard keys that don't register—did you press it or not? Can't be heard clearly on calls—is my phone's microphone broken? If these issues trouble you, try our tools now!
+# HardwareTest – Official Online Hardware Diagnostic Toolkit
 
-Welcome to the HardwareTest official tools project. We provide a series of free, professional online hardware testing services—no downloads required, just click and go.
+🌍 **Language**
+- [English](README.md)
+- [简体中文](README.zh-CN.md)
 
-Core Tools Navigation:
-1. 🖱️ Professional Online Mouse Click Test Tool (Mouse Check)
-Description: Provides millisecond-level mechanical switch failure analysis, real-time polling rate (Hz) detection, scroll wheel & side button function checks, and CPS (clicks per second) testing. Helps comprehensively evaluate mouse performance and troubleshoot double-click or unresponsive issues.
->> [Start Mouse Check](https://starryring.com/toolbox/mouse/en/)**
+Have you ever experienced your mouse suddenly double-clicking when you clearly clicked only once?  
+Keys on your keyboard sometimes don’t respond — did you press it or not?  
+During a call, the other side can’t hear you clearly — is your microphone broken?
 
-2. ⌨️ Professional Online Keyboard Key Test Tool (Keyboard Check)
-Description: Thoroughly tests every key on your keyboard, including alphanumeric keys, function keys, and the numpad. Helps quickly locate sticky, unresponsive, or ghosting keys to ensure your keyboard works perfectly.
->> Start Keyboard Check
-[Start Keyboard Check](https://starryring.com/toolbox/keyboard/en/)**
-3. 🎤 Online Microphone Test & Debug Tool
-Description: Instantly check if your microphone is working. Features real-time volume monitoring, recording tests, and audio waveform visualization to help you debug settings and ensure clear audio. Fully compatible with PCs, smartphones, and tablets—no app installation needed.
->> Start Microphone Test
-[Start Microphone Check](https://starryring.com/toolbox/mic/en/)**
-4. 🔈 Online Speaker / Headphone Test Tool
-Description: Instantly check if your speakers or headphones are working. Includes left/right channel tests, frequency response tests (sweep tones), and volume gradient tests to help identify channel imbalance, distortion, or noise issues. Fully compatible with PCs, smartphones, and tablets—no app installation needed.
->> Start Speaker Test
-[Start Speaker Check](https://starryring.com/toolbox/speaker/en/)**
-5. 📷 Online Webcam Test & Debug Tool
-Description: Instantly check if your webcam is working. Provides detailed parameter tests for resolution, frame rate, focus, and more to help optimize your video call quality.
->> Start Webcam Test
-[Start Webcam Check](https://starryring.com/toolbox/camera/en/)**
-6. 🖥️ Online Screen Dead Pixel / Stuck Pixel / Backlight Bleed Test Tool (Screen Test)
-Description: Provides full-screen color tests (Red/Green/Blue/White/Black), dead pixel locator mode, stuck pixel detection, backlight bleed check, and moving color block tests. Helps quickly identify display quality issues. Fully compatible with PCs, smartphones, and tablets—no app installation needed.
->> [Start Screen Check](https://starryring.com/toolbox/deadpixel/en/)**
+If these issues sound familiar, try the tools below right now 👇
 
-Key Features:
-✅ Completely Free - All tools are free, no registration or login required
+Welcome to **HardwareTest**, the official online hardware testing toolkit.  
+We provide a collection of **free, professional, browser-based hardware diagnostics** — no downloads, no installation, just open and test.
 
-✅ Cross-Platform - Supports PCs, smartphones, tablets, and all modern devices
+---
 
-✅ Instant Testing - No downloads or installations, works directly in your browser
+## 🔧 Core Tool Navigation
 
-✅ Professional & Accurate - Provides detailed hardware performance data and analysis
+### 1. 🖱️ Professional Online Mouse Test (Mouse Check)
+**Description:**  
+Provides millisecond-level switch (micro-switch) fault analysis, real-time polling rate (Hz) detection, scroll wheel and side-button diagnostics, and CPS (Clicks Per Second) testing. Designed to help you fully evaluate mouse performance and diagnose double-click or missed-click issues.
 
-✅ Privacy & Security - All tests run locally on your device; no data is uploaded
+**>> [Start Mouse Check](https://starryring.com/toolbox/mouse/en/)**
 
-✅ Complete Ecosystem - Covers full hardware chain: input, output, audio, and video
+---
 
-How to Use:
-Select a Tool - Click the corresponding tool link above
+### 2. ⌨️ Professional Online Keyboard Test (Keyboard Check)
+**Description:**  
+Tests the response of every key on your keyboard, including alphanumeric keys, function keys, and the numeric keypad. Quickly identify unresponsive keys or unintended key repeats to ensure your keyboard is working correctly.
 
-Grant Permissions - Allow browser access to the required hardware (microphone, camera, etc.) when prompted
+**>> [Start Keyboard Test](https://starryring.com/toolbox/keyboard/en/)**
 
-Start Testing - Follow the on-screen instructions to operate your device
+---
 
-View Results - Get a detailed hardware status report and performance parameters
+### 3. 🎤 Online Microphone Test & Debug Tool
+**Description:**  
+One-click microphone testing with real-time volume monitoring, recording tests, and waveform visualization. Helps you verify microphone functionality and fine-tune settings for clear voice communication.  
+Works on desktop, mobile, and tablet — no app required.
 
-Troubleshoot - Use the test results for problem diagnosis or optimization
+**>> [Start Microphone Test](https://starryring.com/toolbox/mic/en/)**
 
-🛠️ Advanced Tips:
-Regular Check-ups: Use the full suite of tools for a quarterly device "health check"
+---
 
-New Device Inspection: Test key components like screens and keyboards immediately after purchasing new computers, phones, or monitors
+### 4. 🔈 Online Speaker / Headphone Test
+**Description:**  
+Instantly test your speakers or headphones with left/right channel checks, frequency sweep tests, and volume gradient testing. Helps identify channel imbalance, distortion, noise, or other audio issues.  
+Fully cross-platform, no downloads required.
 
-Pre-Meeting Prep: Quickly test microphone and camera status before important video conferences
+**>> [Start Speaker Test](https://starryring.com/toolbox/speaker/en/)**
 
-Gaming Peripheral Tuning: Use the mouse test tool to optimize polling rate settings for gaming mice
+---
 
-🔍 Testing Principles Explained:
-Mouse Test: Uses JavaScript's high-precision timing API to record click intervals and analyze mechanical switch states
+### 5. 📷 Online Camera Test & Calibration
+**Description:**  
+Quickly verify whether your webcam is working properly and inspect detailed parameters such as resolution, frame rate, and focus behavior. Ideal for optimizing video call quality.
 
-Keyboard Test: Listens to global keyboard events, visualizing the press/release state of each key
+**>> [Start Camera Test](https://starryring.com/toolbox/camera/en/)**
 
-Audio Test: Uses the Web Audio API to capture microphone input streams, analyzing audio waveforms and spectrum
+---
 
-Screen Test: Utilizes full-screen CSS color blocks and Canvas dynamic rendering to activate and display pixel states
+### 6. 🖥️ Online Screen Dead Pixel / Light Bleed Test (Screen Test)
+**Description:**  
+Provides full-screen color tests (red, green, blue, white, black), dead-pixel detection, bright-pixel checks, backlight bleeding inspection, and moving color block tests.  
+Helps you quickly determine whether your display has quality issues.  
+Works on monitors, laptops, phones, and tablets.
 
-If hardware issues are detected, we recommend contacting the manufacturer for repair or replacement. Regularly using our tools to check hardware status can help identify problems early, avoiding impact on work and entertainment.
+**>> [Start Screen Test](https://starryring.com/toolbox/deadpixel/en/)**
 
-Pro Tip: Most hardware issues can be detected early with professional tools. Early discovery can save significant troubleshooting time!
+---
 
-🤝 Join Us
-HardwareTest is an open-source project. We welcome developers, designers, and hardware enthusiasts to join our community:
+## ⭐ Key Features
+- ✅ **Free to Use** – All tools are completely free, no registration required
+- ✅ **Cross-Platform** – Works on PC, mobile, and tablet
+- ✅ **Instant Testing** – No installation, run directly in your browser
+- ✅ **Professional Accuracy** – Detailed performance data and diagnostics
+- ✅ **Privacy-First** – All tests run locally, no data is uploaded
+- ✅ **Complete Ecosystem** – Covers input, output, audio, video, and display hardware
 
-Contribute Code: Visit our GitHub Repository
+---
 
-Provide Feedback: Submit suggestions via our Feedback Form
+## 🧭 How to Use
+1. **Choose a Tool** – Click the corresponding tool link above  
+2. **Grant Permissions** – Allow browser access to the required hardware (mic, camera, etc.)  
+3. **Run the Test** – Follow the on-screen instructions  
+4. **View Results** – Get detailed hardware status and performance data  
+5. **Diagnose Issues** – Troubleshoot or optimize settings based on the results  
 
-Help with Translations: Assist us in translating tools into more languages
+---
 
-Feature Requests: Tell us about new testing features you'd like to see
+## 🛠️ Advanced Usage Tips
+- **Regular Checkups**: Perform a full hardware “health check” every few months  
+- **New Device Inspection**: Test screens, keyboards, and peripherals right after purchase  
+- **Before Meetings**: Quickly verify microphone and camera before important calls  
+- **Gaming Gear Tuning**: Use the mouse test to optimize polling rate and responsiveness  
 
-We believe that through community collaboration, we can build a more comprehensive and professional hardware testing toolkit, making it easy for everyone to maintain their digital devices.
+---
 
-Last Updated: 2025 | The HardwareTest Team
-Making hardware testing simple, professional, and accessible to everyone.
+## 🔍 Testing Principles (Brief)
+- **Mouse Tests**: Use high-precision JavaScript timing APIs to record click intervals and analyze switch behavior  
+- **Keyboard Tests**: Listen to global keyboard events and visualize key press/release states  
+- **Audio Tests**: Use the Web Audio API to analyze microphone input waveforms and frequency data  
+- **Screen Tests**: Use full-screen CSS color blocks and Canvas rendering to expose pixel defects  
+
+If hardware issues are detected, we recommend contacting the manufacturer for repair or replacement.  
+Regular testing helps catch problems early and prevents disruptions to work or entertainment.
+
+> **Pro Tip:** Most hardware failures show early warning signs — detecting them early can save hours of troubleshooting later.
+
+---
+
+## 🤝 Join Us
+HardwareTest is an **open-source project**, and we welcome developers, designers, and hardware enthusiasts to join our community:
+
+- **Contribute Code** – Visit our GitHub repository  
+- **Give Feedback** – Submit suggestions through our feedback system  
+- **Help Translate** – Assist in bringing the tools to more languages  
+- **Request Features** – Tell us what hardware tests you’d like to see next  
+
+We believe that, through the power of the community, we can build a more complete and professional hardware testing ecosystem — making device maintenance easy for everyone.
+
+---
+
+*Last updated: 2025 | HardwareTest Team*  
+*Making hardware diagnostics simple, professional, and accessible to everyone.*
