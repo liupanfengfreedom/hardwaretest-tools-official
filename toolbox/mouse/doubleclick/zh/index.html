@@ -516,26 +516,5 @@
     <script src="/toolbox/mouse/doubleclick/js/main-zh.js"></script>
     <script src="/toolbox/shared/js/switchlanguage.js"></script>
 
-    <!-- 异步CSS回退脚本 -->
-    <script>
-        // 异步CSS加载回退
-        function loadCSSFallback() {
-            var links = document.querySelectorAll('link[media="print"]');
-            links.forEach(function(link) {
-                link.onload = function() {
-                    this.media = 'all';
-                };
-                // 如果5秒后仍未加载，强制应用样式
-                setTimeout(function() {
-                    if (link.media === 'print') {
-                        link.media = 'all';
-                    }
-                }, 5000);
-            });
-        }
-        
-        document.addEventListener('DOMContentLoaded', loadCSSFallback);
-    </script>
-
 </body>
 </html>
