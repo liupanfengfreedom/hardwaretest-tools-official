@@ -18,7 +18,7 @@ body {
 }
 
 /* 侧边导航 */
-nav {
+.sidebar-nav {
     width: 260px;
     height: 100vh;
     background: #ffffff;
@@ -26,10 +26,18 @@ nav {
     position: fixed;
     padding: 20px;
     overflow-y: auto;
+    top: 0;
+    left: 0;
+    z-index: 100;
 }
 
-nav h2 { font-size: 1.2rem; color: var(--primary); }
-nav a {
+.sidebar-nav h2 { 
+    font-size: 1.2rem; 
+    color: var(--primary); 
+    margin-top: 20px; /* 留出面包屑导航空间 */
+}
+
+.sidebar-nav a {
     display: block;
     padding: 10px;
     color: var(--secondary);
@@ -38,7 +46,11 @@ nav a {
     transition: 0.2s;
     font-size: 0.95rem;
 }
-nav a:hover { background: #f1f5f9; color: var(--primary); }
+
+.sidebar-nav a:hover { 
+    background: #f1f5f9; 
+    color: var(--primary); 
+}
 
 /* 主体内容 */
 main {
@@ -274,9 +286,12 @@ h3 { color: var(--primary); margin-top: 30px; }
     }
 }
 
-/* 移动端保持不变 */
+/* 移动端隐藏侧边栏 */
 @media (max-width: 768px) {
-    nav { display: none; }
+    .sidebar-nav { 
+        display: none; 
+    }
+    
     main { 
         margin-left: 0; 
         max-width: 100%;
