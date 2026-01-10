@@ -42,25 +42,41 @@ nav a:hover { background: #f1f5f9; color: var(--primary); }
 
 /* 主体内容 */
 main {
+    flex: 1;
     margin-left: 300px;
-    max-width: 900px;
-    padding: 40px 20px;
+    max-width: calc(100% - 320px);
+    padding: 40px;
+    box-sizing: border-box;
 }
 
 .section {
-   background-color: white;
+    background-color: white;
     border-left: 5px solid #3498db;
     border-radius: 5px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    max-width: 1000px;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* 确保所有内容元素都填充容器的宽度 */
+.section > * {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 h1 { font-size: 2.5rem; margin-bottom: 10px; }
 h2 { border-left: 5px solid var(--primary); padding-left: 15px; margin-top: 40px; }
 h3 { color: var(--primary); margin-top: 30px; }
 
-.prep-list { background: #f1f5f9; padding: 20px; border-radius: 8px; }
+.prep-list { 
+    background: #f1f5f9; 
+    padding: 20px; 
+    border-radius: 8px; 
+}
 .prep-list ul { padding-left: 20px; }
 
 .media-box {
@@ -101,31 +117,143 @@ h3 { color: var(--primary); margin-top: 30px; }
 
 .error-text { color: var(--danger); font-weight: bold; }
 
-@media (max-width: 768px) {
-    nav { display: none; }
-    main { margin-left: 0; }
-}
-/* 添加到 style.css 末尾 */
-
-/* 优化主内容区布局 */
-main {
-    flex: 1;
-    margin-left: 300px;
-    max-width: calc(100% - 320px);
-    padding: 40px;
+/* 提示框样式 */
+/* 提示框样式 - 优化版 */
+.tip-box {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    border-left: 4px solid var(--primary);
+    padding: 24px;
+    margin: 24px 0;
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.7;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
-/* 优化内容区域 */
-.section {
-    max-width: 1000px; /* 限制内容区域的最大宽度 */
-    margin-left: 0;
-    margin-right: auto;
+.tip-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary);
+    border-radius: 4px 0 0 4px;
 }
 
-/* 优化段落和列表的可读性 */
-.section p, .section ul, .section ol {
-    max-width: 800px; /* 限制文本宽度，提高可读性 */
+.tip-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+/* 提示标题样式 */
+.tip-box h3 {
+    color: var(--primary);
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 添加提示图标 */
+.tip-box h3::before {
+    content: '💡';
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* 提示框内段落 */
+.tip-box p {
+    margin: 8px 0;
+    color: #334155;
+}
+
+/* 提示框内列表 */
+.tip-box ul {
+    margin: 12px 0;
+    padding-left: 20px;
+}
+
+.tip-box li {
+    margin-bottom: 6px;
+    color: #475569;
+}
+
+/* 引用样式（如果有的话） */
+.tip-box blockquote {
+    border-left: 3px solid #94a3b8;
+    margin: 16px 0;
+    padding-left: 16px;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* 代码样式 */
+.tip-box code {
+    background: rgba(37, 99, 235, 0.1);
+    color: #1e40af;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 0.9em;
+}
+
+/* 不同类型的提示框变体 */
+.tip-box.warning {
+    background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+    border-left-color: #f59e0b;
+}
+
+.tip-box.warning::before {
+    background: #f59e0b;
+}
+
+.tip-box.warning h3 {
+    color: #d97706;
+}
+
+.tip-box.warning h3::before {
+    content: '⚠️';
+}
+
+.tip-box.success {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-left-color: #22c55e;
+}
+
+.tip-box.success::before {
+    background: #22c55e;
+}
+
+.tip-box.success h3 {
+    color: #16a34a;
+}
+
+.tip-box.success h3::before {
+    content: '✅';
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .tip-box {
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+    }
+    
+    .tip-box h3 {
+        font-size: 1rem;
+    }
 }
 
 /* 宽屏优化 */
@@ -154,15 +282,4 @@ main {
         max-width: 100%;
         padding: 20px;
     }
-}
-/* 提示框样式 */
-.tip-box {
-    background: #e0f2fe; /* 浅蓝色背景 */
-    border-left: 4px solid var(--primary); /* 左侧使用主色边框 */
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 0.95rem;
-    line-height: 1.6;
 }
