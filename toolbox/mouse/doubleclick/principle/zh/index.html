@@ -82,7 +82,171 @@
             <li>拖拽时突然中断</li>
             <li>在文本中点击一次却选中了两个词</li>
         </ul>
-       
+        <div class="tip-box">
+        <h3>提示：</h3>
+    
+            <svg width="1100" height="720" viewBox="0 0 1100 720"
+                xmlns="http://www.w3.org/2000/svg"
+                font-family="Arial, sans-serif">
+
+            <!-- ========== 定义 ========== -->
+            <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10"
+                        refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="currentColor"/>
+                </marker>
+
+                <style>
+                .state { fill:#1e293b; }
+                .active { animation:pulse 1.4s infinite; }
+
+                @keyframes pulse {
+                    0%{filter:brightness(1)}
+                    50%{filter:brightness(1.6)}
+                    100%{filter:brightness(1)}
+                }
+
+                .flow {
+                    fill:none;
+                    stroke-width:3;
+                    stroke-dasharray:8 6;
+                    animation:flow 1.8s linear infinite;
+                }
+
+                @keyframes flow {
+                    to { stroke-dashoffset:-28; }
+                }
+
+                .ok { stroke:#22c55e; }
+                .fail { stroke:#818cf8; }
+                .bad { stroke:#ef4444; }
+                </style>
+            </defs>
+
+            <!-- ========== 背景 ========== -->
+            <rect width="1100" height="720" rx="20" fill="#020617"/>
+
+            <!-- ========== 标题 ========== -->
+            <text x="550" y="42" text-anchor="middle"
+                    font-size="22" fill="#e5e7eb" font-weight="bold">
+                输入压力测试 · 鼠标双击完整状态机
+            </text>
+
+            <!-- ========== 状态 ========== -->
+            <!-- 空闲 -->
+            <rect x="470" y="80" width="160" height="60" rx="12"
+                    class="state active"/>
+            <text x="550" y="118" text-anchor="middle" fill="#e5e7eb">空闲</text>
+
+            <!-- 第一次按下 -->
+            <rect x="180" y="190" width="220" height="70" rx="12" class="state"/>
+            <text x="290" y="232" text-anchor="middle" fill="#e5e7eb">
+                第一次按下
+            </text>
+
+            <!-- 第一次释放 -->
+            <rect x="180" y="300" width="220" height="70" rx="12" class="state"/>
+            <text x="290" y="342" text-anchor="middle" fill="#e5e7eb">
+                第一次释放
+            </text>
+
+            <!-- 等待第二次点击 -->
+            <rect x="450" y="300" width="260" height="90" rx="14" class="state"/>
+            <text x="580" y="338" text-anchor="middle" fill="#e5e7eb">
+                等待第二次点击
+            </text>
+            <text x="580" y="360" text-anchor="middle" fill="#94a3b8" font-size="12">
+                双击计时器激活
+            </text>
+
+            <!-- 第二次按下 -->
+            <rect x="800" y="300" width="220" height="70" rx="12" class="state"/>
+            <text x="910" y="342" text-anchor="middle" fill="#e5e7eb">
+                第二次按下
+            </text>
+
+            <!-- 成功 -->
+            <rect x="800" y="440" width="220" height="70" rx="12"
+                    fill="#052e16"/>
+            <text x="910" y="480" text-anchor="middle"
+                    fill="#22c55e" font-weight="bold">
+                双击确认
+            </text>
+
+            <!-- 超时/距离失败 -->
+            <rect x="450" y="440" width="260" height="70" rx="12"
+                    fill="#312e81"/>
+            <text x="580" y="480" text-anchor="middle"
+                    fill="#c7d2fe">
+                超时/距离失败
+            </text>
+
+            <!-- 硬件抖动 -->
+            <rect x="180" y="440" width="220" height="110" rx="12"
+                    fill="#3b1d1d"/>
+            <text x="290" y="472" text-anchor="middle"
+                    fill="#fecaca" font-weight="bold">
+                硬件抖动
+            </text>
+            <text x="290" y="494" text-anchor="middle"
+                    fill="#fecaca" font-size="12">
+                接触噪声 (3次)
+            </text>
+
+            <!-- ========== 流程 ========== -->
+            <path d="M550 140 L290 190" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M290 260 L290 300" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M400 335 L450 335" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M710 335 L800 335" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M910 370 L910 440" class="flow ok" marker-end="url(#arrow)"/>
+
+            <!-- 失败 -->
+            <path d="M580 390 L580 440" class="flow fail" marker-end="url(#arrow)"/>
+
+            <!-- 三次抖动 -->
+            <path d="M290 370 L290 420" class="flow bad" marker-end="url(#arrow)"/>
+            <circle cx="260" cy="400" r="6" fill="#ef4444"/>
+            <circle cx="290" cy="410" r="6" fill="#ef4444"/>
+            <circle cx="320" cy="400" r="6" fill="#ef4444"/>
+
+            <!-- 返回 -->
+            <path d="M290 550 C290 620 550 620 550 140"
+                    class="flow bad" marker-end="url(#arrow)"/>
+            <path d="M580 510 C580 620 550 620 550 140"
+                    class="flow fail" marker-end="url(#arrow)"/>
+            <path d="M910 510 C910 620 550 620 550 140"
+                    class="flow ok" marker-end="url(#arrow)"/>
+
+            <!-- ========== 指标面板 ========== -->
+            <rect x="760" y="80" width="300" height="160" rx="14"
+                    fill="#020617" stroke="#334155"/>
+
+            <text x="910" y="108" text-anchor="middle"
+                    fill="#e5e7eb" font-weight="bold">
+                实时指标 (模拟)
+            </text>
+
+            <text x="790" y="140" fill="#94a3b8">间隔:</text>
+            <text x="950" y="140" fill="#e5e7eb" id="interval">87 毫秒</text>
+
+            <text x="790" y="168" fill="#94a3b8">点击次数:</text>
+            <text x="950" y="168" fill="#e5e7eb" id="clicks">2</text>
+
+            <text x="790" y="196" fill="#94a3b8">抖动计数:</text>
+            <text x="950" y="196" fill="#ef4444" id="bounce">3</text>
+
+            <!-- 底部说明 -->
+            <text x="550" y="690" text-anchor="middle"
+                    fill="#64748b" font-size="13">
+                输入压力测试 · 硬件噪声与真实点击无法区分
+            </text>
+
+            </svg>
+
+
+        </div>
+      
+
     </section>
 
     <section id="t4" class="section">
