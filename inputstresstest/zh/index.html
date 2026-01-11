@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VectorAI Studio - 原生版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+
+    <header class="border-b bg-white px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+        <div class="flex items-center gap-2">
+            <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                <i data-lucide="sparkles"></i>
+            </div>
+            <h1 class="text-xl font-bold tracking-tight text-slate-800">VectorAI Studio</h1>
+        </div>
+        <div class="flex gap-3">
+            <button id="downloadBtn" disabled class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-md transition-all opacity-50 cursor-not-allowed">
+                <i data-lucide="download" class="w-4 h-4"></i> 导出 SVG
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-12 gap-6">
+        <aside class="col-span-12 lg:col-span-4 space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <label class="block text-sm font-semibold mb-3 text-slate-700">描述你想生成的图形</label>
+                <textarea id="promptInput" placeholder="例如：一个极简风格的火箭、一只可爱的猫头、或者一个设置图标..." 
+                    class="w-full h-32 p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none text-sm"></textarea>
+                
+                <button id="generateBtn" class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all active:scale-95">
+                    <i data-lucide="wand-2" class="w-5 h-5"></i>
+                    <span id="btnText">生成矢量图</span>
+                </button>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-sm font-semibold mb-4 flex items-center gap-2 text-slate-700">
+                    <i data-lucide="settings-2" class="w-4 h-4"></i> 样式调整
+                </h3>
+                <div class="space-y-5">
+                    <div>
+                        <label class="text-xs text-slate-500 block mb-2 font-medium uppercase tracking-wider">主线条颜色</label>
+                        <div class="flex items-center gap-3">
+                            <input type="color" id="colorPicker" value="#4f46e5" class="h-10 w-10 rounded cursor-pointer border-none bg-transparent">
+                            <input type="text" id="colorText" value="#4f46e5" class="flex-1 text-sm border border-slate-200 px-3 py-2 rounded uppercase font-mono text-slate-600">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-500 block mb-2 font-medium uppercase tracking-wider">线条粗细</label>
+                        <input type="range" id="strokeWidth" min="0.5" max="5" step="0.5" value="2" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                        <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                            <span>细</span><span>中</span><span>粗</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="col-span-12 lg:col-span-8 flex flex-col h-[600px]">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col h-full overflow-hidden">
+                <div class="flex border-b">
+                    <button id="showPreview" class="px-6 py-3 text-sm font-medium flex items-center gap-2 border-b-2 border-indigo-600 text-indigo-600">
+                        <i data-lucide="eye" class="w-4 h-4"></i> 预览
+                    </button>
+                    <button id="showCode" class="px-6 py-3 text-sm font-medium flex items-center gap-2 text-slate-500 border-b-2 border-transparent hover:text-indigo-500 transition-colors">
+                        <i data-lucide="code" class="w-4 h-4"></i> 代码
+                    </button>
+                </div>
+
+                <div class="flex-1 bg-slate-50 relative p-8 flex items-center justify-center overflow-hidden">
+                    <div id="emptyState" class="text-slate-400 text-center">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm inline-block mb-4">
+                            <i data-lucide="image-plus" class="w-10 h-10 text-indigo-300"></i>
+                        </div>
+                        <p class="text-sm font-medium">在左侧输入创意，开启灵感</p>
+                    </div>
+
+                    <div id="loader" class="hidden flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div>
+                        <p class="text-sm font-medium text-slate-500">AI 正在绘制路径...</p>
+                    </div>
+
+                    <div id="svgPreview" class="hidden w-80 h-80 bg-white shadow-2xl rounded-2xl p-12 flex items-center justify-center border border-white transition-all hover:scale-105 duration-300">
+                        </div>
+
+                    <div id="codeView" class="hidden w-full h-full p-6 font-mono text-sm bg-slate-900 text-indigo-300 rounded-lg overflow-auto">
+                        <div class="flex justify-between items-center mb-4 text-slate-400 border-b border-slate-800 pb-2">
+                            <span>SVG Source Code</span>
+                            <button id="copyBtn" class="hover:text-white transition-colors flex items-center gap-1">
+                                <i data-lucide="copy" class="w-3 h-3"></i> 复制
+                            </button>
+                        </div>
+                        <pre id="svgString" class="whitespace-pre-wrap"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+
+        // DOM 元素引用
+        const promptInput = document.getElementById('promptInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const svgPreview = document.getElementById('svgPreview');
+        const emptyState = document.getElementById('emptyState');
+        const loader = document.getElementById('loader');
+        const codeView = document.getElementById('codeView');
+        const svgStringDisplay = document.getElementById('svgString');
+        const colorPicker = document.getElementById('colorPicker');
+        const colorText = document.getElementById('colorText');
+        const strokeWidth = document.getElementById('strokeWidth');
+
+        // 视图切换逻辑
+        const showPreviewBtn = document.getElementById('showPreview');
+        const showCodeBtn = document.getElementById('showCode');
+
+        let currentSVG = "";
+
+        // --- 模拟 AI 生成逻辑 (Product Level Logic) ---
+        // 在生产环境中，这里会发起 fetch 请求到 API (OpenAI/Claude)
+        async function fetchAIGeneratedSVG(prompt, options) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const { color, stroke } = options;
+                    let path = "";
+                    
+                    // 简单的关键词匹配模拟 AI 创意
+                    if (prompt.includes("火") || prompt.includes("rocket")) {
+                        path = `<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71.79-1.81.79-1.81l-3.79-3.79s-1.1.08-1.81.79Z"/><path d="m10 14 5.23-5.23c.49-.49 1.1-.77 1.77-.77h2.82c.44 0 .73-.48.55-.88l-1.03-2.27a1.99 1.99 0 0 0-1.81-1.17H11.5c-.67 0-1.28.28-1.77.77L4.5 10c-1.38 1.38-1.38 3.62 0 5s3.62 1.38 5 0Z"/><path d="m19 11 3 3"/>`;
+                    } else if (prompt.includes("猫") || prompt.includes("cat")) {
+                        path = `<path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.45.44.12.64.61.44 1.01C19.14 7.18 20 10.45 20 13c0 4.75-3.5 8-8 8s-8-3.25-8-8c0-2.55.86-5.82-.86-9.18-.2-.4.01-.89.44-1.01 1.39-.39 4.64.45 6.42 2.45.65-.17 1.33-.26 2-.26Z"/><path d="M9 13v.01M15 13v.01M12 16c.5 0 1 .5 1 1"/>`;
+                    } else {
+                        // 默认：一个极简设置图标
+                        path = `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>`;
+                    }
+
+                    const svgFullCode = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">${path}</svg>`;
+                    resolve(svgFullCode);
+                }, 1200);
+            });
+        }
+
+        // 生成动作
+        generateBtn.addEventListener('click', async () => {
+            const prompt = promptInput.value.trim();
+            if (!prompt) {
+                alert("请输入一些描述...");
+                return;
+            }
+
+            // UI 状态切换
+            generateBtn.disabled = true;
+            emptyState.classList.add('hidden');
+            svgPreview.classList.add('hidden');
+            codeView.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            const options = {
+                color: colorPicker.value,
+                stroke: strokeWidth.value
+            };
+
+            currentSVG = await fetchAIGeneratedSVG(prompt, options);
+
+            // 渲染结果
+            svgPreview.innerHTML = currentSVG;
+            svgStringDisplay.textContent = currentSVG;
+            
+            loader.classList.add('hidden');
+            if (showPreviewBtn.classList.contains('text-indigo-600')) {
+                svgPreview.classList.remove('hidden');
+            } else {
+                codeView.classList.remove('hidden');
+            }
+
+            generateBtn.disabled = false;
+            downloadBtn.disabled = false;
+            downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        });
+
+        // 颜色联动
+        colorPicker.addEventListener('input', (e) => {
+            colorText.value = e.target.value;
+            updateStyle();
+        });
+
+        colorText.addEventListener('input', (e) => {
+            if(/^#[0-9A-F]{6}$/i.test(e.target.value)) {
+                colorPicker.value = e.target.value;
+                updateStyle();
+            }
+        });
+
+        strokeWidth.addEventListener('input', updateStyle);
+
+        function updateStyle() {
+            if (!currentSVG) return;
+            const svgEl = svgPreview.querySelector('svg');
+            if (svgEl) {
+                svgEl.setAttribute('stroke', colorPicker.value);
+                svgEl.setAttribute('stroke-width', strokeWidth.value);
+                currentSVG = svgPreview.innerHTML;
+                svgStringDisplay.textContent = currentSVG;
+            }
+        }
+
+        // 切换视图逻辑
+        showPreviewBtn.addEventListener('click', () => {
+            showPreviewBtn.classList.add('border-indigo-600', 'text-indigo-600');
+            showCodeBtn.classList.remove('border-indigo-600', 'text-indigo-600');
+            showCodeBtn.classList.add('text-slate-500');
+            if (currentSVG) {
+                svgPreview.classList.remove('hidden');
+                codeView.classList.add('hidden');
+            }
+        });
+
+        showCodeBtn.addEventListener('click', () => {
+            showCodeBtn.classList.add('border-indigo-600', 'text-indigo-600');
+            showPreviewBtn.classList.remove('border-indigo-600', 'text-indigo-600');
+            showPreviewBtn.classList.add('text-slate-500');
+            if (currentSVG) {
+                codeView.classList.remove('hidden');
+                svgPreview.classList.add('hidden');
+            }
+        });
+
+        // 下载功能
+        downloadBtn.addEventListener('click', () => {
+            const blob = new Blob([currentSVG], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `vector-ai-design.svg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // 复制功能
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentSVG);
+            alert("代码已复制！");
+        });
+    </script>
+</body>
+</html>
