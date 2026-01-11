@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
     <link rel="stylesheet" href="/toolbox/css/style.css">
+    <link rel="stylesheet" href="/shared/css/switchlanguage.css">
+    <link rel="stylesheet" href="/shared/css/BreadNav.css">
     
     <!-- 结构化数据 -->
     <script type="application/ld+json">
@@ -59,14 +61,42 @@
 
 </head>
 <body>
-
-    <div class="lang-switcher">
-
-         <button class="lang-btn active">中文</button>  
-            <!-- 使用 a 标签 + href 属性，SEO 效果更好 -->
-         <a href="/toolbox/en/" class="lang-btn">English</a>
+    <!-- 语言切换器 -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
         
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/toolbox/zh/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/toolbox/en/" data-lang="en">
+                English
+            </a>
+        </div>
     </div>
+
+     <!-- 面包屑导航栏 (带微数据) -->
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/zh/" class="breadcrumb-link" itemprop="item">
+                        <i class="fas fa-home" aria-hidden="true"></i> 
+                        <span itemprop="name">主页</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span class="breadcrumb-active" itemprop="name">工具箱</span>
+                    <meta itemprop="position" content="3" />
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+
 
     <div class="loading">
         <div class="spinner"></div>
@@ -277,6 +307,7 @@
     </footer>
 
     <script src="/toolbox/js/zh-main.js"></script>
+    <script src="/shared/js/switchlanguage.js"></script>
 
 </body>
 </html>

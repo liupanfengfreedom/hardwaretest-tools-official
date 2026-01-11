@@ -25,6 +25,9 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/toolbox/css/style.css">
+    <link rel="stylesheet" href="/shared/css/switchlanguage.css">
+    <link rel="stylesheet" href="/shared/css/BreadNav.css">
+
     
     <!-- 结构化数据 -->
     <script type="application/ld+json">
@@ -61,12 +64,43 @@
 </head>
 <body>
 
-    <div class="lang-switcher">
-        <button class="lang-btn active">English</button>
-                <!-- 使用 a 标签 + href 属性，SEO 效果更好 -->
-         <a href="/toolbox/zh/" class="lang-btn">中文</a>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
         
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/toolbox/zh/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/toolbox/en/" data-lang="en">
+                English
+            </a>
+        </div>
     </div>
+
+
+    
+    <!-- Breadcrumb Navigation (with microdata) -->
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/en/" class="breadcrumb-link" itemprop="item">
+                        <i class="fas fa-home" aria-hidden="true"></i> 
+                        <span itemprop="name">Home</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span class="breadcrumb-active" itemprop="name">Toolbox</span>
+                    <meta itemprop="position" content="3" />
+                </li>
+            </ol>
+        </nav>
+    </div>
+
 
     <div class="loading">
         <div class="spinner"></div>
@@ -277,6 +311,7 @@
     </footer>
 
     <script src="/toolbox/js/en-main.js"></script>
+    <script src="/shared/js/switchlanguage.js"></script>
 
 </body>
 </html>
