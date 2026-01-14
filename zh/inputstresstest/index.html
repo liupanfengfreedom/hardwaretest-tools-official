@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS ANALYTICS | 精准度分析终端</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #08080e;
+            --panel: rgba(20, 20, 35, 0.8);
+            --cyan: #00fff2;
+            --pink: #ff00d4;
+            --gold: #ffcc00;
+            --gray: #444455;
+        }
+
+        body {
+            margin: 0; background: var(--bg); color: white;
+            font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden;
+        }
+
+        /* --- 左侧实时日志 --- */
+        #side-log {
+            width: 200px; background: rgba(0,0,0,0.3);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column; padding: 20px;
+        }
+        .log-entry {
+            font-family: 'Roboto Mono'; font-size: 0.8rem;
+            padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            animation: slideIn 0.2s ease-out;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; } }
+
+        /* --- 主游戏区 --- */
+        #main-container { flex-grow: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+
+        #hud { display: flex; gap: 20px; padding: 20px; width: 100%; justify-content: center; }
+        .stat-box { 
+            background: var(--panel); padding: 10px 30px; border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.1); text-align: center;
+        }
+        .stat-box .label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-box .value { font-family: 'Roboto Mono'; font-size: 1.8rem; display: block; }
+
+        #stage {
+            position: relative; width: 90%; height: 75%;
+            background: radial-gradient(circle at center, #111122 0%, #08080e 100%);
+            border: 1px solid rgba(0, 255, 242, 0.1); border-radius: 12px;
+            cursor: crosshair; overflow: hidden;
+        }
+
+        /* --- 靶子样式 --- */
+        .target {
+            position: absolute; width: 60px; height: 60px;
+            transform: translate(-50%, -50%); pointer-events: all;
+        }
+        .ring-10 { fill: var(--pink); filter: drop-shadow(0 0 8px var(--pink)); }
+        .ring-8 { fill: rgba(0, 255, 242, 0.2); stroke: var(--cyan); stroke-width: 1.5; }
+        .ring-5 { fill: rgba(255, 255, 255, 0.05); stroke: rgba(255,255,255,0.2); stroke-width: 1; }
+
+        /* --- 结算弹窗 --- */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 10, 0.95); display: flex; align-items: center; 
+            justify-content: center; z-index: 100; backdrop-filter: blur(10px);
+        }
+        .result-card {
+            background: var(--panel); padding: 40px; border-radius: 20px;
+            border: 1px solid var(--cyan); width: 400px; text-align: center;
+        }
+        .breakdown-row {
+            display: flex; justify-content: space-between; margin: 15px 0;
+            padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Roboto Mono';
+        }
+
+        .btn-start {
+            background: var(--cyan); color: #000; border: none; padding: 15px 40px;
+            font-weight: 900; border-radius: 4px; cursor: pointer; margin-top: 20px;
+        }
+
+        .score-pop {
+            position: absolute; pointer-events: none; font-weight: 900;
+            font-family: 'Roboto Mono'; animation: fly 0.5s ease-out forwards;
+        }
+        @keyframes fly { 0% { opacity: 0; transform: scale(0.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-40px); } }
+
+        .hidden { display: none !important; }
+    </style>
+        <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+</head>
+<body>
+
+    <div id="side-log">
+        <div style="font-weight: 800; margin-bottom: 15px; color: var(--cyan); font-size: 0.8rem;">LIVE_FEED.log</div>
+        <div id="log-container"></div>
+    </div>
+
+    <div id="main-container">
+        <div id="hud">
+            <div class="stat-box"><span class="label">Total Score</span><span class="value" id="score-val" style="color: var(--gold)">0</span></div>
+            <div class="stat-box"><span class="label">Time</span><span class="value" id="time-val">30.0</span></div>
+            <div class="stat-box"><span class="label">Accuracy</span><span class="value" id="acc-val">100%</span></div>
+        </div>
+
+        <div id="stage">
+            <div id="start-screen" class="overlay">
+                <div class="result-card">
+                    <h1 style="letter-spacing: 5px;">NEXUS AIM</h1>
+                    <p style="color: var(--gray)">系统已就绪，等待神经连接...</p>
+                    <button class="btn-start" onclick="startGame()">INITIALIZE</button>
+                </div>
+            </div>
+
+            <div id="result-screen" class="overlay hidden">
+                <div class="result-card">
+                    <h2 style="color: var(--cyan)">MISSION REPORT</h2>
+                    <div id="breakdown-list"></div>
+                    <div class="breakdown-row" style="border-top: 2px solid var(--gold); margin-top: 20px;">
+                        <span>TOTAL SCORE</span>
+                        <span id="final-total" style="color: var(--gold)">0</span>
+                    </div>
+                    <button class="btn-start" onclick="startGame()">RESTART</button>
+                </div>
+            </div>
+
+            <div id="target" class="target hidden">
+                <svg viewBox="0 0 60 60">
+                    <circle class="ring-5" cx="30" cy="30" r="28" />
+                    <circle class="ring-8" cx="30" cy="30" r="16" />
+                    <circle class="ring-10" cx="30" cy="30" r="6" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            score: 0,
+            clicks: 0,
+            hits: 0,
+            timeLeft: 30.0,
+            // 环数登记表
+            registry: { 10: 0, 8: 0, 5: 0 }
+        };
+
+        let timerId = null;
+
+        function startGame() {
+            gameState = { score: 0, clicks: 0, hits: 0, timeLeft: 30.0, registry: { 10: 0, 8: 0, 5: 0 } };
+            document.querySelectorAll('.overlay').forEach(el => el.classList.add('hidden'));
+            document.getElementById('log-container').innerHTML = '';
+            document.getElementById('target').classList.remove('hidden');
+            updateUI();
+            moveTarget();
+            
+            timerId = setInterval(() => {
+                gameState.timeLeft -= 0.1;
+                if (gameState.timeLeft <= 0) endGame();
+                document.getElementById('time-val').innerText = Math.max(0, gameState.timeLeft).toFixed(1);
+            }, 100);
+        }
+
+        function moveTarget() {
+            const stage = document.getElementById('stage');
+            const target = document.getElementById('target');
+            const x = Math.random() * (stage.clientWidth - 100) + 50;
+            const y = Math.random() * (stage.clientHeight - 100) + 50;
+            target.style.left = `${x}px`;
+            target.style.top = `${y}px`;
+        }
+
+        document.getElementById('target').addEventListener('mousedown', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dist = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+
+            let points = 0;
+            let ringName = "";
+            let color = "";
+
+            // 命中逻辑判定
+            if (dist <= 7) { 
+                points = 100; ringName = "10环 (Bullseye)"; color = "var(--pink)"; gameState.registry[10]++;
+            } else if (dist <= 17) { 
+                points = 50; ringName = "8环 (Inner)"; color = "var(--cyan)"; gameState.registry[8]++;
+            } else { 
+                points = 10; ringName = "5环 (Outer)"; color = "#fff"; gameState.registry[5]++;
+            }
+
+            gameState.score += points;
+            gameState.hits++;
+            gameState.clicks++;
+            
+            addToLog(ringName, color);
+            showPop(points, color, e.clientX, e.clientY);
+            updateUI();
+            moveTarget();
+            e.stopPropagation();
+        });
+
+        document.getElementById('stage').addEventListener('mousedown', () => {
+            if (gameState.timeLeft > 0) {
+                gameState.clicks++;
+                updateUI();
+            }
+        });
+
+        function addToLog(msg, color) {
+            const container = document.getElementById('log-container');
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.style.color = color;
+            div.innerText = `[${new Date().toLocaleTimeString().split(' ')[0]}] HIT: ${msg}`;
+            container.prepend(div);
+            if (container.children.length > 15) container.lastChild.remove();
+        }
+
+        function showPop(pts, color, x, y) {
+            const pop = document.createElement('div');
+            pop.className = 'score-pop';
+            pop.style.left = `${x - 20}px`;
+            pop.style.top = `${y - 20}px`;
+            pop.style.color = color;
+            pop.innerText = `+${pts}`;
+            document.body.appendChild(pop);
+            setTimeout(() => pop.remove(), 500);
+        }
+
+        function updateUI() {
+            document.getElementById('score-val').innerText = gameState.score;
+            const acc = gameState.clicks > 0 ? ((gameState.hits / gameState.clicks) * 100).toFixed(1) : 100;
+            document.getElementById('acc-val').innerText = acc + '%';
+        }
+
+        function endGame() {
+            clearInterval(timerId);
+            document.getElementById('target').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            document.getElementById('final-total').innerText = gameState.score;
+            document.getElementById('breakdown-list').innerHTML = `
+                <div class="breakdown-row"><span>10环 (100pt)</span><span>× ${gameState.registry[10]}</span></div>
+                <div class="breakdown-row"><span>8环 (50pt)</span><span>× ${gameState.registry[8]}</span></div>
+                <div class="breakdown-row"><span>5环 (10pt)</span><span>× ${gameState.registry[5]}</span></div>
+            `;
+        }
+    </script>
+</body>
+</html>
