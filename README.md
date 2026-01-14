@@ -10,10 +10,10 @@ During a call, the other side can’t hear you clearly — is your microphone br
 
 If these issues sound familiar, try the tools below right now 👇
 
-Welcome to **HardwareTest**, the official online hardware testing toolkit.  
-We provide a collection of **free, professional, browser-based hardware diagnostics** — no downloads, no installation, just open and test.
 
----
+### 1. 🖱️ 专业在线鼠标连点测试工具 (Mouse check)
+> **功能描述：** 提供毫秒级微动故障分析、实时回报率 (Polling Rate Hz) 检测、滚轮、侧键功能排查以及CPS（每秒点击次数）测试，帮助您全面检测鼠标性能，解决鼠标双击失灵问题。
+> **>> [开始鼠标检查](https://starryring.com/zh/toolbox/mouse/)** 
 
 ## 🔧 Core Tool Navigation
 

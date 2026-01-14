@@ -1,0 +1,677 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>双击测试工具工作原理 - 鼠标故障双击检测机制详解</title>
+    <meta name="description" content="深入解析鼠标双击工作原理，了解故障双击检测机制。详细介绍鼠标微动开关、防抖动技术、硬件故障诊断原理及解决方案。">
+    <meta name="keywords" content="鼠标双击测试,故障双击检测,鼠标微动开关,防抖动技术,鼠标故障诊断,鼠标连击检测,硬件测试工具">
+    <meta name="author" content="星环工具">
+    <meta name="copyright" content="版权所有 © 2026 星环工具。保留所有权利。">
+    
+    <!-- Canonical & Internationalization -->
+    <link rel="canonical" href="https://starryring.com/zh/toolbox/mouse/doubleclick/principle/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/mouse/doubleclick/principle/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/mouse/doubleclick/principle/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://starryring.com/zh/toolbox/mouse/doubleclick/principle/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/mouse/doubleclick/principle/" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Referrer and Security -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="rating" content="general">
+    <meta name="geo.region" content="CN">
+    <meta name="geo.placename" content="China">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://starryring.com/zh/toolbox/mouse/doubleclick/principle/">
+    <meta property="og:title" content="🖱️ 双击测试工具工作原理详解 - 鼠标故障检测技术">
+    <meta property="og:description" content="深入解析鼠标双击工作原理，了解故障双击检测机制。详细介绍鼠标微动开关、防抖动技术、硬件故障诊断原理及解决方案。">
+    <meta property="og:image" content="https://assets.starryring.com/mouse/double-clicks-principle-og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="鼠标双击工作原理示意图">
+    <meta property="og:site_name" content="星环工具箱">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:updated_time" content="2026-01-10T00:00:00+08:00">
+    <meta property="og:article:published_time" content="2026-01-05T00:00:00+08:00">
+    <meta property="og:article:modified_time" content="2026-01-10T00:00:00+08:00">
+    <meta property="og:article:author" content="星环工具">
+    <meta property="og:article:section" content="硬件测试">
+    <meta property="og:article:tag" content="鼠标测试">
+    <meta property="og:article:tag" content="硬件诊断">
+    <meta property="og:article:tag" content="故障检测">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/zh/toolbox/mouse/doubleclick/principle/">
+    <meta name="twitter:title" content="🖱️ 双击测试工具工作原理详解 - 鼠标故障检测技术">
+    <meta name="twitter:description" content="深入解析鼠标双击工作原理，了解故障双击检测机制。详细介绍鼠标微动开关、防抖动技术、硬件故障诊断原理及解决方案。">
+    <meta name="twitter:image" content="https://assets.starryring.com/mouse/double-clicks-principle-twitter.png">
+    <meta name="twitter:creator" content="@starryring">
+    <meta name="twitter:site" content="@starryring">
+    <meta name="twitter:label1" content="预估阅读时间">
+    <meta name="twitter:data1" content="5分钟">
+    <meta name="twitter:label2" content="技术类型">
+    <meta name="twitter:data2" content="硬件检测原理">
+    
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="双击测试原理">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="/fonts.googleapis.com">
+    <link rel="dns-prefetch" href="/fonts.gstatic.com">
+    <link rel="preload" href="/static/css/shared/article.css" as="style">
+    <link rel="preload" href="/static/css/shared/table.css" as="style">
+    <link rel="preload" href="https://assets.starryring.com/mouse/doubleclickschematic.png" as="image">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/image-modal.css">
+    <link rel="stylesheet" href="/static/css/shared/article.css">
+    <link rel="stylesheet" href="/static/css/shared/table.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- Structured Data Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "headline": "双击测试工具工作原理详解",
+                "description": "深入解析鼠标双击工作原理，了解故障双击检测机制。详细介绍鼠标微动开关、防抖动技术、硬件故障诊断原理及解决方案。",
+                "image": [
+                    "https://assets.starryring.com/mouse/doubleclickschematic.png",
+                    "https://assets.starryring.com/mouse/theprincipleofmousezh.png"
+                ],
+                "datePublished": "2026-01-05T00:00:00+08:00",
+                "dateModified": "2026-01-10T00:00:00+08:00",
+                "author": {
+                    "@type": "Organization",
+                    "name": "星环工具",
+                    "url": "https://starryring.com"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "星环工具",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/logo.png",
+                        "width": 300,
+                        "height": 60
+                    }
+                },
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://starryring.com/zh/toolbox/mouse/doubleclick/principle/"
+                },
+                "articleSection": "硬件测试",
+                "keywords": "鼠标双击测试,故障双击检测,鼠标微动开关,防抖动技术,鼠标故障诊断,鼠标连击检测",
+                "wordCount": 1800,
+                "timeRequired": "PT5M",
+                "inLanguage": "zh-CN",
+                "articleBody": "本文详细介绍鼠标双击的工作原理、故障双击的检测机制、鼠标微动开关的结构与常见问题，以及防抖动技术的实现原理。包括硬件层面的故障分析和软件层面的检测算法。"
+            },
+            {
+                "@type": "HowTo",
+                "name": "如何理解鼠标双击工作原理",
+                "description": "分步解析鼠标双击的检测机制和技术原理",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "name": "了解鼠标信号传输",
+                        "text": "鼠标只向电脑发送三种信息：按键状态、位移变化量和滚轮滚动方向，不发送双击信号本身。",
+                        "image": "https://assets.starryring.com/mouse/zh/step1-signals.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "理解双击定义",
+                        "text": "双击是操作系统定义的概念：在500ms内连续两次按键操作。时间间隔由操作系统判断。",
+                        "image": "https://assets.starryring.com/mouse/zh/step2-double-click.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "识别故障双击",
+                        "text": "故障双击是指硬件问题导致的非人为多次点击，通常时间间隔小于80ms。",
+                        "image": "https://assets.starryring.com/mouse/zh/step3-fault-double.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "分析故障原因",
+                        "text": "常见原因包括微动开关老化、触点氧化、灰尘异物和机械磨损等硬件问题。",
+                        "image": "https://assets.starryring.com/mouse/zh/step4-causes.png"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "了解检测原理",
+                        "text": "通过高精度计时和事件监听，分析连续两次mousedown之间的时间间隔。",
+                        "image": "https://assets.starryring.com/mouse/zh/step5-detection.png"
+                    }
+                ],
+                "totalTime": "PT5M"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "鼠标向电脑发送了哪些信息？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "鼠标只发送三种信息：按键状态（按下/松开）、位移变化量（X/Y轴移动）和滚轮滚动方向。鼠标本身不发送双击信号，双击是操作系统根据时间间隔判断的。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "什么是故障双击？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "故障双击是指用户只点击了一次，但由于鼠标硬件问题（如微动开关接触不良），系统却收到了多次点击信号的现象，时间间隔通常小于80ms。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "故障双击是如何发生的？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "主要由于微动开关内部触点异常通断导致，包括微动老化、触点氧化、灰尘异物进入和机械磨损等原因。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何检测故障双击？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "通过监听鼠标事件，记录时间戳，分析连续两次mousedown事件的时间间隔。如果间隔小于80ms，则判定为故障双击。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "哪些鼠标支持防抖动功能？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "部分高端鼠标品牌如雷柏VT系列、VGN Dragonfly系列、雷蛇部分型号、逻辑G Pro系列等支持通过驱动软件调整防抖动参数。"
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "工具箱",
+                        "item": "https://starryring.com/zh/toolbox/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "鼠标测试工具",
+                        "item": "https://starryring.com/zh/toolbox/mouse/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "双击测试原理",
+                        "item": "https://starryring.com/zh/toolbox/mouse/doubleclick/principle/"
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+
+</head>
+<body>
+<!-- 语言切换器 -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+               
+        <!-- 下拉框 -->
+        <div class="language-dropdown" id="languageDropdown">
+            <!-- 语言选项 -->
+            <a class="language-option selected" href="/zh/toolbox/mouse/doubleclick/principle/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/en/toolbox/mouse/doubleclick/principle/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+
+    <!-- 侧边栏目录导航 -->
+    <nav class="sidebar-nav">
+    <h2>目录</h2>
+    <a href="#t1">1. 鼠标向电脑发送了哪些信息</a>
+    <a href="#t2">2. 什么是双击</a>
+    <a href="#t3">3. 什么是故障双击</a>
+    <a href="#t4">4. 故障双击是如何发生的</a>
+    <a href="#t5">5. 本工具为什么可以检测到故障双击</a>
+    <a href="#t6">6. 鼠标本身可以做出哪些尝试去减少故障双击</a>
+</nav>
+
+<main>
+        <!-- 面包屑导航 -->
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/toolbox/" class="breadcrumb-link"><i class="fas fa-box"></i> 工具箱</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/toolbox/mouse/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> 鼠标测试工具</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/toolbox/mouse/doubleclick/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> 双击测试</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-mouse"></i> 双击测试工具工作原理</span>
+            </li>
+        </ol>
+    </nav>
+    <h1>双击测试工具 - 工作原理详解</h1>
+    <p>本文详细介绍鼠标双击以及本工具检测故障双击的机制。</p>
+
+    <section id="t1" class="section">
+        <h2>1. 鼠标向电脑发送了哪些信息</h2>
+        <p>鼠标只会向电脑发送三种信息</p>
+        <ul>
+            <li><strong>按键状态</strong>：按键是被按下状态还是松开状态</li>
+            <li><strong>位移变化量</strong>：鼠标上下左右的位移变化量</li>
+            <li><strong>滚轮滚动方向</strong>：滚轮向上还是向下滚动</li>
+        </ul>
+        <p>对的，您没有看错，鼠标<strong>不会</strong>向电脑发送<strong>双击的信号</strong>，只发送按键按下和松开产生的时间脉冲，准确来说鼠标就不知道<a href="#t2">什么是双击</a>，那问题来了，电脑是怎么知道什么时候双击了，电脑收的双击信号是哪里来的？您别着急，下面文章在<a href="#t2">什么是双击</a>里有解释这个问题。 </p>
+
+    </section>
+
+    <section id="t2" class="section">
+        <h2>2. 什么是双击</h2>
+        <p><strong>双击</strong>是指鼠标任意按键在一个时间阈值,通常是500ms(不同系统/设置里这个时间阈值是可调的，在 Windows/macOS 控制面板里可以看到这个值的具体配置),内被按下了两次，这样一个信号会被操作系统识别为双击，没错，双击信号是操作系统自己定义的，只要时间脉冲信号符合定义，操作系统就毫不犹豫的把这个信号识别为双击，如下图所示</p>
+        
+        <div class="tip-box">
+        <h3>提示：</h3>
+           两次按下的时间间隔只要小于500ms，就算作双击, 也就是说50ms，甚至20ms都是算的，但是人类怎么可能有这个速度呢，人类做不到的，但是操作系统不关心人类是否能做的到，它只关心时间间隔是否小于500ms，这也就解释了为什么有些鼠标会出现<strong><a href="#t3">故障双击</a></strong>的问题（非人类行为触发的双击）。
+        </div>
+        <div class="tip-box">
+        <h3>提示：</h3>
+           <strong>左键双击</strong>Windows、macOS 等主流操作系统的默认交互逻辑，特殊软件：在某些 CAD 绘图软件、3D 建模工具（如 Blender 的某些插件）或地理信息系统（GIS）中，<strong>右键双击</strong>被定义为“取消当前命令”或“回到上一级菜单”。在这些软件中，右键双击可以快速撤销当前操作或返回上一级视图，提升工作效率。
+        </div>
+       <!-- 图片放大模态框 -->
+            <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="图片放大视图" hidden>
+                <div class="modal-content" id="modalContent">
+                    <button class="modal-close" id="modalClose" aria-label="关闭图片视图">&times;</button>
+                    <img id="modalImage" src="" alt="" itemprop="image">
+                    <button class="modal-zoom" id="modalZoom" aria-label="放大/缩小图片">
+                        <i class="fas fa-search-plus" aria-hidden="true"></i>
+                    </button>
+                    <div class="modal-caption" id="modalCaption"></div>
+                </div>
+            </div>
+           <!-- 优化后的图片显示 -->
+                <figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/theprincipleofmousezh.png">
+                    <img src="https://assets.starryring.com/mouse/doubleclickschematic.png" 
+                         alt="鼠标双击时间轴示意图"
+                         loading="lazy"
+                         itemprop="contentUrl">
+                    <figcaption class="image-caption" itemprop="caption">
+                        鼠标按键状态时序图 - 展示鼠标按键状态随时间变化的情况
+                    </figcaption>
+                    <div class="image-hint" aria-hidden="true">双击图片可放大查看</div>
+                </figure>   
+    </section>
+
+    <section id="t3" class="section">
+        <h2>3. 什么是故障双击</h2>
+        <p><strong>故障双击</strong>是指用户只点击了一次，但由于鼠标硬件问题，系统却收到了多次点击信号的现象，点击时间间隔通常小于80ms，人类的点击速度根本就不可能这么快，但是这个时间脉冲满足操作系统对<strong><a href="#t2">双击的定义</a></strong>，。</p>
+        <p>故障双击通常表现为：</p>
+        <ul>
+            <li>点击一次，文件被打开又迅速关闭（选中取消）</li>
+            <li>拖拽时突然中断</li>
+            <li>在文本中点击一次却选中了两个词</li>
+        </ul>
+        
+        <div class="tip-box">
+        <h3>提示：</h3>
+           <strong>故障双击 </strong>也有人称之为 ‘异常双击’、‘连击’、‘抖动点击’或硬件误判双击
+        </div>
+    </section>
+
+    <section id="t4" class="section">
+        <h2>4. 故障双击是如何发生的</h2>
+        <p>故障双击的根本原因在于<strong>微动开关内部触点的异常通断</strong>，常见原因包括：</p>
+        <ul>
+            <li><strong>微动老化：</strong>长期使用后金属弹片疲劳，回弹不畅。</li>
+            <li><strong>触点氧化：</strong>空气中硫化物等导致触点表面氧化，接触电阻增大。</li>
+            <li><strong>灰尘或异物：</strong>进入微动内部导致接触不稳定。</li>
+            <li><strong>机械磨损：</strong>触点表面磨损，造成接触不良。</li>
+        </ul>
+        <p>这些物理变化会导致一次按压过程中，电路出现多次短暂通断，从而被系统误判为多次点击。</p>
+    </section>
+
+    <section id="t5" class="section">
+        <h2>5. 本工具为什么可以检测到故障双击</h2>
+        <p>本工具通过高精度计时与事件监听，结合智能算法，准确识别出非人为的异常点击信号。</p>
+        
+        <h3>检测原理：</h3>
+        <ul>
+            <li><strong>事件监听：</strong>实时捕获鼠标的 <code>mousedown</code> 和 <code>mouseup</code> 事件。</li>
+            <li><strong>时间戳记录：</strong>为每次事件记录精确到毫秒的时间戳。</li>
+            <li><strong>间隔分析：</strong>计算连续两次 <code>mousedown</code> 之间的时间间隔。</li>
+        </ul>
+
+        <h3>判定逻辑：</h3>
+        <p>若两次 <code>mousedown</code> 之间的间隔 <strong>小于 80ms</strong>，则判定为故障双击。因为人类正常双击的间隔通常大于 100ms，短于 80ms 的连续点击极大概率是硬件抖动所致。</p>
+
+        <div class="logic-box">
+            <strong>判定公式：</strong><br>
+            if (timeBetweenPresses < 80ms) → 判定为故障双击
+        </div>
+
+        <div class="log-demo">
+            <strong>故障双击日志示例：</strong><br>
+            [10:00:01] Left Button Down<br>
+            [10:00:01] Left Button Up (Interval: 45ms) → <span style="color: #fb7185;">DETECTED CHATTERING</span>
+        </div>
+
+        <p>工具还会统计故障双击次数。</p>
+    </section>
+    <section id="t6" class="section">
+        <h2>6. 鼠标本身可以做出哪些尝试去减少故障双击  </h2>
+        <p>一些高端鼠标品牌和型号提供了防抖动功能，允许用户通过驱动软件调整防抖动参数，以减少故障双击的发生,下面是鼠标加入防抖功能后的工作状态图</p>
+
+        <div class="svg-container">
+            <svg width="1100" height="720" viewBox="0 0 1100 720"
+                xmlns="http:/www.w3.org/2000/svg"
+                font-family="Arial, sans-serif">
+
+            <!-- ========== 定义 ========== -->
+            <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10"
+                        refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="currentColor"/>
+                </marker>
+
+                <style>
+                .state { fill:#1e293b; }
+                .active { animation:pulse 1.4s infinite; }
+
+                @keyframes pulse {
+                    0%{filter:brightness(1)}
+                    50%{filter:brightness(1.6)}
+                    100%{filter:brightness(1)}
+                }
+
+                .flow {
+                    fill:none;
+                    stroke-width:3;
+                    stroke-dasharray:8 6;
+                    animation:flow 1.8s linear infinite;
+                }
+
+                @keyframes flow {
+                    to { stroke-dashoffset:-28; }
+                }
+
+                .ok { stroke:#22c55e; }
+                .fail { stroke:#818cf8; }
+                .bad { stroke:#ef4444; }
+                </style>
+            </defs>
+
+            <!-- ========== 背景 ========== -->
+            <rect width="1100" height="720" rx="20" fill="#020617"/>
+
+            <!-- ========== 标题 ========== -->
+            <text x="550" y="42" text-anchor="middle"
+                    font-size="22" fill="#e5e7eb" font-weight="bold">
+                鼠标双击完整状态机
+            </text>
+
+            <!-- ========== 状态 ========== -->
+            <!-- 空闲 -->
+            <rect x="470" y="80" width="160" height="60" rx="12"
+                    class="state active"/>
+            <text x="550" y="118" text-anchor="middle" fill="#e5e7eb">空闲</text>
+
+            <!-- 第一次按下 -->
+            <rect x="180" y="190" width="220" height="70" rx="12" class="state"/>
+            <text x="290" y="232" text-anchor="middle" fill="#e5e7eb">
+                第一次按下
+            </text>
+
+            <!-- 第一次释放 -->
+            <rect x="180" y="300" width="220" height="70" rx="12" class="state"/>
+            <text x="290" y="342" text-anchor="middle" fill="#e5e7eb">
+                第一次释放
+            </text>
+
+            <!-- 等待第二次点击 -->
+            <rect x="450" y="300" width="260" height="90" rx="14" class="state"/>
+            <text x="580" y="338" text-anchor="middle" fill="#e5e7eb">
+                等待第二次点击
+            </text>
+            <text x="580" y="360" text-anchor="middle" fill="#94a3b8" font-size="12">
+                双击计时器激活
+            </text>
+
+            <!-- 第二次按下 -->
+            <rect x="800" y="300" width="220" height="70" rx="12" class="state"/>
+            <text x="910" y="342" text-anchor="middle" fill="#e5e7eb">
+                第二次按下
+            </text>
+
+            <!-- 成功 -->
+            <rect x="800" y="440" width="220" height="70" rx="12"
+                    fill="#052e16"/>
+            <text x="910" y="480" text-anchor="middle"
+                    fill="#22c55e" font-weight="bold">
+                双击确认
+            </text>
+
+            <!-- 超时/距离失败 -->
+            <rect x="450" y="440" width="260" height="70" rx="12"
+                    fill="#312e81"/>
+            <text x="580" y="480" text-anchor="middle"
+                    fill="#c7d2fe">
+                超时/距离失败
+            </text>
+
+            <!-- 硬件抖动 -->
+            <rect x="180" y="440" width="220" height="110" rx="12"
+                    fill="#3b1d1d"/>
+            <text x="290" y="472" text-anchor="middle"
+                    fill="#fecaca" font-weight="bold">
+                硬件抖动
+            </text>
+            <text x="290" y="494" text-anchor="middle"
+                    fill="#fecaca" font-size="12">
+                接触噪声 (3次)
+            </text>
+
+            <!-- ========== 流程 ========== -->
+            <path d="M550 140 L290 190" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M290 260 L290 300" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M400 335 L450 335" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M710 335 L800 335" class="flow ok" marker-end="url(#arrow)"/>
+            <path d="M910 370 L910 440" class="flow ok" marker-end="url(#arrow)"/>
+
+            <!-- 失败 -->
+            <path d="M580 390 L580 440" class="flow fail" marker-end="url(#arrow)"/>
+
+            <!-- 三次抖动 -->
+            <path d="M290 370 L290 420" class="flow bad" marker-end="url(#arrow)"/>
+            <circle cx="260" cy="400" r="6" fill="#ef4444"/>
+            <circle cx="290" cy="410" r="6" fill="#ef4444"/>
+            <circle cx="320" cy="400" r="6" fill="#ef4444"/>
+
+            <!-- 返回 -->
+            <path d="M290 550 C290 620 550 620 550 140"
+                    class="flow bad" marker-end="url(#arrow)"/>
+            <path d="M580 510 C580 620 550 620 550 140"
+                    class="flow fail" marker-end="url(#arrow)"/>
+            <path d="M910 510 C910 620 550 620 550 140"
+                    class="flow ok" marker-end="url(#arrow)"/>
+
+            <!-- ========== 指标面板 ========== -->
+            <rect x="760" y="80" width="300" height="160" rx="14"
+                    fill="#020617" stroke="#334155"/>
+
+            <text x="910" y="108" text-anchor="middle"
+                    fill="#e5e7eb" font-weight="bold">
+                实时指标 (模拟)
+            </text>
+
+            <text x="790" y="140" fill="#94a3b8">间隔:</text>
+            <text x="950" y="140" fill="#e5e7eb" id="interval">87 毫秒</text>
+
+            <text x="790" y="168" fill="#94a3b8">点击次数:</text>
+            <text x="950" y="168" fill="#e5e7eb" id="clicks">2</text>
+
+            <text x="790" y="196" fill="#94a3b8">抖动计数:</text>
+            <text x="950" y="196" fill="#ef4444" id="bounce">3</text>
+
+            <!-- 底部说明 -->
+            <text x="550" y="690" text-anchor="middle"
+                    fill="#64748b" font-size="13">
+                红色部分：表示硬件抖动检测路径，蓝色部分：表示超时或距离失败路径，绿色部分：表示成功路径。
+            </text>
+
+            </svg>
+
+
+        </div>
+
+        <h2>以下列举一些支持防抖动调节的鼠标品牌和型号示例：</h2>
+
+         <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-tag"></i> 品牌</th>
+                        <th><i class="fas fa-list-alt"></i> 系列/型号示例</th>
+                        <th><i class="fas fa-desktop"></i> 驱动软件名称</th>
+                        <th><i class="fas fa-sliders-h"></i> 防抖调节范围（常见）</th>
+                        <th><i class="fas fa-sticky-note"></i> 备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="brand">雷柏 (Rapoo)</td>
+                        <td class="model">VT系列（VT1 Pro Max、VT3s Max、VT3 Pro Max、VT1 Air Max、VT9等）</td>
+                        <td class="software">A-Hub</td>
+                        <td class="range">通常支持，0~20ms可调</td>
+                        <td class="note"></td>
+                    </tr>
+                    <tr>
+                        <td class="brand">VGN</td>
+                        <td class="model">Dragonfly 系列（蜻蜓F1 Pro Max等）</td>
+                        <td class="software">VGN VHUB</td>
+                        <td class="range">支持自定义防抖</td>
+                        <td class="note"></td>
+                    </tr>
+                    <tr>
+                        <td class="brand">滑鼠</td>
+                        <td class="model">部分游戏鼠标</td>
+                        <td class="software">Keychron Launcher</td>
+                        <td class="range">可拖拽调节</td>
+                        <td class="note"></td>
+                    </tr>
+                    <tr>
+                        <td class="brand">雷蛇</td>
+                        <td class="model">部分高端款（如某些Viper/DeathAdder更新固件后）</td>
+                        <td class="software">Razer Synapse</td>
+                        <td class="range">部分型号支持（非全部）</td>
+                        <td class="note"></td>
+                    </tr>
+                    <tr>
+                        <td class="brand">逻辑</td>
+                        <td class="model">G Pro系列部分型号</td>
+                        <td class="software">G HUB</td>
+                        <td class="range">部分支持（4ms起）</td>
+                        <td class="note"></td>
+                    </tr>
+                    <tr>
+                        <td class="brand">机械师</td>
+                        <td class="model">L8Max型号</td>
+                        <td class="software">L8 driver</td>
+                        <td class="range">支持（2ms,4ms,8ms）</td>
+                        <td class="note"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="color-sample brand-color"></div>
+                <span>品牌名称</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-sample model-color"></div>
+                <span>鼠标型号</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-sample software-color"></div>
+                <span>驱动软件</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-sample range-color"></div>
+                <span>防抖调节范围</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-sample note-color"></div>
+                <span>备注说明</span>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="/static/js/shared/image-modal.js"></script>
+<script src="/static/js/shared/article.js"></script>
+<script src="/static/js/shared/table.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+
+</body>
+</html>
