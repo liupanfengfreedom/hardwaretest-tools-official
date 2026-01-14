@@ -1,54 +1,125 @@
-# 🛠️ HardwareTest 官方在线检测工具套件
+# HardwareTest – Official Online Hardware Diagnostic Toolkit
 
-在工作中您是不是遇到过鼠标莫名其妙的双击，可是明明点了一次呀！?  偶尔键盘按下无反应，刚才好像按了还是没按？打电话时对方听不清，是我的手机麦克风坏了吗？如果您被这些问题困扰赶紧试试下面的工具吧!
+🌍 **Language**
+- [English](README.md)
+- [简体中文](README.zh-CN.md)
 
-欢迎访问 HardwareTest 官方工具项目，我们提供一系列免费、专业的在线硬件检测服务，无需下载，即点即用。
+Have you ever experienced your mouse suddenly double-clicking when you clearly clicked only once?  
+Keys on your keyboard sometimes don’t respond — did you press it or not?  
+During a call, the other side can’t hear you clearly — is your microphone broken?
 
-## 核心工具导航：
+If these issues sound familiar, try the tools below right now 👇
+
 
 ### 1. 🖱️ 专业在线鼠标连点测试工具 (Mouse check)
 > **功能描述：** 提供毫秒级微动故障分析、实时回报率 (Polling Rate Hz) 检测、滚轮、侧键功能排查以及CPS（每秒点击次数）测试，帮助您全面检测鼠标性能，解决鼠标双击失灵问题。
 > **>> [开始鼠标检查](https://starryring.com/zh/toolbox/mouse/)** 
 
-### 2. ⌨️ 专业在线键盘按键测试工具 (Keyboard check)
-> **功能描述：** 全面检测键盘每一个按键的响应，包括常用键、功能键、数字小键盘等，帮助您快速定位失灵或连键的按键，确保键盘正常工作。
-> **>> [开始键盘检测](https://starryring.com/toolbox/keyboard/)**
+## 🔧 Core Tool Navigation
 
-### 3. 🎤 在线麦克风检测与调试
-> **功能描述：** 一键检测您的麦克风是否正常工作，提供实时音量监测、录音测试和音频波形显示，帮助您调试麦克风设置，确保通话清晰。
-> **适用于电脑、手机、平板，全设备支持，无需下载应用。**
-> **>> [开始麦克风检测](https://starryring.com/toolbox/mic/)**
+### 1. 🖱️ Professional Online Mouse Test (Mouse Check)
+**Description:**  
+Provides millisecond-level switch (micro-switch) fault analysis, real-time polling rate (Hz) detection, scroll wheel and side-button diagnostics, and CPS (Clicks Per Second) testing. Designed to help you fully evaluate mouse performance and diagnose double-click or missed-click issues.
 
-### 4. 📷 在线摄像头检测与调试
-> **功能描述：** 一键检测您的网络摄像头是否正常工作，并提供分辨率、帧率、对焦等详细参数测试，帮助您优化视频通话质量。
-> **>> [开始摄像头检测](https://starryring.com/toolbox/camera/)**
-
-### 5. 🖥️ 在线屏幕坏点 / 亮点 / 漏光检测工具 (Screen Test)
-> **功能描述：** 提供全屏色彩测试（红/绿/蓝/白/黑）、坏点定位模式、亮点检测、漏光检查，以及移动色块测试，帮助您快速判断显示器是否存在质量问题。
-> **适用于电脑、手机、平板，全设备支持，无需下载应用。**
-> **>> [开始屏幕坏点检测](https://starryring.com/toolbox/deadpixel/)**
+**>> [Start Mouse Check](https://starryring.com/toolbox/mouse/en/)**
 
 ---
 
-## 特色功能亮点：
+### 2. ⌨️ Professional Online Keyboard Test (Keyboard Check)
+**Description:**  
+Tests the response of every key on your keyboard, including alphanumeric keys, function keys, and the numeric keypad. Quickly identify unresponsive keys or unintended key repeats to ensure your keyboard is working correctly.
 
-✅ **免费使用** - 所有工具完全免费，无需注册登录  
-✅ **跨平台支持** - 支持电脑、手机、平板等所有设备  
-✅ **即时检测** - 无需下载安装，打开网页即可使用  
-✅ **专业精准** - 提供详细的硬件性能数据和分析  
-✅ **隐私安全** - 所有检测均在本地进行，无需上传数据  
-
-## 如何使用：
-
-1. **选择工具** - 点击上方对应的工具链接
-2. **开始测试** - 按照页面提示操作您的设备
-3. **查看结果** - 获取详细的硬件状态报告
-4. **故障诊断** - 根据测试结果进行问题排查
+**>> [Start Keyboard Test](https://starryring.com/toolbox/keyboard/en/)**
 
 ---
 
-如果发现硬件存在问题，建议及时联系厂商进行维修或更换。定期使用我们的工具检测硬件状态，可以及早发现问题，避免影响工作和娱乐体验。
+### 3. 🎤 Online Microphone Test & Debug Tool
+**Description:**  
+One-click microphone testing with real-time volume monitoring, recording tests, and waveform visualization. Helps you verify microphone functionality and fine-tune settings for clear voice communication.  
+Works on desktop, mobile, and tablet — no app required.
 
+**>> [Start Microphone Test](https://starryring.com/toolbox/mic/en/)**
 
-*最后更新: 2025年* | *HardwareTest 团队*
+---
 
+### 4. 🔈 Online Speaker / Headphone Test
+**Description:**  
+Instantly test your speakers or headphones with left/right channel checks, frequency sweep tests, and volume gradient testing. Helps identify channel imbalance, distortion, noise, or other audio issues.  
+Fully cross-platform, no downloads required.
+
+**>> [Start Speaker Test](https://starryring.com/toolbox/speaker/en/)**
+
+---
+
+### 5. 📷 Online Camera Test & Calibration
+**Description:**  
+Quickly verify whether your webcam is working properly and inspect detailed parameters such as resolution, frame rate, and focus behavior. Ideal for optimizing video call quality.
+
+**>> [Start Camera Test](https://starryring.com/toolbox/camera/en/)**
+
+---
+
+### 6. 🖥️ Online Screen Dead Pixel / Light Bleed Test (Screen Test)
+**Description:**  
+Provides full-screen color tests (red, green, blue, white, black), dead-pixel detection, bright-pixel checks, backlight bleeding inspection, and moving color block tests.  
+Helps you quickly determine whether your display has quality issues.  
+Works on monitors, laptops, phones, and tablets.
+
+**>> [Start Screen Test](https://starryring.com/toolbox/deadpixel/en/)**
+
+---
+
+## ⭐ Key Features
+- ✅ **Free to Use** – All tools are completely free, no registration required
+- ✅ **Cross-Platform** – Works on PC, mobile, and tablet
+- ✅ **Instant Testing** – No installation, run directly in your browser
+- ✅ **Professional Accuracy** – Detailed performance data and diagnostics
+- ✅ **Privacy-First** – All tests run locally, no data is uploaded
+- ✅ **Complete Ecosystem** – Covers input, output, audio, video, and display hardware
+
+---
+
+## 🧭 How to Use
+1. **Choose a Tool** – Click the corresponding tool link above  
+2. **Grant Permissions** – Allow browser access to the required hardware (mic, camera, etc.)  
+3. **Run the Test** – Follow the on-screen instructions  
+4. **View Results** – Get detailed hardware status and performance data  
+5. **Diagnose Issues** – Troubleshoot or optimize settings based on the results  
+
+---
+
+## 🛠️ Advanced Usage Tips
+- **Regular Checkups**: Perform a full hardware “health check” every few months  
+- **New Device Inspection**: Test screens, keyboards, and peripherals right after purchase  
+- **Before Meetings**: Quickly verify microphone and camera before important calls  
+- **Gaming Gear Tuning**: Use the mouse test to optimize polling rate and responsiveness  
+
+---
+
+## 🔍 Testing Principles (Brief)
+- **Mouse Tests**: Use high-precision JavaScript timing APIs to record click intervals and analyze switch behavior  
+- **Keyboard Tests**: Listen to global keyboard events and visualize key press/release states  
+- **Audio Tests**: Use the Web Audio API to analyze microphone input waveforms and frequency data  
+- **Screen Tests**: Use full-screen CSS color blocks and Canvas rendering to expose pixel defects  
+
+If hardware issues are detected, we recommend contacting the manufacturer for repair or replacement.  
+Regular testing helps catch problems early and prevents disruptions to work or entertainment.
+
+> **Pro Tip:** Most hardware failures show early warning signs — detecting them early can save hours of troubleshooting later.
+
+---
+
+## 🤝 Join Us
+HardwareTest is an **open-source project**, and we welcome developers, designers, and hardware enthusiasts to join our community:
+
+- **Contribute Code** – Visit our GitHub repository  
+- **Give Feedback** – Submit suggestions through our feedback system  
+- **Help Translate** – Assist in bringing the tools to more languages  
+- **Request Features** – Tell us what hardware tests you’d like to see next  
+
+We believe that, through the power of the community, we can build a more complete and professional hardware testing ecosystem — making device maintenance easy for everyone.
+
+---
+
+*Last updated: 2025 | HardwareTest Team*  
+*Making hardware diagnostics simple, professional, and accessible to everyone.*
