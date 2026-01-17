@@ -18,7 +18,11 @@
       <h2>Request</h2>
 
       <label>Request URL</label>
-      <input id="url" placeholder="http://127.0.0.1:8787?$page=p1" />
+      <!-- 增加包裹容器和历史记录下拉框 -->
+      <div class="url-wrapper">
+        <input id="url" placeholder="http://127.0.0.1:8787?$page=p1" autocomplete="off" />
+        <div id="urlHistoryList" class="history-dropdown"></div>
+      </div>
 
       <label>Method</label>
       <select id="method">
@@ -30,19 +34,12 @@
       </select>
 
       <label>Headers (JSON)</label>
-      
       <div class="body-container">
         <div>
-          <textarea id="headers" placeholder='{
-  "Content-Type": "application/json",
-  "Authorization": "Bearer token123"
-}'></textarea>
+          <textarea id="headers" placeholder='{ "Content-Type": "application/json" }'></textarea>
         </div>
-        
         <div>
-          <div id="headersFields">
-            <!-- 初始为空 -->
-          </div>
+          <div id="headersFields"></div>
           <button type="button" id="addHeadersFieldBtn">+ Add Field</button>
         </div>
       </div>
@@ -54,19 +51,12 @@
       </select>
 
       <label>Body (JSON / Form)</label>
-      
       <div class="body-container">
         <div>
-          <textarea id="body" placeholder='{
-  "username": "test",
-  "password": "123456"
-}'></textarea>
+          <textarea id="body" placeholder='{ "key": "value" }'></textarea>
         </div>
-        
         <div>
-          <div id="bodyFields">
-            <!-- 初始为空 -->
-          </div>
+          <div id="bodyFields"></div>
           <button type="button" id="addBodyFieldBtn">+ Add Field</button>
         </div>
       </div>
@@ -77,13 +67,10 @@
     <!-- Response Panel -->
     <section>
       <h2>Response</h2>
-
       <label>Status</label>
       <input id="status" readonly />
-
       <label>Response Headers</label>
       <pre id="resHeaders"></pre>
-
       <label>Response Body</label>
       <pre id="response"></pre>
     </section>

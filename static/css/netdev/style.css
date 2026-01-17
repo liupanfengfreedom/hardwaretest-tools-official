@@ -10,10 +10,7 @@ header {
   background: #020617;
   border-bottom: 1px solid #1e293b;
 }
-header h1 {
-  font-size: 20px;
-  margin: 0;
-}
+header h1 { font-size: 20px; margin: 0; }
 main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -26,16 +23,8 @@ section {
   border-radius: 12px;
   padding: 16px;
 }
-h2 {
-  font-size: 14px;
-  margin: 0 0 8px 0;
-  color: #93c5fd;
-}
-label {
-  font-size: 12px;
-  color: #cbd5f5;
-  display: block;
-}
+h2 { font-size: 14px; margin: 0 0 8px 0; color: #93c5fd; }
+label { font-size: 12px; color: #cbd5f5; display: block; }
 input, textarea, select, button {
   width: 100%;
   margin-top: 6px;
@@ -49,10 +38,7 @@ input, textarea, select, button {
   font-size: 13px;
   box-sizing: border-box;
 }
-textarea {
-  min-height: 140px;
-  resize: vertical;
-}
+textarea { min-height: 140px; resize: vertical; }
 button {
   cursor: pointer;
   background: linear-gradient(135deg, #2563eb, #4f46e5);
@@ -60,9 +46,7 @@ button {
   font-weight: 600;
   transition: opacity 0.2s;
 }
-button:hover {
-  opacity: 0.9;
-}
+button:hover { opacity: 0.9; }
 pre {
   white-space: pre-wrap;
   word-break: break-all;
@@ -74,102 +58,88 @@ pre {
   max-height: 400px;
   overflow: auto;
 }
-footer {
-  padding: 12px;
-  text-align: center;
-  font-size: 12px;
+footer { padding: 12px; text-align: center; font-size: 12px; color: #94a3b8; }
+
+/* 历史记录下拉框相关 */
+.url-wrapper {
+  position: relative;
+}
+.history-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  margin-top: -10px;
+}
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #0f172a;
+}
+.history-item:hover {
+  background: #334155;
+}
+.history-url-text {
+  flex: 1;
+  font-size: 13px;
+  color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 12px;
+}
+.history-delete-btn {
+  width: auto;
+  margin: 0;
+  padding: 0 8px;
+  background: transparent;
   color: #94a3b8;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+}
+.history-delete-btn:hover {
+  background: #ef4444;
+  color: white;
 }
 
-/* Key-Value 编辑区域样式 */
+/* 键值对编辑行 */
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr 40px;
   gap: 8px;
   margin-bottom: 8px;
 }
-.field-row:last-child {
-  margin-bottom: 0;
-}
-.field-row input {
-  margin: 0; /* 覆盖全局 margin */
-}
+.field-row input { margin: 0; }
 .remove-btn {
   background: #dc2626;
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  height: 36px;
+  margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  padding: 0;
-  height: 36px;
-  margin: 0;
-}
-.remove-btn:hover {
-  background: #b91c1c;
-}
-.remove-btn:disabled {
-  background: #64748b;
-  cursor: not-allowed;
-}
-#addFieldBtn {
-  width: auto;
-  padding: 6px 12px;
-  background: #059669;
-  margin-bottom: 12px;
-  font-size: 12px;
 }
 
-/* 顶部信息与解析按钮 */
-.sync-info {
-  font-size: 11px;
-  color: #94a3b8;
-  margin-top: -8px;
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-#parseBtn {
-  background: transparent;
-  border: none;
-  color: #3b82f6;
-  padding: 0;
-  font-size: 11px;
-  cursor: pointer;
-  width: auto;
-  margin: 0;
-  font-weight: normal;
-}
-#parseBtn:hover {
-  text-decoration: underline;
-}
-
-/* Body 容器布局 */
 .body-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-top: 6px;
 }
-.body-container > div {
-  display: flex;
-  flex-direction: column;
-}
-.body-container textarea {
-  flex-grow: 1;
-  margin-bottom: 0;
-}
 
-/* 响应式适配 */
 @media (max-width: 900px) {
-  main {
-    grid-template-columns: 1fr;
-  }
-  .body-container {
-    grid-template-columns: 1fr;
-  }
+  main, .body-container { grid-template-columns: 1fr; }
 }

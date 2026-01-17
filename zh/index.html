@@ -25,9 +25,14 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
     <link rel="manifest" href="/site.webmanifest">
+    <style>
+        /* 初始隐藏，防止乱码显示 */
+        html { visibility: hidden; opacity: 0; }
+    </style>
         <!-- CSS 文件 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="/static/css/home.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="/static/css/home.css" media="print" 
+      onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
     <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
     <!-- 搜索引擎指令 -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -214,7 +219,9 @@
     <div class="nav-links">
         <a href="#about">关于</a>
         <a href="#stress-test">Input Stress Test</a>
+        <a href="#NetDev">NetDev</a>
         <a href="#developer">开发者视角</a>
+
     </div>
 </nav>
     <!-- 语言切换器 -->
@@ -331,6 +338,62 @@
     </ul>
 
     <a href="/zh/inputstresstest/" class="btn">进入输入手感压力测试</a>
+</section>
+<!-- NETDEV -->
+<section id="NetDev">
+    <h2>网络开发：当“卡顿”不一定是网络问题</h2>
+
+    <p>
+        在多人游戏、联机功能或实时交互系统中，
+        “延迟”“丢包”“不同步”往往是最难判断的问题之一。
+    </p>
+
+    <p>
+        作为开发者，你可能无数次遇到这样的情况：
+        <strong>玩家反馈手感不对、操作延迟、角色不同步，</strong>
+        但日志正常、服务器负载正常、代码也看不出明显问题。
+    </p>
+
+    <p>
+        事实上，很多所谓的“网络问题”，
+        可能混杂着以下因素：
+    </p>
+
+    <ul>
+        <li>输入事件与网络同步节奏不匹配</li>
+        <li>高频操作下的消息合并与丢失</li>
+        <li>客户端帧率波动导致的输入延迟放大</li>
+        <li>弱网络环境下的重传与延迟抖动</li>
+    </ul>
+
+    <h3>NetDev 的目标是什么</h3>
+
+    <p>
+        NetDev 并不是一个教学教程，
+        而是一组<strong>面向真实开发场景的网络行为验证工具</strong>。
+    </p>
+
+    <p>
+        它的核心目标只有一个：
+        <strong>让网络层的问题变得可观察、可复现、可拆分。</strong>
+    </p>
+
+    <h3>你可以在这里验证</h3>
+
+    <ul>
+        <li>高频输入在网络同步中的表现</li>
+        <li>不同延迟条件下的状态更新稳定性</li>
+        <li>客户端与服务器节奏不一致时的行为差异</li>
+        <li>“手感问题”究竟来自输入、网络，还是两者叠加</li>
+    </ul>
+
+    <p>
+        当你能明确区分：
+        <strong>这是输入问题、这是网络问题、这是设计问题，</strong>
+        调试和优化才真正有意义。
+    </p>
+
+    <a href="/zh/netdev/" class="btn">进入网络开发验证工具</a>
 </section>
 
 <!-- DEVELOPER -->
