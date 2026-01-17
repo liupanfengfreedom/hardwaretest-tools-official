@@ -1,7 +1,3 @@
-const isDev = window.location.hostname === "127.0.0.1";
-const myLog = (...args) => {
-    if (isDev) console.log(...args);
-};
 async function sendRequest() {
   const url = document.getElementById('url').value.trim();
   const method = document.getElementById('method').value;
@@ -41,3 +37,18 @@ async function sendRequest() {
     document.getElementById('response').textContent = err.toString();
   }
 }
+
+// 绑定事件监听器
+document.addEventListener('DOMContentLoaded', function() {
+  const sendButton = document.getElementById('sendRequestBtn');
+  if (sendButton) {
+    sendButton.addEventListener('click', sendRequest);
+  }
+  
+  // 也可以添加键盘快捷键（按Enter发送请求）
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      sendRequest();
+    }
+  });
+});
