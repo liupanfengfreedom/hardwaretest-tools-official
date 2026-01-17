@@ -1,4 +1,11 @@
+
+const isDev = window.location.hostname === "127.0.0.1";
+const myLog = (...args) => {
+    if (isDev) console.log(...args);
+};
+
 async function sendRequest() {
+  myLog("sendRequest 0");
   const url = document.getElementById('url').value.trim();
   const method = document.getElementById('method').value;
   const headersInput = document.getElementById('headers').value;
