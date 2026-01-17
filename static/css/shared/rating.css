@@ -1,0 +1,70 @@
+
+.rating-card { 
+    background: white; 
+    padding: 2rem; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    text-align: center; 
+    width: 320px; 
+}
+
+/* 核心：精确星星容器 */
+.rating-stars-wrapper {
+    position: relative;
+    display: inline-block;
+    font-size: 2.5rem; /* 星星大小 */
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* 底层：灰色星星 */
+.rating-stars-gray {
+    color: #e0e0e0;
+}
+
+/* 顶层：金色星星 */
+.rating-stars-gold {
+    color: #f39c12;
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden; /* 超出部分隐藏 */
+    width: 0%; /* 初始宽度为0，由JS控制 */
+    transition: width 0.3s ease; /* 让变化平滑一点 */
+}
+
+/* 交互提示层：用于监听鼠标点击哪个位置 */
+.rating-stars-hitbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.rating-hit-area { 
+    flex: 1; 
+    z-index: 10; 
+}
+
+.rating-info { 
+    color: #666; 
+    font-size: 0.9rem; 
+    margin-top: 15px; 
+}
+
+.rating-score-num { 
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    color: #f39c12; 
+}
+
+.rating-status { 
+    margin-top: 10px; 
+    font-size: 0.8rem; 
+    color: #e74c3c; 
+    min-height: 1.2em; 
+}
