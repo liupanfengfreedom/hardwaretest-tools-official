@@ -1,7 +1,7 @@
-// const RATING_API_URL = "https://my-rating-worker.liupanfengfreedom.workers.dev";
-const RATING_API_URL = "http://127.0.0.1:8787";
-const RATING_PAGE_ID = "page1";
-
+const RATING_API_URL = "https://my-rating-worker.liupanfengfreedom.workers.dev";
+//const RATING_API_URL = "http://127.0.0.1:8787";
+//const RATING_PAGE_ID = "page1";
+const RATING_PAGE_ID = window.location.pathname;
 let selectedScore = 0; 
 let isSubmitting = false;
 
@@ -114,14 +114,14 @@ submitBtn.addEventListener('click', async (e) => {
 // 3. 星星交互
 document.querySelectorAll('.rating-hit-area').forEach(area => {
     area.addEventListener('mouseenter', () => {
-        //if (localStorage.getItem(`rated_${RATING_PAGE_ID}`)) return;
+        if (localStorage.getItem(`rated_${RATING_PAGE_ID}`)) return;
         const val = area.getAttribute('data-v');
         ratingStarsFill.style.width = (val * 20) + "%";
     });
 
     area.addEventListener('click', (e) => {
         e.stopPropagation(); // 阻止点击星星时触发鼠标测试
-       // if (localStorage.getItem(`rated_${RATING_PAGE_ID}`)) return;
+        if (localStorage.getItem(`rated_${RATING_PAGE_ID}`)) return;
         selectedScore = area.getAttribute('data-v');
         ratingStarsFill.style.width = (selectedScore * 20) + "%";
         ratingStatusMsg.style.color = "#f39c12";
@@ -175,5 +175,5 @@ function updateSchema(score, count) {
 
 (async function init() {
     await ratingFetchData();
-   // checkUserStatus();
+    checkUserStatus();
 })();
