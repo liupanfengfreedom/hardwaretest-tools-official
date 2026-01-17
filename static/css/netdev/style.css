@@ -1,3 +1,4 @@
+/* 基础布局 */
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
   margin: 0;
@@ -33,6 +34,7 @@ h2 {
 label {
   font-size: 12px;
   color: #cbd5f5;
+  display: block;
 }
 input, textarea, select, button {
   width: 100%;
@@ -45,6 +47,7 @@ input, textarea, select, button {
   padding: 8px;
   font-family: monospace;
   font-size: 13px;
+  box-sizing: border-box;
 }
 textarea {
   min-height: 140px;
@@ -55,14 +58,10 @@ button {
   background: linear-gradient(135deg, #2563eb, #4f46e5);
   border: none;
   font-weight: 600;
+  transition: opacity 0.2s;
 }
 button:hover {
   opacity: 0.9;
-}
-.row {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 8px;
 }
 pre {
   white-space: pre-wrap;
@@ -81,8 +80,96 @@ footer {
   font-size: 12px;
   color: #94a3b8;
 }
+
+/* Key-Value 编辑区域样式 */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 40px;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.field-row:last-child {
+  margin-bottom: 0;
+}
+.field-row input {
+  margin: 0; /* 覆盖全局 margin */
+}
+.remove-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  padding: 0;
+  height: 36px;
+  margin: 0;
+}
+.remove-btn:hover {
+  background: #b91c1c;
+}
+.remove-btn:disabled {
+  background: #64748b;
+  cursor: not-allowed;
+}
+#addFieldBtn {
+  width: auto;
+  padding: 6px 12px;
+  background: #059669;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+/* 顶部信息与解析按钮 */
+.sync-info {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#parseBtn {
+  background: transparent;
+  border: none;
+  color: #3b82f6;
+  padding: 0;
+  font-size: 11px;
+  cursor: pointer;
+  width: auto;
+  margin: 0;
+  font-weight: normal;
+}
+#parseBtn:hover {
+  text-decoration: underline;
+}
+
+/* Body 容器布局 */
+.body-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 6px;
+}
+.body-container > div {
+  display: flex;
+  flex-direction: column;
+}
+.body-container textarea {
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+
+/* 响应式适配 */
 @media (max-width: 900px) {
   main {
+    grid-template-columns: 1fr;
+  }
+  .body-container {
     grid-template-columns: 1fr;
   }
 }

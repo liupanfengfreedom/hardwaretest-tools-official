@@ -9,7 +9,7 @@
 </head>
 <body>
   <header>
-    <h1>🚀 Online POST / API Tester</h1>
+    <h1>🚀 Online POST Tool / API Tester</h1>
   </header>
 
   <main>
@@ -18,7 +18,7 @@
       <h2>Request</h2>
 
       <label>Request URL</label>
-      <input id="url" placeholder="https://api.example.com/v1/login" />
+      <input id="url" placeholder="http://127.0.0.1:8787?$page=p1" />
 
       <label>Method</label>
       <select id="method">
@@ -30,15 +30,46 @@
       </select>
 
       <label>Headers (JSON)</label>
-      <textarea id="headers" placeholder='{
-  "Content-Type": "application/json"
+      
+      <div class="body-container">
+        <div>
+          <textarea id="headers" placeholder='{
+  "Content-Type": "application/json",
+  "Authorization": "Bearer token123"
 }'></textarea>
+        </div>
+        
+        <div>
+          <div id="headersFields">
+            <!-- 初始为空 -->
+          </div>
+          <button type="button" id="addHeadersFieldBtn">+ Add Field</button>
+        </div>
+      </div>
+
+      <label>Body Type</label>
+      <select id="bodyType">
+        <option value="json">JSON</option>
+        <option value="form">Form (x-www-form-urlencoded)</option>
+      </select>
 
       <label>Body (JSON / Form)</label>
-      <textarea id="body" placeholder='{
+      
+      <div class="body-container">
+        <div>
+          <textarea id="body" placeholder='{
   "username": "test",
   "password": "123456"
 }'></textarea>
+        </div>
+        
+        <div>
+          <div id="bodyFields">
+            <!-- 初始为空 -->
+          </div>
+          <button type="button" id="addBodyFieldBtn">+ Add Field</button>
+        </div>
+      </div>
 
       <button id="sendRequestBtn">Send Request</button>
     </section>
