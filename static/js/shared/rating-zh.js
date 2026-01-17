@@ -67,12 +67,14 @@ function updateSchema(score, count) {
     const existingScript = document.querySelector('script[type="application/ld+json"]');
     if (!existingScript) return;
     try {
-        const structuredData = JSON.parse(existingScript.textContent);
-        const graph = structuredData["@graph"] || [structuredData];
-        
-        // 寻找包含 aggregateRating 的 SoftwareApplication 对象
-        const appData = graph.find(item => item["@type"] === "SoftwareApplication");
-        
+        let data = JSON.parse(existingScript.textContent);
+        let appData; 
+        // 兼容 @graph 模式和直接对象模式
+        if (data["@graph"]) {
+            appData = data["@graph"].find(i => i["@type"] === "SoftwareApplication");
+        } else if (data["@type"] === "SoftwareApplication") {
+            appData = data;
+        }
         if (appData) {
             appData.aggregateRating = appData.aggregateRating || { "@type": "AggregateRating" };
             appData.aggregateRating.ratingValue = score.toFixed(1);
