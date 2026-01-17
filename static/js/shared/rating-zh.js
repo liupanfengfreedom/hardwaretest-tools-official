@@ -1,5 +1,5 @@
-//const API_URL = "https://my-rating-worker.liupanfengfreedom.workers.dev";
-const RATING_API_URL = "http://127.0.0.1:8787";
+const RATING_API_URL = "https://my-rating-worker.liupanfengfreedom.workers.dev";
+//const RATING_API_URL = "http://127.0.0.1:8787";
 
 //const RATING_PAGE_ID = "page6"; // 实际使用可用 window.location.pathname
 const RATING_PAGE_ID = window.location.pathname
@@ -16,20 +16,27 @@ async function ratingFetchStats() {
         const data = await res.json();
         
         const score = data.average || 0;
+        const count = data.count || 0;
+
         ratingAvgText.innerText = score.toFixed(1);
-        ratingCountText.innerText = data.count;
+        ratingCountText.innerText = count;
 
         // 核心逻辑：计算百分比。5分等于100%，则 2.1分 = (2.1/5)*100 = 42%
         const percentage = (score / 5) * 100;
         ratingStarsFill.style.width = percentage + "%";
-        
+
+         // 2. 新增：更新搜索引擎结构化数据
+        updateSchema(score, count);
     } catch (err) {
         console.error("加载失败", err);
     }
 }
 
+let isSubmitting = false; // 状态锁
 // 2. 提交评分
 async function ratingSubmitRating(score) {
+    if (isSubmitting) return; // 如果正在提交，直接返回
+    isSubmitting = true;
     ratingStatusMsg.style.color = "#e74c3c";
     ratingStatusMsg.innerText = "正在提交...";
     try {
@@ -52,8 +59,31 @@ async function ratingSubmitRating(score) {
     } catch (err) {
         ratingStatusMsg.innerText = "网络异常，请重试";
     }
+     finally {
+        isSubmitting = false; // 无论成功失败都解锁
+    }
 }
-
+function updateSchema(score, count) {
+    const existingScript = document.querySelector('script[type="application/ld+json"]');
+    if (!existingScript) return;
+    try {
+        const structuredData = JSON.parse(existingScript.textContent);
+        const graph = structuredData["@graph"] || [structuredData];
+        
+        // 寻找包含 aggregateRating 的 SoftwareApplication 对象
+        const appData = graph.find(item => item["@type"] === "SoftwareApplication");
+        
+        if (appData) {
+            appData.aggregateRating = appData.aggregateRating || { "@type": "AggregateRating" };
+            appData.aggregateRating.ratingValue = score.toFixed(1);
+            appData.aggregateRating.ratingCount = count.toString();
+            existingScript.textContent = JSON.stringify(structuredData, null, 2);
+            console.log("Structured data updated");
+        }
+    } catch (error) {
+        console.error("Error updating structured data:", error);
+    }
+}
 // --- 交互处理 ---
 document.querySelectorAll('.rating-hit-area').forEach(area => {
     // 鼠标移入：预览点击的分数
