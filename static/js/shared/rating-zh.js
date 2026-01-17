@@ -1,8 +1,10 @@
-const RATING_API_URL = "https://my-rating-worker.liupanfengfreedom.workers.dev";
-//const RATING_API_URL = "http://127.0.0.1:8787";
+
+//const RATING_API_URL = "https://my-rating-worker.liupanfengfreedom.workers.dev";
+const RATING_API_URL = "http://127.0.0.1:8787";
+// 所有逻辑放在这里，外部无法干扰
 
 //const RATING_PAGE_ID = "page6"; // 实际使用可用 window.location.pathname
-const RATING_PAGE_ID = window.location.pathname
+const RATING_PAGE_ID = window.location.pathname.replace(/\/$/, "").toLowerCase() || "/";
 
 const ratingStarsFill = document.getElementById('rating-stars-fill');
 const ratingAvgText = document.getElementById('rating-avg-score');
@@ -31,12 +33,37 @@ async function ratingFetchStats() {
         console.error("加载失败", err);
     }
 }
-
+// 检查用户是否已评分并禁用按钮
+function checkUserRatingStatus() {
+    const userRated = localStorage.getItem(`rated_${RATING_PAGE_ID}`);
+    if (userRated) {
+        // 禁用所有评分按钮
+        document.querySelectorAll('.rating-hit-area').forEach(area => {
+            area.style.pointerEvents = 'none';
+            area.style.opacity = '0.5';
+            area.title = "您已经评过分了";
+        });
+        
+        // 显示已评分提示
+        ratingStatusMsg.style.color = "#666";
+        ratingStatusMsg.innerText = "您已经为这个页面评过分了";
+        
+        return true;
+    }
+    return false;
+}
 let isSubmitting = false; // 状态锁
 // 2. 提交评分
 async function ratingSubmitRating(score) {
     if (isSubmitting) return; // 如果正在提交，直接返回
     isSubmitting = true;
+    // 先检查本地是否已评分
+    if (localStorage.getItem(`rated_${RATING_PAGE_ID}`)) {
+        ratingStatusMsg.style.color = "#666";
+        ratingStatusMsg.innerText = "您已经评过分了";
+        return;
+    }
+
     ratingStatusMsg.style.color = "#e74c3c";
     ratingStatusMsg.innerText = "正在提交...";
     try {
@@ -47,8 +74,11 @@ async function ratingSubmitRating(score) {
         });
 
         if (res.ok) {
-            ratingStatusMsg.style.color = "green";
-            ratingStatusMsg.innerText = `感谢您给出 ${score} 星的评价！`; 
+            // 存储用户评分状态
+            localStorage.setItem(`rated_${RATING_PAGE_ID}`, score);
+            localStorage.setItem(`rated_time_${RATING_PAGE_ID}`, Date.now());
+                    // 调用禁用函数
+            checkUserRatingStatus();
             await ratingFetchStats(); 
         } else {
             const msg = res.status === 403 ? "您已经评过分了" : "提交失败";
@@ -64,26 +94,44 @@ async function ratingSubmitRating(score) {
     }
 }
 function updateSchema(score, count) {
-    const existingScript = document.querySelector('script[type="application/ld+json"]');
-    if (!existingScript) return;
+    // 寻找包含 SoftwareApplication 的 script 标签
+    const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+    let targetScript = null;
+    let data = null;
+
+    for (let script of scripts) {
+        try {
+            const json = JSON.parse(script.textContent);
+            if (json["@graph"] || json["@type"] === "SoftwareApplication") {
+                targetScript = script;
+                data = json;
+                break;
+            }
+        } catch (e) {}
+    }
+
+    if (!targetScript || !data) return;
+
     try {
-        let data = JSON.parse(existingScript.textContent);
-        let appData; 
-        // 兼容 @graph 模式和直接对象模式
+        let structuredData;
         if (data["@graph"]) {
-            appData = data["@graph"].find(i => i["@type"] === "SoftwareApplication");
-        } else if (data["@type"] === "SoftwareApplication") {
-            appData = data;
+            structuredData = data["@graph"].find(i => i["@type"] === "SoftwareApplication");
+        } else {
+            structuredData = data;
         }
-        if (appData) {
-            appData.aggregateRating = appData.aggregateRating || { "@type": "AggregateRating" };
-            appData.aggregateRating.ratingValue = score.toFixed(1);
-            appData.aggregateRating.ratingCount = count.toString();
-            existingScript.textContent = JSON.stringify(structuredData, null, 2);
-            console.log("Structured data updated");
+
+        if (structuredData) {
+            structuredData.aggregateRating = {
+                "@type": "AggregateRating",
+                "ratingValue": score.toFixed(1),
+                "ratingCount": count.toString(),
+                "bestRating": "5",
+                "worstRating": "1"
+            };
+            targetScript.textContent = JSON.stringify(data, null, 2);
         }
     } catch (error) {
-        console.error("Error updating structured data:", error);
+        console.error("Schema update error:", error);
     }
 }
 // --- 交互处理 ---
