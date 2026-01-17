@@ -524,15 +524,14 @@
         </div>
     </div>
     
+<!-- 评分与评论组件 -->
     <div class="rating-card">
         <h3>用户评价</h3>
+        
+        <!-- 星星交互区 -->
         <div class="rating-stars-wrapper" id="star-container">
-            <!-- 灰色底图 -->
             <div class="rating-stars-gray">★★★★★</div>
-            <!-- 金色填充层 -->
             <div class="rating-stars-gold" id="rating-stars-fill">★★★★★</div>
-            
-            <!-- 点击区域（5个透明格子，方便用户点击1-5分） -->
             <div class="rating-stars-hitbox">
                 <div class="rating-hit-area" data-v="1"></div>
                 <div class="rating-hit-area" data-v="2"></div>
@@ -546,8 +545,23 @@
             平均 <span class="rating-score-num" id="rating-avg-score">0.0</span> 分 
             (<span id="rating-vote-count">0</span> 人评)
         </div>
+
+        <!-- 评论输入表单 -->
+        <div class="comment-section" id="rating-form-area">
+            <textarea id="rating-comment-text" class="comment-textarea" placeholder="写下您的使用感受或建议（可选）..."></textarea>
+            <button id="submit-rating-btn" class="submit-rating-btn">提交评价</button>
+        </div>
+
         <div class="rating-status" id="rating-status-msg"></div>
-    
+
+        <!-- 评论列表展示 -->
+        <div class="comments-display">
+            <h4>最新评论</h4>
+            <div id="comments-list">
+                <!-- 评论内容由 JS 动态生成 -->
+                <div class="rating-info" style="text-align:center">加载中...</div>
+            </div>
+        </div>
     </div>
 
     <script src="/static/js/toolbox/mouse/doubleclick/main-zh.js"></script>
