@@ -2,84 +2,453 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>在线 POST 工具 / API 测试器</title>
-  <meta name="description" content="一个纯前端的在线 POST / API 测试工具，支持 JSON / Form / Headers / Auth，可用于接口调试与学习。" />
-  <link rel="stylesheet" href="/static/css/netdev/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <!-- SEO Meta Tags -->
+  <title>在线POST工具 / API测试器 - 纯前端HTTP请求调试工具 | StarryRing工具箱</title>
+  <meta name="description" content="免费在线POST工具和API测试器，纯前端实现，无需服务器。支持HTTP方法(POST/GET/PUT/DELETE)、JSON/表单数据、请求头配置、认证调试，适用于接口开发和调试学习。">
+  <meta name="keywords" content="POST工具, API测试器, HTTP请求调试, 接口测试, 在线调试工具, 前端开发工具, REST API测试, JSON调试">
+  
+  <!-- Canonical & Internationalization -->
+  <link rel="canonical" href="https://starryring.com/zh/toolbox/netdev/post-tool/" />
+  <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/netdev/post-tool/" />
+  <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/netdev/post-tool/" />
+  <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/netdev/post-tool/" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <style>
+    /* 初始隐藏，防止乱码显示 */
+    html { visibility: hidden; opacity: 0; }
+  </style>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/css/netdev/style.css" media="print" 
+  onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
+  <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+  <link rel="stylesheet" href="/static/css/shared/document.css">
+  
+  <!-- Robots -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Author -->
+  <meta name="author" content="StarryRing">
+  <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://starryring.com/zh/toolbox/netdev/post-tool/">
+  <meta property="og:title" content="🚀 在线POST工具 / API测试器 - 纯前端HTTP请求调试工具">
+  <meta property="og:description" content="免费在线POST工具和API测试器，纯前端实现，无需服务器。支持HTTP方法、JSON/表单数据、请求头配置、认证调试。">
+  <meta property="og:image" content="https://starryring.com/zh/toolbox/netdev/post-tool/og-image-zh.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="在线POST工具界面预览">
+  <meta property="og:site_name" content="StarryRing 工具箱">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://starryring.com/zh/toolbox/netdev/post-tool/">
+  <meta name="twitter:title" content="🚀 在线POST工具 / API测试器 - 纯前端HTTP请求调试工具">
+  <meta name="twitter:description" content="免费在线POST工具和API测试器，纯前端实现，无需服务器。支持HTTP方法、JSON/表单数据、请求头配置、认证调试。">
+  <meta name="twitter:image" content="https://starryring.com/zh/toolbox/netdev/post-tool/twitter-image-zh.png">
+  <meta name="twitter:creator" content="@starryring">
+  
+  <!-- Mobile Optimization -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="POST工具">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="msapplication-TileColor" content="#1a1a1a">
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preload" href="/static/css/netdev/style.css" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  
+  <!-- Structured Data Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "在线POST工具 / API测试器",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
+        "description": "免费在线POST工具和API测试器，纯前端实现，支持HTTP方法、JSON/表单数据、请求头配置、认证调试，适用于接口开发和调试学习",
+        "url": "https://starryring.com/zh/toolbox/netdev/post-tool/",
+        "image": "https://starryring.com/zh/toolbox/netdev/post-tool/og-image-zh.png",
+        "screenshot": "https://starryring.com/zh/toolbox/netdev/post-tool/screenshot-zh.png",
+        "author": {
+          "@type": "Organization",
+          "name": "StarryRing",
+          "url": "https://starryring.com",
+          "logo": "https://starryring.com/logo.png"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "HTTP方法支持(POST/GET/PUT/DELETE/PATCH)",
+          "JSON和表单数据格式",
+          "请求头自定义配置",
+          "URL历史记录",
+          "实时响应预览"
+        ],
+        "softwareVersion": "1.0.0",
+        "datePublished": "2024-03-01",
+        "dateModified": "2024-12-20",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "0",
+          "ratingCount": "0"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "这个POST工具需要服务器支持吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不需要，这是一个纯前端工具，完全在浏览器中运行。所有请求都通过浏览器的Fetch API发送，无需任何后端服务器支持。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "支持哪些HTTP方法？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "支持POST、GET、PUT、DELETE、PATCH五种HTTP方法，满足RESTful API开发的基本需求。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "如何处理跨域请求？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "由于浏览器的同源策略限制，跨域请求需要目标服务器配置CORS（跨域资源共享）头部。如果遇到跨域问题，请确保目标API服务器已正确配置Access-Control-Allow-Origin等CORS头部。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "支持文件上传吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "当前版本主要支持JSON和表单数据格式，文件上传功能正在开发中。对于multipart/form-data格式的支持将在后续版本添加。"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "工具箱",
+            "item": "https://starryring.com/zh/toolbox/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "网络开发工具",
+            "item": "https://starryring.com/zh/toolbox/netdev/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "POST工具",
+            "item": "https://starryring.com/zh/toolbox/netdev/post-tool/"
+          }
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "如何使用在线POST工具测试API接口",
+        "description": "逐步指南，使用在线POST工具进行API接口测试和调试",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "输入请求URL",
+            "text": "在URL输入框中输入要测试的API接口地址，可从历史记录中选择之前使用过的URL。",
+            "image": "https://starryring.com/zh/toolbox/netdev/post-tool/step1-zh.png"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "选择HTTP方法",
+            "text": "从下拉菜单中选择合适的HTTP方法（POST/GET/PUT/DELETE/PATCH）。",
+            "image": "https://starryring.com/zh/toolbox/netdev/post-tool/step2-zh.png"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "配置请求头和请求体",
+            "text": "根据需要配置请求头（如Content-Type、Authorization）和请求体（JSON或表单数据）。",
+            "image": "https://starryring.com/zh/toolbox/netdev/post-tool/step3-zh.png"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "发送请求并查看响应",
+            "text": "点击'发送请求'按钮，工具将发送HTTP请求并在响应面板中显示状态码、响应头和响应体。",
+            "image": "https://starryring.com/zh/toolbox/netdev/post-tool/step4-zh.png"
+          }
+        ],
+        "totalTime": "PT2M"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J9HR7CNQR9');
+  </script>
 </head>
+
 <body>
-  <header>
-    <h1>🚀 在线 POST 工具 / API 测试器</h1>
-  </header>
+  <!-- 语言切换器 -->
+  <div class="language-switcher">
+    <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+      <i class="fas fa-globe"></i>
+    </button>
+           
+    <!-- 下拉框 -->
+    <div class="language-dropdown" id="languageDropdown">
+      <!-- 语言选项 -->
+      <a class="language-option selected" href="/zh/toolbox/netdev/post-tool/" data-lang="zh">
+        中文版
+      </a>
+      <a class="language-option" href="/en/toolbox/netdev/post-tool/" data-lang="en">
+        English
+      </a>
+    </div>
+  </div>
+  
+  <!-- 面包屑导航 -->
+  <nav aria-label="面包屑导航" class="breadcrumb-section">
+    <ol class="breadcrumb-modern">
+      <li class="breadcrumb-item">
+        <a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/zh/toolbox/" class="breadcrumb-link"><i class="fas fa-box"></i> 工具箱</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/zh/toolbox/netdev/" class="breadcrumb-link"><i class="fas fa-network-wired"></i> 网络开发工具</a>
+      </li>
+      <li class="breadcrumb-item" aria-current="page">
+        <span class="breadcrumb-active"><i class="fas fa-paper-plane"></i> POST工具</span>
+      </li>
+    </ol>
+  </nav>
+  
+  <!-- 主内容容器 -->
+  <div class="main-container">
+    <header>
+      <h1>🚀 在线 POST 工具 / API 测试器</h1>
+      <p class="subtitle">纯前端HTTP请求调试工具，支持多种HTTP方法和数据格式</p>
+    </header>
 
-  <main>
-    <!-- 请求面板 -->
-    <section>
-      <h2>请求</h2>
+    <!-- 工具面板容器 -->
+    <div class="tool-panel-container">
+      <main>
+        <!-- 请求面板 -->
+        <section class="tool-section">
+          <h2><i class="fas fa-paper-plane"></i> 请求配置</h2>
+          
+          <div class="form-group">
+            <label for="url"><i class="fas fa-link"></i> 请求 URL</label>
+            <!-- 增加包裹容器和历史记录下拉框 -->
+            <div class="url-wrapper">
+              <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" />
+              <div id="urlHistoryList" class="history-dropdown"></div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="method"><i class="fas fa-exchange-alt"></i> 请求方法</label>
+            <select id="method">
+              <option value="POST">POST</option>
+              <option value="GET">GET</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+              <option value="PATCH">PATCH</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="headers"><i class="fas fa-heading"></i> 请求头 (JSON)</label>
+            <div class="body-container">
+              <div>
+                <textarea id="headers" placeholder='{ "Content-Type": "application/json", "Authorization": "Bearer token" }'></textarea>
+              </div>
+              <div>
+                <div id="headersFields"></div>
+                <button type="button" id="addHeadersFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> 添加字段</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="bodyType"><i class="fas fa-code"></i> 请求体类型</label>
+            <select id="bodyType">
+              <option value="json">JSON</option>
+              <option value="form">表单 (x-www-form-urlencoded)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="body"><i class="fas fa-file-code"></i> 请求体 (JSON / 表单)</label>
+            <div class="body-container">
+              <div>
+                <textarea id="body" placeholder='{ "key": "value", "data": "example" }'></textarea>
+              </div>
+              <div>
+                <div id="bodyFields"></div>
+                <button type="button" id="addBodyFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> 添加字段</button>
+              </div>
+            </div>
+          </div>
+          
+          <button id="sendRequestBtn" class="btn-primary"><i class="fas fa-play"></i> 发送请求</button>
+        </section>
 
-      <label>请求 URL</label>
-      <!-- 增加包裹容器和历史记录下拉框 -->
-      <div class="url-wrapper">
-        <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" />
-        <div id="urlHistoryList" class="history-dropdown"></div>
+        <!-- 响应面板 -->
+        <section class="tool-section">
+          <h2><i class="fas fa-reply"></i> 响应结果</h2>
+          
+          <div class="form-group">
+            <label for="status"><i class="fas fa-tachometer-alt"></i> 状态</label>
+            <input id="status" readonly />
+          </div>
+          
+          <div class="form-group">
+            <label for="resHeaders"><i class="fas fa-heading"></i> 响应头</label>
+            <pre id="resHeaders"></pre>
+          </div>
+          
+          <div class="form-group">
+            <label for="response"><i class="fas fa-file-alt"></i> 响应体</label>
+            <pre id="response"></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+    
+    <!-- ===== 特性介绍区域 ===== -->
+    <div class="instructions-section">
+      <div class="instructions-content">
+        <h2><i class="fas fa-star"></i> 工具特性</h2>
+        
+        <div class="feature-grid">
+          <div class="feature-item">
+            <h3><i class="fas fa-laptop-code"></i> 纯前端实现</h3>
+            <p>完全在浏览器中运行，无需服务器支持。所有HTTP请求都通过浏览器Fetch API发送，确保数据隐私和安全性。</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-exchange-alt"></i> 多种HTTP方法</h3>
+            <p>支持POST、GET、PUT、DELETE、PATCH五种HTTP方法，满足RESTful API开发的基本需求。</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-code"></i> 多格式数据支持</h3>
+            <p>支持JSON和表单数据格式，方便测试不同类型的API接口。JSON编辑器提供语法高亮和验证功能。</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-heading"></i> 请求头自定义</h3>
+            <p>灵活配置请求头，支持Content-Type、Authorization、User-Agent等常用请求头，满足复杂API测试需求。</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-history"></i> URL历史记录</h3>
+            <p>自动保存最近使用的URL地址，方便快速切换和重复测试，提高调试效率。</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-eye"></i> 实时响应预览</h3>
+            <p>即时显示HTTP状态码、响应头和响应体，支持JSON格式化显示，便于分析API返回结果。</p>
+          </div>
+        </div>
+        
+        <div class="faq-section">
+          <h2><i class="fas fa-question-circle"></i> 常见问题解答</h2>
+          
+          <div class="faq-item">
+            <h3>这个工具支持HTTPS吗？</h3>
+            <p>是的，完全支持HTTPS协议。您可以输入任何有效的HTTPS URL进行测试。工具会遵循浏览器的安全策略。</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>如何处理跨域请求？</h3>
+            <p>跨域请求需要目标服务器配置CORS（跨域资源共享）头部。如果遇到跨域错误，请确保API服务器已配置正确的CORS策略，如Access-Control-Allow-Origin等。</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>支持文件上传吗？</h3>
+            <p>当前版本主要支持JSON和表单数据格式。multipart/form-data格式（用于文件上传）将在后续版本中支持。您可以使用FormData API配合本工具进行文件上传测试。</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>数据会保存到服务器吗？</h3>
+            <p>不会。所有数据都保存在您的浏览器本地存储中（localStorage），不会上传到任何服务器，确保您的API密钥和敏感数据安全。</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>支持WebSocket测试吗？</h3>
+            <p>当前版本专注于HTTP/HTTPS请求测试。WebSocket测试工具正在开发中，将在未来版本中提供。</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>适合学习HTTP协议吗？</h3>
+            <p>非常适合！这个工具直观展示了HTTP请求和响应的各个组成部分，是学习HTTP协议、RESTful API设计和调试技巧的理想工具。</p>
+          </div>
+        </div>
+        
+        <div class="usage-tips">
+          <h2><i class="fas fa-lightbulb"></i> 使用技巧</h2>
+          <ul>
+            <li>使用快捷键 Ctrl+Enter（Windows）或 Cmd+Enter（Mac）快速发送请求</li>
+            <li>JSON数据会自动格式化，便于阅读和编辑</li>
+            <li>响应数据可以复制到剪贴板，方便进一步分析</li>
+            <li>对于本地开发，建议使用 http://localhost:端口号 格式的URL</li>
+            <li>保存常用的API配置，可以快速进行重复测试</li>
+          </ul>
+        </div>
       </div>
-
-      <label>请求方法</label>
-      <select id="method">
-        <option>POST</option>
-        <option>GET</option>
-        <option>PUT</option>
-        <option>DELETE</option>
-        <option>PATCH</option>
-      </select>
-
-      <label>请求头 (JSON)</label>
-      <div class="body-container">
-        <div>
-          <textarea id="headers" placeholder='{ "Content-Type": "application/json" }'></textarea>
-        </div>
-        <div>
-          <div id="headersFields"></div>
-          <button type="button" id="addHeadersFieldBtn">+ 添加字段</button>
-        </div>
-      </div>
-
-      <label>请求体类型</label>
-      <select id="bodyType">
-        <option value="json">JSON</option>
-        <option value="form">表单 (x-www-form-urlencoded)</option>
-      </select>
-
-      <label>请求体 (JSON / 表单)</label>
-      <div class="body-container">
-        <div>
-          <textarea id="body" placeholder='{ "key": "value" }'></textarea>
-        </div>
-        <div>
-          <div id="bodyFields"></div>
-          <button type="button" id="addBodyFieldBtn">+ 添加字段</button>
-        </div>
-      </div>
-
-      <button id="sendRequestBtn">发送请求</button>
-    </section>
-
-    <!-- 响应面板 -->
-    <section>
-      <h2>响应</h2>
-      <label>状态</label>
-      <input id="status" readonly />
-      <label>响应头</label>
-      <pre id="resHeaders"></pre>
-      <label>响应体</label>
-      <pre id="response"></pre>
-    </section>
-  </main>
+    </div>
+  </div>
 
   <footer>
-    Web POST 工具 · 纯前端 · Fetch API
+    <p>© 2024-2026 StarryRing 工具箱 · 纯前端POST工具 · Fetch API · <a href="/zh/privacy/">隐私政策</a> · <a href="/zh/terms/">服务条款</a></p>
   </footer>
 
   <script src="/static/js/netdev/script-zh.js"></script>
+  <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
