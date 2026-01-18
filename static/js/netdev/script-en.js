@@ -61,7 +61,7 @@ async function sendRequest() {
   // 记录历史
   saveToHistory(url);
 
-  document.getElementById('response').textContent = '加载中...';
+  document.getElementById('response').textContent = 'Loading...';
   document.getElementById('resHeaders').textContent = '';
   document.getElementById('status').value = '';
 
@@ -69,7 +69,7 @@ async function sendRequest() {
   try {
     headers = headersInput ? JSON.parse(headersInput) : {};
   } catch (e) {
-    alert('请求头 JSON 格式错误');
+    alert('Headers JSON 格式错误');
     return;
   }
 
@@ -93,18 +93,18 @@ async function sendRequest() {
   }
 }
 
-// ========== 键值对编辑逻辑 (请求头/请求体) ==========
+// ========== 键值对编辑逻辑 (Headers/Body) ==========
 function createFieldRow(containerId, key = '', value = '') {
   const container = document.getElementById(containerId);
   const row = document.createElement('div');
   row.className = 'field-row';
   
   const kInp = document.createElement('input');
-  kInp.placeholder = '键名'; kInp.value = key;
+  kInp.placeholder = 'Key'; kInp.value = key;
   kInp.oninput = () => containerId === 'headersFields' ? updateHeadersFromFields() : updateBodyFromFields();
 
   const vInp = document.createElement('input');
-  vInp.placeholder = '键值'; vInp.value = value;
+  vInp.placeholder = 'Value'; vInp.value = value;
   vInp.oninput = () => containerId === 'headersFields' ? updateHeadersFromFields() : updateBodyFromFields();
 
   const del = document.createElement('button');
