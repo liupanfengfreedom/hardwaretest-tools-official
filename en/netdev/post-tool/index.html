@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <!-- SEO Meta Tags -->
+  <title>Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool | StarryRing Toolbox</title>
+  <meta name="description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods (POST/GET/PUT/DELETE), JSON/form data, request headers configuration, authentication debugging, perfect for API development and debugging learning.">
+  <meta name="keywords" content="POST tool, API tester, HTTP request debugging, interface testing, online debugging tool, frontend development tool, REST API testing, JSON debugging">
+  
+  <!-- Canonical & Internationalization -->
+  <link rel="canonical" href="https://starryring.com/en/toolbox/netdev/post-tool/" />
+  <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/netdev/post-tool/" />
+  <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/netdev/post-tool/" />
+  <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/netdev/post-tool/" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <style>
+    /* Initial hide to prevent encoding issues */
+    html { visibility: hidden; opacity: 0; }
+  </style>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/css/netdev/post-tool/style.css" media="print" 
+  onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
+  <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+  <link rel="stylesheet" href="/static/css/shared/document.css">
+  
+  <!-- Robots -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Author -->
+  <meta name="author" content="StarryRing">
+  <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://starryring.com/en/toolbox/netdev/post-tool/">
+  <meta property="og:title" content="🚀 Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool">
+  <meta property="og:description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods, JSON/form data, request headers configuration, authentication debugging.">
+  <meta property="og:image" content="https://starryring.com/en/toolbox/netdev/post-tool/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Online POST Tool Interface Preview">
+  <meta property="og:site_name" content="StarryRing Toolbox">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://starryring.com/en/toolbox/netdev/post-tool/">
+  <meta name="twitter:title" content="🚀 Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool">
+  <meta name="twitter:description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods, JSON/form data, request headers configuration, authentication debugging.">
+  <meta name="twitter:image" content="https://starryring.com/en/toolbox/netdev/post-tool/twitter-image-en.png">
+  <meta name="twitter:creator" content="@starryring">
+  
+  <!-- Mobile Optimization -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="POST Tool">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="msapplication-TileColor" content="#1a1a1a">
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preload" href="/static/css/netdev/style.css" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  
+  <!-- Structured Data Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Online POST Tool / API Tester",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
+        "description": "Free online POST tool and API tester, pure frontend implementation, supports HTTP methods, JSON/form data, request headers configuration, authentication debugging, perfect for API development and debugging learning",
+        "url": "https://starryring.com/en/toolbox/netdev/post-tool/",
+        "image": "https://starryring.com/en/toolbox/netdev/post-tool/og-image-en.png",
+        "screenshot": "https://starryring.com/en/toolbox/netdev/post-tool/screenshot-en.png",
+        "author": {
+          "@type": "Organization",
+          "name": "StarryRing",
+          "url": "https://starryring.com",
+          "logo": "https://starryring.com/logo.png"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "HTTP methods support (POST/GET/PUT/DELETE/PATCH)",
+          "JSON and form data formats",
+          "Custom request headers configuration",
+          "URL history record",
+          "Real-time response preview"
+        ],
+        "softwareVersion": "1.0.0",
+        "datePublished": "2024-03-01",
+        "dateModified": "2024-12-20",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "0",
+          "ratingCount": "0"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does this POST tool require server support?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No, this is a pure frontend tool that runs completely in the browser. All requests are sent through the browser's Fetch API, no backend server support required."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What HTTP methods are supported?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Supports POST, GET, PUT, DELETE, PATCH five HTTP methods, meeting basic RESTful API development needs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How to handle cross-origin requests?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Due to browser same-origin policy restrictions, cross-origin requests require the target server to configure CORS (Cross-Origin Resource Sharing) headers. If you encounter cross-origin issues, ensure the target API server has correctly configured Access-Control-Allow-Origin and other CORS headers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it support file uploads?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Current version mainly supports JSON and form data formats. File upload functionality is under development. Support for multipart/form-data format will be added in future versions."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Toolbox",
+            "item": "https://starryring.com/en/toolbox/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Network Development Tools",
+            "item": "https://starryring.com/en/toolbox/netdev/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "POST Tool",
+            "item": "https://starryring.com/en/toolbox/netdev/post-tool/"
+          }
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "How to Use Online POST Tool to Test API Interfaces",
+        "description": "Step-by-step guide to using the online POST tool for API interface testing and debugging",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Enter request URL",
+            "text": "Enter the API interface address you want to test in the URL input box. You can select previously used URLs from the history.",
+            "image": "https://starryring.com/en/toolbox/netdev/post-tool/step1-en.png"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Select HTTP method",
+            "text": "Choose the appropriate HTTP method (POST/GET/PUT/DELETE/PATCH) from the dropdown menu.",
+            "image": "https://starryring.com/en/toolbox/netdev/post-tool/step2-en.png"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Configure request headers and body",
+            "text": "Configure request headers (like Content-Type, Authorization) and request body (JSON or form data) as needed.",
+            "image": "https://starryring.com/en/toolbox/netdev/post-tool/step3-en.png"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Send request and view response",
+            "text": "Click the 'Send Request' button. The tool will send the HTTP request and display status code, response headers, and response body in the response panel.",
+            "image": "https://starryring.com/en/toolbox/netdev/post-tool/step4-en.png"
+          }
+        ],
+        "totalTime": "PT2M"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J9HR7CNQR9');
+  </script>
+</head>
+
+<body>
+  <!-- Language switcher -->
+  <div class="language-switcher">
+    <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+      <i class="fas fa-globe"></i>
+    </button>
+           
+    <!-- Dropdown -->
+    <div class="language-dropdown" id="languageDropdown">
+      <!-- Language options -->
+      <a class="language-option" href="/zh/netdev/post-tool/" data-lang="zh">
+        中文版
+      </a>
+      <a class="language-option selected" href="/en/netdev/post-tool/" data-lang="en">
+        English
+      </a>
+    </div>
+  </div>
+  
+  <!-- Breadcrumb navigation -->
+  <nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
+    <ol class="breadcrumb-modern">
+      <li class="breadcrumb-item">
+        <a href="/en/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="breadcrumb-item" aria-current="page">
+        <span class="breadcrumb-active"><i class="fas fa-paper-plane"></i> POST Tool</span>
+      </li>
+    </ol>
+  </nav>
+  
+  <!-- Main content container -->
+  <div class="main-container">
+    <header>
+      <h1>🚀 Online POST Tool / API Tester</h1>
+      <p class="subtitle">Pure frontend HTTP request debugging tool, supports multiple HTTP methods and data formats</p>
+    </header>
+
+    <!-- Tool panel container -->
+    <div class="tool-panel-container">
+      <main>
+        <!-- Request panel -->
+        <section class="tool-section">
+          <h2><i class="fas fa-paper-plane"></i> Request Configuration</h2>
+          
+          <div class="form-group">
+            <label for="url"><i class="fas fa-link"></i> Request URL</label>
+            <!-- Wrapper container and history dropdown -->
+            <div class="url-wrapper">
+              <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" />
+              <div id="urlHistoryList" class="history-dropdown"></div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="method"><i class="fas fa-exchange-alt"></i> Request Method</label>
+            <select id="method">
+              <option value="POST">POST</option>
+              <option value="GET">GET</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+              <option value="PATCH">PATCH</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="headers"><i class="fas fa-heading"></i> Request Headers (JSON)</label>
+            <div class="body-container">
+              <div>
+                <textarea id="headers" placeholder='{ "Content-Type": "application/json", "Authorization": "Bearer token" }'></textarea>
+              </div>
+              <div>
+                <div id="headersFields"></div>
+                <button type="button" id="addHeadersFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Field</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="bodyType"><i class="fas fa-code"></i> Request Body Type</label>
+            <select id="bodyType">
+              <option value="json">JSON</option>
+              <option value="form">Form (x-www-form-urlencoded)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="body"><i class="fas fa-file-code"></i> Request Body (JSON / Form)</label>
+            <div class="body-container">
+              <div>
+                <textarea id="body" placeholder='{ "key": "value", "data": "example" }'></textarea>
+              </div>
+              <div>
+                <div id="bodyFields"></div>
+                <button type="button" id="addBodyFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Field</button>
+              </div>
+            </div>
+          </div>
+          
+          <button id="sendRequestBtn" class="btn-primary"><i class="fas fa-play"></i> Send Request</button>
+        </section>
+
+        <!-- Response panel -->
+        <section class="tool-section">
+          <h2><i class="fas fa-reply"></i> Response Result</h2>
+          
+          <div class="form-group">
+            <label for="status"><i class="fas fa-tachometer-alt"></i> Status</label>
+            <input id="status" readonly />
+          </div>
+          
+          <div class="form-group">
+            <label for="resHeaders"><i class="fas fa-heading"></i> Response Headers</label>
+            <pre id="resHeaders"></pre>
+          </div>
+          
+          <div class="form-group">
+            <label for="response"><i class="fas fa-file-alt"></i> Response Body</label>
+            <pre id="response"></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+    
+    <!-- ===== Feature Introduction Area ===== -->
+    <div class="instructions-section">
+      <div class="instructions-content">
+        <h2><i class="fas fa-star"></i> Tool Features</h2>
+        
+        <div class="feature-grid">
+          <div class="feature-item">
+            <h3><i class="fas fa-laptop-code"></i> Pure Frontend Implementation</h3>
+            <p>Runs completely in the browser, no server required. All HTTP requests are sent through the browser Fetch API, ensuring data privacy and security.</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-exchange-alt"></i> Multiple HTTP Methods</h3>
+            <p>Supports POST, GET, PUT, DELETE, PATCH five HTTP methods, meeting basic RESTful API development needs.</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-code"></i> Multi-format Data Support</h3>
+            <p>Supports JSON and form data formats, convenient for testing different types of API interfaces. JSON editor provides syntax highlighting and validation.</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-heading"></i> Custom Request Headers</h3>
+            <p>Flexibly configure request headers, supports common headers like Content-Type, Authorization, User-Agent, meeting complex API testing requirements.</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-history"></i> URL History Record</h3>
+            <p>Automatically saves recently used URLs, convenient for quick switching and repeated testing, improving debugging efficiency.</p>
+          </div>
+          
+          <div class="feature-item">
+            <h3><i class="fas fa-eye"></i> Real-time Response Preview</h3>
+            <p>Instantly displays HTTP status code, response headers, and response body, supports JSON formatted display, easy to analyze API return results.</p>
+          </div>
+        </div>
+        
+        <div class="faq-section">
+          <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+          
+          <div class="faq-item">
+            <h3>Does this tool support HTTPS?</h3>
+            <p>Yes, fully supports HTTPS protocol. You can enter any valid HTTPS URL for testing. The tool follows browser security policies.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>How to handle cross-origin requests?</h3>
+            <p>Cross-origin requests require the target server to configure CORS (Cross-Origin Resource Sharing) headers. If you encounter cross-origin errors, ensure the API server has configured correct CORS policies, such as Access-Control-Allow-Origin etc.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Does it support file uploads?</h3>
+            <p>Current version mainly supports JSON and form data formats. multipart/form-data format (for file uploads) will be supported in future versions. You can use FormData API with this tool for file upload testing.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Is data saved to the server?</h3>
+            <p>No. All data is saved in your browser's local storage (localStorage), not uploaded to any server, ensuring your API keys and sensitive data security.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Does it support WebSocket testing?</h3>
+            <p>Current version focuses on HTTP/HTTPS request testing. WebSocket testing tool is under development and will be provided in future versions.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Is it suitable for learning HTTP protocol?</h3>
+            <p>Perfect for learning! This tool intuitively displays all components of HTTP requests and responses, an ideal tool for learning HTTP protocol, RESTful API design, and debugging techniques.</p>
+          </div>
+        </div>
+        
+        <div class="usage-tips">
+          <h2><i class="fas fa-lightbulb"></i> Usage Tips</h2>
+          <ul>
+            <li>Use shortcut Ctrl+Enter (Windows) or Cmd+Enter (Mac) to quickly send requests</li>
+            <li>JSON data is automatically formatted for easy reading and editing</li>
+            <li>Response data can be copied to clipboard for further analysis</li>
+            <li>For local development, recommended URL format: http://localhost:port</li>
+            <li>Save frequently used API configurations for quick repeated testing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2024-2026 StarryRing Toolbox · Pure Frontend POST Tool · Fetch API · <a href="/en/privacy/">Privacy Policy</a> · <a href="/en/terms/">Terms of Service</a></p>
+  </footer>
+
+  <script src="/static/js/netdev/post-tool/script-en.js"></script>
+  <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
