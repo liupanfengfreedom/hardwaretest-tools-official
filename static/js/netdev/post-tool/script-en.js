@@ -1,8 +1,8 @@
-// ========== 历史记录逻辑 ==========
+// ========== History Logic ==========
 const HISTORY_KEY = 'api_url_history';
 const MAX_HISTORY = 10;
 
-// 从本地获取
+// Get from local storage
 function getHistory() {
   try {
     const data = localStorage.getItem(HISTORY_KEY);
@@ -10,7 +10,7 @@ function getHistory() {
   } catch (e) { return []; }
 }
 
-// 保存（去重并将最新的排在前面）
+// Save (deduplicate and put newest first)
 function saveToHistory(url) {
   if (!url || url.trim() === '') return;
   let history = getHistory();
@@ -19,14 +19,14 @@ function saveToHistory(url) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
 }
 
-// 删除指定项
+// Remove specific item
 function removeFromHistory(url) {
   let history = getHistory();
   history = history.filter(u => u !== url);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
 }
 
-// 渲染下拉列表
+// Render dropdown list
 function renderHistory(filter = '') {
   const history = getHistory();
   const listContainer = document.getElementById('urlHistoryList');
@@ -38,7 +38,7 @@ function renderHistory(filter = '') {
     listContainer.innerHTML = filtered.map(url => `
       <div class="history-item" data-url="${encodeURIComponent(url)}">
         <span class="history-url-text">${url}</span>
-        <button class="history-delete-btn" title="删除该记录">×</button>
+        <button class="history-delete-btn" title="Delete this record">×</button>
       </div>
     `).join('');
     listContainer.style.display = 'block';
@@ -47,7 +47,7 @@ function renderHistory(filter = '') {
   }
 }
 
-// ========== 核心请求函数 ==========
+// ========== Core Request Function ==========
 async function sendRequest() {
   const urlInput = document.getElementById('url');
   const url = urlInput.value.trim();
@@ -56,9 +56,9 @@ async function sendRequest() {
   const bodyType = document.getElementById('bodyType').value;
   const bodyData = document.getElementById('body').value.trim();
 
-  if (!url) { alert('请输入 URL'); return; }
+  if (!url) { alert('Please enter URL'); return; }
 
-  // 记录历史
+  // Record history
   saveToHistory(url);
 
   document.getElementById('response').textContent = 'Loading...';
@@ -69,7 +69,7 @@ async function sendRequest() {
   try {
     headers = headersInput ? JSON.parse(headersInput) : {};
   } catch (e) {
-    alert('Headers JSON 格式错误');
+    alert('Request headers JSON format error');
     return;
   }
 
@@ -93,7 +93,7 @@ async function sendRequest() {
   }
 }
 
-// ========== 键值对编辑逻辑 (Headers/Body) ==========
+// ========== Key-Value Pair Editing Logic (Request Headers/Body) ==========
 function createFieldRow(containerId, key = '', value = '') {
   const container = document.getElementById(containerId);
   const row = document.createElement('div');
@@ -139,22 +139,22 @@ function updateBodyFromFields() {
   }
 }
 
-// ========== 初始化与事件绑定 ==========
+// ========== Initialization & Event Binding ==========
 document.addEventListener('DOMContentLoaded', () => {
   const urlInp = document.getElementById('url');
   const histBox = document.getElementById('urlHistoryList');
 
-  // 1. URL 输入框焦点/输入事件
+  // 1. URL input focus/input events
   urlInp.onfocus = () => renderHistory(urlInp.value);
   urlInp.oninput = () => renderHistory(urlInp.value);
 
-  // 2. 历史列表点击委托 (MouseDown 优先于 Blur 执行)
+  // 2. History list click delegation (MouseDown executes before Blur)
   histBox.onmousedown = (e) => {
     const delBtn = e.target.closest('.history-delete-btn');
     const item = e.target.closest('.history-item');
     
     if (delBtn && item) {
-      e.preventDefault(); // 防止输入框失去焦点
+      e.preventDefault(); // Prevent input field from losing focus
       const targetUrl = decodeURIComponent(item.dataset.url);
       removeFromHistory(targetUrl);
       renderHistory(urlInp.value);
@@ -164,17 +164,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 3. 点击页面其他地方隐藏
+  // 3. Click elsewhere to hide
   document.addEventListener('click', (e) => {
     if (e.target !== urlInp && !histBox.contains(e.target)) histBox.style.display = 'none';
   });
 
-  // 其他按钮
+  // Other buttons
   document.getElementById('sendRequestBtn').onclick = sendRequest;
   document.getElementById('addHeadersFieldBtn').onclick = () => createFieldRow('headersFields');
   document.getElementById('addBodyFieldBtn').onclick = () => createFieldRow('bodyFields');
   document.getElementById('bodyType').onchange = updateBodyFromFields;
 
-  // 快捷键
+  // Keyboard shortcuts
   document.onkeydown = (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) sendRequest(); };
 });
