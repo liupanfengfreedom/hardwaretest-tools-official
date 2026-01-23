@@ -10,18 +10,11 @@ During a call, the other side can’t hear you clearly — is your microphone br
 
 If these issues sound familiar, try the tools below right now 👇
 
-
-### 1. 🖱️ 专业在线鼠标连点测试工具 (Mouse check)
-> **功能描述：** 提供毫秒级微动故障分析、实时回报率 (Polling Rate Hz) 检测、滚轮、侧键功能排查以及CPS（每秒点击次数）测试，帮助您全面检测鼠标性能，解决鼠标双击失灵问题。
-> **>> [开始鼠标检查](https://starryring.com/zh/toolbox/mouse/)** 
-
-## 🔧 Core Tool Navigation
-
 ### 1. 🖱️ Professional Online Mouse Test (Mouse Check)
 **Description:**  
 Provides millisecond-level switch (micro-switch) fault analysis, real-time polling rate (Hz) detection, scroll wheel and side-button diagnostics, and CPS (Clicks Per Second) testing. Designed to help you fully evaluate mouse performance and diagnose double-click or missed-click issues.
 
-**>> [Start Mouse Check](https://starryring.com/toolbox/mouse/en/)**
+**>> [Start Mouse Check](https://starryring.com/en/toolbox/mouse/)**
 
 ---
 
@@ -29,7 +22,7 @@ Provides millisecond-level switch (micro-switch) fault analysis, real-time polli
 **Description:**  
 Tests the response of every key on your keyboard, including alphanumeric keys, function keys, and the numeric keypad. Quickly identify unresponsive keys or unintended key repeats to ensure your keyboard is working correctly.
 
-**>> [Start Keyboard Test](https://starryring.com/toolbox/keyboard/en/)**
+**>> [Start Keyboard Test](https://starryring.com/en/toolbox/keyboard/)**
 
 ---
 
@@ -38,7 +31,7 @@ Tests the response of every key on your keyboard, including alphanumeric keys, f
 One-click microphone testing with real-time volume monitoring, recording tests, and waveform visualization. Helps you verify microphone functionality and fine-tune settings for clear voice communication.  
 Works on desktop, mobile, and tablet — no app required.
 
-**>> [Start Microphone Test](https://starryring.com/toolbox/mic/en/)**
+**>> [Start Microphone Test](https://starryring.com/en/toolbox/mic/)**
 
 ---
 
@@ -47,7 +40,7 @@ Works on desktop, mobile, and tablet — no app required.
 Instantly test your speakers or headphones with left/right channel checks, frequency sweep tests, and volume gradient testing. Helps identify channel imbalance, distortion, noise, or other audio issues.  
 Fully cross-platform, no downloads required.
 
-**>> [Start Speaker Test](https://starryring.com/toolbox/speaker/en/)**
+**>> [Start Speaker Test](https://starryring.com/en/toolbox/speaker/)**
 
 ---
 
@@ -55,7 +48,7 @@ Fully cross-platform, no downloads required.
 **Description:**  
 Quickly verify whether your webcam is working properly and inspect detailed parameters such as resolution, frame rate, and focus behavior. Ideal for optimizing video call quality.
 
-**>> [Start Camera Test](https://starryring.com/toolbox/camera/en/)**
+**>> [Start Camera Test](https://starryring.com/en/toolbox/camera/)**
 
 ---
 
@@ -65,7 +58,7 @@ Provides full-screen color tests (red, green, blue, white, black), dead-pixel de
 Helps you quickly determine whether your display has quality issues.  
 Works on monitors, laptops, phones, and tablets.
 
-**>> [Start Screen Test](https://starryring.com/toolbox/deadpixel/en/)**
+**>> [Start Screen Test](https://starryring.com/en/toolbox/dead-pixel/)**
 
 ---
 
