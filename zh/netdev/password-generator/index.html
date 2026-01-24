@@ -17,6 +17,7 @@
             --success: #2ea043;
             --warning: #dbab09;
             --danger: #f85149;
+            --reset: #f97316;
         }
 
         * { 
@@ -41,7 +42,7 @@
             padding: 2.5rem; 
             border-radius: 24px;
             width: 95%; 
-            max-width: 540px; 
+            max-width: 700px; 
             border: 1px solid var(--border);
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
@@ -256,44 +257,243 @@
             border-color: var(--accent);
         }
 
-        .grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            margin-bottom: 1.5rem;
-        }
-        
-        .check-card {
-            background: #0d1117; 
-            border: 1px solid var(--border); 
-            padding: 16px;
-            border-radius: 12px; 
-            cursor: pointer; 
-            display: flex; 
+        /* 生成按钮行 */
+        .generate-row {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 15px;
             align-items: center;
-            font-size: 0.85rem; 
-            color: var(--text-s);
+        }
+        
+        .main-generate-btn {
+            flex: 1;
+            background: var(--accent);
+            color: white; 
+            border: none; 
+            padding: 1.1rem 1.5rem; 
+            border-radius: 14px;
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer;
+            box-shadow: 0 10px 20px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             transition: all 0.2s ease;
-            min-height: 60px;
         }
         
-        .check-card:hover { 
-            border-color: var(--accent); 
-            color: var(--text-p); 
-            background: rgba(99, 102, 241, 0.05);
+        .main-generate-btn:hover { 
+            filter: brightness(1.1); 
+            transform: translateY(-2px); 
+            box-shadow: 0 15px 25px var(--accent-glow);
         }
         
-        .check-card input { 
-            margin-right: 12px; 
-            accent-color: var(--accent); 
-            transform: scale(1.1);
-            width: 18px;
-            height: 18px;
+        .main-generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .quick-generate-btn {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-p);
+            border: 1px solid var(--border);
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
         }
         
-        .full-grid { 
-            grid-column: span 2; 
-            border-style: dashed; 
+        .quick-generate-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* 字符选择器面板 */
+        .char-selector-container {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .char-selector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .char-selector-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-p);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .char-selector-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .char-selector-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            color: var(--text-s);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .char-selector-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+        }
+
+        .char-selector-btn.reset {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: var(--reset);
+            color: var(--reset);
+            font-weight: 600;
+        }
+
+        .char-selector-btn.reset:hover {
+            background: rgba(249, 115, 22, 0.2);
+            border-color: #fb923c;
+        }
+
+        .char-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .char-item {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .char-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .char-item.excluded {
+            opacity: 0.4;
+            background: rgba(248, 81, 73, 0.1);
+            border-color: var(--danger);
+        }
+
+        .char-item.excluded::after {
+            content: '✕';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .char-item.excluded:hover::after {
+            background: #ff6b6b;
+        }
+
+        .char-category {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .char-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .char-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .char-category-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-p);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            flex-grow: 1;
+        }
+
+        .char-category-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+        .category-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            color: var(--text-s);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .category-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+        }
+
+        .category-btn.reset {
+            background: rgba(249, 115, 22, 0.15);
+            border-color: var(--reset);
+            color: var(--reset);
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+        }
+
+        .category-btn.reset:hover {
+            background: rgba(249, 115, 22, 0.25);
+            border-color: #fb923c;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
         }
 
         /* 分析统计 */
@@ -330,43 +530,12 @@
             color: var(--accent);
         }
 
-        /* 按钮组 */
+        /* 按钮组 - 移动到字符选择器下方 */
         .button-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 1.5rem;
-        }
-        
-        .gen-btn {
-            background: var(--accent);
-            color: white; 
-            border: none; 
-            padding: 1rem; 
-            border-radius: 14px;
-            font-size: 1rem; 
-            font-weight: 600; 
-            cursor: pointer;
-            box-shadow: 0 10px 20px var(--accent-glow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-        
-        .gen-btn:hover { 
-            filter: brightness(1.1); 
-            transform: translateY(-2px); 
-            box-shadow: 0 15px 25px var(--accent-glow);
-        }
-        
-        .gen-btn:active {
-            transform: translateY(0);
-        }
-        
-        .gen-btn#generate-btn {
-            grid-column: span 2;
         }
         
         .sec-btn {
@@ -378,11 +547,16 @@
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .sec-btn:hover {
             background: rgba(255,255,255,0.1);
             border-color: var(--accent);
+            transform: translateY(-2px);
         }
 
         /* 安全提示 */
@@ -452,9 +626,10 @@
         }
 
         /* 响应式调整 */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .container {
                 padding: 1.5rem;
+                max-width: 95%;
             }
             
             .header h1 {
@@ -470,20 +645,37 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .grid {
-                grid-template-columns: 1fr;
+            .char-selector-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
             }
             
-            .full-grid {
-                grid-column: span 1;
+            .char-item {
+                font-size: 1rem;
+            }
+            
+            .char-category-actions {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            
+            .category-btn {
+                padding: 5px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .generate-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .main-generate-btn,
+            .quick-generate-btn {
+                width: 100%;
+                justify-content: center;
             }
             
             .button-group {
                 grid-template-columns: 1fr;
-            }
-            
-            .gen-btn#generate-btn {
-                grid-column: span 1;
             }
             
             .stats {
@@ -491,9 +683,36 @@
             }
         }
 
-        @media (max-width: 400px) {
+        @media (max-width: 480px) {
             .preset-buttons {
                 grid-template-columns: 1fr;
+            }
+            
+            .char-selector-grid {
+                grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+                gap: 8px;
+            }
+            
+            .char-item {
+                font-size: 0.9rem;
+            }
+            
+            .char-category-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .char-category-actions {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .category-btn {
+                flex: 1;
+                text-align: center;
+                padding: 8px 6px;
             }
         }
     </style>
@@ -504,7 +723,7 @@
     <!-- 标题区域 -->
     <div class="header">
         <h1>🔐 CyberPass Pro</h1>
-        <p>安全可靠的密码生成器 | 实时强度分析</p>
+        <p>安全可靠的密码生成器 | 字符级控制</p>
     </div>
 
     <!-- 密码展示区 -->
@@ -549,16 +768,93 @@
         <input type="range" id="slider" min="6" max="64" value="16" aria-label="密码长度调节">
     </div>
 
-    <!-- 字符集选择 -->
-    <div class="grid">
-        <label class="check-card"><input type="checkbox" id="up" checked> 大写字母 (A-Z)</label>
-        <label class="check-card"><input type="checkbox" id="lo" checked> 小写字母 (a-z)</label>
-        <label class="check-card"><input type="checkbox" id="num" checked> 数字 (0-9)</label>
-        <label class="check-card"><input type="checkbox" id="sym" checked> 特殊符号 (!@#)</label>
-        <label class="check-card full-grid">
-            <input type="checkbox" id="exc" checked> 
-            排除歧义字符 (i, l, 1, 0, o, O)
-        </label>
+    <!-- 生成按钮行 -->
+    <div class="generate-row">
+        <button class="main-generate-btn" id="generate-btn" onclick="generate()">
+            <span id="generate-text">生成新密码</span>
+            <span id="generate-icon">🔄</span>
+        </button>
+        <button class="quick-generate-btn" onclick="generateMultiple()">
+            <span>📋</span> 批量生成 (5个)
+        </button>
+    </div>
+
+    <!-- 字符选择器面板 -->
+    <div class="char-selector-container">
+        <div class="char-selector-header">
+            <div class="char-selector-title">🎯 字符选择器</div>
+            <div class="char-selector-actions">
+                <button class="char-selector-btn" onclick="includeAllChars()">
+                    <span>✅</span> 包含全部
+                </button>
+                <button class="char-selector-btn" onclick="excludeAllChars()">
+                    <span>❌</span> 排除全部
+                </button>
+                <button class="char-selector-btn reset" onclick="resetDefaultExclusions()">
+                    <span>🔄</span> 重置默认
+                </button>
+            </div>
+        </div>
+
+        <!-- 大写字母 -->
+        <div class="char-category">
+            <div class="char-category-header">
+                <div class="char-category-title">大写字母 (A-Z)</div>
+                <div class="char-category-actions">
+                    <button class="category-btn" onclick="includeCategory('uppercase')">包含全部</button>
+                    <button class="category-btn" onclick="excludeCategory('uppercase')">排除全部</button>
+                    <button class="category-btn reset" onclick="resetCategory('uppercase')">重置默认</button>
+                </div>
+            </div>
+            <div class="char-selector-grid" id="uppercase-chars">
+                <!-- 由JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <!-- 小写字母 -->
+        <div class="char-category">
+            <div class="char-category-header">
+                <div class="char-category-title">小写字母 (a-z)</div>
+                <div class="char-category-actions">
+                    <button class="category-btn" onclick="includeCategory('lowercase')">包含全部</button>
+                    <button class="category-btn" onclick="excludeCategory('lowercase')">排除全部</button>
+                    <button class="category-btn reset" onclick="resetCategory('lowercase')">重置默认</button>
+                </div>
+            </div>
+            <div class="char-selector-grid" id="lowercase-chars">
+                <!-- 由JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <!-- 数字 -->
+        <div class="char-category">
+            <div class="char-category-header">
+                <div class="char-category-title">数字 (0-9)</div>
+                <div class="char-category-actions">
+                    <button class="category-btn" onclick="includeCategory('numbers')">包含全部</button>
+                    <button class="category-btn" onclick="excludeCategory('numbers')">排除全部</button>
+                    <button class="category-btn reset" onclick="resetCategory('numbers')">重置默认</button>
+                </div>
+            </div>
+            <div class="char-selector-grid" id="number-chars">
+                <!-- 由JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <!-- 特殊符号 -->
+        <div class="char-category">
+            <div class="char-category-header">
+                <div class="char-category-title">特殊符号</div>
+                <div class="char-category-actions">
+                    <button class="category-btn" onclick="includeCategory('symbols')">包含全部</button>
+                    <button class="category-btn" onclick="excludeCategory('symbols')">排除全部</button>
+                    <button class="category-btn reset" onclick="resetCategory('symbols')">重置默认</button>
+                </div>
+            </div>
+            <div class="char-selector-grid" id="symbol-chars">
+                <!-- 由JavaScript动态生成 -->
+            </div>
+        </div>
     </div>
 
     <!-- 密码分析 -->
@@ -570,18 +866,19 @@
             <div class="stat-item">小写字母: <span class="stat-value" id="lower-count">0</span></div>
             <div class="stat-item">数字: <span class="stat-value" id="number-count">0</span></div>
             <div class="stat-item">特殊符号: <span class="stat-value" id="symbol-count">0</span></div>
-            <div class="stat-item">字符集大小: <span class="stat-value" id="pool-size">0</span></div>
+            <div class="stat-item">可用字符: <span class="stat-value" id="pool-size">0</span></div>
+            <div class="stat-item">排除字符: <span class="stat-value" id="excluded-count">0</span></div>
         </div>
     </div>
 
     <!-- 按钮组 -->
     <div class="button-group">
-        <button class="gen-btn" id="generate-btn" onclick="generate()">
-            <span id="generate-text">生成新密码</span>
-            <span id="generate-icon">🔄</span>
+        <button class="sec-btn" onclick="exportPasswords()">
+            <span>📥</span> 导出密码
         </button>
-        <button class="sec-btn" onclick="generateMultiple()">批量生成 (5个)</button>
-        <button class="sec-btn" onclick="exportPasswords()">导出密码</button>
+        <button class="sec-btn" onclick="copyAction()">
+            <span>📋</span> 复制密码
+        </button>
     </div>
 
     <!-- 安全提示 -->
@@ -591,6 +888,7 @@
             <li>建议密码长度至少12位，包含多种字符类型</li>
             <li>定期更换密码，不要在多个网站使用相同密码</li>
             <li>使用密码管理器安全存储您的密码</li>
+            <li>谨慎排除字符，减少字符集会降低密码安全性</li>
         </ul>
     </div>
 </div>
@@ -600,11 +898,26 @@
 
 <script>
     const config = {
-        up: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-        lo: "abcdefghijklmnopqrstuvwxyz",
-        num: "0123456789",
-        sym: "!@#$%^&*()_+-=[]{}|;:,.<>?",
-        confusing: /[il1Lo0O]/g
+        uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        lowercase: "abcdefghijklmnopqrstuvwxyz",
+        numbers: "0123456789",
+        symbols: "!@#$%^&*()_+-=[]{}|;:,.<>?/~"
+    };
+
+    // 默认排除的字符
+    const defaultExclusions = {
+        uppercase: [],  // 默认不排除大写字母
+        lowercase: [],  // 默认不排除小写字母
+        numbers: [],    // 默认不排除数字
+        symbols: ["#", "!", "@"]  // 默认排除这三个特殊符号
+    };
+
+    // 当前排除的字符
+    let excludedChars = {
+        uppercase: [...defaultExclusions.uppercase],
+        lowercase: [...defaultExclusions.lowercase],
+        numbers: [...defaultExclusions.numbers],
+        symbols: [...defaultExclusions.symbols]
     };
 
     // DOM元素
@@ -628,6 +941,7 @@
     const numberCount = document.getElementById('number-count');
     const symbolCount = document.getElementById('symbol-count');
     const poolSizeEl = document.getElementById('pool-size');
+    const excludedCountEl = document.getElementById('excluded-count');
     
     // 历史记录
     let passwordHistory = JSON.parse(localStorage.getItem('pwHistory') || '[]');
@@ -635,11 +949,266 @@
     
     // 预设配置
     const presets = {
-        high: { len: 16, up: true, lo: true, num: true, sym: true, exc: true },
-        mobile: { len: 12, up: true, lo: true, num: true, sym: false, exc: true },
-        pin: { len: 6, up: false, lo: false, num: true, sym: false, exc: false },
-        memorable: { len: 14, up: true, lo: true, num: true, sym: false, exc: true }
+        high: { len: 16, up: true, lo: true, num: true, sym: true },
+        mobile: { len: 12, up: true, lo: true, num: true, sym: false },
+        pin: { len: 6, up: false, lo: false, num: true, sym: false },
+        memorable: { len: 14, up: true, lo: true, num: true, sym: false }
     };
+
+    // 初始化字符选择器
+    function initCharSelector() {
+        // 生成大写字母
+        const uppercaseContainer = document.getElementById('uppercase-chars');
+        uppercaseContainer.innerHTML = '';
+        for (let char of config.uppercase) {
+            const charItem = document.createElement('div');
+            charItem.className = `char-item ${excludedChars.uppercase.includes(char) ? 'excluded' : ''}`;
+            charItem.textContent = char;
+            charItem.dataset.type = 'uppercase';
+            charItem.dataset.char = char;
+            charItem.onclick = () => toggleCharExclusion('uppercase', char);
+            uppercaseContainer.appendChild(charItem);
+        }
+
+        // 生成小写字母
+        const lowercaseContainer = document.getElementById('lowercase-chars');
+        lowercaseContainer.innerHTML = '';
+        for (let char of config.lowercase) {
+            const charItem = document.createElement('div');
+            charItem.className = `char-item ${excludedChars.lowercase.includes(char) ? 'excluded' : ''}`;
+            charItem.textContent = char;
+            charItem.dataset.type = 'lowercase';
+            charItem.dataset.char = char;
+            charItem.onclick = () => toggleCharExclusion('lowercase', char);
+            lowercaseContainer.appendChild(charItem);
+        }
+
+        // 生成数字
+        const numberContainer = document.getElementById('number-chars');
+        numberContainer.innerHTML = '';
+        for (let char of config.numbers) {
+            const charItem = document.createElement('div');
+            charItem.className = `char-item ${excludedChars.numbers.includes(char) ? 'excluded' : ''}`;
+            charItem.textContent = char;
+            charItem.dataset.type = 'numbers';
+            charItem.dataset.char = char;
+            charItem.onclick = () => toggleCharExclusion('numbers', char);
+            numberContainer.appendChild(charItem);
+        }
+
+        // 生成特殊符号
+        const symbolContainer = document.getElementById('symbol-chars');
+        symbolContainer.innerHTML = '';
+        for (let char of config.symbols) {
+            const charItem = document.createElement('div');
+            charItem.className = `char-item ${excludedChars.symbols.includes(char) ? 'excluded' : ''}`;
+            charItem.textContent = char;
+            charItem.dataset.type = 'symbols';
+            charItem.dataset.char = char;
+            charItem.onclick = () => toggleCharExclusion('symbols', char);
+            symbolContainer.appendChild(charItem);
+        }
+        
+        updateExcludedCount();
+    }
+
+    // 切换字符排除状态
+    function toggleCharExclusion(type, char) {
+        const index = excludedChars[type].indexOf(char);
+        if (index === -1) {
+            excludedChars[type].push(char);
+        } else {
+            excludedChars[type].splice(index, 1);
+        }
+        
+        // 更新UI
+        const charItems = document.querySelectorAll(`.char-item[data-type="${type}"][data-char="${char}"]`);
+        charItems.forEach(item => {
+            item.classList.toggle('excluded');
+        });
+        
+        updateExcludedCount();
+        generate();
+    }
+
+    // 更新排除字符计数
+    function updateExcludedCount() {
+        const totalExcluded = 
+            excludedChars.uppercase.length + 
+            excludedChars.lowercase.length + 
+            excludedChars.numbers.length + 
+            excludedChars.symbols.length;
+        
+        excludedCountEl.textContent = totalExcluded;
+    }
+
+    // 包含所有字符
+    function includeAllChars() {
+        excludedChars = {
+            uppercase: [],
+            lowercase: [],
+            numbers: [],
+            symbols: []
+        };
+        initCharSelector();
+        generate();
+    }
+
+    // 排除所有字符
+    function excludeAllChars() {
+        excludedChars = {
+            uppercase: [...config.uppercase],
+            lowercase: [...config.lowercase],
+            numbers: [...config.numbers],
+            symbols: [...config.symbols]
+        };
+        initCharSelector();
+        generate();
+    }
+
+    // 重置为默认排除
+    function resetDefaultExclusions() {
+        excludedChars = {
+            uppercase: [...defaultExclusions.uppercase],
+            lowercase: [...defaultExclusions.lowercase],
+            numbers: [...defaultExclusions.numbers],
+            symbols: [...defaultExclusions.symbols]
+        };
+        initCharSelector();
+        generate();
+    }
+
+    // 包含特定类别所有字符
+    function includeCategory(type) {
+        console.log(`包含类别: ${type}`);
+        // 确保使用正确的键名
+        if (type === 'numbers' || type === 'symbols' || type === 'uppercase' || type === 'lowercase') {
+            excludedChars[type] = [];
+            updateCategoryUI(type);
+            updateExcludedCount();
+            generate();
+        } else {
+            console.error(`未知的类别: ${type}`);
+        }
+    }
+
+    // 排除特定类别所有字符
+    function excludeCategory(type) {
+        console.log(`排除类别: ${type}`);
+        // 确保使用正确的键名
+        if (type === 'numbers' && config.numbers) {
+            excludedChars[type] = [...config.numbers];
+        } else if (type === 'symbols' && config.symbols) {
+            excludedChars[type] = [...config.symbols];
+        } else if (type === 'uppercase' && config.uppercase) {
+            excludedChars[type] = [...config.uppercase];
+        } else if (type === 'lowercase' && config.lowercase) {
+            excludedChars[type] = [...config.lowercase];
+        } else {
+            console.error(`未知的类别或配置不存在: ${type}`);
+            return;
+        }
+        
+        updateCategoryUI(type);
+        updateExcludedCount();
+        generate();
+    }
+
+    // 重置特定类别为默认
+    function resetCategory(type) {
+        console.log(`重置类别: ${type}, 默认值:`, defaultExclusions[type]);
+        // 确保使用正确的键名
+        if (type === 'numbers' && defaultExclusions.numbers) {
+            excludedChars[type] = [...defaultExclusions.numbers];
+        } else if (type === 'symbols' && defaultExclusions.symbols) {
+            excludedChars[type] = [...defaultExclusions.symbols];
+        } else if (type === 'uppercase' && defaultExclusions.uppercase) {
+            excludedChars[type] = [...defaultExclusions.uppercase];
+        } else if (type === 'lowercase' && defaultExclusions.lowercase) {
+            excludedChars[type] = [...defaultExclusions.lowercase];
+        } else {
+            console.error(`未知的类别或默认排除不存在: ${type}`);
+            return;
+        }
+        
+        updateCategoryUI(type);
+        updateExcludedCount();
+        generate();
+    }
+
+    // 更新特定类别的UI
+    function updateCategoryUI(type) {
+        console.log(`更新UI类别: ${type}`);
+        // 根据类型确定容器ID
+        let containerId;
+        if (type === 'uppercase') {
+            containerId = 'uppercase-chars';
+        } else if (type === 'lowercase') {
+            containerId = 'lowercase-chars';
+        } else if (type === 'numbers') {
+            containerId = 'number-chars';  // 注意：HTML中的ID是 'number-chars'
+        } else if (type === 'symbols') {
+            containerId = 'symbol-chars';  // 注意：HTML中的ID是 'symbol-chars'
+        } else {
+            console.error(`未知的类别: ${type}`);
+            return;
+        }
+        
+        const container = document.getElementById(containerId);
+        if (!container) {
+            console.error(`找不到容器: ${containerId}`);
+            return;
+        }
+        
+        const charItems = container.querySelectorAll('.char-item');
+        console.log(`找到 ${charItems.length} 个字符项`);
+        
+        charItems.forEach(item => {
+            const char = item.dataset.char;
+            const isExcluded = excludedChars[type] && excludedChars[type].includes(char);
+            
+            if (isExcluded) {
+                item.classList.add('excluded');
+            } else {
+                item.classList.remove('excluded');
+            }
+        });
+    }
+
+    // 获取可用的字符池
+    function getAvailablePool() {
+        let pool = "";
+        
+        // 添加未排除的大写字母
+        for (let char of config.uppercase) {
+            if (!excludedChars.uppercase.includes(char)) {
+                pool += char;
+            }
+        }
+        
+        // 添加未排除的小写字母
+        for (let char of config.lowercase) {
+            if (!excludedChars.lowercase.includes(char)) {
+                pool += char;
+            }
+        }
+        
+        // 添加未排除的数字
+        for (let char of config.numbers) {
+            if (!excludedChars.numbers.includes(char)) {
+                pool += char;
+            }
+        }
+        
+        // 添加未排除的特殊符号
+        for (let char of config.symbols) {
+            if (!excludedChars.symbols.includes(char)) {
+                pool += char;
+            }
+        }
+        
+        return pool;
+    }
 
     // 初始化事件监听
     function init() {
@@ -655,8 +1224,8 @@
         // 添加快捷键支持
         document.addEventListener('keydown', handleKeyboardShortcuts);
         
-        // 初始化预设按钮状态
-        updatePresetButtons();
+        // 初始化字符选择器
+        initCharSelector();
         
         // 页面加载时自动生成
         generate();
@@ -692,11 +1261,6 @@
         
         slider.value = preset.len;
         lenDisplay.innerText = preset.len;
-        document.getElementById('up').checked = preset.up;
-        document.getElementById('lo').checked = preset.lo;
-        document.getElementById('num').checked = preset.num;
-        document.getElementById('sym').checked = preset.sym;
-        document.getElementById('exc').checked = preset.exc;
         
         // 更新预设按钮状态
         updatePresetButtons(type);
@@ -728,18 +1292,10 @@
         // 延迟执行以确保UI更新
         setTimeout(() => {
             try {
-                let pool = "";
-                if(document.getElementById('up').checked) pool += config.up;
-                if(document.getElementById('lo').checked) pool += config.lo;
-                if(document.getElementById('num').checked) pool += config.num;
-                if(document.getElementById('sym').checked) pool += config.sym;
-
-                if(document.getElementById('exc').checked) {
-                    pool = pool.replace(config.confusing, "");
-                }
-
+                const pool = getAvailablePool();
+                
                 if(!pool) {
-                    output.innerText = "请至少选择一种字符类型";
+                    output.innerText = "没有可用的字符，请减少排除的字符";
                     updateMeter(0, 0);
                     updateAnalysis("", 0);
                     resetGenerateButton();
@@ -861,7 +1417,8 @@
         passwordHistory.unshift({
             password: password,
             timestamp: timestamp,
-            length: password.length
+            length: password.length,
+            excludedChars: {...excludedChars}
         });
         
         // 限制历史记录数量
@@ -876,7 +1433,7 @@
     // 复制密码
     function copyAction() {
         const text = output.innerText;
-        if(text.includes('请至少') || text.includes('生成失败') || text.includes('正在生成')) {
+        if(text.includes('没有可用的字符') || text.includes('生成失败') || text.includes('正在生成')) {
             return;
         }
         
@@ -930,14 +1487,14 @@
         ).join('');
         
         // 更新分析（基于第一个密码）
-        const pool = getCurrentPool();
+        const pool = getAvailablePool();
         updateAnalysis(passwords[0], pool.length);
         updateMeter(passwords[0].length, pool.length);
     }
 
     // 生成单个密码（用于批量生成）
     function generateSinglePassword() {
-        const pool = getCurrentPool();
+        const pool = getAvailablePool();
         if (!pool) return "生成失败";
         
         const len = parseInt(slider.value);
@@ -950,21 +1507,6 @@
         }
         
         return pwd;
-    }
-
-    // 获取当前字符池
-    function getCurrentPool() {
-        let pool = "";
-        if(document.getElementById('up').checked) pool += config.up;
-        if(document.getElementById('lo').checked) pool += config.lo;
-        if(document.getElementById('num').checked) pool += config.num;
-        if(document.getElementById('sym').checked) pool += config.sym;
-
-        if(document.getElementById('exc').checked) {
-            pool = pool.replace(config.confusing, "");
-        }
-        
-        return pool;
     }
 
     // 导出密码
