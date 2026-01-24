@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberPass Pro - 安全密码生成器</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --bg: #0a0c10;
+            --card: #161b22;
+            --text-p: #f0f6fc;
+            --text-s: #8b949e;
+            --border: #30363d;
+            --success: #2ea043;
+            --warning: #dbab09;
+            --danger: #f85149;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            transition: all 0.2s ease; 
+        }
+        
+        body {
+            margin: 0; 
+            font-family: 'Inter', sans-serif;
+            background: var(--bg); 
+            color: var(--text-p);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card); 
+            padding: 2.5rem; 
+            border-radius: 24px;
+            width: 95%; 
+            max-width: 540px; 
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        /* 标题区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            color: var(--text-s);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* 超大密码展示区 */
+        .hero-output {
+            position: relative;
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+
+        #output {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            color: var(--text-p);
+            word-break: break-all;
+            text-align: center;
+            padding: 0 2.5rem;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            user-select: text;
+        }
+
+        /* 图标复制按钮 */
+        .icon-copy-btn {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-s);
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+        }
+        .icon-copy-btn:hover {
+            background: var(--border);
+            color: var(--accent);
+        }
+        .icon-copy-btn svg { 
+            width: 22px; 
+            height: 22px; 
+        }
+        .icon-copy-btn.copied { 
+            color: var(--success); 
+            background: rgba(46, 160, 67, 0.1);
+            transform: scale(1.1); 
+        }
+        .icon-copy-btn.copied svg {
+            animation: checkmark 0.3s ease;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* 强度指示器 */
+        .strength-track {
+            position: absolute;
+            bottom: 0; 
+            left: 0; 
+            right: 0;
+            height: 4px;
+            background: transparent;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            overflow: hidden;
+        }
+        #strength-bar { 
+            height: 100%; 
+            width: 0%; 
+            transition: width 0.6s ease, background 0.3s; 
+            background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+        }
+
+        .strength-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .strength-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #strength-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        #entropy-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-s);
+            background: rgba(255,255,255,0.05);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        /* 配置项样式 */
+        .setting-row { 
+            margin-bottom: 1.8rem; 
+        }
+        
+        .label-box { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-size: 0.9rem; 
+            margin-bottom: 10px; 
+        }
+        
+        .len-val { 
+            color: var(--accent); 
+            font-weight: 700; 
+            font-family: 'JetBrains Mono';
+            font-size: 1.1rem;
+        }
+
+        input[type="range"] {
+            width: 100%; 
+            appearance: none; 
+            background: #21262d; 
+            height: 8px; 
+            border-radius: 4px; 
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none; 
+            width: 24px; 
+            height: 24px; 
+            background: var(--accent); 
+            border-radius: 50%; 
+            cursor: pointer; 
+            border: 4px solid var(--card);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* 预设模式按钮组 */
+        .preset-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .preset-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 8px;
+            font-size: 0.8rem;
+            color: var(--text-s);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        
+        .preset-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-p);
+            transform: translateY(-2px);
+        }
+        
+        .preset-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-bottom: 1.5rem;
+        }
+        
+        .check-card {
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            padding: 16px;
+            border-radius: 12px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center;
+            font-size: 0.85rem; 
+            color: var(--text-s);
+            transition: all 0.2s ease;
+            min-height: 60px;
+        }
+        
+        .check-card:hover { 
+            border-color: var(--accent); 
+            color: var(--text-p); 
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .check-card input { 
+            margin-right: 12px; 
+            accent-color: var(--accent); 
+            transform: scale(1.1);
+            width: 18px;
+            height: 18px;
+        }
+        
+        .full-grid { 
+            grid-column: span 2; 
+            border-style: dashed; 
+        }
+
+        /* 分析统计 */
+        .analysis {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 1.5rem 0;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        
+        .analysis h4 {
+            margin: 0 0 10px 0;
+            color: var(--text-s);
+            font-size: 0.9rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+        }
+
+        /* 按钮组 */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+        
+        .gen-btn {
+            background: var(--accent);
+            color: white; 
+            border: none; 
+            padding: 1rem; 
+            border-radius: 14px;
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer;
+            box-shadow: 0 10px 20px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .gen-btn:hover { 
+            filter: brightness(1.1); 
+            transform: translateY(-2px); 
+            box-shadow: 0 15px 25px var(--accent-glow);
+        }
+        
+        .gen-btn:active {
+            transform: translateY(0);
+        }
+        
+        .gen-btn#generate-btn {
+            grid-column: span 2;
+        }
+        
+        .sec-btn {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-p);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .sec-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+        }
+
+        /* 安全提示 */
+        .security-tips {
+            margin-top: 1.5rem;
+            padding: 15px;
+            background: rgba(46, 160, 67, 0.1);
+            border: 1px solid rgba(46, 160, 67, 0.3);
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .security-tips h4 {
+            margin: 0 0 8px 0;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tips-list {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--text-s);
+        }
+        
+        .tips-list li {
+            margin-bottom: 5px;
+        }
+
+        /* 提示弹窗 */
+        #copy-toast {
+            position: fixed; 
+            bottom: 30px; 
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--success); 
+            color: white;
+            padding: 12px 28px; 
+            border-radius: 50px; 
+            font-size: 0.9rem;
+            opacity: 0; 
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        #copy-toast.show { 
+            opacity: 1; 
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            #output {
+                font-size: 1.5rem;
+                padding: 0 1.5rem;
+            }
+            
+            .preset-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-grid {
+                grid-column: span 1;
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .gen-btn#generate-btn {
+                grid-column: span 1;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .preset-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 标题区域 -->
+    <div class="header">
+        <h1>🔐 CyberPass Pro</h1>
+        <p>安全可靠的密码生成器 | 实时强度分析</p>
+    </div>
+
+    <!-- 密码展示区 -->
+    <div class="hero-output">
+        <div id="output">正在生成安全密码...</div>
+        
+        <button class="icon-copy-btn" id="copy-btn" onclick="copyAction()" title="复制密码" aria-label="复制密码到剪贴板">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+        </button>
+
+        <div class="strength-track">
+            <div id="strength-bar"></div>
+        </div>
+    </div>
+    
+    <!-- 强度信息 -->
+    <div class="strength-info">
+        <div class="strength-score">
+            <div id="strength-text">强度计算中...</div>
+            <span id="entropy-value">0 bits</span>
+        </div>
+        <div id="crack-time">估算破解时间: --</div>
+    </div>
+
+    <!-- 预设模式 -->
+    <div class="preset-buttons">
+        <button class="preset-btn" onclick="applyPreset('high')">🔐 高强度</button>
+        <button class="preset-btn" onclick="applyPreset('mobile')">📱 易输入</button>
+        <button class="preset-btn" onclick="applyPreset('pin')">💳 PIN码</button>
+        <button class="preset-btn" onclick="applyPreset('memorable')">🔑 易记忆</button>
+    </div>
+
+    <!-- 密码长度控制 -->
+    <div class="setting-row">
+        <div class="label-box">
+            <span>密码长度</span>
+            <span class="len-val" id="len-display">16</span>
+        </div>
+        <input type="range" id="slider" min="6" max="64" value="16" aria-label="密码长度调节">
+    </div>
+
+    <!-- 字符集选择 -->
+    <div class="grid">
+        <label class="check-card"><input type="checkbox" id="up" checked> 大写字母 (A-Z)</label>
+        <label class="check-card"><input type="checkbox" id="lo" checked> 小写字母 (a-z)</label>
+        <label class="check-card"><input type="checkbox" id="num" checked> 数字 (0-9)</label>
+        <label class="check-card"><input type="checkbox" id="sym" checked> 特殊符号 (!@#)</label>
+        <label class="check-card full-grid">
+            <input type="checkbox" id="exc" checked> 
+            排除歧义字符 (i, l, 1, 0, o, O)
+        </label>
+    </div>
+
+    <!-- 密码分析 -->
+    <div class="analysis">
+        <h4>🔍 密码分析</h4>
+        <div class="stats">
+            <div class="stat-item">字符总数: <span class="stat-value" id="char-count">0</span></div>
+            <div class="stat-item">大写字母: <span class="stat-value" id="upper-count">0</span></div>
+            <div class="stat-item">小写字母: <span class="stat-value" id="lower-count">0</span></div>
+            <div class="stat-item">数字: <span class="stat-value" id="number-count">0</span></div>
+            <div class="stat-item">特殊符号: <span class="stat-value" id="symbol-count">0</span></div>
+            <div class="stat-item">字符集大小: <span class="stat-value" id="pool-size">0</span></div>
+        </div>
+    </div>
+
+    <!-- 按钮组 -->
+    <div class="button-group">
+        <button class="gen-btn" id="generate-btn" onclick="generate()">
+            <span id="generate-text">生成新密码</span>
+            <span id="generate-icon">🔄</span>
+        </button>
+        <button class="sec-btn" onclick="generateMultiple()">批量生成 (5个)</button>
+        <button class="sec-btn" onclick="exportPasswords()">导出密码</button>
+    </div>
+
+    <!-- 安全提示 -->
+    <div class="security-tips">
+        <h4>🔒 安全提示</h4>
+        <ul class="tips-list">
+            <li>建议密码长度至少12位，包含多种字符类型</li>
+            <li>定期更换密码，不要在多个网站使用相同密码</li>
+            <li>使用密码管理器安全存储您的密码</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 提示弹窗 -->
+<div id="copy-toast">密码已成功复制到剪贴板！</div>
+
+<script>
+    const config = {
+        up: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        lo: "abcdefghijklmnopqrstuvwxyz",
+        num: "0123456789",
+        sym: "!@#$%^&*()_+-=[]{}|;:,.<>?",
+        confusing: /[il1Lo0O]/g
+    };
+
+    // DOM元素
+    const slider = document.getElementById('slider');
+    const lenDisplay = document.getElementById('len-display');
+    const output = document.getElementById('output');
+    const sBar = document.getElementById('strength-bar');
+    const sText = document.getElementById('strength-text');
+    const entropyValue = document.getElementById('entropy-value');
+    const crackTime = document.getElementById('crack-time');
+    const cBtn = document.getElementById('copy-btn');
+    const toast = document.getElementById('copy-toast');
+    const generateBtn = document.getElementById('generate-btn');
+    const generateText = document.getElementById('generate-text');
+    const generateIcon = document.getElementById('generate-icon');
+    
+    // 分析统计元素
+    const charCount = document.getElementById('char-count');
+    const upperCount = document.getElementById('upper-count');
+    const lowerCount = document.getElementById('lower-count');
+    const numberCount = document.getElementById('number-count');
+    const symbolCount = document.getElementById('symbol-count');
+    const poolSizeEl = document.getElementById('pool-size');
+    
+    // 历史记录
+    let passwordHistory = JSON.parse(localStorage.getItem('pwHistory') || '[]');
+    const maxHistory = 20;
+    
+    // 预设配置
+    const presets = {
+        high: { len: 16, up: true, lo: true, num: true, sym: true, exc: true },
+        mobile: { len: 12, up: true, lo: true, num: true, sym: false, exc: true },
+        pin: { len: 6, up: false, lo: false, num: true, sym: false, exc: false },
+        memorable: { len: 14, up: true, lo: true, num: true, sym: false, exc: true }
+    };
+
+    // 初始化事件监听
+    function init() {
+        slider.oninput = () => {
+            lenDisplay.innerText = slider.value;
+            generate();
+        };
+
+        document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+            el.onchange = generate;
+        });
+        
+        // 添加快捷键支持
+        document.addEventListener('keydown', handleKeyboardShortcuts);
+        
+        // 初始化预设按钮状态
+        updatePresetButtons();
+        
+        // 页面加载时自动生成
+        generate();
+    }
+
+    // 键盘快捷键
+    function handleKeyboardShortcuts(e) {
+        // 空格键或回车键生成新密码
+        if (e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault();
+            generate();
+        }
+        // C键复制密码
+        else if (e.code === 'KeyC' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            copyAction();
+        }
+        // 数字键快速设置长度
+        else if (e.code.startsWith('Digit') && !e.ctrlKey && !e.metaKey) {
+            const num = parseInt(e.code.replace('Digit', ''));
+            if (num >= 6 && num <= 9) {
+                slider.value = num;
+                lenDisplay.innerText = num;
+                generate();
+            }
+        }
+    }
+
+    // 应用预设
+    function applyPreset(type) {
+        const preset = presets[type];
+        if (!preset) return;
+        
+        slider.value = preset.len;
+        lenDisplay.innerText = preset.len;
+        document.getElementById('up').checked = preset.up;
+        document.getElementById('lo').checked = preset.lo;
+        document.getElementById('num').checked = preset.num;
+        document.getElementById('sym').checked = preset.sym;
+        document.getElementById('exc').checked = preset.exc;
+        
+        // 更新预设按钮状态
+        updatePresetButtons(type);
+        
+        generate();
+    }
+
+    // 更新预设按钮状态
+    function updatePresetButtons(activeType = null) {
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        if (activeType) {
+            const activeBtn = document.querySelector(`.preset-btn[onclick*="${activeType}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+    }
+
+    // 生成密码
+    function generate() {
+        // 显示加载状态
+        generateIcon.textContent = '';
+        generateIcon.classList.add('loading');
+        generateText.textContent = '生成中...';
+        
+        // 延迟执行以确保UI更新
+        setTimeout(() => {
+            try {
+                let pool = "";
+                if(document.getElementById('up').checked) pool += config.up;
+                if(document.getElementById('lo').checked) pool += config.lo;
+                if(document.getElementById('num').checked) pool += config.num;
+                if(document.getElementById('sym').checked) pool += config.sym;
+
+                if(document.getElementById('exc').checked) {
+                    pool = pool.replace(config.confusing, "");
+                }
+
+                if(!pool) {
+                    output.innerText = "请至少选择一种字符类型";
+                    updateMeter(0, 0);
+                    updateAnalysis("", 0);
+                    resetGenerateButton();
+                    return;
+                }
+
+                const len = parseInt(slider.value);
+                let pwd = "";
+                const randomValues = new Uint32Array(len);
+                window.crypto.getRandomValues(randomValues);
+
+                for(let i=0; i<len; i++) {
+                    pwd += pool[randomValues[i] % pool.length];
+                }
+
+                output.innerText = pwd;
+                
+                // 更新强度和统计
+                updateMeter(len, pool.length);
+                updateAnalysis(pwd, pool.length);
+                
+                // 添加到历史记录
+                addToHistory(pwd);
+                
+                // 重置复制按钮状态
+                cBtn.classList.remove('copied');
+                
+            } catch (error) {
+                output.innerText = "生成失败，请重试";
+                console.error("密码生成错误:", error);
+            } finally {
+                resetGenerateButton();
+            }
+        }, 50);
+    }
+
+    // 重置生成按钮状态
+    function resetGenerateButton() {
+        generateIcon.classList.remove('loading');
+        generateIcon.textContent = '🔄';
+        generateText.textContent = '生成新密码';
+    }
+
+    // 更新密码强度
+    function updateMeter(len, poolSize) {
+        const entropy = len * (poolSize > 0 ? Math.log2(poolSize) : 0);
+        let pct = Math.min((entropy / 120) * 100, 100);
+        let label = "安全性：弱";
+        let colorClass = "weak";
+
+        if (entropy > 40) { label = "安全性：中等"; colorClass = "medium"; }
+        if (entropy > 70) { label = "安全性：强"; colorClass = "strong"; }
+        if (entropy > 100) { label = "安全性：极强"; colorClass = "very-strong"; }
+
+        sBar.style.width = pct + "%";
+        sText.innerText = label;
+        sText.className = colorClass;
+        
+        // 更新熵值和破解时间
+        entropyValue.textContent = Math.round(entropy) + " bits";
+        updateCrackTime(entropy);
+    }
+
+    // 更新破解时间估算
+    function updateCrackTime(entropy) {
+        // 假设攻击者每秒尝试1万亿次 (10^12)
+        const guessesPerSecond = 1e12;
+        const seconds = Math.pow(2, entropy) / guessesPerSecond;
+        
+        let timeText = "瞬间";
+        
+        if (seconds < 1) {
+            timeText = "瞬间";
+        } else if (seconds < 60) {
+            timeText = Math.round(seconds) + "秒";
+        } else if (seconds < 3600) {
+            timeText = Math.round(seconds/60) + "分钟";
+        } else if (seconds < 86400) {
+            timeText = Math.round(seconds/3600) + "小时";
+        } else if (seconds < 31536000) {
+            timeText = Math.round(seconds/86400) + "天";
+        } else if (seconds < 3153600000) {
+            timeText = Math.round(seconds/31536000) + "年";
+        } else {
+            timeText = Math.round(seconds/31536000000) + "世纪";
+        }
+        
+        crackTime.textContent = `估算破解时间: ${timeText}`;
+    }
+
+    // 更新密码分析
+    function updateAnalysis(password, poolSize) {
+        if (!password) {
+            charCount.textContent = "0";
+            upperCount.textContent = "0";
+            lowerCount.textContent = "0";
+            numberCount.textContent = "0";
+            symbolCount.textContent = "0";
+            poolSizeEl.textContent = "0";
+            return;
+        }
+        
+        const upper = (password.match(/[A-Z]/g) || []).length;
+        const lower = (password.match(/[a-z]/g) || []).length;
+        const numbers = (password.match(/[0-9]/g) || []).length;
+        const symbols = password.length - upper - lower - numbers;
+        
+        charCount.textContent = password.length;
+        upperCount.textContent = upper;
+        lowerCount.textContent = lower;
+        numberCount.textContent = numbers;
+        symbolCount.textContent = symbols;
+        poolSizeEl.textContent = poolSize;
+    }
+
+    // 添加到历史记录
+    function addToHistory(password) {
+        const timestamp = new Date().toISOString();
+        passwordHistory.unshift({
+            password: password,
+            timestamp: timestamp,
+            length: password.length
+        });
+        
+        // 限制历史记录数量
+        if (passwordHistory.length > maxHistory) {
+            passwordHistory = passwordHistory.slice(0, maxHistory);
+        }
+        
+        // 保存到本地存储
+        localStorage.setItem('pwHistory', JSON.stringify(passwordHistory));
+    }
+
+    // 复制密码
+    function copyAction() {
+        const text = output.innerText;
+        if(text.includes('请至少') || text.includes('生成失败') || text.includes('正在生成')) {
+            return;
+        }
+        
+        navigator.clipboard.writeText(text).then(() => {
+            cBtn.classList.add('copied');
+            toast.classList.add('show');
+            
+            // 更新复制按钮图标为对勾
+            const copyIcon = cBtn.querySelector('svg');
+            if (copyIcon) {
+                const originalHTML = copyIcon.innerHTML;
+                copyIcon.innerHTML = `
+                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                `;
+                
+                setTimeout(() => {
+                    copyIcon.innerHTML = originalHTML;
+                }, 2000);
+            }
+            
+            setTimeout(() => {
+                cBtn.classList.remove('copied');
+                toast.classList.remove('show');
+            }, 2000);
+        }).catch(err => {
+            console.error("复制失败:", err);
+            toast.textContent = "复制失败，请手动选择复制";
+            toast.style.background = "var(--danger)";
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.style.background = "var(--success)";
+                toast.textContent = "密码已成功复制到剪贴板！";
+            }, 2000);
+        });
+    }
+
+    // 批量生成密码
+    function generateMultiple() {
+        const count = 5;
+        const passwords = [];
+        
+        for (let i = 0; i < count; i++) {
+            passwords.push(generateSinglePassword());
+        }
+        
+        // 显示批量密码
+        output.innerHTML = passwords.map((pwd, idx) => 
+            `<div style="margin-bottom: 8px; font-size: 1.4rem;">${idx+1}. ${pwd}</div>`
+        ).join('');
+        
+        // 更新分析（基于第一个密码）
+        const pool = getCurrentPool();
+        updateAnalysis(passwords[0], pool.length);
+        updateMeter(passwords[0].length, pool.length);
+    }
+
+    // 生成单个密码（用于批量生成）
+    function generateSinglePassword() {
+        const pool = getCurrentPool();
+        if (!pool) return "生成失败";
+        
+        const len = parseInt(slider.value);
+        let pwd = "";
+        const randomValues = new Uint32Array(len);
+        window.crypto.getRandomValues(randomValues);
+
+        for(let i=0; i<len; i++) {
+            pwd += pool[randomValues[i] % pool.length];
+        }
+        
+        return pwd;
+    }
+
+    // 获取当前字符池
+    function getCurrentPool() {
+        let pool = "";
+        if(document.getElementById('up').checked) pool += config.up;
+        if(document.getElementById('lo').checked) pool += config.lo;
+        if(document.getElementById('num').checked) pool += config.num;
+        if(document.getElementById('sym').checked) pool += config.sym;
+
+        if(document.getElementById('exc').checked) {
+            pool = pool.replace(config.confusing, "");
+        }
+        
+        return pool;
+    }
+
+    // 导出密码
+    function exportPasswords() {
+        if (passwordHistory.length === 0) {
+            alert("暂无密码历史记录");
+            return;
+        }
+        
+        const exportText = passwordHistory.map((item, idx) => {
+            const date = new Date(item.timestamp).toLocaleString();
+            return `${idx+1}. ${item.password} (长度: ${item.length}, 生成时间: ${date})`;
+        }).join('\n');
+        
+        const blob = new Blob([exportText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `passwords_${new Date().toISOString().slice(0,10)}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        // 显示导出成功提示
+        toast.textContent = `已导出 ${passwordHistory.length} 个密码`;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+    }
+
+    // 初始化应用
+    window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
