@@ -1,4 +1,4 @@
-const RATING_API_URL = "https://ratingpage.xsoftware.top";
+const RATING_API_URL = "https://ratingpage.starryring.com/";
 //const RATING_API_URL = "http://127.0.0.1:8787";
 //const RATING_PAGE_ID = "page1";
 const RATING_PAGE_ID = window.location.pathname;
