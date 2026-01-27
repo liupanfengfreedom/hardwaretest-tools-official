@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 调试助手 (带历史记录)</title>
+    <link rel="stylesheet" href="/static/css/netdev/websocket-client/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>WebSocket 调试助手</h2>
+        
+        <div class="config-panel">
+            <!-- 包装后的输入框 -->
+            <div class="url-input-wrapper">
+                <input type="text" id="wsUrl" placeholder="输入服务器地址 (ws://...)" autocomplete="off">
+                <div id="historyDropdown" class="history-dropdown">
+                    <!-- 历史条目动态注入 -->
+                </div>
+            </div>
+            <button id="connectBtn">建立连接</button>
+            <button id="clearBtn" style="background: #eee; color: #666;">清空日志</button>
+        </div>
+
+        <div class="status-bar">
+            <div id="statusDot" class="dot"></div>
+            <span id="statusText">当前未连接</span>
+        </div>
+
+        <div id="logConsole"></div>
+
+        <div class="send-panel">
+            <input type="text" id="messageInput" placeholder="输入要发送的内容..." disabled>
+            <button id="sendBtn" disabled>发送数据</button>
+        </div>
+    </div>
+    
+    <script src="/static/js/netdev/websocket-client/script-zh.js"></script>
+</body>
+</html>
