@@ -3,59 +3,427 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket 调试助手 (带历史记录)</title>
+    <meta name="description" content="WebSocket在线调试工具，支持连接测试、消息发送、历史记录管理，专业的WebSocket客户端调试助手">
+    <meta property="og:title" content="WebSocket调试助手 - 在线WebSocket客户端工具">
+    <meta property="og:description" content="免费在线WebSocket调试工具，支持WebSocket连接测试、消息发送接收、历史记录管理，无需安装软件，即刻调试">
+    <meta property="og:image" content="https://starryring.com/websocket-preview.png">
+    <meta property="og:url" content="https://starryring.com/zh/NetDev/websocket-client/">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WebSocket调试助手 - 在线WebSocket客户端工具">
+    <meta name="twitter:description" content="免费在线WebSocket调试工具，支持WebSocket连接测试、消息发送接收、历史记录管理">
+    <meta name="twitter:image" content="https://starryring.com/websocket-preview.png">
+    
+    <link rel="canonical" href="https://starryring.com/zh/NetDev/websocket-client/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/NetDev/websocket-client/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/NetDev/websocket-client/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/NetDev/websocket-client/" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
     <link rel="stylesheet" href="/static/css/netdev/websocket-client/style.css">
     <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "WebSocket调试助手",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
+                "description": "免费在线WebSocket调试工具，支持WebSocket连接测试、消息发送接收、历史记录管理、实时调试功能",
+                "url": "https://starryring.com/zh/NetDev/websocket-client/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/websocket-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "WebSocket调试助手界面"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/websocket-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "WebSocket连接测试界面",
+                        "description": "建立WebSocket连接并进行消息测试"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/websocket-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "历史记录管理界面",
+                        "description": "显示WebSocket连接历史记录和管理功能"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "WebSocket连接建立与断开",
+                    "消息发送与接收实时显示",
+                    "连接历史记录管理（10条）",
+                    "实时状态指示器",
+                    "彩色日志分类显示",
+                    "自动重连机制（可选）",
+                    "错误诊断与提示"
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "什么是WebSocket调试助手？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "WebSocket调试助手是一个在线工具，用于测试和调试WebSocket连接。它允许开发者快速连接WebSocket服务器，发送和接收消息，并实时查看连接状态和日志信息。无需安装任何软件，直接在浏览器中使用。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何使用这个工具测试WebSocket连接？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "首先在地址输入框中输入WebSocket服务器地址（如ws://或wss://开头的URL），点击'建立连接'按钮。连接成功后，状态指示器会变为绿色，此时可以在消息输入框中输入要发送的内容，点击'发送数据'按钮或按Enter键发送。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "历史记录功能有什么作用？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "历史记录功能会保存您最近连接的10个WebSocket服务器地址。当您再次使用时，可以通过下拉列表快速选择之前的连接地址，无需重复输入。这提高了调试效率，特别适合在开发过程中频繁切换不同环境。"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+    <title>WebSocket调试助手 - 在线WebSocket客户端测试工具 | StarryRing</title>
 </head>
 <body>
-            <div class="breadcrumb-section">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb-modern">
-                        <li class="breadcrumb-item">
-                            <a href="/zh/" class="breadcrumb-link">
-                                <i class="fas fa-home"></i> 主页
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="/zh/NetDev/" class="breadcrumb-link">
-                                <i class="fas fa-box"></i> 网络测试工具
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item">                   
-                            <span class="breadcrumb-active">WebSocket客户端工具</span>
-                        </li>
-                    </ol>
-                </nav>
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item">
+                    <a href="/zh/" class="breadcrumb-link">
+                        <i class="fas fa-home"></i> 主页
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/zh/NetDev/" class="breadcrumb-link">
+                        <i class="fas fa-network-wired"></i> 网络测试工具
+                    </a>
+                </li>
+                <li class="breadcrumb-item">                   
+                    <span class="breadcrumb-active">WebSocket客户端工具</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- 网络测试工具导航卡片 -->
+    <div class="tools-navigation-section">
+        <h2 class="tools-navigation-title">
+            <i class="fas fa-network-wired"></i> 网络测试工具箱
+        </h2>
+        <p class="tools-navigation-subtitle">选择您需要的网络测试工具，全面检测网络性能</p>
+        <div class="tools-navigation-grid">  
+            <a href="/zh/NetDev/ping/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-satellite"></i>
+                        </div>
+                        <h3>Ping测试</h3>
+                    </div>
+                    <p>网络连通性测试，检测服务器响应时间</p>
+                </div>
+            </a>
+            
+            <a href="/zh/NetDev/traceroute/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h3>路由追踪</h3>
+                    </div>
+                    <p>追踪数据包路径，分析网络路由问题</p>
+                </div>
+            </a>
+            
+            <a href="/zh/NetDev/websocket-client/" class="tool-card active">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <h3>WebSocket测试</h3>
+                    </div>
+                    <p>WebSocket连接调试和消息测试工具</p>
+                </div>
+            </a>
+            
+            <a href="/zh/NetDev/http-test/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>HTTP测试</h3>
+                    </div>
+                    <p>HTTP请求测试和响应分析工具</p>
+                </div>
+            </a>
+            
+            <a href="/zh/NetDev/speed-test/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3>网速测试</h3>
+                    </div>
+                    <p>网络带宽和速度测试工具</p>
+                </div>
+            </a>
         </div>
-    <div class="container">
-        <h2>WebSocket 调试助手</h2>
-        
-        <div class="config-panel">
-            <!-- 包装后的输入框 -->
+    </div>
+    
+    <!-- 语言切换器 -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/NetDev/websocket-client/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/en/NetDev/websocket-client/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    
+    <h1>WebSocket 调试助手</h1>
+    <p>专业WebSocket客户端测试工具，支持连接管理、消息调试、历史记录</p>
+    
+    <div class="websocket-container">
+        <div class="connection-panel">
+            <div class="panel-header">
+                <i class="fas fa-link"></i>
+                <span>连接配置</span>
+            </div>
             <div class="url-input-wrapper">
-                <input type="text" id="wsUrl" placeholder="输入服务器地址 (ws://...)" autocomplete="off">
-                <div id="historyDropdown" class="history-dropdown">
-                    <!-- 历史条目动态注入 -->
+                <input type="text" id="wsUrl" placeholder="输入WebSocket服务器地址 (如: ws://echo.websocket.org 或 wss://...)" autocomplete="off">
+                <div id="historyDropdown" class="history-dropdown"></div>
+            </div>
+            <div class="button-group">
+                <button id="connectBtn" class="btn-primary">
+                    <i class="fas fa-plug"></i> 建立连接
+                </button>
+                <button id="clearBtn" class="btn-secondary">
+                    <i class="fas fa-trash-alt"></i> 清空日志
+                </button>
+            </div>
+        </div>
+        
+        <div class="status-panel">
+            <div class="status-indicator">
+                <div id="statusDot" class="dot"></div>
+                <div class="status-info">
+                    <span id="statusText">当前未连接</span>
+                    <span id="connectionInfo" class="connection-info"></span>
                 </div>
             </div>
-            <button id="connectBtn">建立连接</button>
-            <button id="clearBtn" style="background: #eee; color: #666;">清空日志</button>
         </div>
-
-        <div class="status-bar">
-            <div id="statusDot" class="dot"></div>
-            <span id="statusText">当前未连接</span>
+        
+        <div class="log-panel">
+            <div class="panel-header">
+                <i class="fas fa-terminal"></i>
+                <span>通信日志</span>
+                <div class="log-actions">
+                    <span id="logCount">0 条记录</span>
+                </div>
+            </div>
+            <div id="logConsole" class="log-console"></div>
         </div>
-
-        <div id="logConsole"></div>
-
-        <div class="send-panel">
-            <input type="text" id="messageInput" placeholder="输入要发送的内容..." disabled>
-            <button id="sendBtn" disabled>发送数据</button>
+        
+        <div class="message-panel">
+            <div class="panel-header">
+                <i class="fas fa-paper-plane"></i>
+                <span>消息发送</span>
+            </div>
+            <div class="message-input-group">
+                <input type="text" id="messageInput" placeholder="输入要发送的消息内容..." disabled>
+                <button id="sendBtn" class="btn-send" disabled>
+                    <i class="fas fa-paper-plane"></i> 发送
+                </button>
+            </div>
+            <div class="message-format">
+                <span class="format-label">发送格式:</span>
+                <button class="format-btn" data-format='{"type":"test","data":"hello"}'>JSON</button>
+                <button class="format-btn" data-format="ping">Ping</button>
+                <button class="format-btn" data-format="test message">文本</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页面导航卡片 -->
+    <div class="page-navigation-section">
+        <div class="navigation-header">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>深入学习WebSocket技术</h2>
+            <p>了解更多关于WebSocket协议和调试技巧</p>
+        </div>
+        <div class="navigation-cards">
+            <a href="/zh/NetDev/websocket-client/guide/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>详细使用指南</h3>
+                    <p>从零开始学习如何使用WebSocket调试助手，包含分步操作说明、调试技巧和常见问题解答。</p>
+                    <div class="nav-card-action">
+                        <span>查看完整指南 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+            <a href="/zh/NetDev/websocket-client/principle/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>WebSocket原理详解</h3>
+                    <p>深入了解WebSocket协议的工作原理、握手过程、帧结构以及与传统HTTP的区别。</p>
+                    <div class="nav-card-action">
+                        <span>学习技术原理 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- 功能说明和FAQ部分 -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>WebSocket调试助手功能特色</h2>
+            <p>📖 简介：专业的WebSocket客户端调试工具，支持实时连接测试、消息收发、历史记录管理等全方位功能</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3><i class="fas fa-bolt"></i> 快速连接</h3>
+                    <p>支持ws://和wss://协议，一键快速建立WebSocket连接，实时显示连接状态和连接信息。</p>
+                    <div class="tip">
+                        <span class="tip-text">提示：ws://用于非加密连接，wss://用于加密连接</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-history"></i> 历史记录</h3>
+                    <p>自动保存最近10个连接地址，支持快速选择和删除历史记录，提高调试效率。</p>
+                    <div class="tip">
+                        <span class="tip-text">点击历史记录中的×按钮可以删除该记录</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-list-alt"></i> 彩色日志</h3>
+                    <p>使用不同颜色区分发送、接收、错误和系统日志，支持时间戳显示，便于问题排查。</p>
+                    <div class="tip">
+                        <span class="tip-text">绿色：发送消息 | 紫色：接收消息 | 红色：错误信息 | 灰色：系统信息</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-cogs"></i> 消息格式</h3>
+                    <p>预置JSON、文本等常见消息格式模板，支持一键填充测试消息，简化调试过程。</p>
+                    <div class="tip">
+                        <span class="tip-text">点击JSON、Ping、文本按钮快速填充测试消息</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-chart-line"></i> 实时状态</h3>
+                    <p>实时显示连接状态（在线/离线），连接建立时间，当前连接地址等关键信息。</p>
+                    <div class="tip">
+                        <span class="tip-text">绿色圆点表示连接正常，灰色圆点表示未连接</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-mobile-alt"></i> 响应式设计</h3>
+                    <p>完美适配桌面、平板和手机等不同设备屏幕，随时随地调试WebSocket连接。</p>
+                    <div class="tip">
+                        <span class="tip-text">在移动设备上也能获得良好的使用体验</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>常见问题解答 (FAQ)</h2>
+                <div class="faq-item">
+                    <h3>什么是WebSocket协议？</h3>
+                    <p>WebSocket是一种在单个TCP连接上进行全双工通信的协议。它使得客户端和服务器之间的数据交换变得更加简单，允许服务器主动向客户端推送数据。与HTTP不同，WebSocket连接一旦建立，就可以持续保持连接状态。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>如何测试本地的WebSocket服务器？</h3>
+                    <p>如果您的WebSocket服务器运行在本地，可以使用以下地址格式：<br>
+                    <code>ws://localhost:端口号</code> 或 <code>ws://127.0.0.1:端口号</code><br>
+                    例如：<code>ws://localhost:8080</code> 或 <code>ws://127.0.0.1:3000</code></p>
+                </div>
+                <div class="faq-item">
+                    <h3>为什么连接失败？</h3>
+                    <p>连接失败可能的原因包括：<br>
+                    1) 服务器地址错误或服务器未运行<br>
+                    2) 网络防火墙阻止了WebSocket连接<br>
+                    3) 服务器不支持WebSocket协议<br>
+                    4) 使用了错误的协议（应该使用wss://而不是ws://，或反之）<br>
+                    建议检查服务器状态、网络连接和协议设置。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>如何保存测试结果？</h3>
+                    <p>目前工具支持自动保存历史连接记录。日志内容可以通过浏览器控制台查看，也可以手动复制保存。未来版本将添加导出日志功能。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>支持哪些WebSocket子协议？</h3>
+                    <p>本工具支持标准的WebSocket协议。如果需要特定的子协议，可以在连接地址后添加协议参数，或者联系开发团队定制功能。</p>
+                </div>
+            </div>
         </div>
     </div>
     
     <script src="/static/js/netdev/websocket-client/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
