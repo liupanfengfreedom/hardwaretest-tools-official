@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WebSocket online debugging tool, supports connection testing, message sending, history management, professional WebSocket client debugging assistant">
+    <meta property="og:title" content="WebSocket Debugging Assistant - Online WebSocket Client Tool">
+    <meta property="og:description" content="Free online WebSocket debugging tool, supports WebSocket connection testing, message sending/receiving, history management, no software installation required, debug instantly">
+    <meta property="og:image" content="https://starryring.com/websocket-preview.png">
+    <meta property="og:url" content="https://starryring.com/en/NetDev/websocket-client/">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WebSocket Debugging Assistant - Online WebSocket Client Tool">
+    <meta name="twitter:description" content="Free online WebSocket debugging tool, supports WebSocket connection testing, message sending/receiving, history management">
+    <meta name="twitter:image" content="https://starryring.com/websocket-preview.png">
+    
+    <link rel="canonical" href="https://starryring.com/en/NetDev/websocket-client/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/NetDev/websocket-client/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/NetDev/websocket-client/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/NetDev/websocket-client/" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <link rel="stylesheet" href="/static/css/netdev/websocket-client/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "WebSocket Debugging Assistant",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
+                "description": "Free online WebSocket debugging tool, supports WebSocket connection testing, message sending/receiving, history management, real-time debugging features",
+                "url": "https://starryring.com/en/NetDev/websocket-client/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/websocket-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "WebSocket Debugging Assistant Interface"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/websocket-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "WebSocket Connection Test Interface",
+                        "description": "Establish WebSocket connection and perform message testing"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/websocket-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "History Management Interface",
+                        "description": "Display WebSocket connection history and management functions"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "WebSocket connection establishment and disconnection",
+                    "Real-time message sending and receiving display",
+                    "Connection history management (10 records)",
+                    "Real-time status indicator",
+                    "Colored log classification display",
+                    "Auto-reconnect mechanism (optional)",
+                    "Error diagnosis and prompts"
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is WebSocket Debugging Assistant?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "WebSocket Debugging Assistant is an online tool for testing and debugging WebSocket connections. It allows developers to quickly connect to WebSocket servers, send and receive messages, and view connection status and log information in real-time. No software installation is required, use it directly in your browser."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How to use this tool to test WebSocket connections?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "First, enter the WebSocket server address in the address input box (URL starting with ws:// or wss://), then click the 'Establish Connection' button. After successful connection, the status indicator will turn green. At this point, you can enter the content to send in the message input box, and click the 'Send Data' button or press Enter to send."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What does the history function do?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The history function saves your last 10 connected WebSocket server addresses. When you use it again, you can quickly select previous connection addresses through the dropdown list without re-entering them. This improves debugging efficiency, especially suitable for frequently switching between different environments during development."
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+    <title>WebSocket Debugging Assistant - Online WebSocket Client Testing Tool | StarryRing</title>
+</head>
+<body>
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item">
+                    <a href="/en/" class="breadcrumb-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/en/NetDev/" class="breadcrumb-link">
+                        <i class="fas fa-network-wired"></i> Network Testing Tools
+                    </a>
+                </li>
+                <li class="breadcrumb-item">                   
+                    <span class="breadcrumb-active">WebSocket Client Tool</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- Network Testing Tools Navigation Cards -->
+    <div class="tools-navigation-section">
+        <h2 class="tools-navigation-title">
+            <i class="fas fa-network-wired"></i> Network Testing Toolbox
+        </h2>
+        <p class="tools-navigation-subtitle">Select the network testing tool you need for comprehensive network performance detection</p>
+        <div class="tools-navigation-grid">  
+            <a href="/en/NetDev/ping/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-satellite"></i>
+                        </div>
+                        <h3>Ping Test</h3>
+                    </div>
+                    <p>Network connectivity test, detect server response time</p>
+                </div>
+            </a>
+            
+            <a href="/en/NetDev/traceroute/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h3>Traceroute</h3>
+                    </div>
+                    <p>Trace packet paths, analyze network routing issues</p>
+                </div>
+            </a>
+            
+            <a href="/en/NetDev/websocket-client/" class="tool-card active">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <h3>WebSocket Test</h3>
+                    </div>
+                    <p>WebSocket connection debugging and message testing tool</p>
+                </div>
+            </a>
+            
+            <a href="/en/NetDev/http-test/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>HTTP Test</h3>
+                    </div>
+                    <p>HTTP request testing and response analysis tool</p>
+                </div>
+            </a>
+            
+            <a href="/en/NetDev/speed-test/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3>Speed Test</h3>
+                    </div>
+                    <p>Network bandwidth and speed testing tool</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/zh/NetDev/websocket-client/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/en/NetDev/websocket-client/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    
+    <h1>WebSocket Debugging Assistant</h1>
+    <p>Professional WebSocket client testing tool, supports connection management, message debugging, history records</p>
+    
+    <div class="websocket-container">
+        <div class="connection-panel">
+            <div class="panel-header">
+                <i class="fas fa-link"></i>
+                <span>Connection Configuration</span>
+            </div>
+            <div class="url-input-wrapper">
+                <input type="text" id="wsUrl" placeholder="Enter WebSocket server address (e.g., ws://echo.websocket.org or wss://...)" autocomplete="off">
+                <div id="historyDropdown" class="history-dropdown"></div>
+            </div>
+            <div class="button-group">
+                <button id="connectBtn" class="btn-primary">
+                    <i class="fas fa-plug"></i> Establish Connection
+                </button>
+                <button id="clearBtn" class="btn-secondary">
+                    <i class="fas fa-trash-alt"></i> Clear Log
+                </button>
+            </div>
+        </div>
+        
+        <div class="status-panel">
+            <div class="status-indicator">
+                <div id="statusDot" class="dot"></div>
+                <div class="status-info">
+                    <span id="statusText">Currently Not Connected</span>
+                    <span id="connectionInfo" class="connection-info"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="log-panel">
+            <div class="panel-header">
+                <i class="fas fa-terminal"></i>
+                <span>Communication Log</span>
+                <div class="log-actions">
+                    <span id="logCount">0 records</span>
+                </div>
+            </div>
+            <div id="logConsole" class="log-console"></div>
+        </div>
+        
+        <div class="message-panel">
+            <div class="panel-header">
+                <i class="fas fa-paper-plane"></i>
+                <span>Message Sending</span>
+            </div>
+            <div class="message-input-group">
+                <input type="text" id="messageInput" placeholder="Enter message content to send..." disabled>
+                <button id="sendBtn" class="btn-send" disabled>
+                    <i class="fas fa-paper-plane"></i> Send
+                </button>
+            </div>
+            <div class="message-format">
+                <span class="format-label">Send Format:</span>
+                <button class="format-btn" data-format='{"type":"test","data":"hello"}'>JSON</button>
+                <button class="format-btn" data-format="ping">Ping</button>
+                <button class="format-btn" data-format="test message">Text</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page Navigation Cards -->
+    <div class="page-navigation-section">
+        <div class="navigation-header">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Deepen Your WebSocket Knowledge</h2>
+            <p>Learn more about WebSocket protocol and debugging techniques</p>
+        </div>
+        <div class="navigation-cards">
+            <a href="/en/NetDev/websocket-client/guide/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>Detailed Usage Guide</h3>
+                    <p>Learn how to use WebSocket Debugging Assistant from scratch, including step-by-step instructions, debugging tips, and FAQs.</p>
+                    <div class="nav-card-action">
+                        <span>View Complete Guide <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+            <a href="/en/NetDev/websocket-client/principle/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>WebSocket Principles Explained</h3>
+                    <p>Deep dive into how WebSocket protocol works, handshake process, frame structure, and differences from traditional HTTP.</p>
+                    <div class="nav-card-action">
+                        <span>Learn Technical Principles <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Function Description and FAQ Section -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>WebSocket Debugging Assistant Features</h2>
+            <p>📖 Introduction: Professional WebSocket client debugging tool, supports comprehensive features including real-time connection testing, message sending/receiving, history management</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3><i class="fas fa-bolt"></i> Quick Connection</h3>
+                    <p>Supports ws:// and wss:// protocols, one-click fast WebSocket connection establishment, real-time display of connection status and information.</p>
+                    <div class="tip">
+                        <span class="tip-text">Tip: ws:// for non-encrypted connections, wss:// for encrypted connections</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-history"></i> History Records</h3>
+                    <p>Automatically saves last 10 connection addresses, supports quick selection and deletion of history records, improves debugging efficiency.</p>
+                    <div class="tip">
+                        <span class="tip-text">Click the × button in history records to delete that record</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-list-alt"></i> Colored Logs</h3>
+                    <p>Uses different colors to distinguish sent, received, error, and system logs, supports timestamp display, facilitates problem troubleshooting.</p>
+                    <div class="tip">
+                        <span class="tip-text">Green: Sent messages | Purple: Received messages | Red: Error messages | Gray: System messages</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-cogs"></i> Message Formats</h3>
+                    <p>Pre-set common message format templates like JSON, text, supports one-click filling of test messages, simplifies debugging process.</p>
+                    <div class="tip">
+                        <span class="tip-text">Click JSON, Ping, Text buttons to quickly fill test messages</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-chart-line"></i> Real-time Status</h3>
+                    <p>Real-time display of connection status (online/offline), connection establishment time, current connection address and other key information.</p>
+                    <div class="tip">
+                        <span class="tip-text">Green dot indicates normal connection, gray dot indicates disconnected</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-mobile-alt"></i> Responsive Design</h3>
+                    <p>Perfectly adapts to different device screens including desktop, tablet, and mobile phones, debug WebSocket connections anytime, anywhere.</p>
+                    <div class="tip">
+                        <span class="tip-text">Good user experience on mobile devices too</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>Frequently Asked Questions (FAQ)</h2>
+                <div class="faq-item">
+                    <h3>What is WebSocket Protocol?</h3>
+                    <p>WebSocket is a protocol for full-duplex communication over a single TCP connection. It makes data exchange between client and server simpler, allowing servers to actively push data to clients. Unlike HTTP, once a WebSocket connection is established, it can remain connected continuously.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How to test a local WebSocket server?</h3>
+                    <p>If your WebSocket server runs locally, you can use the following address format:<br>
+                    <code>ws://localhost:port</code> or <code>ws://127.0.0.1:port</code><br>
+                    For example: <code>ws://localhost:8080</code> or <code>ws://127.0.0.1:3000</code></p>
+                </div>
+                <div class="faq-item">
+                    <h3>Why does connection fail?</h3>
+                    <p>Possible reasons for connection failure include:<br>
+                    1) Wrong server address or server not running<br>
+                    2) Network firewall blocking WebSocket connection<br>
+                    3) Server doesn't support WebSocket protocol<br>
+                    4) Using wrong protocol (should use wss:// instead of ws://, or vice versa)<br>
+                    Recommended to check server status, network connection, and protocol settings.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How to save test results?</h3>
+                    <p>The tool currently supports automatic saving of history connection records. Log content can be viewed through browser console, or manually copied and saved. Future versions will add log export functionality.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Which WebSocket subprotocols are supported?</h3>
+                    <p>This tool supports standard WebSocket protocol. If specific subprotocols are needed, you can add protocol parameters after the connection address, or contact the development team for custom features.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/netdev/websocket-client/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
