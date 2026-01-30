@@ -1,376 +1,268 @@
 :root {
-            --bg-color: #121212;
-            --key-base: #2a2a2a;
-            --key-border: #444;
-            --highlight: #00ff88;
-            --accent-red: #ff4444;
-            --active-color: #ffffff;
-            --text-color: #e0e0e0;
-            --tested-bg: #00552e; 
-            --counter-color: #ffce00; 
-            --info-blue: #4fc3f7; 
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
-            user-select: none;
-        }
-
-        h1 { margin: 10px 0; font-weight: 300; letter-spacing: 1px; }
-        
-        /* 顶部统计栏 */
-        .stats-bar {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 30px;
-            font-family: monospace;
-            background: #1e1e1e;
-            padding: 10px 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            align-items: center;
-            border: 1px solid #333;
-        }
-        
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
-        .stat-value { color: var(--highlight); font-weight: bold; font-size: 1.2rem; }
-
-        /* 重置按钮 */
-        .btn-reset {
-            background-color: var(--accent-red);
-            color: white;
-            border: none;
-            padding: 8px 24px;
-            border-radius: 6px;
-            font-family: inherit;
-            font-weight: bold;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            height: 40px;
-        }
-
-        .btn-reset:hover {
-            background-color: #ff6666;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
-        }
-
-        .btn-reset:active { transform: scale(0.95); }
-
-        /* --- 键盘容器 --- */
-        .keyboard-container {
-            display: flex;
-            gap: 15px;
-            background: #181818;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            max-width: 1200px;
-            transform-origin: top center;
-        }
-        
-        .main-section { display: flex; flex-direction: column; gap: 6px; }
-        .row { display: flex; gap: 6px; }
-        .control-section { display: flex; flex-direction: column; gap: 6px; justify-content: space-between; }
-        .control-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-        .numpad-section { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-
-        /* 按键样式 */
-        .key {
-            width: 50px;
-            height: 50px;
-            background: var(--key-base);
-            border: 1px solid var(--key-border);
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.8rem;
-            transition: all 0.05s; 
-            color: #aaa;
-            position: relative; 
-        }
-
-        .key small { font-size: 0.6rem; opacity: 0.6; margin-top: 2px; }
-
-        .key.active {
-            background: var(--active-color) !important;
-            color: #000 !important;
-            transform: translateY(2px);
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
-            border-color: #fff;
-        }
-
-        .key.tested {
-            background: var(--tested-bg);
-            color: var(--highlight);
-            border-color: var(--highlight);
-        }
-
-        .key-counter {
-            position: absolute;
-            top: 2px;
-            right: 4px;
-            font-size: 0.6rem;
-            color: var(--counter-color);
-            font-weight: bold;
-            font-family: monospace;
-            opacity: 0; 
-        }
-        .key.tested .key-counter { opacity: 1; }
-
-        /* 宽度辅助类 */
-        .w-1-5 { width: 78px; } 
-        .w-1-75 { width: 92px; } 
-        .w-2 { width: 106px; } 
-        .w-2-25 { width: 120px; } 
-        .w-2-75 { width: 148px; } 
-        .w-6-25 { width: 346px; } 
-        .h-2 { height: 106px; grid-row: span 2; } 
-
-        /* --- 底部信息面板 (修改为4列) --- */
-        .info-panel {
-            margin-top: 30px;
-            width: 700px; 
-            background: #1e1e1e;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: monospace;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px;
-            text-align: center;
-        }
-        .info-box {
-            position: relative;
-        }
-        /* 给右边加个分隔线，除了最后一个 */
-        .info-box:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            right: -5px;
-            top: 10%;
-            height: 80%;
-            width: 1px;
-            background: #333;
-        }
-
-        .info-box div:first-child { color: #777; font-size: 0.8rem; margin-bottom: 5px; }
-        .info-box div:last-child { color: var(--highlight); font-size: 1.2rem; }
-        
-        /* 单独给时间数据显示蓝色 */
-        #info-time { color: var(--info-blue) !important; }
-
-        @media (max-width: 1000px) {
-            .keyboard-container { transform: scale(0.7); margin-top: -50px; }
-        }
-       
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-     /* style.css 或新创建的 seo-optimizations.css */
-
-/* 引导性内容样式 */
-.intro-section {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    border-left: 5px solid #4CAF50;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    --bg-color: #121212;
+    --key-base: #2a2a2a;
+    --key-border: #444;
+    --highlight: #00ff88;
+    --accent-red: #ff4444;
+    --active-color: #ffffff;
+    --text-color: #e0e0e0;
+    --tested-bg: #00552e; 
+    --counter-color: #ffce00; /* 按下颜色 (黄色) */
+    --up-color: #ff9800;      /* 松开颜色 (橙色) */
+    --info-blue: #4fc3f7; 
 }
 
-.intro-section p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: #e0e0e0;
-    margin-bottom: 20px;
-}
-
-.intro-section strong {
-    color: #4CAF50;
-    font-weight: 600;
-}
-
-.keyboard-types {
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 15px;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    overflow-x: hidden;
+    user-select: none;
 }
 
-.keyboard-type-tag {
-    display: inline-block;
-    background: rgba(76, 175, 80, 0.15);
-    color: #4CAF50;
-    padding: 8px 16px;
-    margin: 5px;
-    border-radius: 25px;
-    font-size: 0.9em;
-    font-weight: 500;
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    transition: all 0.3s ease;
-}
+h1 { margin: 10px 0; font-weight: 300; letter-spacing: 1px; }
 
-.keyboard-type-tag:hover {
-    background: rgba(76, 175, 80, 0.25);
-    transform: translateY(-2px);
-}
-
-/* 相关工具样式 */
-.related-tools {
-    margin: 50px 0 30px;
-    padding: 35px;
-    background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
-    border-radius: 15px;
+/* 顶部统计栏 */
+.stats-bar {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    font-family: monospace;
+    background: #1e1e1e;
+    padding: 10px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    align-items: center;
     border: 1px solid #333;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 
-.related-tools h2 {
-    color: #fff;
-    font-size: 1.8em;
-    margin-bottom: 10px;
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+.stat-value { color: var(--highlight); font-weight: bold; font-size: 1.2rem; }
+
+/* 重置按钮 */
+.btn-reset {
+    background-color: var(--accent-red);
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+    letter-spacing: 1px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    height: 40px;
 }
 
-.related-tools h2 i {
-    color: #4CAF50;
-    font-size: 1.2em;
+.btn-reset:hover {
+    background-color: #ff6666;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
 }
 
-.related-tools > p {
-    color: #aaa;
-    font-size: 1.05em;
-    margin-bottom: 25px;
-    max-width: 800px;
-}
+.btn-reset:active { transform: scale(0.95); }
 
-.related-tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
-    margin-top: 20px;
-}
-
-.related-tool-card {
-    background: #2a2a2a;
-    padding: 25px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: #ddd;
-    transition: all 0.3s ease;
-    display: block;
+/* --- 键盘容器 --- */
+.keyboard-container {
+    display: flex;
+    gap: 15px;
+    background: #181818;
+    padding: 20px;
+    border-radius: 15px;
     border: 1px solid #333;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    max-width: 1200px;
+    transform-origin: top center;
 }
 
-.related-tool-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #4CAF50, #2196F3);
-}
+.main-section { display: flex; flex-direction: column; gap: 6px; }
+.row { display: flex; gap: 6px; }
+.control-section { display: flex; flex-direction: column; gap: 6px; justify-content: space-between; }
+.control-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.numpad-section { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 
-.related-tool-card:hover {
-    transform: translateY(-8px);
-    background: #303030;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    border-color: #444;
-}
-
-.related-tool-card i {
-    font-size: 2.5em;
-    color: #4CAF50;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.related-tool-card h3 {
-    color: #fff;
-    font-size: 1.3em;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-.related-tool-card p {
+/* 按键样式 */
+.key {
+    width: 50px;
+    height: 50px;
+    background: var(--key-base);
+    border: 1px solid var(--key-border);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    transition: all 0.05s; 
     color: #aaa;
-    font-size: 0.95em;
-    line-height: 1.5;
+    position: relative; /* 为绝对定位的数字做参考 */
 }
 
-/* 响应式设计 */
+.key small { font-size: 0.6rem; opacity: 0.6; margin-top: 2px; }
+
+.key.active {
+    background: var(--active-color) !important;
+    color: #000 !important;
+    transform: translateY(2px);
+    box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    border-color: #fff;
+}
+
+.key.tested {
+    background: var(--tested-bg);
+    color: var(--highlight);
+    border-color: var(--highlight);
+}
+
+/* --- 按键上的统计数字样式 --- */
+.key-stat-down, .key-stat-up {
+    position: absolute;
+    font-size: 0.6rem;
+    font-weight: bold;
+    font-family: monospace;
+    opacity: 0; /* 默认隐藏，有数据后显示 */
+    pointer-events: none;
+    line-height: 1;
+    white-space: nowrap; /* 防止换行 */
+}
+
+.key.tested .key-stat-down, 
+.key.tested .key-stat-up { 
+    opacity: 1; 
+}
+
+/* 按下次数 (Down)：右下角，黄色 */
+.key-stat-down {
+    bottom: 2px;
+    right: 4px;
+    color: var(--counter-color);
+}
+
+/* 使用伪元素添加向下箭头 ↓ */
+.key-stat-down::before {
+    content: "↓";
+    margin-right: 2px;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* 松开次数 (Up)：右上角，橙色 */
+.key-stat-up {
+    top: 2px;
+    right: 4px;
+    color: var(--up-color);
+}
+
+/* 使用伪元素添加向上箭头 ↑ */
+.key-stat-up::before {
+    content: "↑";
+    margin-right: 2px;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+
+/* 宽度辅助类 */
+.w-1-5 { width: 78px; } 
+.w-1-75 { width: 92px; } 
+.w-2 { width: 106px; } 
+.w-2-25 { width: 120px; } 
+.w-2-75 { width: 148px; } 
+.w-6-25 { width: 346px; } 
+.h-2 { height: 106px; grid-row: span 2; } 
+
+/* --- 底部信息面板 (4列) --- */
+.info-panel {
+    margin-top: 30px;
+    width: 100%; 
+    max-width: 900px;
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: monospace;
+    display: grid;
+    /* 桌面端显示4列 */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px;
+    text-align: center;
+}
+
+/* 响应式：小屏幕变回 2列 x 2行 */
 @media (max-width: 768px) {
-    .intro-section {
-        padding: 20px;
+    .info-panel {
+        grid-template-columns: repeat(2, 1fr);
     }
-    
-    .keyboard-types {
-        justify-content: center;
-    }
-    
-    .keyboard-type-tag {
-        padding: 6px 12px;
-        font-size: 0.85em;
-    }
-    
-    .related-tools {
-        padding: 25px 20px;
-        margin: 40px 0 20px;
-    }
-    
-    .related-tools-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .related-tool-card {
-        padding: 20px;
+    .info-box:not(:last-child)::after {
+        display: none; 
     }
 }
 
-@media (max-width: 480px) {
-    .intro-section {
-        padding: 15px;
+.info-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 桌面端分隔线 */
+@media (min-width: 769px) {
+    .info-box:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: -5px;
+        top: 10%;
+        height: 80%;
+        width: 1px;
+        background: #333;
     }
-    
-    .keyboard-type-tag {
-        padding: 5px 10px;
-        font-size: 0.8em;
-    }
-    
-    .related-tools {
-        padding: 20px 15px;
-    }
+}
+
+.info-box div:first-child { color: #777; font-size: 0.75rem; margin-bottom: 5px; white-space: nowrap; }
+.info-box div:last-child { color: var(--highlight); font-size: 1.1rem; font-weight: bold; }
+
+#info-time { color: var(--info-blue) !important; }
+
+/* 页面缩小适配 */
+@media (max-width: 1000px) {
+    .keyboard-container { transform: scale(0.7); margin-top: -50px; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 语言切换器样式 */
+.language-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 10px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+.language-dropdown.active {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
 }

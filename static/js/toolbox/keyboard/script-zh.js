@@ -1,12 +1,19 @@
 // /static/js/toolbox/keyboard/script-zh.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 初始化：为所有键位添加计数器 span
+    // 初始化：为所有键位添加 "按下(Down)" 和 "松开(Up)" 的计数器 span
     document.querySelectorAll('.key').forEach(keyEl => {
-        const counter = document.createElement('span');
-        counter.className = 'key-counter';
-        counter.innerText = '0';
-        keyEl.appendChild(counter);
+        // 右下角显示按下的计数器 (Down)
+        const downSpan = document.createElement('span');
+        downSpan.className = 'key-stat-down';
+        downSpan.innerText = '0';
+        keyEl.appendChild(downSpan);
+
+        // 右上角显示松开的计数器 (Up)
+        const upSpan = document.createElement('span');
+        upSpan.className = 'key-stat-up';
+        upSpan.innerText = '0';
+        keyEl.appendChild(upSpan);
     });
 });
 
@@ -15,6 +22,7 @@ const activeCountEl = document.getElementById('count-active');
 const testedCountEl = document.getElementById('count-tested');
 const totalCountEl = document.getElementById('count-total');
 
+// 信息面板元素
 const infoKey = document.getElementById('info-key');
 const infoCode = document.getElementById('info-code');
 const infoWhich = document.getElementById('info-which');
@@ -22,72 +30,108 @@ const infoTime = document.getElementById('info-time');
 
 let pressedKeys = new Set(); 
 let testedKeys = new Set(); 
-let keyCounts = {};       
 let totalKeystrokes = 0;
 let lastKeyTimestamp = 0;
 
-// --- 按键映射 (可选：如果你想在信息面板显示中文键名) ---
-// 如果不需要，可以删掉这个对象，直接显示 e.key
+// --- 详细按键统计对象 ---
+// 结构: { "KeyA": { down: 10, up: 9 }, "Enter": { down: 5, up: 5 } }
+let keyStats = {}; 
+
+// --- 中文键名映射 ---
 const keyNamesZh = {
     'Space': '空格', 'ArrowUp': '上', 'ArrowDown': '下', 'ArrowLeft': '左', 'ArrowRight': '右',
-    'Enter': '回车', 'ShiftLeft': '左Shift', 'ShiftRight': '右Shift', 'Backspace': '退格'
+    'Enter': '回车', 'ShiftLeft': '左Shift', 'ShiftRight': '右Shift', 'Backspace': '退格',
+    'ControlLeft': '左Ctrl', 'ControlRight': '右Ctrl', 'AltLeft': '左Alt', 'AltRight': '右Alt'
 };
 
-// --- 事件监听 ---
-
+// --- KeyDown 事件监听 ---
 document.addEventListener('keydown', (e) => {
     e.preventDefault();
     
-    const currentTimestamp = performance.now(); 
-    let timeDelta = 0;
-
-    // 计算时间差
-    if (lastKeyTimestamp !== 0) {
-        timeDelta = Math.round(currentTimestamp - lastKeyTimestamp);
-        // [中文特有] 使用中文单位
-        infoTime.innerText = `${timeDelta} 毫秒`;
-    } else {
-        // [中文特有] 初始状态文本
-        infoTime.innerText = '开始'; 
+    // 1. 初始化该按键的统计对象（如果不存在）
+    if (!keyStats[e.code]) {
+        keyStats[e.code] = { down: 0, up: 0 };
     }
-    
-    lastKeyTimestamp = currentTimestamp;
 
-    const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
-    
-    totalKeystrokes++;
-    
-    if (!keyCounts[e.code]) keyCounts[e.code] = 0;
-    keyCounts[e.code]++;
-
-    if (keyEl) {
-        keyEl.classList.add('active');
-        keyEl.classList.add('tested');
+    // 2. 物理按下逻辑 (忽略长按产生的自动重复)
+    if (!e.repeat) {
+        // 增加按下计数
+        keyStats[e.code].down++;
         
-        let counter = keyEl.querySelector('.key-counter');
-        if (!counter) {
-            counter = document.createElement('span');
-            counter.className = 'key-counter';
-            keyEl.appendChild(counter);
+        // 增加总击键数
+        totalKeystrokes++;
+        
+        // 计算时间差
+        const currentTimestamp = performance.now(); 
+        if (lastKeyTimestamp !== 0) {
+            const timeDelta = Math.round(currentTimestamp - lastKeyTimestamp);
+            infoTime.innerText = `${timeDelta} 毫秒`;
+        } else {
+            infoTime.innerText = '开始'; 
         }
-        counter.innerText = keyCounts[e.code];
+        lastKeyTimestamp = currentTimestamp;
+
+        // 更新 UI：键盘上的数字 (显示按下次数 - 右下角)
+        const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
+        if (keyEl) {
+            keyEl.classList.add('tested');
+            
+            // 获取或创建 down span
+            let downCounter = keyEl.querySelector('.key-stat-down');
+            if (!downCounter) {
+                downCounter = document.createElement('span');
+                downCounter.className = 'key-stat-down';
+                keyEl.appendChild(downCounter);
+            }
+            downCounter.innerText = keyStats[e.code].down;
+        }
+
+        testedKeys.add(e.code);
     }
 
+    // 3. 视觉状态：只要有 KeyDown 事件（哪怕是 repeat），保持按键高亮
+    // 并发计数逻辑
+    const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
+    if (keyEl) keyEl.classList.add('active');
     pressedKeys.add(e.code);
-    testedKeys.add(e.code);
     
+    // 4. 更新面板
     updateStats();
     updateInfo(e);
 });
 
+// --- KeyUp 事件监听 ---
 document.addEventListener('keyup', (e) => {
     e.preventDefault();
+    
+    // 1. 初始化统计对象（防止没按直接松开的边缘情况）
+    if (!keyStats[e.code]) {
+        keyStats[e.code] = { down: 0, up: 0 };
+    }
+
+    // 2. 增加松开计数
+    keyStats[e.code].up++;
+
+    // 3. 视觉状态移除
     const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
     if (keyEl) {
         keyEl.classList.remove('active');
+        
+        // 更新 UI：键盘上的数字 (显示松开次数 - 右上角)
+        let upCounter = keyEl.querySelector('.key-stat-up');
+        if (!upCounter) {
+            upCounter = document.createElement('span');
+            upCounter.className = 'key-stat-up';
+            keyEl.appendChild(upCounter);
+        }
+        upCounter.innerText = keyStats[e.code].up;
     }
+    
     pressedKeys.delete(e.code);
+    
+    // 4. 更新面板
     updateStats();
+    updateInfo(e); 
 });
 
 // --- 辅助函数 ---
@@ -105,34 +149,38 @@ function updateStats() {
 }
 
 function updateInfo(e) {
-    // [中文特有] 尝试显示中文键名，没有则显示默认
     const displayName = keyNamesZh[e.code] || e.key;
-    
+
     infoKey.innerText = displayName;
     infoCode.innerText = e.code;
     infoWhich.innerText = e.which;
 }
 
-// 绑定到 window 以便 HTML 中的 onclick 调用
+// 重置功能
 window.resetTest = function() {
     pressedKeys.clear();
     testedKeys.clear();
-    keyCounts = {};
+    keyStats = {}; // 清空统计对象
     totalKeystrokes = 0;
     lastKeyTimestamp = 0; 
 
     document.querySelectorAll('.key').forEach(el => {
         el.classList.remove('active');
         el.classList.remove('tested');
-        const counter = el.querySelector('.key-counter');
-        if (counter) counter.innerText = '0';
+        
+        // 重置按键上的数字
+        const downStat = el.querySelector('.key-stat-down');
+        if(downStat) downStat.innerText = '0';
+        
+        const upStat = el.querySelector('.key-stat-up');
+        if(upStat) upStat.innerText = '0';
     });
 
     updateStats();
     infoKey.innerText = '-';
     infoCode.innerText = '-';
     infoWhich.innerText = '-';
-    infoTime.innerText = '- ms'; 
+    infoTime.innerText = '- ms';
 }
 
 window.addEventListener('blur', () => {
