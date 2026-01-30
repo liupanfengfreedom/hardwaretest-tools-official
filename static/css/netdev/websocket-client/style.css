@@ -1,0 +1,558 @@
+:root {
+    /* 深色主题配色 - 与模板页面保持一致 */
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --panel-header: #2a2a2a;
+    --panel-border: #333;
+    --text-main: #e0e0e0;
+    --text-dim: #757575;
+    --border: #444;
+    
+    /* 功能颜色 */
+    --primary: #4fc3f7;        /* 浅蓝色 - 与模板一致 */
+    --success: #00ff88;        /* 绿色 - 与模板一致 */
+    --danger: #ff4444;         /* 红色 - 与模板一致 */
+    --warning: #ff9800;
+    --accent: #9b59b6;
+    
+    /* 日志颜色 - 重新调整以匹配深色主题 */
+    --log-sent: #4fc3f7;       /* 浅蓝色 - 发送 */
+    --log-received: #da70d6;   /* 紫色 - 接收 */
+    --log-error: #ff4444;      /* 红色 - 错误 */
+    --log-info: #757575;       /* 灰色 - 信息 */
+    
+    /* 状态指示器颜色 */
+    --status-offline: #666;
+    --status-online: #00ff88;  /* 绿色 - 与模板一致 */
+    
+    /* 按钮状态 */
+    --btn-hover: rgba(79, 195, 247, 0.1);
+    --btn-active: rgba(79, 195, 247, 0.2);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 10px 0 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    user-select: none;
+}
+
+h1 {
+    margin: 15px 0 8px 0;
+    font-weight: 300;
+    letter-spacing: 1px;
+    font-size: 1.8rem;
+    text-align: center;
+    color: var(--text-main);
+}
+
+p {
+    color: var(--text-dim);
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    text-align: center;
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+.websocket-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 15px;
+}
+
+/* 面板通用样式 */
+.connection-panel,
+.status-panel,
+.log-panel,
+.message-panel {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    border: 3px solid var(--panel-border);
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.panel-header {
+    background-color: var(--panel-header);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    color: #ffffff;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.panel-header i {
+    color: var(--primary);
+}
+
+/* 连接配置面板 */
+.connection-panel {
+    padding: 25px;
+}
+
+.url-input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.url-input-wrapper input {
+    width: 100%;
+    padding: 14px;
+    background-color: #252525;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.url-input-wrapper input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.1);
+}
+
+.url-input-wrapper input::placeholder {
+    color: #666;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #000;
+    flex: 1;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.4);
+}
+
+.btn-primary:hover {
+    background-color: #66d3ff;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+.btn-primary.connected {
+    background-color: var(--danger);
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.4);
+}
+
+.btn-primary.connected:hover {
+    background-color: #ff6666;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+}
+
+.btn-secondary {
+    background-color: #333;
+    color: var(--text-main);
+    flex: 0.5;
+}
+
+.btn-secondary:hover {
+    background-color: #444;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-send {
+    background-color: var(--success);
+    color: #000;
+    padding: 12px 30px;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.btn-send:hover:not(:disabled) {
+    background-color: #33ffaa;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+}
+
+.btn-send:disabled {
+    background-color: #333;
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
+/* 历史记录下拉框 */
+.history-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-main);
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--border);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item:hover {
+    background-color: var(--btn-hover);
+}
+
+.history-item .url-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-main);
+}
+
+.history-item .delete-btn {
+    color: var(--text-dim);
+    margin-left: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 18px;
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    min-width: 30px;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.history-item .delete-btn:hover {
+    color: var(--danger);
+    background: rgba(255, 68, 68, 0.1);
+    transform: scale(1.1);
+}
+
+/* 状态面板 */
+.status-panel {
+    padding: 15px 20px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--status-offline);
+    transition: all 0.3s;
+}
+
+.dot.online {
+    background-color: var(--status-online);
+    box-shadow: 0 0 10px var(--status-online);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+}
+
+.status-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#statusText {
+    font-weight: 600;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.connection-info {
+    font-size: 13px;
+    color: var(--text-dim);
+}
+
+/* 日志面板 */
+.log-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+}
+
+.log-actions {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-dim);
+}
+
+.log-console {
+    flex: 1;
+    background: #111;
+    color: var(--text-main);
+    padding: 15px;
+    overflow-y: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin: 15px;
+}
+
+.log-item {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #222;
+    word-break: break-all;
+}
+
+.log-item:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.type-sent {
+    color: var(--log-sent);
+}
+
+.type-received {
+    color: var(--log-received);
+}
+
+.type-error {
+    color: var(--log-error);
+    font-weight: bold;
+    animation: pulse-alert 1s infinite alternate;
+}
+
+.type-info {
+    color: var(--log-info);
+}
+
+@keyframes pulse-alert {
+    from {
+        opacity: 0.7;
+        text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+    }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+    }
+}
+
+/* 消息发送面板 */
+.message-panel {
+    padding: 20px;
+}
+
+.message-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.message-input-group input {
+    flex: 1;
+    padding: 14px;
+    background-color: #252525;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.message-input-group input:focus {
+    border-color: var(--success);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+}
+
+.message-input-group input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.message-format {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.format-label {
+    color: var(--text-dim);
+    font-size: 13px;
+}
+
+.format-btn {
+    padding: 8px 15px;
+    background-color: #333;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.format-btn:hover {
+    background-color: var(--primary);
+    color: #000;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .websocket-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 800px;
+    }
+    
+    .connection-panel,
+    .status-panel,
+    .log-panel,
+    .message-panel {
+        min-height: auto;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    p {
+        font-size: 0.8rem;
+    }
+    
+    .websocket-container {
+        padding: 0 10px;
+    }
+    
+    .panel-header {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .message-input-group {
+        flex-direction: column;
+    }
+    
+    .btn-send {
+        width: 100%;
+    }
+    
+    .log-console {
+        height: 300px;
+        margin: 10px;
+    }
+    
+    .connection-panel {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px 0 20px 0;
+    }
+    
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    p {
+        font-size: 0.85rem;
+    }
+    
+    .connection-panel,
+    .status-panel,
+    .log-panel,
+    .message-panel {
+        border-radius: 10px;
+        padding: 15px;
+    }
+    
+    .url-input-wrapper input,
+    .message-input-group input {
+        padding: 12px;
+        font-size: 13px;
+    }
+    
+    button {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+    
+    .log-console {
+        height: 250px;
+        font-size: 12px;
+    }
+}
