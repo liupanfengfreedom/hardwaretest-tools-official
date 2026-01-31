@@ -25,9 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化用户计数
     initUserCount();
     
+    // 初始化日志系统
+    initLogSystem();
+    
     // 显示欢迎提示
     setTimeout(() => {
-        showToast('💡 提示：直接在键盘上按键开始测试，或点击「故障诊断」进行专业检测', 'info');
+        showToast('💡 提示：快速连续按同一个键测试按键间隔，小于80ms会用红色标记', 'info');
     }, 1000);
 });
 
@@ -51,6 +54,12 @@ let maxConcurrentKeys = 0;
 let diagnosisActive = false;
 let diagnosisResults = [];
 
+// --- 按键间隔检测相关变量 ---
+let keyLastPressTime = {}; // 记录每个按键上次按下的时间 {keyCode: timestamp}
+let keyPressIntervals = {}; // 记录每个按键的间隔历史 {keyCode: [interval1, interval2, ...]}
+let minInterval = Infinity; // 记录最小间隔
+let logAutoScroll = true; // 日志自动滚动
+
 // --- 详细按键统计对象 ---
 // 结构: { "KeyA": { down: 10, up: 9 }, "Enter": { down: 5, up: 5 } }
 let keyStats = {}; 
@@ -65,16 +74,73 @@ const keyNamesZh = {
     'ScrollLock': '滚动锁定', 'Pause': '暂停', 'PrintScreen': '打印屏幕', 'ContextMenu': '菜单键'
 };
 
+// --- 日志系统初始化 ---
+function initLogSystem() {
+    // 初始化日志统计
+    updateLogStats();
+    
+    // 恢复日志设置
+    const savedAutoScroll = localStorage.getItem('keyboardLogAutoScroll');
+    if (savedAutoScroll !== null) {
+        logAutoScroll = savedAutoScroll === 'true';
+        const toggleBtn = document.getElementById('toggle-scroll');
+        if (toggleBtn) {
+            toggleBtn.innerHTML = logAutoScroll ? 
+                '<i class="fas fa-scroll"></i> 自动滚动开' : 
+                '<i class="fas fa-scroll"></i> 自动滚动关';
+        }
+    }
+}
+
 // --- KeyDown 事件监听 ---
 document.addEventListener('keydown', (e) => {
     e.preventDefault();
     
-    // 1. 初始化该按键的统计对象（如果不存在）
+    // 1. 按键间隔检测逻辑
+    const currentTime = performance.now();
+    const keyCode = e.code;
+    
+    if (keyLastPressTime[keyCode]) {
+        const interval = Math.round(currentTime - keyLastPressTime[keyCode]);
+        
+        // 记录间隔历史
+        if (!keyPressIntervals[keyCode]) {
+            keyPressIntervals[keyCode] = [];
+        }
+        keyPressIntervals[keyCode].push(interval);
+        
+        // 更新最小间隔
+        if (interval < minInterval && interval > 0) {
+            minInterval = interval;
+            document.getElementById('log-min-interval').textContent = `${minInterval} ms`;
+        }
+        
+        // 记录到日志（除非是自动重复事件）
+        if (!e.repeat) {
+            logKeyInterval(keyCode, interval);
+        }
+        
+        // 诊断模式检测
+        if (diagnosisActive) {
+            if (interval < 20) {
+                addDiagnosisResult('严重连点', `按键${getKeyDisplayName(keyCode)}间隔仅${interval}ms`, 'error');
+            } else if (interval < 50) {
+                addDiagnosisResult('中度连点', `按键${getKeyDisplayName(keyCode)}间隔${interval}ms`, 'warning');
+            } else if (interval < 80) {
+                addDiagnosisResult('轻微连点', `按键${getKeyDisplayName(keyCode)}间隔${interval}ms`, 'info');
+            }
+        }
+    }
+    
+    // 更新上次按键时间
+    keyLastPressTime[keyCode] = currentTime;
+    
+    // 2. 初始化该按键的统计对象（如果不存在）
     if (!keyStats[e.code]) {
         keyStats[e.code] = { down: 0, up: 0 };
     }
 
-    // 2. 物理按下逻辑 (忽略长按产生的自动重复)
+    // 3. 物理按下逻辑 (忽略长按产生的自动重复)
     if (!e.repeat) {
         // 增加按下计数
         keyStats[e.code].down++;
@@ -82,20 +148,14 @@ document.addEventListener('keydown', (e) => {
         // 增加总击键数
         totalKeystrokes++;
         
-        // 计算时间差
-        const currentTimestamp = performance.now(); 
+        // 计算时间差（相邻按键间隔）
         if (lastKeyTimestamp !== 0) {
-            const timeDelta = Math.round(currentTimestamp - lastKeyTimestamp);
+            const timeDelta = Math.round(currentTime - lastKeyTimestamp);
             infoTime.innerText = `${timeDelta} 毫秒`;
-            
-            // 诊断模式下的延迟检测
-            if (diagnosisActive && timeDelta > 300) {
-                addDiagnosisResult('响应延迟', `检测到高延迟：${timeDelta}ms`, 'warning');
-            }
         } else {
             infoTime.innerText = '开始'; 
         }
-        lastKeyTimestamp = currentTimestamp;
+        lastKeyTimestamp = currentTime;
 
         // 更新 UI：键盘上的数字 (显示按下次数 - 右下角)
         const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
@@ -115,7 +175,7 @@ document.addEventListener('keydown', (e) => {
         testedKeys.add(e.code);
     }
 
-    // 3. 视觉状态：只要有 KeyDown 事件（哪怕是 repeat），保持按键高亮
+    // 4. 视觉状态：只要有 KeyDown 事件（哪怕是 repeat），保持按键高亮
     // 并发计数逻辑
     const keyEl = document.querySelector(`.key[data-code="${e.code}"]`);
     if (keyEl) keyEl.classList.add('active');
@@ -136,7 +196,7 @@ document.addEventListener('keydown', (e) => {
         }
     }
     
-    // 4. 更新面板
+    // 5. 更新面板
     updateStats();
     updateInfo(e);
 });
@@ -169,7 +229,7 @@ document.addEventListener('keyup', (e) => {
         
         // 检测按键粘连（按下次数 ≠ 松开次数）
         if (keyStats[e.code].down !== keyStats[e.code].up && diagnosisActive) {
-            addDiagnosisResult('按键粘连', `按键${e.code}: 按下${keyStats[e.code].down}次 vs 松开${keyStats[e.code].up}次`, 'error');
+            addDiagnosisResult('按键粘连', `按键${getKeyDisplayName(e.code)}: 按下${keyStats[e.code].down}次 vs 松开${keyStats[e.code].up}次`, 'error');
         }
     }
     
@@ -207,16 +267,20 @@ function updateStats() {
 }
 
 function updateInfo(e) {
-    const displayName = keyNamesZh[e.code] || e.key;
+    const displayName = getKeyDisplayName(e.code);
 
     infoKey.innerText = displayName;
     infoCode.innerText = e.code;
     infoWhich.innerText = e.which;
 }
 
+function getKeyDisplayName(keyCode) {
+    return keyNamesZh[keyCode] || keyCode.replace(/^(Key|Digit|Arrow)/, '') || keyCode;
+}
+
 // 重置功能
 window.resetTest = function() {
-    if (confirm('确定要重置所有测试数据吗？诊断结果也会被清除。')) {
+    if (confirm('确定要重置所有测试数据吗？诊断结果和日志也会被清除。')) {
         pressedKeys.clear();
         testedKeys.clear();
         keyStats = {}; // 清空统计对象
@@ -225,6 +289,11 @@ window.resetTest = function() {
         maxConcurrentKeys = 0;
         diagnosisResults = [];
         diagnosisActive = false;
+        
+        // 清空间隔检测数据
+        keyLastPressTime = {};
+        keyPressIntervals = {};
+        minInterval = Infinity;
 
         document.querySelectorAll('.key').forEach(el => {
             el.classList.remove('active');
@@ -244,6 +313,9 @@ window.resetTest = function() {
         infoWhich.innerText = '-';
         infoTime.innerText = '- ms';
         
+        // 重置日志
+        clearLog();
+        
         // 关闭诊断面板
         const diagnosisPanel = document.querySelector('.diagnosis-panel');
         if (diagnosisPanel) diagnosisPanel.remove();
@@ -252,7 +324,7 @@ window.resetTest = function() {
         if (reportOverlay) reportOverlay.remove();
         
         // 显示重置成功消息
-        showToast('测试数据和诊断结果已重置', 'success');
+        showToast('测试数据、诊断结果和日志已重置', 'success');
     }
 }
 
@@ -372,6 +444,8 @@ window.getTestStats = function() {
         totalKeystrokes: totalKeystrokes,
         maxConcurrentKeys: maxConcurrentKeys,
         keyStats: keyStats,
+        keyPressIntervals: keyPressIntervals,
+        minInterval: minInterval,
         diagnosisResults: diagnosisResults
     };
 };
@@ -379,21 +453,179 @@ window.getTestStats = function() {
 // 显示键盘测试技巧
 window.showKeyboardTips = function() {
     const tips = [
+        "💡 提示：快速连续按同一个键测试按键间隔，小于80ms会用红色标记",
+        "💡 提示：正常人为操作间隔通常大于100ms，游戏玩家可能在80-120ms",
+        "💡 提示：频繁出现＜50ms间隔可能是键盘连点故障",
         "💡 提示：测试时尝试同时按下多个按键，检查键盘的无冲能力",
         "💡 提示：依次测试所有按键，特别关注常用按键如WASD和空格键",
-        "💡 提示：观察按键的按下/松开计数是否匹配，不匹配可能表示按键粘连",
-        "💡 提示：机械键盘通常支持6键以上无冲，游戏键盘可达全键无冲",
-        "💡 提示：如果发现某个按键无响应，尝试多次按压或清洁键帽",
-        "💡 提示：测试方向键和数字小键盘，这些按键也经常使用",
-        "💡 提示：测试组合键如Ctrl+C、Ctrl+V，确保常用快捷键正常工作",
-        "💡 提示：长时间测试可以检查键盘的稳定性和耐久性"
+        "💡 提示：观察按键的按下/松开计数是否匹配，不匹配可能表示按键粘连"
     ];
     
     const randomTip = tips[Math.floor(Math.random() * tips.length)];
     showToast(randomTip, 'info');
 };
 
-// ==================== 新增诊断功能 ====================
+// ==================== 新增日志功能 ====================
+
+// 记录按键间隔到日志
+function logKeyInterval(keyCode, interval) {
+    const logContent = document.getElementById('log-content');
+    if (!logContent) return;
+    
+    const now = new Date();
+    const timeStr = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+    const keyName = getKeyDisplayName(keyCode);
+    
+    // 根据间隔确定日志级别
+    let logLevel = 'normal';
+    let logMessage = '';
+    let warningMessage = '';
+    
+    if (interval < 20) {
+        logLevel = 'critical';
+        logMessage = `按键[${keyName}] 间隔:${interval}ms ⚠️ 严重异常！可能是触点弹跳或防抖动失效`;
+        warningMessage = '严重连点故障，需要立即维修';
+    } else if (interval < 50) {
+        logLevel = 'error';
+        logMessage = `按键[${keyName}] 间隔:${interval}ms ❌ 异常间隔！可能是连点故障`;
+        warningMessage = '中度连点故障，建议尽快处理';
+    } else if (interval < 80) {
+        logLevel = 'warning';
+        logMessage = `按键[${keyName}] 间隔:${interval}ms ⚠️ 较短间隔！注意可能是初期连点`;
+        warningMessage = '轻微连点，需要关注';
+    } else {
+        logLevel = 'normal';
+        logMessage = `按键[${keyName}] 间隔:${interval}ms ✓ 正常间隔`;
+    }
+    
+    // 创建日志条目
+    const logEntry = document.createElement('div');
+    logEntry.className = `log-entry log-${logLevel}`;
+    logEntry.innerHTML = `
+        <span class="log-time">${timeStr}</span>
+        <span class="log-message">${logMessage}</span>
+    `;
+    
+    logContent.appendChild(logEntry);
+    
+    // 更新日志统计
+    updateLogStats();
+    
+    // 自动滚动到底部
+    if (logAutoScroll) {
+        logContent.scrollTop = logContent.scrollHeight;
+    }
+    
+    // 如果是警告级别以上，显示Toast提示
+    if (logLevel === 'warning' || logLevel === 'error' || logLevel === 'critical') {
+        showToast(`检测到异常按键间隔: ${interval}ms (${keyName})`, 'error');
+    }
+}
+
+// 更新日志统计
+function updateLogStats() {
+    const logContent = document.getElementById('log-content');
+    if (!logContent) return;
+    
+    const logCount = logContent.children.length;
+    const warningCount = Array.from(logContent.children).filter(
+        child => child.className.includes('log-warning') || 
+                child.className.includes('log-error') || 
+                child.className.includes('log-critical')
+    ).length;
+    
+    document.getElementById('log-count').textContent = logCount;
+    document.getElementById('log-warning-count').textContent = warningCount;
+    
+    // 更新最小间隔显示
+    if (minInterval < Infinity) {
+        document.getElementById('log-min-interval').textContent = `${minInterval} ms`;
+    }
+}
+
+// 清空日志
+window.clearLog = function() {
+    const logContent = document.getElementById('log-content');
+    if (!logContent) return;
+    
+    if (logContent.children.length <= 2) return; // 保留初始的两条信息
+    
+    if (confirm('确定要清空所有日志记录吗？')) {
+        // 保留前两条初始信息
+        const initialLogs = Array.from(logContent.children).slice(0, 2);
+        logContent.innerHTML = '';
+        initialLogs.forEach(log => logContent.appendChild(log));
+        
+        // 重置统计
+        keyLastPressTime = {};
+        keyPressIntervals = {};
+        minInterval = Infinity;
+        
+        updateLogStats();
+        showToast('日志已清空', 'success');
+    }
+}
+
+// 切换日志显示/隐藏
+window.toggleLog = function() {
+    const logContent = document.getElementById('log-content');
+    const logContainer = document.querySelector('.log-container');
+    
+    if (logContent && logContainer) {
+        if (logContainer.style.maxHeight && logContainer.style.maxHeight !== '0px') {
+            logContainer.style.maxHeight = '0px';
+            logContainer.style.opacity = '0';
+            document.getElementById('toggle-log').innerHTML = '<i class="fas fa-eye"></i> 显示日志';
+        } else {
+            logContainer.style.maxHeight = '500px';
+            logContainer.style.opacity = '1';
+            document.getElementById('toggle-log').innerHTML = '<i class="fas fa-eye-slash"></i> 隐藏日志';
+        }
+    }
+}
+
+// 切换自动滚动
+window.toggleAutoScroll = function() {
+    logAutoScroll = !logAutoScroll;
+    localStorage.setItem('keyboardLogAutoScroll', logAutoScroll.toString());
+    
+    const toggleBtn = document.getElementById('toggle-scroll');
+    if (toggleBtn) {
+        toggleBtn.innerHTML = logAutoScroll ? 
+            '<i class="fas fa-scroll"></i> 自动滚动开' : 
+            '<i class="fas fa-scroll"></i> 自动滚动关';
+    }
+    
+    showToast(logAutoScroll ? '自动滚动已开启' : '自动滚动已关闭', 'info');
+}
+
+// 开始间隔测试
+window.startIntervalTest = function() {
+    showToast('开始按键间隔测试：快速连续按同一个键（如W键或空格键）', 'info');
+    
+    // 添加测试说明到日志
+    const logContent = document.getElementById('log-content');
+    const now = new Date();
+    const timeStr = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+    
+    const testStartEntry = document.createElement('div');
+    testStartEntry.className = 'log-entry log-info';
+    testStartEntry.innerHTML = `
+        <span class="log-time">${timeStr}</span>
+        <span class="log-message">开始按键间隔测试 - 请快速连续按同一个键</span>
+    `;
+    logContent.appendChild(testStartEntry);
+    
+    updateLogStats();
+    
+    // 滚动到日志区域
+    document.querySelector('.log-container').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+    });
+}
+
+// ==================== 诊断功能 ====================
 
 // 启动诊断模式
 window.startDiagnosis = function() {
@@ -407,6 +639,7 @@ window.startDiagnosis = function() {
     // 重置诊断结果
     diagnosisResults = [];
     diagnosisActive = true;
+    window.diagnosisStartTime = Date.now();
     
     const diagnosticSteps = [
         {
@@ -417,10 +650,10 @@ window.startDiagnosis = function() {
             time: 60
         },
         {
-            title: "⚡ 第2步：连点/粘连检测",
-            instruction: "快速连续按同一个键10次（推荐测试W键和空格键）",
-            action: "testChattering",
-            check: "观察按键右下角计数是否正常增加，松开后是否立即恢复",
+            title: "⏱️ 第2步：按键间隔检测",
+            instruction: "快速连续按同一个键10次（推荐测试W键和空格键），观察日志输出",
+            action: "testInterval",
+            check: "观察按键间隔，正常应＞80ms，小于80ms会用红色标记",
             time: 30
         },
         {
@@ -431,8 +664,8 @@ window.startDiagnosis = function() {
             time: 20
         },
         {
-            title: "⏱️ 第4步：响应延迟测试",
-            instruction: "以中等速度连续按『A』键10次，记录间隔时间",
+            title: "⚡ 第4步：响应延迟测试",
+            instruction: "以中等速度连续按不同按键，观察响应时间",
             action: "testResponseTime",
             check: "间隔时间应稳定在50-200ms之间，无大幅波动",
             time: 30
@@ -484,7 +717,6 @@ function createDiagnosisPanel(steps) {
     
     // 初始化诊断状态
     let currentStep = 0;
-    const stepStartTime = Date.now();
     
     // 更新进度
     function updateProgress() {
@@ -530,17 +762,29 @@ function createDiagnosisPanel(steps) {
                     addStepResult('error', '尚未测试任何按键');
                 }
                 break;
-            case 1: // 连点检测
-                // 检查是否有按键粘连
-                let hasChattering = false;
-                Object.entries(keyStats).forEach(([key, stats]) => {
-                    if (stats.down !== stats.up) {
-                        hasChattering = true;
-                        addStepResult('warning', `按键${key}可能存在粘连：按下${stats.down}次 vs 松开${stats.up}次`);
-                    }
+            case 1: // 按键间隔检测
+                // 分析按键间隔数据
+                let hasCriticalInterval = false;
+                let hasWarningInterval = false;
+                
+                Object.entries(keyPressIntervals).forEach(([key, intervals]) => {
+                    intervals.forEach(interval => {
+                        if (interval < 20) {
+                            hasCriticalInterval = true;
+                        } else if (interval < 80) {
+                            hasWarningInterval = true;
+                        }
+                    });
                 });
-                if (!hasChattering) {
-                    addStepResult('success', '未检测到明显的连点/粘连问题');
+                
+                if (hasCriticalInterval) {
+                    addStepResult('error', '检测到严重连点问题（间隔＜20ms）');
+                } else if (hasWarningInterval) {
+                    addStepResult('warning', '检测到轻微连点问题（间隔＜80ms）');
+                } else if (Object.keys(keyPressIntervals).length > 0) {
+                    addStepResult('success', '按键间隔正常，未检测到连点问题');
+                } else {
+                    addStepResult('info', '尚未进行按键间隔测试');
                 }
                 break;
             case 2: // NKRO测试
@@ -554,7 +798,11 @@ function createDiagnosisPanel(steps) {
                 break;
             case 3: // 响应延迟测试
                 // 这里简化处理，实际应该分析时间序列
-                addStepResult('info', '响应延迟需要结合使用体验判断，观察信息面板的间隔时间');
+                if (testedKeys.size > 10) {
+                    addStepResult('success', '响应延迟测试完成，请结合使用体验判断');
+                } else {
+                    addStepResult('info', '请继续测试更多按键以评估响应延迟');
+                }
                 break;
             case 4: // 按键冲突检测
                 if (maxConcurrentKeys >= 4) {
@@ -623,6 +871,20 @@ function generateDiagnosisReport() {
     const totalKeysTested = testedKeys.size;
     const totalKeystrokesTested = totalKeystrokes;
     const maxConcurrency = maxConcurrentKeys;
+    const testDuration = Math.round((Date.now() - window.diagnosisStartTime) / 1000);
+    
+    // 分析按键间隔数据
+    let criticalIntervals = 0;
+    let warningIntervals = 0;
+    let totalIntervals = 0;
+    
+    Object.values(keyPressIntervals).forEach(intervals => {
+        intervals.forEach(interval => {
+            totalIntervals++;
+            if (interval < 20) criticalIntervals++;
+            else if (interval < 80) warningIntervals++;
+        });
+    });
     
     // 故障检测逻辑
     const issues = [];
@@ -634,12 +896,29 @@ function generateDiagnosisReport() {
         if (stats.down !== stats.up) {
             issues.push({
                 type: '按键粘连',
-                key: keyCode,
+                key: getKeyDisplayName(keyCode),
                 details: `按下${stats.down}次 vs 松开${stats.up}次`,
                 severity: 'error'
             });
         }
     });
+    
+    // 检查连点问题
+    if (criticalIntervals > 0) {
+        issues.push({
+            type: '严重连点',
+            severity: 'error',
+            details: `检测到 ${criticalIntervals} 次严重连点（间隔＜20ms）`
+        });
+    }
+    
+    if (warningIntervals > 0) {
+        warnings.push({
+            type: '轻微连点',
+            severity: 'warning',
+            details: `检测到 ${warningIntervals} 次轻微连点（间隔20-79ms）`
+        });
+    }
     
     // 检查低并发（可能表示键盘无冲能力弱）
     if (maxConcurrency < 6) {
@@ -712,7 +991,29 @@ function generateDiagnosisReport() {
                 </div>
                 <div class="summary-item">
                     <span class="summary-label">测试时长</span>
-                    <span class="summary-value">${Math.round((Date.now() - window.diagnosisStartTime || 0) / 1000)}s</span>
+                    <span class="summary-value">${testDuration}s</span>
+                </div>
+            </div>
+            
+            <div class="interval-stats">
+                <h4><i class="fas fa-clock"></i> 按键间隔统计</h4>
+                <div class="interval-grid">
+                    <div class="interval-item">
+                        <span class="interval-label">总间隔数</span>
+                        <span class="interval-value">${totalIntervals}</span>
+                    </div>
+                    <div class="interval-item">
+                        <span class="interval-label">严重连点</span>
+                        <span class="interval-value critical">${criticalIntervals}</span>
+                    </div>
+                    <div class="interval-item">
+                        <span class="interval-label">轻微连点</span>
+                        <span class="interval-value warning">${warningIntervals}</span>
+                    </div>
+                    <div class="interval-item">
+                        <span class="interval-label">正常间隔</span>
+                        <span class="interval-value success">${totalIntervals - criticalIntervals - warningIntervals}</span>
+                    </div>
                 </div>
             </div>
             
@@ -744,6 +1045,7 @@ function generateDiagnosisReport() {
                             <div class="issue-header">
                                 <i class="fas fa-times-circle"></i>
                                 <strong>${issue.type}</strong>
+                                ${issue.key ? `<span class="issue-key">${issue.key}</span>` : ''}
                             </div>
                             <div class="issue-detail">${issue.details}</div>
                         </div>
@@ -802,17 +1104,17 @@ function generateDiagnosisReport() {
                         </ul>
                     </div>
                 </div>
-                ` : issues.some(i => i.type.includes('粘连')) ? `
+                ` : issues.some(i => i.type.includes('连点')) ? `
                 <div class="suggestion-item">
                     <i class="fas fa-tools"></i>
                     <div>
-                        <h5>按键粘连问题修复</h5>
-                        <p>检测到按键粘连问题，建议：</p>
+                        <h5>连点问题修复建议</h5>
+                        <p>检测到连点问题，建议：</p>
                         <ol>
                             <li>使用异丙醇（酒精）和棉签清洁按键触点</li>
-                            <li>对于机械键盘，考虑更换故障轴体（成本低）</li>
-                            <li>检查键盘是否进水，彻底干燥后再使用</li>
-                            <li>如问题持续，考虑专业维修或更换键盘</li>
+                            <li>对于机械键盘，考虑更换故障轴体</li>
+                            <li>更新键盘驱动程序或固件</li>
+                            <li>如为薄膜键盘，考虑专业清洁或更换</li>
                         </ol>
                     </div>
                 </div>
@@ -858,6 +1160,3 @@ function generateDiagnosisReport() {
         // 实际实现需要使用html2canvas等库
     };
 }
-
-// 初始化诊断开始时间
-window.diagnosisStartTime = 0;
