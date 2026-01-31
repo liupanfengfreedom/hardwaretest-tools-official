@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator | 高级二维码生成器</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --danger: #f72585; /* 警告红色 */
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            min-height: 700px;
+        }
+
+        /* 左侧面板 */
+        .left-panel {
+            flex: 1;
+            padding: 40px 30px;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border-right: 1px solid var(--light-gray);
+        }
+
+        .header { margin-bottom: 30px; text-align: center; }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+        .header p { color: var(--gray); font-size: 15px; }
+
+        .icon-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .icon-title i { color: var(--primary); width: 20px; text-align: center; }
+
+        .input-group { margin-bottom: 25px; position: relative; }
+
+        .input-with-icon { position: relative; }
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-light);
+            z-index: 1;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+        }
+        .text-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            outline: none;
+        }
+
+        /* 报错动画：变红并震动 */
+        .error-shake {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 4px rgba(247, 37, 133, 0.15) !important;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+
+        /* 历史记录下拉菜单 */
+        .history-dropdown {
+            position: absolute;
+            top: 100%; left: 0; right: 0;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            margin-top: -1px;
+        }
+        .history-dropdown.show { display: block; }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .history-item:hover { background-color: #f1f5f9; }
+        .history-text { 
+            flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+            font-size: 14px; margin-right: 10px; color: var(--dark);
+        }
+        .history-delete { color: var(--gray); padding: 5px 8px; font-size: 16px; border-radius: 4px; }
+        .history-delete:hover { color: var(--danger); background: rgba(247, 37, 133, 0.1); }
+
+        /* 文件上传 */
+        .file-upload-area {
+            border: 2px dashed var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            margin-bottom: 10px;
+        }
+        .file-upload-area i { font-size: 30px; color: var(--primary); margin-bottom: 8px; display: block; }
+        
+        .logo-preview-container {
+            display: none; align-items: center; gap: 10px;
+            padding: 10px; background: #f8fafc; border-radius: 8px; margin-bottom: 10px;
+        }
+        .logo-preview-container.show { display: flex; }
+        .logo-preview { width: 35px; height: 35px; object-fit: contain; background: white; border: 1px solid #ddd; border-radius: 4px; }
+
+        input[type="file"] { display: none; }
+
+        .checkbox-container { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; }
+        .checkbox-container input { width: 17px; height: 17px; cursor: pointer; }
+
+        /* 样式设置 */
+        .settings-section { background: white; border-radius: var(--border-radius); padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .settings-row { display: flex; gap: 20px; margin-bottom: 15px; }
+        .setting-item { flex: 1; }
+        .setting-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+        .setting-value { font-weight: bold; color: var(--primary); }
+        
+        input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+
+        .color-settings { display: flex; gap: 10px; }
+        .color-item { flex: 1; }
+        .color-picker-wrapper {
+            display: flex; align-items: center; gap: 8px;
+            border: 1px solid var(--light-gray); border-radius: 8px; padding: 5px 10px;
+        }
+        .color-picker-wrapper input { border: none; width: 25px; height: 25px; cursor: pointer; background: none; }
+
+        .btn-generate {
+            width: 100%; padding: 15px; margin-top: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; border: none; border-radius: var(--border-radius);
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .btn-generate:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* 右侧面板 */
+        .right-panel {
+            flex: 1; padding: 40px; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; background: #fff;
+        }
+
+        .qr-display {
+            background: white; border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius); padding: 20px;
+            width: 100%; max-width: 320px; min-height: 320px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--box-shadow); position: relative;
+        }
+        #final-image { max-width: 100%; display: none; }
+        .placeholder { text-align: center; color: var(--gray); }
+        .placeholder i { font-size: 50px; opacity: 0.2; margin-bottom: 10px; display: block; }
+
+        .btn-download {
+            padding: 15px 30px; width: 100%; max-width: 320px; margin-top: 20px;
+            background: var(--success); color: white; border: none;
+            border-radius: var(--border-radius); font-weight: 600; cursor: pointer;
+            display: none; align-items: center; justify-content: center; gap: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .container { flex-direction: column; }
+            .left-panel { border-right: none; border-bottom: 1px solid var(--light-gray); }
+        }
+
+        #hidden-qr-generator { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧 -->
+        <div class="left-panel">
+            <div class="header">
+                <h1><i class="fas fa-qrcode"></i> QR Generator</h1>
+                <p>自定义二维码生成器</p>
+            </div>
+
+            <div class="input-group">
+                <div class="icon-title"><i class="fas fa-edit"></i><span>输入内容</span></div>
+                <div class="input-with-icon">
+                    <i class="fas fa-link"></i>
+                    <input type="text" id="qr-text" class="text-input" placeholder="输入网址或文本..." autocomplete="off">
+                </div>
+                <div id="history-dropdown" class="history-dropdown"></div>
+            </div>
+
+            <div class="input-group">
+                <div class="icon-title"><i class="fas fa-image"></i><span>自定义 Logo</span></div>
+                <div class="file-upload-area" onclick="document.getElementById('logo-input').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>点击上传图片</p>
+                    <input type="file" id="logo-input" accept="image/*">
+                </div>
+                
+                <div id="logo-preview-box" class="logo-preview-container">
+                    <img id="logo-preview-img" class="logo-preview">
+                    <span style="font-size: 12px; color: var(--gray);">Logo 已载入</span>
+                    <button type="button" onclick="removeLogo()" style="margin-left:auto; border:none; background:none; color:var(--danger); cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="enable-logo-check" checked>
+                    <label for="enable-logo-check">在中心嵌入 Logo</label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-row">
+                    <div class="setting-item">
+                        <div class="setting-header"><span>尺寸</span><span id="size-display" class="setting-value">300px</span></div>
+                        <input type="range" id="size-input" min="150" max="800" step="10" value="300">
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-header"><span>边距</span><span id="margin-display" class="setting-value">20px</span></div>
+                        <input type="range" id="margin-input" min="0" max="60" step="2" value="20">
+                    </div>
+                </div>
+                <div class="color-settings">
+                    <div class="color-item">
+                        <label style="font-size:12px; margin-bottom:3px; display:block;">二维码颜色</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="color-dark" value="#000000">
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <label style="font-size:12px; margin-bottom:3px; display:block;">背景颜色</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="color-light" value="#ffffff">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-generate" onclick="generateQR(true)">
+                <i class="fas fa-magic"></i> 生成二维码
+            </button>
+        </div>
+
+        <!-- 右侧 -->
+        <div class="right-panel">
+            <div id="qr-container" class="qr-display">
+                <img id="final-image" alt="QR Code">
+                <div id="placeholder" class="placeholder">
+                    <i class="fas fa-qrcode"></i>
+                    <p>等待生成...</p>
+                </div>
+            </div>
+            
+            <button id="download-btn" class="btn-download" onclick="downloadQR()">
+                <i class="fas fa-download"></i> 下载高清 PNG
+            </button>
+        </div>
+    </div>
+
+    <div id="hidden-qr-generator"></div>
+
+    <script>
+        let uploadedLogoData = null;
+        const HISTORY_KEY = 'qr_history_final';
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.getElementById("qr-text");
+            const logoInput = document.getElementById("logo-input");
+
+            ["enable-logo-check", "color-dark", "color-light", "size-input", "margin-input"].forEach(id => {
+                document.getElementById(id).addEventListener("input", () => {
+                    if(id.includes('input')) {
+                        document.getElementById(id.replace('input', 'display')).innerText = document.getElementById(id).value + "px";
+                    }
+                    if(input.value.trim()) generateQR(false);
+                });
+            });
+
+            logoInput.addEventListener("change", function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        uploadedLogoData = e.target.result;
+                        document.getElementById('logo-preview-img').src = uploadedLogoData;
+                        document.getElementById('logo-preview-box').classList.add('show');
+                        if(input.value.trim()) generateQR(false);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            input.addEventListener('focus', renderHistoryDropdown);
+            input.addEventListener('click', (e) => { e.stopPropagation(); renderHistoryDropdown(); });
+
+            document.addEventListener('click', (e) => {
+                if (!input.contains(e.target)) {
+                    document.getElementById('history-dropdown').classList.remove('show');
+                }
+            });
+
+            input.addEventListener("keypress", (e) => { if (e.key === "Enter") generateQR(true); });
+
+            const history = getHistory();
+            if(history.length > 0) {
+                input.value = history[0];
+                generateQR(false);
+            }
+        });
+
+        function getHistory() { return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]"); }
+        
+        function saveHistory(text) {
+            let history = getHistory();
+            history = [text, ...history.filter(i => i !== text)].slice(0, 10);
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        }
+
+        function deleteHistory(event, text) {
+            event.stopPropagation();
+            let history = getHistory().filter(i => i !== decodeURIComponent(text));
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+            renderHistoryDropdown();
+        }
+
+        function renderHistoryDropdown() {
+            const history = getHistory();
+            const dropdown = document.getElementById('history-dropdown');
+            if (history.length === 0) { dropdown.classList.remove('show'); return; }
+            
+            dropdown.innerHTML = history.map(item => `
+                <div class="history-item" onclick="selectHistory('${encodeURIComponent(item)}')">
+                    <span class="history-text">${item}</span>
+                    <span class="history-delete" onclick="deleteHistory(event, '${encodeURIComponent(item)}')">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
+            `).join('');
+            dropdown.classList.add('show');
+        }
+
+        window.selectHistory = function(encodedText) {
+            const text = decodeURIComponent(encodedText);
+            document.getElementById("qr-text").value = text;
+            document.getElementById('history-dropdown').classList.remove('show');
+            generateQR(false);
+        };
+
+        function removeLogo() {
+            uploadedLogoData = null;
+            document.getElementById('logo-input').value = '';
+            document.getElementById('logo-preview-box').classList.remove('show');
+            if(document.getElementById("qr-text").value.trim()) generateQR(false);
+        }
+
+        function generateQR(shouldSave = true) {
+            const inputEl = document.getElementById("qr-text");
+            const text = inputEl.value.trim();
+
+            // 修复：输入为空时的红色闪烁震动效果
+            if (!text) {
+                if(shouldSave) {
+                    inputEl.classList.remove("error-shake"); // 先移除以便重新触发
+                    void inputEl.offsetWidth; // 触发回流重置动画
+                    inputEl.classList.add("error-shake");
+                    inputEl.focus();
+                    
+                    // 动画结束后移除样式，保证下次点击依然能动
+                    setTimeout(() => inputEl.classList.remove("error-shake"), 400);
+                }
+                return;
+            }
+
+            if (shouldSave) saveHistory(text);
+
+            const size = parseInt(document.getElementById("size-input").value);
+            const margin = parseInt(document.getElementById("margin-input").value);
+            const useLogo = uploadedLogoData && document.getElementById("enable-logo-check").checked;
+
+            const hiddenContainer = document.getElementById("hidden-qr-generator");
+            hiddenContainer.innerHTML = "";
+
+            new QRCode(hiddenContainer, {
+                text: text,
+                width: size,
+                height: size,
+                colorDark: document.getElementById("color-dark").value,
+                colorLight: document.getElementById("color-light").value,
+                correctLevel: useLogo ? QRCode.CorrectLevel.H : QRCode.CorrectLevel.M
+            });
+
+            setTimeout(() => {
+                const canvas = hiddenContainer.querySelector("canvas");
+                if (canvas) drawFinal(canvas, useLogo, size, margin);
+            }, 100);
+        }
+
+        function drawFinal(qrCanvas, useLogo, qrSize, margin) {
+            const finalCanvas = document.createElement("canvas");
+            const totalSize = qrSize + (margin * 2);
+            finalCanvas.width = totalSize;
+            finalCanvas.height = totalSize;
+            const ctx = finalCanvas.getContext("2d");
+
+            const bgColor = document.getElementById("color-light").value;
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, totalSize, totalSize);
+            ctx.drawImage(qrCanvas, margin, margin);
+
+            if (useLogo) {
+                const logoImg = new Image();
+                logoImg.onload = function() {
+                    const lSize = qrSize * 0.22;
+                    const pos = (totalSize - lSize) / 2;
+                    ctx.fillStyle = bgColor;
+                    ctx.fillRect(pos - 4, pos - 4, lSize + 8, lSize + 8);
+                    ctx.drawImage(logoImg, pos, pos, lSize, lSize);
+                    showResult(finalCanvas);
+                };
+                logoImg.src = uploadedLogoData;
+            } else {
+                showResult(finalCanvas);
+            }
+        }
+
+        function showResult(canvas) {
+            const img = document.getElementById("final-image");
+            img.src = canvas.toDataURL("image/png");
+            img.style.display = "block";
+            document.getElementById("placeholder").style.display = "none";
+            document.getElementById("download-btn").style.display = "flex";
+        }
+
+        function downloadQR() {
+            const link = document.createElement("a");
+            link.download = `QR_${Date.now()}.png`;
+            link.href = document.getElementById("final-image").src;
+            link.click();
+        }
+    </script>
+</body>
+</html>
