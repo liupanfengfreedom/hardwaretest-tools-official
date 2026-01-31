@@ -2,269 +2,370 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>隐私图片工具 - 增强交互版</title>
+    <title>隐私图片工厂 - 全格式支持 & 拖拽修复版</title>
+    <!-- 依赖库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js"></script>
     <style>
-        :root { --primary: #2563eb; --bg: #f1f5f9; --card: #ffffff; --accent: #6366f1; }
+        :root { --primary: #2563eb; --bg: #f1f5f9; --card: #ffffff; --accent: #059669; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 25px; }
-        
-        .main-grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
-        @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } }
-
+        .container { max-width: 1200px; margin: 0 auto; }
+        .main-grid { display: grid; grid-template-columns: 1fr 360px; gap: 20px; }
+        @media (max-width: 950px) { .main-grid { grid-template-columns: 1fr; } }
         .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         
-        .upload-area { border: 2px dashed #cbd5e1; border-radius: 10px; padding: 30px; text-align: center; cursor: pointer; transition: 0.3s; background: white; margin-bottom: 20px;}
-        .upload-area:hover { border-color: var(--primary); background: #f8fafc; }
-        #file-input { display: none; }
-
-        .preview-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .img-wrapper { background: #e2e8f0; border-radius: 8px; overflow: hidden; position: relative; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #ddd; }
-        .img-wrapper img { max-width: 100%; max-height: 450px; object-fit: contain; }
-        .label-tag { position: absolute; top: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; font-size: 12px; text-align: center; }
-
-        .control-item { margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #475569; }
+        /* 上传区：增加 pointer-events 确保子元素不干扰拖拽 */
+        .upload-area { border: 2px dashed #cbd5e1; border-radius: 10px; padding: 40px; text-align: center; cursor: pointer; background: white; transition: 0.3s; margin-bottom: 20px; position: relative; }
+        .upload-area * { pointer-events: none; } /* 防止子元素拦截拖拽事件 */
+        .upload-area.drag-over { border-color: var(--primary); background: #eff6ff; transform: scale(1.01); }
         
-        /* 增强的百分比输入框样式 */
-        .editable-val-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        .percent-input-wrapper {
-            display: flex;
-            align-items: center;
-            background: #f1f5f9;
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid #cbd5e1;
-        }
-        .percent-input-wrapper input[type="number"] {
-            width: 50px;
-            border: none;
-            background: transparent;
-            font-weight: bold;
-            color: var(--primary);
-            text-align: right;
-            padding: 2px;
-            font-size: 14px;
-        }
-        .percent-input-wrapper input:focus { outline: none; background: #fff; }
-        
-        select, input[type="number"], input[type="range"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        input[type="range"] { height: 8px; cursor: pointer; }
+        .format-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 15px; }
+        .tag { font-size: 11px; padding: 2px 8px; background: #e2e8f0; color: #475569; border-radius: 4px; font-weight: bold; }
+        .tag.lossless { background: #dcfce7; color: #166534; }
 
-        .btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
-        .btn:hover { background: var(--accent); transform: translateY(-1px); }
-        .btn:disabled { background: #94a3b8; cursor: not-allowed; }
-        
-        .btn-download { background: #059669; margin-top: 15px; display: none; text-align: center; text-decoration: none; color: white; padding: 14px; border-radius: 8px; font-weight: bold; }
-        .privacy-tip { font-size: 12px; color: #059669; background: #ecfdf5; padding: 10px; border-radius: 6px; margin-top: 10px; text-align: center; border: 1px solid #d1fae5; }
-        .info-text { font-size: 11px; color: #64748b; margin-top: 5px; }
+        /* 列表 */
+        #file-list { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        #file-list th { text-align: left; padding: 12px; background: #f8fafc; font-size: 13px; border-bottom: 2px solid #edf2f7; }
+        #file-list td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; vertical-align: middle; }
+        .thumb-preview { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; background: #eee; }
+
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .status-wait { background: #f1f5f9; color: #64748b; }
+        .status-done { background: #dcfce7; color: #166534; }
+        .status-ing { background: #fef9c3; color: #854d0e; }
+        .status-dirty { background: #fff7ed; color: #c2410c; }
+
+        .btn-small { background: white; border: 1px solid #cbd5e1; color: #475569; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; text-decoration: none; }
+        .btn-small:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        .btn-main:disabled { background: #cbd5e1; }
+        .btn-download-all { background: var(--accent); display: none; margin-top: 10px; }
+
+        .control-group { margin-bottom: 18px; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+        select, input[type="number"], input[type="range"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+        .percent-row { display: flex; align-items: center; gap: 10px; }
+        .percent-input { width: 80px !important; text-align: center; font-weight: bold; color: var(--primary); }
+
+        #loader { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.8); z-index: 2000; justify-content: center; align-items: center; flex-direction: column; gap: 10px; }
+        .spinner { width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; cursor: zoom-out; }
+        #modal img { max-width: 95%; max-height: 85%; object-fit: contain; }
     </style>
 </head>
 <body>
 
+<div id="loader"><div class="spinner"></div><div id="loader-text">处理中...</div></div>
+
 <div class="container">
-    <header>
-        <h1>🖼️ 隐私图片工具 Pro</h1>
-        <p style="color: #64748b;">支持直接修改数值 · 默认 PNG · 保持原名</p>
+    <header style="text-align:center; margin-bottom: 25px;">
+        <h1>🖼️ 隐私图片处理工厂</h1>
+        <p style="color:#64748b;">修复拖拽上传 · 全格式互转 · 纯本地不上传</p>
     </header>
 
     <div class="main-grid">
         <div class="left-col">
-            <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
-                <input type="file" id="file-input" accept="image/*">
-                <p>🚀 点击或拖拽图片到这里</p>
-                <p id="file-info" style="font-size: 13px; color: var(--primary); font-weight: bold;"></p>
+            <!-- 修复后的上传区域 -->
+            <div class="upload-area" id="drop-zone">
+                <input type="file" id="file-input" multiple accept="image/*,.heic,.heif,.tiff,.tif" style="display:none">
+                <div style="font-size: 40px; margin-bottom: 10px;">📤</div>
+                <p>点击此处或<b>拖拽多个文件</b>到这里</p>
+                <div class="format-tags">
+                    <span class="tag lossless">PNG</span><span class="tag lossless">TIFF</span><span class="tag lossless">BMP</span>
+                    <span class="tag">JPEG</span><span class="tag">WebP</span><span class="tag">HEIC (iOS)</span>
+                </div>
             </div>
 
-            <div class="preview-container">
-                <div class="img-wrapper"><div class="label-tag">原图</div><img id="orig-preview"></div>
-                <div class="img-wrapper"><div class="label-tag">预览 (处理后)</div><img id="dest-preview"></div>
+            <div class="card" id="list-card" style="display: none; padding: 0; overflow: hidden;">
+                <table id="file-list">
+                    <thead>
+                        <tr><th>预览</th><th>文件名</th><th>尺寸</th><th>状态</th><th>操作</th></tr>
+                    </thead>
+                    <tbody id="queue-body"></tbody>
+                </table>
             </div>
-            <a id="download-btn" class="btn-download">下载处理后的图片</a>
         </div>
 
         <aside class="card">
-            <div class="privacy-tip">🔒 纯本地处理 · 无数据上传</div>
-            
-            <div class="control-item" style="margin-top: 15px;">
-                <label>放缩模式</label>
-                <select id="scale-mode" onchange="updateUI()">
+            <div class="control-group">
+                <label>缩放模式</label>
+                <select id="scale-mode" class="param-input">
                     <option value="percent">按比例 (等比)</option>
                     <option value="width">固定宽度 (等比)</option>
                     <option value="height">固定高度 (等比)</option>
-                    <option value="free">自由宽高 (强制变形)</option>
+                    <option value="free">自由尺寸 (变形)</option>
                 </select>
             </div>
 
-            <!-- 增强的比例控制区 -->
-            <div id="ctrl-percent" class="control-item">
-                <div class="editable-val-container">
-                    <label style="margin-bottom:0">缩放比例</label>
-                    <div class="percent-input-wrapper">
-                        <input type="number" id="scale-num-input" value="100" min="5" max="1000">
-                        <span>%</span>
-                    </div>
+            <div id="m-percent" class="control-group">
+                <div class="percent-row">
+                    <label style="margin:0">比例:</label>
+                    <input type="number" id="n-percent" class="percent-input param-input" value="100"> <span>%</span>
                 </div>
-                <input type="range" id="scale-percent-slide" min="5" max="500" value="100">
-                <div class="info-text">提示：点击上方数字可直接输入 (支持到 1000%)</div>
+                <input type="range" id="s-percent" class="param-input" min="1" max="500" value="100">
             </div>
 
-            <div id="ctrl-width" class="control-item" style="display:none;">
-                <label>目标宽度 (px)</label>
-                <input type="number" id="target-width">
-            </div>
-
-            <div id="ctrl-height" class="control-item" style="display:none;">
-                <label>目标高度 (px)</label>
-                <input type="number" id="target-height">
-            </div>
-
-            <div id="ctrl-free" class="control-item" style="display:none;">
-                <label>自由尺寸 (宽 × 高)</label>
-                <div style="display:flex; gap:8px; align-items:center;">
-                    <input type="number" id="free-w"> <span>×</span> <input type="number" id="free-h">
+            <div id="m-width" class="control-group" style="display:none"><label>目标宽度 (px)</label><input type="number" id="i-width" class="param-input" value="1920"></div>
+            <div id="m-height" class="control-group" style="display:none"><label>目标高度 (px)</label><input type="number" id="i-height" class="param-input" value="1080"></div>
+            <div id="m-free" class="control-group" style="display:none">
+                <label>固定宽高</label>
+                <div style="display:flex; gap:5px; align-items:center;">
+                    <input type="number" id="i-free-w" class="param-input" placeholder="宽"> × <input type="number" id="i-free-h" class="param-input" placeholder="高">
                 </div>
             </div>
 
-            <div class="control-item">
+            <div class="control-group">
                 <label>导出格式</label>
-                <select id="format" onchange="toggleQuality()">
-                    <option value="image/png" selected>PNG (无损/默认)</option>
-                    <option value="image/jpeg">JPEG (体积较小)</option>
-                    <option value="image/webp">WebP (高性能)</option>
+                <select id="o-format" class="param-input">
+                    <option value="image/png" selected>PNG (无损)</option>
+                    <option value="image/jpeg">JPEG (普通)</option>
+                    <option value="image/webp">WebP (最佳压缩)</option>
+                    <option value="image/bmp">BMP (原始位图)</option>
+                    <option value="image/tiff">TIFF (专业印刷)</option>
                 </select>
             </div>
 
-            <div class="control-item" id="quality-wrapper" style="display:none;">
-                <label>压缩质量: <span id="q-display">0.8</span></label>
-                <input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.8">
-            </div>
-
-            <button class="btn" id="start-btn" disabled>开始处理</button>
+            <button class="btn-main" id="btn-run" disabled>执行处理</button>
+            <div id="hint-text" style="font-size:11px; color:#c2410c; margin-top:6px; display:none; text-align:center;">⚠️ 参数已更改，请重新处理</div>
+            <button class="btn-main btn-download-all" id="btn-download-main"></button>
         </aside>
     </div>
 </div>
 
+<div id="modal" onclick="this.style.display='none'"><img id="modal-img" src=""></div>
+
 <script>
     const fileInput = document.getElementById('file-input');
-    const startBtn = document.getElementById('start-btn');
-    const downloadBtn = document.getElementById('download-btn');
+    const dropZone = document.getElementById('drop-zone');
+    const queueBody = document.getElementById('queue-body');
+    const btnRun = document.getElementById('btn-run');
+    const btnDownloadMain = document.getElementById('btn-download-main');
+    const loader = document.getElementById('loader');
     
-    // 比例调节相关的两个控件
-    const scaleSlide = document.getElementById('scale-percent-slide');
-    const scaleNumInput = document.getElementById('scale-num-input');
-    
-    let originalImg = new Image();
-    let originalFileName = "image";
+    let fileQueue = [];
 
-    // 1. 比例双向绑定逻辑
-    // 滑块变，输入框跟着变
-    scaleSlide.oninput = () => {
-        scaleNumInput.value = scaleSlide.value;
-    };
-    // 输入框变，滑块跟着变
-    scaleNumInput.oninput = () => {
-        let val = parseInt(scaleNumInput.value);
-        if (val > 0) scaleSlide.value = val; 
-    };
+    // --- 修复后的拖拽逻辑 ---
+    // 必须阻止默认行为，否则浏览器会尝试打开文件
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, e => {
+            e.preventDefault();
+            e.stopPropagation();
+        }, false);
+    });
 
-    function updateUI() {
+    // 拖拽视觉反馈
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
+    });
+
+    // 核心：处理放置的文件
+    dropZone.addEventListener('drop', e => {
+        const dt = e.dataTransfer;
+        handleFiles(dt.files);
+    }, false);
+
+    // 点击上传
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.onchange = (e) => handleFiles(e.target.files);
+
+    // --- 参数监听 ---
+    document.querySelectorAll('.param-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+            if (e.target.id === 's-percent') document.getElementById('n-percent').value = e.target.value;
+            if (e.target.id === 'n-percent') document.getElementById('s-percent').value = e.target.value;
+            updateModeUI();
+            markDirty();
+        });
+    });
+
+    function updateModeUI() {
         const mode = document.getElementById('scale-mode').value;
-        ['percent', 'width', 'height', 'free'].forEach(c => 
-            document.getElementById(`ctrl-${c}`).style.display = (mode === c ? 'block' : 'none'));
+        ['percent', 'width', 'height', 'free'].forEach(m => document.getElementById(`m-${m}`).style.display = (mode === m ? 'block' : 'none'));
     }
 
-    function toggleQuality() {
-        const format = document.getElementById('format').value;
-        document.getElementById('quality-wrapper').style.display = (format === 'image/png' ? 'none' : 'block');
+    function markDirty() {
+        if (fileQueue.length === 0) return;
+        document.getElementById('hint-text').style.display = 'block';
+        btnDownloadMain.style.display = 'none';
+        fileQueue.forEach(item => {
+            if (item.status === 'done') {
+                item.status = 'dirty';
+                document.getElementById(`stat-${item.id}`).innerText = '待更新';
+                document.getElementById(`stat-${item.id}`).className = 'status-badge status-dirty';
+            }
+        });
     }
 
-    document.getElementById('quality').oninput = (e) => document.getElementById('q-display').innerText = e.target.value;
+    // --- 文件处理核心 (HEIC/TIFF适配) ---
+    async function handleFiles(files) {
+        const fileList = Array.from(files);
+        if (fileList.length === 0) return;
+        document.getElementById('list-card').style.display = 'block';
+        btnRun.disabled = false;
 
-    fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+        for (const file of fileList) {
+            if (!file.type.startsWith('image/') && !file.name.match(/\.(heic|heif|tiff|tif)$/i)) continue;
+            
+            const id = Math.random().toString(36).substr(2, 9);
+            const ext = file.name.split('.').pop().toLowerCase();
+            const item = { id, file, status: 'wait', resultBlob: null, resultUrl: null, ext, finalFileName: '' };
+            fileQueue.push(item);
+            
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><img class="thumb-preview" id="thumb-${id}"></td>
+                <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis;">${file.name}</td>
+                <td id="size-${id}" style="color:#94a3b8; font-size:12px;">载入中...</td>
+                <td><span class="status-badge status-wait" id="stat-${id}">等待中</span></td>
+                <td>
+                    <button class="btn-small" id="view-${id}" disabled>预览</button>
+                    <a class="btn-small" id="dl-${id}" style="display:none">保存</a>
+                </td>
+            `;
+            queueBody.appendChild(tr);
 
-        const lastDot = file.name.lastIndexOf('.');
-        originalFileName = lastDot !== -1 ? file.name.substring(0, lastDot) : file.name;
-        
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            originalImg.src = event.target.result;
-            originalImg.onload = () => {
-                document.getElementById('orig-preview').src = originalImg.src;
-                document.getElementById('file-info').innerText = `${file.name} (${originalImg.width}x${originalImg.height})`;
-                document.getElementById('target-width').value = originalImg.width;
-                document.getElementById('target-height').value = originalImg.height;
-                document.getElementById('free-w').value = originalImg.width;
-                document.getElementById('free-h').value = originalImg.height;
-                startBtn.disabled = false;
+            try {
+                const canvas = await fileToCanvas(item);
+                document.getElementById(`size-${id}`).innerText = `${canvas.width}×${canvas.height}`;
+                document.getElementById(`thumb-${id}`).src = canvas.toDataURL('image/jpeg', 0.1);
+            } catch (err) {
+                document.getElementById(`size-${id}`).innerText = '格式不支持';
+            }
+        }
+        fileInput.value = ''; // 重置以支持重复上传
+    }
+
+    async function fileToCanvas(item) {
+        if (item.ext === 'heic' || item.ext === 'heif') {
+            const blob = await heic2any({ blob: item.file, toType: "image/jpeg" });
+            return await imgUrlToCanvas(URL.createObjectURL(blob[0] || blob));
+        } else if (item.ext === 'tiff' || item.ext === 'tif') {
+            const buffer = await item.file.arrayBuffer();
+            const ifds = UTIF.decode(buffer);
+            UTIF.decodeImage(buffer, ifds[0]);
+            const rgba = UTIF.toRGBA8(ifds[0]);
+            const cvs = document.createElement('canvas');
+            cvs.width = ifds[0].width; cvs.height = ifds[0].height;
+            cvs.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(rgba.buffer), cvs.width, cvs.height), 0, 0);
+            return cvs;
+        } else {
+            return await imgUrlToCanvas(URL.createObjectURL(item.file));
+        }
+    }
+
+    function imgUrlToCanvas(url) {
+        return new Promise((res, rej) => {
+            const img = new Image();
+            img.src = url;
+            img.onload = () => {
+                const cvs = document.createElement('canvas');
+                cvs.width = img.width; cvs.height = img.height;
+                cvs.getContext('2d').drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+                res(cvs);
             };
-        };
-        reader.readAsDataURL(file);
-    };
+            img.onerror = rej;
+        });
+    }
 
-    startBtn.onclick = () => {
+    // --- 执行转换 ---
+    btnRun.onclick = async () => {
+        btnRun.disabled = true;
+        document.getElementById('hint-text').style.display = 'none';
+        loader.style.display = 'flex';
+        
+        const mode = document.getElementById('scale-mode').value;
+        const targetFormat = document.getElementById('o-format').value;
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const mode = document.getElementById('scale-mode').value;
-        
-        let targetW, targetH;
 
-        if (mode === 'percent') {
-            const factor = parseInt(scaleNumInput.value) / 100;
-            targetW = originalImg.width * factor;
-            targetH = originalImg.height * factor;
-        } else if (mode === 'width') {
-            targetW = parseInt(document.getElementById('target-width').value) || originalImg.width;
-            targetH = (targetW / originalImg.width) * originalImg.height;
-        } else if (mode === 'height') {
-            targetH = parseInt(document.getElementById('target-height').value) || originalImg.height;
-            targetW = (targetH / originalImg.height) * originalImg.width;
-        } else {
-            targetW = parseInt(document.getElementById('free-w').value) || originalImg.width;
-            targetH = parseInt(document.getElementById('free-h').value) || originalImg.height;
+        for (let i = 0; i < fileQueue.length; i++) {
+            const item = fileQueue[i];
+            if (item.status === 'done') continue;
+
+            const statEl = document.getElementById(`stat-${item.id}`);
+            statEl.innerText = '正在转换...';
+            statEl.className = 'status-badge status-ing';
+
+            try {
+                const srcCvs = await fileToCanvas(item);
+                let tw, th;
+                if (mode === 'percent') {
+                    const f = document.getElementById('n-percent').value / 100;
+                    tw = srcCvs.width * f; th = srcCvs.height * f;
+                } else if (mode === 'width') {
+                    tw = parseInt(document.getElementById('i-width').value) || srcCvs.width;
+                    th = (tw / srcCvs.width) * srcCvs.height;
+                } else if (mode === 'height') {
+                    th = parseInt(document.getElementById('i-height').value) || srcCvs.height;
+                    tw = (th / srcCvs.height) * srcCvs.width;
+                } else {
+                    tw = parseInt(document.getElementById('i-free-w').value) || srcCvs.width;
+                    th = parseInt(document.getElementById('i-free-h').value) || srcCvs.height;
+                }
+
+                canvas.width = tw; canvas.height = th;
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(srcCvs, 0, 0, tw, th);
+
+                if (targetFormat === 'image/tiff') {
+                    const rgba = ctx.getImageData(0, 0, tw, th).data;
+                    const tiffBuffer = UTIF.encodeImage(rgba, tw, th);
+                    item.resultBlob = new Blob([tiffBuffer], { type: 'image/tiff' });
+                } else {
+                    item.resultBlob = await new Promise(r => canvas.toBlob(r, targetFormat, 0.92));
+                }
+
+                if (item.resultUrl) URL.revokeObjectURL(item.resultUrl);
+                item.resultUrl = URL.createObjectURL(item.resultBlob);
+                item.status = 'done';
+                
+                const rawName = item.file.name.substring(0, item.file.name.lastIndexOf('.')) || item.file.name;
+                const newExt = targetFormat.split('/')[1].replace('jpeg', 'jpg');
+                item.finalFileName = `${rawName}.${newExt}`;
+
+                statEl.innerText = '已完成';
+                statEl.className = 'status-badge status-done';
+                
+                document.getElementById(`view-${item.id}`).disabled = false;
+                document.getElementById(`view-${item.id}`).onclick = () => { 
+                    document.getElementById('modal-img').src = item.resultUrl; 
+                    document.getElementById('modal').style.display='flex'; 
+                };
+                const dlA = document.getElementById(`dl-${item.id}`);
+                dlA.style.display = 'inline-block';
+                dlA.href = item.resultUrl;
+                dlA.download = item.finalFileName;
+
+            } catch (err) {
+                statEl.innerText = '失败';
+            }
         }
 
-        canvas.width = targetW;
-        canvas.height = targetH;
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(originalImg, 0, 0, targetW, targetH);
-
-        const format = document.getElementById('format').value;
-        const quality = parseFloat(document.getElementById('quality').value);
-        const dataUrl = canvas.toDataURL(format, quality);
-        
-        document.getElementById('dest-preview').src = dataUrl;
-        
-        const ext = format.split('/')[1];
-        const finalName = `${originalFileName}.${ext}`;
-        
-        downloadBtn.href = dataUrl;
-        downloadBtn.download = finalName;
-        downloadBtn.style.display = 'block';
-        downloadBtn.innerText = `保存文件: ${finalName}`;
+        loader.style.display = 'none';
+        btnRun.disabled = false;
+        btnDownloadMain.style.display = 'block';
+        btnDownloadMain.innerText = fileQueue.length === 1 ? '立即下载图片' : '打包下载全部 (.zip)';
+        btnDownloadMain.onclick = fileQueue.length === 1 ? () => document.getElementById(`dl-${fileQueue[0].id}`).click() : downloadZip;
     };
 
-    const dropZone = document.getElementById('drop-zone');
-    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.style.background = "#eff6ff"; };
-    dropZone.ondragleave = () => { dropZone.style.background = "white"; };
-    dropZone.ondrop = (e) => {
-        e.preventDefault();
-        dropZone.style.background = "white";
-        if(e.dataTransfer.files.length > 0) {
-            fileInput.files = e.dataTransfer.files;
-            fileInput.onchange({target: fileInput});
-        }
-    };
+    async function downloadZip() {
+        const zip = new JSZip();
+        fileQueue.forEach(item => {
+            if (item.resultBlob) zip.file(item.finalFileName, item.resultBlob);
+        });
+        const blob = await zip.generateAsync({ type: "blob" });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `批量导出_${Date.now()}.zip`;
+        a.click();
+    }
 </script>
-
 </body>
 </html>
