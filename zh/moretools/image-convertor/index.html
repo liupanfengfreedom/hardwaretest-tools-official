@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私图片工具 - 增强交互版</title>
+    <style>
+        :root { --primary: #2563eb; --bg: #f1f5f9; --card: #ffffff; --accent: #6366f1; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 25px; }
+        
+        .main-grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+        @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } }
+
+        .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        
+        .upload-area { border: 2px dashed #cbd5e1; border-radius: 10px; padding: 30px; text-align: center; cursor: pointer; transition: 0.3s; background: white; margin-bottom: 20px;}
+        .upload-area:hover { border-color: var(--primary); background: #f8fafc; }
+        #file-input { display: none; }
+
+        .preview-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .img-wrapper { background: #e2e8f0; border-radius: 8px; overflow: hidden; position: relative; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #ddd; }
+        .img-wrapper img { max-width: 100%; max-height: 450px; object-fit: contain; }
+        .label-tag { position: absolute; top: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; font-size: 12px; text-align: center; }
+
+        .control-item { margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #475569; }
+        
+        /* 增强的百分比输入框样式 */
+        .editable-val-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .percent-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+        }
+        .percent-input-wrapper input[type="number"] {
+            width: 50px;
+            border: none;
+            background: transparent;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: right;
+            padding: 2px;
+            font-size: 14px;
+        }
+        .percent-input-wrapper input:focus { outline: none; background: #fff; }
+        
+        select, input[type="number"], input[type="range"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        input[type="range"] { height: 8px; cursor: pointer; }
+
+        .btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
+        .btn:hover { background: var(--accent); transform: translateY(-1px); }
+        .btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        
+        .btn-download { background: #059669; margin-top: 15px; display: none; text-align: center; text-decoration: none; color: white; padding: 14px; border-radius: 8px; font-weight: bold; }
+        .privacy-tip { font-size: 12px; color: #059669; background: #ecfdf5; padding: 10px; border-radius: 6px; margin-top: 10px; text-align: center; border: 1px solid #d1fae5; }
+        .info-text { font-size: 11px; color: #64748b; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🖼️ 隐私图片工具 Pro</h1>
+        <p style="color: #64748b;">支持直接修改数值 · 默认 PNG · 保持原名</p>
+    </header>
+
+    <div class="main-grid">
+        <div class="left-col">
+            <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                <input type="file" id="file-input" accept="image/*">
+                <p>🚀 点击或拖拽图片到这里</p>
+                <p id="file-info" style="font-size: 13px; color: var(--primary); font-weight: bold;"></p>
+            </div>
+
+            <div class="preview-container">
+                <div class="img-wrapper"><div class="label-tag">原图</div><img id="orig-preview"></div>
+                <div class="img-wrapper"><div class="label-tag">预览 (处理后)</div><img id="dest-preview"></div>
+            </div>
+            <a id="download-btn" class="btn-download">下载处理后的图片</a>
+        </div>
+
+        <aside class="card">
+            <div class="privacy-tip">🔒 纯本地处理 · 无数据上传</div>
+            
+            <div class="control-item" style="margin-top: 15px;">
+                <label>放缩模式</label>
+                <select id="scale-mode" onchange="updateUI()">
+                    <option value="percent">按比例 (等比)</option>
+                    <option value="width">固定宽度 (等比)</option>
+                    <option value="height">固定高度 (等比)</option>
+                    <option value="free">自由宽高 (强制变形)</option>
+                </select>
+            </div>
+
+            <!-- 增强的比例控制区 -->
+            <div id="ctrl-percent" class="control-item">
+                <div class="editable-val-container">
+                    <label style="margin-bottom:0">缩放比例</label>
+                    <div class="percent-input-wrapper">
+                        <input type="number" id="scale-num-input" value="100" min="5" max="1000">
+                        <span>%</span>
+                    </div>
+                </div>
+                <input type="range" id="scale-percent-slide" min="5" max="500" value="100">
+                <div class="info-text">提示：点击上方数字可直接输入 (支持到 1000%)</div>
+            </div>
+
+            <div id="ctrl-width" class="control-item" style="display:none;">
+                <label>目标宽度 (px)</label>
+                <input type="number" id="target-width">
+            </div>
+
+            <div id="ctrl-height" class="control-item" style="display:none;">
+                <label>目标高度 (px)</label>
+                <input type="number" id="target-height">
+            </div>
+
+            <div id="ctrl-free" class="control-item" style="display:none;">
+                <label>自由尺寸 (宽 × 高)</label>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input type="number" id="free-w"> <span>×</span> <input type="number" id="free-h">
+                </div>
+            </div>
+
+            <div class="control-item">
+                <label>导出格式</label>
+                <select id="format" onchange="toggleQuality()">
+                    <option value="image/png" selected>PNG (无损/默认)</option>
+                    <option value="image/jpeg">JPEG (体积较小)</option>
+                    <option value="image/webp">WebP (高性能)</option>
+                </select>
+            </div>
+
+            <div class="control-item" id="quality-wrapper" style="display:none;">
+                <label>压缩质量: <span id="q-display">0.8</span></label>
+                <input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.8">
+            </div>
+
+            <button class="btn" id="start-btn" disabled>开始处理</button>
+        </aside>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('file-input');
+    const startBtn = document.getElementById('start-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    
+    // 比例调节相关的两个控件
+    const scaleSlide = document.getElementById('scale-percent-slide');
+    const scaleNumInput = document.getElementById('scale-num-input');
+    
+    let originalImg = new Image();
+    let originalFileName = "image";
+
+    // 1. 比例双向绑定逻辑
+    // 滑块变，输入框跟着变
+    scaleSlide.oninput = () => {
+        scaleNumInput.value = scaleSlide.value;
+    };
+    // 输入框变，滑块跟着变
+    scaleNumInput.oninput = () => {
+        let val = parseInt(scaleNumInput.value);
+        if (val > 0) scaleSlide.value = val; 
+    };
+
+    function updateUI() {
+        const mode = document.getElementById('scale-mode').value;
+        ['percent', 'width', 'height', 'free'].forEach(c => 
+            document.getElementById(`ctrl-${c}`).style.display = (mode === c ? 'block' : 'none'));
+    }
+
+    function toggleQuality() {
+        const format = document.getElementById('format').value;
+        document.getElementById('quality-wrapper').style.display = (format === 'image/png' ? 'none' : 'block');
+    }
+
+    document.getElementById('quality').oninput = (e) => document.getElementById('q-display').innerText = e.target.value;
+
+    fileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const lastDot = file.name.lastIndexOf('.');
+        originalFileName = lastDot !== -1 ? file.name.substring(0, lastDot) : file.name;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            originalImg.src = event.target.result;
+            originalImg.onload = () => {
+                document.getElementById('orig-preview').src = originalImg.src;
+                document.getElementById('file-info').innerText = `${file.name} (${originalImg.width}x${originalImg.height})`;
+                document.getElementById('target-width').value = originalImg.width;
+                document.getElementById('target-height').value = originalImg.height;
+                document.getElementById('free-w').value = originalImg.width;
+                document.getElementById('free-h').value = originalImg.height;
+                startBtn.disabled = false;
+            };
+        };
+        reader.readAsDataURL(file);
+    };
+
+    startBtn.onclick = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const mode = document.getElementById('scale-mode').value;
+        
+        let targetW, targetH;
+
+        if (mode === 'percent') {
+            const factor = parseInt(scaleNumInput.value) / 100;
+            targetW = originalImg.width * factor;
+            targetH = originalImg.height * factor;
+        } else if (mode === 'width') {
+            targetW = parseInt(document.getElementById('target-width').value) || originalImg.width;
+            targetH = (targetW / originalImg.width) * originalImg.height;
+        } else if (mode === 'height') {
+            targetH = parseInt(document.getElementById('target-height').value) || originalImg.height;
+            targetW = (targetH / originalImg.height) * originalImg.width;
+        } else {
+            targetW = parseInt(document.getElementById('free-w').value) || originalImg.width;
+            targetH = parseInt(document.getElementById('free-h').value) || originalImg.height;
+        }
+
+        canvas.width = targetW;
+        canvas.height = targetH;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(originalImg, 0, 0, targetW, targetH);
+
+        const format = document.getElementById('format').value;
+        const quality = parseFloat(document.getElementById('quality').value);
+        const dataUrl = canvas.toDataURL(format, quality);
+        
+        document.getElementById('dest-preview').src = dataUrl;
+        
+        const ext = format.split('/')[1];
+        const finalName = `${originalFileName}.${ext}`;
+        
+        downloadBtn.href = dataUrl;
+        downloadBtn.download = finalName;
+        downloadBtn.style.display = 'block';
+        downloadBtn.innerText = `保存文件: ${finalName}`;
+    };
+
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.style.background = "#eff6ff"; };
+    dropZone.ondragleave = () => { dropZone.style.background = "white"; };
+    dropZone.ondrop = (e) => {
+        e.preventDefault();
+        dropZone.style.background = "white";
+        if(e.dataTransfer.files.length > 0) {
+            fileInput.files = e.dataTransfer.files;
+            fileInput.onchange({target: fileInput});
+        }
+    };
+</script>
+
+</body>
+</html>
