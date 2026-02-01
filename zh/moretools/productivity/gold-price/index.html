@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄金30年宏观分析 | 2026 宏观金价终端</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap');
+        body { 
+            background-color: #020617; 
+            color: #f8fafc; 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .btn-active { 
+            background-color: #fbbf24 !important; 
+            color: #020617 !important; 
+            border-color: #fbbf24 !important; 
+        }
+        /* 自定义滚动条样式 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 刻度线样式 */
+        .marker-line {
+            position: absolute;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background-color: #fbbf24;
+            cursor: ew-resize;
+            z-index: 10;
+        }
+        
+        .marker-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -3px;
+            width: 7px;
+            height: 100%;
+            background-color: transparent;
+        }
+        
+        .marker-tooltip {
+            position: absolute;
+            background-color: rgba(2, 6, 23, 0.95);
+            border: 1px solid #fbbf24;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #fbbf24;
+            pointer-events: none;
+            z-index: 11;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+        }
+        
+        .marker-handle {
+            position: absolute;
+            width: 12px;
+            height: 30px;
+            background-color: #fbbf24;
+            border-radius: 3px;
+            top: 50%;
+            left: -6px;
+            transform: translateY(-50%);
+            cursor: grab;
+        }
+        
+        .marker-handle:active {
+            cursor: grabbing;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 450px;
+        }
+        
+        /* 错误状态样式 */
+        .error-state {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        
+        .error-text {
+            color: #ef4444;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+            
+            #cny-price {
+                font-size: 3rem;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            
+            .price-right {
+                text-align: left !important;
+                margin-top: 1rem;
+            }
+            
+            .time-range-container {
+                padding: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+            
+            #cny-price {
+                font-size: 2.5rem;
+            }
+            
+            .price-display-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            
+            .time-range-buttons {
+                gap: 0.25rem;
+            }
+            
+            .time-range-buttons button {
+                padding: 0.375rem 0.625rem;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex justify-center">
+
+    <div class="w-full max-w-6xl">
+        <!-- 头部实时价格 -->
+        <div id="price-header" class="flex flex-col md:flex-row justify-between items-end mb-6 md:mb-8 gap-4 md:gap-6 bg-slate-900/50 p-4 md:p-6 rounded-2xl md:rounded-3xl border border-slate-800 header-container">
+            <div class="w-full">
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] mb-2">实时金价 (2026)</p>
+                <div class="flex items-baseline gap-2">
+                    <h1 id="cny-price" class="text-4xl md:text-6xl font-bold mono text-white">---.--</h1>
+                    <span class="text-xl md:text-2xl font-medium text-slate-400">元/克</span>
+                </div>
+            </div>
+            <div class="text-left md:text-right price-right w-full">
+                <div class="flex items-baseline gap-2 md:justify-end">
+                    <p id="usd-ref" class="text-slate-400 mono text-lg md:text-xl font-bold">$----.--</p>
+                    <span class="text-slate-400 text-sm md:text-base">/盎司</span>
+                </div>
+                <p id="ex-rate" class="text-slate-600 text-xs mt-1 italic">等待数据...</p>
+                <p id="usd-to-cny" class="text-slate-500 text-xs mt-1">约 <span class="mono font-medium">---.--</span> 元/克</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 rounded-2xl md:rounded-3xl p-4 md:p-6 border border-slate-800">
+            <!-- 时间跨度选择器 - 支持滚动 -->
+            <div class="overflow-x-auto no-scrollbar mb-6 md:mb-8">
+                <div class="flex flex-nowrap gap-1 md:gap-2 p-1 bg-black/20 rounded-xl md:rounded-2xl w-max time-range-buttons">
+                    <!-- 短周期 -->
+                    <button onclick="changeRange('1m', '15M', 15)" id="btn-15M" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">15分</button>
+                    <button onclick="changeRange('1m', '30M', 30)" id="btn-30M" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">30分</button>
+                    <button onclick="changeRange('1m', '1H', 60)" id="btn-1H" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">1时</button>
+                    <button onclick="changeRange('5m', '6H', 72)" id="btn-6H" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">6时</button>
+                    <button onclick="changeRange('1h', '1D', 24)" id="btn-1D" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all btn-active">1天</button>
+                    <button onclick="changeRange('4h', '1W', 42)" id="btn-1W" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">1周</button>
+                    <button onclick="changeRange('12h', '1MO', 60)" id="btn-1MO" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">1月</button>
+                    <button onclick="changeRange('1d', '3MO', 90)" id="btn-3MO" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">3月</button>
+                    <button onclick="changeRange('1d', '6MO', 180)" id="btn-6MO" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">半年</button>
+                    <button onclick="changeRange('1d', '1Y', 365)" id="btn-1Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">1年</button>
+                    
+                    <div class="w-[1px] h-4 bg-slate-800 self-center mx-1 md:mx-2"></div>
+                    
+                    <!-- 宏观周期 -->
+                    <button onclick="changeMacro(2)" id="btn-2Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">2年</button>
+                    <button onclick="changeMacro(5)" id="btn-5Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">5年</button>
+                    <button onclick="changeMacro(10)" id="btn-10Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">10年</button>
+                    <button onclick="changeMacro(20)" id="btn-20Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">20年</button>
+                    <button onclick="changeMacro(30)" id="btn-30Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">30年</button>
+                </div>
+            </div>
+
+            <!-- 价格显示区域 -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-3 md:gap-0 price-display-container">
+                <div class="flex items-center gap-3 md:gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                        <span class="text-sm text-slate-400">黄金价格 (元/克)</span>
+                    </div>
+                    <div id="marker-price-display" class="text-slate-400 text-sm hidden">
+                        <span class="text-amber-500">刻度线位置: </span>
+                        <span id="marker-price-value" class="mono font-bold">---.--</span>
+                        <span> 元/克</span>
+                    </div>
+                </div>
+                <button onclick="resetMarker()" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400 hover:text-amber-500 hover:border-amber-500 transition-colors w-fit hidden">
+                    重置刻度线
+                </button>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="goldChart"></canvas>
+                <!-- 刻度线容器 -->
+                <div id="marker-container" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="display: none;">
+                    <div id="marker-line" class="marker-line" style="left: 50%;">
+                        <div class="marker-handle"></div>
+                    </div>
+                    <div id="marker-tooltip" class="marker-tooltip"></div>
+                </div>
+                <!-- 数据加载状态 -->
+                <div id="chart-loading" class="absolute inset-0 flex items-center justify-center bg-slate-900/80">
+                    <div class="text-center">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-amber-500 mb-4"></div>
+                        <p class="text-slate-400">正在加载数据...</p>
+                    </div>
+                </div>
+                <div id="chart-error" class="absolute inset-0 flex items-center justify-center bg-slate-900/80 hidden">
+                    <div class="text-center">
+                        <div class="text-amber-500 text-4xl mb-4">⚠️</div>
+                        <p class="text-slate-300 mb-2">无法加载数据</p>
+                        <p class="text-slate-500 text-sm">请检查网络连接或稍后再试</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 添加数据来源说明 -->
+            <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-800">
+                <div class="text-xs text-slate-500">
+                    <p class="mb-2 font-medium">数据来源说明:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <p class="flex items-start gap-1">
+                                <span class="text-amber-500/70">•</span>
+                                <span>实时金价数据: <span class="mono text-slate-400">Binance PAXG/USDT</span></span>
+                            </p>
+                            <p class="flex items-start gap-1 ml-3">
+                                <span class="text-slate-600">↳</span>
+                                <span class="text-slate-500">PAXG 为 1:1 锚定实物黄金的加密资产</span>
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="flex items-start gap-1">
+                                <span class="text-amber-500/70">•</span>
+                                <span>汇率数据: <span class="mono text-slate-400">Exchange Rates API</span></span>
+                            </p>
+                            <p class="flex items-start gap-1 ml-3">
+                                <span class="text-slate-600">↳</span>
+                                <span class="text-slate-500">实时美元兑人民币(USD/CNY)汇率</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-800/50">
+                        <p class="flex items-start gap-1">
+                            <span class="text-amber-500/70">•</span>
+                            <span>换算公式: 人民币价格 = (美元金价 × 汇率) ÷ 31.1035</span>
+                        </p>
+                        <p class="text-slate-600 text-[10px] md:text-xs mt-2 italic">
+                            注: 1盎司(oz) = 31.1035克(g)，数据更新频率: 10秒/次
+                        </p>
+                        <p id="data-status" class="text-amber-500/80 text-[10px] md:text-xs mt-1 italic">
+                            正在连接数据源...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端底部提示 -->
+        <div class="block md:hidden mt-4 text-center">
+            <p class="text-xs text-slate-600">左右滑动时间轴查看更多选项</p>
+        </div>
+    </div>
+
+    <script>
+        let goldChart;
+        let currentUsdPrice = 0;
+        let usdRate = 0; 
+        const G_TO_OZ = 31.1035;
+        
+        // 刻度线相关变量
+        let currentData = { labels: [], prices: [], dates: [] };
+        let isDragging = false;
+        let markerInitialized = false;
+        let hasData = false;
+
+        function initChart() {
+            const ctx = document.getElementById('goldChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(251, 191, 36, 0.15)');
+            gradient.addColorStop(1, 'rgba(2, 6, 23, 0)');
+
+            // 移动端调整字体大小
+            const isMobile = window.innerWidth < 768;
+            const tickFontSize = isMobile ? 8 : 10;
+            const yAxisFontSize = isMobile ? 9 : 11;
+
+            goldChart = new Chart(ctx, {
+                type: 'line',
+                data: { 
+                    labels: [], 
+                    datasets: [{ 
+                        borderColor: '#fbbf24', 
+                        borderWidth: 2, 
+                        pointRadius: isMobile ? 0 : 0,
+                        fill: true, 
+                        backgroundColor: gradient,
+                        data: [], 
+                        tension: 0.1 
+                    }] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(2, 6, 23, 0.9)',
+                            borderColor: '#fbbf24',
+                            borderWidth: 1,
+                            titleColor: '#fbbf24',
+                            bodyColor: '#e2e8f0',
+                            titleFont: { family: "'JetBrains Mono', monospace", size: isMobile ? 10 : 12 },
+                            bodyFont: { family: "'JetBrains Mono', monospace", size: isMobile ? 10 : 12 },
+                            padding: isMobile ? 8 : 12,
+                            cornerRadius: 6
+                        }
+                    },
+                    scales: { 
+                        x: { 
+                            grid: { display: false }, 
+                            ticks: { 
+                                color: '#475569', 
+                                font: { size: tickFontSize }, 
+                                maxRotation: isMobile ? 45 : 0,
+                                padding: isMobile ? 2 : 5
+                            } 
+                        }, 
+                        y: { 
+                            grid: { color: '#1e293b', drawBorder: false }, 
+                            ticks: { 
+                                color: '#475569', 
+                                font: { family: 'JetBrains Mono', size: yAxisFontSize },
+                                padding: isMobile ? 5 : 8,
+                                callback: function(value) {
+                                    return value.toFixed(0) + ' 元';
+                                }
+                            }, 
+                            position: 'right' 
+                        } 
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    elements: {
+                        point: {
+                            hoverRadius: isMobile ? 4 : 6,
+                            hoverBorderWidth: 2
+                        }
+                    }
+                }
+            });
+            
+            // 初始化刻度线事件
+            initMarker();
+            
+            // 监听窗口大小变化，调整图表
+            window.addEventListener('resize', function() {
+                if (goldChart) {
+                    goldChart.update('none');
+                }
+            });
+        }
+
+        async function updateMarket() {
+            try {
+                // 尝试获取汇率数据
+                const exRes = await fetch('https://open.er-api.com/v6/latest/USD');
+                if (!exRes.ok) throw new Error('汇率API请求失败');
+                const exData = await exRes.json();
+                usdRate = exData.rates.CNY;
+
+                // 尝试获取黄金价格数据
+                const goldRes = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=PAXGUSDT');
+                if (!goldRes.ok) throw new Error('金价API请求失败');
+                const goldData = await goldRes.json();
+                currentUsdPrice = parseFloat(goldData.price);
+
+                const cnyG = (currentUsdPrice * usdRate) / G_TO_OZ;
+                
+                // 更新人民币价格
+                document.getElementById('cny-price').innerText = cnyG.toFixed(2);
+                
+                // 更新美元价格显示，添加单位
+                document.getElementById('usd-ref').innerHTML = `$${currentUsdPrice.toFixed(2)}`;
+                
+                // 更新汇率显示
+                document.getElementById('ex-rate').innerText = `实时汇率: 1 USD = ${usdRate.toFixed(4)} CNY`;
+                
+                // 更新美元到人民币换算
+                document.getElementById('usd-to-cny').innerHTML = `约 <span class="mono font-medium">${cnyG.toFixed(2)}</span> 元/克`;
+                
+                // 更新数据状态
+                document.getElementById('data-status').innerText = `数据连接正常，最后更新: ${new Date().toLocaleTimeString('zh-CN')}`;
+                document.getElementById('price-header').classList.remove('error-state');
+                
+                hasData = true;
+                
+            } catch (e) { 
+                console.error("数据更新失败:", e); 
+                
+                // 显示错误状态
+                document.getElementById('cny-price').innerText = '---.--';
+                document.getElementById('usd-ref').innerHTML = '$----.--';
+                document.getElementById('ex-rate').innerText = '数据获取失败，请稍后再试';
+                document.getElementById('usd-to-cny').innerHTML = '约 <span class="mono font-medium">---.--</span> 元/克';
+                document.getElementById('data-status').innerHTML = `<span class="error-text">数据连接失败: ${e.message}</span>`;
+                document.getElementById('price-header').classList.add('error-state');
+                
+                hasData = false;
+            }
+        }
+
+        // 宏观周期数据 - 使用Binance API获取周K线或月K线数据
+        async function changeMacro(years) {
+            if (!hasData) {
+                showChartError();
+                return;
+            }
+            
+            updateBtnUI(`btn-${years}Y`);
+            showChartLoading();
+            
+            try {
+                // 根据年份选择合适的时间间隔和数量限制
+                let interval = '1d'; // 默认日K线
+                let limit = 365; // 默认一年数据
+                
+                // 根据年份调整参数
+                if (years <= 2) {
+                    interval = '1d';
+                    limit = years * 365;
+                    if (limit > 1000) limit = 1000; // Binance API最大限制
+                } else if (years <= 5) {
+                    interval = '1w'; // 周K线
+                    limit = Math.ceil(years * 52);
+                } else if (years <= 10) {
+                    interval = '1M'; // 月K线
+                    limit = years * 12;
+                } else if (years <= 20) {
+                    // 对于20年，使用季K线（3个月）来减少数据点
+                    interval = '1M'; // 月K线（注意：Binance没有3M间隔，我们使用1M然后手动过滤）
+                    limit = years * 12;
+                    // 注意：由于Binance API没有直接的3M间隔，我们使用1M然后每3个点取一个
+                } else if (years <= 30) {
+                    // 对于30年，使用半年K线来进一步减少数据点
+                    interval = '1M'; // 月K线（注意：Binance没有6M间隔，我们使用1M然后手动过滤）
+                    limit = years * 12;
+                    // 注意：由于Binance API没有直接的6M间隔，我们使用1M然后每6个点取一个
+                } else {
+                    interval = '1M'; // 月K线
+                    limit = 120; // 限制最多10年（120个月）的数据
+                }
+                
+                // 获取K线数据
+                const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=PAXGUSDT&interval=${interval}&limit=${limit}`);
+                if (!res.ok) throw new Error('历史数据API请求失败');
+                const klines = await res.json();
+                
+                // 根据年份对数据进行过滤
+                let filteredKlines = klines;
+                if (years > 10) {
+                    // 对于长周期数据，减少数据点数量
+                    const filterStep = years <= 20 ? 3 : 6; // 20年每3个月取一个点，30年每6个月取一个点
+                    filteredKlines = klines.filter((_, index) => index % filterStep === 0);
+                }
+                
+                const prices = filteredKlines.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
+                const dates = filteredKlines.map(k => new Date(k[0]));
+                
+                // 根据时间间隔生成标签
+                const labels = filteredKlines.map(k => {
+                    const d = new Date(k[0]);
+                    
+                    if (years <= 2) {
+                        // 2年内: 显示月/日
+                        return `${d.getMonth() + 1}/${d.getDate()}`;
+                    } else if (years <= 5) {
+                        // 5年内: 显示年/月
+                        return `${d.getFullYear()}/${d.getMonth() + 1}`;
+                    } else if (years <= 10) {
+                        // 10年内: 显示年/月
+                        return `${d.getFullYear()}/${d.getMonth() + 1}`;
+                    } else if (years <= 20) {
+                        // 20年内: 显示年和季度
+                        const quarter = Math.floor(d.getMonth() / 3) + 1;
+                        return `${d.getFullYear()} Q${quarter}`;
+                    } else if (years <= 30) {
+                        // 30年内: 显示年和半年
+                        const half = d.getMonth() < 6 ? 'H1' : 'H2';
+                        return `${d.getFullYear()} ${half}`;
+                    } else {
+                        // 默认: 显示年/月
+                        return `${d.getFullYear()}/${d.getMonth() + 1}`;
+                    }
+                });
+
+                goldChart.data.labels = labels;
+                goldChart.data.datasets[0].data = prices;
+                goldChart.update();
+                
+                // 保存当前数据
+                currentData = { labels, prices, dates };
+                
+                // 显示刻度线并重置位置到中间
+                hideChartLoading();
+                showMarker();
+                setTimeout(() => resetMarker(), 100);
+            } catch (e) {
+                console.error("宏观数据获取失败:", e);
+                showChartError();
+            }
+        }
+
+        // 核心更新函数：处理不同颗粒度的时间跨度
+        async function changeRange(interval, rangeId, limit) {
+            updateBtnUI(`btn-${rangeId}`);
+            showChartLoading();
+            
+            try {
+                const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=PAXGUSDT&interval=${interval}&limit=${limit}`);
+                if (!res.ok) throw new Error('历史数据API请求失败');
+                const klines = await res.json();
+                
+                const prices = klines.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
+                const dates = klines.map(k => new Date(k[0]));
+                const labels = klines.map(k => {
+                    const d = new Date(k[0]);
+                    // 根据不同范围显示不同的时间格式
+                    if (['15M', '30M', '1H', '6H'].includes(rangeId)) {
+                        return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`;
+                    } else if (rangeId === '1D') {
+                        return `${d.getHours()}:00`;
+                    } else if (['1W', '1MO', '3MO', '6MO'].includes(rangeId)) {
+                        return `${d.getMonth() + 1}/${d.getDate()}`;
+                    } else {
+                        return `${d.getFullYear()}/${d.getMonth() + 1}`;
+                    }
+                });
+
+                goldChart.data.labels = labels;
+                goldChart.data.datasets[0].data = prices;
+                goldChart.update();
+                
+                // 保存当前数据
+                currentData = { labels, prices, dates };
+                
+                // 显示刻度线并重置位置到中间
+                hideChartLoading();
+                showMarker();
+                setTimeout(() => resetMarker(), 100);
+            } catch (e) { 
+                console.error("历史数据获取失败:", e); 
+                showChartError();
+            }
+        }
+        
+        // 图表加载状态控制
+        function showChartLoading() {
+            document.getElementById('chart-loading').classList.remove('hidden');
+            document.getElementById('chart-error').classList.add('hidden');
+        }
+        
+        function hideChartLoading() {
+            document.getElementById('chart-loading').classList.add('hidden');
+            document.getElementById('chart-error').classList.add('hidden');
+        }
+        
+        function showChartError() {
+            document.getElementById('chart-loading').classList.add('hidden');
+            document.getElementById('chart-error').classList.remove('hidden');
+        }
+
+        // 初始化刻度线功能
+        function initMarker() {
+            const markerLine = document.getElementById('marker-line');
+            const markerHandle = markerLine.querySelector('.marker-handle');
+            const markerTooltip = document.getElementById('marker-tooltip');
+            const chartContainer = document.querySelector('.chart-container');
+            
+            // 鼠标按下开始拖动
+            markerHandle.addEventListener('mousedown', startDrag);
+            markerLine.addEventListener('mousedown', startDrag);
+            
+            // 触摸屏支持
+            markerHandle.addEventListener('touchstart', startDragTouch);
+            markerLine.addEventListener('touchstart', startDragTouch);
+            
+            function startDrag(e) {
+                if (!hasData) return;
+                
+                e.preventDefault();
+                isDragging = true;
+                document.body.style.cursor = 'grabbing';
+                markerHandle.style.cursor = 'grabbing';
+                
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+            }
+            
+            function startDragTouch(e) {
+                if (!hasData) return;
+                
+                e.preventDefault();
+                isDragging = true;
+                document.addEventListener('touchmove', dragTouch);
+                document.addEventListener('touchend', stopDrag);
+            }
+            
+            function drag(e) {
+                if (!isDragging) return;
+                
+                const containerRect = chartContainer.getBoundingClientRect();
+                let x = e.clientX - containerRect.left;
+                
+                // 限制在图表范围内
+                x = Math.max(10, Math.min(containerRect.width - 10, x));
+                
+                updateMarkerPosition(x);
+            }
+            
+            function dragTouch(e) {
+                if (!isDragging || !e.touches.length) return;
+                
+                const containerRect = chartContainer.getBoundingClientRect();
+                let x = e.touches[0].clientX - containerRect.left;
+                
+                // 限制在图表范围内
+                x = Math.max(10, Math.min(containerRect.width - 10, x));
+                
+                updateMarkerPosition(x);
+            }
+            
+            function stopDrag() {
+                isDragging = false;
+                document.body.style.cursor = '';
+                markerHandle.style.cursor = 'grab';
+                
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchmove', dragTouch);
+                document.removeEventListener('touchend', stopDrag);
+            }
+            
+            // 点击图表任意位置移动刻度线
+            chartContainer.addEventListener('click', (e) => {
+                if (!hasData) return;
+                if (e.target === markerLine || e.target === markerHandle || e.target === markerTooltip) return;
+                
+                const containerRect = chartContainer.getBoundingClientRect();
+                let x = e.clientX - containerRect.left;
+                
+                // 限制在图表范围内
+                x = Math.max(10, Math.min(containerRect.width - 10, x));
+                
+                updateMarkerPosition(x);
+            });
+            
+            // 触摸屏点击支持
+            chartContainer.addEventListener('touchstart', (e) => {
+                if (!hasData) return;
+                if (e.target === markerLine || e.target === markerHandle || e.target === markerTooltip) return;
+                
+                if (e.touches.length === 1) {
+                    e.preventDefault();
+                    const containerRect = chartContainer.getBoundingClientRect();
+                    let x = e.touches[0].clientX - containerRect.left;
+                    
+                    // 限制在图表范围内
+                    x = Math.max(10, Math.min(containerRect.width - 10, x));
+                    
+                    updateMarkerPosition(x);
+                }
+            });
+        }
+        
+        // 更新刻度线位置
+        function updateMarkerPosition(x) {
+            const markerLine = document.getElementById('marker-line');
+            const markerTooltip = document.getElementById('marker-tooltip');
+            const chartContainer = document.querySelector('.chart-container');
+            const containerRect = chartContainer.getBoundingClientRect();
+            
+            // 设置刻度线位置
+            markerLine.style.left = `${x}px`;
+            
+            // 计算对应的数据点
+            const dataIndex = Math.round((x / containerRect.width) * (currentData.prices.length - 1));
+            const clampedIndex = Math.max(0, Math.min(currentData.prices.length - 1, dataIndex));
+            
+            // 获取对应价格和时间
+            const price = currentData.prices[clampedIndex];
+            const label = currentData.labels[clampedIndex];
+            const date = currentData.dates[clampedIndex];
+            
+            // 显示价格
+            document.getElementById('marker-price-value').textContent = price.toFixed(2);
+            document.getElementById('marker-price-display').classList.remove('hidden');
+            
+            // 更新工具提示
+            let tooltipText = `${price.toFixed(2)} 元/克`;
+            if (date) {
+                // 根据设备选择日期格式
+                const isMobile = window.innerWidth < 768;
+                const options = isMobile ? {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                } : {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                
+                const dateStr = date.toLocaleDateString('zh-CN', options);
+                tooltipText += `\n${dateStr}`;
+            } else if (label) {
+                tooltipText += `\n${label}`;
+            }
+            
+            markerTooltip.textContent = tooltipText;
+            
+            // 定位工具提示（避免超出边界）
+            const tooltipWidth = markerTooltip.offsetWidth;
+            const tooltipHeight = markerTooltip.offsetHeight;
+            
+            let tooltipX = x + 10;
+            let tooltipY = 20;
+            
+            // 如果工具提示超出右边界，向左移动
+            if (tooltipX + tooltipWidth > containerRect.width) {
+                tooltipX = x - tooltipWidth - 10;
+            }
+            
+            // 如果工具提示超出底部，向上移动
+            if (tooltipY + tooltipHeight > containerRect.height) {
+                tooltipY = containerRect.height - tooltipHeight - 10;
+            }
+            
+            markerTooltip.style.left = `${tooltipX}px`;
+            markerTooltip.style.top = `${tooltipY}px`;
+            markerTooltip.style.display = 'block';
+        }
+        
+        // 显示刻度线
+        function showMarker() {
+            document.getElementById('marker-container').style.display = 'block';
+            markerInitialized = true;
+        }
+        
+        // 重置刻度线到中间位置
+        function resetMarker() {
+            const chartContainer = document.querySelector('.chart-container');
+            if (!chartContainer || !markerInitialized || !hasData) return;
+            
+            const containerRect = chartContainer.getBoundingClientRect();
+            const middleX = containerRect.width / 2;
+            
+            updateMarkerPosition(middleX);
+        }
+        
+        // 隐藏刻度线
+        function hideMarker() {
+            document.getElementById('marker-container').style.display = 'none';
+            document.getElementById('marker-price-display').classList.add('hidden');
+        }
+
+        function updateBtnUI(id) {
+            document.querySelectorAll('button').forEach(b => b.classList.remove('btn-active'));
+            const activeBtn = document.getElementById(id);
+            if(activeBtn) activeBtn.classList.add('btn-active');
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            initChart();
+            
+            // 尝试获取初始数据
+            updateMarket().then(() => {
+                if (hasData) {
+                    // 默认显示 1天 视图
+                    changeRange('1h', '1D', 24);
+                    // 每10秒更新一次价格
+                    setInterval(updateMarket, 10000);
+                } else {
+                    showChartError();
+                }
+            }).catch(() => {
+                showChartError();
+            });
+        });
+    </script>
+</body>
+</html>

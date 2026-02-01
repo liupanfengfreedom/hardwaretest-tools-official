@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球汇率趋势分析仪 - 增强版</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #007aff;
+            --bg-color: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-color: #1d1d1f;
+            --secondary-text: #86868b;
+            --border-color: #d2d2d7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        h2 { margin-top: 0; font-size: 20px; text-align: center; margin-bottom: 25px; }
+
+        .form-row { display: flex; gap: 15px; margin-bottom: 20px; }
+        .form-group { flex: 1; }
+        label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--secondary-text); }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+
+        optgroup { font-style: normal; font-weight: bold; color: var(--primary-color); }
+
+        .result-card {
+            background: #fbfbfd;
+            border-radius: 18px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid #efeff4;
+            margin-bottom: 25px;
+        }
+
+        .rate-badge {
+            display: inline-block;
+            background: #e8f2ff;
+            color: var(--primary-color);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .main-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 8px 0;
+        }
+
+        .time-picker { display: flex; gap: 8px; margin-bottom: 15px; }
+        .time-btn {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            background: #eeeef0;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            color: var(--secondary-text);
+        }
+
+        .time-btn.active {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .chart-container { height: 300px; position: relative; margin-top: 10px; }
+        #loading-overlay {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px; color: var(--secondary-text);
+            display: none; background: rgba(255,255,255,0.8);
+            padding: 10px; border-radius: 8px; z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>全球汇率趋势分析仪</h2>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>转换金额</label>
+            <input type="number" id="ex-amount" value="100" step="0.01">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>持有货币</label>
+            <select id="ex-from">
+                <optgroup label="热门">
+                    <option value="USD">🇺🇸 USD 美元</option>
+                    <option value="CNY" selected>🇨🇳 CNY 人民币</option>
+                    <option value="EUR">🇪🇺 EUR 欧元</option>
+                </optgroup>
+                <optgroup label="亚洲">
+                    <option value="JPY">🇯🇵 JPY 日元</option>
+                    <option value="HKD">🇭🇰 HKD 港币</option>
+                    <option value="KRW">🇰🇷 KRW 韩元</option>
+                    <option value="SGD">🇸🇬 SGD 新加坡元</option>
+                    <option value="INR">🇮🇳 INR 印度卢比</option>
+                    <option value="THB">🇹🇭 THB 泰铢</option>
+                    <option value="MYR">🇲🇾 MYR 马来西亚林吉特</option>
+                </optgroup>
+                <optgroup label="欧洲">
+                    <option value="GBP">🇬🇧 GBP 英镑</option>
+                    <option value="CHF">🇨🇭 CHF 瑞士法郎</option>
+                    <option value="SEK">🇸🇪 SEK 瑞典克朗</option>
+                    <option value="DKK">🇩🇰 DKK 丹麦克朗</option>
+                    <option value="NOK">🇳🇴 NOK 挪威克朗</option>
+                    <option value="PLN">🇵🇱 PLN 波兰兹罗提</option>
+                </optgroup>
+                <optgroup label="美洲/大洋洲">
+                    <option value="CAD">🇨🇦 CAD 加拿大元</option>
+                    <option value="AUD">🇦🇺 AUD 澳大利亚元</option>
+                    <option value="NZD">🇳🇿 NZD 新西兰元</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>目标货币</label>
+            <select id="ex-to">
+                <optgroup label="热门">
+                    <option value="USD" selected>🇺🇸 USD 美元</option>
+                    <option value="CNY">🇨🇳 CNY 人民币</option>
+                    <option value="EUR">🇪🇺 EUR 欧元</option>
+                </optgroup>
+                <optgroup label="亚洲">
+                    <option value="JPY">🇯🇵 JPY 日元</option>
+                    <option value="HKD">🇭🇰 HKD 港币</option>
+                    <option value="KRW">🇰🇷 KRW 韩元</option>
+                    <option value="SGD">🇸🇬 SGD 新加坡元</option>
+                    <option value="INR">🇮🇳 INR 印度卢比</option>
+                </optgroup>
+                <optgroup label="欧洲">
+                    <option value="GBP">🇬🇧 GBP 英镑</option>
+                    <option value="CHF">🇨🇭 CHF 瑞士法郎</option>
+                </optgroup>
+                <optgroup label="美洲/大洋洲">
+                    <option value="CAD">🇨🇦 CAD 加拿大元</option>
+                    <option value="AUD">🇦🇺 AUD 澳大利亚元</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+
+    <div class="result-card">
+        <div id="rate-text" class="rate-badge">正在同步汇率...</div>
+        <div id="res-total" class="main-amount">---</div>
+        <div style="font-size: 12px; color: var(--secondary-text);">实时汇率参考 (数据源自欧洲央行)</div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span style="font-size: 14px; font-weight: 600;">历史趋势范围</span>
+    </div>
+
+    <div class="time-picker" id="time-picker">
+        <button class="time-btn" data-years="1">1年</button>
+        <button class="time-btn active" data-years="5">5年</button>
+        <button class="time-btn" data-years="10">10年</button>
+        <button class="time-btn" data-years="20">20年</button>
+        <button class="time-btn" data-years="30">30年</button>
+    </div>
+
+    <div class="chart-container">
+        <div id="loading-overlay">加载历史趋势数据...</div>
+        <canvas id="historyChart"></canvas>
+    </div>
+</div>
+
+<script>
+    let myChart = null;
+    let currentYears = 5;
+
+    async function updateAll() {
+        const from = document.getElementById('ex-from').value;
+        const to = document.getElementById('ex-to').value;
+        const amount = parseFloat(document.getElementById('ex-amount').value) || 0;
+
+        if (from === to) {
+            document.getElementById('res-total').innerText = amount.toFixed(2);
+            document.getElementById('rate-text').innerText = `1 ${from} = 1 ${to}`;
+            if(myChart) myChart.destroy();
+            return;
+        }
+
+        try {
+            const res = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=${to}`);
+            const data = await res.json();
+            const rate = data.rates[to];
+            document.getElementById('rate-text').innerText = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+            document.getElementById('res-total').innerText = (amount * rate).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            updateChart(from, to, currentYears);
+        } catch (e) { 
+            document.getElementById('rate-text').innerText = "汇率同步失败";
+        }
+    }
+
+    async function updateChart(from, to, years) {
+        const loading = document.getElementById('loading-overlay');
+        loading.style.display = 'block';
+
+        const end = new Date().toISOString().split('T')[0];
+        const startDate = new Date();
+        startDate.setFullYear(startDate.getFullYear() - years);
+        const start = startDate.toISOString().split('T')[0];
+
+        try {
+            const res = await fetch(`https://api.frankfurter.app/${start}..${end}?from=${from}&to=${to}`);
+            const data = await res.json();
+            const labels = [];
+            const values = [];
+            const dates = Object.keys(data.rates);
+
+            let step = Math.max(1, Math.floor(dates.length / 50)); 
+
+            for (let i = 0; i < dates.length; i += step) { 
+                labels.push(dates[i]);
+                values.push(data.rates[dates[i]][to]);
+            }
+            renderChart(labels, values, `${from}/${to} ${years}年趋势`);
+        } catch (e) {
+            console.error("图表数据获取失败");
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    function renderChart(labels, dataPoints, title) {
+        const ctx = document.getElementById('historyChart').getContext('2d');
+        if (myChart) myChart.destroy();
+
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: title,
+                    data: dataPoints,
+                    borderColor: '#007aff',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: true,
+                    backgroundColor: 'rgba(0, 122, 255, 0.05)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { maxTicksLimit: 6, font: { size: 10 } }, grid: { display: false } },
+                    y: { ticks: { font: { size: 10 } }, grid: { color: '#f0f0f2' } }
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll('select, input').forEach(el => el.addEventListener('change', updateAll));
+    document.getElementById('time-picker').addEventListener('click', (e) => {
+        if (e.target.classList.contains('time-btn')) {
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            currentYears = parseInt(e.target.dataset.years);
+            updateAll();
+        }
+    });
+
+    window.onload = updateAll;
+</script>
+
+</body>
+</html>
