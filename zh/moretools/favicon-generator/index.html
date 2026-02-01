@@ -76,13 +76,9 @@
         }
         
         /* 修复：为图标添加背景色，确保在透明图标时也能看到效果 */
-        .ios-icon { 
+        /* 统一使用圆角矩形图标 */
+        .app-icon {
             border-radius: 22.5%;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .android-icon { 
-            border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.1);
         }
 
@@ -143,11 +139,30 @@
             to { transform: rotate(360deg); } 
         }
         
-        /* 为搜索预览和标签页预览图标添加背景色 */
+        /* 修复：为搜索预览和标签页预览图标增加尺寸 */
         #prev-search, #prev-tab {
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
             padding: 2px;
+            /* 增加尺寸以便更清晰可见 */
+            width: 24px !important;
+            height: 24px !important;
+            object-fit: contain !important;
+        }
+        
+        /* 修复：为搜索预览图标容器增加尺寸 */
+        .search-icon-container {
+            width: 30px !important;
+            height: 30px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        /* 修复：为标签页预览图标容器调整布局 */
+        .tab-preview-container {
+            display: flex !important;
+            align-items: center !important;
         }
         
         /* 为 ICO 预览添加背景色和圆角 */
@@ -156,6 +171,22 @@
             border-radius: 4px;
             padding: 2px;
             object-fit: contain !important;
+        }
+        
+        /* 修复：增加 ICO 预览图标尺寸，使其更清晰 */
+        #prev-ico-16 {
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        #prev-ico-32 {
+            width: 48px !important;
+            height: 48px !important;
+        }
+        
+        #prev-ico-48 {
+            width: 64px !important;
+            height: 64px !important;
         }
     </style>
 </head>
@@ -225,20 +256,20 @@
                                 <div class="dynamic-island"></div>
                                 <div class="app-grid">
                                     <div class="app-item">
-                                        <img id="prev-ios" class="ios-icon shadow-lg hidden preview-img">
-                                        <div id="ios-placeholder" class="app-icon-placeholder ios-icon"></div>
+                                        <img id="prev-ios" class="app-icon shadow-lg hidden preview-img">
+                                        <div id="ios-placeholder" class="app-icon-placeholder app-icon"></div>
                                         <span class="app-label">YourApp</span>
                                     </div>
                                     <!-- 占位图标 -->
-                                    <div class="app-item"><div class="app-icon-placeholder ios-icon"></div><span class="app-label">照片</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder ios-icon"></div><span class="app-label">设置</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder ios-icon"></div><span class="app-label">钱包</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">照片</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">设置</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">钱包</span></div>
                                 </div>
                                 <div class="ios-dock">
-                                    <div class="app-icon-placeholder ios-icon mb-0"></div>
-                                    <div class="app-icon-placeholder ios-icon mb-0"></div>
-                                    <div class="app-icon-placeholder ios-icon mb-0"></div>
-                                    <div class="app-icon-placeholder ios-icon mb-0"></div>
+                                    <div class="app-icon-placeholder app-icon mb-0"></div>
+                                    <div class="app-icon-placeholder app-icon mb-0"></div>
+                                    <div class="app-icon-placeholder app-icon mb-0"></div>
+                                    <div class="app-icon-placeholder app-icon mb-0"></div>
                                 </div>
                                 <div class="ios-home-indicator"></div>
                             </div>
@@ -262,13 +293,13 @@
 
                                 <div class="app-grid pt-[160px]">
                                     <div class="app-item">
-                                        <img id="prev-android" class="android-icon shadow-lg hidden preview-img">
-                                        <div id="android-placeholder" class="app-icon-placeholder android-icon"></div>
+                                        <img id="prev-android" class="app-icon shadow-lg hidden preview-img">
+                                        <div id="android-placeholder" class="app-icon-placeholder app-icon"></div>
                                         <span class="app-label">YourApp</span>
                                     </div>
-                                    <div class="app-item"><div class="app-icon-placeholder android-icon"></div><span class="app-label">Chrome</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder android-icon"></div><span class="app-label">相机</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder android-icon"></div><span class="app-label">相册</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">Chrome</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">相机</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">相册</span></div>
                                 </div>
                             </div>
                             <p class="mt-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Android Preview</p>
@@ -278,8 +309,9 @@
                         <div class="space-y-6">
                             <div class="w-[300px] bg-white rounded-2xl p-4 text-slate-900 shadow-xl border-t-4 border-blue-500">
                                 <div class="flex items-center mb-2">
-                                    <div class="w-6 h-6 bg-slate-100 rounded flex items-center justify-center mr-2">
-                                        <img id="prev-search" class="w-4 h-4 hidden">
+                                    <!-- 修复：增加搜索图标容器尺寸 -->
+                                    <div class="search-icon-container bg-slate-100 rounded flex items-center justify-center mr-2">
+                                        <img id="prev-search" class="hidden">
                                     </div>
                                     <div class="flex flex-col">
                                         <span class="text-[10px] text-slate-500 leading-none">https://your-site.com</span>
@@ -293,8 +325,9 @@
                             <div class="w-[300px] bg-slate-700 rounded-xl p-4 border border-slate-600">
                                 <p class="text-[10px] text-slate-500 mb-3 uppercase font-bold tracking-tight">浏览器标签页预览</p>
                                 <div class="bg-[#202124] rounded-t-lg p-2 flex items-center shadow-lg">
-                                    <div class="bg-[#35363a] px-3 py-1.5 rounded-t-md flex items-center text-slate-300">
-                                        <img id="prev-tab" class="w-3.5 h-3.5 mr-2 hidden">
+                                    <!-- 修复：调整标签页预览容器 -->
+                                    <div class="tab-preview-container bg-[#35363a] px-3 py-1.5 rounded-t-md text-slate-300">
+                                        <img id="prev-tab" class="mr-2 hidden">
                                         <div class="w-16 h-1.5 bg-slate-500 rounded-full opacity-50"></div>
                                         <span class="ml-4 text-xs opacity-50">×</span>
                                     </div>
@@ -306,15 +339,15 @@
                                 <p class="text-[10px] text-slate-500 mb-2 uppercase font-bold tracking-tight">ICO 多分辨率渲染</p>
                                 <div class="flex items-end gap-5 p-2 bg-slate-900/50 rounded-lg">
                                     <div class="flex flex-col items-center">
-                                        <img id="prev-ico-16" class="w-4 h-4 hidden">
+                                        <img id="prev-ico-16" class="hidden">
                                         <span class="text-[8px] mt-1 opacity-40">16px</span>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <img id="prev-ico-32" class="w-8 h-8 hidden">
+                                        <img id="prev-ico-32" class="hidden">
                                         <span class="text-[8px] mt-1 opacity-40">32px</span>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <img id="prev-ico-48" class="w-12 h-12 hidden">
+                                        <img id="prev-ico-48" class="hidden">
                                         <span class="text-[8px] mt-1 opacity-40">48px</span>
                                     </div>
                                 </div>
