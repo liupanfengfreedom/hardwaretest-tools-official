@@ -13,12 +13,23 @@
         .phone-mockup { width: 260px; height: 530px; border: 8px solid #222; border-radius: 40px; position: relative; background-size: cover; background-position: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden; flex-shrink: 0; }
         .dynamic-island { width: 80px; height: 25px; background: #000; border-radius: 20px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 10; }
         .punch-hole { width: 12px; height: 12px; background: #222; border-radius: 50%; position: absolute; top: 15px; left: 50%; transform: translateX(-50%); z-index: 10; }
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 60px 20px; }
-        .app-item { display: flex; flex-direction: column; align-items: center; }
-        .app-icon-placeholder { width: 45px; height: 45px; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border-radius: 10px; margin-bottom: 4px; }
+        
+        /* 优化点：明确网格列宽，防止子项被挤压 */
+        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 60px 20px; width: 100%; }
+        .app-item { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+        
+        .app-icon-placeholder { width: 45px; height: 45px; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border-radius: 10px; margin-bottom: 4px; flex-shrink: 0; }
+        
+        /* 强制图片保持 1:1，防止部署环境全局 CSS 干扰 */
+        .preview-img { 
+            aspect-ratio: 1 / 1 !important; 
+            object-fit: cover !important; 
+            flex-shrink: 0 !important; 
+        }
+        
         .ios-icon { border-radius: 22%; }
         .android-icon { border-radius: 50%; }
-        .app-label { color: white; font-size: 10px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        .app-label { color: white; font-size: 10px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); margin-top: 4px; }
         .bg-ios { background-image: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
         .bg-android { background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400'); }
         
@@ -32,7 +43,7 @@
 <body class="bg-slate-900 min-h-screen text-slate-200 font-sans">
 
     <div class="max-w-7xl mx-auto px-6 py-10">
-        <header class="flex justify-between items-center mb-12">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
             <div>
                 <h1 class="text-2xl font-black bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent italic">FAVICON STUDIO</h1>
                 <p class="text-slate-400 text-sm">浏览器本地生成 .ICO，无需服务器</p>
@@ -87,10 +98,15 @@
                                 <div class="dynamic-island"></div>
                                 <div class="app-grid" id="ios-grid">
                                     <div class="app-item">
-                                        <img id="prev-ios" class="w-[45px] h-[45px] ios-icon shadow-lg hidden">
+                                        <!-- 关键修复：添加 preview-img 类 -->
+                                        <img id="prev-ios" class="w-[45px] h-[45px] ios-icon shadow-lg hidden preview-img">
                                         <div id="ios-placeholder" class="app-icon-placeholder ios-icon"></div>
                                         <span class="app-label">YourApp</span>
                                     </div>
+                                    <!-- 占位图标 -->
+                                    <div class="app-item"><div class="app-icon-placeholder ios-icon"></div><span class="app-label">App</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder ios-icon"></div><span class="app-label">App</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder ios-icon"></div><span class="app-label">App</span></div>
                                 </div>
                             </div>
                             <p class="mt-4 text-xs font-bold text-slate-500">iOS 桌面 (180px)</p>
@@ -102,10 +118,13 @@
                                 <div class="punch-hole"></div>
                                 <div class="app-grid">
                                     <div class="app-item">
-                                        <img id="prev-android" class="w-[45px] h-[45px] android-icon shadow-lg hidden">
+                                        <img id="prev-android" class="w-[45px] h-[45px] android-icon shadow-lg hidden preview-img">
                                         <div id="android-placeholder" class="app-icon-placeholder android-icon"></div>
                                         <span class="app-label">YourApp</span>
                                     </div>
+                                    <div class="app-item"><div class="app-icon-placeholder android-icon"></div><span class="app-label">App</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder android-icon"></div><span class="app-label">App</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder android-icon"></div><span class="app-label">App</span></div>
                                 </div>
                             </div>
                             <p class="mt-4 text-xs font-bold text-slate-500">Android 桌面</p>
@@ -115,7 +134,7 @@
                         <div class="space-y-6">
                             <div class="w-[300px] bg-white rounded-2xl p-4 text-slate-900 shadow-xl">
                                 <div class="flex items-center mb-2">
-                                    <img id="prev-search" class="w-4 h-4 mr-2 hidden">
+                                    <img id="prev-search" class="w-4 h-4 mr-2 hidden preview-img">
                                     <span class="text-[10px] text-slate-500 truncate">https://your-site.com</span>
                                 </div>
                                 <div class="text-blue-700 text-sm font-medium">搜索结果预览</div>
@@ -124,17 +143,17 @@
                             <div class="w-[300px] bg-slate-700 rounded-xl p-4 border border-slate-600">
                                 <p class="text-[10px] text-slate-500 mb-2 uppercase">浏览器标签页</p>
                                 <div class="bg-slate-800 rounded-lg p-2 flex items-center">
-                                    <img id="prev-tab" class="w-4 h-4 mr-2 hidden">
+                                    <img id="prev-tab" class="w-4 h-4 mr-2 hidden preview-img">
                                     <div class="w-20 h-2 bg-slate-700 rounded"></div>
                                 </div>
                             </div>
 
                             <div class="w-[300px] bg-slate-700 rounded-xl p-4 border border-slate-600">
                                 <p class="text-[10px] text-slate-500 mb-2 uppercase">ICO 多尺寸集</p>
-                                <div class="flex space-x-4">
-                                    <img id="prev-ico-16" class="w-4 h-4 hidden bg-slate-800">
-                                    <img id="prev-ico-32" class="w-8 h-8 hidden bg-slate-800">
-                                    <img id="prev-ico-48" class="w-12 h-12 hidden bg-slate-800">
+                                <div class="flex space-x-4 items-end">
+                                    <img id="prev-ico-16" class="w-4 h-4 hidden bg-slate-800 preview-img">
+                                    <img id="prev-ico-32" class="w-8 h-8 hidden bg-slate-800 preview-img">
+                                    <img id="prev-ico-48" class="w-12 h-12 hidden bg-slate-800 preview-img">
                                 </div>
                             </div>
                         </div>
@@ -147,7 +166,6 @@
     <script>
         /**
          * 核心逻辑：在浏览器端手动构建 ICO 文件格式
-         * ICO 包含：文件头(6字节) + 目录项(每个16字节) + PNG原始数据
          */
         async function encodeICO(canvases) {
             const blobs = await Promise.all(canvases.map(c => new Promise(res => c.toBlob(res, 'image/png'))));
@@ -159,23 +177,21 @@
             
             const icoHeader = new DataView(new ArrayBuffer(headerSize + directorySize));
             
-            // Header
             icoHeader.setUint16(0, 0, true);    // Reserved
             icoHeader.setUint16(2, 1, true);    // Type: ICO
             icoHeader.setUint16(4, canvases.length, true); // Number of images
             
-            // Directory Entries
             buffers.forEach((buf, i) => {
                 const canvas = canvases[i];
                 const entryOffset = headerSize + (i * 16);
                 icoHeader.setUint8(entryOffset + 0, canvas.width >= 256 ? 0 : canvas.width);
                 icoHeader.setUint8(entryOffset + 1, canvas.height >= 256 ? 0 : canvas.height);
-                icoHeader.setUint8(entryOffset + 2, 0); // Palette
-                icoHeader.setUint8(entryOffset + 3, 0); // Reserved
-                icoHeader.setUint16(entryOffset + 4, 1, true); // Color Planes
-                icoHeader.setUint16(entryOffset + 6, 32, true); // Bits per pixel
-                icoHeader.setUint32(entryOffset + 8, buf.byteLength, true); // Size
-                icoHeader.setUint32(entryOffset + 12, currentOffset, true); // Offset
+                icoHeader.setUint8(entryOffset + 2, 0); 
+                icoHeader.setUint8(entryOffset + 3, 0); 
+                icoHeader.setUint16(entryOffset + 4, 1, true); 
+                icoHeader.setUint16(entryOffset + 6, 32, true); 
+                icoHeader.setUint32(entryOffset + 8, buf.byteLength, true); 
+                icoHeader.setUint32(entryOffset + 12, currentOffset, true); 
                 currentOffset += buf.byteLength;
             });
             
@@ -213,7 +229,11 @@
                 dropZone.classList.add('hidden');
                 editorContainer.classList.remove('hidden');
                 if (cropper) cropper.destroy();
-                cropper = new Cropper(cropperImage, { aspectRatio: 1, viewMode: 1 });
+                cropper = new Cropper(cropperImage, { 
+                    aspectRatio: 1, 
+                    viewMode: 1,
+                    autoCropArea: 1
+                });
             };
             reader.readAsDataURL(file);
         };
@@ -227,7 +247,8 @@
             generateBtn.disabled = true;
             generateBtn.innerHTML = '<div class="spinner"></div>生成中...';
 
-            const sourceCanvas = cropper.getCroppedCanvas({ width: 1024, height: 1024 });
+            // 获取最高质量裁切图
+            const sourceCanvas = cropper.getCroppedCanvas({ width: 1024, height: 1024, imageSmoothingEnabled: true, imageSmoothingQuality: 'high' });
             const icoCanvases = [];
 
             for (const conf of configs) {
@@ -251,11 +272,9 @@
                 }
             }
 
-            // 生成 ICO
             generatedBlobs['favicon.ico'] = await encodeICO(icoCanvases);
             
-            document.getElementById('ios-placeholder').classList.add('hidden');
-            document.getElementById('android-placeholder').classList.add('hidden');
+            document.querySelectorAll('.app-icon-placeholder').forEach(el => el.classList.add('hidden'));
             downloadArea.classList.remove('hidden');
             generateBtn.disabled = false;
             generateBtn.innerText = '重新生成';
@@ -266,7 +285,6 @@
             const icons = zip.folder("icons");
             for (const name in generatedBlobs) icons.file(name, generatedBlobs[name]);
 
-            // 使用转义的标签避免 HTML 解析错误
             const html = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -278,10 +296,11 @@
 <body>图标已配置<\/body>
 <\/html>`;
 
-            zip.file("使用说明.html", html);
+            zip.file("index.html", html);
             zip.file("site.webmanifest", JSON.stringify({
                 name: "My App", icons: [
-                    { src: "icons/android-chrome-192x192.png", sizes: "192x192", type: "image/png" }
+                    { src: "icons/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+                    { src: "icons/android-chrome-512x512.png", sizes: "512x512", type: "image/png" }
                 ]
             }, null, 2));
 
