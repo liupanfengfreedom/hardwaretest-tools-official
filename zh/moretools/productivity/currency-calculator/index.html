@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全能计算器 - 含5年汇率走势</title>
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #007aff;
+            --bg-color: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-color: #1d1d1f;
+            --secondary-text: #86868b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .tabs {
+            display: flex;
+            background: #e3e3e6;
+            border-radius: 12px;
+            padding: 2px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .tab-btn.active {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-weight: bold;
+        }
+
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group { flex: 1; }
+        label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--secondary-text); }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        /* 结果展示区 */
+        .result-card {
+            background: #fbfbfd;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #efeff4;
+            margin-bottom: 20px;
+        }
+
+        .rate-badge {
+            display: inline-block;
+            background: #e8f2ff;
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .main-amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 5px 0;
+        }
+
+        /* 图表容器 */
+        .chart-container {
+            margin-top: 10px;
+            height: 250px;
+            position: relative;
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        #loading-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            color: var(--secondary-text);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('ex')">汇率转换</button>
+        <button class="tab-btn" onclick="switchTab('loan')">贷款计算</button>
+    </div>
+
+    <!-- 汇率部分 -->
+    <div id="section-ex" class="content-section active">
+        <div class="form-row">
+            <div class="form-group">
+                <label>金额</label>
+                <input type="number" id="ex-amount" value="100">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>从</label>
+                <select id="ex-from">
+                    <option value="CNY">CNY 人民币</option>
+                    <option value="USD" selected>USD 美元</option>
+                    <option value="EUR">EUR 欧元</option>
+                    <option value="JPY">JPY 日元</option>
+                    <option value="GBP">GBP 英镑</option>
+                    <option value="HKD">HKD 港币</option>
+                    <option value="AUD">AUD 澳元</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>到</label>
+                <select id="ex-to">
+                    <option value="CNY" selected>CNY 人民币</option>
+                    <option value="USD">USD 美元</option>
+                    <option value="EUR">EUR 欧元</option>
+                    <option value="JPY">JPY 日元</option>
+                    <option value="HKD">HKD 港币</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <div id="rate-text" class="rate-badge">1 USD = --- CNY</div>
+            <div id="res-total" class="main-amount">---</div>
+            <div style="font-size: 12px; color: var(--secondary-text);">实时中间价汇率</div>
+        </div>
+
+        <div class="chart-title">最近 5 年汇率走势</div>
+        <div class="chart-container">
+            <div id="loading-overlay">图表加载中...</div>
+            <canvas id="historyChart"></canvas>
+        </div>
+    </div>
+
+    <!-- 贷款部分 (保持精简) -->
+    <div id="section-loan" class="content-section">
+        <div class="form-row">
+            <div class="form-group">
+                <label>贷款金额 (万)</label>
+                <input type="number" id="loan-sum" value="100">
+            </div>
+            <div class="form-group">
+                <label>年利率 (%)</label>
+                <input type="number" id="loan-rate" value="3.5" step="0.01">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>期限 (年)</label>
+                <input type="number" id="loan-years" value="30">
+            </div>
+            <div class="form-group">
+                <label>还款方式</label>
+                <select id="loan-type">
+                    <option value="1">等额本息</option>
+                    <option value="2">等额本金</option>
+                </select>
+            </div>
+        </div>
+        <div class="result-card">
+            <div class="main-amount" id="loan-monthly">￥0.00</div>
+            <div id="loan-info" style="font-size: 13px; color: var(--secondary-text);">请输入参数</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let myChart = null;
+
+    // 切换 Tab
+    function switchTab(type) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        document.getElementById('section-' + type).classList.add('active');
+        if(type === 'ex') updateExchange(); // 切换回来时刷新
+    }
+
+    // 更新汇率和图表
+    async function updateExchange() {
+        const from = document.getElementById('ex-from').value;
+        const to = document.getElementById('ex-to').value;
+        const amount = document.getElementById('ex-amount').value || 0;
+
+        if (from === to) {
+            document.getElementById('res-total').innerText = amount;
+            document.getElementById('rate-text').innerText = `1 ${from} = 1 ${to}`;
+            return;
+        }
+
+        // 1. 获取当前实时汇率
+        try {
+            const res = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=${to}`);
+            const data = await res.json();
+            const rate = data.rates[to];
+            document.getElementById('rate-text').innerText = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+            document.getElementById('res-total').innerText = (amount * rate).toLocaleString(undefined, {minimumFractionDigits: 2});
+        } catch (e) { console.error("实时汇率获取失败"); }
+
+        // 2. 获取 5 年历史数据并更新图表
+        updateChart(from, to);
+    }
+
+    async function updateChart(from, to) {
+        const loading = document.getElementById('loading-overlay');
+        loading.style.display = 'block';
+
+        const end = new Date().toISOString().split('T')[0];
+        const startDate = new Date();
+        startDate.setFullYear(startDate.getFullYear() - 5);
+        const start = startDate.toISOString().split('T')[0];
+
+        try {
+            // 获取历史数据
+            const res = await fetch(`https://api.frankfurter.app/${start}..${end}?from=${from}&to=${to}`);
+            const data = await res.json();
+            
+            const labels = [];
+            const values = [];
+
+            // 数据处理：Frankfurter 返回每天的数据，我们每隔 30 天取一个点防止图表太拥挤
+            const dates = Object.keys(data.rates);
+            for (let i = 0; i < dates.length; i += 30) { 
+                labels.push(dates[i]);
+                values.push(data.rates[dates[i]][to]);
+            }
+
+            renderChart(labels, values, `${from} 对 ${to} 五年走势`);
+        } catch (e) {
+            console.error("历史数据获取失败");
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    function renderChart(labels, dataPoints, title) {
+        const ctx = document.getElementById('historyChart').getContext('2d');
+        
+        if (myChart) myChart.destroy(); // 销毁旧图表防止重叠
+
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: title,
+                    data: dataPoints,
+                    borderColor: '#007aff',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: true,
+                    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: true, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+                    y: { display: true, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+    }
+
+    // 贷款计算
+    function updateLoan() {
+        const p = document.getElementById('loan-sum').value * 10000;
+        const r = document.getElementById('loan-rate').value / 100 / 12;
+        const n = document.getElementById('loan-years').value * 12;
+        const type = document.getElementById('loan-type').value;
+
+        if(!p || !r || !n) return;
+
+        let monthly, total;
+        if(type === "1") {
+            monthly = (p * r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
+            total = monthly * n;
+            document.getElementById('loan-monthly').innerText = `￥${monthly.toLocaleString(undefined, {maximumFractionDigits:2})}`;
+            document.getElementById('loan-info').innerText = `还款总额: ${(total/10000).toFixed(2)}万`;
+        } else {
+            const first = (p/n) + p*r;
+            total = (n + 1) * p * r / 2 + p;
+            document.getElementById('loan-monthly').innerText = `首月￥${first.toFixed(0)}`;
+            document.getElementById('loan-info').innerText = `还款总额: ${(total/10000).toFixed(2)}万 (逐月递减)`;
+        }
+    }
+
+    // 监听事件
+    document.querySelectorAll('#section-ex input, #section-ex select').forEach(el => {
+        el.addEventListener('change', updateExchange);
+    });
+    document.getElementById('ex-amount').addEventListener('input', updateExchange);
+
+    document.querySelectorAll('#section-loan input, #section-loan select').forEach(el => {
+        el.addEventListener('input', updateLoan);
+    });
+
+    // 初始化
+    window.onload = () => {
+        updateExchange();
+        updateLoan();
+    };
+</script>
+
+</body>
+</html>
