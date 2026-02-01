@@ -182,10 +182,12 @@
                     
                     <div class="w-[1px] h-4 bg-slate-800 self-center mx-1 md:mx-2"></div>
                     
-                    <!-- 宏观周期 - 移除了20年和30年选项 -->
+                    <!-- 宏观周期 -->
                     <button onclick="changeMacro(2)" id="btn-2Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">2年</button>
                     <button onclick="changeMacro(5)" id="btn-5Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">5年</button>
                     <button onclick="changeMacro(10)" id="btn-10Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">10年</button>
+                    <button onclick="changeMacro(20)" id="btn-20Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">20年</button>
+                    <button onclick="changeMacro(30)" id="btn-30Y" class="px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-xs font-bold border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">30年</button>
                 </div>
             </div>
 
@@ -458,6 +460,16 @@
                 } else if (years <= 10) {
                     interval = '1M'; // 月K线
                     limit = years * 12;
+                } else if (years <= 20) {
+                    // 对于20年，使用季K线（3个月）来减少数据点
+                    interval = '1M'; // 月K线（注意：Binance没有3M间隔，我们使用1M然后手动过滤）
+                    limit = years * 12;
+                    // 注意：由于Binance API没有直接的3M间隔，我们使用1M然后每3个点取一个
+                } else if (years <= 30) {
+                    // 对于30年，使用半年K线来进一步减少数据点
+                    interval = '1M'; // 月K线（注意：Binance没有6M间隔，我们使用1M然后手动过滤）
+                    limit = years * 12;
+                    // 注意：由于Binance API没有直接的6M间隔，我们使用1M然后每6个点取一个
                 } else {
                     interval = '1M'; // 月K线
                     limit = 120; // 限制最多10年（120个月）的数据
@@ -468,22 +480,38 @@
                 if (!res.ok) throw new Error('历史数据API请求失败');
                 const klines = await res.json();
                 
-                const prices = klines.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
-                const dates = klines.map(k => new Date(k[0]));
+                // 根据年份对数据进行过滤
+                let filteredKlines = klines;
+                if (years > 10) {
+                    // 对于长周期数据，减少数据点数量
+                    const filterStep = years <= 20 ? 3 : 6; // 20年每3个月取一个点，30年每6个月取一个点
+                    filteredKlines = klines.filter((_, index) => index % filterStep === 0);
+                }
+                
+                const prices = filteredKlines.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
+                const dates = filteredKlines.map(k => new Date(k[0]));
                 
                 // 根据时间间隔生成标签
-                const labels = klines.map(k => {
+                const labels = filteredKlines.map(k => {
                     const d = new Date(k[0]);
                     
-                    if (interval === '1d') {
-                        // 日K线: 显示月/日
+                    if (years <= 2) {
+                        // 2年内: 显示月/日
                         return `${d.getMonth() + 1}/${d.getDate()}`;
-                    } else if (interval === '1w') {
-                        // 周K线: 显示年/月
+                    } else if (years <= 5) {
+                        // 5年内: 显示年/月
                         return `${d.getFullYear()}/${d.getMonth() + 1}`;
-                    } else if (interval === '1M') {
-                        // 月K线: 显示年/月
+                    } else if (years <= 10) {
+                        // 10年内: 显示年/月
                         return `${d.getFullYear()}/${d.getMonth() + 1}`;
+                    } else if (years <= 20) {
+                        // 20年内: 显示年和季度
+                        const quarter = Math.floor(d.getMonth() / 3) + 1;
+                        return `${d.getFullYear()} Q${quarter}`;
+                    } else if (years <= 30) {
+                        // 30年内: 显示年和半年
+                        const half = d.getMonth() < 6 ? 'H1' : 'H2';
+                        return `${d.getFullYear()} ${half}`;
                     } else {
                         // 默认: 显示年/月
                         return `${d.getFullYear()}/${d.getMonth() + 1}`;
