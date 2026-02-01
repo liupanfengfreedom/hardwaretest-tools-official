@@ -132,7 +132,7 @@
             try {
                 const [exRes, goldRes] = await Promise.all([
                     fetch('https://open.er-api.com/v6/latest/USD'),
-                    fetch('https://api.binance.com/api/v3/ticker/price?symbol=PAXGUSDT')
+                    fetch('https://goldprice.starryring.com/api/v3/ticker/price?symbol=PAXGUSDT')
                 ]);
                 const exData = await exRes.json();
                 const goldData = await goldRes.json();
@@ -215,7 +215,7 @@
             showLoading(true);
 
             try {
-                const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=PAXGUSDT&interval=${interval}&limit=${limit}`);
+                const res = await fetch(`https://goldprice.starryring.com/api/v3/klines?symbol=PAXGUSDT&interval=${interval}&limit=${limit}`);
                 const klines = await res.json();
                 
                 const prices = klines.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
