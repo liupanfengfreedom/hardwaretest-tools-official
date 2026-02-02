@@ -45,11 +45,8 @@
             <!-- 时间跨度选择 -->
             <div class="overflow-x-auto no-scrollbar mb-6">
                 <div class="flex flex-nowrap gap-2 p-1 bg-black/20 rounded-2xl w-max">
-                    <!-- 新增：实时档位 (60分钟/1分钟采样) -->
                     <button onclick="changeRange('1m', 'LIVE', 60)" id="btn-LIVE" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800 transition-all btn-active">实时</button>
-                    <!-- 恢复：1天档位 (24小时/15分钟采样) -->
                     <button onclick="changeRange('15m', '1D', 96)" id="btn-1D" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800 transition-all">1天</button>
-                    
                     <button onclick="changeRange('4h', '1W', 42)" id="btn-1W" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800 transition-all">1周</button>
                     <button onclick="changeRange('1d', '1M', 30)" id="btn-1M" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800 transition-all">1月</button>
                     <button onclick="changeRange('1d', '6M', 180)" id="btn-6M" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-800 transition-all">6月</button>
@@ -117,7 +114,14 @@
                 }]},
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    layout: { padding: { left: 0, right: 10, top: 30, bottom: 0 } },
+                    layout: { 
+                        padding: { 
+                            left: 0, 
+                            right: 50, // 增加右侧间距，确保右侧纵轴数据不遮挡曲线
+                            top: 30, 
+                            bottom: 0 
+                        } 
+                    },
                     interaction: { intersect: false, mode: 'index' },
                     plugins: { legend: { display: false }, tooltip: { enabled: false } },
                     scales: {
@@ -126,9 +130,13 @@
                             ticks: { color: '#475569', font: { size: 10 }, autoSkip: true, maxTicksLimit: 8 },
                         },
                         y: { 
-                            position: 'left', 
+                            position: 'right', // 纵轴数据移到右边
                             grid: { color: '#1e293b' }, 
-                            ticks: { color: '#475569', font: { family: 'JetBrains Mono' }, padding: 10 } 
+                            ticks: { 
+                                color: '#475569', 
+                                font: { family: 'JetBrains Mono' }, 
+                                padding: 10 // 数字与网格线的间距
+                            } 
                         }
                     }
                 }
@@ -153,7 +161,6 @@
                 document.getElementById('usd-ref').innerText = `$${currentLiveUSD.toFixed(2)}`;
                 document.getElementById('ex-rate').innerText = `汇率: 1 USD = ${usdRate.toFixed(4)} CNY`;
 
-                // 在 LIVE 或 1D 视图下实时修正最后一个点，确保最新数据立即可见
                 if ((currentView === 'LIVE' || currentView === '1D') && currentData.prices.length > 0) {
                     const lastIdx = currentData.prices.length - 1;
                     currentData.prices[lastIdx] = cnyPrice;
@@ -192,7 +199,8 @@
                 if (price && date) {
                     tooltip.style.display = 'block';
                     const tooltipWidth = 140;
-                    tooltip.style.left = snappedX + tooltipWidth > rect.width - 20 ? `${snappedX - tooltipWidth - 15}px` : `${snappedX + 15}px`;
+                    // 由于纵轴在右侧，提示框避让逻辑也要更加严格地考虑右侧空间
+                    tooltip.style.left = snappedX + tooltipWidth > rect.width - 60 ? `${snappedX - tooltipWidth - 15}px` : `${snappedX + 15}px`;
                     tooltip.style.top = '50px';
 
                     const needsTime = (currentView === 'LIVE' || currentView === '1D' || currentView === '1W');
@@ -292,7 +300,6 @@
         document.addEventListener('DOMContentLoaded', async () => {
             initChart();
             await updateLivePrice();
-            // 默认初始化为实时视图
             changeRange('1m', 'LIVE', 60);
             setInterval(updateLivePrice, 20000); 
         });
