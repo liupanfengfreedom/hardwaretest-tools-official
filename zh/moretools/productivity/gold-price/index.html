@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>黄金宏观精细化分析终端 | Hybrid Engine v2.7</title>
+    <title>黄金宏观精细化分析终端 | Hybrid Engine v2.8</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -36,8 +36,8 @@
                     <p id="usd-ref" class="text-slate-400 mono text-xl font-bold">$----.--</p>
                     <span class="text-slate-400 text-sm">/盎司</span>
                 </div>
-                <p id="ex-rate" class="text-slate-600 text-xs mt-1 italic">正在同步外汇市场数据...</p>
-                <div id="source-tag" class="inline-block mt-2 px-2 py-0.5 rounded border border-amber-500/30 text-[10px] text-amber-500/80 uppercase tracking-tighter">Realtime Hybrid Engine Active</div>
+                <p id="ex-rate" class="text-slate-600 text-xs mt-1 italic italic">正在同步外汇市场数据...</p>
+                <div id="source-tag" class="inline-block mt-2 px-2 py-0.5 rounded border border-amber-500/30 text-[10px] text-amber-500/80 uppercase tracking-tighter">Hybrid Engine Online</div>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <!-- 图表显示 -->
+            <!-- 图表 -->
             <div class="chart-container" id="chart-wrapper">
                 <canvas id="goldChart"></canvas>
                 <div id="marker-line" class="marker-line"><div class="marker-handle"></div></div>
@@ -69,15 +69,18 @@
                 </div>
             </div>
 
-            <!-- 说明信息 -->
+            <!-- 说明与倒计时 -->
             <div class="mt-6 pt-6 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="text-[11px] text-slate-500 space-y-2">
-                    <p>● <span class="text-slate-300">实时源：</span>Binance PAXG/USDT (5s级同步)。</p>
+                    <p>● <span class="text-slate-300">实时源：</span>PAXGUSDT (Vercel Proxy)。</p>
                     <p>● <span class="text-slate-300">数据逻辑：</span>LIVE(1m), 1D(15m), 宏观(月/季采样)。</p>
                 </div>
                 <div class="text-[11px] text-slate-500 space-y-1 md:text-right">
                     <p>单位换算: <span class="mono">1 Troy Ounce = 31.1035 Grams</span></p>
-                    <p id="data-status" class="italic text-amber-500/80">Terminal Live: High Fidelity Mode</p>
+                    <div class="flex items-center md:justify-end gap-2">
+                        <span id="refresh-timer" class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-500 font-bold mono">--s</span>
+                        <p id="data-status" class="italic text-slate-600 italic">Terminal Ready</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,6 +93,9 @@
         const G_TO_OZ = 31.1035;
         let currentData = { labels: [], prices: [], dates: [] };
         let currentView = 'LIVE'; 
+        let nextRefreshTime = 0;
+        let currentInterval = '1m';
+        let currentLimit = 60;
 
         const HISTORICAL_BENCHMARKS = [
             {y: 1972, p: 38}, {y: 1974.8, p: 180}, {y: 1976.7, p: 110}, {y: 1980.1, p: 850}, {y: 1982.5, p: 300},
@@ -114,30 +120,12 @@
                 }]},
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    layout: { 
-                        padding: { 
-                            left: 0, 
-                            right: 50, // 增加右侧间距，确保右侧纵轴数据不遮挡曲线
-                            top: 30, 
-                            bottom: 0 
-                        } 
-                    },
+                    layout: { padding: { left: 0, right: 50, top: 30, bottom: 0 } },
                     interaction: { intersect: false, mode: 'index' },
                     plugins: { legend: { display: false }, tooltip: { enabled: false } },
                     scales: {
-                        x: { 
-                            grid: { display: false }, 
-                            ticks: { color: '#475569', font: { size: 10 }, autoSkip: true, maxTicksLimit: 8 },
-                        },
-                        y: { 
-                            position: 'right', // 纵轴数据移到右边
-                            grid: { color: '#1e293b' }, 
-                            ticks: { 
-                                color: '#475569', 
-                                font: { family: 'JetBrains Mono' }, 
-                                padding: 10 // 数字与网格线的间距
-                            } 
-                        }
+                        x: { grid: { display: false }, ticks: { color: '#475569', font: { size: 10 }, autoSkip: true, maxTicksLimit: 8 } },
+                        y: { position: 'right', grid: { color: '#1e293b' }, ticks: { color: '#475569', font: { family: 'JetBrains Mono' }, padding: 10 } }
                     }
                 }
             });
@@ -146,29 +134,125 @@
 
         async function updateLivePrice() {
             try {
-                const [exRes, goldRes] = await Promise.all([
-                    fetch('https://open.er-api.com/v6/latest/USD'),
-                    fetch('https://goldprice.starryring.com/api/v3/ticker/price?symbol=PAXGUSDT')
-                ]);
+                // 汇率接口（通常不需频繁倒计时，这里同步调用）
+                const exRes = await fetch('https://open.er-api.com/v6/latest/USD');
                 const exData = await exRes.json();
-                const goldData = await goldRes.json();
-                
                 usdRate = exData.rates.CNY;
-                currentLiveUSD = parseFloat(goldData.price);
-                const cnyPrice = (currentLiveUSD * usdRate) / G_TO_OZ;
 
+                // 实时金价（通过后端代理）
+                const goldRes = await fetch('https://goldprice.starryring.com/api/v3/ticker/price?symbol=PAXGUSDT');
+                const goldJson = await goldRes.json();
+                
+                currentLiveUSD = parseFloat(goldJson.data.price);
+                nextRefreshTime = goldJson.nextUpdateAt;
+
+                const cnyPrice = (currentLiveUSD * usdRate) / G_TO_OZ;
                 document.getElementById('cny-price').innerText = cnyPrice.toFixed(2);
                 document.getElementById('usd-ref').innerText = `$${currentLiveUSD.toFixed(2)}`;
                 document.getElementById('ex-rate').innerText = `汇率: 1 USD = ${usdRate.toFixed(4)} CNY`;
 
+                // 同步更新图表最后一个点
                 if ((currentView === 'LIVE' || currentView === '1D') && currentData.prices.length > 0) {
                     const lastIdx = currentData.prices.length - 1;
                     currentData.prices[lastIdx] = cnyPrice;
-                    currentData.dates[lastIdx] = new Date(); 
                     goldChart.data.datasets[0].data = currentData.prices;
                     goldChart.update('none');
                 }
-            } catch (e) {}
+            } catch (e) { console.error("Update Price Error"); }
+        }
+
+        async function changeRange(interval, rangeId, limit) {
+            currentView = rangeId;
+            currentInterval = interval;
+            currentLimit = limit;
+            updateBtnUI(`btn-${rangeId}`);
+            showLoading(true);
+
+            try {
+                const res = await fetch(`https://goldprice.starryring.com/api/v3/klines?symbol=PAXGUSDT&interval=${interval}&limit=${limit}`);
+                const json = await res.json();
+                
+                const klines = json.data;
+                nextRefreshTime = json.nextUpdateAt;
+
+                currentData.prices = klines.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
+                currentData.dates = klines.map(k => new Date(k[0]));
+                currentData.labels = currentData.dates.map(d => {
+                    if (rangeId === 'LIVE' || rangeId === '1D') return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+                    return `${d.getMonth()+1}/${d.getDate()}`;
+                });
+
+                renderChartData();
+            } catch (e) { console.error("Change Range Error"); }
+            showLoading(false);
+        }
+
+        function handleMacro(years) {
+            currentView = years >= 100 ? 'ALL' : years + 'Y';
+            updateBtnUI(years > 50 ? 'btn-ALL' : `btn-${years}Y`);
+            
+            // 宏观数据是离线的，手动给一个 1 小时后的刷新时间以保持 UI 正常
+            nextRefreshTime = Date.now() + 3600000;
+
+            const labels = [], prices = [], dates = [];
+            const currentYear = new Date().getFullYear();
+            let startYear = Math.max(1972, currentYear - years);
+
+            for (let y = startYear; y <= currentYear; y++) {
+                for (let m = 0; m < 12; m += (years <= 10 ? 1 : 3)) {
+                    if (y === currentYear && m > new Date().getMonth()) break;
+                    const priceUSD = interpolatePrice(y + (m/12));
+                    prices.push((priceUSD * usdRate) / G_TO_OZ);
+                    dates.push(new Date(y, m, 1));
+                    labels.push(m === 0 ? `${y}` : '');
+                }
+            }
+            currentData = { labels, prices, dates };
+            renderChartData();
+        }
+
+        function renderChartData() {
+            goldChart.data.labels = currentData.labels;
+            goldChart.data.datasets[0].data = currentData.prices;
+            goldChart.update('none');
+            
+            setTimeout(() => {
+                const helpers = goldChart.scales.x;
+                const lastX = helpers.getPixelForValue(currentData.prices.length - 1);
+                const marker = document.getElementById('marker-line');
+                marker.style.display = 'block';
+                marker.style.left = `${lastX}px`;
+            }, 50);
+        }
+
+        // 倒计时刷新引擎
+        async function refreshLoop() {
+            const timerEl = document.getElementById('refresh-timer');
+            const statusEl = document.getElementById('data-status');
+            
+            const remain = Math.ceil((nextRefreshTime - Date.now()) / 1000);
+            
+            if (remain <= 0) {
+                timerEl.innerText = "0s";
+                statusEl.innerText = "正在刷新同步...";
+                statusEl.classList.add('text-amber-500');
+                
+                await updateLivePrice();
+                // 如果在 K 线视图，同步刷新 K 线
+                if (['LIVE', '1D', '1W', '1M', '6M', '1Y'].includes(currentView)) {
+                    const res = await fetch(`https://goldprice.starryring.com/api/v3/klines?symbol=PAXGUSDT&interval=${currentInterval}&limit=${currentLimit}`);
+                    const json = await res.json();
+                    nextRefreshTime = json.nextUpdateAt;
+                    currentData.prices = json.data.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
+                    goldChart.data.datasets[0].data = currentData.prices;
+                    goldChart.update('none');
+                }
+            } else {
+                timerEl.innerText = `${remain}s`;
+                statusEl.innerText = "数据已锁定(缓存中)";
+                statusEl.classList.remove('text-amber-500');
+            }
+            setTimeout(refreshLoop, 1000);
         }
 
         function initMarkerLogic() {
@@ -189,7 +273,6 @@
                 const safeIndex = Math.min(Math.max(Math.round(index), 0), currentData.prices.length - 1);
                 
                 const snappedX = helpers.getPixelForValue(safeIndex);
-                
                 marker.style.display = 'block';
                 marker.style.left = `${snappedX}px`;
 
@@ -199,13 +282,12 @@
                 if (price && date) {
                     tooltip.style.display = 'block';
                     const tooltipWidth = 140;
-                    // 由于纵轴在右侧，提示框避让逻辑也要更加严格地考虑右侧空间
                     tooltip.style.left = snappedX + tooltipWidth > rect.width - 60 ? `${snappedX - tooltipWidth - 15}px` : `${snappedX + 15}px`;
                     tooltip.style.top = '50px';
 
-                    const needsTime = (currentView === 'LIVE' || currentView === '1D' || currentView === '1W');
+                    const needsTime = (['LIVE', '1D', '1W'].includes(currentView));
                     const dateOptions = { month: 'short', day: 'numeric' };
-                    if (currentView !== 'LIVE' && currentView !== '1D' && currentView !== '1W') dateOptions.year = 'numeric';
+                    if (!needsTime) dateOptions.year = 'numeric';
                     
                     const dateStr = date.toLocaleDateString('zh-CN', dateOptions);
                     const timeStr = needsTime ? date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
@@ -218,64 +300,6 @@
             };
             container.addEventListener('mousemove', handleMove);
             container.addEventListener('touchstart', handleMove);
-        }
-
-        async function changeRange(interval, rangeId, limit) {
-            currentView = rangeId;
-            updateBtnUI(`btn-${rangeId}`);
-            showLoading(true);
-
-            try {
-                const res = await fetch(`https://goldprice.starryring.com/api/v3/klines?symbol=PAXGUSDT&interval=${interval}&limit=${limit}`);
-                const klines = await res.json();
-                
-                currentData.prices = klines.map(k => (parseFloat(k[4]) * usdRate / G_TO_OZ));
-                currentData.dates = klines.map(k => new Date(k[0]));
-                currentData.labels = currentData.dates.map(d => {
-                    if (rangeId === 'LIVE' || rangeId === '1D') return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-                    return `${d.getMonth()+1}/${d.getDate()}`;
-                });
-
-                renderChartData();
-            } catch (e) { alert("数据加载失败"); }
-            showLoading(false);
-        }
-
-        function handleMacro(years) {
-            currentView = years >= 100 ? 'ALL' : years + 'Y';
-            updateBtnUI(years > 50 ? 'btn-ALL' : `btn-${years}Y`);
-            showLoading(true);
-
-            const labels = [], prices = [], dates = [];
-            const currentYear = new Date().getFullYear();
-            let startYear = Math.max(1972, currentYear - years);
-
-            for (let y = startYear; y <= currentYear; y++) {
-                for (let m = 0; m < 12; m += (years <= 10 ? 1 : 3)) {
-                    if (y === currentYear && m > new Date().getMonth()) break;
-                    const priceUSD = interpolatePrice(y + (m/12));
-                    prices.push((priceUSD * usdRate) / G_TO_OZ);
-                    dates.push(new Date(y, m, 1));
-                    labels.push(m === 0 ? `${y}` : '');
-                }
-            }
-            currentData = { labels, prices, dates };
-            renderChartData();
-            showLoading(false);
-        }
-
-        function renderChartData() {
-            goldChart.data.labels = currentData.labels;
-            goldChart.data.datasets[0].data = currentData.prices;
-            goldChart.update('none');
-            
-            setTimeout(() => {
-                const helpers = goldChart.scales.x;
-                const lastX = helpers.getPixelForValue(currentData.prices.length - 1);
-                const marker = document.getElementById('marker-line');
-                marker.style.display = 'block';
-                marker.style.left = `${lastX}px`;
-            }, 50);
         }
 
         function interpolatePrice(decimalYear) {
@@ -300,8 +324,8 @@
         document.addEventListener('DOMContentLoaded', async () => {
             initChart();
             await updateLivePrice();
-            changeRange('1m', 'LIVE', 60);
-            setInterval(updateLivePrice, 20000); 
+            await changeRange('1m', 'LIVE', 60);
+            refreshLoop(); 
         });
     </script>
 </body>
