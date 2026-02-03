@@ -92,52 +92,76 @@
     </script>
    
     <!-- Structured Data Schema Markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "在线键盘故障诊断测试工具",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-                "description": "免费在线键盘故障诊断测试工具，检测按键间隔时间、连点、双击、按键错乱、响应延迟、NKRO全键无冲，提供专业修复建议",
-                "url": "https://starryring.com/zh/toolbox/keyboard/",
-                "image": "https://starryring.com/zh/toolbox/keyboard/og-image-zh.png",
-                "author": {
-                    "@type": "Organization",
-                    "name": "星环工具"
+  <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "BreadcrumbList",
+            "description": "面包屑导航",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "主页",
+                    "item": "https://starryring.com/zh/"
                 },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "CNY"
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "工具箱",
+                    "item": "https://starryring.com/zh/toolbox/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "键盘故障诊断测试",
+                    "item": "https://starryring.com/zh/toolbox/keyboard/"
                 }
+            ]
+        },
+        {
+            "@type": "SoftwareApplication",
+            "name": "在线键盘故障诊断测试工具",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
+            "description": "免费在线键盘故障诊断测试工具，检测按键间隔时间、连点、双击、按键错乱、响应延迟、NKRO全键无冲，提供专业修复建议",
+            "url": "https://starryring.com/zh/toolbox/keyboard/",
+            "image": "https://starryring.com/zh/toolbox/keyboard/og-image-zh.png",
+            "author": {
+                "@type": "Organization",
+                "name": "星环工具"
             },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "如何检测键盘连点（双击）问题？",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "使用本工具的按键间隔检测功能，当同一个按键两次按下的时间间隔小于80ms时，系统会用红色日志标记并提示可能是非人为因素（如轴体故障、触点氧化等）。正常人为操作间隔通常在100ms以上。"
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "什么是键盘防抖动（Debounce）技术？",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "防抖动技术是为了防止机械开关在按下时产生多个电气脉冲。当按下按键时，机械触点会产生弹跳现象，导致多次快速接通/断开。防抖动电路或软件会延迟一段时间（通常5-20ms）再确认按键状态，确保一次按键只被识别一次。"
-                        }
-                    }
-                ]
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "CNY"
             }
-        ]
-    }
-    </script>
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "如何检测键盘连点（双击）问题？",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "使用本工具的按键间隔检测功能，当同一个按键两次按下的时间间隔小于80ms时，系统会用红色日志标记并提示可能是非人为因素（如轴体故障、触点氧化等）。正常人为操作间隔通常在100ms以上。"
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "什么是键盘防抖动（Debounce）技术？",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "防抖动技术是为了防止机械开关在按下时产生多个电气脉冲。当按下按键时，机械触点会产生弹跳现象，导致多次快速接通/断开。防抖动电路或软件会延迟一段时间（通常5-20ms）再确认按键状态，确保一次按键只被识别一次。"
+                    }
+                }
+            ]
+        }
+    ]
+}
+</script>
 
 </head>
 
@@ -482,7 +506,13 @@
     <section class="seo-content-section" itemscope itemtype="https://schema.org/Article">
         <meta itemprop="datePublished" content="2024-01-01">
         <meta itemprop="dateModified" content="2024-01-01">
-        
+        <div class="article-image-container" style="text-align: center; margin: 20px 0;">
+            <img src="https://assets.starryring.com/keyboard/zh/mechanical-switch-chattering.png" 
+                alt="机械键盘轴体触点弹跳（Chattering）波形示意图，展示了单次按键产生的多个异常电脉冲" 
+                title="键盘连点故障原理示意图"
+                style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;">
+            <p style="font-size: 0.85rem; color: #888; margin-top: 8px;">图 1：机械轴体触点氧化导致的异常信号弹跳（连点故障根源）</p>
+        </div>
         <h2 itemprop="headline">键盘按键间隔检测：如何诊断连点、双击故障及防抖动技术</h2>
         
         <div itemprop="articleBody">
@@ -538,7 +568,13 @@
             </div>
             
             <h3>键盘防抖动（Debounce）技术详解</h3>
-            
+            <div class="article-image-container" style="text-align: center; margin: 20px 0;">
+                <img src="https://assets.starryring.com/keyboard/zh/keyboard-debounce.png" 
+                    alt="键盘防抖动算法逻辑图：展示了如何通过设置时间阈值过滤掉 20ms 以内的无效弹跳信号" 
+                    title="键盘 Debounce 算法工作流程"
+                    style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;">
+                <p style="font-size: 0.85rem; color: #888; margin-top: 8px;">图 2：键盘固件防抖算法（Debounce）过滤无效信号的过程</p>
+            </div>
             <div class="comparison-grid">
                 <div class="comparison-card">
                     <h4><i class="fas fa-microchip"></i> 硬件防抖动</h4>

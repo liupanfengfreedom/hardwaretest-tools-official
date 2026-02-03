@@ -275,7 +275,12 @@ li {
     border-radius: 15px;
     border: 1px solid #333;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    max-width: 1200px;
+    
+    /* --- 修改以下两行 --- */
+    width: fit-content;      /* 让容器宽度由内容撑开 */
+    max-width: 100%;         /* 保证在小屏幕上不会超过屏幕宽度 */
+    /* ------------------- */
+    
     transform-origin: top center;
     margin: 0 auto;
     animation: keyboardAppear 0.5s ease-out;
@@ -1852,9 +1857,8 @@ li {
     }
     
     .keyboard-container { 
-        transform: scale(0.6); 
-        margin-top: -50px; 
-        margin-bottom: -50px;
+    transform: scale(0.9); 
+        margin: 0 auto; 
     }
     
     h1 {
@@ -1935,4 +1939,11 @@ li {
     .interval-grid {
         grid-template-columns: 1fr;
     }
+}
+.article-image-container img {
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+.article-image-container img:hover {
+    transform: scale(1.01);
 }
