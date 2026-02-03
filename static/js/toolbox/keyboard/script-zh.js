@@ -280,7 +280,7 @@ function getKeyDisplayName(keyCode) {
 
 // 重置功能
 window.resetTest = function() {
-    if (confirm('确定要重置所有测试数据吗？诊断结果和日志也会被清除。')) {
+
         pressedKeys.clear();
         testedKeys.clear();
         keyStats = {}; // 清空统计对象
@@ -325,7 +325,7 @@ window.resetTest = function() {
         
         // 显示重置成功消息
         showToast('测试数据、诊断结果和日志已重置', 'success');
-    }
+    
 }
 
 // 滚动到键盘区域
@@ -550,7 +550,7 @@ window.clearLog = function() {
     
     if (logContent.children.length <= 2) return; // 保留初始的两条信息
     
-    if (confirm('确定要清空所有日志记录吗？')) {
+  
         // 保留前两条初始信息
         const initialLogs = Array.from(logContent.children).slice(0, 2);
         logContent.innerHTML = '';
@@ -563,7 +563,7 @@ window.clearLog = function() {
         
         updateLogStats();
         showToast('日志已清空', 'success');
-    }
+    
 }
 
 // 切换日志显示/隐藏
