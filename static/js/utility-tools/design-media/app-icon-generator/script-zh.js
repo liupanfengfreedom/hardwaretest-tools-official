@@ -1,5 +1,5 @@
-// script-en.js
-// Core DOM Elements
+// script.js
+// 核心DOM元素
 const colorPicker = document.getElementById('colorPicker');
 const hexInput = document.getElementById('hexInput');
 const rgbInput = document.getElementById('rgbInput');
@@ -9,7 +9,7 @@ const currentHex = document.getElementById('currentHex');
 const paletteContainer = document.getElementById('palettes');
 const notification = document.getElementById('notification');
 
-// Utility Elements
+// 工具元素
 const contrastWhite = document.getElementById('contrastWhite');
 const contrastBlack = document.getElementById('contrastBlack');
 const contrastStatus = document.getElementById('contrastStatus');
@@ -20,7 +20,7 @@ const hueValue = document.getElementById('hueValue');
 const saturationValue = document.getElementById('saturationValue');
 const lightnessValue = document.getElementById('lightnessValue');
 
-// --- Core Color Conversion Functions ---
+// --- 颜色转换核心函数 ---
 function hexToRgb(hex) {
     hex = hex.replace('#', '');
     if (hex.length === 3) {
@@ -98,7 +98,7 @@ function hslToRgb(h, s, l) {
     };
 }
 
-// --- Utility Functions ---
+// --- 工具函数 ---
 function calculateRelativeLuminance(r, g, b) {
     const rs = r / 255;
     const gs = g / 255;
@@ -117,50 +117,50 @@ function calculateContrastRatio(l1, l2) {
     return (lighter + 0.05) / (darker + 0.05);
 }
 
-// --- UI Update Functions ---
+// --- UI更新函数 ---
 function updateUI(hex) {
     const rgb = hexToRgb(hex);
     const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
     
-    // Update displayed color
+    // 更新显示颜色
     colorDisplay.style.backgroundColor = hex;
     currentHex.textContent = hex.toUpperCase();
     colorPicker.value = hex;
     
-    // Update input fields
+    // 更新输入框
     hexInput.value = hex.toUpperCase();
     rgbInput.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
     hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
     
-    // Update utility information
+    // 更新工具信息
     updateUtilities(rgb, hsl);
     
-    // Generate palettes
+    // 生成调色板
     generatePalettes(hsl.h, hsl.s, hsl.l);
 }
 
 function updateUtilities(rgb, hsl) {
-    // Update color information
+    // 更新颜色信息
     hueValue.textContent = `${hsl.h}°`;
     saturationValue.textContent = `${hsl.s}%`;
     lightnessValue.textContent = `${hsl.l}%`;
     
-    // Calculate luminance
+    // 计算亮度
     const luminance = calculateRelativeLuminance(rgb.r, rgb.g, rgb.b);
     luminanceValue.textContent = luminance.toFixed(2);
     
-    // Perceived lightness
-    const perceived = hsl.l < 30 ? 'Dark' : hsl.l < 70 ? 'Medium' : 'Light';
+    // 感知亮度
+    const perceived = hsl.l < 30 ? '暗' : hsl.l < 70 ? '中' : '亮';
     perceivedLightness.textContent = perceived;
     
-    // Suggested use
-    let use = 'Primary Color';
-    if (hsl.s > 70 && hsl.l > 60) use = 'Accent Color, Buttons';
-    else if (hsl.s < 30) use = 'Background, Text';
-    else if (hsl.l < 30) use = 'Dark Background, Borders';
+    // 建议用途
+    let use = '主色调';
+    if (hsl.s > 70 && hsl.l > 60) use = '强调色、按钮';
+    else if (hsl.s < 30) use = '背景、文字';
+    else if (hsl.l < 30) use = '深色背景、边框';
     suggestedUse.textContent = use;
     
-    // Contrast calculation
+    // 对比度计算
     const whiteLuminance = 1;
     const blackLuminance = 0;
     const contrastWithWhite = calculateContrastRatio(luminance, whiteLuminance);
@@ -169,17 +169,17 @@ function updateUtilities(rgb, hsl) {
     contrastWhite.textContent = contrastWithWhite.toFixed(1) + ':1';
     contrastBlack.textContent = contrastWithBlack.toFixed(1) + ':1';
     
-    // Contrast status
+    // 对比度状态
     let status = '';
     let statusClass = '';
     if (contrastWithWhite >= 4.5 && contrastWithBlack >= 4.5) {
-        status = '✅ Passes Accessibility Standards';
+        status = '✅ 通过无障碍标准';
         statusClass = 'good';
     } else if (contrastWithWhite >= 3 || contrastWithBlack >= 3) {
-        status = '⚠️ Partially Meets Standards';
+        status = '⚠️ 部分通过标准';
         statusClass = 'fair';
     } else {
-        status = '❌ Fails Accessibility Standards';
+        status = '❌ 未通过无障碍标准';
         statusClass = 'poor';
     }
     
@@ -188,18 +188,18 @@ function updateUtilities(rgb, hsl) {
     contrastBlack.className = `contrast-ratio ${statusClass}`;
 }
 
-// --- Palette Generation ---
+// --- 调色板生成 ---
 function generatePalettes(h, s, l) {
     const schemes = [
         {
-            title: 'Complementary',
+            title: '互补色',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 180) % 360, s: s, l: l }
             ]
         },
         {
-            title: 'Analogous',
+            title: '近似色',
             colors: [
                 { h: (h + 330) % 360, s: s, l: l },
                 { h: h, s: s, l: l },
@@ -207,7 +207,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Triadic',
+            title: '三元色',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 120) % 360, s: s, l: l },
@@ -215,7 +215,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Monochromatic',
+            title: '单色系',
             colors: [
                 { h: h, s: s, l: Math.max(l - 40, 10) },
                 { h: h, s: s, l: Math.max(l - 20, 20) },
@@ -225,7 +225,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Split Complementary',
+            title: '分裂互补色',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 150) % 360, s: s, l: l },
@@ -233,7 +233,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Rectangle',
+            title: '矩形配色',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 60) % 360, s: s, l: l },
@@ -270,7 +270,7 @@ function generatePalettes(h, s, l) {
     }).join('');
 }
 
-// --- Input Validation and Event Handling ---
+// --- 输入验证和事件处理 ---
 function isValidHex(hex) {
     return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
 }
@@ -299,7 +299,7 @@ function parseHsl(hslString) {
     return null;
 }
 
-// --- Event Listeners ---
+// --- 事件监听器 ---
 colorPicker.addEventListener('input', (e) => {
     updateUI(e.target.value);
 });
@@ -341,14 +341,14 @@ colorDisplay.addEventListener('click', () => {
     copyToClipboard(currentHex.textContent);
 });
 
-// --- Copy Functions ---
+// --- 复制功能 ---
 async function copyToClipboard(text) {
     try {
         await navigator.clipboard.writeText(text);
-        showNotification(`Copied: ${text}`);
+        showNotification(`已复制: ${text}`);
     } catch (err) {
-        console.error('Copy failed:', err);
-        showNotification('Copy failed, please copy manually');
+        console.error('复制失败:', err);
+        showNotification('复制失败，请手动复制');
     }
 }
 
@@ -369,11 +369,11 @@ function showNotification(message) {
     }, 2000);
 }
 
-// --- Initialization ---
+// --- 初始化 ---
 document.addEventListener('DOMContentLoaded', () => {
     updateUI('#4A90E2');
     
-    // Add keyboard shortcuts
+    // 添加键盘快捷键
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
             copyCurrentColor();

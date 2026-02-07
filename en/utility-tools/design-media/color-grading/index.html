@@ -1,856 +1,493 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ColorLab | 智能颜色转换与调色板工具</title>
-    <style>
-        :root {
-            --primary-color: #4A90E2;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-        
-        .container {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            width: 100%;
-            max-width: 900px;
-            transition: var(--transition);
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        h1 {
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-        
-        /* 颜色选择器区域 */
-        .color-picker-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 50px;
-        }
-        
-        @media (max-width: 768px) {
-            .color-picker-section {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-        }
-        
-        .color-preview {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .color-display {
-            position: relative;
-            height: 180px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        
-        .color-display:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-        
-        .color-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 15px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .color-hex {
-            font-family: 'SF Mono', monospace;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
-        .copy-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 6px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .copy-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .color-picker-wrapper {
-            position: relative;
-        }
-        
-        .color-picker-wrapper input[type="color"] {
-            width: 100%;
-            height: 50px;
-            border-radius: var(--radius-md);
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .color-picker-wrapper input[type="color"]:hover {
-            border-color: var(--primary-color);
-        }
-        
-        /* 输入区域 */
-        .color-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .input-group {
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-        
-        .input-group:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
-        }
-        
-        .input-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            font-family: 'SF Mono', monospace;
-            font-size: 1rem;
-            background: white;
-            transition: var(--transition);
-        }
-        
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
-        }
-        
-        /* 调色板区域 */
-        .palette-section {
-            margin-top: 40px;
-        }
-        
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .palette-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-        }
-        
-        .palette-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
-        
-        .palette-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .palette-header {
-            padding: 15px;
-            background: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .palette-title {
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--text-primary);
-        }
-        
-        .palette-colors {
-            display: flex;
-            height: 80px;
-        }
-        
-        .color-item {
-            flex: 1;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .color-item:hover {
-            flex: 1.2;
-        }
-        
-        .color-item .color-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            font-family: 'SF Mono', monospace;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            margin-bottom: 10px;
-        }
-        
-        .color-item:hover .color-tooltip {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* 实用工具区域 */
-        .utilities-section {
-            margin-top: 50px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .utility-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .utility-card {
-            background: var(--bg-color);
-            padding: 20px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-        
-        .utility-card:hover {
-            border-color: var(--primary-color);
-        }
-        
-        .utility-card h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-        
-        .contrast-ratio {
-            font-family: 'SF Mono', monospace;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-        
-        .contrast-ratio.good { color: #10b981; }
-        .contrast-ratio.fair { color: #f59e0b; }
-        .contrast-ratio.poor { color: #ef4444; }
-        
-        /* 通知系统 */
-        .notification {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--text-primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-            z-index: 1000;
-        }
-        
-        .notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .notification.success {
-            background: linear-gradient(135deg, #10b981, #059669);
-        }
-        
-        /* 加载动画 */
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border-color);
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 30px auto;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* 暗色模式支持 */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #0f172a;
-                --card-bg: #1e293b;
-                --text-primary: #f1f5f9;
-                --text-secondary: #94a3b8;
-                --border-color: #334155;
-            }
-            
-            body {
-                background: var(--bg-color);
-            }
-        }
-    </style>
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Primary meta description and keywords -->
+    <meta name="description" content="ColorLab - Intelligent color conversion and palette generation tool. Supports HEX, RGB, HSL color format conversion, smart palette generation, contrast checking, accessibility color analysis. Professional online color tool.">
+    <meta name="keywords" content="color tool, color conversion, palette generator, HEX to RGB, color contrast, color analysis, online color tool, color picker, palette generation, web color tool, designer color tool">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="ColorLab - Intelligent Color Conversion & Palette Generator | StarryRing">
+    <meta property="og:description" content="Free online color tool supporting HEX, RGB, HSL color format conversion, smart palette generation, contrast checking, accessibility color analysis. Professional color analysis and palette tool.">
+    <meta property="og:image" content="https://starryring.com/colorlab-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ColorLab interface screenshot - Intelligent color conversion and palette generator">
+    <meta property="og:url" content="https://starryring.com/en/utility-tools/design-media/color-grading/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ColorLab - Online Color Conversion & Palette Tool">
+    <meta name="twitter:description" content="Free online color tool supporting HEX, RGB, HSL color format conversion, smart palette generation, contrast checking, accessibility color analysis">
+    <meta name="twitter:image" content="https://starryring.com/colorlab-preview.png">
+    <meta name="twitter:site" content="@StarryRing">
+    
+    <!-- Internationalization links -->
+    <link rel="canonical" href="https://starryring.com/en/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/color-grading/" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/static/js/utility-tools/design-media/color-grading/script-en.js" as="script">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/design-media/color-grading/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "ColorLab - Intelligent Color Conversion & Palette Tool",
+                "applicationCategory": "DesignApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS"],
+                "description": "Free online color tool supporting HEX, RGB, HSL color format conversion, smart palette generation, contrast checking, accessibility color analysis. Professional color analysis and palette generation tool",
+                "url": "https://starryring.com/en/utility-tools/design-media/color-grading/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/colorlab-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "ColorLab color tool interface"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/colorlab-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "Color conversion interface",
+                        "description": "Shows color format conversion and palette generation features"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/colorlab-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "Palette analysis interface",
+                        "description": "Shows smart palette generation and color contrast analysis"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "Real-time HEX, RGB, HSL color format conversion",
+                    "Smart palette generation (Monochromatic, Complementary, Analogous, Triadic)",
+                    "Color contrast checking (WCAG accessibility standards)",
+                    "Color brightness analysis (Relative luminance and perceived lightness)",
+                    "Color information analysis (Hue, Saturation, Lightness)",
+                    "Copy color function (One-click copy color values)",
+                    "Color picker (Visual color selection)",
+                    "Responsive design (Adapts to desktop and mobile devices)"
+                ],
+                "datePublished": "2023-07-10",
+                "dateModified": "2024-01-20",
+                "softwareVersion": "1.5.0"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is ColorLab color tool?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ColorLab is an intelligent online color tool that provides color format conversion, palette generation, contrast analysis, and color information analysis. It helps designers, developers, and content creators quickly handle color-related tasks, ensuring accurate color selection and accessibility."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What are WCAG color contrast standards?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "WCAG (Web Content Accessibility Guidelines) are web content accessibility guidelines. For color contrast, WCAG 2.1 requires: at least 4.5:1 contrast for normal text, at least 3:1 for large text, and at least 3:1 for user interface components. ColorLab automatically checks if your colors meet these standards."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How are smart palettes generated?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ColorLab uses color theory algorithms to generate palettes: 1) Monochromatic palette: variations based on the main hue with different lightness and saturation; 2) Complementary palette: using colors opposite on the color wheel; 3) Analogous palette: adjacent colors on the color wheel; 4) Triadic palette: three colors equally spaced on the color wheel. These palettes help create harmonious color combinations."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How to ensure website colors meet accessibility standards?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Using ColorLab's contrast check feature, you can test if text and background colors meet WCAG standards. The tool shows contrast ratios and whether they pass accessibility standards. It's recommended to use at least 4.5:1 contrast for important text and at least 3:1 for large text."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://starryring.com/en/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Utility Tools",
+                        "item": "https://starryring.com/en/utility-tools/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Design & Media Tools",
+                        "item": "https://starryring.com/en/utility-tools/design-media/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "Color Tool",
+                        "item": "https://starryring.com/en/utility-tools/design-media/color-grading/"
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "How to use ColorLab for color analysis and palette generation",
+                "description": "Step-by-step guide on using ColorLab for color format conversion, palette generation, and accessibility analysis",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "text": "Select a color: Use the color picker or enter color values in HEX, RGB, or HSL input fields"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "View color information: The tool automatically displays HEX, RGB, HSL values, along with hue, saturation, and lightness information"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Check contrast: View contrast ratios with white and black, confirm if they meet WCAG accessibility standards"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Generate palettes: The tool automatically generates Monochromatic, Complementary, Analogous, and Triadic palettes"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Copy colors: Click on the color display area or palette color blocks to copy color values to clipboard"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Apply colors: Use the copied color values in your design projects, CSS styles, or UI designs"
+                    }
+                ],
+                "totalTime": "PT2M",
+                "tool": {
+                    "@type": "SoftwareApplication",
+                    "name": "ColorLab Color Tool"
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <title>ColorLab - Intelligent Color Conversion & Palette Generator | StarryRing</title>
 </head>
 <body>
-
-<div class="container">
-    <div class="header">
-        <h1>🎨 ColorLab</h1>
-        <div class="subtitle">智能颜色转换与调色板生成工具</div>
-    </div>
-
-    <div class="color-picker-section">
-        <div class="color-preview">
-            <div class="color-display" id="colorDisplay">
-                <div class="color-info">
-                    <span class="color-hex" id="currentHex">#4A90E2</span>
-                    <button class="copy-btn" onclick="copyCurrentColor()">复制</button>
-                </div>
-            </div>
-            <div class="color-picker-wrapper">
-                <label for="colorPicker">选择颜色：</label>
-                <input type="color" id="colorPicker" value="#4a90e2">
-            </div>
-        </div>
-        
-        <div class="color-inputs">
-            <div class="input-group">
-                <label>HEX 颜色值</label>
-                <input type="text" id="hexInput" value="#4A90E2" placeholder="#RRGGBB">
-                <div class="input-hint">支持3位或6位十六进制颜色值</div>
-            </div>
-            <div class="input-group">
-                <label>RGB 颜色值</label>
-                <input type="text" id="rgbInput" value="rgb(74, 144, 226)" placeholder="rgb(r, g, b)">
-            </div>
-            <div class="input-group">
-                <label>HSL 颜色值</label>
-                <input type="text" id="hslInput" value="hsl(212, 72%, 59%)" placeholder="hsl(h, s%, l%)">
-            </div>
-        </div>
-    </div>
-
-    <div class="palette-section">
-        <div class="section-title">
-            <span>🎨 智能调色板</span>
-        </div>
-        <div id="palettes" class="palette-grid">
-            <!-- 调色板将通过 JS 动态生成 -->
-        </div>
-    </div>
-
-    <div class="utilities-section">
-        <div class="section-title">
-            <span>⚡ 颜色分析</span>
-        </div>
-        <div class="utility-cards">
-            <div class="utility-card">
-                <h3>对比度检查</h3>
-                <div>与白色对比度：<span id="contrastWhite" class="contrast-ratio">4.5:1</span></div>
-                <div>与黑色对比度：<span id="contrastBlack" class="contrast-ratio">12:1</span></div>
-                <div class="contrast-status" id="contrastStatus">✅ 通过无障碍标准</div>
-            </div>
-            <div class="utility-card">
-                <h3>亮度分析</h3>
-                <div>相对亮度：<span id="luminanceValue">0.28</span></div>
-                <div>感知亮度：<span id="perceivedLightness">中</span></div>
-                <div>建议用途：<span id="suggestedUse">主色调、按钮</span></div>
-            </div>
-            <div class="utility-card">
-                <h3>颜色信息</h3>
-                <div>色相：<span id="hueValue">212°</span></div>
-                <div>饱和度：<span id="saturationValue">72%</span></div>
-                <div>明度：<span id="lightnessValue">59%</span></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="notification" class="notification">
-    <span id="notificationText">已复制到剪贴板！</span>
-</div>
-
-<script>
-    // 核心DOM元素
-    const colorPicker = document.getElementById('colorPicker');
-    const hexInput = document.getElementById('hexInput');
-    const rgbInput = document.getElementById('rgbInput');
-    const hslInput = document.getElementById('hslInput');
-    const colorDisplay = document.getElementById('colorDisplay');
-    const currentHex = document.getElementById('currentHex');
-    const paletteContainer = document.getElementById('palettes');
-    const notification = document.getElementById('notification');
+    <!-- Breadcrumb Navigation (Fixed: Correct page name) -->
+    <nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/en/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/en/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> Utility Tools
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-palette"></i> Color Tool</span>
+            </li>
+        </ol>
+    </nav>
     
-    // 工具元素
-    const contrastWhite = document.getElementById('contrastWhite');
-    const contrastBlack = document.getElementById('contrastBlack');
-    const contrastStatus = document.getElementById('contrastStatus');
-    const luminanceValue = document.getElementById('luminanceValue');
-    const perceivedLightness = document.getElementById('perceivedLightness');
-    const suggestedUse = document.getElementById('suggestedUse');
-    const hueValue = document.getElementById('hueValue');
-    const saturationValue = document.getElementById('saturationValue');
-    const lightnessValue = document.getElementById('lightnessValue');
+    <!-- Language Switcher (Fixed links) -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/zh/utility-tools/design-media/color-grading/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/en/utility-tools/design-media/color-grading/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Main Title Section -->
+        <div class="header-section">
+            <div class="header">
+                <h1>🎨 ColorLab - Intelligent Color Conversion & Palette Tool</h1>
+                <div class="subtitle">Professional Color Format Conversion · Smart Palette Generation · Accessibility Contrast Analysis</div>
+            </div>
+        </div>
 
-    // --- 颜色转换核心函数 ---
-    function hexToRgb(hex) {
-        hex = hex.replace('#', '');
-        if (hex.length === 3) {
-            hex = hex.split('').map(c => c + c).join('');
-        }
-        const r = parseInt(hex.substring(0, 2), 16);
-        const g = parseInt(hex.substring(2, 4), 16);
-        const b = parseInt(hex.substring(4, 6), 16);
-        return { r, g, b };
-    }
-
-    function rgbToHex(r, g, b) {
-        return '#' + [r, g, b].map(x => {
-            const hex = x.toString(16);
-            return hex.length === 1 ? '0' + hex : hex;
-        }).join('').toUpperCase();
-    }
-
-    function rgbToHsl(r, g, b) {
-        r /= 255; g /= 255; b /= 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
-        
-        if (max === min) {
-            h = s = 0;
-        } else {
-            const d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            switch (max) {
-                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                case g: h = (b - r) / d + 2; break;
-                case b: h = (r - g) / d + 4; break;
-            }
-            h /= 6;
-        }
-        
-        return {
-            h: Math.round(h * 360),
-            s: Math.round(s * 100),
-            l: Math.round(l * 100)
-        };
-    }
-
-    function hslToRgb(h, s, l) {
-        h /= 360;
-        s /= 100;
-        l /= 100;
-        
-        let r, g, b;
-        
-        if (s === 0) {
-            r = g = b = l;
-        } else {
-            const hue2rgb = (p, q, t) => {
-                if (t < 0) t += 1;
-                if (t > 1) t -= 1;
-                if (t < 1/6) return p + (q - p) * 6 * t;
-                if (t < 1/2) return q;
-                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-                return p;
-            };
-            
-            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            const p = 2 * l - q;
-            
-            r = hue2rgb(p, q, h + 1/3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1/3);
-        }
-        
-        return {
-            r: Math.round(r * 255),
-            g: Math.round(g * 255),
-            b: Math.round(b * 255)
-        };
-    }
-
-    // --- 工具函数 ---
-    function calculateRelativeLuminance(r, g, b) {
-        const rs = r / 255;
-        const gs = g / 255;
-        const bs = b / 255;
-        
-        const rl = rs <= 0.03928 ? rs / 12.92 : Math.pow((rs + 0.055) / 1.055, 2.4);
-        const gl = gs <= 0.03928 ? gs / 12.92 : Math.pow((gs + 0.055) / 1.055, 2.4);
-        const bl = bs <= 0.03928 ? bs / 12.92 : Math.pow((bs + 0.055) / 1.055, 2.4);
-        
-        return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl;
-    }
-
-    function calculateContrastRatio(l1, l2) {
-        const lighter = Math.max(l1, l2);
-        const darker = Math.min(l1, l2);
-        return (lighter + 0.05) / (darker + 0.05);
-    }
-
-    // --- UI更新函数 ---
-    function updateUI(hex) {
-        const rgb = hexToRgb(hex);
-        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-        
-        // 更新显示颜色
-        colorDisplay.style.backgroundColor = hex;
-        currentHex.textContent = hex.toUpperCase();
-        colorPicker.value = hex;
-        
-        // 更新输入框
-        hexInput.value = hex.toUpperCase();
-        rgbInput.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-        hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-        
-        // 更新工具信息
-        updateUtilities(rgb, hsl);
-        
-        // 生成调色板
-        generatePalettes(hsl.h, hsl.s, hsl.l);
-    }
-
-    function updateUtilities(rgb, hsl) {
-        // 更新颜色信息
-        hueValue.textContent = `${hsl.h}°`;
-        saturationValue.textContent = `${hsl.s}%`;
-        lightnessValue.textContent = `${hsl.l}%`;
-        
-        // 计算亮度
-        const luminance = calculateRelativeLuminance(rgb.r, rgb.g, rgb.b);
-        luminanceValue.textContent = luminance.toFixed(2);
-        
-        // 感知亮度
-        const perceived = hsl.l < 30 ? '暗' : hsl.l < 70 ? '中' : '亮';
-        perceivedLightness.textContent = perceived;
-        
-        // 建议用途
-        let use = '主色调';
-        if (hsl.s > 70 && hsl.l > 60) use = '强调色、按钮';
-        else if (hsl.s < 30) use = '背景、文字';
-        else if (hsl.l < 30) use = '深色背景、边框';
-        suggestedUse.textContent = use;
-        
-        // 对比度计算
-        const whiteLuminance = 1;
-        const blackLuminance = 0;
-        const contrastWithWhite = calculateContrastRatio(luminance, whiteLuminance);
-        const contrastWithBlack = calculateContrastRatio(blackLuminance, luminance);
-        
-        contrastWhite.textContent = contrastWithWhite.toFixed(1) + ':1';
-        contrastBlack.textContent = contrastWithBlack.toFixed(1) + ':1';
-        
-        // 对比度状态
-        let status = '';
-        let statusClass = '';
-        if (contrastWithWhite >= 4.5 && contrastWithBlack >= 4.5) {
-            status = '✅ 通过无障碍标准';
-            statusClass = 'good';
-        } else if (contrastWithWhite >= 3 || contrastWithBlack >= 3) {
-            status = '⚠️ 部分通过标准';
-            statusClass = 'fair';
-        } else {
-            status = '❌ 未通过无障碍标准';
-            statusClass = 'poor';
-        }
-        
-        contrastStatus.textContent = status;
-        contrastWhite.className = `contrast-ratio ${statusClass}`;
-        contrastBlack.className = `contrast-ratio ${statusClass}`;
-    }
-
-    // --- 调色板生成 ---
-    function generatePalettes(h, s, l) {
-        const schemes = [
-            {
-                title: '互补色',
-                colors: [
-                    { h: h, s: s, l: l },
-                    { h: (h + 180) % 360, s: s, l: l }
-                ]
-            },
-            {
-                title: '近似色',
-                colors: [
-                    { h: (h + 330) % 360, s: s, l: l },
-                    { h: h, s: s, l: l },
-                    { h: (h + 30) % 360, s: s, l: l }
-                ]
-            },
-            {
-                title: '三元色',
-                colors: [
-                    { h: h, s: s, l: l },
-                    { h: (h + 120) % 360, s: s, l: l },
-                    { h: (h + 240) % 360, s: s, l: l }
-                ]
-            },
-            {
-                title: '单色系',
-                colors: [
-                    { h: h, s: s, l: Math.max(l - 40, 10) },
-                    { h: h, s: s, l: Math.max(l - 20, 20) },
-                    { h: h, s: s, l: l },
-                    { h: h, s: s, l: Math.min(l + 20, 90) },
-                    { h: h, s: s, l: Math.min(l + 40, 95) }
-                ]
-            },
-            {
-                title: '分裂互补色',
-                colors: [
-                    { h: h, s: s, l: l },
-                    { h: (h + 150) % 360, s: s, l: l },
-                    { h: (h + 210) % 360, s: s, l: l }
-                ]
-            },
-            {
-                title: '矩形配色',
-                colors: [
-                    { h: h, s: s, l: l },
-                    { h: (h + 60) % 360, s: s, l: l },
-                    { h: (h + 180) % 360, s: s, l: l },
-                    { h: (h + 240) % 360, s: s, l: l }
-                ]
-            }
-        ];
-
-        paletteContainer.innerHTML = schemes.map(scheme => {
-            const colors = scheme.colors.map(color => {
-                const rgb = hslToRgb(color.h, color.s, color.l);
-                const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-                return { hex, rgb };
-            });
-            
-            return `
-                <div class="palette-card">
-                    <div class="palette-header">
-                        <div class="palette-title">${scheme.title}</div>
-                    </div>
-                    <div class="palette-colors">
-                        ${colors.map(color => `
-                            <div class="color-item" 
-                                 style="background-color: ${color.hex}"
-                                 onclick="copyToClipboard('${color.hex}')"
-                                 data-color="${color.hex}">
-                                <div class="color-tooltip">${color.hex}</div>
-                            </div>
-                        `).join('')}
+        <!-- Color Selection & Preview Section -->
+        <div class="color-picker-section">
+            <div class="color-preview">
+                <div class="color-display" id="colorDisplay">
+                    <div class="color-info">
+                        <span class="color-hex" id="currentHex">#4A90E2</span>
+                        <button class="copy-btn" onclick="copyCurrentColor()" aria-label="Copy current color value">Copy</button>
                     </div>
                 </div>
-            `;
-        }).join('');
-    }
+                <div class="color-picker-wrapper">
+                    <label for="colorPicker">Select Color:</label>
+                    <input type="color" id="colorPicker" value="#4a90e2" aria-label="Color picker">
+                    <div class="input-hint">Click the color block or use the color picker to select a color</div>
+                </div>
+            </div>
+            
+            <div class="color-inputs">
+                <div class="input-group">
+                    <label for="hexInput">HEX Color Value</label>
+                    <input type="text" id="hexInput" value="#4A90E2" placeholder="#RRGGBB" aria-label="Hexadecimal color value">
+                    <div class="input-hint">Supports 3-digit (#RGB) or 6-digit (#RRGGBB) hexadecimal color values</div>
+                </div>
+                <div class="input-group">
+                    <label for="rgbInput">RGB Color Value</label>
+                    <input type="text" id="rgbInput" value="rgb(74, 144, 226)" placeholder="rgb(r, g, b)" aria-label="RGB color value">
+                    <div class="input-hint">Red, Green, Blue values, range 0-255</div>
+                </div>
+                <div class="input-group">
+                    <label for="hslInput">HSL Color Value</label>
+                    <input type="text" id="hslInput" value="hsl(212, 72%, 59%)" placeholder="hsl(h, s%, l%)" aria-label="HSL color value">
+                    <div class="input-hint">Hue (0-360°), Saturation (0-100%), Lightness (0-100%)</div>
+                </div>
+            </div>
+        </div>
 
-    // --- 输入验证和事件处理 ---
-    function isValidHex(hex) {
-        return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
-    }
+        <!-- Smart Palette Section -->
+        <div class="palette-section">
+            <div class="section-title">
+                <span>🎨 Smart Palettes</span>
+                <div class="section-description">Harmonious color combinations automatically generated based on color theory</div>
+            </div>
+            <div id="palettes" class="palette-grid">
+                <!-- Palettes will be dynamically generated via JS -->
+            </div>
+        </div>
 
-    function parseRgb(rgbString) {
-        const match = rgbString.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/i);
-        if (match) {
-            return {
-                r: parseInt(match[1]),
-                g: parseInt(match[2]),
-                b: parseInt(match[3])
-            };
-        }
-        return null;
-    }
+        <!-- Color Analysis Tools Section -->
+        <div class="utilities-section">
+            <div class="section-title">
+                <span>⚡ Color Analysis</span>
+                <div class="section-description">Professional color property and accessibility standard analysis</div>
+            </div>
+            <div class="utility-cards">
+                <div class="utility-card">
+                    <h3><i class="fas fa-eye"></i> Contrast Check</h3>
+                    <div>Contrast with White: <span id="contrastWhite" class="contrast-ratio">4.5:1</span></div>
+                    <div>Contrast with Black: <span id="contrastBlack" class="contrast-ratio">12:1</span></div>
+                    <div class="contrast-status" id="contrastStatus">✅ Passes Accessibility Standards</div>
+                    <div class="card-tip">WCAG 2.1 Standard: Text contrast needs ≥4.5:1</div>
+                </div>
+                <div class="utility-card">
+                    <h3><i class="fas fa-sun"></i> Brightness Analysis</h3>
+                    <div>Relative Luminance: <span id="luminanceValue">0.28</span></div>
+                    <div>Perceived Lightness: <span id="perceivedLightness">Medium</span></div>
+                    <div>Suggested Use: <span id="suggestedUse">Primary Color, Buttons</span></div>
+                    <div class="card-tip">Relative luminance range: 0 (pure black) to 1 (pure white)</div>
+                </div>
+                <div class="utility-card">
+                    <h3><i class="fas fa-info-circle"></i> Color Information</h3>
+                    <div>Hue: <span id="hueValue">212°</span></div>
+                    <div>Saturation: <span id="saturationValue">72%</span></div>
+                    <div>Lightness: <span id="lightnessValue">59%</span></div>
+                    <div class="card-tip">Hue: Red=0°/360°, Green=120°, Blue=240°</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    function parseHsl(hslString) {
-        const match = hslString.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/i);
-        if (match) {
-            return {
-                h: parseInt(match[1]),
-                s: parseInt(match[2]),
-                l: parseInt(match[3])
-            };
-        }
-        return null;
-    }
+    <!-- Notification Popup -->
+    <div id="notification" class="notification">
+        <span id="notificationText">Copied to clipboard!</span>
+    </div>
 
-    // --- 事件监听器 ---
-    colorPicker.addEventListener('input', (e) => {
-        updateUI(e.target.value);
-    });
+    <!-- Instructions and FAQ Section -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>ColorLab Features</h2>
+            <p>📖 Introduction: Professional online color tool providing comprehensive color processing and palette generation features. Perfect integration of <strong>color converter</strong>, <strong>palette generator</strong>, <strong>color contrast checker</strong>, <strong>color analysis tool</strong>, and more.</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3><i class="fas fa-exchange-alt"></i> Real-time Color Conversion</h3>
+                    <p>Supports real-time bidirectional conversion between HEX, RGB, and HSL color formats. Enter any format to automatically sync updates across others, ensuring color consistency.</p>
+                    <div class="tip">
+                        <span class="tip-text">Format interchange: HEX ↔ RGB ↔ HSL, modifying any format auto-syncs others</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-palette"></i> Smart Palette Generation</h3>
+                    <p>Automatically generates Monochromatic, Complementary, Analogous, and Triadic palettes based on color theory, helping create harmonious color combinations.</p>
+                    <div class="tip">
+                        <span class="tip-text">Color theory: Harmonious color combinations generated mathematically based on color wheel</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-universal-access"></i> Accessibility Analysis</h3>
+                    <p>Checks if color contrast meets WCAG 2.1 accessibility standards, ensuring website colors are suitable for all users, including visually impaired users.</p>
+                    <div class="tip">
+                        <span class="tip-text">WCAG standards: Text contrast ≥4.5:1, large text contrast ≥3:1</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-chart-bar"></i> In-depth Color Analysis</h3>
+                    <p>Provides detailed color property analysis including relative luminance, perceived lightness, hue, saturation, and lightness to help understand color characteristics.</p>
+                    <div class="tip">
+                        <span class="tip-text">Relative luminance: Brightness calculation based on human visual perception (0-1)</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-copy"></i> One-Click Copy Function</h3>
+                    <p>Supports one-click copying of color values (HEX, RGB, HSL). Palette colors can also be copied individually for easy use in design tools.</p>
+                    <div class="tip">
+                        <span class="tip-text">Copy formats: HEX with #, RGB with rgb(), HSL with hsl()</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-mobile-alt"></i> Responsive Design</h3>
+                    <p>Perfectly adapts to different device screens including desktop, tablet, and mobile. Analyze colors anytime, anywhere without installing any software.</p>
+                    <div class="tip">
+                        <span class="tip-text">Mobile optimized: Good user experience on phones and tablets</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Color Technical Specifications Section -->
+            <div class="technical-section">
+                <h2>Color Technical Specifications</h2>
+                <p>Color standards and calculation methods used by this tool:</p>
+                <ul class="tech-specs">
+                    <li>Color conversion: Based on W3C standard color algorithms</li>
+                    <li>Contrast calculation: WCAG 2.1 contrast algorithm (relative luminance formula)</li>
+                    <li>Palette generation: Based on color theory (color wheel mathematical model)</li>
+                    <li>Hue range: 0° to 360° (Red=0°/360°, Green=120°, Blue=240°)</li>
+                    <li>Saturation/Lightness range: 0% to 100%</li>
+                    <li>HEX format: Supports #RGB and #RRGGBB formats</li>
+                </ul>
+                <p class="tech-note"><strong>Technical Note:</strong> This tool uses JavaScript color algorithms for real-time conversion. Contrast calculation is based on WCAG 2.1 relative luminance formula: L = 0.2126×R + 0.7152×G + 0.0722×B. Palette generation is based on color wheel mathematical calculations: Complementary (180° hue difference), Analogous (30° hue difference), Triadic (120° hue difference).</p>
+            </div>
+            
+            <div class="faq-section">
+                <h2>Frequently Asked Questions (FAQ)</h2>
+                <div class="faq-item">
+                    <h3>What are WCAG color contrast standards? Why are they important?</h3>
+                    <p>WCAG (Web Content Accessibility Guidelines) are web content accessibility guidelines. Color contrast standards ensure sufficient contrast between text and background so visually impaired users can read clearly. According to WCAG 2.1, normal text requires at least 4.5:1 contrast, large text (at least 18pt or 14pt bold) requires at least 3:1. Not meeting these standards may make websites unusable for some users and could violate accessibility laws in some regions.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What's the difference between HEX, RGB, and HSL color formats?</h3>
+                    <p>Each format has its characteristics:<br>
+                    1) HEX (Hexadecimal): e.g. #4A90E2, most commonly used in web development, concise but less intuitive for understanding color properties<br>
+                    2) RGB (Red Green Blue): e.g. rgb(74, 144, 226), based on light's primary colors, intuitive but less convenient for adjusting color characteristics<br>
+                    3) HSL (Hue Saturation Lightness): e.g. hsl(212, 72%, 59%), based on human color perception, easy to adjust color characteristics (like brightening, darkening, adjusting saturation)<br>
+                    ColorLab supports real-time conversion between these three formats. You can use whichever format is most convenient for your needs.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do smart palettes work?</h3>
+                    <p>ColorLab generates four types of palettes based on color theory:<br>
+                    1) Monochromatic palette: Keeps hue constant, adjusts saturation and lightness to create lighter/darker variations<br>
+                    2) Complementary palette: Uses colors opposite on the color wheel (180° hue difference), creates high-contrast combinations<br>
+                    3) Analogous palette: Uses adjacent colors on the color wheel (30° hue difference), creates harmonious, subtle combinations<br>
+                    4) Triadic palette: Uses three equally spaced colors on the color wheel (120° hue difference), creates vibrant, colorful combinations<br>
+                    These palettes are mathematically calculated to ensure harmonious color combinations.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What are relative luminance and perceived lightness?</h3>
+                    <p>Relative luminance is a brightness value based on human visual perception, ranging from 0 (pure black) to 1 (pure white). The calculation formula considers human eye sensitivity to different colors (most sensitive to green, least to blue). Perceived lightness is an intuitive description based on relative luminance classification, such as "very dark," "dark," "medium," "light," "very light." Relative luminance is used to calculate color contrast, while perceived lightness helps understand color visual weight and suitable applications.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How to choose accessible colors for websites?</h3>
+                    <p>Recommendations for choosing accessible colors:<br>
+                    1) Use ColorLab to check contrast, ensure text and background contrast ≥4.5:1<br>
+                    2) Avoid relying solely on color to convey information (e.g., red for errors), also use text or icons<br>
+                    3) Test from colorblind user perspectives, ensure color differentiation doesn't depend solely on hue differences<br>
+                    4) Provide sufficient color contrast to ensure clear identification even in bright environments<br>
+                    5) Consider color performance in dark mode, ensure good contrast across different themes</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is this tool free?</h3>
+                    <p>Yes, ColorLab color tool is completely free online tool. No registration or login required. We're committed to providing high-quality color tools for designers and developers, helping you create beautiful and accessible color schemes. All processing happens locally in your browser - your color data is not uploaded to any servers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    hexInput.addEventListener('input', (e) => {
-        const hex = e.target.value;
-        if (isValidHex(hex)) {
-            updateUI(hex);
-            hexInput.style.borderColor = '';
-        } else {
-            hexInput.style.borderColor = '#ef4444';
-        }
-    });
+    <!-- Page Footer -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p>© 2024 StarryRing - ColorLab Color Tool</p>
+            <p>Page last updated: January 2026 | Version: v1.5.0 | Standard: WCAG 2.1 Color Contrast</p>
+        </div>
+    </footer>
 
-    rgbInput.addEventListener('input', (e) => {
-        const rgb = parseRgb(e.target.value);
-        if (rgb) {
-            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-            updateUI(hex);
-            rgbInput.style.borderColor = '';
-        } else {
-            rgbInput.style.borderColor = '#ef4444';
-        }
-    });
-
-    hslInput.addEventListener('input', (e) => {
-        const hsl = parseHsl(e.target.value);
-        if (hsl) {
-            const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
-            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-            updateUI(hex);
-            hslInput.style.borderColor = '';
-        } else {
-            hslInput.style.borderColor = '#ef4444';
-        }
-    });
-
-    colorDisplay.addEventListener('click', () => {
-        copyToClipboard(currentHex.textContent);
-    });
-
-    // --- 复制功能 ---
-    async function copyToClipboard(text) {
-        try {
-            await navigator.clipboard.writeText(text);
-            showNotification(`已复制: ${text}`);
-        } catch (err) {
-            console.error('复制失败:', err);
-            showNotification('复制失败，请手动复制');
-        }
-    }
-
-    function copyCurrentColor() {
-        copyToClipboard(currentHex.textContent);
-    }
-
-    function showNotification(message) {
-        notification.textContent = message;
-        notification.classList.add('show');
-        notification.classList.add('success');
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                notification.classList.remove('success');
-            }, 300);
-        }, 2000);
-    }
-
-    // --- 初始化 ---
-    document.addEventListener('DOMContentLoaded', () => {
-        updateUI('#4A90E2');
-        
-        // 添加键盘快捷键
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-                copyCurrentColor();
-            }
-        });
-    });
-</script>
-
+    <!-- Local Scripts -->
+    <script src="/static/js/utility-tools/design-media/color-grading/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
