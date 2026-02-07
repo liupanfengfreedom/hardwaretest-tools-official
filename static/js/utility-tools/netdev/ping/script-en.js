@@ -1,300 +1,221 @@
-// WebSocket Debugging Assistant - Enhanced JavaScript Logic
-let socket = null;
-let logCount = 0;
-let connectionStartTime = null;
-const STORAGE_KEY = 'ws_history_urls';
 
-// DOM Elements
-const wsUrlInput = document.getElementById('wsUrl');
-const historyDropdown = document.getElementById('historyDropdown');
-const connectBtn = document.getElementById('connectBtn');
-const logConsole = document.getElementById('logConsole');
-const messageInput = document.getElementById('messageInput');
-const sendBtn = document.getElementById('sendBtn');
-const statusDot = document.getElementById('statusDot');
-const statusText = document.getElementById('statusText');
-const connectionInfo = document.getElementById('connectionInfo');
-const logCountElement = document.getElementById('logCount');
-const clearBtn = document.getElementById('clearBtn');
+// Initialize icons
+lucide.createIcons();
 
-// --- 1. History Logic ---
+let running = false;
+let pings = [];
+let sent = 0;
+let loss = 0;
+let success = 0;
+let rid = 0;
+const historyKey = 'ping_history';
+
+// Initialize chart
+const ctx = document.getElementById('chart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            data: [],
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.1)',
+            fill: true,
+            tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: { grid: { color: '#1e293b' } },
+            x: { grid: { display: false } }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
+
+// --- History logic ---
+
 function getHistory() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : ["wss://echo.websocket.org"];
+    const h = localStorage.getItem(historyKey);
+    return h ? JSON.parse(h) : [];
 }
 
-function saveToHistory(url) {
-    let history = getHistory();
-    history = history.filter(item => item !== url);
-    history.unshift(url);
-    history = history.slice(0, 10);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+function saveToHistory(target) {
+    let h = getHistory();
+    h = h.filter(item => item !== target);
+    h.unshift(target);
+    h = h.slice(0, 10);
+    localStorage.setItem(historyKey, JSON.stringify(h));
     renderHistory();
 }
 
-function deleteHistoryItem(url, event) {
+function removeHistoryItem(event, item) {
     event.stopPropagation();
-    let history = getHistory().filter(item => item !== url);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-    renderHistory(wsUrlInput.value);
-}
-
-function renderHistory(filter = '') {
-    const history = getHistory();
-    const filtered = history.filter(item => 
-        item.toLowerCase().includes(filter.toLowerCase())
-    );
-    
-    if (filtered.length === 0) { 
-        historyDropdown.style.display = 'none'; 
-        return; 
-    }
-    
-    historyDropdown.innerHTML = '';
-    
-    filtered.forEach(url => {
-        const item = document.createElement('div');
-        item.className = 'history-item';
-        item.innerHTML = `
-            <span class="url-text">${url}</span>
-            <button class="delete-btn" title="Delete this record">×</button>
-        `;
-        item.onclick = () => { 
-            wsUrlInput.value = url; 
-            historyDropdown.style.display = 'none'; 
-            wsUrlInput.focus();
-        };
-        item.querySelector('.delete-btn').onclick = (e) => deleteHistoryItem(url, e);
-        historyDropdown.appendChild(item);
-    });
-    
-    historyDropdown.style.display = 'block';
-}
-
-// --- 2. UI Update Functions ---
-function updateUI(isConnected) {
-    if (isConnected) {
-        connectBtn.innerHTML = '<i class="fas fa-unlink"></i> Disconnect';
-        connectBtn.classList.add('connected');
-        statusDot.classList.add('online');
-        statusText.textContent = 'Connected';
-        connectionInfo.textContent = `Address: ${socket.url}`;
-        messageInput.disabled = false;
-        sendBtn.disabled = false;
-        connectionStartTime = new Date();
-    } else {
-        connectBtn.innerHTML = '<i class="fas fa-plug"></i> Establish Connection';
-        connectBtn.classList.remove('connected');
-        statusDot.classList.remove('online');
-        statusText.textContent = 'Not Connected';
-        connectionInfo.textContent = '';
-        messageInput.disabled = true;
-        sendBtn.disabled = true;
-        socket = null;
-        connectionStartTime = null;
-    }
-}
-
-function updateLogCount() {
-    logCountElement.textContent = `${logCount} records`;
-}
-
-function appendLog(type, message) {
-    logCount++;
-    updateLogCount();
-    
-    const item = document.createElement('div');
-    item.className = `log-item type-${type}`;
-    
-    const timestamp = new Date().toLocaleTimeString();
-    const typeLabel = type === 'sent' ? 'Sent' : 
-                     type === 'received' ? 'Received' : 
-                     type === 'error' ? 'Error' : 'Info';
-    
-    item.innerHTML = `
-        <span style="color:#888">[${timestamp}]</span> 
-        <span style="font-weight:bold">[${typeLabel}]</span> 
-        ${escapeHtml(message)}
-    `;
-    
-    logConsole.appendChild(item);
-    logConsole.scrollTop = logConsole.scrollHeight;
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// --- 3. Connection and Disconnection Logic ---
-connectBtn.onclick = () => {
-    // If currently connected (OPEN or CONNECTING state), disconnect
-    if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
-        appendLog('info', 'Manually closing connection...');
-        socket.close(1000, 'User initiated disconnect');
-        return;
-    }
-
-    const url = wsUrlInput.value.trim();
-    if (!url) {
-        alert('Please enter a valid WebSocket address');
-        return;
-    }
-
-    // Validate URL format
-    if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
-        alert('WebSocket address must start with ws:// or wss://');
-        return;
-    }
-
-    try {
-        updateUI(false);
-        appendLog('info', `Connecting to: ${url}`);
-        socket = new WebSocket(url);
-
-        socket.onopen = () => {
-            const connectionTime = new Date();
-            appendLog('info', '✅ Connection successful!');
-            updateUI(true);
-            saveToHistory(url);
-            
-            // Display connection information
-            const duration = Math.round((connectionTime - connectionStartTime) / 1000);
-            connectionInfo.textContent = `${socket.url} | Connection time: ${duration}s`;
-        };
-
-        socket.onmessage = (e) => {
-            let displayText = e.data;
-            try {
-                // If JSON, try to format display
-                const parsed = JSON.parse(e.data);
-                displayText = JSON.stringify(parsed, null, 2);
-            } catch (err) {
-                // Not JSON, display as is
-            }
-            appendLog('received', displayText);
-        };
-
-        socket.onclose = (e) => {
-            const reason = e.reason ? ` Reason: ${e.reason}` : '';
-            const statusText = e.wasClean ? 'Normal closure' : 'Abnormal closure';
-            appendLog('info', `Connection closed (${statusText}, code: ${e.code})${reason}`);
-            updateUI(false);
-        };
-
-        socket.onerror = (err) => {
-            appendLog('error', 'Connection error occurred, please check address or network environment.');
-            updateUI(false);
-        };
-
-    } catch (err) {
-        appendLog('error', `Failed to create socket: ${err.message}`);
-        updateUI(false);
-    }
-};
-
-// --- 4. Message Sending Functionality ---
-sendBtn.onclick = sendMessage;
-messageInput.onkeypress = (e) => { 
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-    }
-};
-
-function sendMessage() {
-    const msg = messageInput.value.trim();
-    if (!msg) {
-        alert('Please enter a message to send');
-        return;
-    }
-    
-    if (socket && socket.readyState === WebSocket.OPEN) {
-        try {
-            // If JSON string, try to parse for validation
-            if (msg.startsWith('{') || msg.startsWith('[')) {
-                JSON.parse(msg);
-            }
-            socket.send(msg);
-            appendLog('sent', msg);
-            messageInput.value = '';
-            messageInput.focus();
-        } catch (err) {
-            appendLog('error', `Send failed: ${err.message}`);
-        }
-    } else {
-        appendLog('error', 'Send failed: Connection not open');
-        updateUI(false);
-    }
-}
-
-// --- 5. Format Button Functionality ---
-document.querySelectorAll('.format-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const format = this.getAttribute('data-format');
-        if (format === 'ping') {
-            messageInput.value = 'ping';
-        } else if (format.startsWith('{') || format.startsWith('[')) {
-            try {
-                const parsed = JSON.parse(format);
-                messageInput.value = JSON.stringify(parsed, null, 2);
-            } catch (err) {
-                messageInput.value = format;
-            }
-        } else {
-            messageInput.value = format;
-        }
-        messageInput.focus();
-    });
-});
-
-// --- 6. Clear Logs Functionality ---
-clearBtn.onclick = () => {
-    logConsole.innerHTML = '';
-    logCount = 0;
-    updateLogCount();
-    appendLog('info', 'Logs cleared');
-};
-
-// --- 7. Input Field Interaction ---
-wsUrlInput.onfocus = () => renderHistory(wsUrlInput.value);
-wsUrlInput.oninput = () => renderHistory(wsUrlInput.value);
-
-// Click elsewhere to hide history dropdown
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.url-input-wrapper')) {
-        historyDropdown.style.display = 'none';
-    }
-});
-
-// Initialization
-document.addEventListener('DOMContentLoaded', function() {
-    // Load history
+    let h = getHistory();
+    h = h.filter(i => i !== item);
+    localStorage.setItem(historyKey, JSON.stringify(h));
     renderHistory();
+    document.getElementById('target').focus();
+}
+
+function renderHistory() {
+    const h = getHistory();
+    const list = document.getElementById('history-list');
     
-    // Add initial logs
-    appendLog('info', 'WebSocket Debugging Assistant ready');
-    appendLog('info', 'Enter WebSocket server address and click "Establish Connection" to start testing');
-    appendLog('info', 'Example address: wss://echo.websocket.org');
+    if (h.length === 0) {
+        list.innerHTML = `<div class="p-4 text-slate-500 text-sm italic text-center">No search history</div>`;
+        return;
+    }
+
+    list.innerHTML = h.map(item => `
+        <div class="group flex items-center justify-between px-4 py-2.5 hover:bg-slate-800 cursor-pointer border-b border-slate-800/50 last:border-0" 
+             onclick="selectHistory('${item}')">
+            <div class="flex items-center gap-3 overflow-hidden">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-500 flex-shrink-0"></i>
+                <span class="mono text-sm truncate text-slate-300 group-hover:text-blue-400 transition-colors">${item}</span>
+            </div>
+            <button onclick="removeHistoryItem(event, '${item}')" 
+                    class="p-1 hover:bg-slate-700 rounded-md text-slate-500 hover:text-red-400 transition-all opacity-0 group-hover:opacity-100">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+    `).join('');
     
-    // Check browser support
-    if (!window.WebSocket) {
-        appendLog('error', 'Warning: Your browser does not support WebSocket API');
+    lucide.createIcons();
+}
+
+function showHistory() {
+    renderHistory();
+    document.getElementById('history-panel').classList.remove('hidden');
+}
+
+function hideHistory() {
+    document.getElementById('history-panel').classList.add('hidden');
+}
+
+function selectHistory(val) {
+    document.getElementById('target').value = val;
+    hideHistory();
+}
+
+function clearHistory() {
+    if(confirm('Are you sure you want to clear all history?')) {
+        localStorage.removeItem(historyKey);
+        renderHistory();
+    }
+}
+
+// --- Ping core logic ---
+
+function togglePing() {
+    const t = document.getElementById('target').value.trim();
+    if(!t) return alert("Please enter an address");
+    
+    if(!running) {
+        saveToHistory(t);
+        start(t);
+    } else {
+        stop();
+    }
+}
+
+function normalize(t) {
+    if(!t.startsWith('http')) return 'https://' + t;
+    return t;
+}
+
+function start(target) {
+    running = true; 
+    rid++;
+    pings = []; 
+    sent = 0; 
+    loss = 0; 
+    success = 0;
+    
+    chart.data.labels = []; 
+    chart.data.datasets[0].data = []; 
+    chart.update();
+    
+    document.getElementById('terminal').innerHTML = '';
+    const btn = document.getElementById('btn');
+    btn.innerHTML = '<i data-lucide="square"></i> Stop';
+    btn.classList.replace('bg-blue-600', 'bg-red-600');
+    
+    lucide.createIcons();
+    loop(normalize(target), parseInt(document.getElementById('count').value), rid);
+}
+
+function stop() {
+    running = false; 
+    rid++;
+    const btn = document.getElementById('btn');
+    btn.innerHTML = '<i data-lucide="play"></i> Start Test';
+    btn.classList.replace('bg-red-600', 'bg-blue-600');
+    lucide.createIcons();
+}
+
+async function loop(url, total, id) {
+    if(!running || id !== rid) return;
+    
+    sent++; 
+    document.getElementById('sent').innerText = sent;
+    const startT = performance.now();
+    
+    try {
+        // Use no-cors mode to attempt request and measure latency
+        await fetch(url, { mode: 'no-cors', cache: 'no-store' });
+        const ms = Math.round(performance.now() - startT);
+        
+        success++; 
+        pings.push(ms);
+        
+        chart.data.labels.push(sent);
+        chart.data.datasets[0].data.push(ms);
+        if(chart.data.labels.length > 20) {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+        }
+        chart.update('none');
+        
+        log(`Reply from ${url} : ${ms} ms`, true);
+        updateStats();
+    } catch(e) {
+        loss++; 
+        log('Request failed / Cross-origin restriction', false); 
+        updateStats();
     }
     
-    // Add keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        // Ctrl/Cmd + Enter to send message
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-            if (messageInput.disabled === false) {
-                sendMessage();
-            }
+    if(total > 0 && sent >= total) {
+        stop();
+        return;
+    }
+    
+    setTimeout(() => loop(url, total, id), 1000);
+}
+
+function updateStats() {
+    if(pings.length) {
+        const avg = Math.round(pings.reduce((a,b) => a+b) / pings.length);
+        document.getElementById('avg').innerText = avg;
+        
+        if(pings.length > 1) {
+            const m = pings.reduce((a,b) => a+b) / pings.length;
+            const jitter = Math.round(Math.sqrt(pings.map(v => (v-m)**2).reduce((a,b) => a+b) / pings.length));
+            document.getElementById('jitter').innerText = jitter;
         }
-        // Ctrl/Cmd + L to clear logs
-        if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
-            e.preventDefault();
-            clearBtn.click();
-        }
-    });
-});
+    }
+    document.getElementById('loss').innerText = Math.round((loss / sent) * 100) + '%';
+}
+
+function log(t, ok) {
+    const term = document.getElementById('terminal');
+    term.innerHTML += `<div class="${ok ? 'success-line' : 'error-line'}">${t}</div>`;
+    term.scrollTop = term.scrollHeight;
+}
+
+// Initial history render
+renderHistory();
