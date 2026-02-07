@@ -3,9 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Magic | 高级二维码生成器</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <title>QR Magic - 免费在线二维码生成器 | 自定义Logo、颜色、尺寸 | 高级QR码工具</title>
+    
+    <!-- 核心SEO元标签 -->
+    <meta name="description" content="QR Magic 是一款功能强大的免费在线二维码生成器。支持自定义Logo嵌入、颜色调整、尺寸设置，可生成高清PNG二维码用于印刷、宣传和数字媒体。无需注册，立即生成个性化QR码。">
+    <meta name="keywords" content="二维码生成器,QR码生成,在线二维码制作,自定义二维码,二维码Logo,免费二维码生成器,高清二维码,二维码设计工具">
+    <meta name="author" content="QR Magic">
+    
+    <!-- Open Graph 社交分享优化 -->
+    <meta property="og:title" content="QR Magic - 免费高级二维码生成器">
+    <meta property="og:description" content="创建美观、可自定义的二维码，支持Logo嵌入和多种样式设置">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/zh/utility-tools/netdev/qr-code-generator/">
+    <meta property="og:image" content="https://yourdomain.com/static/images/qr-magic-og-image.jpg">
+    
+    <!-- Twitter Card 优化 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QR Magic - 免费在线二维码生成器">
+    <meta name="twitter:description" content="高级二维码生成工具，支持Logo、颜色和尺寸自定义">
+    
+    <!-- 结构化数据 (JSON-LD) - 增强搜索展示 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "QR Magic 二维码生成器",
+        "description": "免费在线高级二维码生成工具，支持自定义Logo、颜色和尺寸",
+        "url": "https://yourdomain.com/zh/utility-tools/netdev/qr-code-generator/",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "features": ["Logo嵌入", "颜色自定义", "尺寸调整", "高清导出", "历史记录"],
+        "author": {
+            "@type": "Organization",
+            "name": "QR Magic"
+        }
+    }
+    </script>
+    
+    <!-- 规范URL - 避免重复内容 -->
+    <link rel="canonical" href="https://yourdomain.com/zh/utility-tools/netdev/qr-code-generator/">
+    
+    <!-- 多语言hreflang -->
+    <link rel="alternate" hreflang="zh" href="https://yourdomain.com/zh/utility-tools/netdev/qr-code-generator/">
+    <link rel="alternate" hreflang="en" href="https://yourdomain.com/en/utility-tools/netdev/qr-code-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/zh/utility-tools/netdev/qr-code-generator/">
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="/static/css/utility-tools/netdev/qr-code-generator/style.css" as="style">
+    <link rel="preload" href="/static/js/utility-tools/netdev/qr-code-generator/script-zh.js" as="script">
+    
+    <!-- 图标 -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- 外部资源 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 样式表 -->
     <link rel="stylesheet" href="/static/css/utility-tools/netdev/qr-code-generator/style.css">
     <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
     <link rel="stylesheet" href="/static/css/shared/NavCard.css">
@@ -14,26 +74,34 @@
     <link rel="stylesheet" href="/static/css/shared/document.css">
 </head>
 <body>
-       <div class="breadcrumb-section">
+    <!-- 添加微数据到面包屑导航 -->
+    <div class="breadcrumb-section" itemscope itemtype="https://schema.org/BreadcrumbList">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item">
-                    <a href="/zh/" class="breadcrumb-link">
-                        <i class="fas fa-home"></i> 主页
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/zh/" class="breadcrumb-link" itemprop="item">
+                        <i class="fas fa-home"></i> 
+                        <span itemprop="name">主页</span>
                     </a>
+                    <meta itemprop="position" content="1">
                 </li>
-                <li class="breadcrumb-item">
-                    <a href="/zh/utility-tools/" class="breadcrumb-link">
-                        <i class="fas fa-toolbox"></i> 实用工具
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/zh/utility-tools/" class="breadcrumb-link" itemprop="item">
+                        <i class="fas fa-toolbox"></i>
+                        <span itemprop="name">实用工具</span>
                     </a>
+                    <meta itemprop="position" content="2">
                 </li>
-                <li class="breadcrumb-item">
-                    <a href="/zh/utility-tools/NetDev/" class="breadcrumb-link">
-                        <i class="fas fa-network-wired"></i> 网络工具
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/zh/utility-tools/NetDev/" class="breadcrumb-link" itemprop="item">
+                        <i class="fas fa-network-wired"></i>
+                        <span itemprop="name">网络工具</span>
                     </a>
+                    <meta itemprop="position" content="3">
                 </li>
-                <li class="breadcrumb-item">                   
-                    <span class="breadcrumb-active">QR 码生成工具</span>
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span class="breadcrumb-active" itemprop="name">QR 码生成工具</span>
+                    <meta itemprop="position" content="4">
                 </li>
             </ol>
         </nav>
@@ -54,81 +122,89 @@
         </div>
     </div>
     
-    <div class="container">
+    <!-- 添加main标签和role -->
+    <main class="container" role="main">
         <!-- 左侧 -->
-        <div class="left-panel">
+        <section class="left-panel" aria-labelledby="qr-generator-title">
             <div class="header">
-                <h1><i class="fas fa-qrcode"></i> QR Magic</h1>
-                <p>创建美观、可自定义的二维码，支持Logo嵌入和多种样式设置</p>
+                <h1 id="qr-generator-title"><i class="fas fa-qrcode"></i> QR Magic - 高级二维码生成器</h1>
+                <p>创建美观、可自定义的二维码，支持Logo嵌入和多种样式设置，适用于商业宣传、个人使用和数字媒体。</p>
             </div>
 
             <div class="input-group">
-                <div class="section-title"><i class="fas fa-pencil-alt"></i><span>输入内容</span></div>
+                <h2 class="section-title"><i class="fas fa-pencil-alt"></i><span>输入二维码内容</span></h2>
                 <div class="input-with-icon">
                     <i class="fas fa-link"></i>
-                    <input type="text" id="qr-text" class="text-input" placeholder="输入网址、文本或任何内容..." autocomplete="off">
+                    <input type="text" id="qr-text" class="text-input" 
+                           placeholder="输入网址、文本、联系方式或任何内容..." 
+                           autocomplete="off"
+                           aria-label="输入二维码内容">
                 </div>
                 <div id="history-dropdown" class="history-dropdown"></div>
             </div>
 
             <div class="input-group">
-                <div class="section-title"><i class="fas fa-palette"></i><span>个性化设置</span></div>
+                <h2 class="section-title"><i class="fas fa-palette"></i><span>个性化设置</span></h2>
                 
                 <div class="file-upload-area" id="logo-upload-area">
                     <i class="fas fa-cloud-upload-alt upload-icon"></i>
                     <p class="upload-text">点击上传Logo图片</p>
                     <p class="upload-hint">支持 PNG, JPG, SVG 格式</p>
                     
-                    <input type="file" id="logo-input" accept="image/*" style="display: none;">
-                    <img id="logo-preview" class="logo-preview" alt="Logo预览">
+                    <input type="file" id="logo-input" accept="image/*" style="display: none;" 
+                           aria-label="上传Logo图片">
+                    <img id="logo-preview" class="logo-preview" alt="Logo预览" loading="lazy">
                     
-                    <button type="button" class="remove-logo-btn" id="remove-logo-btn">
+                    <button type="button" class="remove-logo-btn" id="remove-logo-btn" aria-label="移除Logo">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
 
                 <div class="checkbox-container">
-                    <input type="checkbox" id="enable-logo-check" checked>
+                    <input type="checkbox" id="enable-logo-check" checked aria-label="在二维码中心嵌入Logo">
                     <label for="enable-logo-check">在二维码中心嵌入 Logo</label>
                 </div>
             </div>
 
-            <div class="settings-section">
+            <section class="settings-section" aria-label="二维码设置选项">
+                <h3 class="visually-hidden">二维码详细设置</h3>
                 <div class="settings-row">
                     <div class="setting-item">
                         <div class="setting-header">
-                            <span class="setting-label">尺寸</span>
+                            <span class="setting-label">二维码尺寸</span>
                             <span id="size-display" class="setting-value">300px</span>
                         </div>
-                        <input type="range" id="size-input" min="150" max="800" step="10" value="300">
+                        <input type="range" id="size-input" min="150" max="800" step="10" value="300"
+                               aria-label="调整二维码尺寸">
                     </div>
                     <div class="setting-item">
                         <div class="setting-header">
-                            <span class="setting-label">边距</span>
+                            <span class="setting-label">二维码边距</span>
                             <span id="margin-display" class="setting-value">20px</span>
                         </div>
-                        <input type="range" id="margin-input" min="0" max="60" step="2" value="20">
+                        <input type="range" id="margin-input" min="0" max="60" step="2" value="20"
+                               aria-label="调整二维码边距">
                     </div>
                 </div>
                 <div class="color-settings">
                     <div class="color-item">
                         <label class="color-label">二维码颜色</label>
                         <div class="color-picker-wrapper">
-                            <input type="color" id="color-dark" value="#000000">
+                            <input type="color" id="color-dark" value="#000000" aria-label="选择二维码颜色">
                             <span style="font-size:13px; color:var(--dark); font-weight:500;">主色</span>
                         </div>
                     </div>
                     <div class="color-item">
                         <label class="color-label">背景颜色</label>
                         <div class="color-picker-wrapper">
-                            <input type="color" id="color-light" value="#ffffff">
+                            <input type="color" id="color-light" value="#ffffff" aria-label="选择背景颜色">
                             <span style="font-size:13px; color:var(--dark); font-weight:500;">背景</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <button class="btn-generate" onclick="generateQR(true)">
+            <button class="btn-generate" onclick="generateQR(true)" aria-label="生成二维码">
                 <i class="fas fa-magic"></i> 生成精美二维码
             </button>
             
@@ -138,12 +214,13 @@
                     提示：输入内容后按 Enter 键快速生成
                 </p>
             </div>
-        </div>
+        </section>
 
         <!-- 右侧 -->
-        <div class="right-panel">
+        <section class="right-panel" aria-labelledby="qr-preview-title">
+            <h2 id="qr-preview-title" class="visually-hidden">二维码预览区域</h2>
             <div id="qr-container" class="qr-display">
-                <img id="final-image" alt="生成的二维码">
+                <img id="final-image" alt="生成的二维码图片，可下载用于印刷和宣传" loading="lazy">
                 <div id="placeholder" class="placeholder">
                     <i class="fas fa-qrcode"></i>
                     <p>二维码将在此显示</p>
@@ -151,7 +228,7 @@
                 </div>
             </div>
             
-            <button id="download-btn" class="btn-download" onclick="downloadQR()">
+            <button id="download-btn" class="btn-download" onclick="downloadQR()" aria-label="下载二维码图片">
                 <i class="fas fa-download"></i> 下载高清 PNG 图片
             </button>
             
@@ -161,10 +238,60 @@
                     生成的高清二维码可直接用于印刷、宣传材料和数字媒体
                 </p>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
+
+    <!-- 添加FAQ结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "QR Magic二维码生成器是免费的吗？",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "是的，QR Magic是完全免费的在线二维码生成器，无需注册即可使用所有功能。"
+            }
+        }, {
+            "@type": "Question",
+            "name": "支持上传哪些格式的Logo？",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "支持PNG、JPG、SVG等常见图片格式，建议使用透明背景的PNG格式以获得最佳效果。"
+            }
+        }, {
+            "@type": "Question",
+            "name": "生成的二维码可以商用吗？",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "可以，您生成的二维码完全属于您，可以用于商业宣传、产品包装、名片等任何用途。"
+            }
+        }, {
+            "@type": "Question",
+            "name": "可以自定义二维码的尺寸吗？",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "可以，支持150px到800px的尺寸调整，满足不同场景的使用需求。"
+            }
+        }]
+    }
+    </script>
 
     <div id="hidden-qr-generator"></div>
-    <script src="/static/js/utility-tools/netdev/qr-code-generator/script-zh.js"></script>
+    
+    <!-- 延迟加载非关键JS -->
+    <script src="/static/js/utility-tools/netdev/qr-code-generator/script-zh.js" defer></script>
+    
+    <!-- 添加页面加载优化 -->
+    <noscript>
+        <style>
+            .container { display: block !important; }
+            .language-switcher { display: none; }
+        </style>
+        <p style="text-align: center; padding: 20px; color: var(--warning);">
+            请注意：本页面需要JavaScript支持以获得完整功能。请启用浏览器JavaScript功能。
+        </p>
+    </noscript>
 </body>
 </html>
