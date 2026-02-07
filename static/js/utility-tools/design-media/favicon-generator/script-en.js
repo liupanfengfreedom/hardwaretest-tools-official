@@ -1,454 +1,169 @@
-let currentMode = 'int';
-let history = JSON.parse(localStorage.getItem('randomHistory') || '[]');
-let seedGenerator = null;
-let currentResults = [];
-
-// Initialization
-document.addEventListener('DOMContentLoaded', function() {
-    renderHistory();
-    document.getElementById('digits').addEventListener('input', updateMaxCount);
-    document.getElementById('min').addEventListener('input', updateMaxCount);
-    document.getElementById('max').addEventListener('input', updateMaxCount);
-    updateMaxCount();
-    generate(); // Generate once by default
-});
-
-function setMode(mode, btn) {
-    currentMode = mode;
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+// Core ICO building logic
+async function encodeICO(canvases) {
+    const blobs = await Promise.all(canvases.map(c => new Promise(res => c.toBlob(res, 'image/png'))));
+    const buffers = await Promise.all(blobs.map(b => b.arrayBuffer()));
     
-    // Show/hide related options
-    document.getElementById('digits-mode').style.display = (mode === 'int' || mode === 'dec') ? 'flex' : 'none';
-    document.getElementById('range-mode').style.display = (mode === 'range') ? 'flex' : 'none';
-    document.getElementById('decimal-options').style.display = (mode === 'dec') ? 'flex' : 'none';
+    const headerSize = 6;
+    const directorySize = 16 * canvases.length;
+    let currentOffset = headerSize + directorySize;
     
-    // Update max count calculation
-    updateMaxCount();
-}
-
-function updateMaxCount() {
-    const uniqueCheckbox = document.getElementById('unique');
-    const countInput = document.getElementById('count');
+    const icoHeader = new DataView(new ArrayBuffer(headerSize + directorySize));
+    icoHeader.setUint16(0, 0, true);    
+    icoHeader.setUint16(2, 1, true);    
+    icoHeader.setUint16(4, canvases.length, true); 
     
-    if (uniqueCheckbox.checked) {
-        let maxPossible;
-        
-        if (currentMode === 'range') {
-            const min = parseBigInt(document.getElementById('min').value) || 0n;
-            const max = parseBigInt(document.getElementById('max').value) || 100n;
-            const diff = max > min ? max - min : min - max;
-            maxPossible = Number(diff) + 1;
-            
-            // If range too large, limit to 1000
-            if (maxPossible > 10000) {
-                maxPossible = 10000;
-            }
-        } else {
-            const digits = parseInt(document.getElementById('digits').value) || 6;
-            // For very large digits, limit maximum generation count
-            maxPossible = Math.min(10000, Math.pow(10, Math.min(digits, 4)));
-        }
-        
-        if (maxPossible < 10000) {
-            countInput.max = maxPossible;
-            countInput.title = `Maximum ${maxPossible} numbers can be generated in unique mode`;
-        } else {
-            countInput.max = 10000;
-            countInput.title = 'Maximum 10000 numbers can be generated in unique mode';
-        }
-    } else {
-        countInput.max = 10000;
-        countInput.title = 'Maximum 10000 numbers can be generated';
-    }
-}
-
-function toggleMaxCount() {
-    updateMaxCount();
-}
-
-function parseBigInt(value) {
-    try {
-        value = value.trim();
-        if (!value) return 0n;
-        
-        // Remove separators like commas
-        value = value.replace(/,/g, '');
-        
-        // Check if valid number
-        if (!/^-?\d+$/.test(value)) {
-            return 0n;
-        }
-        
-        return BigInt(value);
-    } catch (e) {
-        return 0n;
-    }
-}
-
-function generate() {
-    const count = parseInt(document.getElementById('count').value) || 1;
-    const unique = document.getElementById('unique').checked;
-    const seed = document.getElementById('seed').value.trim();
-    const format = document.querySelector('input[name="format"]:checked').value;
-    
-    // Clear warning area
-    const warningArea = document.getElementById('warning-area');
-    warningArea.innerHTML = '';
-    
-    // Validate input
-    if (currentMode === 'int' || currentMode === 'dec') {
-        const digits = parseInt(document.getElementById('digits').value) || 6;
-        if (digits > 50) {
-            warningArea.innerHTML = `
-                <div class="warning">
-                    <strong>Note:</strong> You are generating very large integers over 50 digits. Display and calculation may take longer.
-                </div>
-            `;
-        }
-    }
-    
-    // Generate numbers based on mode
-    let results = [];
-    if (currentMode === 'int') {
-        results = generateBigIntegers(count, unique);
-    } else if (currentMode === 'dec') {
-        results = generateDecimals(count, unique);
-    } else if (currentMode === 'range') {
-        results = generateRangeIntegers(count, unique);
-    }
-    
-    // Save current results
-    currentResults = results.map(r => r.toString());
-    
-    // Format results
-    const formatted = formatResults(currentResults, format);
-    
-    // Display results
-    const display = document.getElementById('result-display');
-    display.style.fontSize = getOptimalFontSize(results, count);
-    display.innerText = formatted;
-    
-    // Save to history
-    addToHistory(results);
-    
-    // Show toast
-    showToast(`Generated ${count} random ${getModeName(currentMode)}${count > 1 ? 's' : ''}`);
-}
-
-function generateBigIntegers(count, unique) {
-    const digits = parseInt(document.getElementById('digits').value) || 6;
-    const min = 10n ** BigInt(digits - 1);
-    const max = (10n ** BigInt(digits)) - 1n;
-    
-    return generateRandomBigInts(min, max, count, unique);
-}
-
-function generateRangeIntegers(count, unique) {
-    const min = parseBigInt(document.getElementById('min').value) || 0n;
-    const max = parseBigInt(document.getElementById('max').value) || 100n;
-    
-    const actualMin = min < max ? min : max;
-    const actualMax = min < max ? max : min;
-    
-    return generateRandomBigInts(actualMin, actualMax, count, unique);
-}
-
-function generateRandomBigInts(min, max, count, unique) {
-    const range = max - min + 1n;
-    
-    // Check if range too small
-    if (unique && range < BigInt(count)) {
-        showToast(`Warning: Range too small, cannot generate ${count} unique numbers, will generate ${range} instead`);
-        count = Number(range);
-    }
-    
-    const results = [];
-    const used = new Set();
-    
-    // If range not extremely large, use pre-generation method
-    if (!unique || range < 1000000n) {
-        while (results.length < count) {
-            // Generate cryptographically secure random big integer
-            const randomBuffer = new Uint8Array(Math.ceil(Number(range.toString(2).length) / 8));
-            window.crypto.getRandomValues(randomBuffer);
-            
-            // Convert to BigInt
-            let randomBigInt = 0n;
-            for (let i = 0; i < randomBuffer.length; i++) {
-                randomBigInt = (randomBigInt << 8n) | BigInt(randomBuffer[i]);
-            }
-            
-            // Map to range
-            const randomInRange = min + (randomBigInt % range);
-            const randomStr = randomInRange.toString();
-            
-            if (!unique || !used.has(randomStr)) {
-                results.push(randomInRange);
-                used.add(randomStr);
-                
-                // Prevent infinite loop
-                if (unique && used.size >= 10000 && results.length < count) {
-                    showToast('Warning: Reached unique generation limit');
-                    break;
-                }
-            }
-        }
-    } else {
-        // For extremely large ranges, use simplified generation method
-        for (let i = 0; i < count; i++) {
-            const randomBuffer = new Uint8Array(8);
-            window.crypto.getRandomValues(randomBuffer);
-            
-            let randomBigInt = 0n;
-            for (let i = 0; i < randomBuffer.length; i++) {
-                randomBigInt = (randomBigInt << 8n) | BigInt(randomBuffer[i]);
-            }
-            
-            const randomInRange = min + (randomBigInt % range);
-            results.push(randomInRange);
-        }
-    }
-    
-    return results;
-}
-
-function generateDecimals(count, unique) {
-    const digits = parseInt(document.getElementById('digits').value) || 6;
-    const precision = parseInt(document.getElementById('precision').value) || 2;
-    
-    const min = Math.pow(10, digits - 1);
-    const max = Math.pow(10, digits) - 1;
-    const range = max - min;
-    
-    let results = [];
-    let used = new Set();
-    
-    while (results.length < count) {
-        const randomVal = (Math.random() * range) + min;
-        const roundedVal = parseFloat(randomVal.toFixed(precision));
-        
-        if (!unique || !used.has(roundedVal)) {
-            results.push(roundedVal);
-            used.add(roundedVal);
-        }
-        
-        // Prevent infinite loop
-        if (unique && used.size >= 1000 && results.length < count) {
-            showToast('Warning: Generated many unique numbers, may have duplicate risk');
-            break;
-        }
-    }
-    
-    return results;
-}
-
-function formatResults(results, format) {
-    const separator = {
-        'comma': ', ',
-        'newline': '\n',
-        'space': ' '
-    }[format];
-    
-    return results.map(num => num.toString()).join(separator);
-}
-
-function getOptimalFontSize(results, count) {
-    if (count === 1) {
-        const strLen = results[0].toString().length;
-        if (strLen > 50) return '1rem';
-        if (strLen > 30) return '1.2rem';
-        if (strLen > 20) return '1.4rem';
-        return '1.8rem';
-    } else if (count > 10) {
-        return '0.9rem';
-    } else if (count > 5) {
-        return '1rem';
-    }
-    return '1.2rem';
-}
-
-function formatLargeNumbers() {
-    if (currentResults.length === 0) {
-        showToast("No content to format");
-        return;
-    }
-    
-    const format = document.querySelector('input[name="format"]:checked').value;
-    const formattedResults = currentResults.map(num => {
-        // Add thousand separators to large numbers
-        if (/^\d+$/.test(num) && num.length > 3) {
-            return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-        return num;
+    buffers.forEach((buf, i) => {
+        const canvas = canvases[i];
+        const entryOffset = headerSize + (i * 16);
+        icoHeader.setUint8(entryOffset + 0, canvas.width >= 256 ? 0 : canvas.width);
+        icoHeader.setUint8(entryOffset + 1, canvas.height >= 256 ? 0 : canvas.height);
+        icoHeader.setUint8(entryOffset + 2, 0); 
+        icoHeader.setUint8(entryOffset + 3, 0); 
+        icoHeader.setUint16(entryOffset + 4, 1, true); 
+        icoHeader.setUint16(entryOffset + 6, 32, true); 
+        icoHeader.setUint32(entryOffset + 8, buf.byteLength, true); 
+        icoHeader.setUint32(entryOffset + 12, currentOffset, true); 
+        currentOffset += buf.byteLength;
     });
-    
-    const display = document.getElementById('result-display');
-    display.innerText = formattedResults.join({
-        'comma': ', ',
-        'newline': '\n',
-        'space': ' '
-    }[format]);
-    
-    showToast("Numbers formatted (thousand separators)");
+    return new Blob([icoHeader.buffer, ...buffers], { type: 'image/x-icon' });
 }
 
-function copyResult() {
-    const text = document.getElementById('result-display').innerText;
-    if (text === "Ready") {
-        showToast("No content to copy");
-        return;
-    }
-    
-    navigator.clipboard.writeText(text).then(() => {
-        showToast("Copied to clipboard");
-    });
-}
+const imageInput = document.getElementById('imageInput');
+const dropZone = document.getElementById('drop-zone');
+const editorContainer = document.getElementById('editor-container');
+const cropperImage = document.getElementById('cropperImage');
+const generateBtn = document.getElementById('generateBtn');
+const downloadZipBtn = document.getElementById('downloadZipBtn');
+const downloadArea = document.getElementById('download-area');
 
-function exportResults() {
-    const text = document.getElementById('result-display').innerText;
-    if (text === "Ready") {
-        showToast("No content to export");
-        return;
-    }
-    
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `random_numbers_${new Date().getTime()}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    showToast("Exported as text file");
-}
+let cropper = null;
+let generatedBlobs = {};
 
-function getModeName(mode) {
-    const names = {
-        'int': 'integer',
-        'dec': 'decimal',
-        'range': 'integer'
+const configs = [
+    { name: 'favicon-16x16.png', size: 16, previews: ['prev-search', 'prev-tab', 'prev-ico-16'], inIco: true },
+    { name: 'favicon-32x32.png', size: 32, previews: ['prev-ico-32'], inIco: true },
+    { name: 'favicon-48x48.png', size: 48, previews: ['prev-ico-48'], inIco: true },
+    { name: 'favicon-96x96.png', size: 96 },
+    { name: 'apple-touch-icon.png', size: 180, previews: ['prev-ios'] },
+    { name: 'android-chrome-192x192.png', size: 192, previews: ['prev-android'] },
+    { name: 'android-chrome-512x512.png', size: 512 }
+];
+
+dropZone.onclick = () => imageInput.click();
+
+const handleFile = (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        cropperImage.src = e.target.result;
+        dropZone.classList.add('hidden');
+        editorContainer.classList.remove('hidden');
+        if (cropper) cropper.destroy();
+        cropper = new Cropper(cropperImage, { 
+            aspectRatio: 1, 
+            viewMode: 1,
+            autoCropArea: 1,
+            background: false
+        });
     };
-    return names[mode] || 'number';
-}
+    reader.readAsDataURL(file);
+};
 
-function addToHistory(results) {
-    const timestamp = new Date().toLocaleString();
-    const modeName = getModeName(currentMode);
-    
-    history.unshift({
-        results: results.map(r => r.toString()),
-        mode: modeName,
-        count: results.length,
-        timestamp: timestamp,
-        formatted: results.map(r => r.toString()).join(', ')
+imageInput.onchange = (e) => handleFile(e.target.files[0]);
+dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500'); };
+dropZone.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
+
+generateBtn.onclick = async () => {
+    if (!cropper) return;
+    generateBtn.disabled = true;
+    generateBtn.innerHTML = '<div class="spinner"></div>Processing...';
+
+    const sourceCanvas = cropper.getCroppedCanvas({ 
+        width: 512, 
+        height: 512, 
+        imageSmoothingEnabled: true, 
+        imageSmoothingQuality: 'high' 
     });
     
-    // Keep only recent 10 records
-    if (history.length > 10) {
-        history = history.slice(0, 10);
-    }
-    
-    localStorage.setItem('randomHistory', JSON.stringify(history));
-    renderHistory();
-}
+    const icoCanvases = [];
 
-function renderHistory() {
-    const historyList = document.getElementById('history-list');
-    historyList.innerHTML = '';
-    
-    if (history.length === 0) {
-        historyList.innerHTML = '<div style="color: var(--text-secondary); text-align: center; padding: 20px;">No history records yet</div>';
-        return;
-    }
-    
-    history.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'history-item';
+    for (const conf of configs) {
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = conf.size;
+        const ctx = canvas.getContext('2d');
         
-        // Truncate too long results
-        const displayText = item.formatted.length > 30 ? 
-            item.formatted.substring(0, 30) + '...' : 
-            item.formatted;
-            
-        div.innerHTML = `
-            <div style="flex: 1; overflow: hidden;">
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">${item.timestamp}</div>
-                <div style="margin-top: 5px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    ${displayText}
-                </div>
-                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 3px;">
-                    ${item.mode} × ${item.count}
-                </div>
-            </div>
-            <div class="history-actions">
-                <button class="action-btn" onclick="useHistory(${index})" style="padding: 5px 8px; font-size: 0.8rem;">
-                    Use
-                </button>
-                <button class="action-btn" onclick="deleteHistory(${index})" style="padding: 5px 8px; font-size: 0.8rem;">
-                    Delete
-                </button>
-            </div>
-        `;
-        historyList.appendChild(div);
-    });
-}
+        // Set white background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, conf.size, conf.size);
+        
+        // High quality drawing
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        
+        // Draw image centered, ensuring no stretching
+        const sourceSize = Math.min(sourceCanvas.width, sourceCanvas.height);
+        ctx.drawImage(
+            sourceCanvas,
+            0, 0, sourceSize, sourceSize,  // Source image area
+            0, 0, conf.size, conf.size      // Destination area
+        );
+        
+        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+        generatedBlobs[conf.name] = blob;
+        if (conf.inIco) icoCanvases.push(canvas);
 
-function useHistory(index) {
-    if (index >= 0 && index < history.length) {
-        const item = history[index];
-        currentResults = item.results;
-        const display = document.getElementById('result-display');
-        display.innerText = item.formatted;
-        display.style.fontSize = getOptimalFontSize(item.results, item.count);
-        showToast(`Loaded history record (${item.mode} × ${item.count})`);
+        if (conf.previews) {
+            const url = URL.createObjectURL(blob);
+            conf.previews.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { 
+                    el.src = url; 
+                    el.classList.remove('hidden'); 
+                    
+                    // Add background color for ICO previews
+                    if (id.includes('prev-ico')) {
+                        el.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        el.style.borderRadius = '4px';
+                        el.style.padding = '2px';
+                    }
+                }
+            });
+        }
     }
-}
 
-function deleteHistory(index) {
-    if (index >= 0 && index < history.length) {
-        history.splice(index, 1);
-        localStorage.setItem('randomHistory', JSON.stringify(history));
-        renderHistory();
-        showToast("History record deleted");
-    }
-}
-
-function clearHistory() {
-    if (confirm("Are you sure you want to clear all history records?")) {
-        history = [];
-        localStorage.setItem('randomHistory', JSON.stringify(history));
-        renderHistory();
-        showToast("History cleared");
-    }
-}
-
-function toggleHistory() {
-    const historySection = document.getElementById('history-section');
-    const btn = document.querySelector('.sec-btn');
+    generatedBlobs['favicon.ico'] = await encodeICO(icoCanvases);
     
-    if (historySection.style.display === 'none' || historySection.style.display === '') {
-        historySection.style.display = 'block';
-        btn.innerHTML = `
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
-            Hide History
-        `;
-    } else {
-        historySection.style.display = 'none';
-        btn.innerHTML = `
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-            History
-        `;
-    }
-}
+    // Hide placeholders
+    document.getElementById('ios-placeholder').classList.add('hidden');
+    document.getElementById('android-placeholder').classList.add('hidden');
+    
+    // Show download area
+    downloadArea.classList.remove('hidden');
+    generateBtn.disabled = false;
+    generateBtn.innerText = 'Regenerate Icons';
+};
 
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.innerText = message;
-    toast.classList.add('show');
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2000);
-}
+downloadZipBtn.onclick = async () => {
+    const zip = new JSZip();
+    const icons = zip.folder("icons");
+    for (const name in generatedBlobs) icons.file(name, generatedBlobs[name]);
+
+    const manifest = {
+        name: "Your App",
+        short_name: "App",
+        icons: [
+            { src: "icons/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+            { src: "icons/android-chrome-512x512.png", sizes: "512x512", type: "image/png" }
+        ],
+        display: "standalone"
+    };
+
+    zip.file("site.webmanifest", JSON.stringify(manifest, null, 2));
+    zip.file("readme.txt", "Upload the 'icons' folder to your website's root directory and add relevant links to your HTML's <head> section.");
+
+    const content = await zip.generateAsync({type:"blob"});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(content);
+    link.download = `favicon_pack_${Date.now()}.zip`;
+    link.click();
+};

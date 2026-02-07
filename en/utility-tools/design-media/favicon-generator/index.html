@@ -1,244 +1,346 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favicon Studio Pro - 浏览器原生 ICO 转换</title>
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Primary meta description and keywords -->
+    <meta name="description" content="Favicon Studio Pro - Professional online Favicon generator with browser-native ICO conversion. Fully local processing, generates multi-resolution ICO, Apple Touch Icon, Android Chrome icons, and complete PWA icon kits.">
+    <meta name="keywords" content="Favicon generator, ICO converter, website icon generator, browser icon, PWA icon, Apple Touch Icon, Android Chrome icon, website icon maker, online Favicon tool, icon generation tool">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Favicon Studio Pro - Professional Online Favicon Generator | ICO Icon Maker | StarryRing">
+    <meta property="og:description" content="Free online Favicon generation tool with browser-native ICO conversion. Fully local processing, generates multi-resolution ICO, Apple Touch Icon, Android Chrome icons, and complete PWA icon kits.">
+    <meta property="og:image" content="https://starryring.com/favicon-generator-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Favicon Studio Pro Interface Screenshot - Professional Online Favicon Generation Tool">
+    <meta property="og:url" content="https://starryring.com/en/utility-tools/design-media/favicon-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Favicon Studio Pro - Online Favicon Generator Tool">
+    <meta name="twitter:description" content="Free online Favicon generation tool with browser-native ICO conversion. Fully local processing, generates multi-resolution ICO, Apple Touch Icon, Android Chrome icons">
+    <meta name="twitter:image" content="https://starryring.com/favicon-generator-preview.png">
+    <meta name="twitter:site" content="@StarryRing">
+    
+    <!-- Internationalization links -->
+    <link rel="canonical" href="https://starryring.com/en/utility-tools/design-media/favicon-generator/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/favicon-generator/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/favicon-generator/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/design-media/favicon-generator/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/favicon-generator/" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/static/js/utility-tools/design-media/favicon-generator/script-en.js" as="script">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" as="script">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- External libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     
-    <style>
-        /* 手机框架基础样式 */
-        .phone-mockup { 
-            width: 260px; 
-            height: 530px; 
-            border: 10px solid #1a1a1a; 
-            border-radius: 45px; 
-            position: relative; 
-            background-size: cover; 
-            background-position: center; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); 
-            overflow: hidden; 
-            flex-shrink: 0;
-            background-color: #000;
-        }
-
-        /* 顶部传感器区域 */
-        .dynamic-island { width: 80px; height: 25px; background: #000; border-radius: 20px; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); z-index: 20; }
-        .punch-hole { width: 10px; height: 10px; background: #111; border-radius: 50%; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 20; }
-
-        /* 状态栏模拟 */
-        .status-bar { 
-            position: absolute; 
-            top: 12px; 
-            left: 0; 
-            right: 0; 
-            padding: 0 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-size: 10px; 
-            color: white; 
-            font-weight: 600; 
-            z-index: 15;
-        }
-
-        /* 图标网格：增加顶部 padding 避开传感器和时间 */
-        .app-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 20px 14px; 
-            padding: 85px 18px 20px; 
-            width: 100%; 
-        }
-
-        .app-item { display: flex; flex-direction: column; align-items: center; }
-        
-        /* 图标占位符 */
-        .app-icon-placeholder { 
-            width: 46px; 
-            height: 46px; 
-            background: rgba(255,255,255,0.2); 
-            backdrop-filter: blur(10px); 
-            margin-bottom: 4px; 
-            flex-shrink: 0; 
-        }
-        
-        /* 修复预览图样式：使用 contain 而不是 cover */
-        .preview-img { 
-            width: 46px !important;
-            height: 46px !important;
-            aspect-ratio: 1 / 1 !important; 
-            object-fit: contain !important; 
-            flex-shrink: 0 !important; 
-        }
-        
-        /* 修复：为图标添加背景色，确保在透明图标时也能看到效果 */
-        /* 统一使用圆角矩形图标 */
-        .app-icon {
-            border-radius: 22.5%;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* 底部 Dock 栏模拟 */
-        .ios-dock {
-            position: absolute;
-            bottom: 15px;
-            left: 10px;
-            right: 10px;
-            height: 80px;
-            background: rgba(255,255,255,0.25);
-            backdrop-filter: blur(15px);
-            border-radius: 30px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 10px;
-        }
-        
-        .ios-home-indicator {
-            position: absolute;
-            bottom: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 2px;
-        }
-
-        .app-label { 
-            color: white; 
-            font-size: 10px; 
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5); 
-            margin-top: 4px; 
-            font-weight: 400; 
-        }
-        
-        .bg-ios { 
-            background-image: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); 
-        }
-        
-        .bg-android { 
-            background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400'); 
-        }
-        
-        .spinner {
-            width: 24px; 
-            height: 24px; 
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%; 
-            border-top-color: #fff; 
-            animation: spin 1s ease-in-out infinite; 
-            margin-right: 8px;
-        }
-        
-        @keyframes spin { 
-            to { transform: rotate(360deg); } 
-        }
-        
-        /* 修复：为搜索预览和标签页预览图标增加尺寸 */
-        #prev-search, #prev-tab {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            padding: 2px;
-            /* 增加尺寸以便更清晰可见 */
-            width: 24px !important;
-            height: 24px !important;
-            object-fit: contain !important;
-        }
-        
-        /* 修复：为搜索预览图标容器增加尺寸 */
-        .search-icon-container {
-            width: 30px !important;
-            height: 30px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-        }
-        
-        /* 修复：为标签页预览图标容器调整布局 */
-        .tab-preview-container {
-            display: flex !important;
-            align-items: center !important;
-        }
-        
-        /* 为 ICO 预览添加背景色和圆角 */
-        #prev-ico-16, #prev-ico-32, #prev-ico-48 {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            padding: 2px;
-            object-fit: contain !important;
-        }
-        
-        /* 修复：增加 ICO 预览图标尺寸，使其更清晰 */
-        #prev-ico-16 {
-            width: 32px !important;
-            height: 32px !important;
-        }
-        
-        #prev-ico-32 {
-            width: 48px !important;
-            height: 48px !important;
-        }
-        
-        #prev-ico-48 {
-            width: 64px !important;
-            height: 64px !important;
-        }
-    </style>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/design-media/favicon-generator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "Favicon Studio Pro - Favicon Generator",
+                "applicationCategory": "DesignApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS"],
+                "description": "Free online Favicon generation tool with browser-native ICO conversion. Fully local processing, generates multi-resolution ICO, Apple Touch Icon, Android Chrome icons, and complete PWA icon kits.",
+                "url": "https://starryring.com/en/utility-tools/design-media/favicon-generator/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/favicon-generator-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "Favicon Studio Pro Interface"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/favicon-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "Favicon Generation Interface",
+                        "description": "Showing image upload, cropping, and preview features"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/favicon-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "Device Preview Interface",
+                        "description": "Showing icon preview effects on iOS, Android, and web browsers"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "Fully local processing (no server upload)",
+                    "Browser-native ICO generation (16×16, 32×32, 48×48)",
+                    "Apple Touch Icon generation (180×180)",
+                    "Android Chrome icon generation (192×192, 512×512)",
+                    "Web Manifest file auto-generation",
+                    "Real-time device preview (iOS, Android, browsers)",
+                    "Image cropping and editing tools",
+                    "Bulk download ZIP package (complete icon kit)"
+                ],
+                "datePublished": "2023-06-15",
+                "dateModified": "2024-01-20",
+                "softwareVersion": "1.4.0"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is a Favicon and why does my website need one?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "A Favicon (short for favorite icon) is a small icon displayed in browser tabs, bookmarks, history, and mobile device home screens. It helps users quickly identify your website and enhances brand recognition and user experience. Modern websites also need Apple Touch Icons (iOS home screen icons) and Android Chrome icons (Android PWA icons)."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What icon formats does Favicon Studio Pro support?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "This tool generates a complete PWA icon kit including: favicon.ico (with 16×16, 32×32, 48×48 multi-resolution), apple-touch-icon.png (180×180), android-chrome-192x192.png, android-chrome-512x512.png, and site.webmanifest (Web App Manifest file)."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do I use the generated icons on my website?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The downloaded ZIP package contains all necessary files and HTML code snippets. You need to: 1) Upload the icon files to your website's root directory, 2) Add the provided code to the head section of your HTML, 3) Place the site.webmanifest file in the root directory. The code generated by the tool can be copied and used directly."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Why do I need multi-resolution ICO files?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ICO files can contain multiple resolution images, and browsers will select the appropriate resolution based on the usage scenario. 16×16 is used for browser tabs, 32×32 for taskbars and favorites, and 48×48 for desktop shortcuts. A single multi-resolution ICO file is more efficient than multiple separate files."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://starryring.com/en/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Utility Tools",
+                        "item": "https://starryring.com/en/utility-tools/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Design & Media Tools",
+                        "item": "https://starryring.com/en/utility-tools/design-media/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "Favicon Generator",
+                        "item": "https://starryring.com/en/utility-tools/design-media/favicon-generator/"
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "How to Use Favicon Studio Pro to Generate Website Icons",
+                "description": "Step-by-step guide to creating a complete website icon kit using the Favicon Generator",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "text": "Upload Image: Click the upload area or drag and drop an image file (supports JPG, PNG, WebP formats)"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Crop Image: Use the cropping tool to select the icon display area (square areas work best)"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Preview Effect: View the display effect on iOS, Android, and browsers in the right preview area"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Generate Icons: Click the 'Generate Icons' button, the tool will process locally and generate all icon files"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Download Kit: Click 'Download Complete Icon Pack' to get the ZIP file containing all files and HTML code"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Deploy to Website: Upload icon files to your website's root directory, copy the provided HTML code to your website's head section"
+                    }
+                ],
+                "totalTime": "PT3M",
+                "tool": {
+                    "@type": "SoftwareApplication",
+                    "name": "Favicon Studio Pro"
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <title>Favicon Studio Pro - Professional Online Favicon Generator | ICO Icon Maker | StarryRing</title>
 </head>
 <body class="bg-slate-900 min-h-screen text-slate-200 font-sans">
-
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb Navigation" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/en/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/en/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> Utility Tools
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-icons"></i> Favicon Generator</span>
+            </li>
+        </ol>
+    </nav>
+    
+    <!-- Language Switcher (Fixed Links) -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select Language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/zh/utility-tools/design-media/favicon-generator/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/en/utility-tools/design-media/favicon-generator/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    
     <div class="max-w-7xl mx-auto px-6 py-10">
-        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-            <div>
-                <h1 class="text-2xl font-black bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent italic tracking-tighter">FAVICON STUDIO PRO</h1>
-                <p class="text-slate-400 text-sm">浏览器本地极速生成 ICO，隐私安全</p>
+        <!-- Main Title Area -->
+        <div class="header-section mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <h1 class="text-2xl font-black bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent italic tracking-tighter">FAVICON STUDIO PRO - PROFESSIONAL FAVICON GENERATOR</h1>
+                    <p class="text-slate-400 text-sm">Browser-native ICO generation | Complete PWA icon kits | Multi-device real-time preview | Privacy safe</p>
+                </div>
+                <div id="download-area" class="hidden">
+                    <button id="downloadZipBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-900/40 transition-all flex items-center scale-105">
+                        <span class="mr-2">📥</span> Download Complete Icon Pack (.zip)
+                    </button>
+                </div>
             </div>
-            <div id="download-area" class="hidden">
-                <button id="downloadZipBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-900/40 transition-all flex items-center scale-105">
-                    <span class="mr-2">📥</span> 下载全套图标包 (.zip)
-                </button>
-            </div>
-        </header>
+        </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
-            <!-- 左侧操作区 -->
+            <!-- Left Operation Area -->
             <div class="xl:col-span-4 space-y-6">
                 <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 shadow-xl">
                     <h2 class="text-lg font-bold mb-4 flex items-center text-blue-400">
-                        <span class="mr-2">📸</span> 1. 上传图片
+                        <span class="mr-2">📸</span> 1. Upload Image
                     </h2>
                     <div id="drop-zone" class="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center hover:border-blue-500 transition-colors cursor-pointer mb-4 bg-slate-900/50">
-                        <input type="file" id="imageInput" accept="image/*" class="hidden">
-                        <p class="text-sm text-slate-400">点击或拖拽原图</p>
-                        <p class="text-xs text-slate-500 mt-2">支持 JPG, PNG, WebP</p>
+                        <input type="file" id="imageInput" accept="image/*" class="hidden" aria-label="Select image file">
+                        <p class="text-sm text-slate-400">Click or drag original image</p>
+                        <p class="text-xs text-slate-500 mt-2">Supports JPG, PNG, WebP</p>
                     </div>
                     <div id="editor-container" class="hidden">
                         <div class="mb-4 overflow-hidden rounded-xl bg-slate-700 min-h-[200px]">
-                            <img id="cropperImage" src="" style="max-width: 100%;">
+                            <img id="cropperImage" src="" style="max-width: 100%;" alt="Image cropping area">
+                        </div>
+                        <div class="control-tip mb-4 text-xs text-slate-500">
+                            <i class="fas fa-lightbulb mr-1"></i> Tip: Drag the cropping box to select icon area, square areas work best
                         </div>
                         <button id="generateBtn" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold py-4 rounded-xl transition-all flex justify-center items-center">
-                            <span>开始生成</span>
+                            <span>Generate Icons</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700">
-                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">包含的文件规格</h3>
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">INCLUDED FILE SPECIFICATIONS</h3>
                     <ul class="text-sm space-y-2 text-slate-300">
-                        <li class="flex items-center text-emerald-400">✓ favicon.ico (多分辨率 16/32/48)</li>
-                        <li class="flex items-center">✓ Apple Touch Icon (180x180)</li>
+                        <li class="flex items-center text-emerald-400">✓ favicon.ico (multi-resolution 16/32/48)</li>
+                        <li class="flex items-center">✓ Apple Touch Icon (180×180)</li>
                         <li class="flex items-center">✓ Android Chrome (192/512)</li>
                         <li class="flex items-center">✓ Web Manifest (site.webmanifest)</li>
                     </ul>
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div class="control-tip text-xs text-slate-500">
+                            <i class="fas fa-info-circle mr-1"></i> Downloaded ZIP includes all files and deployment code
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 右侧预览区 -->
+            <!-- Right Preview Area -->
             <div class="xl:col-span-8">
                 <div class="bg-slate-800/50 border border-slate-700 rounded-[40px] p-8 overflow-x-auto">
                     <div class="flex flex-row gap-10 items-start justify-center min-w-[850px]">
@@ -250,20 +352,20 @@
                                     <span>9:41</span>
                                     <div class="flex gap-1 items-center">
                                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 0 100-16 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                     </div>
                                 </div>
                                 <div class="dynamic-island"></div>
                                 <div class="app-grid">
                                     <div class="app-item">
-                                        <img id="prev-ios" class="app-icon shadow-lg hidden preview-img">
+                                        <img id="prev-ios" class="app-icon shadow-lg hidden preview-img" alt="iOS App icon preview">
                                         <div id="ios-placeholder" class="app-icon-placeholder app-icon"></div>
                                         <span class="app-label">YourApp</span>
                                     </div>
-                                    <!-- 占位图标 -->
-                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">照片</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">设置</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">钱包</span></div>
+                                    <!-- Placeholder icons -->
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">Photos</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">Settings</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">Wallet</span></div>
                                 </div>
                                 <div class="ios-dock">
                                     <div class="app-icon-placeholder app-icon mb-0"></div>
@@ -287,19 +389,19 @@
                                     </div>
                                 </div>
                                 <div class="punch-hole"></div>
-                                <!-- Android 顶部大时钟 -->
+                                <!-- Android large clock -->
                                 <div class="absolute top-20 left-0 right-0 text-center text-white text-4xl font-light">10:30</div>
-                                <div class="absolute top-32 left-0 right-0 text-center text-white text-xs opacity-80">12月25日 星期三</div>
+                                <div class="absolute top-32 left-0 right-0 text-center text-white text-xs opacity-80">December 25 Wednesday</div>
 
                                 <div class="app-grid pt-[160px]">
                                     <div class="app-item">
-                                        <img id="prev-android" class="app-icon shadow-lg hidden preview-img">
+                                        <img id="prev-android" class="app-icon shadow-lg hidden preview-img" alt="Android App icon preview">
                                         <div id="android-placeholder" class="app-icon-placeholder app-icon"></div>
                                         <span class="app-label">YourApp</span>
                                     </div>
                                     <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">Chrome</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">相机</span></div>
-                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">相册</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">Camera</span></div>
+                                    <div class="app-item"><div class="app-icon-placeholder app-icon"></div><span class="app-label">Gallery</span></div>
                                 </div>
                             </div>
                             <p class="mt-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Android Preview</p>
@@ -309,25 +411,25 @@
                         <div class="space-y-6">
                             <div class="w-[300px] bg-white rounded-2xl p-4 text-slate-900 shadow-xl border-t-4 border-blue-500">
                                 <div class="flex items-center mb-2">
-                                    <!-- 修复：增加搜索图标容器尺寸 -->
+                                    <!-- Fixed: Increased search icon container size -->
                                     <div class="search-icon-container bg-slate-100 rounded flex items-center justify-center mr-2">
-                                        <img id="prev-search" class="hidden">
+                                        <img id="prev-search" class="hidden" alt="Browser search result icon preview">
                                     </div>
                                     <div class="flex flex-col">
                                         <span class="text-[10px] text-slate-500 leading-none">https://your-site.com</span>
-                                        <span class="text-[8px] text-emerald-600 leading-none mt-0.5">已核实 ✓</span>
+                                        <span class="text-[8px] text-emerald-600 leading-none mt-0.5">Verified ✓</span>
                                     </div>
                                 </div>
-                                <div class="text-blue-700 text-sm font-medium mb-1 hover:underline cursor-pointer">最佳在线图标生成器 - Favicon Studio Pro</div>
-                                <div class="text-[11px] text-slate-600 line-clamp-2">使用我们的浏览器原生工具，您可以即时裁剪并生成适用于 iOS、Android 和所有现代浏览器的 ICO 图标包。</div>
+                                <div class="text-blue-700 text-sm font-medium mb-1 hover:underline cursor-pointer">Best Online Icon Generator - Favicon Studio Pro</div>
+                                <div class="text-[11px] text-slate-600 line-clamp-2">With our browser-native tool, you can instantly crop and generate ICO icon packs for iOS, Android, and all modern browsers.</div>
                             </div>
 
                             <div class="w-[300px] bg-slate-700 rounded-xl p-4 border border-slate-600">
-                                <p class="text-[10px] text-slate-500 mb-3 uppercase font-bold tracking-tight">浏览器标签页预览</p>
+                                <p class="text-[10px] text-slate-500 mb-3 uppercase font-bold tracking-tight">Browser Tab Preview</p>
                                 <div class="bg-[#202124] rounded-t-lg p-2 flex items-center shadow-lg">
-                                    <!-- 修复：调整标签页预览容器 -->
+                                    <!-- Fixed: Adjusted tab preview container -->
                                     <div class="tab-preview-container bg-[#35363a] px-3 py-1.5 rounded-t-md text-slate-300">
-                                        <img id="prev-tab" class="mr-2 hidden">
+                                        <img id="prev-tab" class="mr-2 hidden" alt="Browser tab icon preview">
                                         <div class="w-16 h-1.5 bg-slate-500 rounded-full opacity-50"></div>
                                         <span class="ml-4 text-xs opacity-50">×</span>
                                     </div>
@@ -336,18 +438,18 @@
                             </div>
 
                             <div class="w-[300px] bg-slate-700 rounded-xl p-4 border border-slate-600">
-                                <p class="text-[10px] text-slate-500 mb-2 uppercase font-bold tracking-tight">ICO 多分辨率渲染</p>
+                                <p class="text-[10px] text-slate-500 mb-2 uppercase font-bold tracking-tight">ICO Multi-resolution Rendering</p>
                                 <div class="flex items-end gap-5 p-2 bg-slate-900/50 rounded-lg">
                                     <div class="flex flex-col items-center">
-                                        <img id="prev-ico-16" class="hidden">
+                                        <img id="prev-ico-16" class="hidden" alt="16×16 resolution icon preview">
                                         <span class="text-[8px] mt-1 opacity-40">16px</span>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <img id="prev-ico-32" class="hidden">
+                                        <img id="prev-ico-32" class="hidden" alt="32×32 resolution icon preview">
                                         <span class="text-[8px] mt-1 opacity-40">32px</span>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <img id="prev-ico-48" class="hidden">
+                                        <img id="prev-ico-48" class="hidden" alt="48×48 resolution icon preview">
                                         <span class="text-[8px] mt-1 opacity-40">48px</span>
                                     </div>
                                 </div>
@@ -359,176 +461,118 @@
         </div>
     </div>
 
-    <script>
-        // 核心 ICO 构建逻辑
-        async function encodeICO(canvases) {
-            const blobs = await Promise.all(canvases.map(c => new Promise(res => c.toBlob(res, 'image/png'))));
-            const buffers = await Promise.all(blobs.map(b => b.arrayBuffer()));
-            
-            const headerSize = 6;
-            const directorySize = 16 * canvases.length;
-            let currentOffset = headerSize + directorySize;
-            
-            const icoHeader = new DataView(new ArrayBuffer(headerSize + directorySize));
-            icoHeader.setUint16(0, 0, true);    
-            icoHeader.setUint16(2, 1, true);    
-            icoHeader.setUint16(4, canvases.length, true); 
-            
-            buffers.forEach((buf, i) => {
-                const canvas = canvases[i];
-                const entryOffset = headerSize + (i * 16);
-                icoHeader.setUint8(entryOffset + 0, canvas.width >= 256 ? 0 : canvas.width);
-                icoHeader.setUint8(entryOffset + 1, canvas.height >= 256 ? 0 : canvas.height);
-                icoHeader.setUint8(entryOffset + 2, 0); 
-                icoHeader.setUint8(entryOffset + 3, 0); 
-                icoHeader.setUint16(entryOffset + 4, 1, true); 
-                icoHeader.setUint16(entryOffset + 6, 32, true); 
-                icoHeader.setUint32(entryOffset + 8, buf.byteLength, true); 
-                icoHeader.setUint32(entryOffset + 12, currentOffset, true); 
-                currentOffset += buf.byteLength;
-            });
-            return new Blob([icoHeader.buffer, ...buffers], { type: 'image/x-icon' });
-        }
-
-        const imageInput = document.getElementById('imageInput');
-        const dropZone = document.getElementById('drop-zone');
-        const editorContainer = document.getElementById('editor-container');
-        const cropperImage = document.getElementById('cropperImage');
-        const generateBtn = document.getElementById('generateBtn');
-        const downloadZipBtn = document.getElementById('downloadZipBtn');
-        const downloadArea = document.getElementById('download-area');
-
-        let cropper = null;
-        let generatedBlobs = {};
-
-        const configs = [
-            { name: 'favicon-16x16.png', size: 16, previews: ['prev-search', 'prev-tab', 'prev-ico-16'], inIco: true },
-            { name: 'favicon-32x32.png', size: 32, previews: ['prev-ico-32'], inIco: true },
-            { name: 'favicon-48x48.png', size: 48, previews: ['prev-ico-48'], inIco: true },
-            { name: 'favicon-96x96.png', size: 96 },
-            { name: 'apple-touch-icon.png', size: 180, previews: ['prev-ios'] },
-            { name: 'android-chrome-192x192.png', size: 192, previews: ['prev-android'] },
-            { name: 'android-chrome-512x512.png', size: 512 }
-        ];
-
-        dropZone.onclick = () => imageInput.click();
-        
-        const handleFile = (file) => {
-            if (!file || !file.type.startsWith('image/')) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                cropperImage.src = e.target.result;
-                dropZone.classList.add('hidden');
-                editorContainer.classList.remove('hidden');
-                if (cropper) cropper.destroy();
-                cropper = new Cropper(cropperImage, { 
-                    aspectRatio: 1, 
-                    viewMode: 1,
-                    autoCropArea: 1,
-                    background: false
-                });
-            };
-            reader.readAsDataURL(file);
-        };
-
-        imageInput.onchange = (e) => handleFile(e.target.files[0]);
-        dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500'); };
-        dropZone.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
-
-        generateBtn.onclick = async () => {
-            if (!cropper) return;
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = '<div class="spinner"></div>正在处理...';
-
-            const sourceCanvas = cropper.getCroppedCanvas({ 
-                width: 512, 
-                height: 512, 
-                imageSmoothingEnabled: true, 
-                imageSmoothingQuality: 'high' 
-            });
-            
-            const icoCanvases = [];
-
-            for (const conf of configs) {
-                const canvas = document.createElement('canvas');
-                canvas.width = canvas.height = conf.size;
-                const ctx = canvas.getContext('2d');
+    
+    <!-- Features and FAQ Section -->
+    <div class="instructions-section bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="instructions-content">
+                <h2 class="text-2xl font-bold text-white mb-4">Favicon Studio Pro Features</h2>
+                <p class="text-slate-300 mb-8">📖 Introduction: Professional online Favicon generation tool supporting complete PWA icon kit generation. Perfect integration of <strong>Favicon generator</strong>, <strong>ICO converter</strong>, <strong>website icon maker</strong>, <strong>PWA icon generator</strong> and more.</p>
+                <div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-lock mr-2"></i> 100% Privacy Protection</h3>
+                        <p class="text-slate-400 mb-3">All icon processing is done locally in your browser, no upload to any server. Your images stay on your device, ensuring maximum privacy security.</p>
+                        <div class="tip bg-slate-900/50 p-3 rounded-lg">
+                            <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> Privacy guarantee: No worries about image leaks, suitable for commercial logos and sensitive images</span>
+                        </div>
+                    </div>
+                    <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-icons mr-2"></i> Complete PWA Kit</h3>
+                        <p class="text-slate-400 mb-3">Generate complete Progressive Web App icon kits including ICO, Apple Touch Icon, Android Chrome icons and Web Manifest files, one-click deployment.</p>
+                        <div class="tip bg-slate-900/50 p-3 rounded-lg">
+                            <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> Multi-resolution: ICO files include 16×16, 32×32, 48×48 three resolutions</span>
+                        </div>
+                    </div>
+                    <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-mobile-alt mr-2"></i> Real-time Device Preview</h3>
+                        <p class="text-slate-400 mb-3">Provides real-time preview effects on iOS, Android, and web browsers, intuitively viewing display effects across different devices and scenarios.</p>
+                        <div class="tip bg-slate-900/50 p-3 rounded-lg">
+                            <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> Multi-scenario preview: Tabs, bookmarks, home screen, search results, etc.</span>
+                        </div>
+                    </div>
+                    <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-crop-alt mr-2"></i> Smart Cropping Tool</h3>
+                        <p class="text-slate-400 mb-3">Built-in image cropping tool with drag and zoom support, ensuring accurate icon area selection for high-quality square icons.</p>
+                        <div class="tip bg-slate-900/50 p-3 rounded-lg">
+                            <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> Square optimization: Favicons should be square, tool automatically optimizes cropping area</span>
+                        </div>
+                    </div>
+                    <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-file-archive mr-2"></i> One-click Packaged Download</h3>
+                        <p class="text-slate-400 mb-3">All generated icon files and HTML code automatically packaged as ZIP file with deployment instructions for easy integration into website projects.</p>
+                        <div class="tip bg-slate-900/50 p-3 rounded-lg">
+                            <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> Deployment code: Includes complete HTML code snippets, ready to copy and use</span>
+                        </div>
+                    </div>
+                    <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-bolt mr-2"></i> Browser-native Generation</h3>
+                        <p class="text-slate-400 mb-3">Uses browser-native Canvas API to generate ICO files, no server-side processing required, fast speed, supports latest browser features.</p>
+                        <div class="tip bg-slate-900/50 p-3 rounded-lg">
+                            <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> Technical support: Based on HTML5 Canvas and JSZip technology, pure frontend implementation</span>
+                        </div>
+                    </div>
+                </div>
                 
-                // 设置白色背景
-                ctx.fillStyle = 'white';
-                ctx.fillRect(0, 0, conf.size, conf.size);
+                <!-- Icon Technical Specifications Section -->
+                <div class="technical-section bg-slate-800 p-8 rounded-2xl border border-slate-700 mb-12">
+                    <h2 class="text-xl font-bold text-white mb-4">Favicon Technical Specifications</h2>
+                    <p class="text-slate-300 mb-6">Icons generated by this tool follow the latest web standards and best practices:</p>
+                    <ul class="tech-specs grid md:grid-cols-2 gap-4 mb-6">
+                        <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>ICO format: Includes 16×16, 32×32, 48×48 three resolutions</span></li>
+                        <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>Apple Touch Icon: 180×180 pixels, supports iOS home screen</span></li>
+                        <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>Android Chrome icons: 192×192 and 512×512 pixels</span></li>
+                        <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>Web Manifest: W3C standard compliant PWA manifest file</span></li>
+                        <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>HTML code: Follows semantic HTML5 standards</span></li>
+                        <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>Browser compatibility: Chrome, Firefox, Safari, Edge and other modern browsers</span></li>
+                    </ul>
+                    <p class="tech-note text-sm text-slate-500 bg-slate-900/50 p-4 rounded-lg"><strong class="text-slate-400">Technical note:</strong> This tool uses HTML5 Canvas API to generate images and JSZip library for file packaging. Generated ICO files are standard Windows icon format, supported by all major browsers. Apple Touch Icon follows Apple's Human Interface Guidelines, Android Chrome icons follow Google's PWA standards.</p>
+                </div>
                 
-                // 高质量绘制
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = 'high';
-                
-                // 居中绘制图像，确保不会被拉伸
-                const sourceSize = Math.min(sourceCanvas.width, sourceCanvas.height);
-                ctx.drawImage(
-                    sourceCanvas,
-                    0, 0, sourceSize, sourceSize,  // 源图像区域
-                    0, 0, conf.size, conf.size      // 目标区域
-                );
-                
-                const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
-                generatedBlobs[conf.name] = blob;
-                if (conf.inIco) icoCanvases.push(canvas);
+                <div class="faq-section">
+                    <h2 class="text-2xl font-bold text-white mb-8">Frequently Asked Questions (FAQ)</h2>
+                    <div class="space-y-6">
+                        <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                            <h3 class="text-lg font-bold text-white mb-3">What is a PWA icon kit and why do I need it?</h3>
+                            <p class="text-slate-300">A PWA (Progressive Web App) icon kit is a set of icon files needed to make a website look like a native app on mobile devices. It includes: favicon.ico (browser tab icon), apple-touch-icon.png (iOS home screen icon), android-chrome-192x192.png and android-chrome-512x512.png (Android home screen icons), and site.webmanifest (app manifest file). Modern websites need complete PWA icon kits to provide the best user experience.</p>
+                        </div>
+                        <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                            <h3 class="text-lg font-bold text-white mb-3">Why do generated ICO files contain multiple resolutions?</h3>
+                            <p class="text-slate-300">The ICO file format supports embedding multiple resolution images in a single file, known as "multi-resolution ICO". Browsers and operating systems automatically select the appropriate resolution based on usage scenario: 16×16 pixels for browser tabs, 32×32 pixels for taskbars and favorites, 48×48 pixels for desktop shortcuts. A single multi-resolution ICO file is more efficient than multiple separate files, reducing HTTP requests.</p>
+                        </div>
+                        <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                            <h3 class="text-lg font-bold text-white mb-3">How do I deploy generated icons to my website?</h3>
+                            <p class="text-slate-300">The downloaded ZIP package includes deployment instructions and code snippets. Basic steps: 1) Upload all icon files (.ico, .png) to your website's root directory, 2) Also upload site.webmanifest file to root directory, 3) Add the provided code snippet to the &lt;head&gt; section of your HTML file. In most cases, you just need to copy and paste the code. The tool-generated code already includes all necessary links and meta tags.</p>
+                        </div>
+                        <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                            <h3 class="text-lg font-bold text-white mb-3">Why isn't my website showing custom icons on iOS home screen?</h3>
+                            <p class="text-slate-300">If your website shows a webpage screenshot instead of custom icon on iOS home screen, possible reasons: 1) Apple Touch Icon file not correctly placed in root directory, 2) apple-touch-icon link in HTML code incorrect, 3) iOS Safari cached old icon. Ensure all files are properly deployed and try clearing Safari's website data. This tool's generated code already includes all necessary apple-touch-icon links.</p>
+                        </div>
+                        <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                            <h3 class="text-lg font-bold text-white mb-3">What are best practices for Favicon design?</h3>
+                            <p class="text-slate-300">When designing Favicons: 1) Use simple graphics or letters, avoid complex details (size is small), 2) Use high-contrast colors for readability, 3) Maintain square design (circular designs display on square background), 4) Avoid thin lines (may not be visible at small sizes), 5) Test display effect on different background colors. This tool's real-time preview helps evaluate design effect.</p>
+                        </div>
+                        <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                            <h3 class="text-lg font-bold text-white mb-3">Is this tool free?</h3>
+                            <p class="text-slate-300">Yes, Favicon Studio Pro is completely free online tool, no registration or login required. We're committed to providing high-quality design tools for developers and designers to help you quickly create professional website icon kits. All processing is done locally in your browser, your images are never uploaded to any server.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                if (conf.previews) {
-                    const url = URL.createObjectURL(blob);
-                    conf.previews.forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el) { 
-                            el.src = url; 
-                            el.classList.remove('hidden'); 
-                            
-                            // 为ICO预览添加背景色
-                            if (id.includes('prev-ico')) {
-                                el.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                                el.style.borderRadius = '4px';
-                                el.style.padding = '2px';
-                            }
-                        }
-                    });
-                }
-            }
+    <!-- Page Footer -->
+    <footer class="page-footer bg-slate-950 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <div class="footer-content text-center">
+                <p class="text-slate-400 mb-2">© 2024 StarryRing - Favicon Studio Pro Favicon Generator</p>
+                <p class="text-slate-500 text-sm">Page last updated: January 2026 | Version: v1.4.0 | Technology: HTML5 Canvas + JSZip + Cropper.js</p>
+            </div>
+        </div>
+    </footer>
 
-            generatedBlobs['favicon.ico'] = await encodeICO(icoCanvases);
-            
-            // 隐藏占位符
-            document.getElementById('ios-placeholder').classList.add('hidden');
-            document.getElementById('android-placeholder').classList.add('hidden');
-            
-            // 显示下载区域
-            downloadArea.classList.remove('hidden');
-            generateBtn.disabled = false;
-            generateBtn.innerText = '重新生成';
-        };
-
-        downloadZipBtn.onclick = async () => {
-            const zip = new JSZip();
-            const icons = zip.folder("icons");
-            for (const name in generatedBlobs) icons.file(name, generatedBlobs[name]);
-
-            const manifest = {
-                name: "Your App",
-                short_name: "App",
-                icons: [
-                    { src: "icons/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
-                    { src: "icons/android-chrome-512x512.png", sizes: "512x512", type: "image/png" }
-                ],
-                display: "standalone"
-            };
-
-            zip.file("site.webmanifest", JSON.stringify(manifest, null, 2));
-            zip.file("readme.txt", "将 icons 文件夹上传到网站根目录，并在 HTML 的 <head> 中添加相关链接。");
-
-            const content = await zip.generateAsync({type:"blob"});
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(content);
-            link.download = `favicon_pack_${Date.now()}.zip`;
-            link.click();
-        };
-    </script>
+    <!-- Local scripts -->
+    <script src="/static/js/utility-tools/design-media/favicon-generator/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
