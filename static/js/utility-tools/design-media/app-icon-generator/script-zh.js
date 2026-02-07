@@ -1,382 +1,222 @@
-// script.js
-// 核心DOM元素
-const colorPicker = document.getElementById('colorPicker');
-const hexInput = document.getElementById('hexInput');
-const rgbInput = document.getElementById('rgbInput');
-const hslInput = document.getElementById('hslInput');
-const colorDisplay = document.getElementById('colorDisplay');
-const currentHex = document.getElementById('currentHex');
-const paletteContainer = document.getElementById('palettes');
-const notification = document.getElementById('notification');
+// 全局变量
+let cropper = null;
+const fileInput = document.getElementById('file-input');
+const uploadArea = document.getElementById('upload-area');
+const editorArea = document.getElementById('editor-area');
+const imageToCrop = document.getElementById('image-to-crop');
+const previewImgs = document.querySelectorAll('.preview-img');
+const generateBtn = document.getElementById('generate-btn');
+const progressIndicator = document.getElementById('progress-indicator');
 
-// 工具元素
-const contrastWhite = document.getElementById('contrastWhite');
-const contrastBlack = document.getElementById('contrastBlack');
-const contrastStatus = document.getElementById('contrastStatus');
-const luminanceValue = document.getElementById('luminanceValue');
-const perceivedLightness = document.getElementById('perceivedLightness');
-const suggestedUse = document.getElementById('suggestedUse');
-const hueValue = document.getElementById('hueValue');
-const saturationValue = document.getElementById('saturationValue');
-const lightnessValue = document.getElementById('lightnessValue');
+// 图标配置
+const CONFIG = {
+    ios: [
+        { size: 1024, name: 'AppIcon-1024.png' },
+        { size: 180, name: 'AppIcon-60x60@3x.png' },
+        { size: 120, name: 'AppIcon-60x60@2x.png' },
+        { size: 167, name: 'AppIcon-83.5x83.5@2x.png' },
+        { size: 152, name: 'AppIcon-76x76@2x.png' },
+        { size: 87, name: 'AppIcon-29x29@3x.png' },
+        { size: 40, name: 'AppIcon-20x20@2x.png' }
+    ],
+    android: [
+        { size: 512, folder: 'play-store', name: 'icon-512.png' },
+        { size: 192, folder: 'mipmap-xxxhdpi', name: 'ic_launcher.png' },
+        { size: 144, folder: 'mipmap-xxhdpi', name: 'ic_launcher.png' },
+        { size: 96, folder: 'mipmap-xhdpi', name: 'ic_launcher.png' },
+        { size: 72, folder: 'mipmap-hdpi', name: 'ic_launcher.png' },
+        { size: 48, folder: 'mipmap-mdpi', name: 'ic_launcher.png' }
+    ]
+};
 
-// --- 颜色转换核心函数 ---
-function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    if (hex.length === 3) {
-        hex = hex.split('').map(c => c + c).join('');
-    }
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    return { r, g, b };
-}
+// 点击上传区域
+uploadArea.onclick = () => fileInput.click();
 
-function rgbToHex(r, g, b) {
-    return '#' + [r, g, b].map(x => {
-        const hex = x.toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-    }).join('').toUpperCase();
-}
+// 拖拽上传功能
+uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadArea.classList.add('drag-over');
+});
 
-function rgbToHsl(r, g, b) {
-    r /= 255; g /= 255; b /= 255;
-    const max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h, s, l = (max + min) / 2;
+uploadArea.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadArea.classList.remove('drag-over');
+});
+
+uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadArea.classList.remove('drag-over');
     
-    if (max === min) {
-        h = s = 0;
-    } else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        const file = files[0];
+        if (file.type.startsWith('image/')) {
+            processImageFile(file);
+        } else {
+            showNotification('请拖入图片文件 (JPG, PNG, GIF 等)', 'error');
         }
-        h /= 6;
+    }
+});
+
+// 文件选择器事件
+fileInput.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    processImageFile(file);
+};
+
+// 处理图片文件的通用函数
+function processImageFile(file) {
+    if (file.size > 10 * 1024 * 1024) {
+        showNotification('文件过大，请选择小于10MB的图片', 'error');
+        return;
     }
     
-    return {
-        h: Math.round(h * 360),
-        s: Math.round(s * 100),
-        l: Math.round(l * 100)
-    };
-}
-
-function hslToRgb(h, s, l) {
-    h /= 360;
-    s /= 100;
-    l /= 100;
-    
-    let r, g, b;
-    
-    if (s === 0) {
-        r = g = b = l;
-    } else {
-        const hue2rgb = (p, q, t) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1/6) return p + (q - p) * 6 * t;
-            if (t < 1/2) return q;
-            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-            return p;
-        };
+    const reader = new FileReader();
+    reader.onload = event => {
+        imageToCrop.src = event.target.result;
+        uploadArea.classList.add('hidden');
+        editorArea.classList.remove('hidden');
         
-        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        const p = 2 * l - q;
-        
-        r = hue2rgb(p, q, h + 1/3);
-        g = hue2rgb(p, q, h);
-        b = hue2rgb(p, q, h - 1/3);
-    }
-    
-    return {
-        r: Math.round(r * 255),
-        g: Math.round(g * 255),
-        b: Math.round(b * 255)
-    };
-}
-
-// --- 工具函数 ---
-function calculateRelativeLuminance(r, g, b) {
-    const rs = r / 255;
-    const gs = g / 255;
-    const bs = b / 255;
-    
-    const rl = rs <= 0.03928 ? rs / 12.92 : Math.pow((rs + 0.055) / 1.055, 2.4);
-    const gl = gs <= 0.03928 ? gs / 12.92 : Math.pow((gs + 0.055) / 1.055, 2.4);
-    const bl = bs <= 0.03928 ? bs / 12.92 : Math.pow((bs + 0.055) / 1.055, 2.4);
-    
-    return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl;
-}
-
-function calculateContrastRatio(l1, l2) {
-    const lighter = Math.max(l1, l2);
-    const darker = Math.min(l1, l2);
-    return (lighter + 0.05) / (darker + 0.05);
-}
-
-// --- UI更新函数 ---
-function updateUI(hex) {
-    const rgb = hexToRgb(hex);
-    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-    
-    // 更新显示颜色
-    colorDisplay.style.backgroundColor = hex;
-    currentHex.textContent = hex.toUpperCase();
-    colorPicker.value = hex;
-    
-    // 更新输入框
-    hexInput.value = hex.toUpperCase();
-    rgbInput.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-    hslInput.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-    
-    // 更新工具信息
-    updateUtilities(rgb, hsl);
-    
-    // 生成调色板
-    generatePalettes(hsl.h, hsl.s, hsl.l);
-}
-
-function updateUtilities(rgb, hsl) {
-    // 更新颜色信息
-    hueValue.textContent = `${hsl.h}°`;
-    saturationValue.textContent = `${hsl.s}%`;
-    lightnessValue.textContent = `${hsl.l}%`;
-    
-    // 计算亮度
-    const luminance = calculateRelativeLuminance(rgb.r, rgb.g, rgb.b);
-    luminanceValue.textContent = luminance.toFixed(2);
-    
-    // 感知亮度
-    const perceived = hsl.l < 30 ? '暗' : hsl.l < 70 ? '中' : '亮';
-    perceivedLightness.textContent = perceived;
-    
-    // 建议用途
-    let use = '主色调';
-    if (hsl.s > 70 && hsl.l > 60) use = '强调色、按钮';
-    else if (hsl.s < 30) use = '背景、文字';
-    else if (hsl.l < 30) use = '深色背景、边框';
-    suggestedUse.textContent = use;
-    
-    // 对比度计算
-    const whiteLuminance = 1;
-    const blackLuminance = 0;
-    const contrastWithWhite = calculateContrastRatio(luminance, whiteLuminance);
-    const contrastWithBlack = calculateContrastRatio(blackLuminance, luminance);
-    
-    contrastWhite.textContent = contrastWithWhite.toFixed(1) + ':1';
-    contrastBlack.textContent = contrastWithBlack.toFixed(1) + ':1';
-    
-    // 对比度状态
-    let status = '';
-    let statusClass = '';
-    if (contrastWithWhite >= 4.5 && contrastWithBlack >= 4.5) {
-        status = '✅ 通过无障碍标准';
-        statusClass = 'good';
-    } else if (contrastWithWhite >= 3 || contrastWithBlack >= 3) {
-        status = '⚠️ 部分通过标准';
-        statusClass = 'fair';
-    } else {
-        status = '❌ 未通过无障碍标准';
-        statusClass = 'poor';
-    }
-    
-    contrastStatus.textContent = status;
-    contrastWhite.className = `contrast-ratio ${statusClass}`;
-    contrastBlack.className = `contrast-ratio ${statusClass}`;
-}
-
-// --- 调色板生成 ---
-function generatePalettes(h, s, l) {
-    const schemes = [
-        {
-            title: '互补色',
-            colors: [
-                { h: h, s: s, l: l },
-                { h: (h + 180) % 360, s: s, l: l }
-            ]
-        },
-        {
-            title: '近似色',
-            colors: [
-                { h: (h + 330) % 360, s: s, l: l },
-                { h: h, s: s, l: l },
-                { h: (h + 30) % 360, s: s, l: l }
-            ]
-        },
-        {
-            title: '三元色',
-            colors: [
-                { h: h, s: s, l: l },
-                { h: (h + 120) % 360, s: s, l: l },
-                { h: (h + 240) % 360, s: s, l: l }
-            ]
-        },
-        {
-            title: '单色系',
-            colors: [
-                { h: h, s: s, l: Math.max(l - 40, 10) },
-                { h: h, s: s, l: Math.max(l - 20, 20) },
-                { h: h, s: s, l: l },
-                { h: h, s: s, l: Math.min(l + 20, 90) },
-                { h: h, s: s, l: Math.min(l + 40, 95) }
-            ]
-        },
-        {
-            title: '分裂互补色',
-            colors: [
-                { h: h, s: s, l: l },
-                { h: (h + 150) % 360, s: s, l: l },
-                { h: (h + 210) % 360, s: s, l: l }
-            ]
-        },
-        {
-            title: '矩形配色',
-            colors: [
-                { h: h, s: s, l: l },
-                { h: (h + 60) % 360, s: s, l: l },
-                { h: (h + 180) % 360, s: s, l: l },
-                { h: (h + 240) % 360, s: s, l: l }
-            ]
-        }
-    ];
-
-    paletteContainer.innerHTML = schemes.map(scheme => {
-        const colors = scheme.colors.map(color => {
-            const rgb = hslToRgb(color.h, color.s, color.l);
-            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-            return { hex, rgb };
+        if (cropper) cropper.destroy();
+        cropper = new Cropper(imageToCrop, {
+            aspectRatio: 1,
+            viewMode: 1,
+            autoCropArea: 0.8,
+            background: false,
+            // 核心：实时预览逻辑
+            crop() {
+                const canvas = cropper.getCroppedCanvas({ width: 200, height: 200 });
+                const url = canvas.toDataURL();
+                previewImgs.forEach(img => img.src = url);
+            }
         });
         
-        return `
-            <div class="palette-card">
-                <div class="palette-header">
-                    <div class="palette-title">${scheme.title}</div>
-                </div>
-                <div class="palette-colors">
-                    ${colors.map(color => `
-                        <div class="color-item" 
-                             style="background-color: ${color.hex}"
-                             onclick="copyToClipboard('${color.hex}')"
-                             data-color="${color.hex}">
-                            <div class="color-tooltip">${color.hex}</div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-// --- 输入验证和事件处理 ---
-function isValidHex(hex) {
-    return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
-}
-
-function parseRgb(rgbString) {
-    const match = rgbString.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/i);
-    if (match) {
-        return {
-            r: parseInt(match[1]),
-            g: parseInt(match[2]),
-            b: parseInt(match[3])
-        };
-    }
-    return null;
-}
-
-function parseHsl(hslString) {
-    const match = hslString.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/i);
-    if (match) {
-        return {
-            h: parseInt(match[1]),
-            s: parseInt(match[2]),
-            l: parseInt(match[3])
-        };
-    }
-    return null;
-}
-
-// --- 事件监听器 ---
-colorPicker.addEventListener('input', (e) => {
-    updateUI(e.target.value);
-});
-
-hexInput.addEventListener('input', (e) => {
-    const hex = e.target.value;
-    if (isValidHex(hex)) {
-        updateUI(hex);
-        hexInput.style.borderColor = '';
-    } else {
-        hexInput.style.borderColor = '#ef4444';
-    }
-});
-
-rgbInput.addEventListener('input', (e) => {
-    const rgb = parseRgb(e.target.value);
-    if (rgb) {
-        const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-        updateUI(hex);
-        rgbInput.style.borderColor = '';
-    } else {
-        rgbInput.style.borderColor = '#ef4444';
-    }
-});
-
-hslInput.addEventListener('input', (e) => {
-    const hsl = parseHsl(e.target.value);
-    if (hsl) {
-        const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
-        const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-        updateUI(hex);
-        hslInput.style.borderColor = '';
-    } else {
-        hslInput.style.borderColor = '#ef4444';
-    }
-});
-
-colorDisplay.addEventListener('click', () => {
-    copyToClipboard(currentHex.textContent);
-});
-
-// --- 复制功能 ---
-async function copyToClipboard(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        showNotification(`已复制: ${text}`);
-    } catch (err) {
-        console.error('复制失败:', err);
-        showNotification('复制失败，请手动复制');
-    }
-}
-
-function copyCurrentColor() {
-    copyToClipboard(currentHex.textContent);
-}
-
-function showNotification(message) {
-    notification.textContent = message;
-    notification.classList.add('show');
-    notification.classList.add('success');
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
+        // 立即显示一次预览
         setTimeout(() => {
-            notification.classList.remove('success');
-        }, 300);
-    }, 2000);
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas({ width: 200, height: 200 });
+                const url = canvas.toDataURL();
+                previewImgs.forEach(img => img.src = url);
+            }
+        }, 100);
+        
+        showNotification('图标已加载，请调整裁剪区域', 'success');
+    };
+    reader.onerror = () => {
+        showNotification('读取文件失败，请重试', 'error');
+    };
+    reader.readAsDataURL(file);
 }
 
-// --- 初始化 ---
-document.addEventListener('DOMContentLoaded', () => {
-    updateUI('#4A90E2');
+// 生成图标按钮事件
+generateBtn.onclick = async () => {
+    if (!cropper) return;
     
-    // 添加键盘快捷键
-    document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-            copyCurrentColor();
+    // 显示进度指示器
+    progressIndicator.classList.remove('hidden');
+    generateBtn.disabled = true;
+    generateBtn.innerHTML = '<div class="loading-spinner"></div><span>生成中...</span>';
+    
+    try {
+        const zip = new JSZip();
+        const masterCanvas = cropper.getCroppedCanvas({ width: 1024, height: 1024 });
+        const exportCanvas = document.getElementById('export-canvas');
+        const ctx = exportCanvas.getContext('2d');
+
+        // 打包 iOS
+        const iosFolder = zip.folder("iOS_Icons");
+        let iosCount = 0;
+        for (const item of CONFIG.ios) {
+            const blob = await resize(masterCanvas, exportCanvas, ctx, item.size);
+            iosFolder.file(item.name, blob);
+            iosCount++;
+            updateProgress(iosCount, CONFIG.ios.length + CONFIG.android.length, 'iOS');
         }
+
+        // 打包 Android
+        const androidFolder = zip.folder("Android_Icons");
+        let androidCount = 0;
+        for (const item of CONFIG.android) {
+            const subFolder = androidFolder.folder(item.folder);
+            const blob = await resize(masterCanvas, exportCanvas, ctx, item.size);
+            subFolder.file(item.name, blob);
+            androidCount++;
+            updateProgress(iosCount + androidCount, CONFIG.ios.length + CONFIG.android.length, 'Android');
+        }
+
+        const content = await zip.generateAsync({ type: "blob" });
+        saveAs(content, `App_Icons_${new Date().getTime()}.zip`);
+        
+        showNotification(`成功生成 ${CONFIG.ios.length + CONFIG.android.length} 个图标文件`, 'success');
+        
+    } catch (error) {
+        console.error('生成图标失败:', error);
+        showNotification('生成失败，请重试', 'error');
+    } finally {
+        // 隐藏进度指示器
+        progressIndicator.classList.add('hidden');
+        generateBtn.disabled = false;
+        generateBtn.innerHTML = '<i class="fas fa-download"></i><span>生成全套图标 (.zip)</span>';
+    }
+};
+
+// 图片调整大小函数
+function resize(source, target, ctx, size) {
+    return new Promise(resolve => {
+        target.width = size;
+        target.height = size;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.clearRect(0, 0, size, size);
+        ctx.drawImage(source, 0, 0, size, size);
+        target.toBlob(blob => resolve(blob), 'image/png', 0.9);
     });
-});
+}
+
+// 更新进度函数
+function updateProgress(current, total, platform) {
+    const progressText = document.querySelector('#progress-indicator span');
+    if (progressText) {
+        progressText.textContent = `正在生成图标包... (${current}/${total}) ${platform}`;
+    }
+}
+
+// 显示通知函数
+function showNotification(message, type) {
+    // 移除现有的通知
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // 创建新通知
+    const notification = document.createElement('div');
+    notification.className = `notification fixed top-6 right-6 z-50 px-6 py-4 rounded-xl shadow-lg flex items-center gap-3 fade-in ${type === 'error' ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-green-500 to-green-600'}`;
+    notification.style.animation = 'fadeIn 0.3s ease-out';
+    
+    const icon = document.createElement('i');
+    icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+    icon.classList.add('text-white', 'text-xl');
+    
+    const text = document.createElement('span');
+    text.className = 'text-white font-medium';
+    text.textContent = message;
+    
+    notification.appendChild(icon);
+    notification.appendChild(text);
+    document.body.appendChild(notification);
+    
+    // 3秒后自动移除
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
