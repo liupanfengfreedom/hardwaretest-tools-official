@@ -1,286 +1,169 @@
-const fileInput = document.getElementById('file-input');
+// 核心 ICO 构建逻辑
+async function encodeICO(canvases) {
+    const blobs = await Promise.all(canvases.map(c => new Promise(res => c.toBlob(res, 'image/png'))));
+    const buffers = await Promise.all(blobs.map(b => b.arrayBuffer()));
+    
+    const headerSize = 6;
+    const directorySize = 16 * canvases.length;
+    let currentOffset = headerSize + directorySize;
+    
+    const icoHeader = new DataView(new ArrayBuffer(headerSize + directorySize));
+    icoHeader.setUint16(0, 0, true);    
+    icoHeader.setUint16(2, 1, true);    
+    icoHeader.setUint16(4, canvases.length, true); 
+    
+    buffers.forEach((buf, i) => {
+        const canvas = canvases[i];
+        const entryOffset = headerSize + (i * 16);
+        icoHeader.setUint8(entryOffset + 0, canvas.width >= 256 ? 0 : canvas.width);
+        icoHeader.setUint8(entryOffset + 1, canvas.height >= 256 ? 0 : canvas.height);
+        icoHeader.setUint8(entryOffset + 2, 0); 
+        icoHeader.setUint8(entryOffset + 3, 0); 
+        icoHeader.setUint16(entryOffset + 4, 1, true); 
+        icoHeader.setUint16(entryOffset + 6, 32, true); 
+        icoHeader.setUint32(entryOffset + 8, buf.byteLength, true); 
+        icoHeader.setUint32(entryOffset + 12, currentOffset, true); 
+        currentOffset += buf.byteLength;
+    });
+    return new Blob([icoHeader.buffer, ...buffers], { type: 'image/x-icon' });
+}
+
+const imageInput = document.getElementById('imageInput');
 const dropZone = document.getElementById('drop-zone');
-const queueBody = document.getElementById('queue-body');
-const btnRun = document.getElementById('btn-run');
-const btnDownloadMain = document.getElementById('btn-download-main');
-const hintText = document.getElementById('hint-text');
-let fileQueue = [];
+const editorContainer = document.getElementById('editor-container');
+const cropperImage = document.getElementById('cropperImage');
+const generateBtn = document.getElementById('generateBtn');
+const downloadZipBtn = document.getElementById('downloadZipBtn');
+const downloadArea = document.getElementById('download-area');
 
-// --- 界面控制 ---
-document.getElementById('scale-mode').onchange = function() {
-    ['percent', 'width', 'height', 'free'].forEach(m => {
-        const el = document.getElementById(`m-${m}`);
-        if (el) el.style.display = (this.value === m ? 'block' : 'none');
+let cropper = null;
+let generatedBlobs = {};
+
+const configs = [
+    { name: 'favicon-16x16.png', size: 16, previews: ['prev-search', 'prev-tab', 'prev-ico-16'], inIco: true },
+    { name: 'favicon-32x32.png', size: 32, previews: ['prev-ico-32'], inIco: true },
+    { name: 'favicon-48x48.png', size: 48, previews: ['prev-ico-48'], inIco: true },
+    { name: 'favicon-96x96.png', size: 96 },
+    { name: 'apple-touch-icon.png', size: 180, previews: ['prev-ios'] },
+    { name: 'android-chrome-192x192.png', size: 192, previews: ['prev-android'] },
+    { name: 'android-chrome-512x512.png', size: 512 }
+];
+
+dropZone.onclick = () => imageInput.click();
+
+const handleFile = (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        cropperImage.src = e.target.result;
+        dropZone.classList.add('hidden');
+        editorContainer.classList.remove('hidden');
+        if (cropper) cropper.destroy();
+        cropper = new Cropper(cropperImage, { 
+            aspectRatio: 1, 
+            viewMode: 1,
+            autoCropArea: 1,
+            background: false
+        });
+    };
+    reader.readAsDataURL(file);
+};
+
+imageInput.onchange = (e) => handleFile(e.target.files[0]);
+dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500'); };
+dropZone.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
+
+generateBtn.onclick = async () => {
+    if (!cropper) return;
+    generateBtn.disabled = true;
+    generateBtn.innerHTML = '<div class="spinner"></div>正在处理...';
+
+    const sourceCanvas = cropper.getCroppedCanvas({ 
+        width: 512, 
+        height: 512, 
+        imageSmoothingEnabled: true, 
+        imageSmoothingQuality: 'high' 
     });
-    markDirty();
-};
+    
+    const icoCanvases = [];
 
-function updateFileCount() {
-    const count = fileQueue.length;
-    if (count > 0) {
-        document.querySelector('header p').innerHTML = `纯本地处理 · 尺寸对比预览 · 全格式支持 <span class="file-count">${count}</span>`;
-    } else {
-        document.querySelector('header p').innerText = '纯本地处理 · 尺寸对比预览 · 全格式支持';
-    }
-}
+    for (const conf of configs) {
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = conf.size;
+        const ctx = canvas.getContext('2d');
+        
+        // 设置白色背景
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, conf.size, conf.size);
+        
+        // 高质量绘制
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        
+        // 居中绘制图像，确保不会被拉伸
+        const sourceSize = Math.min(sourceCanvas.width, sourceCanvas.height);
+        ctx.drawImage(
+            sourceCanvas,
+            0, 0, sourceSize, sourceSize,  // 源图像区域
+            0, 0, conf.size, conf.size      // 目标区域
+        );
+        
+        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+        generatedBlobs[conf.name] = blob;
+        if (conf.inIco) icoCanvases.push(canvas);
 
-function markDirty() {
-    if (fileQueue.length === 0) return;
-    hintText.style.opacity = '1';
-    btnDownloadMain.classList.remove('show');
-    btnRun.style.opacity = '1';
-    btnRun.disabled = false;
-    btnRun.innerHTML = '<i class="fas fa-sync-alt"></i> 重新处理';
-    fileQueue.forEach(item => {
-        if (item.status === 'done') {
-            item.status = 'dirty';
-            const badge = document.getElementById(`st-${item.id}`);
-            if (badge) { 
-                badge.innerText = '待更新'; 
-                badge.className = 'status-badge status-dirty';
-                badge.innerHTML = '<i class="fas fa-exclamation-circle"></i> 待更新';
-            }
-        }
-    });
-}
-
-document.querySelectorAll('.param-input').forEach(el => el.oninput = markDirty);
-
-// --- 文件导入 ---
-dropZone.onclick = () => fileInput.click();
-dropZone.ondragover = e => { 
-    e.preventDefault(); 
-    dropZone.style.borderColor = "var(--primary)"; 
-    dropZone.classList.add('active');
-};
-dropZone.ondragleave = () => { 
-    dropZone.style.borderColor = "#d1d5db"; 
-    dropZone.classList.remove('active');
-};
-dropZone.ondrop = e => { 
-    e.preventDefault(); 
-    dropZone.style.borderColor = "#d1d5db"; 
-    dropZone.classList.remove('active');
-    handleFiles(e.dataTransfer.files); 
-};
-fileInput.onchange = e => handleFiles(e.target.files);
-
-async function handleFiles(files) {
-    if (files.length === 0) return;
-    document.getElementById('list-card').style.display = 'block';
-    btnRun.style.opacity = '1';
-    btnRun.disabled = false;
-    btnDownloadMain.classList.remove('show');
-    btnRun.innerHTML = '<i class="fas fa-bolt"></i> 开始处理';
-
-    for (const file of files) {
-        const id = Math.random().toString(36).substr(2, 8);
-        const item = { id, file, status: 'wait', resultBlob: null, origUrl: null, resultUrl: null };
-        fileQueue.push(item);
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><img class="thumb-preview" id="t-${id}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='%23e2e8f0'%3E%3Cpath d='M38 8H10c-2.2 0-4 1.8-4 4v24c0 2.2 1.8 4 4 4h28c2.2 0 4-1.8 4-4V12c0-2.2-1.8-4-4-4zM19 26l-5 7h20l-6-8-4 5-5-4z'/%3E%3C/svg%3E"></td>
-            <td><div style="font-weight:700;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${file.name}</div></td>
-            <td><div class="size-info" id="sz-${id}"><i class="fas fa-spinner fa-spin"></i> 载入中</div></td>
-            <td><span class="status-badge status-wait" id="st-${id}"><i class="fas fa-clock"></i> 等待中</span></td>
-            <td>
-                <div class="btn-group">
-                    <button class="btn-action btn-orig" id="vo-${id}"><i class="fas fa-eye"></i> 原图</button>
-                    <button class="btn-action btn-result" id="vr-${id}"><i class="fas fa-magic"></i> 效果图</button>
-                </div>
-            </td>
-        `;
-        queueBody.appendChild(tr);
-
-        try {
-            // 读取原图并计算尺寸
-            const canvas = await fileToCanvas(file);
-            item.origW = canvas.width;
-            item.origH = canvas.height;
-            item.origUrl = canvas.toDataURL('image/jpeg', 0.9); // 用于预览
-            
-            document.getElementById(`sz-${id}`).innerHTML = `<span>${item.origW}×${item.origH}</span>`;
-            document.getElementById(`t-${id}`).src = canvas.toDataURL('image/jpeg', 0.2);
-            
-            // 绑定原图预览
-            document.getElementById(`vo-${id}`).onclick = () => showPreview(item.origUrl, '原始图片预览');
-            
-            // 更新文件计数
-            updateFileCount();
-        } catch(e) {
-            console.error(e);
-            document.getElementById(`sz-${id}`).innerHTML = '<span style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> 读取失败</span>';
-        }
-    }
-}
-
-// --- 核心转换逻辑 ---
-async function fileToCanvas(file) {
-    const ext = file.name.split('.').pop().toLowerCase();
-    if (ext === 'heic' || ext === 'heif') {
-        const blob = await heic2any({ blob: file, toType: "image/jpeg" });
-        return await imgUrlToCanvas(URL.createObjectURL(blob[0] || blob));
-    }
-    if (ext === 'tiff' || ext === 'tif') {
-        const buffer = await file.arrayBuffer();
-        const ifds = UTIF.decode(buffer);
-        UTIF.decodeImage(buffer, ifds[0]);
-        const rgba = UTIF.toRGBA8(ifds[0]);
-        const cvs = document.createElement('canvas');
-        cvs.width = ifds[0].width; cvs.height = ifds[0].height;
-        cvs.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(rgba.buffer), cvs.width, cvs.height), 0, 0);
-        return cvs;
-    }
-    return await imgUrlToCanvas(URL.createObjectURL(file));
-}
-
-function imgUrlToCanvas(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-            const cvs = document.createElement('canvas');
-            cvs.width = img.width; cvs.height = img.height;
-            cvs.getContext('2d').drawImage(img, 0, 0);
-            URL.revokeObjectURL(url);
-            resolve(cvs);
-        };
-        img.onerror = reject;
-        img.src = url;
-    });
-}
-
-function showPreview(url, title) {
-    document.getElementById('modal-img').src = url;
-    document.getElementById('modal-tag').innerHTML = `<i class="fas fa-search"></i> ${title}`;
-    document.getElementById('modal').style.display = 'flex';
-}
-
-// --- 开始处理 ---
-btnRun.onclick = async () => {
-    btnRun.disabled = true;
-    btnRun.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
-    hintText.style.opacity = '0';
-    const pBar = document.getElementById('p-bar');
-    const pInner = document.getElementById('p-inner');
-    pBar.style.opacity = '1';
-
-    const mode = document.getElementById('scale-mode').value;
-    const targetFormat = document.getElementById('o-format').value;
-
-    for (let i = 0; i < fileQueue.length; i++) {
-        const item = fileQueue[i];
-        if (item.status === 'done') continue;
-
-        const badge = document.getElementById(`st-${item.id}`);
-        badge.innerHTML = '<i class="fas fa-cog fa-spin"></i> 处理中';
-        badge.className = 'status-badge status-ing';
-
-        await new Promise(r => setTimeout(r, 30));
-
-        try {
-            const src = await fileToCanvas(item.file);
-            let tw, th;
-            if (mode === 'percent') {
-                const r = (parseInt(document.getElementById('i-percent').value) || 100) / 100;
-                tw = src.width * r; th = src.height * r;
-            } else if (mode === 'width') {
-                tw = parseInt(document.getElementById('i-width').value) || src.width;
-                th = (tw / src.width) * src.height;
-            } else if (mode === 'height') {
-                th = parseInt(document.getElementById('i-height').value) || src.height;
-                tw = (th / src.height) * src.width;
-            } else {
-                tw = parseInt(document.getElementById('i-free-w').value) || src.width;
-                th = parseInt(document.getElementById('i-free-h').value) || src.height;
-            }
-            
-            // 四舍五入尺寸
-            tw = Math.round(tw); th = Math.round(th);
-
-            const cvs = document.createElement('canvas');
-            cvs.width = tw; cvs.height = th;
-            const ctx = cvs.getContext('2d');
-            ctx.imageSmoothingEnabled = true; 
-            ctx.imageSmoothingQuality = 'high';
-            ctx.drawImage(src, 0, 0, tw, th);
-
-            if (targetFormat === 'image/tiff') {
-                const rgba = ctx.getImageData(0, 0, tw, th).data;
-                item.resultBlob = new Blob([UTIF.encodeImage(rgba, tw, th)], { type: 'image/tiff' });
-            } else {
-                item.resultBlob = await new Promise(r => cvs.toBlob(r, targetFormat, 0.92));
-            }
-
-            // 更新状态和 URL
-            if (item.resultUrl) URL.revokeObjectURL(item.resultUrl);
-            item.resultUrl = URL.createObjectURL(item.resultBlob);
-            item.status = 'done';
-
-            // 更新 UI 上的尺寸对比
-            document.getElementById(`sz-${item.id}`).innerHTML = `
-                <span>${item.origW}×${item.origH}</span>
-                <span style="color:#cbd5e1"><i class="fas fa-arrow-right"></i></span>
-                <span class="size-target">${tw}×${th}</span>
-            `;
-
-            badge.innerHTML = '<i class="fas fa-check-circle"></i> 已就绪';
-            badge.className = 'status-badge status-done';
-            
-            const rBtn = document.getElementById(`vr-${item.id}`);
-            rBtn.style.display = 'flex';
-            rBtn.onclick = () => showPreview(item.resultUrl, '处理结果预览');
-            
-            pInner.style.width = `${((i+1)/fileQueue.length)*100}%`;
-        } catch(e) {
-            console.error(`处理文件 ${item.file.name} 时出错:`, e);
-            badge.innerHTML = '<i class="fas fa-times-circle"></i> 处理失败';
-            badge.className = 'status-badge status-dirty';
-        }
-    }
-
-    btnRun.style.opacity = '0';
-    setTimeout(() => {
-        if (fileQueue.length === 1) {
-            btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> 保存到电脑';
-        } else {
-            btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> 打包下载全部 (${fileQueue.length}张)`;
-        }
-        btnDownloadMain.classList.add('show');
-        pBar.style.opacity = '0';
-        btnRun.innerHTML = '<i class="fas fa-sync-alt"></i> 重新处理';
-    }, 400);
-};
-
-btnDownloadMain.onclick = async () => {
-    const ext = document.getElementById('o-format').value.split('/')[1].replace('jpeg', 'jpg');
-    if (fileQueue.length === 1) {
-        const a = document.createElement('a');
-        a.href = fileQueue[0].resultUrl;
-        a.download = `${fileQueue[0].file.name.split('.')[0]}_processed.${ext}`;
-        a.click();
-    } else {
-        btnDownloadMain.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 打包中...';
-        try {
-            const zip = new JSZip();
-            fileQueue.forEach(item => {
-                if (item.resultBlob) {
-                    zip.file(`${item.file.name.split('.')[0]}.${ext}`, item.resultBlob);
+        if (conf.previews) {
+            const url = URL.createObjectURL(blob);
+            conf.previews.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { 
+                    el.src = url; 
+                    el.classList.remove('hidden'); 
+                    
+                    // 为ICO预览添加背景色
+                    if (id.includes('prev-ico')) {
+                        el.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        el.style.borderRadius = '4px';
+                        el.style.padding = '2px';
+                    }
                 }
             });
-            const content = await zip.generateAsync({type:"blob"});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(content);
-            a.download = `Privacy_Studio_Export_${new Date().toISOString().slice(0,10)}.zip`;
-            a.click();
-        } finally {
-            setTimeout(() => {
-                if (fileQueue.length === 1) {
-                    btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> 保存到电脑';
-                } else {
-                    btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> 打包下载全部 (${fileQueue.length}张)`;
-                }
-            }, 500);
         }
     }
+
+    generatedBlobs['favicon.ico'] = await encodeICO(icoCanvases);
+    
+    // 隐藏占位符
+    document.getElementById('ios-placeholder').classList.add('hidden');
+    document.getElementById('android-placeholder').classList.add('hidden');
+    
+    // 显示下载区域
+    downloadArea.classList.remove('hidden');
+    generateBtn.disabled = false;
+    generateBtn.innerText = '重新生成';
+};
+
+downloadZipBtn.onclick = async () => {
+    const zip = new JSZip();
+    const icons = zip.folder("icons");
+    for (const name in generatedBlobs) icons.file(name, generatedBlobs[name]);
+
+    const manifest = {
+        name: "Your App",
+        short_name: "App",
+        icons: [
+            { src: "icons/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+            { src: "icons/android-chrome-512x512.png", sizes: "512x512", type: "image/png" }
+        ],
+        display: "standalone"
+    };
+
+    zip.file("site.webmanifest", JSON.stringify(manifest, null, 2));
+    zip.file("readme.txt", "将 icons 文件夹上传到网站根目录，并在 HTML 的 <head> 中添加相关链接。");
+
+    const content = await zip.generateAsync({type:"blob"});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(content);
+    link.download = `favicon_pack_${Date.now()}.zip`;
+    link.click();
 };
