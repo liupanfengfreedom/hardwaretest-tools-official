@@ -1,276 +1,106 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Network Pulse - Real Ping</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-body { font-family: Inter, sans-serif; background:#0f172a; color:#f8fafc }
-.mono { font-family: "JetBrains Mono", monospace }
-.success-line { color:#22c55e }
-.error-line { color:#ef4444 }
-
-#history-list::-webkit-scrollbar { width: 4px; }
-#history-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Pulse - Real Ping</title>
+    
+    <!-- 外部库 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 本地样式 -->
+    <link rel="stylesheet" href="/static/css/utility-tools/netdev/ping/style.css">
+  
 </head>
 
 <body class="p-4 md:p-8">
-<div class="max-w-6xl mx-auto space-y-6">
+    <div class="max-w-6xl mx-auto space-y-6">
 
-<header class="flex justify-between items-center border-b border-slate-800 pb-6">
-  <h1 class="text-3xl font-extrabold flex items-center gap-2">
-    <i data-lucide="activity" class="text-blue-500"></i>
-    Network <span class="text-blue-500">Pulse</span>
-  </h1>
-  <span id="status" class="text-xs text-slate-400">READY</span>
-</header>
+        <header class="flex justify-between items-center border-b border-slate-800 pb-6">
+            <h1 class="text-3xl font-extrabold flex items-center gap-2">
+                <i data-lucide="activity" class="text-blue-500"></i>
+                Network <span class="text-blue-500">Pulse</span>
+            </h1>
+            <span id="status" class="text-xs text-slate-400">READY</span>
+        </header>
 
-<section class="grid md:grid-cols-4 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
-  <div class="md:col-span-2 relative">
-    <label class="text-xs text-slate-400 font-bold">目标地址</label>
-    <div class="relative mt-2">
-      <input id="target"
-        placeholder="google.com"
-        autocomplete="off"
-        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-        onkeydown="if(event.key==='Enter') togglePing()"
-        onfocus="showHistory()"
-        onblur="setTimeout(hideHistory, 250)">
-      
-      <!-- 下拉历史记录面板 -->
-      <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden">
-        <div id="history-list" class="max-h-60 overflow-y-auto">
-          <!-- 历史项动态插入 -->
-        </div>
-        <div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
-            <span class="text-[10px] text-slate-500 uppercase font-bold px-2">最近搜索</span>
-            <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold">全部清空</button>
-        </div>
-      </div>
+        <section class="grid md:grid-cols-4 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+            <div class="md:col-span-2 relative">
+                <label class="text-xs text-slate-400 font-bold">目标地址</label>
+                <div class="relative mt-2">
+                    <input id="target"
+                        placeholder="google.com"
+                        autocomplete="off"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                        onkeydown="if(event.key==='Enter') togglePing()"
+                        onfocus="showHistory()"
+                        onblur="setTimeout(hideHistory, 250)">
+                    
+                    <!-- 下拉历史记录面板 -->
+                    <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden">
+                        <div id="history-list" class="max-h-60 overflow-y-auto">
+                            <!-- 历史项动态插入 -->
+                        </div>
+                        <div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
+                            <span class="text-[10px] text-slate-500 uppercase font-bold px-2">最近搜索</span>
+                            <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold">全部清空</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label class="text-xs text-slate-400 font-bold">次数</label>
+                <select id="count" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none">
+                    <option value="10">10 次</option>
+                    <option value="50">50 次</option>
+                    <option value="0">持续</option>
+                </select>
+            </div>
+
+            <div class="flex items-end">
+                <button id="btn" onclick="togglePing()"
+                    class="w-full bg-blue-600 hover:bg-blue-500 transition-colors rounded-lg py-3 font-bold flex justify-center gap-2">
+                    <i data-lucide="play"></i> 开始测试
+                </button>
+            </div>
+        </section>
+
+        <!-- 数据卡片 -->
+        <section class="grid md:grid-cols-4 gap-4">
+            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                <p class="text-slate-400 text-sm">平均延迟</p>
+                <p class="text-2xl mono"><span id="avg">0</span> ms</p>
+            </div>
+            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                <p class="text-slate-400 text-sm">丢包率</p>
+                <p class="text-2xl mono" id="loss">0%</p>
+            </div>
+            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                <p class="text-slate-400 text-sm">抖动</p>
+                <p class="text-2xl mono"><span id="jitter">0</span> ms</p>
+            </div>
+            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                <p class="text-slate-400 text-sm">已发送</p>
+                <p class="text-2xl mono" id="sent">0</p>
+            </div>
+        </section>
+
+        <section class="grid lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
+                <canvas id="chart"></canvas>
+            </div>
+            <div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col">
+                <div class="text-xs text-slate-400 p-2 border-b border-slate-800">TERMINAL</div>
+                <div id="terminal" class="flex-1 p-3 mono text-sm overflow-y-auto"></div>
+            </div>
+        </section>
     </div>
-  </div>
 
-  <div>
-    <label class="text-xs text-slate-400 font-bold">次数</label>
-    <select id="count"
-      class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none">
-      <option value="10">10 次</option>
-      <option value="50">50 次</option>
-      <option value="0">持续</option>
-    </select>
-  </div>
+    <!-- 本地脚本 -->
+   <script src="/static/js/utility-tools/netdev/ping/script-zh.js"></script>
 
-  <div class="flex items-end">
-    <button id="btn" onclick="togglePing()"
-      class="w-full bg-blue-600 hover:bg-blue-500 transition-colors rounded-lg py-3 font-bold flex justify-center gap-2">
-      <i data-lucide="play"></i> 开始测试
-    </button>
-  </div>
-</section>
-
-<!-- 数据卡片 -->
-<section class="grid md:grid-cols-4 gap-4">
-  <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-    <p class="text-slate-400 text-sm">平均延迟</p>
-    <p class="text-2xl mono"><span id="avg">0</span> ms</p>
-  </div>
-  <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-    <p class="text-slate-400 text-sm">丢包率</p>
-    <p class="text-2xl mono" id="loss">0%</p>
-  </div>
-  <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-    <p class="text-slate-400 text-sm">抖动</p>
-    <p class="text-2xl mono"><span id="jitter">0</span> ms</p>
-  </div>
-  <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-    <p class="text-slate-400 text-sm">已发送</p>
-    <p class="text-2xl mono" id="sent">0</p>
-  </div>
-</section>
-
-<section class="grid lg:grid-cols-3 gap-6">
-  <div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
-    <canvas id="chart"></canvas>
-  </div>
-  <div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col">
-    <div class="text-xs text-slate-400 p-2 border-b border-slate-800">TERMINAL</div>
-    <div id="terminal" class="flex-1 p-3 mono text-sm overflow-y-auto"></div>
-  </div>
-</section>
-
-</div>
-
-<script>
-lucide.createIcons();
-
-let running=false, pings=[], sent=0, loss=0, success=0, rid=0;
-const historyKey = 'ping_history';
-
-const chart=new Chart(document.getElementById('chart'),{
-  type:'line',
-  data:{labels:[],datasets:[{data:[],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.1)',fill:true,tension:.3}]},
-  options:{responsive:true,maintainAspectRatio:false,scales:{y:{grid:{color:'#1e293b'}},x:{grid:{display:false}}},plugins:{legend:{display:false}}}
-});
-
-// --- 增强的历史记录逻辑 ---
-
-function getHistory() {
-  const h = localStorage.getItem(historyKey);
-  return h ? JSON.parse(h) : [];
-}
-
-function saveToHistory(target) {
-  let h = getHistory();
-  h = h.filter(item => item !== target);
-  h.unshift(target);
-  h = h.slice(0, 10); // 最多保留10条
-  localStorage.setItem(historyKey, JSON.stringify(h));
-  renderHistory();
-}
-
-// 移除单条记录
-function removeHistoryItem(event, item) {
-  event.stopPropagation(); // 阻止触发父元素的 selectHistory
-  let h = getHistory();
-  h = h.filter(i => i !== item);
-  localStorage.setItem(historyKey, JSON.stringify(h));
-  renderHistory();
-  // 保持输入框焦点，防止面板关闭
-  document.getElementById('target').focus();
-}
-
-function renderHistory() {
-  const h = getHistory();
-  const list = document.getElementById('history-list');
-  
-  if (h.length === 0) {
-    list.innerHTML = `<div class="p-4 text-slate-500 text-sm italic text-center">暂无搜索历史</div>`;
-    return;
-  }
-
-  list.innerHTML = h.map(item => `
-    <div class="group flex items-center justify-between px-4 py-2.5 hover:bg-slate-800 cursor-pointer border-b border-slate-800/50 last:border-0" 
-         onclick="selectHistory('${item}')">
-      <div class="flex items-center gap-3 overflow-hidden">
-        <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-500 flex-shrink-0"></i>
-        <span class="mono text-sm truncate text-slate-300 group-hover:text-blue-400 transition-colors">${item}</span>
-      </div>
-      <button onclick="removeHistoryItem(event, '${item}')" 
-              class="p-1 hover:bg-slate-700 rounded-md text-slate-500 hover:text-red-400 transition-all opacity-0 group-hover:opacity-100"
-              title="移除此条">
-        <i data-lucide="x" class="w-4 h-4"></i>
-      </button>
-    </div>
-  `).join('');
-  
-  // 重新渲染列表中的图标
-  lucide.createIcons();
-}
-
-function showHistory() {
-  renderHistory();
-  document.getElementById('history-panel').classList.remove('hidden');
-}
-
-function hideHistory() {
-  // 增加一点点延迟，防止点击删除按钮瞬间面板消失导致点击失效
-  document.getElementById('history-panel').classList.add('hidden');
-}
-
-function selectHistory(val) {
-  document.getElementById('target').value = val;
-  hideHistory();
-}
-
-function clearHistory() {
-  if(confirm('确定要清空所有历史记录吗？')) {
-    localStorage.removeItem(historyKey);
-    renderHistory();
-  }
-}
-
-// --- Ping 核心逻辑 (保持不变) ---
-
-function togglePing(){
-  const t=document.getElementById('target').value.trim();
-  if(!t) return alert("请输入地址");
-  if(!running) {
-    saveToHistory(t);
-    start(t);
-  } else {
-    stop();
-  }
-}
-
-function normalize(t){
-  if(!t.startsWith('http')) return 'https://' + t;
-  return t;
-}
-
-function start(target){
-  running=true; rid++;
-  pings=[]; sent=loss=success=0;
-  chart.data.labels=[]; chart.data.datasets[0].data=[]; chart.update();
-  document.getElementById('terminal').innerHTML='';
-  document.getElementById('btn').innerHTML='<i data-lucide="square"></i> 停止';
-  document.getElementById('btn').classList.replace('bg-blue-600','bg-red-600');
-  lucide.createIcons();
-  loop(normalize(target),parseInt(count.value),rid);
-}
-
-function stop(){
-  running=false; rid++;
-  document.getElementById('btn').innerHTML='<i data-lucide="play"></i> 开始测试';
-  document.getElementById('btn').classList.replace('bg-red-600','bg-blue-600');
-  lucide.createIcons();
-}
-
-async function loop(url,total,id){
-  if(!running||id!==rid) return;
-  sent++; document.getElementById('sent').innerText=sent;
-  const startT=performance.now();
-  try{
-    await fetch(url,{mode:'no-cors',cache:'no-store'});
-    const ms=Math.round(performance.now()-startT);
-    success++; pings.push(ms);
-    chart.data.labels.push(sent);
-    chart.data.datasets[0].data.push(ms);
-    if(chart.data.labels.length>20){chart.data.labels.shift();chart.data.datasets[0].data.shift()}
-    chart.update('none');
-    log(`回复 ${url} : ${ms} ms`,true);
-    updateStats();
-  }catch(e){
-    loss++; log('请求失败 / 跨域限制',false); updateStats();
-  }
-  if(total>0&&sent>=total){stop();return;}
-  setTimeout(()=>loop(url,total,id),1000);
-}
-
-function updateStats(){
-  if(pings.length){
-    document.getElementById('avg').innerText=Math.round(pings.reduce((a,b)=>a+b)/pings.length);
-    if(pings.length>1){
-      const m=pings.reduce((a,b)=>a+b)/pings.length;
-      document.getElementById('jitter').innerText=Math.round(Math.sqrt(pings.map(v=>(v-m)**2).reduce((a,b)=>a+b)/pings.length));
-    }
-  }
-  document.getElementById('loss').innerText=Math.round((loss/sent)*100)+'%';
-}
-
-function log(t,ok){
-  const term = document.getElementById('terminal');
-  term.innerHTML+=`<div class="${ok?'success-line':'error-line'}">${t}</div>`;
-  term.scrollTop=term.scrollHeight;
-}
-
-renderHistory();
-</script>
 </body>
 </html>
