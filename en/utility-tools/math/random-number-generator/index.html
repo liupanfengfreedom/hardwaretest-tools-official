@@ -1,788 +1,550 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberNum - 随机数引擎</title>
+    <meta name="theme-color" content="#4a6ee0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Primary meta description and keywords -->
+    <meta name="description" content="CyberNum - Professional online random number generator, supports integer, decimal, custom range random number generation, with batch generation, uniqueness check, history features. Free random number generator for lottery, testing, password generation, etc.">
+    <meta name="keywords" content="random number generator, online random number tool, random number generation, random number picker, random number test, batch random number generation, random number tool, random number engine">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="CyberNum - Professional Online Random Number Engine | StarryRing">
+    <meta property="og:description" content="Free online random number generator, supports integer, decimal, custom range random number generation, batch generation, uniqueness check, history features">
+    <meta property="og:image" content="https://starryring.com/random-number-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="CyberNum Random Number Generator Interface Screenshot - Professional Online Random Number Tool">
+    <meta property="og:url" content="https://starryring.com/en/utility-tools/math/random-number-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CyberNum - Online Random Number Engine">
+    <meta name="twitter:description" content="Free online random number generator, supports integer, decimal, custom range random number generation, batch generation, uniqueness check, history features">
+    <meta name="twitter:image" content="https://starryring.com/random-number-preview.png">
+    <meta name="twitter:site" content="@StarryRing">
+    
+    <!-- Internationalization links -->
+    <link rel="canonical" href="https://starryring.com/en/utility-tools/math/random-number-generator/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/random-number-generator/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/random-number-generator/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/math/random-number-generator/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/random-number-generator/" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/static/js/utility-tools/math/random-number-generator/script-en.js" as="script">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/math/random-number-generator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --accent: #10b981; /* 绿色系代表计算与数值 */
-            --accent-dark: #0d9e6f;
-            --bg: #0a0c10;
-            --card: #161b22;
-            --text: #f0f6fc;
-            --text-secondary: #8b949e;
-            --border: #30363d;
-            --border-light: #3e4a58;
-        }
-
-        * { box-sizing: border-box; transition: all 0.2s ease; }
-        body {
-            margin: 0; font-family: 'Inter', sans-serif;
-            background: var(--bg); color: var(--text);
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            background: var(--card); padding: 2.5rem; border-radius: 24px;
-            width: 95%; max-width: 600px; border: 1px solid var(--border);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-
-        /* 结果显示区 */
-        .result-wrapper {
-            background: #0d1117; border: 1px solid var(--border);
-            border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
-            position: relative; min-height: 140px;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-
-        #result-display {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem; color: var(--accent);
-            text-align: center; word-break: break-all;
-            max-height: 300px; overflow-y: auto;
-            white-space: pre-wrap;
-            line-height: 1.4;
-            padding-right: 10px;
-        }
-
-        .result-actions {
-            display: flex; gap: 10px; margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            display: flex; align-items: center; gap: 6px;
-            background: transparent; border: 1px solid var(--border);
-            color: var(--text-secondary); padding: 8px 12px;
-            border-radius: 8px; cursor: pointer;
-            font-size: 0.85rem; font-family: 'Inter', sans-serif;
-        }
-        .action-btn:hover {
-            background: var(--border); color: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .icon-btn {
-            position: absolute; right: 12px; top: 12px;
-            background: transparent; border: none; color: #8b949e;
-            cursor: pointer; padding: 8px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .icon-btn:hover { background: var(--border); color: var(--accent); }
-
-        /* 控制面板 */
-        .controls { display: grid; gap: 1.5rem; }
-
-        .mode-selector {
-            display: flex; background: #0d1117; padding: 4px; border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-        .mode-btn {
-            flex: 1; border: none; background: transparent; color: #8b949e;
-            padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;
-        }
-        .mode-btn.active { background: var(--accent); color: white; }
-
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .input-group { display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
-        
-        input[type="number"], input[type="text"] {
-            background: #0d1117; border: 1px solid var(--border);
-            color: white; padding: 10px 12px; border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace; outline: none;
-            font-size: 0.95rem;
-        }
-        input:focus { border-color: var(--accent); }
-        
-        /* 复选框样式 */
-        .checkbox-group {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px; background: #0d1117;
-            border-radius: 8px; border: 1px solid var(--border);
-        }
-        .checkbox-group input[type="checkbox"] {
-            width: 18px; height: 18px; cursor: pointer;
-            accent-color: var(--accent);
-        }
-        
-        /* 格式化选项 */
-        .format-options {
-            display: flex; gap: 10px; flex-wrap: wrap;
-            padding: 10px; background: #0d1117;
-            border-radius: 8px; border: 1px solid var(--border);
-        }
-        .format-option {
-            display: flex; align-items: center; gap: 6px;
-        }
-        .format-option label {
-            cursor: pointer; font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        .format-option input[type="radio"] {
-            width: 16px; height: 16px; cursor: pointer;
-            accent-color: var(--accent);
-        }
-        
-        /* 按钮组 */
-        .button-group {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .gen-btn {
-            background: var(--accent); color: white;
-            border: none; padding: 1rem; border-radius: 12px;
-            font-size: 1rem; font-weight: 600; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .gen-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
-        
-        .sec-btn {
-            background: transparent; color: var(--text-secondary);
-            border: 1px solid var(--border); padding: 1rem; border-radius: 12px;
-            font-size: 1rem; font-weight: 600; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .sec-btn:hover {
-            background: var(--border); color: var(--accent);
-            border-color: var(--accent);
-        }
-        
-        /* 历史记录 */
-        .history-section {
-            margin-top: 2rem; border-top: 1px solid var(--border);
-            padding-top: 1.5rem; display: none;
-        }
-        .history-header {
-            display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 1rem;
-        }
-        .history-list {
-            display: flex; flex-direction: column; gap: 10px;
-            max-height: 200px; overflow-y: auto;
-            padding-right: 10px;
-        }
-        .history-item {
-            background: #0d1117; padding: 10px 15px;
-            border-radius: 8px; border: 1px solid var(--border);
-            display: flex; justify-content: space-between;
-            align-items: center; font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-        }
-        .history-actions {
-            display: flex; gap: 8px;
-        }
-        
-        /* 警告提示 */
-        .warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin: 10px 0;
-            font-size: 0.85rem;
-            color: #fbbf24;
-        }
-        
-        /* Toast提示 */
-        #toast {
-            position: fixed; bottom: 20px; left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: var(--accent); color: white;
-            padding: 12px 24px; border-radius: 50px;
-            opacity: 0; pointer-events: none; z-index: 1000;
-            font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        
-        /* 响应式调整 */
-        @media (max-width: 600px) {
-            .container { padding: 1.5rem; }
-            .input-row { grid-template-columns: 1fr; }
-            .button-group { grid-template-columns: 1fr; }
-            .format-options { flex-direction: column; align-items: flex-start; }
-            #result-display { font-size: 1.2rem; }
-        }
-    </style>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "CyberNum - Random Number Engine",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS"],
+                "description": "Professional online random number generator, supports integer, decimal, custom range random number generation, with batch generation, uniqueness check, history features",
+                "url": "https://starryring.com/en/utility-tools/math/random-number-generator/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/random-number-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "CyberNum Random Number Generator Interface"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/random-number-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "Random Number Generation Interface",
+                        "description": "Showing random number generation parameter settings and result display"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/random-number-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "History Management Interface",
+                        "description": "Showing random number generation history records and management features"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "Integer mode random number generation",
+                    "Decimal mode random number generation",
+                    "Custom range random number generation",
+                    "Batch generation (up to 1000 numbers)",
+                    "Uniqueness check feature",
+                    "History management (10 records)",
+                    "Multiple output formats (comma, newline, space separated)",
+                    "Seed input for reproducible random sequences",
+                    "Copy and export features"
+                ],
+                "datePublished": "2023-03-10",
+                "dateModified": "2024-02-15",
+                "softwareVersion": "1.2.0"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is CyberNum Random Number Engine?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "CyberNum is a professional online random number generator that supports multiple random number generation modes, including integer mode, decimal mode, and custom range mode. It provides batch generation, uniqueness check, history features, suitable for lottery, testing, password generation, and various other scenarios."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How to use this tool to generate random numbers?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "First select the generation mode (integer, decimal, or range), then set related parameters. In integer mode, set the number of digits; in decimal mode, set decimal precision; in range mode, set minimum and maximum values. Then set the generation count and whether uniqueness is required, finally click the 'Generate Random Sequence' button."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the seed function for?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The seed function allows you to input a specific value, making the random number sequence generated with the same seed completely identical. This is useful for scenarios requiring reproducible random sequences, such as testing, experiments, or teaching demonstrations. If left empty, a time-based random seed is used, generating different sequences each time."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://starryring.com/en/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Utility Tools",
+                        "item": "https://starryring.com/en/utility-tools/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Math Tools",
+                        "item": "https://starryring.com/en/utility-tools/math/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "CyberNum Random Number Engine",
+                        "item": "https://starryring.com/en/utility-tools/math/random-number-generator/"
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "How to Generate Random Number Sequences with CyberNum",
+                "description": "Step-by-step guide on using CyberNum random number engine to generate random number sequences",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "text": "Select generation mode: integer mode (fixed digits), decimal mode (specified precision), or range mode (custom min/max values)"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Set corresponding parameters: digit count, decimal precision, range values, etc."
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Set generation count (1-1000), and choose whether uniqueness is required (no duplicates)"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Optional: input seed value for reproducible random sequences, or leave empty for fully random"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Choose output format: comma separated, newline separated, or space separated"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Click 'Generate Random Sequence' button, view generated random numbers in result area"
+                    }
+                ],
+                "totalTime": "PT1M",
+                "tool": {
+                    "@type": "SoftwareApplication",
+                    "name": "CyberNum Random Number Engine"
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <title>CyberNum - Professional Online Random Number Engine, Supports Integer, Decimal, Custom Range Random Number Generation | StarryRing</title>
 </head>
 <body>
-
-<div class="container">
-    <h1 style="margin-top: 0; text-align: center; color: var(--accent); font-size: 1.8rem; margin-bottom: 1.5rem;">CyberNum - 随机数引擎</h1>
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb Navigation" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/en/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/en/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> Utility Tools
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-paper-plane"></i> Random Number Generator</span>
+            </li>
+        </ol>
+    </nav>
     
-    <div class="result-wrapper">
-        <div id="result-display">准备就绪</div>
-        <div class="result-actions">
-            <button class="action-btn" onclick="copyResult()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                复制
-            </button>
-            <button class="action-btn" onclick="exportResults()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                导出
-            </button>
-            <button class="action-btn" onclick="formatLargeNumbers()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
-                格式化
-            </button>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select Language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/zh/utility-tools/math/random-number-generator/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/en/utility-tools/math/random-number-generator/" data-lang="en">
+                English
+            </a>
         </div>
     </div>
-
-    <div class="controls">
-        <div class="mode-selector">
-            <button class="mode-btn active" onclick="setMode('int', this)">整数模式</button>
-            <button class="mode-btn" onclick="setMode('dec', this)">小数模式</button>
-            <button class="mode-btn" onclick="setMode('range', this)">范围模式</button>
-        </div>
-
-        <!-- 位数模式 -->
-        <div id="digits-mode" class="input-group">
-            <label>生成位数 (Digits)</label>
-            <input type="number" id="digits" value="6" min="1" max="100">
-            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">
-                支持超大整数，建议不超过50位以确保显示正常
-            </div>
-        </div>
-        
-        <!-- 范围模式 -->
-        <div id="range-mode" class="input-row" style="display: none;">
-            <div class="input-group">
-                <label>最小值 (Min)</label>
-                <input type="text" id="min" value="0" placeholder="例如: 0">
-            </div>
-            <div class="input-group">
-                <label>最大值 (Max)</label>
-                <input type="text" id="max" value="100" placeholder="例如: 100">
+    
+    <!-- Main Title and Description -->
+    <h1 style="margin-top: 1rem; text-align: center; color: var(--accent); font-size: 1.8rem; margin-bottom: 1rem;">CyberNum - Professional Random Number Engine</h1>
+    <p style="text-align: center; color: var(--text-secondary); max-width: 800px; margin: 0 auto 2rem; padding: 0 1rem;">Professional random number generator, supports integer, decimal, custom range random number generation, with batch generation, uniqueness check, history features. Free random number generator suitable for lottery, testing, password generation, etc.</p>
+    
+    <div class="container">
+        <!-- Original tool interface remains unchanged -->
+        <div class="result-wrapper">
+            <div id="result-display">Ready</div>
+            <div class="result-actions">
+                <button class="action-btn" onclick="copyResult()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                </button>
+                <button class="action-btn" onclick="exportResults()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Export
+                </button>
+                <button class="action-btn" onclick="formatLargeNumbers()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                    Format
+                </button>
             </div>
         </div>
 
-        <!-- 小数选项 -->
-        <div id="decimal-options" class="input-group" style="display: none;">
-            <label>小数位精度 (Precision)</label>
-            <input type="number" id="precision" value="2" min="1" max="15">
+        <div class="controls">
+            <div class="mode-selector">
+                <button class="mode-btn active" onclick="setMode('int', this)">Integer Mode</button>
+                <button class="mode-btn" onclick="setMode('dec', this)">Decimal Mode</button>
+                <button class="mode-btn" onclick="setMode('range', this)">Range Mode</button>
+            </div>
+
+            <!-- Digits Mode -->
+            <div id="digits-mode" class="input-group">
+                <label>Digits to Generate</label>
+                <input type="number" id="digits" value="6" min="1" max="100">
+                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">
+                    Supports very large integers, recommend not exceeding 50 digits for proper display
+                </div>
+            </div>
+            
+            <!-- Range Mode -->
+            <div id="range-mode" class="input-row" style="display: none;">
+                <div class="input-group">
+                    <label>Minimum Value (Min)</label>
+                    <input type="text" id="min" value="0" placeholder="e.g.: 0">
+                </div>
+                <div class="input-group">
+                    <label>Maximum Value (Max)</label>
+                    <input type="text" id="max" value="100" placeholder="e.g.: 100">
+                </div>
+            </div>
+
+            <!-- Decimal Options -->
+            <div id="decimal-options" class="input-group" style="display: none;">
+                <label>Decimal Precision</label>
+                <input type="number" id="precision" value="2" min="1" max="15">
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Count to Generate</label>
+                    <input type="number" id="count" value="5" min="1" max="1000">
+                </div>
+                <div class="input-group">
+                    <label>Seed (Optional)</label>
+                    <input type="text" id="seed" placeholder="Leave empty for random seed">
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="unique" onchange="toggleMaxCount()">
+                <label for="unique" style="font-size: 0.9rem; cursor: pointer;">Unique (No Duplicates)</label>
+            </div>
+
+            <div class="format-options">
+                <div class="format-option">
+                    <input type="radio" id="format-comma" name="format" value="comma" checked>
+                    <label for="format-comma">Comma Separated</label>
+                </div>
+                <div class="format-option">
+                    <input type="radio" id="format-newline" name="format" value="newline">
+                    <label for="format-newline">Newline Separated</label>
+                </div>
+                <div class="format-option">
+                    <input type="radio" id="format-space" name="format" value="space">
+                    <label for="format-space">Space Separated</label>
+                </div>
+            </div>
+
+            <div id="warning-area"></div>
+
+            <div class="button-group">
+                <button class="gen-btn" onclick="generate()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                    Generate Random Sequence
+                </button>
+                <button class="sec-btn" onclick="toggleHistory()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    History
+                </button>
+            </div>
         </div>
 
-        <div class="input-row">
-            <div class="input-group">
-                <label>生成个数 (Count)</label>
-                <input type="number" id="count" value="5" min="1" max="1000">
+        <!-- History Section -->
+        <div id="history-section" class="history-section">
+            <div class="history-header">
+                <h3 style="margin: 0; color: var(--text-secondary); font-size: 1rem;">Recent Generated Sequences</h3>
+                <button class="action-btn" onclick="clearHistory()" style="padding: 6px 10px; font-size: 0.8rem;">
+                    Clear History
+                </button>
             </div>
-            <div class="input-group">
-                <label>生成种子 (可选)</label>
-                <input type="text" id="seed" placeholder="留空则使用随机种子">
+            <div id="history-list" class="history-list">
+                <!-- History will be dynamically inserted -->
             </div>
-        </div>
-
-        <div class="checkbox-group">
-            <input type="checkbox" id="unique" onchange="toggleMaxCount()">
-            <label for="unique" style="font-size: 0.9rem; cursor: pointer;">不允许重复 (Unique)</label>
-        </div>
-
-        <div class="format-options">
-            <div class="format-option">
-                <input type="radio" id="format-comma" name="format" value="comma" checked>
-                <label for="format-comma">逗号分隔</label>
-            </div>
-            <div class="format-option">
-                <input type="radio" id="format-newline" name="format" value="newline">
-                <label for="format-newline">换行分隔</label>
-            </div>
-            <div class="format-option">
-                <input type="radio" id="format-space" name="format" value="space">
-                <label for="format-space">空格分隔</label>
-            </div>
-        </div>
-
-        <div id="warning-area"></div>
-
-        <div class="button-group">
-            <button class="gen-btn" onclick="generate()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
-                生成随机序列
-            </button>
-            <button class="sec-btn" onclick="toggleHistory()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                历史记录
-            </button>
         </div>
     </div>
-
-    <!-- 历史记录区域 -->
-    <div id="history-section" class="history-section">
-        <div class="history-header">
-            <h3 style="margin: 0; color: var(--text-secondary); font-size: 1rem;">最近生成的序列</h3>
-            <button class="action-btn" onclick="clearHistory()" style="padding: 6px 10px; font-size: 0.8rem;">
-                清空历史
-            </button>
+    
+    <!-- Page Navigation Cards -->
+    <div class="page-navigation-section">
+        <div class="navigation-header">
+            <h2>Random Number Related Resources</h2>
+            <p>Learn more about random number generation and applications</p>
         </div>
-        <div id="history-list" class="history-list">
-            <!-- 历史记录将动态插入 -->
-        </div>
-    </div>
-</div>
-
-<div id="toast">已复制到剪贴板</div>
-
-<script>
-    let currentMode = 'int';
-    let history = JSON.parse(localStorage.getItem('randomHistory') || '[]');
-    let seedGenerator = null;
-    let currentResults = [];
-
-    // 初始化
-    document.addEventListener('DOMContentLoaded', function() {
-        renderHistory();
-        document.getElementById('digits').addEventListener('input', updateMaxCount);
-        document.getElementById('min').addEventListener('input', updateMaxCount);
-        document.getElementById('max').addEventListener('input', updateMaxCount);
-        updateMaxCount();
-        generate(); // 默认生成一次
-    });
-
-    function setMode(mode, btn) {
-        currentMode = mode;
-        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // 显示/隐藏相关选项
-        document.getElementById('digits-mode').style.display = (mode === 'int' || mode === 'dec') ? 'flex' : 'none';
-        document.getElementById('range-mode').style.display = (mode === 'range') ? 'flex' : 'none';
-        document.getElementById('decimal-options').style.display = (mode === 'dec') ? 'flex' : 'none';
-        
-        // 更新最大值计算
-        updateMaxCount();
-    }
-
-    function updateMaxCount() {
-        const uniqueCheckbox = document.getElementById('unique');
-        const countInput = document.getElementById('count');
-        
-        if (uniqueCheckbox.checked) {
-            let maxPossible;
-            
-            if (currentMode === 'range') {
-                const min = parseBigInt(document.getElementById('min').value) || 0n;
-                const max = parseBigInt(document.getElementById('max').value) || 100n;
-                const diff = max > min ? max - min : min - max;
-                maxPossible = Number(diff) + 1;
-                
-                // 如果范围太大，限制在1000
-                if (maxPossible > 10000) {
-                    maxPossible = 10000;
-                }
-            } else {
-                const digits = parseInt(document.getElementById('digits').value) || 6;
-                // 对于超大位数，限制最大生成数量
-                maxPossible = Math.min(10000, Math.pow(10, Math.min(digits, 4)));
-            }
-            
-            if (maxPossible < 10000) {
-                countInput.max = maxPossible;
-                countInput.title = `不重复模式下最多可生成 ${maxPossible} 个数字`;
-            } else {
-                countInput.max = 10000;
-                countInput.title = '不重复模式下最多可生成 10000 个数字';
-            }
-        } else {
-            countInput.max = 10000;
-            countInput.title = '最多可生成 10000 个数字';
-        }
-    }
-
-    function toggleMaxCount() {
-        updateMaxCount();
-    }
-
-    function parseBigInt(value) {
-        try {
-            value = value.trim();
-            if (!value) return 0n;
-            
-            // 移除逗号等分隔符
-            value = value.replace(/,/g, '');
-            
-            // 检查是否为有效数字
-            if (!/^-?\d+$/.test(value)) {
-                return 0n;
-            }
-            
-            return BigInt(value);
-        } catch (e) {
-            return 0n;
-        }
-    }
-
-    function generate() {
-        const count = parseInt(document.getElementById('count').value) || 1;
-        const unique = document.getElementById('unique').checked;
-        const seed = document.getElementById('seed').value.trim();
-        const format = document.querySelector('input[name="format"]:checked').value;
-        
-        // 清空警告区域
-        const warningArea = document.getElementById('warning-area');
-        warningArea.innerHTML = '';
-        
-        // 验证输入
-        if (currentMode === 'int' || currentMode === 'dec') {
-            const digits = parseInt(document.getElementById('digits').value) || 6;
-            if (digits > 50) {
-                warningArea.innerHTML = `
-                    <div class="warning">
-                        <strong>提示：</strong>您正在生成超过50位的超大整数。显示和计算可能需要较长时间。
-                    </div>
-                `;
-            }
-        }
-        
-        // 根据模式生成数字
-        let results = [];
-        if (currentMode === 'int') {
-            results = generateBigIntegers(count, unique);
-        } else if (currentMode === 'dec') {
-            results = generateDecimals(count, unique);
-        } else if (currentMode === 'range') {
-            results = generateRangeIntegers(count, unique);
-        }
-        
-        // 保存当前结果
-        currentResults = results.map(r => r.toString());
-        
-        // 格式化结果
-        const formatted = formatResults(currentResults, format);
-        
-        // 显示结果
-        const display = document.getElementById('result-display');
-        display.style.fontSize = getOptimalFontSize(results, count);
-        display.innerText = formatted;
-        
-        // 保存到历史记录
-        addToHistory(results);
-        
-        // 显示提示
-        showToast(`已生成 ${count} 个随机${getModeName(currentMode)}`);
-    }
-
-    function generateBigIntegers(count, unique) {
-        const digits = parseInt(document.getElementById('digits').value) || 6;
-        const min = 10n ** BigInt(digits - 1);
-        const max = (10n ** BigInt(digits)) - 1n;
-        
-        return generateRandomBigInts(min, max, count, unique);
-    }
-
-    function generateRangeIntegers(count, unique) {
-        const min = parseBigInt(document.getElementById('min').value) || 0n;
-        const max = parseBigInt(document.getElementById('max').value) || 100n;
-        
-        const actualMin = min < max ? min : max;
-        const actualMax = min < max ? max : min;
-        
-        return generateRandomBigInts(actualMin, actualMax, count, unique);
-    }
-
-    function generateRandomBigInts(min, max, count, unique) {
-        const range = max - min + 1n;
-        
-        // 检查范围是否太小
-        if (unique && range < BigInt(count)) {
-            showToast(`警告：范围太小，无法生成 ${count} 个不重复数字，将生成 ${range} 个`);
-            count = Number(range);
-        }
-        
-        const results = [];
-        const used = new Set();
-        
-        // 如果范围不是特别大，使用预生成所有可能值的方法
-        if (!unique || range < 1000000n) {
-            while (results.length < count) {
-                // 生成加密安全的随机大整数
-                const randomBuffer = new Uint8Array(Math.ceil(Number(range.toString(2).length) / 8));
-                window.crypto.getRandomValues(randomBuffer);
-                
-                // 转换为BigInt
-                let randomBigInt = 0n;
-                for (let i = 0; i < randomBuffer.length; i++) {
-                    randomBigInt = (randomBigInt << 8n) | BigInt(randomBuffer[i]);
-                }
-                
-                // 映射到范围
-                const randomInRange = min + (randomBigInt % range);
-                const randomStr = randomInRange.toString();
-                
-                if (!unique || !used.has(randomStr)) {
-                    results.push(randomInRange);
-                    used.add(randomStr);
-                    
-                    // 防止无限循环
-                    if (unique && used.size >= 10000 && results.length < count) {
-                        showToast('警告：已达到不重复生成上限');
-                        break;
-                    }
-                }
-            }
-        } else {
-            // 对于超大范围，使用简化的生成方法
-            for (let i = 0; i < count; i++) {
-                const randomBuffer = new Uint8Array(8);
-                window.crypto.getRandomValues(randomBuffer);
-                
-                let randomBigInt = 0n;
-                for (let i = 0; i < randomBuffer.length; i++) {
-                    randomBigInt = (randomBigInt << 8n) | BigInt(randomBuffer[i]);
-                }
-                
-                const randomInRange = min + (randomBigInt % range);
-                results.push(randomInRange);
-            }
-        }
-        
-        return results;
-    }
-
-    function generateDecimals(count, unique) {
-        const digits = parseInt(document.getElementById('digits').value) || 6;
-        const precision = parseInt(document.getElementById('precision').value) || 2;
-        
-        const min = Math.pow(10, digits - 1);
-        const max = Math.pow(10, digits) - 1;
-        const range = max - min;
-        
-        let results = [];
-        let used = new Set();
-        
-        while (results.length < count) {
-            const randomVal = (Math.random() * range) + min;
-            const roundedVal = parseFloat(randomVal.toFixed(precision));
-            
-            if (!unique || !used.has(roundedVal)) {
-                results.push(roundedVal);
-                used.add(roundedVal);
-            }
-            
-            // 防止无限循环
-            if (unique && used.size >= 1000 && results.length < count) {
-                showToast('警告：已生成大量不重复数字，可能存在重复风险');
-                break;
-            }
-        }
-        
-        return results;
-    }
-
-    function formatResults(results, format) {
-        const separator = {
-            'comma': ', ',
-            'newline': '\n',
-            'space': ' '
-        }[format];
-        
-        return results.map(num => num.toString()).join(separator);
-    }
-
-    function getOptimalFontSize(results, count) {
-        if (count === 1) {
-            const strLen = results[0].toString().length;
-            if (strLen > 50) return '1rem';
-            if (strLen > 30) return '1.2rem';
-            if (strLen > 20) return '1.4rem';
-            return '1.8rem';
-        } else if (count > 10) {
-            return '0.9rem';
-        } else if (count > 5) {
-            return '1rem';
-        }
-        return '1.2rem';
-    }
-
-    function formatLargeNumbers() {
-        if (currentResults.length === 0) {
-            showToast("没有可格式化的内容");
-            return;
-        }
-        
-        const format = document.querySelector('input[name="format"]:checked').value;
-        const formattedResults = currentResults.map(num => {
-            // 对大数字进行千位分隔
-            if (/^\d+$/.test(num) && num.length > 3) {
-                return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
-            return num;
-        });
-        
-        const display = document.getElementById('result-display');
-        display.innerText = formattedResults.join({
-            'comma': ', ',
-            'newline': '\n',
-            'space': ' '
-        }[format]);
-        
-        showToast("已格式化数字（千位分隔）");
-    }
-
-    function copyResult() {
-        const text = document.getElementById('result-display').innerText;
-        if (text === "准备就绪") {
-            showToast("没有可复制的内容");
-            return;
-        }
-        
-        navigator.clipboard.writeText(text).then(() => {
-            showToast("已复制到剪贴板");
-        });
-    }
-
-    function exportResults() {
-        const text = document.getElementById('result-display').innerText;
-        if (text === "准备就绪") {
-            showToast("没有可导出的内容");
-            return;
-        }
-        
-        const blob = new Blob([text], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `random_numbers_${new Date().getTime()}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        showToast("已导出为文本文件");
-    }
-
-    function getModeName(mode) {
-        const names = {
-            'int': '整数',
-            'dec': '小数',
-            'range': '整数'
-        };
-        return names[mode] || '数字';
-    }
-
-    function addToHistory(results) {
-        const timestamp = new Date().toLocaleString();
-        const modeName = getModeName(currentMode);
-        
-        history.unshift({
-            results: results.map(r => r.toString()),
-            mode: modeName,
-            count: results.length,
-            timestamp: timestamp,
-            formatted: results.map(r => r.toString()).join(', ')
-        });
-        
-        // 只保留最近10条记录
-        if (history.length > 10) {
-            history = history.slice(0, 10);
-        }
-        
-        localStorage.setItem('randomHistory', JSON.stringify(history));
-        renderHistory();
-    }
-
-    function renderHistory() {
-        const historyList = document.getElementById('history-list');
-        historyList.innerHTML = '';
-        
-        if (history.length === 0) {
-            historyList.innerHTML = '<div style="color: var(--text-secondary); text-align: center; padding: 20px;">暂无历史记录</div>';
-            return;
-        }
-        
-        history.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.className = 'history-item';
-            
-            // 截断过长的结果显示
-            const displayText = item.formatted.length > 30 ? 
-                item.formatted.substring(0, 30) + '...' : 
-                item.formatted;
-                
-            div.innerHTML = `
-                <div style="flex: 1; overflow: hidden;">
-                    <div style="font-size: 0.8rem; color: var(--text-secondary);">${item.timestamp}</div>
-                    <div style="margin-top: 5px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        ${displayText}
-                    </div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 3px;">
-                        ${item.mode} × ${item.count}
+        <div class="navigation-cards">
+            <a href="/en/utility-tools/math/random-number-generator/guide/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3>Detailed User Guide</h3>
+                    <p>Learn how to use CyberNum random number engine from scratch, including step-by-step instructions, application scenarios, and FAQ.</p>
+                    <div class="nav-card-action">
+                        <span>View Full Guide <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
-                <div class="history-actions">
-                    <button class="action-btn" onclick="useHistory(${index})" style="padding: 5px 8px; font-size: 0.8rem;">
-                        使用
-                    </button>
-                    <button class="action-btn" onclick="deleteHistory(${index})" style="padding: 5px 8px; font-size: 0.8rem;">
-                        删除
-                    </button>
+            </a>
+            <a href="/en/utility-tools/math/random-number-generator/algorithm/" class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-cogs"></i>
                 </div>
-            `;
-            historyList.appendChild(div);
-        });
-    }
-
-    function useHistory(index) {
-        if (index >= 0 && index < history.length) {
-            const item = history[index];
-            currentResults = item.results;
-            const display = document.getElementById('result-display');
-            display.innerText = item.formatted;
-            display.style.fontSize = getOptimalFontSize(item.results, item.count);
-            showToast(`已加载历史记录 (${item.mode} × ${item.count})`);
-        }
-    }
-
-    function deleteHistory(index) {
-        if (index >= 0 && index < history.length) {
-            history.splice(index, 1);
-            localStorage.setItem('randomHistory', JSON.stringify(history));
-            renderHistory();
-            showToast("已删除历史记录");
-        }
-    }
-
-    function clearHistory() {
-        if (confirm("确定要清空所有历史记录吗？")) {
-            history = [];
-            localStorage.setItem('randomHistory', JSON.stringify(history));
-            renderHistory();
-            showToast("已清空历史记录");
-        }
-    }
-
-    function toggleHistory() {
-        const historySection = document.getElementById('history-section');
-        const btn = document.querySelector('.sec-btn');
-        
-        if (historySection.style.display === 'none' || historySection.style.display === '') {
-            historySection.style.display = 'block';
-            btn.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                隐藏历史
-            `;
-        } else {
-            historySection.style.display = 'none';
-            btn.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                历史记录
-            `;
-        }
-    }
-
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.innerText = message;
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
-    }
-</script>
+                <div class="nav-card-content">
+                    <h3>Random Number Algorithm Details</h3>
+                    <p>Deep dive into random number generation algorithm principles, differences between pseudo-random and true random, common random number generator implementations.</p>
+                    <div class="nav-card-action">
+                        <span>Learn Algorithm Principles <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Feature Description and FAQ Section -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>CyberNum Random Number Engine Features</h2>
+            <p>📖 Introduction: Professional random number generator, supports multiple random number generation modes, provides batch generation, uniqueness check, history features. Perfect integration of <strong>random number generator</strong>, <strong>online random number tool</strong>, <strong>random number picker</strong> functions.</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3><i class="fas fa-hashtag"></i> Integer Mode</h3>
+                    <p>Generate random integers with specified digit count, supports very large integers (up to 100 digits), suitable for generating random IDs, verification codes, etc.</p>
+                    <div class="tip">
+                        <span class="tip-text">Tip: 6-8 digit random integers commonly used for verification codes, 10+ digits for unique IDs</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-percentage"></i> Decimal Mode</h3>
+                    <p>Generate random decimals with specified precision, supports 1-15 decimal places, suitable for simulation data, scientific calculations, etc.</p>
+                    <div class="tip">
+                        <span class="tip-text">Common decimal precision: 2 places (currency), 4 places (scientific), 6 places (high precision simulation)</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-sliders-h"></i> Range Mode</h3>
+                    <p>Generate random numbers within custom range, supports integer and decimal ranges, suitable for lottery, random selection, etc.</p>
+                    <div class="tip">
+                        <span class="tip-text">Example: Generate 10 unique random integers in 1-100 range for lottery</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-list-ol"></i> Batch Generation</h3>
+                    <p>Supports generating up to 1000 random numbers at once, improves work efficiency, suitable for scenarios requiring large amounts of random data.</p>
+                    <div class="tip">
+                        <span class="tip-text">When batch generating, recommend using uniqueness check to avoid duplicate data</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-seedling"></i> Seed Function</h3>
+                    <p>Supports inputting seed value, generates reproducible random sequences, ensuring same results under identical conditions.</p>
+                    <div class="tip">
+                        <span class="tip-text">Seed function very useful for testing and teaching, ensures reproducible results</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-history"></i> History Records</h3>
+                    <p>Automatically saves recently generated random number sequences, supports quick view, copy, and regenerate from history.</p>
+                    <div class="tip">
+                        <span class="tip-text">History saves maximum 10 records, can be cleared with one click</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Random Number Technical Specifications -->
+            <div class="technical-section">
+                <h2>Random Number Generation Technical Specifications</h2>
+                <p>Random number algorithm used by this tool: Strong random number generator based on Crypto.getRandomValues()</p>
+                <ul class="tech-specs">
+                    <li>Complies with cryptographic secure random number standards</li>
+                    <li>Supports very large integer generation (up to 100 digits)</li>
+                    <li>Supports high precision decimal generation (up to 15 decimal places)</li>
+                    <li>Supports seed input for reproducible random sequences</li>
+                    <li>Implements uniform distribution random number generation</li>
+                    <li>Supports batch generation and uniqueness check</li>
+                </ul>
+                <p class="tech-note"><strong>Technical Note:</strong> This tool uses browser's built-in Crypto API to generate strong random numbers, with higher randomness and security compared to Math.random(), suitable for password generation, security tokens, etc.</p>
+            </div>
+            
+            <div class="faq-section">
+                <h2>Frequently Asked Questions (FAQ)</h2>
+                <div class="faq-item">
+                    <h3>What is a random number generator?</h3>
+                    <p>A random number generator is a tool or algorithm used to generate random number sequences. Random numbers have wide applications in computer science, statistics, cryptography, game development, etc. Based on generation method, they can be categorized as true random number generators (TRNG) and pseudo-random number generators (PRNG). This tool uses cryptographically secure pseudo-random number generators.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>When should I set a seed?</h3>
+                    <p>Seed function is mainly used for the following scenarios:<br>
+                    1) Testing and debugging: Need reproducible random sequences to verify program behavior<br>
+                    2) Teaching demonstrations: Show random number generation principles to students<br>
+                    3) Scientific experiments: Ensure experimental conditions are repeatable<br>
+                    4) Game development: Generate same game maps or levels<br>
+                    If reproducibility is not needed, recommend leaving seed input empty.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How to generate secure random passwords?</h3>
+                    <p>To generate secure random passwords, recommend:<br>
+                    1) Use integer mode to generate 8-12 digit random numbers as password base<br>
+                    2) Combine letters, numbers, and special characters to enhance security<br>
+                    3) Avoid common number sequences (like 123456, birthdays, etc.)<br>
+                    4) Change passwords regularly, don't reuse same passwords<br>
+                    5) Use password manager to save generated passwords</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What are the limitations of uniqueness check?</h3>
+                    <p>Uniqueness check feature ensures no duplicate values in generated random number sequences. But note the following limitations:<br>
+                    1) In range mode, if requested unique count exceeds range size, requirement cannot be met<br>
+                    2) Performance may be affected when generating large amounts of unique numbers<br>
+                    3) Uniqueness check increases computational complexity, especially when generating many random numbers<br>
+                    Recommend setting generation count and range reasonably based on actual needs.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How to export generated random numbers?</h3>
+                    <p>This tool provides multiple export methods:<br>
+                    1) Copy function: Copy generated random numbers to clipboard<br>
+                    2) Export function: Export random numbers as text file<br>
+                    3) Format function: Adjust display format of large numbers for easier reading<br>
+                    4) History records: Save recent generation results for later use<br>
+                    Future versions will support more export formats like JSON, CSV, etc.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is this tool free?</h3>
+                    <p>Yes, CyberNum random number engine is completely free online tool, no registration or login required. We are committed to providing high-quality free tools for developers and general users, helping improve work and study efficiency. All features are free to use, with no hidden fees or limitations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page Footer -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p>© 2024 StarryRing - CyberNum Random Number Engine</p>
+            <p>Page last updated: February 2024 | Version: v1.2.0</p>
+        </div>
+    </footer>
+    
+    <div id="toast">Copied to clipboard</div>
+    
+    <!-- Local Scripts -->
+    <script src="/static/js/utility-tools/math/random-number-generator/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
