@@ -1,219 +1,336 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Icon Studio - 智能图标生成器</title>
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Primary Meta Description and Keywords -->
+    <meta name="description" content="App Icon Studio - Smart icon generator. All-in-one solution to preview and export full-size iOS & Android app icons. Free online icon maker with batch export.">
+    <meta name="keywords" content="app icon generator, iOS icon generator, Android icon maker, app icon design, icon size generator, batch icon export, online icon tool, icon crop tool">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="App Icon Studio - Smart Icon Generator | Free Online App Icon Maker | StarryRing">
+    <meta property="og:description" content="All-in-one app icon generation solution. Preview and export full-size iOS & Android icons in real-time. 13 sizes, 2 platforms, no design software required.">
+    <meta property="og:image" content="https://starryring.com/app-icon-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="App Icon Studio Interface - Smart App Icon Generator">
+    <meta property="og:url" content="https://starryring.com/en/utility-tools/design-media/app-icon-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="App Icon Studio - Free Online App Icon Generator">
+    <meta name="twitter:description" content="All-in-one app icon generation solution. Preview and export full-size iOS & Android icons in real-time">
+    <meta name="twitter:image" content="https://starryring.com/app-icon-preview.png">
+    <meta name="twitter:site" content="@StarryRing">
+    
+    <!-- Internationalization Links -->
+    <link rel="canonical" href="https://starryring.com/en/utility-tools/design-media/app-icon-generator/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/app-icon-generator/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/app-icon-generator/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/design-media/app-icon-generator/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/app-icon-generator/" />
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/static/js/utility-tools/design-media/app-icon-generator/script-en.js" as="script">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <title>App Icon Studio - Smart Icon Generator | Free Online App Icon Maker | StarryRing</title>
+    
+    <!-- External Resources -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        }
-        
-        .upload-area {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border: 2px dashed #cbd5e1;
-            transition: all 0.3s ease;
-        }
-        
-        .upload-area:hover, .upload-area.drag-over {
-            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: #475569;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-            transform: translateY(-2px);
-        }
-        
-        /* iOS 连续曲率圆角模拟 */
-        .ios-mask {
-            border-radius: 22.5%;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-        
-        /* Android 遮罩模拟 */
-        .android-circle {
-            border-radius: 50%;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-        
-        .android-squircle {
-            border-radius: 20%;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-        
-        /* 模拟桌面背景 */
-        .phone-screen {
-            background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
-            width: 160px;
-            height: 280px;
-            border: 10px solid #1e293b;
-            border-radius: 28px;
-            position: relative;
-            padding: 20px 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .phone-screen::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 4px;
-            background: #475569;
-            border-radius: 4px;
-        }
-        
-        .app-label {
-            font-size: 10px;
-            color: white;
-            text-align: center;
-            margin-top: 6px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-            font-weight: 500;
-        }
-        
-        .icon-count {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-        
-        .platform-badge {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(4px);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 12px;
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .loading-spinner {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 3px solid white;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .progress-bar {
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #10b981 100%);
-            border-radius: 2px;
-            animation: progress 2s ease-in-out infinite;
-        }
-        
-        @keyframes progress {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/design-media/app-icon-generator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "App Icon Studio - Smart Icon Generator",
+                "applicationCategory": "DesignApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS"],
+                "description": "Free online app icon generator. Create full-size iOS & Android icons with real-time preview, smart cropping, and batch export.",
+                "url": "https://starryring.com/en/utility-tools/design-media/app-icon-generator/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/app-icon-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "App Icon Studio Interface"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/app-icon-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "Icon Cropping Interface",
+                        "description": "Smart cropping and adjustment of icon area"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/app-icon-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "Live Preview Interface",
+                        "description": "Real-time preview for iOS and Android platforms"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "Smart image cropping and adjustment",
+                    "iOS & Android dual-platform support",
+                    "13 standard icon sizes",
+                    "Real-time device simulation preview",
+                    "Batch export as ZIP archive",
+                    "Frontend processing – no upload to server",
+                    "Responsive design, mobile-friendly"
+                ],
+                "datePublished": "2023-03-10",
+                "dateModified": "2024-02-15",
+                "softwareVersion": "1.1.0"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is App Icon Studio?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "App Icon Studio is an online app icon generator designed for mobile app developers. It helps you quickly generate various icon sizes for iOS and Android platforms with real-time preview to ensure perfect display across devices."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What icon sizes are supported?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The tool supports 13 standard icon sizes for iOS and Android, including: iOS – 1024px (App Store), 180px (iPhone@3x), 120px (iPhone@2x), 167px (iPad Pro), 152px (iPad), 76px (iPad@1x); Android – 512px (Play Store), 192px (xxxhdpi), 144px (xxhdpi), 96px (xhdpi), 72px (hdpi), 48px (mdpi), 36px (ldpi)."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Is my image data secure?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes, all image processing happens locally in your browser. No files are uploaded to any server, ensuring complete privacy and security for your original images and generated icons."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What source image should I use?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "We recommend uploading a high-resolution PNG image at 1024×1024 pixels to ensure crisp icons at all sizes. JPG and SVG are also supported, but PNG offers the best transparency support."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do I get the generated icons?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "After cropping, click the 'Generate Full Icon Set' button. The tool will generate all icon sizes and package them into a ZIP file for download. Unzip to find a complete icon set organized by platform and size."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://starryring.com/en/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Utility Tools",
+                        "item": "https://starryring.com/en/utility-tools/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Design & Media Tools",
+                        "item": "https://starryring.com/en/utility-tools/design-media/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "App Icon Studio",
+                        "item": "https://starryring.com/en/utility-tools/design-media/app-icon-generator/"
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "How to Generate App Icons with App Icon Studio",
+                "description": "Step-by-step guide to quickly generate iOS and Android app icons",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "text": "Upload your source icon: Click the upload area or drag & drop an image (recommended: 1024×1024px PNG)"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Adjust the crop area: Drag and scale the crop box to keep important content in the center safe zone"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Check live preview: See how your icon looks on iOS and Android devices in the right panel"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Generate and download: Click 'Generate Full Icon Set' and download the ZIP file with all sizes"
+                    }
+                ],
+                "totalTime": "PT3M",
+                "tool": {
+                    "@type": "SoftwareApplication",
+                    "name": "App Icon Studio"
+                }
+            }
+        ]
+    }
+    </script>
+    
 </head>
-<body class="min-h-screen py-8 px-4">
-    <div class="max-w-7xl mx-auto">
-        <!-- 头部 -->
-        <div class="text-center mb-12 fade-in">
-            <div class="inline-flex items-center justify-center gap-3 mb-4">
-                <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-palette text-white text-xl"></i>
-                </div>
-                <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">App Icon Studio</h1>
+<body class="min-h-screen py-8 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item">
+                    <a href="/en/" class="breadcrumb-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/en/utility-tools/" class="breadcrumb-link">
+                        <i class="fas fa-toolbox"></i> Utility Tools
+                    </a>
+                </li>
+
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-active">App Icon Studio</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/zh/utility-tools/design-media/app-icon-generator/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/en/utility-tools/design-media/app-icon-generator/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Header -->
+    <div class="text-center mb-12 fade-in">
+        <div class="inline-flex items-center justify-center gap-3 mb-4">
+            <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center">
+                <i class="fas fa-palette text-white text-xl"></i>
             </div>
-            <p class="text-gray-600 text-lg max-w-2xl mx-auto">一站式图标生成解决方案，实时预览并导出 iOS 与 Android 全尺寸图标</p>
-            <div class="flex items-center justify-center gap-4 mt-6">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-check-circle text-green-500"></i>
-                    <span class="text-sm text-gray-600">实时预览</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-check-circle text-green-500"></i>
-                    <span class="text-sm text-gray-600">智能裁剪</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-check-circle text-green-500"></i>
-                    <span class="text-sm text-gray-600">批量导出</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-check-circle text-green-500"></i>
-                    <span class="text-sm text-gray-600">多平台支持</span>
-                </div>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">App Icon Studio</h1>
+        </div>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-4">All-in-one app icon generation solution. Preview and export full-size iOS & Android icons in real-time. Professional <strong>icon generator</strong>, <strong>app icon design</strong>, and <strong>multi-platform icon creation</strong> tools integrated.</p>
+        <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-500"></i>
+                <span class="text-sm text-gray-600">Live Preview</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-500"></i>
+                <span class="text-sm text-gray-600">Smart Crop</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-500"></i>
+                <span class="text-sm text-gray-600">Batch Export</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-500"></i>
+                <span class="text-sm text-gray-600">Multi‑Platform</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-500"></i>
+                <span class="text-sm text-gray-600">Privacy Safe</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-500"></i>
+                <span class="text-sm text-gray-600">Completely Free</span>
             </div>
         </div>
+    </div>
 
+    <!-- Main Tool Container -->
+    <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- 左侧：裁剪编辑器 -->
+            <!-- Left: Crop Editor -->
             <div class="lg:col-span-8 space-y-8">
                 <div class="glass-card p-8 rounded-2xl fade-in">
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-bold text-gray-800">图标编辑器</h2>
+                        <h2 class="text-xl font-bold text-gray-800">Icon Editor</h2>
                         <div class="flex gap-2">
-                            <span class="icon-count">13个图标尺寸</span>
-                            <span class="icon-count" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">2个平台</span>
+                            <span class="icon-count">13 Icon Sizes</span>
+                            <span class="icon-count" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">2 Platforms</span>
                         </div>
                     </div>
                     
@@ -221,56 +338,56 @@
                         <div class="mx-auto w-20 h-20 rounded-full gradient-bg flex items-center justify-center mb-6">
                             <i class="fas fa-cloud-upload-alt text-white text-3xl"></i>
                         </div>
-                        <p class="text-gray-700 font-medium text-lg mb-2">拖放或点击上传图标</p>
-                        <p class="text-gray-500 text-sm mb-4">支持 PNG, JPG, SVG (建议尺寸 1024×1024)</p>
+                        <p class="text-gray-700 font-medium text-lg mb-2">Drag & drop or click to upload icon</p>
+                        <p class="text-gray-500 text-sm mb-4">Supports PNG, JPG, SVG (recommended size 1024×1024)</p>
                         <div class="flex items-center justify-center gap-2 text-gray-500 text-sm">
                             <i class="fas fa-info-circle"></i>
-                            <span>上传后可以拖动裁剪框调整图标区域</span>
+                            <span>Drag the crop box to adjust the icon area after upload</span>
                         </div>
                         <input type="file" id="file-input" class="hidden" accept="image/*">
                     </div>
 
                     <div id="editor-area" class="hidden fade-in">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-semibold text-gray-700">调整裁剪区域</h3>
+                            <h3 class="font-semibold text-gray-700">Adjust Crop Area</h3>
                             <div class="flex items-center gap-2 text-sm text-gray-500">
                                 <i class="fas fa-arrows-alt"></i>
-                                <span>拖动调整 | 滚轮缩放</span>
+                                <span>Drag to adjust | Scroll to zoom</span>
                             </div>
                         </div>
                         
                         <div class="relative max-h-[500px] bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden shadow-xl">
                             <img id="image-to-crop" class="max-w-full">
                             <div class="absolute bottom-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
-                                <i class="fas fa-crop-alt mr-1"></i> 1:1 正方形裁剪
+                                <i class="fas fa-crop-alt mr-1"></i> 1:1 Square Crop
                             </div>
                         </div>
                         
                         <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
                             <button id="generate-btn" class="btn-primary px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-3">
                                 <i class="fas fa-download"></i>
-                                <span>生成全套图标 (.zip)</span>
+                                <span>Generate Full Icon Set (.zip)</span>
                             </button>
                             <button onclick="location.reload()" class="btn-secondary px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-3">
                                 <i class="fas fa-redo"></i>
-                                <span>重新上传</span>
+                                <span>Upload Again</span>
                             </button>
                         </div>
                         
-                        <!-- 生成进度指示器 -->
+                        <!-- Progress Indicator -->
                         <div id="progress-indicator" class="hidden mt-6">
                             <div class="flex items-center justify-center gap-3 mb-2">
                                 <div class="loading-spinner"></div>
-                                <span class="text-gray-700 font-medium">正在生成图标包...</span>
+                                <span class="text-gray-700 font-medium">Generating icon pack...</span>
                             </div>
                             <div class="progress-bar"></div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 图标尺寸说明 -->
+                <!-- Icon Size Info -->
                 <div class="glass-card p-6 rounded-2xl fade-in">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">支持的图标尺寸</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Supported Icon Sizes</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
                             <div class="text-blue-600 font-bold text-lg">1024px</div>
@@ -292,13 +409,13 @@
                 </div>
             </div>
 
-            <!-- 右侧：实时模拟预览 -->
+            <!-- Right: Live Preview -->
             <div class="lg:col-span-4 space-y-8">
                 <div class="glass-card p-8 rounded-2xl fade-in">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6">实时预览</h2>
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Live Preview</h2>
                     
                     <div class="grid grid-cols-2 gap-6 mb-8">
-                        <!-- iOS 预览 -->
+                        <!-- iOS Preview -->
                         <div class="flex flex-col items-center">
                             <div class="platform-badge mb-4" style="background: linear-gradient(135deg, #000000 0%, #333333 100%);">
                                 <i class="fab fa-apple"></i>
@@ -309,7 +426,7 @@
                                     <div class="w-20 mb-2">
                                         <img class="preview-img ios-mask w-full aspect-square bg-white">
                                     </div>
-                                    <div class="app-label">我的应用</div>
+                                    <div class="app-label">My App</div>
                                     <div class="absolute bottom-8 left-4 right-4 grid grid-cols-4 gap-2">
                                         <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
                                         <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
@@ -319,12 +436,12 @@
                                 </div>
                             </div>
                             <div class="mt-4 text-center">
-                                <div class="text-sm font-medium text-gray-700">连续曲率圆角</div>
-                                <div class="text-xs text-gray-500">iOS 系统自动应用</div>
+                                <div class="text-sm font-medium text-gray-700">Continuous Curvature Corners</div>
+                                <div class="text-xs text-gray-500">Applied automatically by iOS</div>
                             </div>
                         </div>
 
-                        <!-- Android 预览 -->
+                        <!-- Android Preview -->
                         <div class="flex flex-col items-center">
                             <div class="platform-badge mb-4" style="background: linear-gradient(135deg, #3ddc84 0%, #0bbd5a 100%);">
                                 <i class="fab fa-android"></i>
@@ -345,8 +462,8 @@
                                 </div>
                             </div>
                             <div class="mt-4 text-center">
-                                <div class="text-sm font-medium text-gray-700">自适应形状</div>
-                                <div class="text-xs text-gray-500">圆形或方形</div>
+                                <div class="text-sm font-medium text-gray-700">Adaptive Shape</div>
+                                <div class="text-xs text-gray-500">Circle or square</div>
                             </div>
                         </div>
                     </div>
@@ -357,23 +474,23 @@
                                 <i class="fas fa-lightbulb text-blue-600"></i>
                             </div>
                             <div>
-                                <h3 class="text-sm font-bold text-blue-800 mb-2">设计提示</h3>
+                                <h3 class="text-sm font-bold text-blue-800 mb-2">Design Tips</h3>
                                 <ul class="text-xs text-blue-700 space-y-2">
                                     <li class="flex items-start gap-2">
                                         <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span>确保重要元素位于中央<b>安全区域</b>内</span>
+                                        <span>Keep key elements inside the central <b>safe zone</b></span>
                                     </li>
                                     <li class="flex items-start gap-2">
                                         <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span><b>iOS</b> 会自动应用连续圆角遮罩</span>
+                                        <span><b>iOS</b> automatically applies a continuous corner mask</span>
                                     </li>
                                     <li class="flex items-start gap-2">
                                         <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span><b>Android</b> 会根据设备主题应用形状</span>
+                                        <span><b>Android</b> applies shapes based on device theme</span>
                                     </li>
                                     <li class="flex items-start gap-2">
                                         <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span>使用简洁、高对比度的设计</span>
+                                        <span>Use simple, high‑contrast designs</span>
                                     </li>
                                 </ul>
                             </div>
@@ -381,17 +498,17 @@
                     </div>
                 </div>
                 
-                <!-- 使用说明 -->
+                <!-- Instructions -->
                 <div class="glass-card p-6 rounded-2xl fade-in">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">使用说明</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">How to Use</h3>
                     <div class="space-y-4">
                         <div class="flex items-start gap-3">
                             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center flex-shrink-0">
                                 <span class="text-blue-700 font-bold">1</span>
                             </div>
                             <div>
-                                <h4 class="font-medium text-gray-800">上传图标</h4>
-                                <p class="text-sm text-gray-600">上传高分辨率图标 (建议 1024×1024)</p>
+                                <h4 class="font-medium text-gray-800">Upload Icon</h4>
+                                <p class="text-sm text-gray-600">Upload high‑resolution icon (recommended 1024×1024)</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
@@ -399,8 +516,8 @@
                                 <span class="text-green-700 font-bold">2</span>
                             </div>
                             <div>
-                                <h4 class="font-medium text-gray-800">调整裁剪</h4>
-                                <p class="text-sm text-gray-600">拖动调整裁剪区域，确保关键内容可见</p>
+                                <h4 class="font-medium text-gray-800">Adjust Crop</h4>
+                                <p class="text-sm text-gray-600">Drag to adjust crop area, keep key content visible</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
@@ -408,8 +525,8 @@
                                 <span class="text-purple-700 font-bold">3</span>
                             </div>
                             <div>
-                                <h4 class="font-medium text-gray-800">预览与生成</h4>
-                                <p class="text-sm text-gray-600">查看实时预览，点击生成按钮下载ZIP包</p>
+                                <h4 class="font-medium text-gray-800">Preview & Generate</h4>
+                                <p class="text-sm text-gray-600">Check live preview, click generate to download ZIP</p>
                             </div>
                         </div>
                     </div>
@@ -417,247 +534,235 @@
             </div>
         </div>
         
-        <!-- 页脚 -->
+        <!-- Features & FAQ Section -->
+        <div class="glass-card p-8 rounded-2xl mt-12 fade-in">
+            <div class="instructions-content">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">App Icon Studio Features</h2>
+                <p class="text-gray-600 mb-8">🎨 Professional all‑in‑one app icon generation solution with real‑time preview, smart cropping, batch export, and more. The perfect tool for <strong>iOS icon generation</strong>, <strong>Android icon creation</strong>, and <strong>app icon design</strong>.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                    <div class="feature-item-card p-5 rounded-xl">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-4">
+                            <i class="fas fa-crop-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Smart Cropping</h3>
+                        <p class="text-gray-600 text-sm mb-3">1:1 square crop with drag‑and‑adjust and zoom to keep icon content perfectly centered.</p>
+                        <div class="tip">
+                            <span class="tip-text text-xs text-blue-600">Tip: Use mouse wheel to zoom, drag to adjust crop area</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item-card p-5 rounded-xl">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center mb-4">
+                            <i class="fas fa-mobile-alt text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Dual‑Platform Support</h3>
+                        <p class="text-gray-600 text-sm mb-3">Support for both iOS and Android with real‑time simulation preview on different devices.</p>
+                        <div class="tip">
+                            <span class="tip-text text-xs text-green-600">iOS uses continuous curvature corners, Android uses circle or square</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item-card p-5 rounded-xl">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center mb-4">
+                            <i class="fas fa-ruler-combined text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Full Size Coverage</h3>
+                        <p class="text-gray-600 text-sm mb-3">13 standard icon sizes from 1024px for App Store to 36px for Android, all in one place.</p>
+                        <div class="tip">
+                            <span class="tip-text text-xs text-purple-600">Includes iOS@1x/@2x/@3x and Android multiple DPI sizes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item-card p-5 rounded-xl">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center mb-4">
+                            <i class="fas fa-eye text-amber-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Real‑Time Preview</h3>
+                        <p class="text-gray-600 text-sm mb-3">See how your icon looks on iOS and Android devices as you edit, in real time.</p>
+                        <div class="tip">
+                            <span class="tip-text text-xs text-amber-600">Edit on the left, see preview immediately on the right</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item-card p-5 rounded-xl">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center mb-4">
+                            <i class="fas fa-file-archive text-red-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Batch Export</h3>
+                        <p class="text-gray-600 text-sm mb-3">Generate all icon sizes with one click and download as a ZIP file, organized by platform and size.</p>
+                        <div class="tip">
+                            <span class="tip-text text-xs text-red-600">ZIP contains separate iOS and Android folders</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item-card p-5 rounded-xl">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-100 to-indigo-200 flex items-center justify-center mb-4">
+                            <i class="fas fa-user-shield text-indigo-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Privacy & Security</h3>
+                        <p class="text-gray-600 text-sm mb-3">Pure frontend processing – your image data never leaves your device, protecting your design privacy.</p>
+                        <div class="tip">
+                            <span class="tip-text text-xs text-indigo-600">All processing happens in your browser, no server upload</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Platform Specifications -->
+                <div class="technical-section p-6 rounded-xl mb-8" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Supported Platforms & Technical Specifications</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">iOS Platform Icon Specifications</h3>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• App Store: 1024×1024px (PNG, no transparency)</li>
+                                <li>• iPhone @3x: 180×180px (Retina HD)</li>
+                                <li>• iPhone @2x: 120×120px (Retina)</li>
+                                <li>• iPad Pro: 167×167px</li>
+                                <li>• iPad @2x: 152×152px</li>
+                                <li>• iPad @1x: 76×76px</li>
+                                <li>• Continuous curvature corner mask applied automatically by system</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">Android Platform Icon Specifications</h3>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Play Store: 512×512px (PNG, 32‑bit)</li>
+                                <li>• xxxhdpi: 192×192px (Extra‑extra‑extra‑high density)</li>
+                                <li>• xxhdpi: 144×144px (Extra‑extra‑high density)</li>
+                                <li>• xhdpi: 96×96px (Extra‑high density)</li>
+                                <li>• hdpi: 72×72px (High density)</li>
+                                <li>• mdpi: 48×48px (Medium density)</li>
+                                <li>• ldpi: 36×36px (Low density)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4"><strong>Technical note:</strong> This tool uses HTML5 Canvas technology to generate icons, compatible with all modern browsers (Chrome 60+, Firefox 55+, Safari 11+, Edge 79+).</p>
+                </div>
+                
+                <!-- Detailed FAQ Section -->
+                <div class="faq-section">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Frequently Asked Questions (FAQ)</h2>
+                    
+                    <div class="faq-item mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                            Why is my icon blurry at certain sizes?
+                        </h3>
+                        <div class="faq-answer pl-6">
+                            <p class="text-gray-600">Blurry icons are usually due to insufficient source image resolution. We recommend:</p>
+                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
+                                <li>• Use a source image of at least 1024×1024 pixels</li>
+                                <li>• Prefer vector (SVG) or high‑resolution PNG</li>
+                                <li>• Ensure key elements in your icon are large and clear</li>
+                                <li>• Avoid excessive detail in the source image—details get lost at small sizes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                            How can I ensure consistent display across different platforms?
+                        </h3>
+                        <div class="faq-answer pl-6">
+                            <p class="text-gray-600">Platform differences are normal, but you can optimize with these tips:</p>
+                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
+                                <li>• Keep important content inside the central <b>safe zone</b> (avoid edges)</li>
+                                <li>• Use high‑contrast designs for clear recognition at small sizes</li>
+                                <li>• Check real‑time preview for both platforms in the right panel</li>
+                                <li>• iOS adds rounded corners automatically; Android shapes vary by theme—design accordingly</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                            Does it support transparent backgrounds?
+                        </h3>
+                        <div class="faq-answer pl-6">
+                            <p class="text-gray-600">Yes, transparent backgrounds are fully supported:</p>
+                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
+                                <li>• Transparent areas in uploaded PNGs are preserved</li>
+                                <li>• Generated icons maintain original transparency</li>
+                                <li>• For platforms requiring opaque backgrounds (e.g., iOS App Store), white background is added automatically</li>
+                                <li>• Consider how transparency will look on different backgrounds</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                            What file formats can I generate?
+                        </h3>
+                        <div class="faq-answer pl-6">
+                            <p class="text-gray-600">Currently, icons are generated primarily in PNG format:</p>
+                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
+                                <li>• All icons are generated as PNG (recommended cross‑platform format)</li>
+                                <li>• PNG supports transparent backgrounds and high‑quality compression</li>
+                                <li>• For Android, WebP may offer better compression but requires separate conversion</li>
+                                <li>• iOS App Store icons require PNG with no transparency</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                            Is this tool free? Are there any limitations?
+                        </h3>
+                        <div class="faq-answer pl-6">
+                            <p class="text-gray-600">Yes, App Icon Studio is completely free:</p>
+                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
+                                <li>• Free to use, no registration or login required</li>
+                                <li>• No usage limits</li>
+                                <li>• No image size limits (though large images may take longer to process)</li>
+                                <li>• All processing happens in‑browser, no server costs</li>
+                                <li>• Future advanced features may be added, but core functionality will remain free</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
+                            How do I integrate generated icons into my project?
+                        </h3>
+                        <div class="faq-answer pl-6">
+                            <p class="text-gray-600">Integration steps vary by platform:</p>
+                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
+                                <li><strong>iOS (Xcode):</strong> Drag icons into the AppIcon set in Assets.xcassets</li>
+                                <li><strong>Android (Android Studio):</strong> Copy icons to res/mipmap‑*dpi/ folders</li>
+                                <li><strong>React Native:</strong> Use react‑native‑make tool or manually place in ios/ and android/ directories</li>
+                                <li><strong>Flutter:</strong> Update icon configuration in pubspec.yaml and place in appropriate directories</li>
+                            </ul>
+                            <p class="text-gray-600 text-sm mt-2">The generated ZIP is already organized by platform and size for easy use.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Footer -->
         <div class="mt-12 pt-8 border-t border-gray-200 text-center fade-in">
             <p class="text-gray-500 text-sm">
                 <i class="fas fa-code mr-1"></i> 
-                App Icon Studio - 一站式应用图标解决方案 
+                App Icon Studio – All‑in‑One App Icon Solution 
                 <i class="fas fa-heart mx-2 text-red-400"></i> 
-                支持 iOS & Android 全平台
+                Supports iOS & Android Full Platform
             </p>
-            <p class="text-gray-400 text-xs mt-2">本工具使用纯前端技术，您的图像数据不会上传到任何服务器</p>
+            <p class="text-gray-400 text-xs mt-2">This tool uses pure frontend technology – your image data is never uploaded to any server</p>
+            <p class="text-gray-400 text-xs mt-1">© 2024 StarryRing – App Icon Studio | Last updated: Jan 2026 | Version: v1.1.0</p>
         </div>
     </div>
 
     <canvas id="export-canvas" class="hidden"></canvas>
 
-    <script>
-        let cropper = null;
-        const fileInput = document.getElementById('file-input');
-        const uploadArea = document.getElementById('upload-area');
-        const editorArea = document.getElementById('editor-area');
-        const imageToCrop = document.getElementById('image-to-crop');
-        const previewImgs = document.querySelectorAll('.preview-img');
-        const generateBtn = document.getElementById('generate-btn');
-        const progressIndicator = document.getElementById('progress-indicator');
-
-        const CONFIG = {
-            ios: [
-                { size: 1024, name: 'AppIcon-1024.png' },
-                { size: 180, name: 'AppIcon-60x60@3x.png' },
-                { size: 120, name: 'AppIcon-60x60@2x.png' },
-                { size: 167, name: 'AppIcon-83.5x83.5@2x.png' },
-                { size: 152, name: 'AppIcon-76x76@2x.png' },
-                { size: 87, name: 'AppIcon-29x29@3x.png' },
-                { size: 40, name: 'AppIcon-20x20@2x.png' }
-            ],
-            android: [
-                { size: 512, folder: 'play-store', name: 'icon-512.png' },
-                { size: 192, folder: 'mipmap-xxxhdpi', name: 'ic_launcher.png' },
-                { size: 144, folder: 'mipmap-xxhdpi', name: 'ic_launcher.png' },
-                { size: 96, folder: 'mipmap-xhdpi', name: 'ic_launcher.png' },
-                { size: 72, folder: 'mipmap-hdpi', name: 'ic_launcher.png' },
-                { size: 48, folder: 'mipmap-mdpi', name: 'ic_launcher.png' }
-            ]
-        };
-
-        // 点击上传区域
-        uploadArea.onclick = () => fileInput.click();
-
-        // 拖拽上传功能
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            uploadArea.classList.add('drag-over');
-        });
-
-        uploadArea.addEventListener('dragleave', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            uploadArea.classList.remove('drag-over');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            uploadArea.classList.remove('drag-over');
-            
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                const file = files[0];
-                if (file.type.startsWith('image/')) {
-                    processImageFile(file);
-                } else {
-                    showNotification('请拖入图片文件 (JPG, PNG, GIF 等)', 'error');
-                }
-            }
-        });
-
-        // 文件选择器事件
-        fileInput.onchange = e => {
-            const file = e.target.files[0];
-            if (!file) return;
-            processImageFile(file);
-        };
-
-        // 处理图片文件的通用函数
-        function processImageFile(file) {
-            if (file.size > 10 * 1024 * 1024) {
-                showNotification('文件过大，请选择小于10MB的图片', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = event => {
-                imageToCrop.src = event.target.result;
-                uploadArea.classList.add('hidden');
-                editorArea.classList.remove('hidden');
-                
-                if (cropper) cropper.destroy();
-                cropper = new Cropper(imageToCrop, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    autoCropArea: 0.8,
-                    background: false,
-                    // 核心：实时预览逻辑
-                    crop() {
-                        const canvas = cropper.getCroppedCanvas({ width: 200, height: 200 });
-                        const url = canvas.toDataURL();
-                        previewImgs.forEach(img => img.src = url);
-                    }
-                });
-                
-                // 立即显示一次预览
-                setTimeout(() => {
-                    if (cropper) {
-                        const canvas = cropper.getCroppedCanvas({ width: 200, height: 200 });
-                        const url = canvas.toDataURL();
-                        previewImgs.forEach(img => img.src = url);
-                    }
-                }, 100);
-                
-                showNotification('图标已加载，请调整裁剪区域', 'success');
-            };
-            reader.onerror = () => {
-                showNotification('读取文件失败，请重试', 'error');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        generateBtn.onclick = async () => {
-            if (!cropper) return;
-            
-            // 显示进度指示器
-            progressIndicator.classList.remove('hidden');
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = '<div class="loading-spinner"></div><span>生成中...</span>';
-            
-            try {
-                const zip = new JSZip();
-                const masterCanvas = cropper.getCroppedCanvas({ width: 1024, height: 1024 });
-                const exportCanvas = document.getElementById('export-canvas');
-                const ctx = exportCanvas.getContext('2d');
-
-                // 打包 iOS
-                const iosFolder = zip.folder("iOS_Icons");
-                let iosCount = 0;
-                for (const item of CONFIG.ios) {
-                    const blob = await resize(masterCanvas, exportCanvas, ctx, item.size);
-                    iosFolder.file(item.name, blob);
-                    iosCount++;
-                    updateProgress(iosCount, CONFIG.ios.length + CONFIG.android.length, 'iOS');
-                }
-
-                // 打包 Android
-                const androidFolder = zip.folder("Android_Icons");
-                let androidCount = 0;
-                for (const item of CONFIG.android) {
-                    const subFolder = androidFolder.folder(item.folder);
-                    const blob = await resize(masterCanvas, exportCanvas, ctx, item.size);
-                    subFolder.file(item.name, blob);
-                    androidCount++;
-                    updateProgress(iosCount + androidCount, CONFIG.ios.length + CONFIG.android.length, 'Android');
-                }
-
-                const content = await zip.generateAsync({ type: "blob" });
-                saveAs(content, `App_Icons_${new Date().getTime()}.zip`);
-                
-                showNotification(`成功生成 ${CONFIG.ios.length + CONFIG.android.length} 个图标文件`, 'success');
-                
-            } catch (error) {
-                console.error('生成图标失败:', error);
-                showNotification('生成失败，请重试', 'error');
-            } finally {
-                // 隐藏进度指示器
-                progressIndicator.classList.add('hidden');
-                generateBtn.disabled = false;
-                generateBtn.innerHTML = '<i class="fas fa-download"></i><span>生成全套图标 (.zip)</span>';
-            }
-        };
-
-        function resize(source, target, ctx, size) {
-            return new Promise(resolve => {
-                target.width = size;
-                target.height = size;
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = 'high';
-                ctx.clearRect(0, 0, size, size);
-                ctx.drawImage(source, 0, 0, size, size);
-                target.toBlob(blob => resolve(blob), 'image/png', 0.9);
-            });
-        }
-        
-        function updateProgress(current, total, platform) {
-            const progressText = document.querySelector('#progress-indicator span');
-            if (progressText) {
-                progressText.textContent = `正在生成图标包... (${current}/${total}) ${platform}`;
-            }
-        }
-        
-        function showNotification(message, type) {
-            // 移除现有的通知
-            const existingNotification = document.querySelector('.notification');
-            if (existingNotification) {
-                existingNotification.remove();
-            }
-            
-            // 创建新通知
-            const notification = document.createElement('div');
-            notification.className = `notification fixed top-6 right-6 z-50 px-6 py-4 rounded-xl shadow-lg flex items-center gap-3 fade-in ${type === 'error' ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-green-500 to-green-600'}`;
-            notification.style.animation = 'fadeIn 0.3s ease-out';
-            
-            const icon = document.createElement('i');
-            icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
-            icon.classList.add('text-white', 'text-xl');
-            
-            const text = document.createElement('span');
-            text.className = 'text-white font-medium';
-            text.textContent = message;
-            
-            notification.appendChild(icon);
-            notification.appendChild(text);
-            document.body.appendChild(notification);
-            
-            // 3秒后自动移除
-            setTimeout(() => {
-                notification.style.animation = 'fadeOut 0.3s ease-out';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        }
-        
-        // 添加淡出动画
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeOut {
-                from { opacity: 1; transform: translateY(0); }
-                to { opacity: 0; transform: translateY(-10px); }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+    <!-- Local JavaScript Files -->
+    <script src="/static/js/utility-tools/design-media/app-icon-generator/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
