@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Magic | 高级二维码生成器</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/netdev/qr-code-generator/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧 -->
+        <div class="left-panel">
+            <div class="header">
+                <h1><i class="fas fa-qrcode"></i> QR Magic</h1>
+                <p>创建美观、可自定义的二维码，支持Logo嵌入和多种样式设置</p>
+            </div>
+
+            <div class="input-group">
+                <div class="section-title"><i class="fas fa-pencil-alt"></i><span>输入内容</span></div>
+                <div class="input-with-icon">
+                    <i class="fas fa-link"></i>
+                    <input type="text" id="qr-text" class="text-input" placeholder="输入网址、文本或任何内容..." autocomplete="off">
+                </div>
+                <div id="history-dropdown" class="history-dropdown"></div>
+            </div>
+
+            <div class="input-group">
+                <div class="section-title"><i class="fas fa-palette"></i><span>个性化设置</span></div>
+                
+                <div class="file-upload-area" id="logo-upload-area">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <p class="upload-text">点击上传Logo图片</p>
+                    <p class="upload-hint">支持 PNG, JPG, SVG 格式</p>
+                    
+                    <input type="file" id="logo-input" accept="image/*" style="display: none;">
+                    <img id="logo-preview" class="logo-preview" alt="Logo预览">
+                    
+                    <button type="button" class="remove-logo-btn" id="remove-logo-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="enable-logo-check" checked>
+                    <label for="enable-logo-check">在二维码中心嵌入 Logo</label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-row">
+                    <div class="setting-item">
+                        <div class="setting-header">
+                            <span class="setting-label">尺寸</span>
+                            <span id="size-display" class="setting-value">300px</span>
+                        </div>
+                        <input type="range" id="size-input" min="150" max="800" step="10" value="300">
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-header">
+                            <span class="setting-label">边距</span>
+                            <span id="margin-display" class="setting-value">20px</span>
+                        </div>
+                        <input type="range" id="margin-input" min="0" max="60" step="2" value="20">
+                    </div>
+                </div>
+                <div class="color-settings">
+                    <div class="color-item">
+                        <label class="color-label">二维码颜色</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="color-dark" value="#000000">
+                            <span style="font-size:13px; color:var(--dark); font-weight:500;">主色</span>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <label class="color-label">背景颜色</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="color-light" value="#ffffff">
+                            <span style="font-size:13px; color:var(--dark); font-weight:500;">背景</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-generate" onclick="generateQR(true)">
+                <i class="fas fa-magic"></i> 生成精美二维码
+            </button>
+            
+            <div style="margin-top: 30px; text-align: center;">
+                <p style="font-size: 13px; color: var(--gray);">
+                    <i class="fas fa-info-circle" style="margin-right: 5px;"></i>
+                    提示：输入内容后按 Enter 键快速生成
+                </p>
+            </div>
+        </div>
+
+        <!-- 右侧 -->
+        <div class="right-panel">
+            <div id="qr-container" class="qr-display">
+                <img id="final-image" alt="生成的二维码">
+                <div id="placeholder" class="placeholder">
+                    <i class="fas fa-qrcode"></i>
+                    <p>二维码将在此显示</p>
+                    <p style="font-size:14px; margin-top:10px;">自定义设置后点击生成</p>
+                </div>
+            </div>
+            
+            <button id="download-btn" class="btn-download" onclick="downloadQR()">
+                <i class="fas fa-download"></i> 下载高清 PNG 图片
+            </button>
+            
+            <div style="margin-top: 25px; text-align: center;">
+                <p style="font-size: 14px; color: var(--gray); max-width: 380px; line-height: 1.6;">
+                    <i class="fas fa-lightbulb" style="margin-right: 5px; color:var(--warning);"></i>
+                    生成的高清二维码可直接用于印刷、宣传材料和数字媒体
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="hidden-qr-generator"></div>
+    <script src="/static/js/utility-tools/netdev/qr-code-generator/script-zh.js"></script>
+</body>
+</html>
