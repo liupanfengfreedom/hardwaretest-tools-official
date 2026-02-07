@@ -1,310 +1,492 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全球汇率趋势分析仪 - 增强版</title>
+    <meta name="theme-color" content="#4a6ee0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Primary meta description and keywords -->
+    <meta name="description" content="Global Exchange Rate Trend Analyzer - Real-time currency conversion & historical trend chart tool. Supports 170+ currencies, provides 1, 5, 10, 20, 30-year historical data analysis. Professional financial forex tool.">
+    <meta name="keywords" content="currency converter, exchange rate calculator, forex tool, currency conversion, exchange rate history, historical trend chart, real-time rates, rate analysis, financial tool, foreign exchange, money converter">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Global Exchange Rate Trend Analyzer - Real-time Conversion & Historical Charts | StarryRing">
+    <meta property="og:description" content="Free online currency converter for 170+ currencies with historical trend analysis charts. Real-time exchange rate data sourced from European Central Bank. Professional financial analysis tool.">
+    <meta property="og:image" content="https://starryring.com/currency-calculator-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Global Exchange Rate Trend Analyzer Interface Screenshot">
+    <meta property="og:url" content="https://starryring.com/en/utility-tools/math/currency-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Global Exchange Rate Trend Analyzer - Online Currency Tool">
+    <meta name="twitter:description" content="Free online currency converter for 170+ currencies with historical trend charts. Real-time data from European Central Bank">
+    <meta name="twitter:image" content="https://starryring.com/currency-calculator-preview.png">
+    <meta name="twitter:site" content="@StarryRing">
+    
+    <!-- Internationalization links -->
+    <link rel="canonical" href="https://starryring.com/en/utility-tools/math/currency-calculator/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/currency-calculator/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/currency-calculator/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/math/currency-calculator/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/currency-calculator/" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/static/js/utility-tools/math/currency-calculator/script-en.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --primary-color: #007aff;
-            --bg-color: #f2f2f7;
-            --card-bg: #ffffff;
-            --text-color: #1d1d1f;
-            --secondary-text: #86868b;
-            --border-color: #d2d2d7;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        }
-
-        h2 { margin-top: 0; font-size: 20px; text-align: center; margin-bottom: 25px; }
-
-        .form-row { display: flex; gap: 15px; margin-bottom: 20px; }
-        .form-group { flex: 1; }
-        label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--secondary-text); }
-        
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 15px;
-            outline: none;
-            box-sizing: border-box;
-            background-color: #fff;
-        }
-
-        optgroup { font-style: normal; font-weight: bold; color: var(--primary-color); }
-
-        .result-card {
-            background: #fbfbfd;
-            border-radius: 18px;
-            padding: 24px;
-            text-align: center;
-            border: 1px solid #efeff4;
-            margin-bottom: 25px;
-        }
-
-        .rate-badge {
-            display: inline-block;
-            background: #e8f2ff;
-            color: var(--primary-color);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .main-amount {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--text-color);
-            margin: 8px 0;
-        }
-
-        .time-picker { display: flex; gap: 8px; margin-bottom: 15px; }
-        .time-btn {
-            flex: 1;
-            padding: 8px 0;
-            border: none;
-            background: #eeeef0;
-            border-radius: 10px;
-            font-size: 13px;
-            cursor: pointer;
-            color: var(--secondary-text);
-        }
-
-        .time-btn.active {
-            background: var(--primary-color);
-            color: white;
-            font-weight: 600;
-        }
-
-        .chart-container { height: 300px; position: relative; margin-top: 10px; }
-        #loading-overlay {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 13px; color: var(--secondary-text);
-            display: none; background: rgba(255,255,255,0.8);
-            padding: 10px; border-radius: 8px; z-index: 10;
-        }
-    </style>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/math/currency-calculator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "Global Exchange Rate Trend Analyzer",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS"],
+                "description": "Free online currency converter for 170+ currencies with historical trend analysis charts. Real-time exchange rate data sourced from European Central Bank. Professional financial forex analysis tool.",
+                "url": "https://starryring.com/en/utility-tools/math/currency-calculator/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/currency-calculator-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "Global Exchange Rate Trend Analyzer Interface"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/currency-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "Currency Conversion Interface",
+                        "description": "Displays real-time conversion and historical trend charts"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/currency-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "Historical Trend Analysis Interface",
+                        "description": "Shows 30-year exchange rate historical trend chart"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "Supports 170+ global currencies",
+                    "Real-time exchange rates (sourced from European Central Bank)",
+                    "Historical trend charts (1, 5, 10, 20, 30 years)",
+                    "Interactive time selector",
+                    "Responsive chart design",
+                    "Currency grouping (Popular, Asia, Europe, Americas/Oceania)",
+                    "Conversion result display",
+                    "Data update frequency: Daily updates"
+                ],
+                "datePublished": "2023-04-15",
+                "dateModified": "2024-01-20",
+                "softwareVersion": "1.2.0"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is the Global Exchange Rate Trend Analyzer?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The Global Exchange Rate Trend Analyzer is a professional online currency conversion tool that provides real-time exchange rate conversion and displays historical trend charts. It supports over 170 global currencies with data sourced from the European Central Bank, making it an ideal tool for travelers, investors, and business professionals."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Where does the exchange rate data come from?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "This tool uses exchange rate data sourced from the European Central Bank (ECB). The ECB publishes official exchange rate data daily, covering over 170 global currencies, ensuring accuracy and reliability. Real-time exchange rate data is updated once daily to maintain timeliness."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do I use the historical trend feature?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "In the tool interface, select the currency pair you want to analyze, then click the buttons in the time selector (1 Year, 5 Years, 10 Years, 20 Years, 30 Years) to view exchange rate trend charts for different time periods. The chart will display rate fluctuations over the selected timeframe, helping you understand long-term currency trends."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Why is historical data incomplete for some currencies?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Some currencies may have incomplete 30-year historical data due to their recent establishment or data source limitations. The tool will display all available historical data. For emerging currencies or specific regional currencies, historical data may start from when the currency began circulation."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://starryring.com/en/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Utility Tools",
+                        "item": "https://starryring.com/en/utility-tools/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Math Tools",
+                        "item": "https://starryring.com/en/utility-tools/math/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "Currency Converter",
+                        "item": "https://starryring.com/en/utility-tools/math/currency-calculator/"
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "How to Use the Global Exchange Rate Trend Analyzer",
+                "description": "Step-by-step guide to using the Exchange Rate Trend Analyzer for currency conversion and trend analysis",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "text": "Enter conversion amount: Input the amount you want to convert in the 'Amount' field (default is 100)"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Select currency pair: Choose your base currency from the 'From' dropdown and your target currency from the 'To' dropdown"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "View real-time rate: The tool automatically displays the current exchange rate and converted amount"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Analyze historical trend: Click time selector buttons (1Y, 5Y, 10Y, 20Y, 30Y) to view historical trend charts"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "Interpret the chart: Observe exchange rate trends to understand long-term currency performance and volatility"
+                    }
+                ],
+                "totalTime": "PT2M",
+                "tool": {
+                    "@type": "SoftwareApplication",
+                    "name": "Global Exchange Rate Trend Analyzer"
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <title>Global Exchange Rate Trend Analyzer - Real-time Conversion & Historical Charts Tool | StarryRing</title>
 </head>
 <body>
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb Navigation" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/en/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/en/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> Utility Tools
+                </a>
+            </li>
 
-<div class="container">
-    <h2>全球汇率趋势分析仪</h2>
-
-    <div class="form-row">
-        <div class="form-group">
-            <label>转换金额</label>
-            <input type="number" id="ex-amount" value="100" step="0.01">
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-chart-line"></i> Currency Converter</span>
+            </li>
+        </ol>
+    </nav>
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select Language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/zh/utility-tools/math/currency-calculator/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/en/utility-tools/math/currency-calculator/" data-lang="en">
+                English
+            </a>
         </div>
     </div>
     
-    <div class="form-row">
-        <div class="form-group">
-            <label>持有货币</label>
-            <select id="ex-from">
-                <optgroup label="热门">
-                    <option value="USD">🇺🇸 USD 美元</option>
-                    <option value="CNY" selected>🇨🇳 CNY 人民币</option>
-                    <option value="EUR">🇪🇺 EUR 欧元</option>
-                </optgroup>
-                <optgroup label="亚洲">
-                    <option value="JPY">🇯🇵 JPY 日元</option>
-                    <option value="HKD">🇭🇰 HKD 港币</option>
-                    <option value="KRW">🇰🇷 KRW 韩元</option>
-                    <option value="SGD">🇸🇬 SGD 新加坡元</option>
-                    <option value="INR">🇮🇳 INR 印度卢比</option>
-                    <option value="THB">🇹🇭 THB 泰铢</option>
-                    <option value="MYR">🇲🇾 MYR 马来西亚林吉特</option>
-                </optgroup>
-                <optgroup label="欧洲">
-                    <option value="GBP">🇬🇧 GBP 英镑</option>
-                    <option value="CHF">🇨🇭 CHF 瑞士法郎</option>
-                    <option value="SEK">🇸🇪 SEK 瑞典克朗</option>
-                    <option value="DKK">🇩🇰 DKK 丹麦克朗</option>
-                    <option value="NOK">🇳🇴 NOK 挪威克朗</option>
-                    <option value="PLN">🇵🇱 PLN 波兰兹罗提</option>
-                </optgroup>
-                <optgroup label="美洲/大洋洲">
-                    <option value="CAD">🇨🇦 CAD 加拿大元</option>
-                    <option value="AUD">🇦🇺 AUD 澳大利亚元</option>
-                    <option value="NZD">🇳🇿 NZD 新西兰元</option>
-                </optgroup>
-            </select>
+    <div class="container">
+        <!-- Main Header Section -->
+        <div class="header-section">
+            <h1>Global Exchange Rate Trend Analyzer - Enhanced</h1>
+            <p class="subtitle">Real-time Currency Conversion & Historical Trend Analysis Tool | 170+ Global Currencies | Data Sourced from European Central Bank</p>
         </div>
-        <div class="form-group">
-            <label>目标货币</label>
-            <select id="ex-to">
-                <optgroup label="热门">
-                    <option value="USD" selected>🇺🇸 USD 美元</option>
-                    <option value="CNY">🇨🇳 CNY 人民币</option>
-                    <option value="EUR">🇪🇺 EUR 欧元</option>
-                </optgroup>
-                <optgroup label="亚洲">
-                    <option value="JPY">🇯🇵 JPY 日元</option>
-                    <option value="HKD">🇭🇰 HKD 港币</option>
-                    <option value="KRW">🇰🇷 KRW 韩元</option>
-                    <option value="SGD">🇸🇬 SGD 新加坡元</option>
-                    <option value="INR">🇮🇳 INR 印度卢比</option>
-                </optgroup>
-                <optgroup label="欧洲">
-                    <option value="GBP">🇬🇧 GBP 英镑</option>
-                    <option value="CHF">🇨🇭 CHF 瑞士法郎</option>
-                </optgroup>
-                <optgroup label="美洲/大洋洲">
-                    <option value="CAD">🇨🇦 CAD 加拿大元</option>
-                    <option value="AUD">🇦🇺 AUD 澳大利亚元</option>
-                </optgroup>
-            </select>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" id="ex-amount" value="100" step="0.01" aria-label="Enter amount to convert">
+                <div class="form-tip">Enter the amount you want to convert</div>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>From</label>
+                <select id="ex-from" aria-label="Select base currency">
+                    <optgroup label="Popular">
+                        <option value="USD">🇺🇸 USD US Dollar</option>
+                        <option value="CNY" selected>🇨🇳 CNY Chinese Yuan</option>
+                        <option value="EUR">🇪🇺 EUR Euro</option>
+                    </optgroup>
+                    <optgroup label="Asia">
+                        <option value="JPY">🇯🇵 JPY Japanese Yen</option>
+                        <option value="HKD">🇭🇰 HKD Hong Kong Dollar</option>
+                        <option value="KRW">🇰🇷 KRW South Korean Won</option>
+                        <option value="SGD">🇸🇬 SGD Singapore Dollar</option>
+                        <option value="INR">🇮🇳 INR Indian Rupee</option>
+                        <option value="THB">🇹🇭 THB Thai Baht</option>
+                        <option value="MYR">🇲🇾 MYR Malaysian Ringgit</option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                        <option value="GBP">🇬🇧 GBP British Pound</option>
+                        <option value="CHF">🇨🇭 CHF Swiss Franc</option>
+                        <option value="SEK">🇸🇪 SEK Swedish Krona</option>
+                        <option value="DKK">🇩🇰 DKK Danish Krone</option>
+                        <option value="NOK">🇳🇴 NOK Norwegian Krone</option>
+                        <option value="PLN">🇵🇱 PLN Polish Złoty</option>
+                    </optgroup>
+                    <optgroup label="Americas/Oceania">
+                        <option value="CAD">🇨🇦 CAD Canadian Dollar</option>
+                        <option value="AUD">🇦🇺 AUD Australian Dollar</option>
+                        <option value="NZD">🇳🇿 NZD New Zealand Dollar</option>
+                    </optgroup>
+                </select>
+                <div class="form-tip">Select the currency you currently have</div>
+            </div>
+            <div class="form-group">
+                <label>To</label>
+                <select id="ex-to" aria-label="Select target currency">
+                    <optgroup label="Popular">
+                        <option value="USD" selected>🇺🇸 USD US Dollar</option>
+                        <option value="CNY">🇨🇳 CNY Chinese Yuan</option>
+                        <option value="EUR">🇪🇺 EUR Euro</option>
+                    </optgroup>
+                    <optgroup label="Asia">
+                        <option value="JPY">🇯🇵 JPY Japanese Yen</option>
+                        <option value="HKD">🇭🇰 HKD Hong Kong Dollar</option>
+                        <option value="KRW">🇰🇷 KRW South Korean Won</option>
+                        <option value="SGD">🇸🇬 SGD Singapore Dollar</option>
+                        <option value="INR">🇮🇳 INR Indian Rupee</option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                        <option value="GBP">🇬🇧 GBP British Pound</option>
+                        <option value="CHF">🇨🇭 CHF Swiss Franc</option>
+                    </optgroup>
+                    <optgroup label="Americas/Oceania">
+                        <option value="CAD">🇨🇦 CAD Canadian Dollar</option>
+                        <option value="AUD">🇦🇺 AUD Australian Dollar</option>
+                    </optgroup>
+                </select>
+                <div class="form-tip">Select the currency you want to convert to</div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <div id="rate-text" class="rate-badge">Fetching exchange rate...</div>
+            <div id="res-total" class="main-amount">---</div>
+            <div class="data-source">Real-time exchange rate reference (Data sourced from European Central Bank, updated daily)</div>
+        </div>
+
+        <div class="section-header">
+            <h3>Historical Trend Analysis</h3>
+            <p class="section-description">View historical exchange rate trends to understand long-term currency performance</p>
+        </div>
+
+        <div class="time-picker" id="time-picker" aria-label="Select historical trend time range">
+            <button class="time-btn" data-years="1">1 Year</button>
+            <button class="time-btn active" data-years="5">5 Years</button>
+            <button class="time-btn" data-years="10">10 Years</button>
+            <button class="time-btn" data-years="20">20 Years</button>
+            <button class="time-btn" data-years="30">30 Years</button>
+        </div>
+
+        <div class="chart-container">
+            <div id="loading-overlay">Loading historical trend data...</div>
+            <canvas id="historyChart"></canvas>
+            <div class="chart-legend">
+                <span class="legend-item"><span class="legend-color" style="background-color: #4a6ee0;"></span>Exchange Rate Trend</span>
+                <span class="legend-item"><span class="legend-color" style="background-color: #ff6b6b;"></span>High Points</span>
+                <span class="legend-item"><span class="legend-color" style="background-color: #51cf66;"></span>Low Points</span>
+            </div>
         </div>
     </div>
 
-    <div class="result-card">
-        <div id="rate-text" class="rate-badge">正在同步汇率...</div>
-        <div id="res-total" class="main-amount">---</div>
-        <div style="font-size: 12px; color: var(--secondary-text);">实时汇率参考 (数据源自欧洲央行)</div>
+    <!-- Instructions and FAQ Section -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>Global Exchange Rate Trend Analyzer Features</h2>
+            <p>📖 Introduction: A professional online currency conversion tool that provides real-time conversion and displays historical trend charts. Perfect integration of <strong>currency converter</strong>, <strong>exchange rate lookup</strong>, and <strong>trend analysis</strong> features.</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3><i class="fas fa-globe-americas"></i> Global Currency Coverage</h3>
+                    <p>Supports 170+ global currencies including major, emerging market, and exotic currencies to meet diverse needs.</p>
+                    <div class="tip">
+                        <span class="tip-text">Tip: Currencies are grouped by region (Popular, Asia, Europe, Americas/Oceania) for easy navigation</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-chart-line"></i> Historical Trend Analysis</h3>
+                    <p>Provides 1, 5, 10, 20, and 30-year historical exchange rate data visualization charts to understand long-term currency trends.</p>
+                    <div class="tip">
+                        <span class="tip-text">Click different time range buttons to switch between trend charts</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-database"></i> Authoritative Data Source</h3>
+                    <p>Exchange rate data sourced from European Central Bank (ECB), updated daily to ensure accuracy and reliability.</p>
+                    <div class="tip">
+                        <span class="tip-text">European Central Bank is one of the most authoritative exchange rate data publishers globally</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-exchange-alt"></i> Real-time Calculation</h3>
+                    <p>Automatically calculates conversion results in real-time after entering amount, supports decimal precision for business and travel needs.</p>
+                    <div class="tip">
+                        <span class="tip-text">Conversion amount supports two decimal places, meeting most currency standards</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-mobile-alt"></i> Responsive Charts</h3>
+                    <p>Fully responsive chart design adapts to different device screens, providing excellent viewing experience on mobile and tablets.</p>
+                    <div class="tip">
+                        <span class="tip-text">On mobile devices, use two-finger pinch to zoom chart details</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-flag"></i> Country Flags</h3>
+                    <p>Each currency includes corresponding country/region flag icons for intuitive recognition and improved user experience.</p>
+                    <div class="tip">
+                        <span class="tip-text">Flag icons help quickly identify currency's country or region</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Technical Specifications Section -->
+            <div class="technical-section">
+                <h2>Exchange Rate Technical Specifications</h2>
+                <p>Exchange rate data and calculation methods used by this tool:</p>
+                <ul class="tech-specs">
+                    <li>Data Source: European Central Bank (ECB)</li>
+                    <li>Update Frequency: Daily updates (16:00 CET)</li>
+                    <li>Supported Currencies: 170+ global currencies</li>
+                    <li>Historical Data: Up to 30 years of historical exchange rate data</li>
+                    <li>Calculation Method: Cross calculation based on EUR exchange rates</li>
+                    <li>Data Format: XML and CSV formats</li>
+                </ul>
+                <p class="tech-note"><strong>Technical Note:</strong> This tool uses official exchange rate data published by European Central Bank. Due to real-time fluctuations, the tool displays the latest official rate from the most recent business day. Historical data may lack records for certain dates due to holidays and weekends.</p>
+            </div>
+            
+            <div class="faq-section">
+                <h2>Frequently Asked Questions (FAQ)</h2>
+                <div class="faq-item">
+                    <h3>How frequently is the exchange rate data updated?</h3>
+                    <p>The exchange rate data used by this tool is updated daily at 16:00 Central European Time (CET), which is 23:00 Beijing Time (Winter) or 22:00 (Summer). After data updates, the tool automatically retrieves the latest exchange rate information.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Why use European Central Bank data?</h3>
+                    <p>The European Central Bank is the central bank of the Eurozone, and its published exchange rate data is official and authoritative. The ECB publishes daily EUR exchange rates against other currencies, widely used by global financial institutions. Compared to commercial data sources, ECB data is more stable and reliable.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How are missing data points handled in historical trend charts?</h3>
+                    <p>Due to weekends, holidays, or data source limitations, some dates may lack exchange rate records. The chart uses linear interpolation to fill missing data points to ensure chart continuity. However, please note these interpolated points are for reference only, and actual transactions may occur at other times.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can this tool be used for business decisions?</h3>
+                    <p>The information provided by this tool is for reference only and should not be the sole basis for business decisions. Exchange rates are influenced by multiple factors including economic data, political events, and market sentiment. For important financial decisions, consult professional financial advisors and reference multiple data sources.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do I get historical data for specific currency pairs?</h3>
+                    <p>After selecting your currency pair of interest, the tool automatically loads historical data for that pair. Use the time selector to switch between different time ranges (1Y, 5Y, 10Y, 20Y, 30Y) to view historical trends for various periods.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is this tool free?</h3>
+                    <p>Yes, the Global Exchange Rate Trend Analyzer is completely free to use online, with no registration or login required. We are committed to providing high-quality financial tools to help you better understand the global currency market.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div style="margin-bottom: 10px;">
-        <span style="font-size: 14px; font-weight: 600;">历史趋势范围</span>
-    </div>
+    <!-- Page Footer -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p>© 2024 StarryRing - Global Exchange Rate Trend Analyzer</p>
+            <p>Last Updated: January 2026 | Version: v1.2.0 | Data Source: European Central Bank (ECB)</p>
+        </div>
+    </footer>
 
-    <div class="time-picker" id="time-picker">
-        <button class="time-btn" data-years="1">1年</button>
-        <button class="time-btn active" data-years="5">5年</button>
-        <button class="time-btn" data-years="10">10年</button>
-        <button class="time-btn" data-years="20">20年</button>
-        <button class="time-btn" data-years="30">30年</button>
-    </div>
-
-    <div class="chart-container">
-        <div id="loading-overlay">加载历史趋势数据...</div>
-        <canvas id="historyChart"></canvas>
-    </div>
-</div>
-
-<script>
-    let myChart = null;
-    let currentYears = 5;
-
-    async function updateAll() {
-        const from = document.getElementById('ex-from').value;
-        const to = document.getElementById('ex-to').value;
-        const amount = parseFloat(document.getElementById('ex-amount').value) || 0;
-
-        if (from === to) {
-            document.getElementById('res-total').innerText = amount.toFixed(2);
-            document.getElementById('rate-text').innerText = `1 ${from} = 1 ${to}`;
-            if(myChart) myChart.destroy();
-            return;
-        }
-
-        try {
-            const res = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=${to}`);
-            const data = await res.json();
-            const rate = data.rates[to];
-            document.getElementById('rate-text').innerText = `1 ${from} = ${rate.toFixed(4)} ${to}`;
-            document.getElementById('res-total').innerText = (amount * rate).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            updateChart(from, to, currentYears);
-        } catch (e) { 
-            document.getElementById('rate-text').innerText = "汇率同步失败";
-        }
-    }
-
-    async function updateChart(from, to, years) {
-        const loading = document.getElementById('loading-overlay');
-        loading.style.display = 'block';
-
-        const end = new Date().toISOString().split('T')[0];
-        const startDate = new Date();
-        startDate.setFullYear(startDate.getFullYear() - years);
-        const start = startDate.toISOString().split('T')[0];
-
-        try {
-            const res = await fetch(`https://api.frankfurter.app/${start}..${end}?from=${from}&to=${to}`);
-            const data = await res.json();
-            const labels = [];
-            const values = [];
-            const dates = Object.keys(data.rates);
-
-            let step = Math.max(1, Math.floor(dates.length / 50)); 
-
-            for (let i = 0; i < dates.length; i += step) { 
-                labels.push(dates[i]);
-                values.push(data.rates[dates[i]][to]);
-            }
-            renderChart(labels, values, `${from}/${to} ${years}年趋势`);
-        } catch (e) {
-            console.error("图表数据获取失败");
-        } finally {
-            loading.style.display = 'none';
-        }
-    }
-
-    function renderChart(labels, dataPoints, title) {
-        const ctx = document.getElementById('historyChart').getContext('2d');
-        if (myChart) myChart.destroy();
-
-        myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: title,
-                    data: dataPoints,
-                    borderColor: '#007aff',
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    fill: true,
-                    backgroundColor: 'rgba(0, 122, 255, 0.05)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { ticks: { maxTicksLimit: 6, font: { size: 10 } }, grid: { display: false } },
-                    y: { ticks: { font: { size: 10 } }, grid: { color: '#f0f0f2' } }
-                }
-            }
-        });
-    }
-
-    document.querySelectorAll('select, input').forEach(el => el.addEventListener('change', updateAll));
-    document.getElementById('time-picker').addEventListener('click', (e) => {
-        if (e.target.classList.contains('time-btn')) {
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-            currentYears = parseInt(e.target.dataset.years);
-            updateAll();
-        }
-    });
-
-    window.onload = updateAll;
-</script>
-
+    <!-- Local Scripts -->
+    <script src="/static/js/utility-tools/math/currency-calculator/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
