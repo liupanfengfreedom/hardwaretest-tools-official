@@ -3,95 +3,494 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ColorLab | 智能颜色转换与调色板工具</title>
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-     <!-- 样式表 -->
+    <!-- 主要元描述和关键词 -->
+    <meta name="description" content="ColorLab - 智能颜色转换与调色板生成工具。支持HEX、RGB、HSL颜色格式转换，智能调色板生成，对比度检查，无障碍颜色分析。专业的在线颜色工具。">
+    <meta name="keywords" content="颜色工具,颜色转换,调色板生成器,HEX转RGB,颜色对比度,颜色分析,在线颜色工具,颜色拾取器,调色板生成,网页颜色工具,设计师颜色工具">
+    
+    <!-- Open Graph 元标签 -->
+    <meta property="og:title" content="ColorLab - 智能颜色转换与调色板生成工具 | StarryRing">
+    <meta property="og:description" content="免费在线颜色工具，支持HEX、RGB、HSL颜色格式转换，智能调色板生成，对比度检查，无障碍颜色分析。专业的颜色分析和调色板工具。">
+    <meta property="og:image" content="https://starryring.com/colorlab-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ColorLab界面截图 - 智能颜色转换与调色板生成工具">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/design-media/color-grading/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter 卡片元标签 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ColorLab - 在线颜色转换与调色板工具">
+    <meta name="twitter:description" content="免费在线颜色工具，支持HEX、RGB、HSL颜色格式转换，智能调色板生成，对比度检查，无障碍颜色分析">
+    <meta name="twitter:image" content="https://starryring.com/colorlab-preview.png">
+    <meta name="twitter:site" content="@StarryRing">
+    
+    <!-- 国际化链接 -->
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/design-media/color-grading/" />
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/color-grading/" />
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="/static/js/utility-tools/design-media/color-grading/script-zh.js" as="script">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 样式表 -->
     <link rel="stylesheet" href="/static/css/utility-tools/design-media/color-grading/style.css">
     <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
     <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <!-- Google字体 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- 结构化数据 JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "ColorLab - 智能颜色转换与调色板工具",
+                "applicationCategory": "DesignApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS"],
+                "description": "免费在线颜色工具，支持HEX、RGB、HSL颜色格式转换，智能调色板生成，对比度检查，无障碍颜色分析。专业的颜色分析和调色板生成工具",
+                "url": "https://starryring.com/zh/utility-tools/design-media/color-grading/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/colorlab-preview.png",
+                    "width": "1200",
+                    "height": "630",
+                    "caption": "ColorLab颜色工具界面"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/colorlab-screenshot1.jpg",
+                        "width": "1280",
+                        "height": "720",
+                        "caption": "颜色转换界面",
+                        "description": "显示颜色格式转换和调色板生成功能"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/colorlab-screenshot2.jpg",
+                        "width": "1200",
+                        "height": "900",
+                        "caption": "调色板分析界面",
+                        "description": "显示智能调色板生成和颜色对比度分析"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "HEX、RGB、HSL颜色格式实时转换",
+                    "智能调色板生成（单色、互补色、相似色、三元色）",
+                    "颜色对比度检查（WCAG无障碍标准）",
+                    "颜色亮度分析（相对亮度和感知亮度）",
+                    "颜色信息分析（色相、饱和度、明度）",
+                    "颜色复制功能（一键复制颜色值）",
+                    "颜色选择器（可视化选择颜色）",
+                    "响应式设计（适配桌面和移动设备）"
+                ],
+                "datePublished": "2023-07-10",
+                "dateModified": "2024-01-20",
+                "softwareVersion": "1.5.0"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "什么是ColorLab颜色工具？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ColorLab是一个智能在线颜色工具，提供颜色格式转换、调色板生成、对比度分析和颜色信息分析等功能。它帮助设计师、开发者和内容创作者快速处理颜色相关任务，确保颜色选择的准确性和无障碍性。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "什么是WCAG颜色对比度标准？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "WCAG（Web Content Accessibility Guidelines）是网页内容无障碍指南。对于颜色对比度，WCAG 2.1要求：正常文本的对比度至少为4.5:1，大号文本的对比度至少为3:1，用户界面组件的对比度至少为3:1。ColorLab会自动检查您的颜色是否符合这些标准。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "智能调色板是如何生成的？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ColorLab使用色彩理论算法生成调色板：1) 单色调色板：基于主色调的不同明度和饱和度变化；2) 互补色调色板：使用色相环上相反的颜色；3) 相似色调色板：色相环上相邻的颜色；4) 三元色调色板：色相环上等距的三种颜色。这些调色板可以帮助您创建和谐的颜色组合。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何确保网站颜色符合无障碍标准？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "使用ColorLab的对比度检查功能，您可以测试文本颜色与背景颜色的对比度是否满足WCAG标准。工具会显示对比度比值和是否通过无障碍标准的提示。建议重要文本使用至少4.5:1的对比度，大号文本使用至少3:1的对比度。"
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "主页",
+                        "item": "https://starryring.com/zh/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "实用工具",
+                        "item": "https://starryring.com/zh/utility-tools/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "设计媒体工具",
+                        "item": "https://starryring.com/zh/utility-tools/design-media/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "name": "颜色工具",
+                        "item": "https://starryring.com/zh/utility-tools/design-media/color-grading/"
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "如何使用ColorLab进行颜色分析和调色板生成",
+                "description": "分步指南教你使用ColorLab进行颜色格式转换、调色板生成和无障碍分析",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "text": "选择颜色：使用颜色选择器选择颜色，或在HEX、RGB、HSL输入框中输入颜色值"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "查看颜色信息：工具会自动显示颜色的HEX、RGB、HSL值，以及色相、饱和度、明度信息"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "检查对比度：查看与白色和黑色的对比度比值，确认是否符合WCAG无障碍标准"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "生成调色板：工具会自动生成单色、互补色、相似色、三元色四种调色板"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "复制颜色：点击颜色显示区域或调色板中的颜色块，复制颜色值到剪贴板"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "text": "应用颜色：将复制的颜色值应用到您的设计项目、CSS样式或UI设计中"
+                    }
+                ],
+                "totalTime": "PT2M",
+                "tool": {
+                    "@type": "SoftwareApplication",
+                    "name": "ColorLab颜色工具"
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <title>ColorLab - 智能颜色转换与调色板生成工具 | StarryRing</title>
 </head>
 <body>
-
-<div class="container">
-    <div class="header">
-        <h1>🎨 ColorLab</h1>
-        <div class="subtitle">智能颜色转换与调色板生成工具</div>
+    <!-- 面包屑导航（修复：正确的页面名称） -->
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> 实用工具
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/utility-tools/design-media/" class="breadcrumb-link">
+                    <i class="fas fa-paint-brush"></i> 设计媒体工具
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-palette"></i> 颜色工具</span>
+            </li>
+        </ol>
+    </nav>
+    
+    <!-- 语言切换器（修复链接） -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/design-media/color-grading/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/en/utility-tools/design-media/color-grading/" data-lang="en">
+                English
+            </a>
+        </div>
     </div>
+    
+    <div class="container">
+        <!-- 主标题区域 -->
+        <div class="header-section">
+            <div class="header">
+                <h1>🎨 ColorLab - 智能颜色转换与调色板工具</h1>
+                <div class="subtitle">专业颜色格式转换 · 智能调色板生成 · 无障碍对比度分析</div>
+            </div>
+        </div>
 
-    <div class="color-picker-section">
-        <div class="color-preview">
-            <div class="color-display" id="colorDisplay">
-                <div class="color-info">
-                    <span class="color-hex" id="currentHex">#4A90E2</span>
-                    <button class="copy-btn" onclick="copyCurrentColor()">复制</button>
+        <!-- 颜色选择与预览区域 -->
+        <div class="color-picker-section">
+            <div class="color-preview">
+                <div class="color-display" id="colorDisplay">
+                    <div class="color-info">
+                        <span class="color-hex" id="currentHex">#4A90E2</span>
+                        <button class="copy-btn" onclick="copyCurrentColor()" aria-label="复制当前颜色值">复制</button>
+                    </div>
+                </div>
+                <div class="color-picker-wrapper">
+                    <label for="colorPicker">选择颜色：</label>
+                    <input type="color" id="colorPicker" value="#4a90e2" aria-label="颜色选择器">
+                    <div class="input-hint">点击色块或使用颜色选择器选择颜色</div>
                 </div>
             </div>
-            <div class="color-picker-wrapper">
-                <label for="colorPicker">选择颜色：</label>
-                <input type="color" id="colorPicker" value="#4a90e2">
+            
+            <div class="color-inputs">
+                <div class="input-group">
+                    <label for="hexInput">HEX 颜色值</label>
+                    <input type="text" id="hexInput" value="#4A90E2" placeholder="#RRGGBB" aria-label="十六进制颜色值">
+                    <div class="input-hint">支持3位（#RGB）或6位（#RRGGBB）十六进制颜色值</div>
+                </div>
+                <div class="input-group">
+                    <label for="rgbInput">RGB 颜色值</label>
+                    <input type="text" id="rgbInput" value="rgb(74, 144, 226)" placeholder="rgb(r, g, b)" aria-label="RGB颜色值">
+                    <div class="input-hint">红绿蓝颜色值，范围0-255</div>
+                </div>
+                <div class="input-group">
+                    <label for="hslInput">HSL 颜色值</label>
+                    <input type="text" id="hslInput" value="hsl(212, 72%, 59%)" placeholder="hsl(h, s%, l%)" aria-label="HSL颜色值">
+                    <div class="input-hint">色相（0-360°）、饱和度（0-100%）、明度（0-100%）</div>
+                </div>
             </div>
         </div>
-        
-        <div class="color-inputs">
-            <div class="input-group">
-                <label>HEX 颜色值</label>
-                <input type="text" id="hexInput" value="#4A90E2" placeholder="#RRGGBB">
-                <div class="input-hint">支持3位或6位十六进制颜色值</div>
+
+        <!-- 智能调色板区域 -->
+        <div class="palette-section">
+            <div class="section-title">
+                <span>🎨 智能调色板</span>
+                <div class="section-description">基于色彩理论自动生成的和谐颜色组合</div>
             </div>
-            <div class="input-group">
-                <label>RGB 颜色值</label>
-                <input type="text" id="rgbInput" value="rgb(74, 144, 226)" placeholder="rgb(r, g, b)">
+            <div id="palettes" class="palette-grid">
+                <!-- 调色板将通过 JS 动态生成 -->
             </div>
-            <div class="input-group">
-                <label>HSL 颜色值</label>
-                <input type="text" id="hslInput" value="hsl(212, 72%, 59%)" placeholder="hsl(h, s%, l%)">
+        </div>
+
+        <!-- 颜色分析工具区域 -->
+        <div class="utilities-section">
+            <div class="section-title">
+                <span>⚡ 颜色分析</span>
+                <div class="section-description">专业的颜色属性和无障碍标准分析</div>
+            </div>
+            <div class="utility-cards">
+                <div class="utility-card">
+                    <h3><i class="fas fa-eye"></i> 对比度检查</h3>
+                    <div>与白色对比度：<span id="contrastWhite" class="contrast-ratio">4.5:1</span></div>
+                    <div>与黑色对比度：<span id="contrastBlack" class="contrast-ratio">12:1</span></div>
+                    <div class="contrast-status" id="contrastStatus">✅ 通过无障碍标准</div>
+                    <div class="card-tip">WCAG 2.1标准：文本对比度需≥4.5:1</div>
+                </div>
+                <div class="utility-card">
+                    <h3><i class="fas fa-sun"></i> 亮度分析</h3>
+                    <div>相对亮度：<span id="luminanceValue">0.28</span></div>
+                    <div>感知亮度：<span id="perceivedLightness">中</span></div>
+                    <div>建议用途：<span id="suggestedUse">主色调、按钮</span></div>
+                    <div class="card-tip">相对亮度范围：0（纯黑）到1（纯白）</div>
+                </div>
+                <div class="utility-card">
+                    <h3><i class="fas fa-info-circle"></i> 颜色信息</h3>
+                    <div>色相：<span id="hueValue">212°</span></div>
+                    <div>饱和度：<span id="saturationValue">72%</span></div>
+                    <div>明度：<span id="lightnessValue">59%</span></div>
+                    <div class="card-tip">色相：红=0°/360°，绿=120°，蓝=240°</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="palette-section">
-        <div class="section-title">
-            <span>🎨 智能调色板</span>
-        </div>
-        <div id="palettes" class="palette-grid">
-            <!-- 调色板将通过 JS 动态生成 -->
+    <!-- 通知弹窗 -->
+    <div id="notification" class="notification">
+        <span id="notificationText">已复制到剪贴板！</span>
+    </div>
+
+    
+    <!-- 功能说明和FAQ部分 -->
+    <div class="instructions-section">
+        <div class="instructions-content">
+            <h2>ColorLab功能特色</h2>
+            <p>📖 简介：专业的在线颜色工具，提供全面的颜色处理和调色板生成功能。<strong>颜色转换器</strong>、<strong>调色板生成器</strong>、<strong>颜色对比度检查</strong>、<strong>颜色分析工具</strong>等功能的完美集成。</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3><i class="fas fa-exchange-alt"></i> 实时颜色转换</h3>
+                    <p>支持HEX、RGB、HSL颜色格式的实时双向转换，输入任意格式自动同步更新其他格式，确保颜色一致性。</p>
+                    <div class="tip">
+                        <span class="tip-text">格式互转：HEX ↔ RGB ↔ HSL，修改任意格式自动同步</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-palette"></i> 智能调色板生成</h3>
+                    <p>基于色彩理论自动生成单色、互补色、相似色、三元色四种调色板，帮助创建和谐的颜色组合。</p>
+                    <div class="tip">
+                        <span class="tip-text">色彩理论：基于色相环的数学计算生成和谐颜色组合</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-universal-access"></i> 无障碍分析</h3>
+                    <p>检查颜色对比度是否符合WCAG 2.1无障碍标准，确保网站颜色适合所有用户，包括视障用户。</p>
+                    <div class="tip">
+                        <span class="tip-text">WCAG标准：文本对比度≥4.5:1，大文本对比度≥3:1</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-chart-bar"></i> 深度颜色分析</h3>
+                    <p>提供相对亮度、感知亮度、色相、饱和度、明度等详细颜色属性分析，帮助理解颜色特性。</p>
+                    <div class="tip">
+                        <span class="tip-text">相对亮度：基于人类视觉感知的亮度计算（0-1）</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-copy"></i> 一键复制功能</h3>
+                    <p>支持一键复制颜色值（HEX、RGB、HSL），调色板颜色也可单独复制，方便在设计工具中使用。</p>
+                    <div class="tip">
+                        <span class="tip-text">复制格式：HEX带#号，RGB带rgb()，HSL带hsl()</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3><i class="fas fa-mobile-alt"></i> 响应式设计</h3>
+                    <p>完美适配桌面、平板和手机等不同设备屏幕，随时随地分析颜色，无需安装任何软件。</p>
+                    <div class="tip">
+                        <span class="tip-text">移动优化：在手机和平板上也能获得良好的使用体验</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 颜色技术规范部分 -->
+            <div class="technical-section">
+                <h2>颜色技术规范</h2>
+                <p>本工具使用的颜色标准和计算方法：</p>
+                <ul class="tech-specs">
+                    <li>颜色转换：基于W3C标准的颜色算法</li>
+                    <li>对比度计算：WCAG 2.1对比度算法（相对亮度公式）</li>
+                    <li>调色板生成：基于色彩理论（色相环数学模型）</li>
+                    <li>色相范围：0°到360°（红=0°/360°，绿=120°，蓝=240°）</li>
+                    <li>饱和度/明度范围：0%到100%</li>
+                    <li>HEX格式：支持#RGB和#RRGGBB格式</li>
+                </ul>
+                <p class="tech-note"><strong>技术说明：</strong>本工具使用JavaScript颜色算法实现实时转换。对比度计算基于WCAG 2.1的相对亮度公式：L = 0.2126×R + 0.7152×G + 0.0722×B。调色板生成基于色相环的数学计算：互补色（色相差180°）、相似色（色相差30°）、三元色（色相差120°）。</p>
+            </div>
+            
+            <div class="faq-section">
+                <h2>常见问题解答 (FAQ)</h2>
+                <div class="faq-item">
+                    <h3>什么是WCAG颜色对比度标准？为什么重要？</h3>
+                    <p>WCAG（Web Content Accessibility Guidelines）是网页内容无障碍指南。颜色对比度标准确保文本和背景之间有足够的对比度，使视力障碍用户也能清晰阅读。根据WCAG 2.1，正常文本的对比度至少为4.5:1，大号文本（至少18pt或14pt粗体）至少为3:1。不满足这些标准可能导致网站无法被部分用户使用，甚至违反某些地区的无障碍法律。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>HEX、RGB和HSL颜色格式有什么区别？</h3>
+                    <p>三种格式各有特点：<br>
+                    1) HEX（十六进制）：如#4A90E2，网页开发最常用，简洁但不易理解颜色属性<br>
+                    2) RGB（红绿蓝）：如rgb(74, 144, 226)，基于光的三原色，直观但不易调整颜色特性<br>
+                    3) HSL（色相饱和度明度）：如hsl(212, 72%, 59%)，基于人类对颜色的感知，易于调整颜色特性（如调亮、调暗、调整饱和度）<br>
+                    ColorLab支持这三种格式的实时转换，您可以根据需要使用最方便的格式。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>智能调色板是如何工作的？</h3>
+                    <p>ColorLab基于色彩理论生成四种调色板：<br>
+                    1) 单色调色板：保持色相不变，调整饱和度和明度，创建深浅不同的颜色<br>
+                    2) 互补色调色板：使用色相环上相反的颜色（色相差180°），创建高对比度组合<br>
+                    3) 相似色调色板：使用色相环上相邻的颜色（色相差30°），创建和谐柔和的组合<br>
+                    4) 三元色调色板：使用色相环上等距的三种颜色（色相差120°），创建丰富多彩的组合<br>
+                    这些调色板基于数学计算，确保颜色组合的和谐性。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>什么是相对亮度和感知亮度？</h3>
+                    <p>相对亮度是基于人类视觉感知的亮度值，范围从0（纯黑）到1（纯白），计算公式考虑人眼对不同颜色的敏感度（绿色最敏感，蓝色最不敏感）。感知亮度是基于相对亮度分类的直观描述，如"很暗"、"暗"、"中"、"亮"、"很亮"。相对亮度用于计算颜色对比度，感知亮度帮助理解颜色的视觉重量和适用场景。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>如何为网站选择无障碍颜色？</h3>
+                    <p>选择无障碍颜色的建议：<br>
+                    1) 使用ColorLab检查对比度，确保文本和背景对比度≥4.5:1<br>
+                    2) 避免仅依靠颜色传达信息（如红色表示错误），同时使用文字或图标<br>
+                    3) 测试色盲用户视角，确保颜色区分不依赖色相差异<br>
+                    4) 提供足够的颜色对比度，即使在高亮度环境下也能清晰识别<br>
+                    5) 考虑深色模式下的颜色表现，确保在不同主题下都有良好对比度</p>
+                </div>
+                <div class="faq-item">
+                    <h3>这个工具是免费的吗？</h3>
+                    <p>是的，ColorLab颜色工具是完全免费的在线工具，无需注册或登录即可使用。我们致力于为设计师和开发者提供高质量的颜色工具，帮助您创建美观且无障碍的颜色方案。所有处理都在浏览器本地完成，不会上传您的颜色数据到任何服务器。</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="utilities-section">
-        <div class="section-title">
-            <span>⚡ 颜色分析</span>
+    <!-- 页面页脚 -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <p>© 2024 StarryRing - ColorLab颜色工具</p>
+            <p>页面最后更新：2026年1月 | 版本：v1.5.0 | 标准：WCAG 2.1颜色对比度</p>
         </div>
-        <div class="utility-cards">
-            <div class="utility-card">
-                <h3>对比度检查</h3>
-                <div>与白色对比度：<span id="contrastWhite" class="contrast-ratio">4.5:1</span></div>
-                <div>与黑色对比度：<span id="contrastBlack" class="contrast-ratio">12:1</span></div>
-                <div class="contrast-status" id="contrastStatus">✅ 通过无障碍标准</div>
-            </div>
-            <div class="utility-card">
-                <h3>亮度分析</h3>
-                <div>相对亮度：<span id="luminanceValue">0.28</span></div>
-                <div>感知亮度：<span id="perceivedLightness">中</span></div>
-                <div>建议用途：<span id="suggestedUse">主色调、按钮</span></div>
-            </div>
-            <div class="utility-card">
-                <h3>颜色信息</h3>
-                <div>色相：<span id="hueValue">212°</span></div>
-                <div>饱和度：<span id="saturationValue">72%</span></div>
-                <div>明度：<span id="lightnessValue">59%</span></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="notification" class="notification">
-    <span id="notificationText">已复制到剪贴板！</span>
-</div>
+    </footer>
 
     <!-- 本地脚本 -->
     <script src="/static/js/utility-tools/design-media/color-grading/script-zh.js"></script>
