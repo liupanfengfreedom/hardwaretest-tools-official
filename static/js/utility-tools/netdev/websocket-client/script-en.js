@@ -1,4 +1,4 @@
-// WebSocket Debugging Assistant - Enhanced JavaScript Logic (English Version)
+// WebSocket Debugging Assistant - Enhanced JavaScript Logic
 let socket = null;
 let logCount = 0;
 let connectionStartTime = null;
@@ -107,9 +107,9 @@ function appendLog(type, message) {
     item.className = `log-item type-${type}`;
     
     const timestamp = new Date().toLocaleTimeString();
-    const typeLabel = type === 'sent' ? 'SENT' : 
-                     type === 'received' ? 'RECEIVED' : 
-                     type === 'error' ? 'ERROR' : 'INFO';
+    const typeLabel = type === 'sent' ? 'Sent' : 
+                     type === 'received' ? 'Received' : 
+                     type === 'error' ? 'Error' : 'Info';
     
     item.innerHTML = `
         <span style="color:#888">[${timestamp}]</span> 
@@ -167,34 +167,34 @@ connectBtn.onclick = () => {
         socket.onmessage = (e) => {
             let displayText = e.data;
             try {
-                // If it's JSON, try to format display
+                // If JSON, try to format display
                 const parsed = JSON.parse(e.data);
                 displayText = JSON.stringify(parsed, null, 2);
             } catch (err) {
-                // Not JSON, display directly
+                // Not JSON, display as is
             }
             appendLog('received', displayText);
         };
 
         socket.onclose = (e) => {
             const reason = e.reason ? ` Reason: ${e.reason}` : '';
-            const statusText = e.wasClean ? 'Clean close' : 'Abnormal close';
+            const statusText = e.wasClean ? 'Normal closure' : 'Abnormal closure';
             appendLog('info', `Connection closed (${statusText}, code: ${e.code})${reason}`);
             updateUI(false);
         };
 
         socket.onerror = (err) => {
-            appendLog('error', 'Connection error, please check address or network environment.');
+            appendLog('error', 'Connection error occurred, please check address or network environment.');
             updateUI(false);
         };
 
     } catch (err) {
-        appendLog('error', `Failed to create Socket: ${err.message}`);
+        appendLog('error', `Failed to create socket: ${err.message}`);
         updateUI(false);
     }
 };
 
-// --- 4. Message Sending Function ---
+// --- 4. Message Sending Functionality ---
 sendBtn.onclick = sendMessage;
 messageInput.onkeypress = (e) => { 
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -212,7 +212,7 @@ function sendMessage() {
     
     if (socket && socket.readyState === WebSocket.OPEN) {
         try {
-            // If it's a JSON string, try to parse and validate
+            // If JSON string, try to parse for validation
             if (msg.startsWith('{') || msg.startsWith('[')) {
                 JSON.parse(msg);
             }
@@ -229,7 +229,7 @@ function sendMessage() {
     }
 }
 
-// --- 5. Format Button Functions ---
+// --- 5. Format Button Functionality ---
 document.querySelectorAll('.format-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const format = this.getAttribute('data-format');
@@ -249,15 +249,15 @@ document.querySelectorAll('.format-btn').forEach(btn => {
     });
 });
 
-// --- 6. Clear Log Function ---
+// --- 6. Clear Logs Functionality ---
 clearBtn.onclick = () => {
     logConsole.innerHTML = '';
     logCount = 0;
     updateLogCount();
-    appendLog('info', 'Log cleared');
+    appendLog('info', 'Logs cleared');
 };
 
-// --- 7. Input Box Interaction ---
+// --- 7. Input Field Interaction ---
 wsUrlInput.onfocus = () => renderHistory(wsUrlInput.value);
 wsUrlInput.oninput = () => renderHistory(wsUrlInput.value);
 
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderHistory();
     
     // Add initial logs
-    appendLog('info', 'WebSocket Debugging Assistant is ready');
+    appendLog('info', 'WebSocket Debugging Assistant ready');
     appendLog('info', 'Enter WebSocket server address and click "Establish Connection" to start testing');
     appendLog('info', 'Example address: wss://echo.websocket.org');
     
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 sendMessage();
             }
         }
-        // Ctrl/Cmd + L to clear log
+        // Ctrl/Cmd + L to clear logs
         if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
             e.preventDefault();
             clearBtn.click();
