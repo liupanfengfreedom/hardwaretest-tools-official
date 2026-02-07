@@ -73,14 +73,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // 卡片点击效果
     cards.forEach(card => {
         card.addEventListener('click', function(e) {
-            // 这里可以添加点击后的逻辑，比如跳转页面
-            e.preventDefault();
-            
-            // 添加点击反馈
-            this.style.transform = 'translateY(-4px) scale(0.98)';
-            setTimeout(() => {
-                this.style.transform = 'translateY(-8px)';
-            }, 150);
+      // 阻止立即跳转
+        e.preventDefault();
+        
+        const targetUrl = this.getAttribute('href');
+        
+        // 添加点击缩放反馈
+        this.style.transform = 'translateY(-4px) scale(0.95)';
+        
+        // 等待动画执行（比如 150毫秒）后跳转
+        setTimeout(() => {
+            window.location.href = targetUrl;
+        }, 150);
             
             // 实际应用中这里应该是页面跳转或加载工具
             console.log(`打开工具: ${this.querySelector('h3').innerText}`);
