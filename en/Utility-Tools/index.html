@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Tools - 你的在线工具箱</title>
+    <!-- 引入 Google 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 引入 Lucide 图标库脚本 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --gradient-start: #6366f1;
+            --gradient-end: #8b5cf6;
+            
+            /* 分类颜色 */
+            --color-design: #a855f7;
+            --color-math: #10b981;
+            --color-netdev: #3b82f6;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* 顶部标题栏 */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 16px 24px 16px 52px;
+            border: 2px solid transparent;
+            border-radius: var(--radius-xl);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: var(--shadow-lg);
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-lg);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .search-hint {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+            opacity: 0.7;
+        }
+
+        /* 分类区块样式 */
+        .category-section {
+            margin-bottom: 60px;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .category-section:nth-child(2) { animation-delay: 0.1s; }
+        .category-section:nth-child(3) { animation-delay: 0.2s; }
+        .category-section:nth-child(4) { animation-delay: 0.3s; }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .category-title i {
+            margin-right: 12px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .design-section .category-title i { background-color: var(--color-design); }
+        .math-section .category-title i { background-color: var(--color-math); }
+        .netdev-section .category-title i { background-color: var(--color-netdev); }
+
+        .category-count {
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-left: 12px;
+        }
+
+        /* 网格布局 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* 工具卡片样式 */
+        .tool-card {
+            background: var(--card-bg);
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #f1f5f9;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--hover-color), var(--hover-color-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--hover-color);
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--hover-bg), var(--hover-bg-light));
+            color: var(--hover-color);
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tool-card:hover .icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .tool-card h3 {
+            margin: 0 0 12px 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .tool-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .tool-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .tool-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background-color: #f8fafc;
+            color: var(--hover-color);
+        }
+
+        .arrow-icon {
+            color: var(--text-muted);
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 针对不同分类的颜色修饰 */
+        .design-section { 
+            --hover-color: var(--color-design); 
+            --hover-color-light: #c084fc;
+            --hover-bg: #f5f3ff;
+            --hover-bg-light: #faf5ff;
+        }
+        
+        .math-section { 
+            --hover-color: var(--color-math); 
+            --hover-color-light: #34d399;
+            --hover-bg: #ecfdf5;
+            --hover-bg-light: #f0fdf9;
+        }
+        
+        .netdev-section { 
+            --hover-color: var(--color-netdev); 
+            --hover-color-light: #60a5fa;
+            --hover-bg: #eff6ff;
+            --hover-bg-light: #f5f9ff;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #e2e8f0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .container {
+                padding: 32px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .category-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon floating">
+                    <i data-lucide="tool"></i>
+                </div>
+                <span>Utility Tools</span>
+            </div>
+            
+            <h1>你的在线工具箱</h1>
+            <p class="subtitle">集合多种实用工具，提高工作效率，一键即可使用</p>
+            
+            <div class="search-container">
+                <div class="search-icon">
+                    <i data-lucide="search"></i>
+                </div>
+                <input type="text" class="search-bar" placeholder="搜索工具名称或功能...">
+                <p class="search-hint">输入关键词，快速找到你需要的工具</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Design and Media -->
+    <section class="category-section design-section">
+        <div class="category-header">
+            <div class="category-title">
+                <i data-lucide="palette"></i> Design and Media
+                <span class="category-count">3 个工具</span>
+            </div>
+        </div>
+        <div class="tools-grid">
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="layers"></i></div>
+                <h3>应用图标生成器</h3>
+                <p>一键生成多种尺寸的应用图标，支持 iOS 和 Android 平台</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">设计</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="smile"></i></div>
+                <h3>网站图标生成器</h3>
+                <p>为你的网站制作浏览器图标，支持多种格式和尺寸导出</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">图标</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="image"></i></div>
+                <h3>图片格式转换器</h3>
+                <p>支持 PNG, JPG, WebP, SVG 等多种格式互转，保持高质量</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">图片处理</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Math -->
+    <section class="category-section math-section">
+        <div class="category-header">
+            <div class="category-title">
+                <i data-lucide="calculator"></i> 数学与计算
+                <span class="category-count">3 个工具</span>
+            </div>
+        </div>
+        <div class="tools-grid">
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="refresh-cw"></i></div>
+                <h3>货币汇率计算器</h3>
+                <p>实时汇率换算与计算，支持全球 150+ 种货币</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">金融</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="key"></i></div>
+                <h3>密码生成器</h3>
+                <p>生成高强度的安全密码，可自定义长度和字符类型</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">安全</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="hash"></i></div>
+                <h3>随机数生成器</h3>
+                <p>自定义范围的随机数生成器，支持批量生成</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">数学</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Netdev -->
+    <section class="category-section netdev-section">
+        <div class="category-header">
+            <div class="category-title">
+                <i data-lucide="terminal"></i> 网络与开发
+                <span class="category-count">4 个工具</span>
+            </div>
+        </div>
+        <div class="tools-grid">
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="activity"></i></div>
+                <h3>网络 Ping 工具</h3>
+                <p>测试网络延迟与稳定性，支持多个目标地址</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">网络</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="send"></i></div>
+                <h3>API 调试工具</h3>
+                <p>简单的 API 接口调试工具，支持多种请求方法</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">开发</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="qr-code"></i></div>
+                <h3>二维码生成器</h3>
+                <p>将链接或文本转为二维码，支持自定义颜色和尺寸</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">工具</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="icon-wrapper"><i data-lucide="zap"></i></div>
+                <h3>Websocket 客户端</h3>
+                <p>在线测试 Websocket 连接，支持消息发送和接收</p>
+                <div class="tool-card-footer">
+                    <span class="tool-tag">开发</span>
+                    <div class="arrow-icon"><i data-lucide="arrow-right"></i></div>
+                </div>
+            </a>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">关于我们</a>
+            <a href="#">反馈建议</a>
+            <a href="#">隐私政策</a>
+            <a href="#">使用条款</a>
+        </div>
+        <p>&copy; 2023 Utility Tools. 保留所有权利。</p>
+        <p style="margin-top: 8px; font-size: 0.8rem;">持续更新更多实用工具中...</p>
+    </footer>
+</div>
+
+<script>
+    // 初始化图标
+    lucide.createIcons();
+    
+    // 页面加载完成后添加加载类
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.add('loaded');
+        
+        // 基础搜索过滤逻辑
+        const searchBar = document.querySelector('.search-bar');
+        const cards = document.querySelectorAll('.tool-card');
+        const sections = document.querySelectorAll('.category-section');
+        
+        searchBar.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            let visibleCardsCount = 0;
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                const desc = card.querySelector('p').innerText.toLowerCase();
+                const tag = card.querySelector('.tool-tag').innerText.toLowerCase();
+                
+                if (title.includes(term) || desc.includes(term) || tag.includes(term)) {
+                    card.style.display = 'flex';
+                    visibleCardsCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // 更新分类计数
+            sections.forEach(section => {
+                const sectionCards = section.querySelectorAll('.tool-card');
+                const countElement = section.querySelector('.category-count');
+                let visibleInSection = 0;
+                
+                sectionCards.forEach(card => {
+                    if (card.style.display !== 'none') {
+                        visibleInSection++;
+                    }
+                });
+                
+                if (countElement) {
+                    countElement.textContent = `${visibleInSection} 个工具`;
+                }
+                
+                // 隐藏没有可见工具的整个分类
+                if (visibleInSection === 0 && term.length > 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                }
+            });
+            
+            // 显示搜索结果提示
+            if (term.length > 0) {
+                const resultsHint = document.querySelector('.search-hint');
+                if (resultsHint) {
+                    resultsHint.textContent = `找到 ${visibleCardsCount} 个相关工具`;
+                }
+            } else {
+                const resultsHint = document.querySelector('.search-hint');
+                if (resultsHint) {
+                    resultsHint.textContent = '输入关键词，快速找到你需要的工具';
+                }
+                
+                // 重置所有分类显示
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                });
+            }
+        });
+        
+        // 卡片点击效果
+        cards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // 这里可以添加点击后的逻辑，比如跳转页面
+                e.preventDefault();
+                
+                // 添加点击反馈
+                this.style.transform = 'translateY(-4px) scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-8px)';
+                }, 150);
+                
+                // 实际应用中这里应该是页面跳转或加载工具
+                console.log(`打开工具: ${this.querySelector('h3').innerText}`);
+            });
+        });
+        
+        // 添加键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K 聚焦搜索框
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchBar.focus();
+            }
+            
+            // ESC 清空搜索框
+            if (e.key === 'Escape' && document.activeElement === searchBar) {
+                searchBar.value = '';
+                searchBar.dispatchEvent(new Event('input'));
+                searchBar.blur();
+            }
+        });
+        
+        // 添加搜索框快捷键提示
+        const searchHint = document.querySelector('.search-hint');
+        const originalHint = searchHint.textContent;
+        searchBar.addEventListener('focus', function() {
+            searchHint.textContent = '按 ESC 键清空搜索，按 Ctrl+K 快速搜索';
+        });
+        
+        searchBar.addEventListener('blur', function() {
+            if (this.value === '') {
+                searchHint.textContent = originalHint;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
