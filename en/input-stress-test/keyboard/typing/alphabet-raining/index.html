@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>键盘小英雄 - 儿童打字游戏</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Varela+Round&display=swap');
+
+        :root {
+            --bg-top: #845EC2;
+            --bg-bottom: #D65DB1;
+            --uibg: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Fredoka One', cursive;
+            background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+            height: 100vh;
+            color: #333;
+            user-select: none;
+        }
+
+        /* 游戏区域 */
+        #game-area {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 掉落的物体 */
+        .falling-item {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-align: center;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.2);
+            border: 4px solid #fff;
+            transition: transform 0.1s;
+            z-index: 10;
+        }
+
+        .falling-item.shake {
+            animation: shake 0.3s;
+            border-color: #FF6B6B;
+            background: #FFEBEE;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(-55%); }
+            25% { transform: translateX(-45%); }
+            50% { transform: translateX(-55%); }
+            75% { transform: translateX(-45%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .item-emoji { font-size: 3rem; display: block; margin-bottom: 5px; }
+        .item-word { font-size: 2rem; letter-spacing: 3px; color: #ccc; }
+        
+        /* 已输入的字符样式 */
+        .typed-char { color: #4CAF50; text-shadow: 0 2px 0 #A5D6A7; }
+        .current-char { text-decoration: underline; text-decoration-color: #FF9800; text-decoration-thickness: 4px;}
+
+        /* 地面 */
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background: #00C9A7;
+            border-top: 8px solid #009E83;
+            z-index: 20;
+        }
+
+        /* UI 面板 */
+        #ui-layer {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 30;
+            pointer-events: none; /* 让点击穿透 */
+        }
+
+        .hud-box {
+            background: var(--uibg);
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.1);
+            font-size: 1.5rem;
+            color: #845EC2;
+        }
+
+        /* 开始/结束 弹窗 */
+        #menu-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        .menu-box {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: bounceIn 0.5s;
+        }
+
+        .btn {
+            background: #FF9800;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Fredoka One';
+            margin: 10px;
+            box-shadow: 0 6px 0 #E65100;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: translateY(6px); box-shadow: none; }
+        .btn-green { background: #4CAF50; box-shadow: 0 6px 0 #2E7D32; }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* 爆炸特效 */
+        .particle {
+            position: absolute;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            animation: pop 0.8s forwards;
+        }
+        @keyframes pop {
+            0% { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        .mode-select { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .mode-opt {
+            padding: 10px 20px; border: 2px solid #ddd; border-radius: 15px; cursor: pointer; color: #888;
+        }
+        .mode-opt.selected { background: #E1F5FE; border-color: #29B6F6; color: #0277BD; }
+
+    </style>
+</head>
+<body>
+
+    <!-- 游戏主界面 -->
+    <div id="game-area">
+        <div id="ui-layer">
+            <div class="hud-box">❤️ <span id="lives">5</span></div>
+            <div class="hud-box">⭐ <span id="score">0</span></div>
+        </div>
+        
+        <!-- 单词生成容器 -->
+        <div id="items-container"></div>
+        
+        <div class="ground"></div>
+    </div>
+
+    <!-- 菜单层 -->
+    <div id="menu-overlay">
+        <div class="menu-box">
+            <h1 style="font-size: 3rem; margin: 0 0 20px 0; color:#845EC2;">Typing Hero</h1>
+            <div style="font-size: 5rem; margin-bottom: 20px;">🎹</div>
+            
+            <div class="mode-select">
+                <div class="mode-opt selected" id="opt-easy" onclick="selectMode('easy')">👶 字母练习 (简单)</div>
+                <div class="mode-opt" id="opt-hard" onclick="selectMode('hard')">🦁 单词挑战 (困难)</div>
+            </div>
+
+            <p id="final-score-display" style="display:none; color:#FF6B6B; font-size:1.5rem;">Score: 0</p>
+            <button class="btn btn-green" onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+
+    <!-- 音效 (使用 AudioContext 生成，这里为了简单使用 TTS) -->
+
+    <script>
+        // --- 1. 词库配置 ---
+        const wordsDB = {
+            easy: [ // 单个字母
+                {t:"A",e:"🅰️"},{t:"B",e:"🅱️"},{t:"C",e:"©️"},{t:"D",e:"🇩"},{t:"E",e:"🇪"},
+                {t:"F",e:"🇫"},{t:"G",e:"🇬"},{t:"H",e:"🇭"},{t:"I",e:"ℹ️"},{t:"J",e:"🇯"},
+                {t:"K",e:"🇰"},{t:"L",e:"🇱"},{t:"M",e:"Ⓜ️"},{t:"N",e:"🇳"},{t:"O",e:"⭕"},
+                {t:"P",e:"🅿️"},{t:"Q",e:"🇶"},{t:"R",e:"®️"},{t:"S",e:"🇸"},{t:"T",e:"✝️"},
+                {t:"U",e:"⛎"},{t:"V",e:"✌️"},{t:"W",e:"🇼"},{t:"X",e:"❌"},{t:"Y",e:"🇾"},{t:"Z",e:"💤"}
+            ],
+            hard: [ // 完整单词 (复用之前的词库)
+                {t:"CAT",e:"🐱"},{t:"DOG",e:"🐶"},{t:"PIG",e:"🐷"},{t:"FOX",e:"🦊"},
+                {t:"LION",e:"🦁"},{t:"BEAR",e:"🐻"},{t:"DUCK",e:"🦆"},{t:"FROG",e:"🐸"},
+                {t:"FISH",e:"🐟"},{t:"BIRD",e:"🐦"},{t:"APPLE",e:"🍎"},{t:"PEAR",e:"🍐"},
+                {t:"EGG",e:"🥚"},{t:"MILK",e:"🥛"},{t:"CAR",e:"🚗"},{t:"BUS",e:"🚌"},
+                {t:"RED",e:"❤️"},{t:"BLUE",e:"💙"},{t:"ONE",e:"1️⃣"},{t:"TWO",e:"2️⃣"}
+            ]
+        };
+
+        // --- 2. 游戏状态 ---
+        let state = {
+            playing: false,
+            score: 0,
+            lives: 5,
+            mode: 'easy',
+            speed: 1.5, // 掉落速度 (px/frame)
+            spawnRate: 2000, // 生成间隔 (ms)
+            activeItem: null, // 当前正在打的单词对象
+            items: [], // 屏幕上的所有单词
+            lastSpawnTime: 0
+        };
+
+        let animationFrameId;
+
+        // --- 3. 核心逻辑 ---
+
+        function selectMode(m) {
+            state.mode = m;
+            document.querySelectorAll('.mode-opt').forEach(el => el.classList.remove('selected'));
+            document.getElementById('opt-'+m).classList.add('selected');
+        }
+
+        function startGame() {
+            // 重置状态
+            state.playing = true;
+            state.score = 0;
+            state.lives = 5;
+            state.speed = state.mode === 'easy' ? 1 : 1.5; // 困难模式掉落更快
+            state.spawnRate = state.mode === 'easy' ? 2500 : 2000;
+            state.items = [];
+            state.activeItem = null;
+            
+            // UI 重置
+            document.getElementById('score').innerText = 0;
+            document.getElementById('lives').innerText = 5;
+            document.getElementById('items-container').innerHTML = '';
+            document.getElementById('menu-overlay').style.display = 'none';
+            document.getElementById('final-score-display').style.display = 'none';
+
+            // 启动循环
+            state.lastSpawnTime = performance.now();
+            loop();
+        }
+
+        function loop(timestamp) {
+            if (!state.playing) return;
+
+            // 1. 生成新单词
+            if (timestamp - state.lastSpawnTime > state.spawnRate) {
+                spawnItem();
+                state.lastSpawnTime = timestamp;
+                // 随着分数增加，难度微增
+                if(state.spawnRate > 1000) state.spawnRate -= 20; 
+            }
+
+            // 2. 移动单词
+            updateItems();
+
+            animationFrameId = requestAnimationFrame(loop);
+        }
+
+        function spawnItem() {
+            const db = wordsDB[state.mode];
+            const data = db[Math.floor(Math.random() * db.length)];
+            
+            const el = document.createElement('div');
+            el.className = 'falling-item';
+            // 随机横向位置 (10% - 90%)
+            el.style.left = (10 + Math.random() * 80) + '%';
+            el.style.top = '-150px'; // 初始高度
+            
+            // 渲染内容
+            let htmlHTML = `<span class="item-emoji">${data.e}</span><div class="item-word">`;
+            for(let char of data.t) {
+                htmlHTML += `<span>${char}</span>`;
+            }
+            htmlHTML += `</div>`;
+            el.innerHTML = htmlHTML;
+
+            document.getElementById('items-container').appendChild(el);
+
+            state.items.push({
+                el: el,
+                text: data.t, // 完整单词
+                typedIndex: 0, // 已打了几个字母
+                y: -150 // 当前Y坐标
+            });
+        }
+
+        function updateItems() {
+            const containerHeight = document.getElementById('game-area').offsetHeight;
+            const groundLimit = containerHeight - 60; // 地面高度
+
+            for (let i = state.items.length - 1; i >= 0; i--) {
+                const item = state.items[i];
+                item.y += state.speed;
+                item.el.style.top = item.y + 'px';
+
+                // 触底判定
+                if (item.y > groundLimit - 50) {
+                    gameOverItem(i);
+                }
+            }
+        }
+
+        function gameOverItem(index) {
+            const item = state.items[index];
+            item.el.remove();
+            state.items.splice(index, 1);
+            
+            // 如果正是当前锁定的单词，解锁
+            if(state.activeItem === item) state.activeItem = null;
+
+            // 扣血
+            state.lives--;
+            document.getElementById('lives').innerText = state.lives;
+            shakeScreen();
+            playSound('wrong');
+
+            if (state.lives <= 0) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            state.playing = false;
+            cancelAnimationFrame(animationFrameId);
+            
+            document.getElementById('menu-overlay').style.display = 'flex';
+            document.querySelector('.menu-box h1').innerText = "Game Over!";
+            const scoreDisplay = document.getElementById('final-score-display');
+            scoreDisplay.style.display = 'block';
+            scoreDisplay.innerText = "Final Score: " + state.score;
+        }
+
+        // --- 4. 键盘交互 ---
+        window.addEventListener('keydown', (e) => {
+            if (!state.playing) return;
+            
+            const key = e.key.toUpperCase();
+            // 只响应 A-Z
+            if (!/^[A-Z]$/.test(key)) return;
+
+            // 策略：如果没有锁定目标，寻找屏幕上所有单词中，首字母匹配且位置最低（最危险）的那个
+            if (!state.activeItem) {
+                // 找出所有首字母匹配的
+                let candidates = state.items.filter(it => it.text[0] === key);
+                if (candidates.length > 0) {
+                    // 选Y值最大（最下面）的那个
+                    candidates.sort((a,b) => b.y - a.y);
+                    state.activeItem = candidates[0];
+                }
+            }
+
+            // 处理输入
+            if (state.activeItem) {
+                const targetChar = state.activeItem.text[state.activeItem.typedIndex];
+                
+                if (key === targetChar) {
+                    // 输入正确
+                    handleCorrectInput(state.activeItem);
+                } else {
+                    // 输入错误
+                    handleWrongInput(state.activeItem);
+                }
+            } else {
+                // 按了键盘但没有匹配的单词
+                playSound('wrong'); 
+            }
+        });
+
+        function handleCorrectInput(item) {
+            // 视觉更新：变绿
+            const span = item.el.querySelectorAll('.item-word span')[item.typedIndex];
+            span.className = 'typed-char';
+            
+            // 播放字母音
+            speak(item.text[item.typedIndex]);
+
+            item.typedIndex++;
+
+            // 检查是否完成整个单词
+            if (item.typedIndex >= item.text.length) {
+                // 单词完成！
+                destroyItem(item);
+            } else {
+                // 给下一个字母加下划线提示
+                const nextSpan = item.el.querySelectorAll('.item-word span')[item.typedIndex];
+                if(nextSpan) nextSpan.classList.add('current-char');
+            }
+        }
+
+        function handleWrongInput(item) {
+            item.el.classList.remove('shake');
+            void item.el.offsetWidth; // 强制重绘以触发动画
+            item.el.classList.add('shake');
+            playSound('wrong');
+        }
+
+        function destroyItem(item) {
+            // 特效
+            createExplosion(item.el);
+            speak(item.text); // 读完整单词
+
+            // 移除 DOM 和 数据
+            item.el.remove();
+            const idx = state.items.indexOf(item);
+            if (idx > -1) state.items.splice(idx, 1);
+            
+            state.activeItem = null; // 解锁
+
+            // 加分
+            state.score += 10;
+            document.getElementById('score').innerText = state.score;
+            
+            // 偶尔奖励生命
+            if(state.score > 0 && state.score % 200 === 0) {
+                state.lives++;
+                document.getElementById('lives').innerText = state.lives;
+            }
+        }
+
+        // --- 5. 辅助功能 ---
+
+        // 爆炸粒子特效
+        function createExplosion(el) {
+            const rect = el.getBoundingClientRect();
+            const colors = ['#FFD700', '#FF6B6B', '#4CAF50', '#29B6F6'];
+            
+            for(let i=0; i<15; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                p.style.left = (rect.left + rect.width/2) + 'px';
+                p.style.top = (rect.top + rect.height/2) + 'px';
+                
+                // 随机飞散方向
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 50 + Math.random() * 100;
+                p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 800);
+            }
+        }
+
+        function shakeScreen() {
+            document.body.style.transform = "translateX(5px)";
+            setTimeout(() => document.body.style.transform = "translateX(-5px)", 50);
+            setTimeout(() => document.body.style.transform = "translateX(0)", 100);
+        }
+
+        // 简单的音效模拟
+        function playSound(type) {
+            // 真实项目中建议加载 mp3，这里用静音或简单逻辑代替，因为 Web Audio 需要用户交互
+        }
+
+        // TTS 发音
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'en-US';
+            u.rate = 1.0;
+            // 如果是单个字母，稍微读慢点清楚点
+            if(text.length === 1) u.rate = 0.8; 
+            window.speechSynthesis.speak(u);
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>喵喵快餐车：键盘大作战 (UI修复版) 🐱🎵</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700&display=swap');
+
+        :root {
+            --bg-color: #FFF5E1;
+            --primary: #FF9AA2;
+            --secondary: #B5EAD7;
+            --accent: #FFDAC1;
+            --text: #6B5B95;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            user-select: none;
+        }
+
+        #game-container {
+            width: 800px;
+            height: 600px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 8px solid var(--accent);
+        }
+
+        .kitchen-bg {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30%;
+            background-color: #FFB7B2;
+            border-top: 5px solid #E2F0CB;
+            z-index: 1;
+        }
+
+        .chef-cat {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 80px;
+            z-index: 2;
+            transition: transform 0.1s;
+        }
+
+        .counter {
+            position: absolute;
+            bottom: 120px;
+            width: 100%;
+            height: 20px;
+            background: #D7CCC8;
+            z-index: 1;
+        }
+
+        .hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+            color: var(--text);
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .hud-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .combo-box { color: var(--primary); }
+
+        .customer {
+            position: absolute;
+            bottom: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: left 0.5s ease-out, opacity 0.3s;
+            z-index: 5;
+        }
+
+        .customer-avatar { font-size: 60px; }
+
+        .order-bubble {
+            background: white;
+            border: 3px solid var(--text);
+            border-radius: 15px;
+            padding: 10px 15px;
+            position: relative;
+            margin-bottom: 10px;
+            min-width: 100px;
+            text-align: center;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        .word-display {
+            font-family: 'Fredoka One', cursive;
+            font-size: 24px;
+            color: #ccc;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .char-correct { color: var(--primary); }
+        .char-active { color: var(--text); text-decoration: underline; transform: scale(1.2); display:inline-block; }
+
+        .patience-bar {
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            margin-top: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .patience-fill {
+            height: 100%;
+            background: #88d8b0;
+            width: 100%;
+            transition: width 0.1s linear, background 0.3s;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary);
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 var(--secondary);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            box-shadow: 0 5px 0 #E57373;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        button:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 #E57373;
+        }
+
+        /* 动画类 */
+        .shake { animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
+        .bounce { animation: bounce 0.15s ease; }
+        @keyframes bounce {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: fly 0.8s ease-out forwards;
+            font-size: 24px;
+            z-index: 20;
+        }
+        @keyframes fly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+        .hidden { display: none !important; }
+
+        /* 静音按钮 - 重新定位到右上角HUD区域 */
+        .mute-btn {
+            cursor: pointer;
+            z-index: 11;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.2s;
+            font-size: 28px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .mute-btn:hover { 
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div class="hud">
+            <div class="hud-item">
+                <span>分数: <span id="score">0</span></span>
+            </div>
+            <div class="hud-item" style="gap: 20px;">
+                <div class="mute-btn" id="mute-btn" onclick="toggleMute()">🔊</div>
+                <div>生命: <span id="lives">❤️❤️❤️</span></div>
+            </div>
+            <div class="hud-item combo-box">
+                连击: x<span id="combo">0</span>
+            </div>
+        </div>
+
+        <div id="start-screen" class="overlay">
+            <h1>🐱 喵喵快餐车 🚚</h1>
+            <p>为森林里的小动物制作美食！</p>
+            <p style="font-size: 14px; color: #888;">(在键盘上输入显示的单词)</p>
+            <br>
+            <button onclick="initGame()">开始营业!</button>
+        </div>
+
+        <div id="game-over-screen" class="overlay hidden">
+            <h1 style="color: #666;">店铺打烊</h1>
+            <p>最终收入: <span id="final-score" style="font-weight: bold; color: var(--primary);">0</span> 金币</p>
+            <p style="font-size: 14px; color: #888;">最高连击: <span id="max-combo">0</span></p>
+            <br>
+            <button onclick="startGame()">再来一次!</button>
+        </div>
+
+        <div class="counter"></div>
+        <div class="kitchen-bg"></div>
+        <div class="chef-cat" id="chef">🐱</div>
+        
+        <div id="customer-area"></div>
+    </div>
+
+    <script>
+        // --- 🎵 音效系统 (Web Audio API) ---
+        let audioCtx;
+        let isMuted = false;
+        let lastTypeTime = 0; // 打字音效防抖
+
+        function initAudio() {
+            if (!audioCtx) {
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    console.log("音频上下文已初始化");
+                } catch (e) {
+                    console.error("音频初始化失败:", e);
+                    // 静音模式作为后备
+                    isMuted = true;
+                    document.getElementById('mute-btn').innerText = '🔇';
+                }
+            }
+            // 恢复音频上下文（如果被暂停）
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume().then(() => {
+                    console.log("音频上下文已恢复");
+                });
+            }
+        }
+
+        function playTone(freq, type, duration, vol = 0.1) {
+            if (isMuted || !audioCtx) return;
+            
+            // 确保音频上下文处于活动状态
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(e => console.error("音频恢复失败:", e));
+            }
+            
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.error("播放音效失败:", e);
+            }
+        }
+
+        const sfx = {
+            type: () => {
+                const now = Date.now();
+                if (now - lastTypeTime > 50) { // 50ms防抖
+                    playTone(800, 'sine', 0.1);
+                    lastTypeTime = now;
+                }
+            },
+            error: () => {
+                playTone(150, 'sawtooth', 0.3, 0.2);
+                setTimeout(() => playTone(140, 'sawtooth', 0.3, 0.2), 50);
+            },
+            serve: () => {
+                setTimeout(() => playTone(523.25, 'triangle', 0.2, 0.15), 0);
+                setTimeout(() => playTone(659.25, 'triangle', 0.2, 0.15), 100);
+                setTimeout(() => playTone(783.99, 'triangle', 0.4, 0.15), 200);
+            },
+            gameover: () => {
+                setTimeout(() => playTone(400, 'square', 0.4, 0.1), 0);
+                setTimeout(() => playTone(300, 'square', 0.4, 0.1), 300);
+                setTimeout(() => playTone(200, 'square', 0.8, 0.1), 600);
+            },
+            spawn: () => {
+                playTone(600, 'sine', 0.3, 0.1);
+            }
+        };
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById('mute-btn').innerText = isMuted ? '🔇' : '🔊';
+            
+            // 如果取消静音，确保音频上下文已激活
+            if (!isMuted && audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume().then(() => {
+                    console.log("音频已取消静音");
+                });
+            }
+        }
+
+        // --- 游戏数据 ---
+        const wordsEasy = ['TEA', 'ICE', 'JAM', 'EGG', 'PIE', 'HAM', 'NUT', 'BUN', 'POT', 'MILK'];
+        const wordsMedium = ['SALAD', 'BREAD', 'PIZZA', 'STEAK', 'SUSHI', 'CURRY', 'PASTA', 'TACO', 'WATER', 'DONUT'];
+        const wordsHard = ['BURGER', 'SANDWICH', 'PANCAKE', 'POPCORN', 'CUPCAKE', 'SAUSAGE', 'NOODLES', 'COOKIES', 'BURRITO'];
+        
+        const animals = ['🐶', '🐰', '🐼', '🐨', '🐷', '🦊', '🐻', '🐹'];
+        const foods = ['🍔', '🍟', '🍕', '🌭', '🥪', '🌮', '🍦', '🍩'];
+
+        // --- 游戏状态 ---
+        let state = {
+            isPlaying: false,
+            score: 0,
+            maxScore: 0,
+            lives: 3,
+            combo: 0,
+            maxCombo: 0,
+            spawnRate: 3000,
+            lastSpawn: 0,
+            difficulty: 1,
+            lastTime: 0
+        };
+
+        let customers = [];
+        let animationFrameId = null;
+
+        // --- DOM 元素 ---
+        const scoreEl = document.getElementById('score');
+        const livesEl = document.getElementById('lives');
+        const comboEl = document.getElementById('combo');
+        const finalScoreEl = document.getElementById('final-score');
+        const maxComboEl = document.getElementById('max-combo');
+        const startScreen = document.getElementById('start-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const customerArea = document.getElementById('customer-area');
+        const chef = document.getElementById('chef');
+        const container = document.getElementById('game-container');
+
+        // --- 游戏逻辑 ---
+
+        function initGame() {
+            initAudio(); // 初始化音频上下文（必须在用户点击后）
+            startGame();
+        }
+
+        function startGame() {
+            // 停止之前的游戏循环
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
+            // 重置游戏状态
+            state = {
+                isPlaying: true,
+                score: 0,
+                maxScore: Math.max(state.maxScore, state.score),
+                lives: 3,
+                combo: 0,
+                maxCombo: 0,
+                spawnRate: 2500,
+                lastSpawn: 0,
+                difficulty: 1,
+                lastTime: 0
+            };
+            
+            customers = [];
+            customerArea.innerHTML = ''; 
+            
+            updateUI();
+            
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            
+            // 初始生成一个顾客
+            spawnCustomer();
+            
+            // 开始游戏循环
+            state.lastTime = performance.now();
+            gameLoop(state.lastTime);
+        }
+
+        function gameLoop(timestamp) {
+            if (!state.isPlaying) return;
+            
+            const deltaTime = timestamp - state.lastTime;
+            state.lastTime = timestamp;
+
+            // 生成新顾客
+            if (timestamp - state.lastSpawn > state.spawnRate) {
+                spawnCustomer();
+                state.lastSpawn = timestamp;
+                // 逐渐加快生成速度，但设置下限
+                if (state.spawnRate > 1000) state.spawnRate -= 15;
+            }
+
+            // 更新所有顾客的耐心值
+            customers.forEach((c, index) => {
+                if (c.remove) return;
+                
+                c.patience -= 0.15 * state.difficulty * (deltaTime / 16.67); // 基于时间的更新
+                if (c.patience < 0) c.patience = 0;
+                
+                updateCustomerUI(c);
+
+                if (c.patience <= 0) {
+                    customerLeave(c.id, false);
+                }
+            });
+
+            // 清理已标记删除的顾客
+            customers = customers.filter(c => !c.remove);
+
+            // 检查游戏结束
+            if (state.lives <= 0) {
+                gameOver();
+                return;
+            }
+
+            // 继续游戏循环
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function getWord() {
+            let pool = [...wordsEasy];
+            if (state.score > 200) pool = pool.concat(wordsMedium);
+            if (state.score > 500) pool = pool.concat(wordsHard);
+            state.difficulty = 1 + Math.floor(state.score / 500) * 0.2;
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        function spawnCustomer() {
+            // 限制最多同时4个顾客
+            const existingCustomers = customerArea.children.length;
+            if (existingCustomers >= 4) return;
+
+            const word = getWord();
+            const id = 'c' + Date.now() + Math.random().toString(36).substr(2, 9);
+            const avatar = animals[Math.floor(Math.random() * animals.length)];
+            const foodIcon = foods[Math.floor(Math.random() * foods.length)];
+
+            const el = document.createElement('div');
+            el.className = 'customer';
+            el.id = `customer-${id}`;
+            el.style.left = '850px';
+            el.innerHTML = `
+                <div class="order-bubble">
+                    <div style="font-size:20px; margin-bottom:5px;">${foodIcon}</div>
+                    <div class="word-display" id="word-${id}">${formatWord(word, 0)}</div>
+                    <div class="patience-bar"><div class="patience-fill" id="fill-${id}"></div></div>
+                </div>
+                <div class="customer-avatar">${avatar}</div>
+            `;
+
+            customerArea.appendChild(el);
+
+            // 使用实际DOM中的顾客数量计算位置
+            const activeCustomerElements = Array.from(customerArea.children).filter(el => !el.style.opacity || el.style.opacity === '1');
+            const pos = 50 + (activeCustomerElements.length * 180);
+            
+            setTimeout(() => {
+                if (el.parentNode) {
+                    el.style.left = pos + 'px';
+                }
+            }, 50);
+
+            customers.push({
+                id: id,
+                word: word,
+                typedIndex: 0,
+                patience: 100,
+                el: el,
+                remove: false
+            });
+            
+            // 播放生成音效
+            sfx.spawn();
+        }
+
+        function formatWord(word, index) {
+            let html = '';
+            for (let i = 0; i < word.length; i++) {
+                if (i < index) {
+                    html += `<span class="char-correct">${word[i]}</span>`;
+                } else if (i === index) {
+                    html += `<span class="char-active">${word[i]}</span>`;
+                } else {
+                    html += `<span>${word[i]}</span>`;
+                }
+            }
+            return html;
+        }
+
+        function updateCustomerUI(customer) {
+            const bar = document.getElementById(`fill-${customer.id}`);
+            if (bar) {
+                bar.style.width = customer.patience + '%';
+                if (customer.patience < 30) bar.style.background = '#FF6B6B';
+                else if (customer.patience < 60) bar.style.background = '#FFD166';
+                else bar.style.background = '#88d8b0';
+            }
+        }
+
+        function customerLeave(customerId, isHappy) {
+            const customerIndex = customers.findIndex(c => c.id === customerId);
+            if (customerIndex === -1) return;
+            
+            const c = customers[customerIndex];
+            c.remove = true;
+            
+            if (isHappy) {
+                sfx.serve(); // 🎵 播放成功音效
+                spawnParticles(c.el.offsetLeft + 50, c.el.offsetTop);
+                c.el.innerHTML = `<div class="customer-avatar">✨😻✨</div>`;
+                
+                const wordScore = c.word.length * 10;
+                const comboBonus = state.combo * 5;
+                state.score += wordScore + comboBonus;
+                state.combo++;
+                state.maxCombo = Math.max(state.maxCombo, state.combo);
+            } else {
+                sfx.error(); // 🎵 播放失败音效
+                c.el.innerHTML = `<div class="customer-avatar">💢👺💢</div>`;
+                container.classList.add('shake');
+                setTimeout(() => container.classList.remove('shake'), 300);
+                state.lives--;
+                state.combo = 0;
+            }
+
+            c.el.style.opacity = '0';
+            c.el.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                if (c.el.parentNode) c.el.parentNode.removeChild(c.el);
+                repositionCustomers();
+            }, 500);
+
+            updateUI();
+        }
+
+        function repositionCustomers() {
+            const activeCustomers = customers.filter(c => !c.remove);
+            activeCustomers.forEach((c, i) => {
+                const el = document.getElementById(`customer-${c.id}`);
+                if (el) {
+                    el.style.left = (50 + i * 180) + 'px';
+                }
+            });
+        }
+
+        // --- 输入处理 ---
+        let keyHandler;
+        
+        function setupKeyboardListener() {
+            if (keyHandler) {
+                document.removeEventListener('keydown', keyHandler);
+            }
+            
+            keyHandler = (e) => {
+                if (!state.isPlaying) return;
+                
+                // 确保音频上下文处于活动状态
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume().catch(e => console.error("音频恢复失败:", e));
+                }
+                
+                const key = e.key.toUpperCase();
+                if (!/^[A-Z]$/.test(key)) return;
+                
+                // 找到第一个未完成的顾客
+                let targetCustomer = null;
+                for (const customer of customers) {
+                    if (!customer.remove && customer.typedIndex < customer.word.length) {
+                        targetCustomer = customer;
+                        break;
+                    }
+                }
+                
+                if (!targetCustomer) return;
+
+                const targetChar = targetCustomer.word[targetCustomer.typedIndex];
+
+                if (key === targetChar) {
+                    sfx.type(); // 🎵 播放打字音效
+                    targetCustomer.typedIndex++;
+                    
+                    document.getElementById(`word-${targetCustomer.id}`).innerHTML = 
+                        formatWord(targetCustomer.word, targetCustomer.typedIndex);
+                    
+                    // 厨师动画
+                    chef.classList.remove('bounce');
+                    void chef.offsetWidth; // 触发重绘
+                    chef.classList.add('bounce');
+
+                    if (targetCustomer.typedIndex === targetCustomer.word.length) {
+                        customerLeave(targetCustomer.id, true);
+                    }
+                } else {
+                    sfx.error(); // 🎵 播放错误音效
+                    state.combo = 0;
+                    updateUI();
+                    container.classList.add('shake');
+                    setTimeout(() => container.classList.remove('shake'), 300);
+                }
+            };
+            
+            document.addEventListener('keydown', keyHandler);
+        }
+
+        function updateUI() {
+            scoreEl.innerText = state.score;
+            comboEl.innerText = state.combo;
+            
+            // 更新生命值显示
+            let livesStr = '';
+            for(let i = 0; i < 3; i++) {
+                if (i < state.lives) {
+                    livesStr += '❤️';
+                } else {
+                    livesStr += '♡';
+                }
+            }
+            livesEl.innerText = livesStr;
+            
+            // 更新静音按钮状态
+            document.getElementById('mute-btn').innerText = isMuted ? '🔇' : '🔊';
+        }
+
+        function gameOver() {
+            state.isPlaying = false;
+            
+            // 停止游戏循环
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
+            sfx.gameover(); // 🎵 播放游戏结束音效
+            finalScoreEl.innerText = state.score;
+            maxComboEl.innerText = state.maxCombo;
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        function spawnParticles(x, y) {
+            for (let i = 0; i < 10; i++) {
+                const p = document.createElement('div');
+                p.innerText = ['⭐', '✨', '💰', '🎵'][Math.floor(Math.random()*4)];
+                p.className = 'particle';
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                
+                const tx = (Math.random() - 0.5) * 100;
+                const ty = (Math.random() - 0.5) * 100 - 50;
+                
+                p.style.setProperty('--tx', `${tx}px`);
+                p.style.setProperty('--ty', `${ty}px`);
+                
+                container.appendChild(p);
+                setTimeout(() => {
+                    if (p.parentNode) p.parentNode.removeChild(p);
+                }, 800);
+            }
+        }
+
+        // 初始化键盘监听器
+        setupKeyboardListener();
+        
+        // 页面可见性变化处理
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && audioCtx) {
+                // 页面隐藏时暂停音频上下文
+                if (audioCtx.state === 'running') {
+                    audioCtx.suspend().catch(e => console.error("暂停音频失败:", e));
+                }
+            } else if (audioCtx && audioCtx.state === 'suspended') {
+                // 页面重新可见时恢复音频上下文
+                audioCtx.resume().catch(e => console.error("恢复音频失败:", e));
+            }
+        });
+
+        // 窗口失去焦点时暂停游戏
+        window.addEventListener('blur', function() {
+            if (state.isPlaying) {
+                // 可以在这里添加暂停功能
+                console.log("游戏暂停 - 窗口失去焦点");
+            }
+        });
+
+        // 窗口重新获得焦点时恢复音频
+        window.addEventListener('focus', function() {
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(e => console.error("恢复音频失败:", e));
+            }
+        });
+
+    </script>
+</body>
+</html>
