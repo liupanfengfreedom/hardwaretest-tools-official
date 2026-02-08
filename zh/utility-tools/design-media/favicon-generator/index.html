@@ -131,6 +131,7 @@
                 "featureList": [
                     "完全本地处理（不上传服务器）",
                     "浏览器原生ICO生成（16×16, 32×32, 48×48）",
+                    "SVG矢量图标生成",
                     "Apple Touch Icon生成（180×180）",
                     "Android Chrome图标生成（192×192, 512×512）",
                     "Web Manifest文件自动生成",
@@ -158,7 +159,7 @@
                         "name": "Favicon Studio Pro支持哪些图标格式？",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "本工具生成完整的PWA图标套件，包括：favicon.ico（包含16×16, 32×32, 48×48多分辨率）、apple-touch-icon.png（180×180）、android-chrome-192x192.png、android-chrome-512x512.png、site.webmanifest（Web应用清单文件）。"
+                            "text": "本工具生成完整的PWA图标套件，包括：favicon.ico（包含16×16, 32×32, 48×48多分辨率）、favicon.svg（矢量格式）、apple-touch-icon.png（180×180）、android-chrome-192x192.png、android-chrome-512x512.png、site.webmanifest（Web应用清单文件）。"
                         }
                     },
                     {
@@ -328,6 +329,7 @@
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">包含的文件规格</h3>
                     <ul class="text-sm space-y-2 text-slate-300">
                         <li class="flex items-center text-emerald-400">✓ favicon.ico (多分辨率 16/32/48)</li>
+                        <li class="flex items-center text-emerald-400">✓ SVG Favicon (矢量格式)</li>
                         <li class="flex items-center">✓ Apple Touch Icon (180×180)</li>
                         <li class="flex items-center">✓ Android Chrome (192/512)</li>
                         <li class="flex items-center">✓ Web Manifest (site.webmanifest)</li>
@@ -411,7 +413,7 @@
                         <div class="space-y-6">
                             <div class="w-[300px] bg-white rounded-2xl p-4 text-slate-900 shadow-xl border-t-4 border-blue-500">
                                 <div class="flex items-center mb-2">
-                                    <!-- 修复：增加搜索图标容器尺寸 -->
+                                    <!-- 搜索图标容器 -->
                                     <div class="search-icon-container bg-slate-100 rounded flex items-center justify-center mr-2">
                                         <img id="prev-search" class="hidden" alt="浏览器搜索结果图标预览">
                                     </div>
@@ -427,7 +429,7 @@
                             <div class="w-[300px] bg-slate-700 rounded-xl p-4 border border-slate-600">
                                 <p class="text-[10px] text-slate-500 mb-3 uppercase font-bold tracking-tight">浏览器标签页预览</p>
                                 <div class="bg-[#202124] rounded-t-lg p-2 flex items-center shadow-lg">
-                                    <!-- 修复：调整标签页预览容器 -->
+                                    <!-- 标签页预览容器 -->
                                     <div class="tab-preview-container bg-[#35363a] px-3 py-1.5 rounded-t-md text-slate-300">
                                         <img id="prev-tab" class="mr-2 hidden" alt="浏览器标签页图标预览">
                                         <div class="w-16 h-1.5 bg-slate-500 rounded-full opacity-50"></div>
@@ -451,6 +453,38 @@
                                     <div class="flex flex-col items-center">
                                         <img id="prev-ico-48" class="hidden" alt="48×48分辨率图标预览">
                                         <span class="text-[8px] mt-1 opacity-40">48px</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SVG 预览区域 -->
+                            <div class="w-[300px] bg-slate-700 rounded-xl p-4 border border-slate-600">
+                                <p class="text-[10px] text-slate-500 mb-2 uppercase font-bold tracking-tight">SVG 矢量预览</p>
+                                <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg">
+                                    <div class="flex flex-col items-center">
+                                        <div class="svg-preview-container bg-white/10 rounded-lg p-3 flex items-center justify-center">
+                                            <img id="prev-svg" class="hidden svg-preview" alt="SVG矢量图标预览">
+                                            <div id="svg-placeholder" class="w-16 h-16 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-lg flex items-center justify-center">
+                                                <i class="fas fa-vector-square text-blue-400/40 text-xl"></i>
+                                            </div>
+                                        </div>
+                                        <span class="text-[8px] mt-2 opacity-40">SVG 矢量</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="svg-info">
+                                            <div class="flex items-center text-xs text-emerald-400 mb-1">
+                                                <i class="fas fa-expand-alt mr-1"></i>
+                                                <span>无限缩放</span>
+                                            </div>
+                                            <div class="flex items-center text-xs text-blue-400 mb-1">
+                                                <i class="fas fa-file-code mr-1"></i>
+                                                <span>矢量格式</span>
+                                            </div>
+                                            <div class="flex items-center text-xs text-purple-400">
+                                                <i class="fas fa-weight-hanging mr-1"></i>
+                                                <span>文件体积小</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -478,7 +512,7 @@
                     </div>
                     <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
                         <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-icons mr-2"></i> 完整PWA套件</h3>
-                        <p class="text-slate-400 mb-3">生成完整的渐进式Web应用图标套件，包括ICO、Apple Touch Icon、Android Chrome图标和Web Manifest文件，一键部署。</p>
+                        <p class="text-slate-400 mb-3">生成完整的渐进式Web应用图标套件，包括ICO、SVG、Apple Touch Icon、Android Chrome图标和Web Manifest文件，一键部署。</p>
                         <div class="tip bg-slate-900/50 p-3 rounded-lg">
                             <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> 多分辨率：ICO文件包含16×16、32×32、48×48三种分辨率</span>
                         </div>
@@ -506,7 +540,7 @@
                     </div>
                     <div class="feature-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
                         <h3 class="text-lg font-bold text-blue-400 mb-3"><i class="fas fa-bolt mr-2"></i> 浏览器原生生成</h3>
-                        <p class="text-slate-400 mb-3">使用浏览器原生Canvas API生成ICO文件，无需服务器端处理，速度快，支持最新浏览器特性。</p>
+                        <p class="text-slate-400 mb-3">使用浏览器原生Canvas API生成ICO和SVG文件，无需服务器端处理，速度快，支持最新浏览器特性。</p>
                         <div class="tip bg-slate-900/50 p-3 rounded-lg">
                             <span class="tip-text text-xs text-slate-500"><i class="fas fa-lightbulb mr-1"></i> 技术支持：基于HTML5 Canvas和JSZip技术，纯前端实现</span>
                         </div>
@@ -519,13 +553,14 @@
                     <p class="text-slate-300 mb-6">本工具生成的图标遵循最新的Web标准和最佳实践：</p>
                     <ul class="tech-specs grid md:grid-cols-2 gap-4 mb-6">
                         <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>ICO格式：包含16×16、32×32、48×48三种分辨率</span></li>
+                        <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>SVG格式：矢量图标，支持无限缩放，文件体积小</span></li>
                         <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>Apple Touch Icon：180×180像素，支持iOS主屏幕</span></li>
                         <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>Android Chrome图标：192×192和512×512像素</span></li>
                         <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>Web Manifest：符合W3C标准的PWA清单文件</span></li>
                         <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>HTML代码：遵循语义化HTML5标准</span></li>
                         <li class="flex items-start text-slate-300"><i class="fas fa-check text-emerald-400 mr-3 mt-1"></i> <span>浏览器兼容性：Chrome、Firefox、Safari、Edge等现代浏览器</span></li>
                     </ul>
-                    <p class="tech-note text-sm text-slate-500 bg-slate-900/50 p-4 rounded-lg"><strong class="text-slate-400">技术说明：</strong>本工具使用HTML5 Canvas API生成图像，使用JSZip库进行文件打包。生成的ICO文件是标准的Windows图标格式，支持所有主流浏览器。Apple Touch Icon遵循苹果的Human Interface Guidelines，Android Chrome图标遵循Google的PWA标准。</p>
+                    <p class="tech-note text-sm text-slate-500 bg-slate-900/50 p-4 rounded-lg"><strong class="text-slate-400">技术说明：</strong>本工具使用HTML5 Canvas API生成图像，使用JSZip库进行文件打包。生成的ICO文件是标准的Windows图标格式，支持所有主流浏览器。SVG格式提供矢量支持，可实现无限缩放而不失真，是现代浏览器的首选格式。Apple Touch Icon遵循苹果的Human Interface Guidelines，Android Chrome图标遵循Google的PWA标准。</p>
                 </div>
                 
                 <div class="faq-section">
@@ -533,7 +568,11 @@
                     <div class="space-y-6">
                         <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
                             <h3 class="text-lg font-bold text-white mb-3">什么是PWA图标套件？为什么需要它？</h3>
-                            <p class="text-slate-300">PWA（渐进式Web应用）图标套件是使网站在移动设备上看起来像原生应用所需的一组图标文件。它包括：favicon.ico（浏览器标签页图标）、apple-touch-icon.png（iOS主屏幕图标）、android-chrome-192x192.png和android-chrome-512x512.png（Android主屏幕图标），以及site.webmanifest（应用清单文件）。现代网站需要完整的PWA图标套件来提供最佳的用户体验。</p>
+                            <p class="text-slate-300">PWA（渐进式Web应用）图标套件是使网站在移动设备上看起来像原生应用所需的一组图标文件。它包括：favicon.ico（浏览器标签页图标）、favicon.svg（矢量图标）、apple-touch-icon.png（iOS主屏幕图标）、android-chrome-192x192.png和android-chrome-512x512.png（Android主屏幕图标），以及site.webmanifest（应用清单文件）。现代网站需要完整的PWA图标套件来提供最佳的用户体验。</p>
+                        </div>
+                        <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                            <h3 class="text-lg font-bold text-white mb-3">为什么需要SVG格式的Favicon？</h3>
+                            <p class="text-slate-300">SVG（可缩放矢量图形）格式的Favicon具有以下优势：1) 矢量格式，无限缩放而不失真，适应各种分辨率设备；2) 文件体积小，加载速度快；3) 支持CSS样式和动画效果；4) 现代浏览器（Chrome、Firefox、Safari、Edge）都支持SVG Favicon。建议现代网站优先使用SVG格式，同时提供ICO格式作为旧浏览器回退。</p>
                         </div>
                         <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
                             <h3 class="text-lg font-bold text-white mb-3">生成的ICO文件为什么包含多个分辨率？</h3>
@@ -541,7 +580,7 @@
                         </div>
                         <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
                             <h3 class="text-lg font-bold text-white mb-3">如何将生成的图标部署到我的网站？</h3>
-                            <p class="text-slate-300">下载的ZIP包中包含部署说明和代码片段。基本步骤：1) 将所有图标文件（.ico、.png）上传到网站的根目录，2) 将site.webmanifest文件也上传到根目录，3) 在HTML文件的&lt;head&gt;部分添加提供的代码片段。大多数情况下，您只需要复制粘贴代码即可。工具生成的代码已经包含了所有必要的链接和元标签。</p>
+                            <p class="text-slate-300">下载的ZIP包中包含部署说明和代码片段。基本步骤：1) 将所有图标文件（.ico、.svg、.png）上传到网站的根目录，2) 将site.webmanifest文件也上传到根目录，3) 在HTML文件的&lt;head&gt;部分添加提供的代码片段。大多数情况下，您只需要复制粘贴代码即可。工具生成的代码已经包含了所有必要的链接和元标签，包括SVG和ICO的优先级设置。</p>
                         </div>
                         <div class="faq-item bg-slate-800 p-6 rounded-2xl border border-slate-700">
                             <h3 class="text-lg font-bold text-white mb-3">为什么我的网站在iOS主屏幕上没有显示自定义图标？</h3>
@@ -566,7 +605,7 @@
         <div class="max-w-7xl mx-auto px-6 py-8">
             <div class="footer-content text-center">
                 <p class="text-slate-400 mb-2">© 2024 StarryRing - Favicon Studio Pro Favicon生成器</p>
-                <p class="text-slate-500 text-sm">页面最后更新：2026年1月 | 版本：v1.4.0 | 技术：HTML5 Canvas + JSZip + Cropper.js</p>
+                <p class="text-slate-500 text-sm">页面最后更新：2026年1月 | 版本：v1.4.0 | 技术：HTML5 Canvas + JSZip + Cropper.js + SVG支持</p>
             </div>
         </div>
     </footer>

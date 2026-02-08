@@ -176,3 +176,52 @@
     width: 64px !important;
     height: 64px !important;
 }
+
+/* SVG 预览样式 */
+.svg-preview-container {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.svg-preview-container:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.svg-preview {
+    width: 64px !important;
+    height: 64px !important;
+    object-fit: contain !important;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 4px;
+    transition: all 0.3s ease;
+}
+
+.svg-preview:hover {
+    transform: scale(1.1);
+}
+
+.svg-info {
+    min-width: 120px;
+}
+
+.svg-info div {
+    margin-bottom: 6px;
+}
+
+/* SVG 缩放动画 */
+@keyframes svgScale {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.svg-preview.animated {
+    animation: svgScale 2s ease-in-out infinite;
+}
