@@ -118,10 +118,19 @@ async function handleFiles(files) {
 // --- 核心转换逻辑 ---
 async function fileToCanvas(file) {
     const ext = file.name.split('.').pop().toLowerCase();
+    
+    // SVG格式处理
+    if (ext === 'svg') {
+        return await svgToCanvas(file);
+    }
+    
+    // HEIC/HEIF处理
     if (ext === 'heic' || ext === 'heif') {
         const blob = await heic2any({ blob: file, toType: "image/jpeg" });
         return await imgUrlToCanvas(URL.createObjectURL(blob[0] || blob));
     }
+    
+    // TIFF处理
     if (ext === 'tiff' || ext === 'tif') {
         const buffer = await file.arrayBuffer();
         const ifds = UTIF.decode(buffer);
@@ -132,7 +141,82 @@ async function fileToCanvas(file) {
         cvs.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(rgba.buffer), cvs.width, cvs.height), 0, 0);
         return cvs;
     }
+    
+    // 其他图片格式
     return await imgUrlToCanvas(URL.createObjectURL(file));
+}
+
+// SVG转Canvas函数
+async function svgToCanvas(file) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const text = await file.text();
+            const svgContent = text;
+            
+            // 创建SVG元素
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
+            const svgElement = svgDoc.documentElement;
+            
+            // 获取SVG尺寸
+            let width = parseFloat(svgElement.getAttribute('width'));
+            let height = parseFloat(svgElement.getAttribute('height'));
+            
+            // 如果没有明确设置宽高，尝试从viewBox获取
+            if (!width || !height) {
+                const viewBox = svgElement.getAttribute('viewBox');
+                if (viewBox) {
+                    const viewBoxParts = viewBox.split(' ').map(Number);
+                    if (viewBoxParts.length >= 4) {
+                        width = viewBoxParts[2] || 300;
+                        height = viewBoxParts[3] || 150;
+                    }
+                }
+            }
+            
+            // 如果还是没有获取到尺寸，使用默认值
+            if (!width || !height || isNaN(width) || isNaN(height)) {
+                width = 300;
+                height = 150;
+            }
+            
+            // 创建Image对象
+            const img = new Image();
+            const svgBlob = new Blob([text], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(svgBlob);
+            
+            img.onload = function() {
+                // 创建Canvas
+                const cvs = document.createElement('canvas');
+                cvs.width = width;
+                cvs.height = height;
+                
+                // 绘制SVG到Canvas
+                const ctx = cvs.getContext('2d');
+                
+                // 设置白色背景（SVG通常是透明的）
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, width, height);
+                
+                // 绘制SVG
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // 清理URL
+                URL.revokeObjectURL(url);
+                resolve(cvs);
+            };
+            
+            img.onerror = function() {
+                URL.revokeObjectURL(url);
+                reject(new Error('SVG加载失败'));
+            };
+            
+            img.src = url;
+            
+        } catch (error) {
+            reject(error);
+        }
+    });
 }
 
 function imgUrlToCanvas(url) {
@@ -252,12 +336,24 @@ btnRun.onclick = async () => {
     }, 400);
 };
 
+// --- 下载处理结果 ---
 btnDownloadMain.onclick = async () => {
-    const ext = document.getElementById('o-format').value.split('/')[1].replace('jpeg', 'jpg');
+    const format = document.getElementById('o-format').value;
+    const extMap = {
+        'image/png': 'png',
+        'image/jpeg': 'jpg',
+        'image/webp': 'webp',
+        'image/bmp': 'bmp',
+        'image/tiff': 'tiff'
+    };
+    const ext = extMap[format] || 'png';
+    
     if (fileQueue.length === 1) {
         const a = document.createElement('a');
         a.href = fileQueue[0].resultUrl;
-        a.download = `${fileQueue[0].file.name.split('.')[0]}_processed.${ext}`;
+        // 对于SVG文件，保留原始文件名前缀
+        const baseName = fileQueue[0].file.name.split('.')[0];
+        a.download = `${baseName}_converted.${ext}`;
         a.click();
     } else {
         btnDownloadMain.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 打包中...';
@@ -265,7 +361,8 @@ btnDownloadMain.onclick = async () => {
             const zip = new JSZip();
             fileQueue.forEach(item => {
                 if (item.resultBlob) {
-                    zip.file(`${item.file.name.split('.')[0]}.${ext}`, item.resultBlob);
+                    const baseName = item.file.name.split('.')[0];
+                    zip.file(`${baseName}.${ext}`, item.resultBlob);
                 }
             });
             const content = await zip.generateAsync({type:"blob"});
