@@ -28,6 +28,25 @@ async function encodeICO(canvases) {
     return new Blob([icoHeader.buffer, ...buffers], { type: 'image/x-icon' });
 }
 
+// New: Function to create SVG file from canvas
+function createSVGFromCanvas(canvas) {
+    const svgSize = 512;
+    const pngDataUrl = canvas.toDataURL('image/png');
+    
+    // Create SVG string
+    const svgString = `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <style>
+            image { width: 100%; height: 100%; }
+        </style>
+    </defs>
+    <image x="0" y="0" width="${svgSize}" height="${svgSize}" xlink:href="${pngDataUrl}" />
+</svg>`;
+    
+    return new Blob([svgString], { type: 'image/svg+xml' });
+}
+
 const imageInput = document.getElementById('imageInput');
 const dropZone = document.getElementById('drop-zone');
 const editorContainer = document.getElementById('editor-container');
@@ -39,11 +58,13 @@ const downloadArea = document.getElementById('download-area');
 let cropper = null;
 let generatedBlobs = {};
 
+// Modified configuration array, adding SVG configuration
 const configs = [
     { name: 'favicon-16x16.png', size: 16, previews: ['prev-search', 'prev-tab', 'prev-ico-16'], inIco: true },
     { name: 'favicon-32x32.png', size: 32, previews: ['prev-ico-32'], inIco: true },
     { name: 'favicon-48x48.png', size: 48, previews: ['prev-ico-48'], inIco: true },
     { name: 'favicon-96x96.png', size: 96 },
+    { name: 'favicon.svg', size: 512, type: 'svg', previews: ['prev-svg'] }, // New SVG configuration
     { name: 'apple-touch-icon.png', size: 180, previews: ['prev-ios'] },
     { name: 'android-chrome-192x192.png', size: 192, previews: ['prev-android'] },
     { name: 'android-chrome-512x512.png', size: 512 }
@@ -88,6 +109,33 @@ generateBtn.onclick = async () => {
     const icoCanvases = [];
 
     for (const conf of configs) {
+        // Special handling for SVG format
+        if (conf.type === 'svg') {
+            const svgBlob = createSVGFromCanvas(sourceCanvas);
+            generatedBlobs[conf.name] = svgBlob;
+            
+            // Handle SVG preview
+            if (conf.previews) {
+                const url = URL.createObjectURL(svgBlob);
+                conf.previews.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) { 
+                        el.src = url; 
+                        el.classList.remove('hidden'); 
+                        // Add animation effect for SVG preview
+                        el.classList.add('animated');
+                        // Set style for SVG preview
+                        el.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        el.style.borderRadius = '8px';
+                        el.style.padding = '4px';
+                        el.style.objectFit = 'contain';
+                    }
+                });
+            }
+            continue;
+        }
+        
+        // Handle PNG format
         const canvas = document.createElement('canvas');
         canvas.width = canvas.height = conf.size;
         const ctx = canvas.getContext('2d');
@@ -100,12 +148,12 @@ generateBtn.onclick = async () => {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         
-        // Draw image centered, ensuring no stretching
+        // Center draw image
         const sourceSize = Math.min(sourceCanvas.width, sourceCanvas.height);
         ctx.drawImage(
             sourceCanvas,
-            0, 0, sourceSize, sourceSize,  // Source image area
-            0, 0, conf.size, conf.size      // Destination area
+            0, 0, sourceSize, sourceSize,
+            0, 0, conf.size, conf.size
         );
         
         const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
@@ -120,7 +168,6 @@ generateBtn.onclick = async () => {
                     el.src = url; 
                     el.classList.remove('hidden'); 
                     
-                    // Add background color for ICO previews
                     if (id.includes('prev-ico')) {
                         el.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
                         el.style.borderRadius = '4px';
@@ -136,11 +183,12 @@ generateBtn.onclick = async () => {
     // Hide placeholders
     document.getElementById('ios-placeholder').classList.add('hidden');
     document.getElementById('android-placeholder').classList.add('hidden');
+    document.getElementById('svg-placeholder').classList.add('hidden');
     
     // Show download area
     downloadArea.classList.remove('hidden');
     generateBtn.disabled = false;
-    generateBtn.innerText = 'Regenerate Icons';
+    generateBtn.innerText = 'Regenerate';
 };
 
 downloadZipBtn.onclick = async () => {
@@ -159,7 +207,42 @@ downloadZipBtn.onclick = async () => {
     };
 
     zip.file("site.webmanifest", JSON.stringify(manifest, null, 2));
-    zip.file("readme.txt", "Upload the 'icons' folder to your website's root directory and add relevant links to your HTML's <head> section.");
+    
+    // Update readme content, include SVG usage instructions
+    const readmeContent = `Favicon Icon Kit - Deployment Instructions
+
+Included files:
+1. favicon.ico - Traditional ICO format, contains 16×16, 32×32, 48×48 three resolutions
+2. favicon.svg - Vector SVG format, supports infinite scaling, suitable for modern browsers
+3. apple-touch-icon.png - iOS home screen icon (180×180)
+4. android-chrome-192x192.png - Android Chrome icon
+5. android-chrome-512x512.png - High-definition PWA icon
+6. Other auxiliary size icons
+
+Deployment steps:
+1. Upload the icons folder to your website root directory
+2. Add the following code to the HTML <head> section:
+
+<!-- Modern browsers prioritize SVG -->
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<!-- Traditional browser fallback to ICO -->
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<!-- iOS devices -->
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<!-- Android PWA support -->
+<link rel="manifest" href="site.webmanifest">
+
+3. Upload the site.webmanifest file to the root directory
+
+SVG advantages:
+- Vector format, infinite scaling without distortion
+- Small file size, fast loading
+- Priority support in modern browsers
+- Supports CSS styling and animation
+
+Note: SVG has limited support in IE browsers, recommend providing ICO format as fallback.`;
+
+    zip.file("readme.txt", readmeContent);
 
     const content = await zip.generateAsync({type:"blob"});
     const link = document.createElement('a');
