@@ -1,4 +1,3 @@
-
 // Initialize icons
 lucide.createIcons();
 
@@ -6,9 +5,13 @@ let running = false;
 let pings = [];
 let sent = 0;
 let loss = 0;
-let success = 0;
 let rid = 0;
+let socket = null; // WebSocket instance
 const historyKey = 'ping_history';
+
+// --- Replace with your Fly.io deployment URL ---
+// Note: Must start with wss://
+const BACKEND_URL = 'wss://my-ping-proxy-2024.fly.dev';
 
 // Initialize chart
 const ctx = document.getElementById('chart').getContext('2d');
@@ -17,6 +20,7 @@ const chart = new Chart(ctx, {
     data: {
         labels: [],
         datasets: [{
+            label: 'Latency (ms)',
             data: [],
             borderColor: '#3b82f6',
             backgroundColor: 'rgba(59,130,246,0.1)',
@@ -28,7 +32,10 @@ const chart = new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-            y: { grid: { color: '#1e293b' } },
+            y: { 
+                grid: { color: '#1e293b' },
+                beginAtZero: true
+            },
             x: { grid: { display: false } }
         },
         plugins: {
@@ -109,7 +116,7 @@ function clearHistory() {
     }
 }
 
-// --- Ping core logic ---
+// --- Ping core logic (WebSocket version) ---
 
 function togglePing() {
     const t = document.getElementById('target').value.trim();
@@ -123,97 +130,147 @@ function togglePing() {
     }
 }
 
-function normalize(t) {
-    if(!t.startsWith('http')) return 'https://' + t;
-    return t;
-}
-
+/**
+ * Modified start function
+ */
 function start(target) {
     running = true; 
     rid++;
     pings = []; 
     sent = 0; 
     loss = 0; 
-    success = 0;
     
+    // UI reset
     chart.data.labels = []; 
     chart.data.datasets[0].data = []; 
     chart.update();
-    
     document.getElementById('terminal').innerHTML = '';
+    document.getElementById('avg').innerText = '0';
+    document.getElementById('loss').innerText = '0%';
+    document.getElementById('jitter').innerText = '0';
+    document.getElementById('sent').innerText = '0';
+
     const btn = document.getElementById('btn');
-    btn.innerHTML = '<i data-lucide="square"></i> Stop';
+    btn.innerHTML = '<i data-lucide="square"></i> Stop Test';
     btn.classList.replace('bg-blue-600', 'bg-red-600');
-    
     lucide.createIcons();
-    loop(normalize(target), parseInt(document.getElementById('count').value), rid);
+
+    // Establish WebSocket connection
+    socket = new WebSocket(BACKEND_URL);
+
+    socket.onopen = () => {
+        const countValue = document.getElementById('count').value;
+        // If "Continuous Test" is selected, send a large number to the backend
+        const finalCount = countValue === "0" ? 9999 : parseInt(countValue);
+        
+        // Send test command to Fly.io backend
+        socket.send(JSON.stringify({
+            target: target,
+            count: finalCount
+        }));
+        log(`Connecting to remote diagnostic server and starting test: ${target}...`, true);
+    };
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+
+        if (data.type === 'data') {
+            // System raw output line
+            const rawOutput = data.raw;
+            
+            if (data.time !== null) {
+                // Successfully received latency data
+                sent++;
+                const ms = data.time;
+                pings.push(ms);
+
+                // Update dashboard and chart
+                document.getElementById('sent').innerText = sent;
+                chart.data.labels.push(sent);
+                chart.data.datasets[0].data.push(ms);
+                if(chart.data.labels.length > 20) {
+                    chart.data.labels.shift();
+                    chart.data.datasets[0].data.shift();
+                }
+                chart.update('none');
+
+                log(rawOutput, true);
+                updateStats();
+            } else {
+                // Handle timeout or other raw information
+                if (rawOutput.includes('timeout') || rawOutput.includes('timed out')) {
+                    sent++;
+                    loss++;
+                    document.getElementById('sent').innerText = sent;
+                    log(`Request timeout`, false);
+                    updateStats();
+                } else {
+                    // Print some system header info (like PING google.com (142.251.42.238) ...)
+                    log(rawOutput, true);
+                }
+            }
+        }
+
+        if (data.type === 'end') {
+            log('Test task completed.', true);
+            stop();
+        }
+
+        if (data.type === 'error') {
+            log('Error: ' + data.msg, false);
+            stop();
+        }
+    };
+
+    socket.onclose = () => {
+        if (running) {
+            log('Connection closed.', false);
+            stop();
+        }
+    };
+
+    socket.onerror = (err) => {
+        log('Unable to connect to Fly.io proxy server. Please check backend status.', false);
+        stop();
+    };
 }
 
 function stop() {
     running = false; 
-    rid++;
+    if (socket) {
+        socket.close();
+        socket = null;
+    }
     const btn = document.getElementById('btn');
     btn.innerHTML = '<i data-lucide="play"></i> Start Test';
     btn.classList.replace('bg-red-600', 'bg-blue-600');
     lucide.createIcons();
 }
 
-async function loop(url, total, id) {
-    if(!running || id !== rid) return;
-    
-    sent++; 
-    document.getElementById('sent').innerText = sent;
-    const startT = performance.now();
-    
-    try {
-        // Use no-cors mode to attempt request and measure latency
-        await fetch(url, { mode: 'no-cors', cache: 'no-store' });
-        const ms = Math.round(performance.now() - startT);
-        
-        success++; 
-        pings.push(ms);
-        
-        chart.data.labels.push(sent);
-        chart.data.datasets[0].data.push(ms);
-        if(chart.data.labels.length > 20) {
-            chart.data.labels.shift();
-            chart.data.datasets[0].data.shift();
-        }
-        chart.update('none');
-        
-        log(`Reply from ${url} : ${ms} ms`, true);
-        updateStats();
-    } catch(e) {
-        loss++; 
-        log('Request failed / Cross-origin restriction', false); 
-        updateStats();
-    }
-    
-    if(total > 0 && sent >= total) {
-        stop();
-        return;
-    }
-    
-    setTimeout(() => loop(url, total, id), 1000);
-}
-
 function updateStats() {
-    if(pings.length) {
-        const avg = Math.round(pings.reduce((a,b) => a+b) / pings.length);
+    if(pings.length > 0) {
+        // Average
+        const sum = pings.reduce((a, b) => a + b, 0);
+        const avg = Math.round(sum / pings.length);
         document.getElementById('avg').innerText = avg;
         
+        // Jitter calculation (Standard Deviation)
         if(pings.length > 1) {
-            const m = pings.reduce((a,b) => a+b) / pings.length;
-            const jitter = Math.round(Math.sqrt(pings.map(v => (v-m)**2).reduce((a,b) => a+b) / pings.length));
+            const m = sum / pings.length;
+            const jitter = Math.round(Math.sqrt(pings.map(v => (v - m) ** 2).reduce((a, b) => a + b) / pings.length));
             document.getElementById('jitter').innerText = jitter;
         }
     }
-    document.getElementById('loss').innerText = Math.round((loss / sent) * 100) + '%';
+    // Packet loss rate
+    if (sent > 0) {
+        document.getElementById('loss').innerText = Math.round((loss / sent) * 100) + '%';
+    }
 }
 
 function log(t, ok) {
     const term = document.getElementById('terminal');
-    term.innerHTML += `<div class="${ok ? 'success-line' : 'error-line'}">${t}</div>`;
+    const colorClass = ok ? 'text-green-400' : 'text-red-400';
+    term.innerHTML += `<div class="${colorClass} mb-1 border-l-2 border-slate-800 pl-2">> ${t}</div>`;
     term.scrollTop = term.scrollHeight;
 }
 

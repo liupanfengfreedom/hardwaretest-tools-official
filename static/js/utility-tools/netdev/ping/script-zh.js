@@ -5,9 +5,13 @@ let running = false;
 let pings = [];
 let sent = 0;
 let loss = 0;
-let success = 0;
 let rid = 0;
+let socket = null; // WebSocket 实例
 const historyKey = 'ping_history';
+
+// --- 替换为你在 Fly.io 部署成功的地址 ---
+// 注意：必须以 wss:// 开头
+const BACKEND_URL = 'wss://my-ping-proxy-2024.fly.dev'; 
 
 // 初始化图表
 const ctx = document.getElementById('chart').getContext('2d');
@@ -16,6 +20,7 @@ const chart = new Chart(ctx, {
     data: {
         labels: [],
         datasets: [{
+            label: '延迟 (ms)',
             data: [],
             borderColor: '#3b82f6',
             backgroundColor: 'rgba(59,130,246,0.1)',
@@ -27,7 +32,10 @@ const chart = new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-            y: { grid: { color: '#1e293b' } },
+            y: { 
+                grid: { color: '#1e293b' },
+                beginAtZero: true
+            },
             x: { grid: { display: false } }
         },
         plugins: {
@@ -108,7 +116,7 @@ function clearHistory() {
     }
 }
 
-// --- Ping 核心逻辑 ---
+// --- Ping 核心逻辑 (WebSocket 版) ---
 
 function togglePing() {
     const t = document.getElementById('target').value.trim();
@@ -122,99 +130,149 @@ function togglePing() {
     }
 }
 
-function normalize(t) {
-    if(!t.startsWith('http')) return 'https://' + t;
-    return t;
-}
-
+/**
+ * 修改后的 start 函数
+ */
 function start(target) {
     running = true; 
     rid++;
     pings = []; 
     sent = 0; 
     loss = 0; 
-    success = 0;
     
+    // UI 重置
     chart.data.labels = []; 
     chart.data.datasets[0].data = []; 
     chart.update();
-    
     document.getElementById('terminal').innerHTML = '';
+    document.getElementById('avg').innerText = '0';
+    document.getElementById('loss').innerText = '0%';
+    document.getElementById('jitter').innerText = '0';
+    document.getElementById('sent').innerText = '0';
+
     const btn = document.getElementById('btn');
-    btn.innerHTML = '<i data-lucide="square"></i> 停止';
+    btn.innerHTML = '<i data-lucide="square"></i> 停止测试';
     btn.classList.replace('bg-blue-600', 'bg-red-600');
-    
     lucide.createIcons();
-    loop(normalize(target), parseInt(document.getElementById('count').value), rid);
+
+    // 建立 WebSocket 连接
+    socket = new WebSocket(BACKEND_URL);
+
+    socket.onopen = () => {
+        const countValue = document.getElementById('count').value;
+        // 如果选择“持续测试”，传一个很大的数字给后端
+        const finalCount = countValue === "0" ? 9999 : parseInt(countValue);
+        
+        // 发送测试指令给 Fly.io 后端
+        socket.send(JSON.stringify({
+            target: target,
+            count: finalCount
+        }));
+        log(`正在连接远程诊断服务器并开始测试: ${target}...`, true);
+    };
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+
+        if (data.type === 'data') {
+            // 系统原始输出行
+            const rawOutput = data.raw;
+            
+            if (data.time !== null) {
+                // 成功获得延迟数据
+                sent++;
+                const ms = data.time;
+                pings.push(ms);
+
+                // 更新仪表盘和图表
+                document.getElementById('sent').innerText = sent;
+                chart.data.labels.push(sent);
+                chart.data.datasets[0].data.push(ms);
+                if(chart.data.labels.length > 20) {
+                    chart.data.labels.shift();
+                    chart.data.datasets[0].data.shift();
+                }
+                chart.update('none');
+
+                log(rawOutput, true);
+                updateStats();
+            } else {
+                // 处理超时或其他原始信息
+                if (rawOutput.includes('timeout') || rawOutput.includes('超时')) {
+                    sent++;
+                    loss++;
+                    document.getElementById('sent').innerText = sent;
+                    log(`请求超时 (Request Timeout)`, false);
+                    updateStats();
+                } else {
+                    // 打印一些系统头部信息（如 PING google.com (142.251.42.238) ...）
+                    log(rawOutput, true);
+                }
+            }
+        }
+
+        if (data.type === 'end') {
+            log('测试任务已完成。', true);
+            stop();
+        }
+
+        if (data.type === 'error') {
+            log('错误: ' + data.msg, false);
+            stop();
+        }
+    };
+
+    socket.onclose = () => {
+        if (running) {
+            log('连接已断开。', false);
+            stop();
+        }
+    };
+
+    socket.onerror = (err) => {
+        log('无法连接到 Fly.io 代理服务器，请检查后端状态。', false);
+        stop();
+    };
 }
 
 function stop() {
     running = false; 
-    rid++;
+    if (socket) {
+        socket.close();
+        socket = null;
+    }
     const btn = document.getElementById('btn');
     btn.innerHTML = '<i data-lucide="play"></i> 开始测试';
     btn.classList.replace('bg-red-600', 'bg-blue-600');
     lucide.createIcons();
 }
 
-async function loop(url, total, id) {
-    if(!running || id !== rid) return;
-    
-    sent++; 
-    document.getElementById('sent').innerText = sent;
-    const startT = performance.now();
-    
-    try {
-        // 使用 no-cors 模式尝试触发请求获取延迟
-        await fetch(url, { mode: 'no-cors', cache: 'no-store' });
-        const ms = Math.round(performance.now() - startT);
-        
-        success++; 
-        pings.push(ms);
-        
-        chart.data.labels.push(sent);
-        chart.data.datasets[0].data.push(ms);
-        if(chart.data.labels.length > 20) {
-            chart.data.labels.shift();
-            chart.data.datasets[0].data.shift();
-        }
-        chart.update('none');
-        
-        log(`回复 ${url} : ${ms} ms`, true);
-        updateStats();
-    } catch(e) {
-        loss++; 
-        log('请求失败 / 跨域限制', false); 
-        updateStats();
-    }
-    
-    if(total > 0 && sent >= total) {
-        stop();
-        return;
-    }
-    
-    setTimeout(() => loop(url, total, id), 1000);
-}
-
 function updateStats() {
-    if(pings.length) {
-        const avg = Math.round(pings.reduce((a,b) => a+b) / pings.length);
+    if(pings.length > 0) {
+        // 平均值
+        const sum = pings.reduce((a, b) => a + b, 0);
+        const avg = Math.round(sum / pings.length);
         document.getElementById('avg').innerText = avg;
         
+        // 抖动计算 (Standard Deviation)
         if(pings.length > 1) {
-            const m = pings.reduce((a,b) => a+b) / pings.length;
-            const jitter = Math.round(Math.sqrt(pings.map(v => (v-m)**2).reduce((a,b) => a+b) / pings.length));
+            const m = sum / pings.length;
+            const jitter = Math.round(Math.sqrt(pings.map(v => (v - m) ** 2).reduce((a, b) => a + b) / pings.length));
             document.getElementById('jitter').innerText = jitter;
         }
     }
-    document.getElementById('loss').innerText = Math.round((loss / sent) * 100) + '%';
+    // 丢包率
+    if (sent > 0) {
+        document.getElementById('loss').innerText = Math.round((loss / sent) * 100) + '%';
+    }
 }
 
 function log(t, ok) {
     const term = document.getElementById('terminal');
-    term.innerHTML += `<div class="${ok ? 'success-line' : 'error-line'}">${t}</div>`;
+    const colorClass = ok ? 'text-green-400' : 'text-red-400';
+    term.innerHTML += `<div class="${colorClass} mb-1 border-l-2 border-slate-800 pl-2">> ${t}</div>`;
     term.scrollTop = term.scrollHeight;
 }
 
-// 初始渲染历史
+// 初始渲染历史记录
 renderHistory();
