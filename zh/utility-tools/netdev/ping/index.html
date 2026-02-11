@@ -3,15 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="在线网络测试工具，支持ICMP Ping与HTTPS GET测试，实时检测网络延迟、丢包率、抖动。">
-    <meta name="keywords" content="Ping测试,HTTPS测试,网络延迟,网络诊断,在线Ping工具,丢包率">
     
-    <!-- 外部库 CDN -->
+    <!-- SEO 核心 -->
+    <meta name="description" content="在线网络诊断工具，支持ICMP Ping远程代理测试与HTTPS GET浏览器直连，实时检测网络延迟、丢包率、抖动，无需下载，立即测试。">
+    <meta name="keywords" content="Ping测试,HTTPS测试,网络延迟,网络诊断,在线Ping工具,丢包率,抖动测试,网络稳定性">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Network Pulse - 实时在线Ping & HTTPS测试工具">
+    <meta property="og:description" content="免费在线网络诊断工具，通过远程代理ICMP Ping或浏览器HTTPS GET测试，精准测量延迟、丢包、抖动，支持历史记录与可视化图表。">
+    <meta property="og:image" content="https://starryring.com/preview-network.png">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/netdev/ping/">
+    <meta property="og:type" content="website">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Network Pulse - 实时在线Ping & HTTPS测试工具">
+    <meta name="twitter:description" content="免费在线网络诊断工具，精准测量延迟、丢包、抖动，可视化图表与终端日志实时反馈。">
+    <meta name="twitter:image" content="https://starryring.com/preview-network.png">
+
+    <!-- 多语言与规范链接 -->
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/ping/">
+
+    <!-- Favicon & 清单 (复用全局资源) -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- 外部库 CDN (保持原样) -->
     <script src="/static/js/shared/cdn/tailwind.js"></script>
     <script src="/static/js/shared/cdn/chart.js"></script>
     <script src="/static/js/shared/cdn/lucide.js"></script>
-    
-    <!-- 本地样式 -->
+
+    <!-- 本地样式 (增加语言切换器及导航卡片样式) -->
     <link rel="stylesheet" href="/static/css/utility-tools/netdev/ping/style.css">
     <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
     <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
@@ -19,12 +51,111 @@
     <link rel="stylesheet" href="/static/css/shared/NavCard.css">
     <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <title>Network Pulse - 实时在线Ping & HTTPS测试工具 | StarryRing</title>
-</head>
 
-<body class="p-4 md:p-8">
-    <!-- 面包屑导航 -->
+    <!-- 统计分析 (Ahrefs + Google Analytics) 同鼠标工具 -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="zDeKO+uGmlCH/Czh3uSYuw" async></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+
+    <!-- 结构化数据 (SoftwareApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "Network Pulse - 在线网络诊断工具",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
+                "description": "免费在线网络诊断工具，支持ICMP Ping远程代理测试与HTTPS GET浏览器直连，实时检测延迟、丢包率、抖动，提供可视化图表与终端日志。",
+                "url": "https://starryring.com/zh/utility-tools/netdev/ping/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/static/image/zh/network-pulse-tool.png",
+                    "width": 1200,
+                    "height": 630
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/static/image/zh/network-ping-interface.png",
+                        "width": 1280,
+                        "height": 720,
+                        "caption": "ICMP Ping测试界面",
+                        "description": "通过远程代理执行ICMP Ping，测量延迟与丢包"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/static/image/zh/network-https-interface.png",
+                        "width": 1280,
+                        "height": 720,
+                        "caption": "HTTPS GET测试界面",
+                        "description": "浏览器直接发起HTTPS请求，测量响应时间"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "ICMP Ping 远程代理测试",
+                    "HTTPS GET 浏览器直连测试",
+                    "实时延迟、丢包率、抖动计算",
+                    "历史搜索记录与一键清空",
+                    "动态图表展示延迟变化",
+                    "终端日志记录每次请求详情",
+                    "持续测试模式"
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "ICMP Ping 和 HTTPS GET 测试有什么区别？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ICMP Ping 通过远程代理服务器发送ICMP包，测量网络层的连通性和延迟，适合检测目标是否在线及基础网络质量；HTTPS GET 由您的浏览器直接向目标发起请求，测量应用层响应时间，更能反映真实访问网页或API的体验。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "为什么丢包率不为零？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "丢包可能由网络拥塞、路由节点故障、目标服务器限流或本地网络不稳定导致。持续非零丢包通常表明网络连接存在质量隐患。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "抖动(Jitter)过高有什么影响？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "抖动指延迟的变化程度。高抖动会导致实时应用（如视频会议、在线游戏）出现卡顿、音画不同步。通常抖动应低于30ms。"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <title>Network Pulse - 在线Ping与HTTPS测试工具 | StarryRing</title>
+</head>
+<body class="p-4 md:p-8 bg-slate-950 text-white">
+
+    <!-- 面包屑导航 (保留原样) -->
     <nav aria-label="面包屑导航" class="breadcrumb-section">
         <ol class="breadcrumb-modern">
             <li class="breadcrumb-item"><a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a></li>
@@ -32,8 +163,21 @@
             <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active"><i class="fas fa-paper-plane"></i> 网络诊断工具</span></li>
         </ol>
     </nav>
-    
-    <div class="max-w-6xl mx-auto space-y-6">
+
+    <!-- ========= 新增：语言切换器（完全移植鼠标工具样式） ========= -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/netdev/ping/" data-lang="zh">中文版</a>
+            <a class="language-option" href="/en/utility-tools/netdev/ping/" data-lang="en">English</a>
+        </div>
+    </div>
+
+    <!-- 主内容容器 (原有，但h1移入内部并调整顺序) -->
+    <div class="max-w-6xl mx-auto space-y-6 mt-6">
+        <!-- 标题区 (原header，移至工具箱卡片之后) -->
         <header class="flex justify-between items-center border-b border-slate-800 pb-6">
             <h1 class="text-3xl font-extrabold flex items-center gap-2">
                 <i data-lucide="activity" class="text-blue-500"></i>
@@ -41,12 +185,12 @@
             </h1>
             <span id="status" class="text-xs text-slate-400">就绪</span>
         </header>
-        
+
         <p class="text-slate-300 mb-6">专业的在线网络诊断工具。支持通过远程代理进行 <b>ICMP Ping</b> 或通过浏览器 <b>HTTPS GET</b> 直接访问目标，测量延迟和稳定性。</p>
 
-        <!-- 输入配置区 -->
+        <!-- 输入配置区 (完全保留原样) -->
         <section class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
-            <!-- 目标地址 -->
+            <!-- ... 原表单内容 ... -->
             <div class="md:col-span-5 relative">
                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">目标地址</label>
                 <div class="relative mt-2">
@@ -57,7 +201,6 @@
                         onkeydown="if(event.key==='Enter') togglePing()"
                         onfocus="showHistory()"
                         onblur="setTimeout(hideHistory, 250)">
-                    
                     <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden">
                         <div id="history-list" class="max-h-60 overflow-y-auto"></div>
                         <div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
@@ -67,8 +210,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 测试方式 -->
             <div class="md:col-span-3">
                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">测试方式</label>
                 <select id="method" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
@@ -76,8 +217,6 @@
                     <option value="https">HTTPS GET (浏览器直连)</option>
                 </select>
             </div>
-
-            <!-- 测试次数 -->
             <div class="md:col-span-2">
                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">次数</label>
                 <select id="count" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
@@ -86,8 +225,6 @@
                     <option value="0">持续</option>
                 </select>
             </div>
-
-            <!-- 按钮 -->
             <div class="md:col-span-2 flex items-end">
                 <button id="btn" onclick="togglePing()"
                     class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white">
@@ -96,7 +233,7 @@
             </div>
         </section>
 
-        <!-- 数据卡片 -->
+        <!-- 数据卡片 (保留原样) -->
         <section class="grid md:grid-cols-4 gap-4">
             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
                 <p class="text-slate-400 text-sm">平均延迟</p>
@@ -116,6 +253,7 @@
             </div>
         </section>
 
+        <!-- 图表与终端 (保留原样) -->
         <section class="grid lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
                 <canvas id="chart"></canvas>
@@ -128,16 +266,124 @@
                 <div id="terminal" class="flex-1 p-3 mono text-sm overflow-y-auto"></div>
             </div>
         </section>
+    </div> <!-- end max-w-6xl -->
+
+    <!-- ========= 新增：页面导航卡片（详细指南 & 工作原理） ========= -->
+    <div class="page-navigation-section max-w-6xl mx-auto mt-12">
+        <div class="navigation-header">
+            <p class="text-slate-400">了解更多关于网络诊断的知识和技术原理</p>
+        </div>
+        <div class="navigation-cards grid md:grid-cols-2 gap-6 mt-6">
+            <a href="/zh/utility-tools/netdev/ping/instruction/" class="nav-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-700 transition-all flex gap-4">
+                <div class="nav-card-icon text-3xl text-blue-500">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3 class="text-xl font-semibold text-white">详细使用指南</h3>
+                    <p class="text-slate-400 mt-2">从零开始学习如何使用本工具，包含Ping/HTTPS测试操作步骤、参数解读、历史记录管理。</p>
+                    <div class="nav-card-action mt-4 text-blue-400">
+                        <span>查看完整指南 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+            <a href="/zh/utility-tools/netdev/ping/principle/" class="nav-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-700 transition-all flex gap-4">
+                <div class="nav-card-icon text-3xl text-blue-500">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="nav-card-content">
+                    <h3 class="text-xl font-semibold text-white">工作原理详解</h3>
+                    <p class="text-slate-400 mt-2">深入了解ICMP协议、HTTPS请求时序、远程代理架构以及延迟/抖动/丢包的计算模型。</p>
+                    <div class="nav-card-action mt-4 text-blue-400">
+                        <span>学习技术原理 <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 
-    <!-- 底部说明 (简略) -->
+    <!-- ========= 新增：功能说明 & 常见问题（完全按照鼠标工具风格） ========= -->
+    <div class="instructions-section max-w-6xl mx-auto mt-12">
+        <div class="instructions-content">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> 专业网络诊断工具特色</h2>
+            <p class="text-slate-400 mt-2">📖 简介：</p>
+            <div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-satellite-dish text-blue-500"></i> 双模测试</h3>
+                    <p class="text-slate-400 text-sm mt-2">ICMP Ping（远程代理）与HTTPS GET（浏览器直连）并行支持，满足不同场景的网络诊断需求。</p>
+                    <div class="tip mt-3 text-xs text-slate-500"><i class="fas fa-lightbulb"></i> 代理Ping可绕过浏览器跨域限制，HTTPS直连更贴近真实访问。</div>
+                </div>
+                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-chart-bar text-blue-500"></i> 实时可视化</h3>
+                    <p class="text-slate-400 text-sm mt-2">延迟变化动态折线图，直观展示网络波动；彩色标识区分成功/失败请求。</p>
+                    <div class="tip mt-3 text-xs text-slate-500">图表自动缩放，异常点高亮显示。</div>
+                </div>
+                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-history text-blue-500"></i> 智能历史记录</h3>
+                    <p class="text-slate-400 text-sm mt-2">自动保存最近测试的目标地址，点击输入框即可快速选取，支持一键清空历史。</p>
+                    <div class="tip mt-3 text-xs text-slate-500">历史记录存储在本地，不会上传服务器。</div>
+                </div>
+                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-terminal text-blue-500"></i> 终端日志</h3>
+                    <p class="text-slate-400 text-sm mt-2">每条请求的序号、响应时间、状态码（HTTPS）、丢包标识清晰列印，便于逐条分析。</p>
+                    <div class="tip mt-3 text-xs text-slate-500">日志最多保留30条，支持滚动查看。</div>
+                </div>
+                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-tachometer-alt text-blue-500"></i> 抖动计算</h3>
+                    <p class="text-slate-400 text-sm mt-2">自动计算连续延迟的差值绝对值的平均值，精准评估网络稳定性。</p>
+                    <div class="tip mt-3 text-xs text-slate-500">抖动>30ms可能影响实时通信。</div>
+                </div>
+                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-infinity text-blue-500"></i> 持续测试模式</h3>
+                    <p class="text-slate-400 text-sm mt-2">选择“持续”模式，工具将连续发送请求直至手动停止，适用于长期稳定性监测。</p>
+                    <div class="tip mt-3 text-xs text-slate-500">点击“停止测试”按钮（开始后变为红色）即可中断。</div>
+                </div>
+            </div>
+
+            <!-- FAQ 常见问题 -->
+            <div class="faq-section mt-12">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-question-circle text-blue-500"></i> 常见问题解答 (FAQ)</h2>
+                <div class="space-y-4 mt-6">
+                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+                        <h3 class="text-lg font-medium text-white">如何测试我自己的服务器或网站？</h3>
+                        <p class="text-slate-400 text-sm mt-1">在目标地址输入框内填写您的域名或IP（例如 example.com 或 93.184.216.34），选择测试方式（Ping或HTTPS），点击开始测试即可。若使用HTTPS测试，请确保服务器支持443端口。</p>
+                    </div>
+                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+                        <h3 class="text-lg font-medium text-white">ICMP Ping和HTTPS GET的延迟为什么不同？</h3>
+                        <p class="text-slate-400 text-sm mt-1">ICMP Ping测量的是网络层往返时间，而HTTPS GET需要完成TCP握手、TLS协商、HTTP请求/响应，耗时更长。通常HTTPS延迟会比Ping高几十毫秒，这是正常现象。</p>
+                        <div class="faq-link-container mt-2">
+                            <span class="text-xs text-slate-500"><i class="fas fa-link"></i> 参见：</span>
+                            <a href="/zh/utility-tools/netdev/ping/principle/" class="text-blue-400 hover:underline text-xs">工作原理详解</a>
+                        </div>
+                    </div>
+                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+                        <h3 class="text-lg font-medium text-white">丢包率多高算不正常？</h3>
+                        <p class="text-slate-400 text-sm mt-1">对于有线网络，丢包率应长期为0%；无线网络偶尔0.1%以内可接受。若持续超过0.5%或出现多次超时，表明网络存在明显问题，建议检查本地网络或联系运营商。</p>
+                    </div>
+                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+                        <h3 class="text-lg font-medium text-white">为什么使用远程代理进行Ping？</h3>
+                        <p class="text-slate-400 text-sm mt-1">由于浏览器安全策略限制，网页无法直接发送ICMP包。本工具通过后端代理（或公开API）代为发送Ping请求，返回结果至前端，从而实现对任意目标的ICMP测试。</p>
+                    </div>
+                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+                        <h3 class="text-lg font-medium text-white">测试结果会受到代理服务器位置影响吗？</h3>
+                        <p class="text-slate-400 text-sm mt-1">是的，ICMP Ping的延迟包含了从代理服务器到目标的时间，不代表您本地到目标的真实延迟。但丢包率和抖动仍能反映目标网络的稳定性。HTTPS GET则是直接从您的浏览器发起，无此问题。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部版权 (原样) -->
     <footer class="page-footer max-w-6xl mx-auto mt-10 opacity-50">
-        <div class="footer-content text-center text-xs">
+        <div class="footer-content text-center text-xs text-slate-500">
             <p>© 2024 StarryRing - v1.2.0 | ICMP 与 HTTPS 双模诊断</p>
         </div>
     </footer>
 
+    <!-- 脚本 (保留原JS，增加语言切换器JS) -->
     <script src="/static/js/utility-tools/netdev/ping/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
     <script>lucide.createIcons();</script>
+
+    <!-- 注：switchlanguage.js 会自动绑定语言切换器交互，若需微调可自行扩展 -->
 </body>
 </html>
