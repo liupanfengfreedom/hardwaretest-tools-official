@@ -150,53 +150,56 @@ function runPingMode(target, maxCount) {
     socket.onclose = () => { if(running) stop(); };
 }
 
-// --- 模式 B: HTTPS GET (浏览器直连) ---
-// --- 模式 B: HTTPS GET (浏览器直连) ---
+// --- 模式 B: HTTPS GET (浏览器直连) 修复版 ---
 async function runHttpsMode(target, maxCount) {
     let url = target;
-    // 1. 自动补全协议
     if (!url.startsWith('http')) {
         url = 'https://' + url;
     }
 
-    log(`[HTTPS] 正在通过浏览器尝试访问: ${url}`, true);
-    log(`原理: 即使目标网站有 CORS 限制, 只要它响应了请求, 我们就能测量出往返时间。`, true);
+    log(`[HTTPS] 正在尝试访问: ${url}`, true);
+    log(`说明: 成功响应(含跨域限制)计为存活，网络异常计为失败。`, true);
 
     const step = async () => {
         if (!running || sent >= maxCount) { stop(); return; }
 
-        // 2. 增加随机参数防止浏览器/CDN 缓存 (Cache Busting)
-        // 这样可以确保每一次请求都是真实的网路往返
         const cacheBuster = (url.includes('?') ? '&' : '?') + 't=' + performance.now();
         const testUrl = url + cacheBuster;
-
         const startTime = performance.now();
+
         try {
-            // mode: 'no-cors' 是关键。
-            // 它会让浏览器忽略 CORS 策略错误，只要服务器给了响应，fetch 就会“成功完成”。
+            // 在 no-cors 模式下，只要目标服务器响应了（即便没配置 CORS），
+            // fetch 都会 resolve，这代表目标 IP 是通的。
             await fetch(testUrl, { 
                 mode: 'no-cors', 
                 cache: 'no-cache',
-                referrerPolicy: 'no-referrer'
+                referrerPolicy: 'no-referrer',
+                // 设置一个较短的信号超时（可选）
+                signal: AbortSignal.timeout(5000) 
             });
             
             const duration = Math.round(performance.now() - startTime);
-            handleResult(duration, `来自 ${url} 的响应: HTTPS_GET 耗时=${duration}ms`);
+            handleResult(duration, `来自 ${target} 的响应: 耗时=${duration}ms`);
+
         } catch (err) {
-          const duration = Math.round(performance.now() - startTime);
+            // 如果进入这里，说明发生了网络错误：
+            // 1. DNS 解析失败 (域名不存在)
+            // 2. 连接被拒绝 (Connection Refused)
+            // 3. 证书错误或请求超时
+            const duration = Math.round(performance.now() - startTime);
             
+            // 只有极其快速的失败（通常 < 5ms）才判定为被浏览器/插件拦截
             if (duration < 5) {
-                // 情况 1: 极速失败 (1ms - 10ms) -> 浏览器拦截
-                handleResult(null, `[系统拦截] ${url} (耗时 ${duration}ms, 请检查CSP政策或插件)`, false);
+                log(`[本地拦截] ${target} 请求被浏览器或插件阻止`, false);
+                handleResult(null, `本地拦截 (${duration}ms)`);
             } else {
-                // 情况 2: 慢速失败 (如你图中的 900ms) -> 目标其实是通的！
-                // 即使报错，我们也把这个时间算作有效的 RTT
-                handleResult(duration, `[存活但受限] ${url} 的响应: 耗时=${duration}ms`, true);
+                // 对于错误的域名，DNS 查找失败通常耗时较长，这里应记录为失败
+                log(`[连接失败] ${target} 无法访问 (DNS失败/拒连/超时)`, false);
+                handleResult(null, `请求失败 (${duration}ms)`);
             }
         }
 
         if (running) {
-            // 设置 1 秒间隔进行下一次测试
             httpTimer = setTimeout(step, 1000);
         }
     };
