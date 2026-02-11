@@ -183,10 +183,16 @@ async function runHttpsMode(target, maxCount) {
             const duration = Math.round(performance.now() - startTime);
             handleResult(duration, `来自 ${url} 的响应: HTTPS_GET 耗时=${duration}ms`);
         } catch (err) {
-            // 3. 逻辑微调：如果报错非常快 (比如 < 50ms)，可能还是收到了服务器的 Reset 信号
-            // 但为了严谨，通常 catch 块我们依然计为失败。
-            const failTime = Math.round(performance.now() - startTime);
-            handleResult(null, `请求失败: ${url} (耗时 ${failTime}ms, 可能是网络不可达或证书错误)`);
+          const duration = Math.round(performance.now() - startTime);
+            
+            if (duration < 15) {
+                // 情况 1: 极速失败 (1ms - 10ms) -> 浏览器拦截
+                handleResult(null, `[系统拦截] ${url} (耗时 ${duration}ms, 请检查CSP政策或插件)`, false);
+            } else {
+                // 情况 2: 慢速失败 (如你图中的 900ms) -> 目标其实是通的！
+                // 即使报错，我们也把这个时间算作有效的 RTT
+                handleResult(duration, `[存活但受限] ${url} 的响应: 耗时=${duration}ms`, true);
+            }
         }
 
         if (running) {
