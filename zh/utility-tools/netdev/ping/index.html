@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="在线网络测试工具，支持ICMP Ping与HTTPS GET测试，实时检测网络延迟、丢包率、抖动。">
-    <meta name="keywords" content="Ping测试,HTTPS测试,网络延迟,网络诊断,在线Ping工具,丢包率">
+    <meta name="description" content="在线网络诊断工具，支持ICMP Ping与HTTPS测试，智能识别延迟、丢包与浏览器拦截。">
     
     <!-- 外部库 CDN -->
     <script src="/static/js/shared/cdn/tailwind.js"></script>
@@ -20,11 +19,10 @@
     <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <title>Network Pulse - 实时在线Ping & HTTPS测试工具 | StarryRing</title>
+    <title>Network Pulse - 智能在线网络诊断工具 | StarryRing</title>
 </head>
 
 <body class="p-4 md:p-8">
-    <!-- 面包屑导航 -->
     <nav aria-label="面包屑导航" class="breadcrumb-section">
         <ol class="breadcrumb-modern">
             <li class="breadcrumb-item"><a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a></li>
@@ -37,73 +35,56 @@
         <header class="flex justify-between items-center border-b border-slate-800 pb-6">
             <h1 class="text-3xl font-extrabold flex items-center gap-2">
                 <i data-lucide="activity" class="text-blue-500"></i>
-                Network <span class="text-blue-500">Pulse</span> - 诊断工具
+                Network <span class="text-blue-500">Pulse</span>
             </h1>
-            <span id="status" class="text-xs text-slate-400">就绪</span>
+            <span id="status" class="text-xs text-slate-400">系统就绪</span>
         </header>
-        
-        <p class="text-slate-300 mb-6">专业的在线网络诊断工具。支持通过远程代理进行 <b>ICMP Ping</b> 或通过浏览器 <b>HTTPS GET</b> 直接访问目标，测量延迟和稳定性。</p>
 
         <!-- 输入配置区 -->
         <section class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
-            <!-- 目标地址 -->
             <div class="md:col-span-5 relative">
                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">目标地址</label>
-                <div class="relative mt-2">
-                    <input id="target"
-                        placeholder="google.com 或 https://api.example.com"
-                        autocomplete="off"
-                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                        onkeydown="if(event.key==='Enter') togglePing()"
-                        onfocus="showHistory()"
-                        onblur="setTimeout(hideHistory, 250)">
-                    
-                    <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden">
-                        <div id="history-list" class="max-h-60 overflow-y-auto"></div>
-                        <div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
-                            <span class="text-[10px] text-slate-500 uppercase font-bold px-2">最近搜索</span>
-                            <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold">清空</button>
-                        </div>
-                    </div>
+                <input id="target" placeholder="google.com 或 https://..."
+                    class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                    onkeydown="if(event.key==='Enter') togglePing()"
+                    onfocus="showHistory()" onblur="setTimeout(hideHistory, 250)">
+                <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden">
+                    <div id="history-list" class="max-h-60 overflow-y-auto"></div>
                 </div>
             </div>
 
-            <!-- 测试方式 -->
             <div class="md:col-span-3">
                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">测试方式</label>
-                <select id="method" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                <select id="method" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="ping">ICMP Ping (远程代理)</option>
                     <option value="https">HTTPS GET (浏览器直连)</option>
                 </select>
             </div>
 
-            <!-- 测试次数 -->
             <div class="md:col-span-2">
                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">次数</label>
-                <select id="count" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                <select id="count" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="10">10 次</option>
                     <option value="50">50 次</option>
                     <option value="0">持续</option>
                 </select>
             </div>
 
-            <!-- 按钮 -->
             <div class="md:col-span-2 flex items-end">
-                <button id="btn" onclick="togglePing()"
-                    class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white">
+                <button id="btn" onclick="togglePing()" class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2">
                     <i data-lucide="play"></i> 开始测试
                 </button>
             </div>
         </section>
 
-        <!-- 数据卡片 -->
+        <!-- 数据仪表盘 -->
         <section class="grid md:grid-cols-4 gap-4">
             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
                 <p class="text-slate-400 text-sm">平均延迟</p>
                 <p class="text-2xl mono text-blue-400"><span id="avg">0</span> ms</p>
             </div>
             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">丢包/失败率</p>
+                <p class="text-slate-400 text-sm">丢包/拦截率</p>
                 <p class="text-2xl mono text-red-400" id="loss">0%</p>
             </div>
             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
@@ -111,31 +92,25 @@
                 <p class="text-2xl mono text-purple-400"><span id="jitter">0</span> ms</p>
             </div>
             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">已发送请求</p>
+                <p class="text-slate-400 text-sm">已发送</p>
                 <p class="text-2xl mono text-slate-200" id="sent">0</p>
             </div>
         </section>
 
+        <!-- 图表与终端 -->
         <section class="grid lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
                 <canvas id="chart"></canvas>
             </div>
             <div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col">
                 <div class="text-xs text-slate-400 p-2 border-b border-slate-800 flex justify-between">
-                    <span>终端日志</span>
-                    <span id="method-indicator" class="text-blue-500 font-bold"></span>
+                    <span>诊断日志</span>
+                    <span id="method-indicator" class="font-bold"></span>
                 </div>
-                <div id="terminal" class="flex-1 p-3 mono text-sm overflow-y-auto"></div>
+                <div id="terminal" class="flex-1 p-3 mono text-[12px] overflow-y-auto"></div>
             </div>
         </section>
     </div>
-
-    <!-- 底部说明 (简略) -->
-    <footer class="page-footer max-w-6xl mx-auto mt-10 opacity-50">
-        <div class="footer-content text-center text-xs">
-            <p>© 2024 StarryRing - v1.2.0 | ICMP 与 HTTPS 双模诊断</p>
-        </div>
-    </footer>
 
     <script src="/static/js/utility-tools/netdev/ping/script-zh.js"></script>
     <script>lucide.createIcons();</script>
