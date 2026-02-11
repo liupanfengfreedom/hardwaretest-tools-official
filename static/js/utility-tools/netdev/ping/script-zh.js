@@ -5,15 +5,14 @@ let running = false;
 let pings = [];
 let sent = 0;
 let loss = 0;
-let rid = 0;
-let socket = null; // WebSocket 实例
+let socket = null; 
+let httpTimer = null; // 用于 HTTPS 循环
 const historyKey = 'ping_history';
 
-// --- 替换为你在 Fly.io 部署成功的地址 ---
-// 注意：必须以 wss:// 开头
+// 代理服务器地址 (Fly.io)
 const BACKEND_URL = 'wss://my-ping-proxy-2024.fly.dev'; 
 
-// 初始化图表
+// --- 初始化图表 ---
 const ctx = document.getElementById('chart').getContext('2d');
 const chart = new Chart(ctx, {
     type: 'line',
@@ -25,27 +24,22 @@ const chart = new Chart(ctx, {
             borderColor: '#3b82f6',
             backgroundColor: 'rgba(59,130,246,0.1)',
             fill: true,
-            tension: 0.3
+            tension: 0.3,
+            pointRadius: 2
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-            y: { 
-                grid: { color: '#1e293b' },
-                beginAtZero: true
-            },
-            x: { grid: { display: false } }
+            y: { grid: { color: '#1e293b' }, beginAtZero: true },
+            x: { grid: { display: false }, ticks: { display: false } }
         },
-        plugins: {
-            legend: { display: false }
-        }
+        plugins: { legend: { display: false } }
     }
 });
 
-// --- 历史记录逻辑 ---
-
+// --- 历史记录管理 ---
 function getHistory() {
     const h = localStorage.getItem(historyKey);
     return h ? JSON.parse(h) : [];
@@ -57,222 +51,214 @@ function saveToHistory(target) {
     h.unshift(target);
     h = h.slice(0, 10);
     localStorage.setItem(historyKey, JSON.stringify(h));
-    renderHistory();
-}
-
-function removeHistoryItem(event, item) {
-    event.stopPropagation();
-    let h = getHistory();
-    h = h.filter(i => i !== item);
-    localStorage.setItem(historyKey, JSON.stringify(h));
-    renderHistory();
-    document.getElementById('target').focus();
 }
 
 function renderHistory() {
     const h = getHistory();
     const list = document.getElementById('history-list');
-    
     if (h.length === 0) {
         list.innerHTML = `<div class="p-4 text-slate-500 text-sm italic text-center">暂无搜索历史</div>`;
         return;
     }
-
     list.innerHTML = h.map(item => `
         <div class="group flex items-center justify-between px-4 py-2.5 hover:bg-slate-800 cursor-pointer border-b border-slate-800/50 last:border-0" 
              onclick="selectHistory('${item}')">
-            <div class="flex items-center gap-3 overflow-hidden">
-                <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-500 flex-shrink-0"></i>
-                <span class="mono text-sm truncate text-slate-300 group-hover:text-blue-400 transition-colors">${item}</span>
-            </div>
-            <button onclick="removeHistoryItem(event, '${item}')" 
-                    class="p-1 hover:bg-slate-700 rounded-md text-slate-500 hover:text-red-400 transition-all opacity-0 group-hover:opacity-100">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
+            <span class="mono text-sm truncate text-slate-300 group-hover:text-blue-400">${item}</span>
+            <i data-lucide="corner-down-left" class="w-3 h-3 text-slate-600 opacity-0 group-hover:opacity-100"></i>
         </div>
     `).join('');
-    
     lucide.createIcons();
 }
 
-function showHistory() {
-    renderHistory();
-    document.getElementById('history-panel').classList.remove('hidden');
-}
+function showHistory() { renderHistory(); document.getElementById('history-panel').classList.remove('hidden'); }
+function hideHistory() { document.getElementById('history-panel').classList.add('hidden'); }
+function selectHistory(val) { document.getElementById('target').value = val; hideHistory(); }
+function clearHistory() { localStorage.removeItem(historyKey); renderHistory(); }
 
-function hideHistory() {
-    document.getElementById('history-panel').classList.add('hidden');
-}
-
-function selectHistory(val) {
-    document.getElementById('target').value = val;
-    hideHistory();
-}
-
-function clearHistory() {
-    if(confirm('确定要清空所有历史记录吗？')) {
-        localStorage.removeItem(historyKey);
-        renderHistory();
-    }
-}
-
-// --- Ping 核心逻辑 (WebSocket 版) ---
+// --- 核心控制逻辑 ---
 
 function togglePing() {
-    const t = document.getElementById('target').value.trim();
-    if(!t) return alert("请输入地址");
-    
     if(!running) {
-        saveToHistory(t);
-        start(t);
+        const target = document.getElementById('target').value.trim();
+        if(!target) return alert("请输入目标地址或域名");
+        saveToHistory(target);
+        start(target);
     } else {
         stop();
     }
 }
 
-/**
- * 修改后的 start 函数
- */
 function start(target) {
     running = true; 
-    rid++;
-    pings = []; 
     sent = 0; 
     loss = 0; 
+    pings = [];
     
     // UI 重置
-    chart.data.labels = []; 
-    chart.data.datasets[0].data = []; 
-    chart.update();
     document.getElementById('terminal').innerHTML = '';
     document.getElementById('avg').innerText = '0';
     document.getElementById('loss').innerText = '0%';
     document.getElementById('jitter').innerText = '0';
     document.getElementById('sent').innerText = '0';
+    chart.data.labels = [];
+    chart.data.datasets[0].data = [];
+    chart.update();
 
     const btn = document.getElementById('btn');
     btn.innerHTML = '<i data-lucide="square"></i> 停止测试';
     btn.classList.replace('bg-blue-600', 'bg-red-600');
+    
+    const method = document.getElementById('method').value;
+    const countVal = document.getElementById('count').value;
+    const maxCount = countVal === "0" ? 999999 : parseInt(countVal);
+    
+    document.getElementById('method-indicator').innerText = method.toUpperCase();
     lucide.createIcons();
 
-    // 建立 WebSocket 连接
-    socket = new WebSocket(BACKEND_URL);
+    if (method === 'ping') {
+        runPingMode(target, maxCount);
+    } else {
+        runHttpsMode(target, maxCount);
+    }
+}
 
+// --- 模式 A: ICMP Ping (WebSocket 代理) ---
+function runPingMode(target, maxCount) {
+    socket = new WebSocket(BACKEND_URL);
+    
     socket.onopen = () => {
-        const countValue = document.getElementById('count').value;
-        // 如果选择“持续测试”，传一个很大的数字给后端
-        const finalCount = countValue === "0" ? 9999 : parseInt(countValue);
-        
-        // 发送测试指令给 Fly.io 后端
-        socket.send(JSON.stringify({
-            target: target,
-            count: finalCount
-        }));
-        log(`正在连接远程诊断服务器并开始测试: ${target}...`, true);
+        socket.send(JSON.stringify({ target: target, count: maxCount }));
+        log(`[PING] 正在连接远程服务器对 ${target} 进行诊断...`, true);
     };
 
     socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-
         if (data.type === 'data') {
-            // 系统原始输出行
-            const rawOutput = data.raw;
-            
             if (data.time !== null) {
-                // 成功获得延迟数据
-                sent++;
-                const ms = data.time;
-                pings.push(ms);
-
-                // 更新仪表盘和图表
-                document.getElementById('sent').innerText = sent;
-                chart.data.labels.push(sent);
-                chart.data.datasets[0].data.push(ms);
-                if(chart.data.labels.length > 20) {
-                    chart.data.labels.shift();
-                    chart.data.datasets[0].data.shift();
-                }
-                chart.update('none');
-
-                log(rawOutput, true);
-                updateStats();
+                handleResult(data.time, data.raw);
+            } else if (data.raw.toLowerCase().includes('timeout') || data.raw.includes('超时')) {
+                handleResult(null, data.raw);
             } else {
-                // 处理超时或其他原始信息
-                if (rawOutput.includes('timeout') || rawOutput.includes('超时')) {
-                    sent++;
-                    loss++;
-                    document.getElementById('sent').innerText = sent;
-                    log(`请求超时 (Request Timeout)`, false);
-                    updateStats();
-                } else {
-                    // 打印一些系统头部信息（如 PING google.com (142.251.42.238) ...）
-                    log(rawOutput, true);
-                }
+                log(data.raw, true); // 打印系统信息行
             }
         }
-
-        if (data.type === 'end') {
-            log('测试任务已完成。', true);
-            stop();
-        }
-
-        if (data.type === 'error') {
-            log('错误: ' + data.msg, false);
-            stop();
-        }
+        if (data.type === 'end') stop();
+        if (data.type === 'error') { log('错误: ' + data.msg, false); stop(); }
     };
 
-    socket.onclose = () => {
-        if (running) {
-            log('连接已断开。', false);
-            stop();
-        }
-    };
-
-    socket.onerror = (err) => {
-        log('无法连接到 Fly.io 代理服务器，请检查后端状态。', false);
-        stop();
-    };
+    socket.onerror = () => { log('无法连接到 Fly.io 代理服务器', false); stop(); };
+    socket.onclose = () => { if(running) stop(); };
 }
 
-function stop() {
-    running = false; 
-    if (socket) {
-        socket.close();
-        socket = null;
+// --- 模式 B: HTTPS GET (浏览器直连) ---
+// --- 模式 B: HTTPS GET (浏览器直连) ---
+async function runHttpsMode(target, maxCount) {
+    let url = target;
+    // 1. 自动补全协议
+    if (!url.startsWith('http')) {
+        url = 'https://' + url;
     }
-    const btn = document.getElementById('btn');
-    btn.innerHTML = '<i data-lucide="play"></i> 开始测试';
-    btn.classList.replace('bg-red-600', 'bg-blue-600');
-    lucide.createIcons();
+
+    log(`[HTTPS] 正在通过浏览器尝试访问: ${url}`, true);
+    log(`原理: 即使目标网站有 CORS 限制, 只要它响应了请求, 我们就能测量出往返时间。`, true);
+
+    const step = async () => {
+        if (!running || sent >= maxCount) { stop(); return; }
+
+        // 2. 增加随机参数防止浏览器/CDN 缓存 (Cache Busting)
+        // 这样可以确保每一次请求都是真实的网路往返
+        const cacheBuster = (url.includes('?') ? '&' : '?') + 't=' + performance.now();
+        const testUrl = url + cacheBuster;
+
+        const startTime = performance.now();
+        try {
+            // mode: 'no-cors' 是关键。
+            // 它会让浏览器忽略 CORS 策略错误，只要服务器给了响应，fetch 就会“成功完成”。
+            await fetch(testUrl, { 
+                mode: 'no-cors', 
+                cache: 'no-cache',
+                referrerPolicy: 'no-referrer'
+            });
+            
+            const duration = Math.round(performance.now() - startTime);
+            handleResult(duration, `来自 ${url} 的响应: HTTPS_GET 耗时=${duration}ms`);
+        } catch (err) {
+            // 3. 逻辑微调：如果报错非常快 (比如 < 50ms)，可能还是收到了服务器的 Reset 信号
+            // 但为了严谨，通常 catch 块我们依然计为失败。
+            const failTime = Math.round(performance.now() - startTime);
+            handleResult(null, `请求失败: ${url} (耗时 ${failTime}ms, 可能是网络不可达或证书错误)`);
+        }
+
+        if (running) {
+            // 设置 1 秒间隔进行下一次测试
+            httpTimer = setTimeout(step, 1000);
+        }
+    };
+
+    step();
+}
+
+// --- 通用结果处理 ---
+function handleResult(ms, rawText) {
+    sent++;
+    document.getElementById('sent').innerText = sent;
+
+    if (ms !== null) {
+        pings.push(ms);
+        log(rawText, true);
+        
+        // 更新图表
+        chart.data.labels.push(sent);
+        chart.data.datasets[0].data.push(ms);
+        if(chart.data.labels.length > 30) {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+        }
+        chart.update('none');
+    } else {
+        loss++;
+        log(rawText, false);
+    }
+    updateStats();
 }
 
 function updateStats() {
     if(pings.length > 0) {
-        // 平均值
         const sum = pings.reduce((a, b) => a + b, 0);
         const avg = Math.round(sum / pings.length);
         document.getElementById('avg').innerText = avg;
         
-        // 抖动计算 (Standard Deviation)
         if(pings.length > 1) {
-            const m = sum / pings.length;
-            const jitter = Math.round(Math.sqrt(pings.map(v => (v - m) ** 2).reduce((a, b) => a + b) / pings.length));
+            // 简单抖动计算: 连续样本差值的平均
+            let diffSum = 0;
+            for(let i=1; i<pings.length; i++) diffSum += Math.abs(pings[i] - pings[i-1]);
+            const jitter = Math.round(diffSum / (pings.length - 1));
             document.getElementById('jitter').innerText = jitter;
         }
     }
-    // 丢包率
     if (sent > 0) {
         document.getElementById('loss').innerText = Math.round((loss / sent) * 100) + '%';
     }
 }
 
-function log(t, ok) {
-    const term = document.getElementById('terminal');
-    const colorClass = ok ? 'text-green-400' : 'text-red-400';
-    term.innerHTML += `<div class="${colorClass} mb-1 border-l-2 border-slate-800 pl-2">> ${t}</div>`;
-    term.scrollTop = term.scrollHeight;
+function stop() {
+    running = false; 
+    if (socket) { socket.close(); socket = null; }
+    if (httpTimer) { clearTimeout(httpTimer); httpTimer = null; }
+
+    const btn = document.getElementById('btn');
+    btn.innerHTML = '<i data-lucide="play"></i> 开始测试';
+    btn.classList.replace('bg-red-600', 'bg-blue-600');
+    lucide.createIcons();
+    log("测试已停止。", true);
 }
 
-// 初始渲染历史记录
-renderHistory();
+function log(t, ok) {
+    const term = document.getElementById('terminal');
+    const color = ok ? 'text-green-400' : 'text-red-400';
+    const div = document.createElement('div');
+    div.className = `${color} mb-1 border-l-2 border-slate-800 pl-2 text-[12px]`;
+    div.innerText = `> ${t}`;
+    term.appendChild(div);
+    term.scrollTop = term.scrollHeight;
+}

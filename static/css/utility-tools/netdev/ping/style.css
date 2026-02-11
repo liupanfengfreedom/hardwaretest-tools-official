@@ -4,28 +4,35 @@ body {
     font-family: 'Inter', sans-serif; 
     background: #0f172a; 
     color: #f8fafc; 
+    overflow-x: hidden;
 }
 
 .mono { 
     font-family: "JetBrains Mono", monospace; 
 }
 
-.success-line { 
-    color: #22c55e; 
+/* 隐藏滚动条但保留功能 */
+#terminal::-webkit-scrollbar {
+    width: 4px;
+}
+#terminal::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 10px;
 }
 
-.error-line { 
-    color: #ef4444; 
+/* 动画效果 */
+button:active {
+    transform: scale(0.98);
 }
 
-/* 滚动条美化 */
-#history-list::-webkit-scrollbar,
-#terminal::-webkit-scrollbar { 
-    width: 4px; 
+select option {
+    background: #0f172a;
+    color: #f8fafc;
 }
 
-#history-list::-webkit-scrollbar-thumb,
-#terminal::-webkit-scrollbar-thumb { 
-    background: #334155; 
-    border-radius: 10px; 
+/* 针对移动端的微调 */
+@media (max-width: 768px) {
+    .grid-cols-12 {
+        grid-template-columns: 1fr;
+    }
 }
