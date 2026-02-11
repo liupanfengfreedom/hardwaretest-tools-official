@@ -185,7 +185,7 @@ async function runHttpsMode(target, maxCount) {
         } catch (err) {
           const duration = Math.round(performance.now() - startTime);
             
-            if (duration < 15) {
+            if (duration < 5) {
                 // 情况 1: 极速失败 (1ms - 10ms) -> 浏览器拦截
                 handleResult(null, `[系统拦截] ${url} (耗时 ${duration}ms, 请检查CSP政策或插件)`, false);
             } else {
