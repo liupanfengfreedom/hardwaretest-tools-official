@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO 核心 -->
-    <meta name="description" content="在线网络诊断工具，支持ICMP Ping远程代理测试与HTTPS GET浏览器直连，实时检测网络延迟、丢包率、抖动，无需下载，立即测试。">
+    <!-- SEO 核心（微调描述，增加行动号召） -->
+    <meta name="description" content="在线网络诊断工具，支持ICMP Ping远程代理测试与HTTPS GET浏览器直连，实时检测网络延迟、丢包率、抖动。免费使用，无需下载，立即测试你的网络稳定性。">
     <meta name="keywords" content="Ping测试,HTTPS测试,网络延迟,网络诊断,在线Ping工具,丢包率,抖动测试,网络稳定性">
     
     <!-- Open Graph / Facebook -->
@@ -62,7 +62,7 @@
         gtag('config', 'G-J9HR7CNQR9');
     </script>
 
-    <!-- 结构化数据 (SoftwareApplication + FAQPage) -->
+    <!-- 结构化数据 (SoftwareApplication + FAQPage) 更新版本，增加FAQ条目和软件版本 -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -116,7 +116,8 @@
                     "动态图表展示延迟变化",
                     "终端日志记录每次请求详情",
                     "持续测试模式"
-                ]
+                ],
+                "softwareVersion": "1.2.0"
             },
             {
                 "@type": "FAQPage",
@@ -144,6 +145,46 @@
                             "@type": "Answer",
                             "text": "抖动指延迟的变化程度。高抖动会导致实时应用（如视频会议、在线游戏）出现卡顿、音画不同步。通常抖动应低于30ms。"
                         }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何测试我自己的服务器或网站？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "在目标地址输入框内填写您的域名或IP（例如 example.com 或 93.184.216.34），选择测试方式（Ping或HTTPS），点击开始测试即可。若使用HTTPS测试，请确保服务器支持443端口。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "ICMP Ping和HTTPS GET的延迟为什么不同？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ICMP Ping测量的是网络层往返时间，而HTTPS GET需要完成TCP握手、TLS协商、HTTP请求/响应，耗时更长。通常HTTPS延迟会比Ping高几十毫秒，这是正常现象。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "丢包率多高算不正常？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "对于有线网络，丢包率应长期为0%；无线网络偶尔0.1%以内可接受。若持续超过0.5%或出现多次超时，表明网络存在明显问题，建议检查本地网络或联系运营商。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "为什么使用远程代理进行Ping？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "由于浏览器安全策略限制，网页无法直接发送ICMP包。本工具通过后端代理（或公开API）代为发送Ping请求，返回结果至前端，从而实现对任意目标的ICMP测试。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "测试结果会受到代理服务器位置影响吗？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "是的，ICMP Ping的延迟包含了从代理服务器到目标的时间，不代表您本地到目标的真实延迟。但丢包率和抖动仍能反映目标网络的稳定性。HTTPS GET则是直接从您的浏览器发起，无此问题。"
+                        }
                     }
                 ]
             }
@@ -155,19 +196,19 @@
 </head>
 <body class="p-4 md:p-8 bg-slate-950 text-white">
 
-    <!-- 面包屑导航 (保留原样) -->
+    <!-- 面包屑导航 (保留原样，增加aria-label) -->
     <nav aria-label="面包屑导航" class="breadcrumb-section">
         <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item"><a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a></li>
-            <li class="breadcrumb-item"><a href="/zh/utility-tools/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> 实用工具</a></li>
-            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active"><i class="fas fa-paper-plane"></i> 网络诊断工具</span></li>
+            <li class="breadcrumb-item"><a href="/zh/" class="breadcrumb-link"><i class="fas fa-home" aria-hidden="true"></i> 主页</a></li>
+            <li class="breadcrumb-item"><a href="/zh/utility-tools/" class="breadcrumb-link"><i class="fas fa-toolbox" aria-hidden="true"></i> 实用工具</a></li>
+            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active"><i class="fas fa-paper-plane" aria-hidden="true"></i> 网络诊断工具</span></li>
         </ol>
     </nav>
 
     <!-- ========= 新增：语言切换器（完全移植鼠标工具样式） ========= -->
     <div class="language-switcher">
         <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
-            <i class="fas fa-globe"></i>
+            <i class="fas fa-globe" aria-hidden="true"></i>
         </button>
         <div class="language-dropdown" id="languageDropdown">
             <a class="language-option selected" href="/zh/utility-tools/netdev/ping/" data-lang="zh">中文版</a>
@@ -180,7 +221,7 @@
         <!-- 标题区 (原header，移至工具箱卡片之后) -->
         <header class="flex justify-between items-center border-b border-slate-800 pb-6">
             <h1 class="text-3xl font-extrabold flex items-center gap-2">
-                <i data-lucide="activity" class="text-blue-500"></i>
+                <i data-lucide="activity" class="text-blue-500" aria-label="活动图标" aria-hidden="false"></i>
                 Network <span class="text-blue-500">Pulse</span> - 诊断工具
             </h1>
             <span id="status" class="text-xs text-slate-400">就绪</span>
@@ -228,7 +269,7 @@
             <div class="md:col-span-2 flex items-end">
                 <button id="btn" onclick="togglePing()"
                     class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white">
-                    <i data-lucide="play"></i> 开始测试
+                    <i data-lucide="play" aria-label="开始测试" aria-hidden="false"></i> 开始测试
                 </button>
             </div>
         </section>
@@ -268,80 +309,80 @@
         </section>
     </div> <!-- end max-w-6xl -->
 
-    <!-- ========= 新增：页面导航卡片（详细指南 & 工作原理） ========= -->
+    <!-- ========= 新增：页面导航卡片（详细指南 & 工作原理）增加 title 属性 ========= -->
     <div class="page-navigation-section max-w-6xl mx-auto mt-12">
         <div class="navigation-header">
             <p class="text-slate-400">了解更多关于网络诊断的知识和技术原理</p>
         </div>
         <div class="navigation-cards grid md:grid-cols-2 gap-6 mt-6">
-            <a href="/zh/utility-tools/netdev/ping/instruction/" class="nav-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-700 transition-all flex gap-4">
+            <a href="/zh/utility-tools/netdev/ping/instruction/" class="nav-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-700 transition-all flex gap-4" title="查看详细使用指南">
                 <div class="nav-card-icon text-3xl text-blue-500">
-                    <i class="fas fa-book-open"></i>
+                    <i class="fas fa-book-open" aria-hidden="true"></i>
                 </div>
                 <div class="nav-card-content">
                     <h3 class="text-xl font-semibold text-white">详细使用指南</h3>
                     <p class="text-slate-400 mt-2">从零开始学习如何使用本工具，包含Ping/HTTPS测试操作步骤、参数解读、历史记录管理。</p>
                     <div class="nav-card-action mt-4 text-blue-400">
-                        <span>查看完整指南 <i class="fas fa-arrow-right"></i></span>
+                        <span>查看完整指南 <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
                     </div>
                 </div>
             </a>
-            <a href="/zh/utility-tools/netdev/ping/principle/" class="nav-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-700 transition-all flex gap-4">
+            <a href="/zh/utility-tools/netdev/ping/principle/" class="nav-card bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-700 transition-all flex gap-4" title="学习技术原理">
                 <div class="nav-card-icon text-3xl text-blue-500">
-                    <i class="fas fa-cogs"></i>
+                    <i class="fas fa-cogs" aria-hidden="true"></i>
                 </div>
                 <div class="nav-card-content">
                     <h3 class="text-xl font-semibold text-white">工作原理详解</h3>
                     <p class="text-slate-400 mt-2">深入了解ICMP协议、HTTPS请求时序、远程代理架构以及延迟/抖动/丢包的计算模型。</p>
                     <div class="nav-card-action mt-4 text-blue-400">
-                        <span>学习技术原理 <i class="fas fa-arrow-right"></i></span>
+                        <span>学习技术原理 <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
                     </div>
                 </div>
             </a>
         </div>
     </div>
 
-    <!-- ========= 新增：功能说明 & 常见问题（完全按照鼠标工具风格） ========= -->
+    <!-- ========= 新增：功能说明 & 常见问题（完全按照鼠标工具风格）扩充特色描述 ========= -->
     <div class="instructions-section max-w-6xl mx-auto mt-12">
         <div class="instructions-content">
-            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> 专业网络诊断工具特色</h2>
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-check-circle text-blue-500" aria-hidden="true"></i> 专业网络诊断工具特色</h2>
             <p class="text-slate-400 mt-2">📖 简介：</p>
             <div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-satellite-dish text-blue-500"></i> 双模测试</h3>
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-satellite-dish text-blue-500" aria-hidden="true"></i> 双模测试</h3>
                     <p class="text-slate-400 text-sm mt-2">ICMP Ping（远程代理）与HTTPS GET（浏览器直连）并行支持，满足不同场景的网络诊断需求。</p>
-                    <div class="tip mt-3 text-xs text-slate-500"><i class="fas fa-lightbulb"></i> 代理Ping可绕过浏览器跨域限制，HTTPS直连更贴近真实访问。</div>
+                    <div class="tip mt-3 text-xs text-slate-500"><i class="fas fa-lightbulb" aria-hidden="true"></i> 代理Ping可绕过浏览器跨域限制，HTTPS直连更贴近真实访问。双模测试帮助您从网络层和应用层全面分析网络质量，适用于 DevOps 排查、网站运维监测、游戏延迟分析等场景。</div>
                 </div>
                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-chart-bar text-blue-500"></i> 实时可视化</h3>
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-chart-bar text-blue-500" aria-hidden="true"></i> 实时可视化</h3>
                     <p class="text-slate-400 text-sm mt-2">延迟变化动态折线图，直观展示网络波动；彩色标识区分成功/失败请求。</p>
-                    <div class="tip mt-3 text-xs text-slate-500">图表自动缩放，异常点高亮显示。</div>
+                    <div class="tip mt-3 text-xs text-slate-500">图表自动缩放，异常点高亮显示。快速定位高峰延迟时段，优化网络配置。</div>
                 </div>
                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-history text-blue-500"></i> 智能历史记录</h3>
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-history text-blue-500" aria-hidden="true"></i> 智能历史记录</h3>
                     <p class="text-slate-400 text-sm mt-2">自动保存最近测试的目标地址，点击输入框即可快速选取，支持一键清空历史。</p>
-                    <div class="tip mt-3 text-xs text-slate-500">历史记录存储在本地，不会上传服务器。</div>
+                    <div class="tip mt-3 text-xs text-slate-500">历史记录存储在本地，不会上传服务器。方便重复测试常用目标，提升工作效率。</div>
                 </div>
                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-terminal text-blue-500"></i> 终端日志</h3>
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-terminal text-blue-500" aria-hidden="true"></i> 终端日志</h3>
                     <p class="text-slate-400 text-sm mt-2">每条请求的序号、响应时间、状态码（HTTPS）、丢包标识清晰列印，便于逐条分析。</p>
-                    <div class="tip mt-3 text-xs text-slate-500">日志最多保留30条，支持滚动查看。</div>
+                    <div class="tip mt-3 text-xs text-slate-500">日志最多保留30条，支持滚动查看。可追溯每次测试细节，辅助排查间歇性故障。</div>
                 </div>
                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-tachometer-alt text-blue-500"></i> 抖动计算</h3>
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-tachometer-alt text-blue-500" aria-hidden="true"></i> 抖动计算</h3>
                     <p class="text-slate-400 text-sm mt-2">自动计算连续延迟的差值绝对值的平均值，精准评估网络稳定性。</p>
-                    <div class="tip mt-3 text-xs text-slate-500">抖动>30ms可能影响实时通信。</div>
+                    <div class="tip mt-3 text-xs text-slate-500">抖动>30ms可能影响实时通信（如VoIP、视频会议）。工具实时监控抖动，为网络调优提供依据。</div>
                 </div>
                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-infinity text-blue-500"></i> 持续测试模式</h3>
+                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-infinity text-blue-500" aria-hidden="true"></i> 持续测试模式</h3>
                     <p class="text-slate-400 text-sm mt-2">选择“持续”模式，工具将连续发送请求直至手动停止，适用于长期稳定性监测。</p>
-                    <div class="tip mt-3 text-xs text-slate-500">点击“停止测试”按钮（开始后变为红色）即可中断。</div>
+                    <div class="tip mt-3 text-xs text-slate-500">点击“停止测试”按钮（开始后变为红色）即可中断。适合监测网络波动时段，收集长期数据。</div>
                 </div>
             </div>
 
-            <!-- FAQ 常见问题 -->
+            <!-- FAQ 常见问题（与结构化数据同步，已扩充至5+问题） -->
             <div class="faq-section mt-12">
-                <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-question-circle text-blue-500"></i> 常见问题解答 (FAQ)</h2>
+                <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-question-circle text-blue-500" aria-hidden="true"></i> 常见问题解答 (FAQ)</h2>
                 <div class="space-y-4 mt-6">
                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
                         <h3 class="text-lg font-medium text-white">如何测试我自己的服务器或网站？</h3>
@@ -351,8 +392,8 @@
                         <h3 class="text-lg font-medium text-white">ICMP Ping和HTTPS GET的延迟为什么不同？</h3>
                         <p class="text-slate-400 text-sm mt-1">ICMP Ping测量的是网络层往返时间，而HTTPS GET需要完成TCP握手、TLS协商、HTTP请求/响应，耗时更长。通常HTTPS延迟会比Ping高几十毫秒，这是正常现象。</p>
                         <div class="faq-link-container mt-2">
-                            <span class="text-xs text-slate-500"><i class="fas fa-link"></i> 参见：</span>
-                            <a href="/zh/utility-tools/netdev/ping/principle/" class="text-blue-400 hover:underline text-xs">工作原理详解</a>
+                            <span class="text-xs text-slate-500"><i class="fas fa-link" aria-hidden="true"></i> 参见：</span>
+                            <a href="/zh/utility-tools/netdev/ping/principle/" class="text-blue-400 hover:underline text-xs" title="工作原理详解">工作原理详解</a>
                         </div>
                     </div>
                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
@@ -366,6 +407,14 @@
                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
                         <h3 class="text-lg font-medium text-white">测试结果会受到代理服务器位置影响吗？</h3>
                         <p class="text-slate-400 text-sm mt-1">是的，ICMP Ping的延迟包含了从代理服务器到目标的时间，不代表您本地到目标的真实延迟。但丢包率和抖动仍能反映目标网络的稳定性。HTTPS GET则是直接从您的浏览器发起，无此问题。</p>
+                    </div>
+                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+                        <h3 class="text-lg font-medium text-white">为什么HTTPS测试有时会显示“本地拦截”？</h3>
+                        <p class="text-slate-400 text-sm mt-1">如果请求在5毫秒内失败，通常是浏览器扩展或插件（如广告拦截器）阻止了连接。此时工具会标记为“本地拦截”，而非网络故障。您可以尝试禁用扩展后重测。</p>
+                    </div>
+                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+                        <h3 class="text-lg font-medium text-white">持续测试模式会消耗多少流量？</h3>
+                        <p class="text-slate-400 text-sm mt-1">每次Ping请求仅几十字节，HTTPS请求也仅为HEAD请求（实际为GET但no-cors），流量极小。即使持续一小时，总流量通常不超过10MB，可放心使用。</p>
                     </div>
                 </div>
             </div>
