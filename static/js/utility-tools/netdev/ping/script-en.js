@@ -1,3 +1,4 @@
+// script-en.js
 // Initialize icons
 lucide.createIcons();
 
@@ -5,15 +6,14 @@ let running = false;
 let pings = [];
 let sent = 0;
 let loss = 0;
-let rid = 0;
-let socket = null; // WebSocket instance
+let socket = null; 
+let httpTimer = null; // for HTTPS loop
 const historyKey = 'ping_history';
 
-// --- Replace with your Fly.io deployment URL ---
-// Note: Must start with wss://
-const BACKEND_URL = 'wss://my-ping-proxy-2024.fly.dev';
+// Proxy server address (Fly.io)
+const BACKEND_URL = 'wss://my-ping-proxy-2024.fly.dev'; 
 
-// Initialize chart
+// --- Initialize chart ---
 const ctx = document.getElementById('chart').getContext('2d');
 const chart = new Chart(ctx, {
     type: 'line',
@@ -25,27 +25,22 @@ const chart = new Chart(ctx, {
             borderColor: '#3b82f6',
             backgroundColor: 'rgba(59,130,246,0.1)',
             fill: true,
-            tension: 0.3
+            tension: 0.3,
+            pointRadius: 2
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-            y: { 
-                grid: { color: '#1e293b' },
-                beginAtZero: true
-            },
-            x: { grid: { display: false } }
+            y: { grid: { color: '#1e293b' }, beginAtZero: true },
+            x: { grid: { display: false }, ticks: { display: false } }
         },
-        plugins: {
-            legend: { display: false }
-        }
+        plugins: { legend: { display: false } }
     }
 });
 
-// --- History logic ---
-
+// --- History management ---
 function getHistory() {
     const h = localStorage.getItem(historyKey);
     return h ? JSON.parse(h) : [];
@@ -57,222 +52,217 @@ function saveToHistory(target) {
     h.unshift(target);
     h = h.slice(0, 10);
     localStorage.setItem(historyKey, JSON.stringify(h));
-    renderHistory();
-}
-
-function removeHistoryItem(event, item) {
-    event.stopPropagation();
-    let h = getHistory();
-    h = h.filter(i => i !== item);
-    localStorage.setItem(historyKey, JSON.stringify(h));
-    renderHistory();
-    document.getElementById('target').focus();
 }
 
 function renderHistory() {
     const h = getHistory();
     const list = document.getElementById('history-list');
-    
     if (h.length === 0) {
         list.innerHTML = `<div class="p-4 text-slate-500 text-sm italic text-center">No search history</div>`;
         return;
     }
-
     list.innerHTML = h.map(item => `
         <div class="group flex items-center justify-between px-4 py-2.5 hover:bg-slate-800 cursor-pointer border-b border-slate-800/50 last:border-0" 
              onclick="selectHistory('${item}')">
-            <div class="flex items-center gap-3 overflow-hidden">
-                <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-500 flex-shrink-0"></i>
-                <span class="mono text-sm truncate text-slate-300 group-hover:text-blue-400 transition-colors">${item}</span>
-            </div>
-            <button onclick="removeHistoryItem(event, '${item}')" 
-                    class="p-1 hover:bg-slate-700 rounded-md text-slate-500 hover:text-red-400 transition-all opacity-0 group-hover:opacity-100">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
+            <span class="mono text-sm truncate text-slate-300 group-hover:text-blue-400">${item}</span>
+            <i data-lucide="corner-down-left" class="w-3 h-3 text-slate-600 opacity-0 group-hover:opacity-100"></i>
         </div>
     `).join('');
-    
     lucide.createIcons();
 }
 
-function showHistory() {
-    renderHistory();
-    document.getElementById('history-panel').classList.remove('hidden');
-}
+function showHistory() { renderHistory(); document.getElementById('history-panel').classList.remove('hidden'); }
+function hideHistory() { document.getElementById('history-panel').classList.add('hidden'); }
+function selectHistory(val) { document.getElementById('target').value = val; hideHistory(); }
+function clearHistory() { localStorage.removeItem(historyKey); renderHistory(); }
 
-function hideHistory() {
-    document.getElementById('history-panel').classList.add('hidden');
-}
-
-function selectHistory(val) {
-    document.getElementById('target').value = val;
-    hideHistory();
-}
-
-function clearHistory() {
-    if(confirm('Are you sure you want to clear all history?')) {
-        localStorage.removeItem(historyKey);
-        renderHistory();
-    }
-}
-
-// --- Ping core logic (WebSocket version) ---
+// --- Core control logic ---
 
 function togglePing() {
-    const t = document.getElementById('target').value.trim();
-    if(!t) return alert("Please enter an address");
-    
     if(!running) {
-        saveToHistory(t);
-        start(t);
+        const target = document.getElementById('target').value.trim();
+        if(!target) return alert("Please enter a target address or domain");
+        saveToHistory(target);
+        start(target);
     } else {
         stop();
     }
 }
 
-/**
- * Modified start function
- */
 function start(target) {
     running = true; 
-    rid++;
-    pings = []; 
     sent = 0; 
     loss = 0; 
+    pings = [];
     
     // UI reset
-    chart.data.labels = []; 
-    chart.data.datasets[0].data = []; 
-    chart.update();
     document.getElementById('terminal').innerHTML = '';
     document.getElementById('avg').innerText = '0';
     document.getElementById('loss').innerText = '0%';
     document.getElementById('jitter').innerText = '0';
     document.getElementById('sent').innerText = '0';
+    chart.data.labels = [];
+    chart.data.datasets[0].data = [];
+    chart.update();
 
     const btn = document.getElementById('btn');
     btn.innerHTML = '<i data-lucide="square"></i> Stop Test';
     btn.classList.replace('bg-blue-600', 'bg-red-600');
+    
+    const method = document.getElementById('method').value;
+    const countVal = document.getElementById('count').value;
+    const maxCount = countVal === "0" ? 999999 : parseInt(countVal);
+    
+    document.getElementById('method-indicator').innerText = method.toUpperCase();
     lucide.createIcons();
 
-    // Establish WebSocket connection
-    socket = new WebSocket(BACKEND_URL);
+    if (method === 'ping') {
+        runPingMode(target, maxCount);
+    } else {
+        runHttpsMode(target, maxCount);
+    }
+}
 
+// --- Mode A: ICMP Ping (WebSocket proxy) ---
+function runPingMode(target, maxCount) {
+    socket = new WebSocket(BACKEND_URL);
+    
     socket.onopen = () => {
-        const countValue = document.getElementById('count').value;
-        // If "Continuous Test" is selected, send a large number to the backend
-        const finalCount = countValue === "0" ? 9999 : parseInt(countValue);
-        
-        // Send test command to Fly.io backend
-        socket.send(JSON.stringify({
-            target: target,
-            count: finalCount
-        }));
-        log(`Connecting to remote diagnostic server and starting test: ${target}...`, true);
+        socket.send(JSON.stringify({ target: target, count: maxCount }));
+        log(`[PING] Connecting to remote server to ping ${target}...`, true);
     };
 
     socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-
         if (data.type === 'data') {
-            // System raw output line
-            const rawOutput = data.raw;
-            
             if (data.time !== null) {
-                // Successfully received latency data
-                sent++;
-                const ms = data.time;
-                pings.push(ms);
-
-                // Update dashboard and chart
-                document.getElementById('sent').innerText = sent;
-                chart.data.labels.push(sent);
-                chart.data.datasets[0].data.push(ms);
-                if(chart.data.labels.length > 20) {
-                    chart.data.labels.shift();
-                    chart.data.datasets[0].data.shift();
-                }
-                chart.update('none');
-
-                log(rawOutput, true);
-                updateStats();
+                handleResult(data.time, data.raw);
+            } else if (data.raw.toLowerCase().includes('timeout') || data.raw.includes('timed out')) {
+                handleResult(null, data.raw);
             } else {
-                // Handle timeout or other raw information
-                if (rawOutput.includes('timeout') || rawOutput.includes('timed out')) {
-                    sent++;
-                    loss++;
-                    document.getElementById('sent').innerText = sent;
-                    log(`Request timeout`, false);
-                    updateStats();
-                } else {
-                    // Print some system header info (like PING google.com (142.251.42.238) ...)
-                    log(rawOutput, true);
-                }
+                log(data.raw, true); // print system info lines
+            }
+        }
+        if (data.type === 'end') stop();
+        if (data.type === 'error') { log('Error: ' + data.msg, false); stop(); }
+    };
+
+    socket.onerror = () => { log('Unable to connect to Fly.io proxy server', false); stop(); };
+    socket.onclose = () => { if(running) stop(); };
+}
+
+// --- Mode B: HTTPS GET (browser direct) fixed version ---
+async function runHttpsMode(target, maxCount) {
+    let url = target;
+    if (!url.startsWith('http')) {
+        url = 'https://' + url;
+    }
+
+    log(`[HTTPS] Attempting to access: ${url}`, true);
+    log(`Note: Successful response (including CORS restrictions) counts as alive, network error as failure.`, true);
+
+    const step = async () => {
+        if (!running || sent >= maxCount) { stop(); return; }
+
+        const cacheBuster = (url.includes('?') ? '&' : '?') + 't=' + performance.now();
+        const testUrl = url + cacheBuster;
+        const startTime = performance.now();
+
+        try {
+            // In no-cors mode, as long as the target server responds (even without CORS),
+            // fetch will resolve, meaning the target IP is reachable.
+            await fetch(testUrl, { 
+                mode: 'no-cors', 
+                cache: 'no-cache',
+                referrerPolicy: 'no-referrer',
+                signal: AbortSignal.timeout(5000) 
+            });
+            
+            const duration = Math.round(performance.now() - startTime);
+            handleResult(duration, `Response from ${target}: time=${duration}ms`);
+
+        } catch (err) {
+            const duration = Math.round(performance.now() - startTime);
+            
+            // Only extremely fast failures (<5ms) are considered blocked by browser/extension
+            if (duration < 5) {
+                log(`[Local block] ${target} request blocked by browser or extension`, false);
+                handleResult(null, `Local block (${duration}ms)`);
+            } else {
+                log(`[Connection failed] ${target} unreachable (DNS failure/refused/timeout)`, false);
+                handleResult(null, `Request failed (${duration}ms)`);
             }
         }
 
-        if (data.type === 'end') {
-            log('Test task completed.', true);
-            stop();
-        }
-
-        if (data.type === 'error') {
-            log('Error: ' + data.msg, false);
-            stop();
-        }
-    };
-
-    socket.onclose = () => {
         if (running) {
-            log('Connection closed.', false);
-            stop();
+            httpTimer = setTimeout(step, 1000);
         }
     };
 
-    socket.onerror = (err) => {
-        log('Unable to connect to Fly.io proxy server. Please check backend status.', false);
-        stop();
-    };
+    step();
 }
 
-function stop() {
-    running = false; 
-    if (socket) {
-        socket.close();
-        socket = null;
+// --- Common result handling ---
+function handleResult(ms, rawText) {
+    sent++;
+    document.getElementById('sent').innerText = sent;
+
+    if (ms !== null) {
+        pings.push(ms);
+        log(rawText, true);
+        
+        // Update chart
+        chart.data.labels.push(sent);
+        chart.data.datasets[0].data.push(ms);
+        if(chart.data.labels.length > 30) {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+        }
+        chart.update('none');
+    } else {
+        loss++;
+        log(rawText, false);
     }
-    const btn = document.getElementById('btn');
-    btn.innerHTML = '<i data-lucide="play"></i> Start Test';
-    btn.classList.replace('bg-red-600', 'bg-blue-600');
-    lucide.createIcons();
+    updateStats();
 }
 
 function updateStats() {
     if(pings.length > 0) {
-        // Average
         const sum = pings.reduce((a, b) => a + b, 0);
         const avg = Math.round(sum / pings.length);
         document.getElementById('avg').innerText = avg;
         
-        // Jitter calculation (Standard Deviation)
         if(pings.length > 1) {
-            const m = sum / pings.length;
-            const jitter = Math.round(Math.sqrt(pings.map(v => (v - m) ** 2).reduce((a, b) => a + b) / pings.length));
+            // Simple jitter calculation: average of consecutive differences
+            let diffSum = 0;
+            for(let i=1; i<pings.length; i++) diffSum += Math.abs(pings[i] - pings[i-1]);
+            const jitter = Math.round(diffSum / (pings.length - 1));
             document.getElementById('jitter').innerText = jitter;
         }
     }
-    // Packet loss rate
     if (sent > 0) {
         document.getElementById('loss').innerText = Math.round((loss / sent) * 100) + '%';
     }
 }
 
-function log(t, ok) {
-    const term = document.getElementById('terminal');
-    const colorClass = ok ? 'text-green-400' : 'text-red-400';
-    term.innerHTML += `<div class="${colorClass} mb-1 border-l-2 border-slate-800 pl-2">> ${t}</div>`;
-    term.scrollTop = term.scrollHeight;
+function stop() {
+    running = false; 
+    if (socket) { socket.close(); socket = null; }
+    if (httpTimer) { clearTimeout(httpTimer); httpTimer = null; }
+
+    const btn = document.getElementById('btn');
+    btn.innerHTML = '<i data-lucide="play"></i> Start Test';
+    btn.classList.replace('bg-red-600', 'bg-blue-600');
+    lucide.createIcons();
+    log("Test stopped.", true);
 }
 
-// Initial history render
-renderHistory();
+function log(t, ok) {
+    const term = document.getElementById('terminal');
+    const color = ok ? 'text-green-400' : 'text-red-400';
+    const div = document.createElement('div');
+    div.className = `${color} mb-1 border-l-2 border-slate-800 pl-2 text-[12px]`;
+    div.innerText = `> ${t}`;
+    term.appendChild(div);
+    term.scrollTop = term.scrollHeight;
+}
