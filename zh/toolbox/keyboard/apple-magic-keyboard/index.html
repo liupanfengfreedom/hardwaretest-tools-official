@@ -10,47 +10,9 @@
     <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
     <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
     <link rel="stylesheet" href="/static/css/shared/document.css">
-     <link rel="stylesheet" href="/static/css/toolbox/keyboard/mac-keyboard/style.css">
+    <link rel="stylesheet" href="/static/css/toolbox/keyboard/apple-magic-keyboard/style.css">
 </head>
 <body>
-    <!-- 语言切换器 -->
-    <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
-            <i class="fas fa-globe"></i>
-        </button>
-        
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option selected" href="/zh/toolbox/keyboard/mac-keyboard/" data-lang="zh">
-                中文版
-            </a>
-            <a class="language-option" href="/en/toolbox/keyboard/mac-keyboard/" data-lang="en">
-                English
-            </a>
-        </div>
-    </div>
-
-    <!-- 面包屑导航栏 -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item">
-                    <a href="/zh/" class="breadcrumb-link">
-                        <i class="fas fa-home" aria-hidden="true"></i> 
-                        <span>主页</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/zh/toolbox/" class="breadcrumb-link">
-                        <i class="fas fa-box" aria-hidden="true"></i> <span>工具箱</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <span class="breadcrumb-active">MAC键盘测试</span>
-                </li>
-            </ol>
-        </nav>
-    </div>
-
     <div class="tester-container">
         <header>
             <h1>⚡ Mac 键盘诊断台 <span style="font-size: 1rem; background: none; -webkit-text-fill-color: #4a5b6b;">(精准连点预警)</span></h1>
@@ -70,6 +32,7 @@
 
         <!-- 键盘布局 (ID 与脚本严格对应) -->
         <div class="keyboard-iso" id="keyboard">
+            <!-- 功能键行：F1–F12 + Touch ID（原 Power 键改为此样式） -->
             <div class="row function-row">
                 <div class="key esc" id="Escape"><span>esc</span></div>
                 <div class="key" id="F1"><span>F1</span></div>
@@ -84,8 +47,10 @@
                 <div class="key" id="F10"><span>F10</span></div>
                 <div class="key" id="F11"><span>F11</span></div>
                 <div class="key" id="F12"><span>F12</span></div>
-                <div class="key power" id="Power"><span>⌽</span></div>
+                <div class="key" id="Power"><span>⬤</span></div>  <!-- Touch ID 传感器 -->
             </div>
+
+            <!-- 数字符号行（不变） -->
             <div class="row">
                 <div class="key" id="Backquote"><span>~</span><span>`</span></div>
                 <div class="key" id="Digit1"><span>!</span><span>1</span></div>
@@ -102,6 +67,8 @@
                 <div class="key" id="Equal"><span>+</span><span>=</span></div>
                 <div class="key delete" id="Backspace"><span>delete</span></div>
             </div>
+
+            <!-- 第二排字母行（Q–]，return） -->
             <div class="row">
                 <div class="key tab" id="Tab"><span>tab</span></div>
                 <div class="key" id="KeyQ"><span>Q</span></div>
@@ -118,8 +85,10 @@
                 <div class="key" id="BracketRight"><span>}</span><span>]</span></div>
                 <div class="key enter-upper" id="Enter"><span>return</span></div>
             </div>
+
+            <!-- 第三排字母行（caps, A–L, ; ' \） -->
             <div class="row">
-                <div class="key capslock" id="CapsLock"><span>中/英</span></div>
+                <div class="key capslock" id="CapsLock"><span>⇪</span><span>caps</span></div>  <!-- Mac 风格 Caps Lock -->
                 <div class="key" id="KeyA"><span>A</span></div>
                 <div class="key" id="KeyS"><span>S</span></div>
                 <div class="key" id="KeyD"><span>D</span></div>
@@ -133,9 +102,11 @@
                 <div class="key" id="Quote"><span>"</span><span>'</span></div>
                 <div class="key" id="Backslash"><span>|</span><span>\</span></div>
             </div>
+
+            <!-- 第四排字母行（shift, Z–M, , . / shift） 移除 IntlBackslash -->
             <div class="row">
                 <div class="key shift-left" id="ShiftLeft"><span>shift</span></div>
-                <div class="key" id="IntlBackslash"><span>~</span><span>`</span></div>
+                <!-- IntlBackslash 已删除，左 Shift 直接邻接 Z -->
                 <div class="key" id="KeyZ"><span>Z</span></div>
                 <div class="key" id="KeyX"><span>X</span></div>
                 <div class="key" id="KeyC"><span>C</span></div>
@@ -148,6 +119,8 @@
                 <div class="key" id="Slash"><span>?</span><span>/</span></div>
                 <div class="key shift-right" id="ShiftRight"><span>shift</span></div>
             </div>
+
+            <!-- 底行：fn, control, option, command, 空格, 右侧 command, option, 以及四个独立箭头键（全高） -->
             <div class="row">
                 <div class="key fn" id="Fn"><span>fn</span></div>
                 <div class="key control" id="ControlLeft"><span>control</span><span>⌃</span></div>
@@ -156,14 +129,11 @@
                 <div class="key space" id="Space"><span></span></div>
                 <div class="key command" id="MetaRight"><span>command</span><span>⌘</span></div>
                 <div class="key option" id="OptionRight"><span>option</span><span>⌥</span></div>
-                <div class="arrow-group">
-                    <div class="key arrow" id="ArrowLeft"><span>◀</span></div>
-                    <div class="arrow-vertical">
-                        <div class="key arrow" id="ArrowUp"><span>▲</span></div>
-                        <div class="key arrow" id="ArrowDown"><span>▼</span></div>
-                    </div>
-                    <div class="key arrow" id="ArrowRight"><span>▶</span></div>
-                </div>
+                <!-- 四个独立箭头键，全高，使用 arrow 类以便样式统一 -->
+                <div class="key arrow" id="ArrowLeft"><span>◀</span></div>
+                <div class="key arrow" id="ArrowUp"><span>▲</span></div>
+                <div class="key arrow" id="ArrowDown"><span>▼</span></div>
+                <div class="key arrow" id="ArrowRight"><span>▶</span></div>
             </div>
         </div>
 
@@ -179,7 +149,7 @@
     </div>
 
     <!-- 本地脚本 (保留原有核心逻辑) -->
-    <script src="/static/js/toolbox/keyboard/mac-keyboard/script-zh.js"></script>
+    <script src="/static/js/toolbox/keyboard/apple-magic-keyboard/script-zh.js"></script>
     <!-- 原有共享脚本 (可选依赖) -->
     <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
