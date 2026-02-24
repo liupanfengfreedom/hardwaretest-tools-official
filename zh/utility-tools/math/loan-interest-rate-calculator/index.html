@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极速贷款计算器 Pro · 全维度还款分析</title>
+    <!-- 外部依赖与字体 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind (关键CSS可考虑内联，此处保留CDN但可优化) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 本地样式表 (合并后加载) -->
+    <link rel="stylesheet" href="/static/css/utility-tools/math/loan-interest-rate-calculator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    <!-- 结构化数据 (JSON-LD) 更新FAQ，加入“一个亿”问题 -->
+</head>
+<body class="min-h-screen py-8 px-3 md:py-12 md:px-6">
+ <!-- 面包屑导航 -->
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> 实用工具
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-calculator"></i> 贷款利息计算器</span>
+            </li>
+        </ol>
+    </nav>
+
+    <!-- 语言切换器（修正链接） -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/math/deposit-interest-rate-calculator/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/en/utility-tools/math/deposit-interest-rate-calculator/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto space-y-8">
+        <!-- 头部（微调+光泽） -->
+        <header class="text-center relative">
+            <h1 class="text-5xl md:text-6xl font-black mb-2 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-yellow-400 to-yellow-500 drop-shadow-2xl">
+                贷款利息分析器
+                <span class="text-base align-middle ml-3 bg-blue-600/30 px-4 py-1.5 rounded-full text-blue-300 font-bold border border-blue-500/40 uppercase tracking-widest">Premium</span>
+            </h1>
+            <p class="text-gray-400 text-lg mt-2 flex items-center justify-center gap-2">
+                <span>⚡实时算法驱动</span><span class="w-1 h-1 bg-gray-500 rounded-full"></span><span>全维度透视还款结构</span>
+            </p>
+            <div class="divider-light mt-4 max-w-2xl mx-auto"></div>
+        </header>
+
+        <!-- 主网格：左控制 + 右摘要 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- 左侧：输入区 增强间距 -->
+            <div class="lg:col-span-5 space-y-7">
+
+                <!-- 金额/利率/期限 卡片 -->
+                <div class="glass p-7 rounded-3xl space-y-8 border border-blue-500/10">
+                    <!-- 贷款金额 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-gray-300 font-medium flex items-center gap-2"><span class="text-2xl">💰</span> 贷款金额</label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-400 text-sm">CNY</span>
+                                <input type="number" id="amountInput" class="input-number-clean w-32" value="1000000">
+                            </div>
+                        </div>
+                        <input type="range" id="amountRange" min="10000" max="10000000" step="10000" value="1000000" class="w-full">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
+                            <span>1万</span><span>500万</span><span>1000万</span>
+                        </div>
+                    </div>
+                    <!-- 年利率 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-gray-300 font-medium flex items-center gap-2"><span class="text-2xl">📈</span> 年利率</label>
+                            <input type="number" id="rateInput" class="input-number-clean w-24" value="3.85" step="0.01"> <span class="text-yellow-400 font-bold ml-1">%</span>
+                        </div>
+                        <input type="range" id="rateRange" min="0.1" max="24" step="0.01" value="3.85" class="w-full">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
+                            <span>0.1%</span><span>12%</span><span>24%</span>
+                        </div>
+                    </div>
+                    <!-- 贷款期限 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-gray-300 font-medium flex items-center gap-2"><span class="text-2xl">⏳</span> 贷款期限</label>
+                            <input type="number" id="yearsInput" class="input-number-clean w-20" value="20" min="1" max="30"> <span class="text-blue-400 font-medium">年</span>
+                        </div>
+                        <input type="range" id="yearsRange" min="1" max="30" step="1" value="20" class="w-full">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
+                            <span>1年</span><span>15年</span><span>30年</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模式切换按钮 更美观的flex布局 -->
+                <div class="glass p-2 rounded-2xl flex flex-wrap gap-1.5 justify-evenly border border-white/5">
+                    <button onclick="switchMode('equalInterest')" id="tab-equalInterest" class="mode-tab flex-1 py-3 px-2 rounded-xl text-sm font-bold transition-all active-tab">等额本息</button>
+                    <button onclick="switchMode('equalPrincipal')" id="tab-equalPrincipal" class="mode-tab flex-1 py-3 px-2 rounded-xl text-sm font-bold transition-all">等额本金</button>
+                    <button onclick="switchMode('interestFirst')" id="tab-interestFirst" class="mode-tab flex-1 py-3 px-2 rounded-xl text-sm font-bold transition-all">先息后本</button>
+                    <button onclick="switchMode('lumpSum')" id="tab-lumpSum" class="mode-tab flex-1 py-3 px-2 rounded-xl text-sm font-bold transition-all">一次性还清</button>
+                </div>
+
+                <!-- 模式解析卡 增强设计感 + 符号解释 -->
+                <div class="glass p-6 rounded-3xl border-l-4 border-blue-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl"></div>
+                    <h4 class="text-blue-400 font-black flex items-center gap-2 text-lg mb-3">
+                        <span class="w-1.5 h-6 bg-yellow-400 rounded-full"></span> 模式深度解析
+                    </h4>
+                    <p id="modeText" class="text-sm text-gray-200 mb-5 leading-relaxed"></p>
+                    <div class="formula-glow p-4 rounded-xl text-xs md:text-sm relative overflow-x-auto">
+                        <code id="modeFormula" class="text-yellow-400/90 font-mono"></code>
+                    </div>
+                    <!-- 新增符号解释区域 -->
+                    <div id="modeSymbols" class="symbols-desc text-xs"></div>
+                </div>
+            </div>
+
+            <!-- 右侧：核心数据 + 饼图 -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                <!-- 总利息超大卡片 -->
+                <div class="glass p-8 md:p-12 rounded-3xl relative overflow-hidden flex flex-col items-center justify-center min-h-[280px] group">
+                    <!-- 背景装饰 -->
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-yellow-500/5 rounded-full blur-[80px] group-hover:bg-yellow-500/10 transition-all"></div>
+                    <h3 class="text-gray-300 font-medium tracking-wide mb-2 flex items-center gap-1">📋 预计支付总利息</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-7xl md:text-8xl font-black text-gradient interest-giant" id="totalInterestResult">0</span>
+                        <span class="text-3xl text-yellow-600 font-bold ml-4">元</span>
+                    </div>
+
+                    <!-- 首月/每月 和 总合计 双卡片 -->
+                    <div class="grid grid-cols-2 w-full gap-5 mt-12">
+                        <div class="text-center p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                            <p class="text-gray-400 text-xs uppercase mb-1 flex items-center justify-center gap-1">📆 首月 / 月供</p>
+                            <p class="text-2xl md:text-3xl font-bold text-cyan-300 repayment-value" id="monthlyRepayment">0</p>
+                        </div>
+                        <div class="text-center p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                            <p class="text-gray-400 text-xs uppercase mb-1 flex items-center justify-center gap-1">🧾 本息总合计</p>
+                            <p class="text-2xl md:text-3xl font-bold text-blue-400" id="totalAll">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 饼图 + 构成分析 更紧凑精致 -->
+                <div class="glass p-6 rounded-3xl grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+                    <div class="space-y-4 pl-2">
+                        <h4 class="text-xl font-bold flex items-center gap-2"><span class="w-1 h-5 bg-yellow-400 rounded-full"></span>支出构成</h4>
+                        <ul class="space-y-4 text-base">
+                            <li class="flex items-center bg-blue-950/30 p-3 rounded-xl border border-blue-500/10">
+                                <span class="w-4 h-4 bg-blue-500 rounded-full mr-4 shadow-lg shadow-blue-500/50"></span>
+                                <span class="text-gray-300">贷款本金</span>
+                                <span class="ml-auto font-mono font-bold text-white" id="labelPrincipal">0</span>
+                            </li>
+                            <li class="flex items-center bg-yellow-950/30 p-3 rounded-xl border border-yellow-500/10">
+                                <span class="w-4 h-4 bg-yellow-500 rounded-full mr-4 shadow-lg shadow-yellow-500/50"></span>
+                                <span class="text-gray-300">利息支出</span>
+                                <span class="ml-auto font-mono font-bold text-yellow-400" id="labelInterest">0</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="h-52 relative flex items-center justify-center">
+                        <canvas id="loanPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 还款趋势柱状图 区域提升 -->
+        <div class="glass p-7 rounded-3xl chart-container mt-6">
+            <div class="flex flex-wrap justify-between items-end mb-7">
+                <div>
+                    <h4 class="text-2xl md:text-3xl font-black flex items-center gap-2">
+                        <span>📊</span> 还款趋势图 <span class="text-sm font-normal text-gray-400 ml-2">年度分布</span>
+                    </h4>
+                    <p class="text-gray-400 text-sm mt-1 max-w-xl">每个柱状堆叠展示当年偿还的本金与利息，纵览还款结构</p>
+                </div>
+                <div class="flex gap-6 text-sm bg-black/20 p-3 rounded-xl">
+                    <div class="flex items-center"><span class="w-4 h-4 bg-blue-500 rounded-md mr-2 shadow"></span> 本金</div>
+                    <div class="flex items-center"><span class="w-4 h-4 bg-yellow-500 rounded-md mr-2 shadow"></span> 利息</div>
+                </div>
+            </div>
+            <div class="h-80 w-full">
+                <canvas id="loanBarChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 极简脚注 -->
+        <div class="text-center text-gray-600 text-xs mt-6 tracking-wide">
+            ⚡ 实时计算 · 数据可视化 · 适合所有贷款场景
+        </div>
+    </div>
+
+    <!-- 外部脚本文件 -->
+       <script src="/static/js/utility-tools/math/loan-interest-rate-calculator/script-zh.js" defer></script>
+    <script src="/static/js/shared/switchlanguage.js" defer></script>
+</body>
+</html>
