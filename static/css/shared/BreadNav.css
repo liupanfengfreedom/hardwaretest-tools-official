@@ -1,4 +1,4 @@
-/* 现代渐变风格面包屑导航样式 - 适配深色主题 */
+/* 现代渐变风格面包屑导航样式 - 适配深色主题（仿存款利息计算器简约版） */
 .breadcrumb-section {
     display: flex !important;
     justify-content: center !important;
@@ -6,104 +6,85 @@
     margin: 30px 0 !important;
     width: 100% !important;
 }
+
 .breadcrumb-modern {
     display: flex !important;
     flex-wrap: wrap !important;
     align-items: center !important;
     list-style: none !important;
-    padding: 16px 24px !important;
-    background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%) !important;
-    border-radius: 10px !important;
-    border-left: 5px solid #9c27b0 !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+    padding: 12px 20px !important;
     margin: 0 auto !important; /* 居中 */
-    width: fit-content !important; /* 自适应内容宽度 */
-    max-width: 100% !important; /* 防止在小屏幕上溢出 */
-    border: 1px solid #333 !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    /* 透明背景，无边框、无阴影，完全依赖父级深色背景 */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-left: none !important;
 }
 
 .breadcrumb-modern .breadcrumb-item {
     display: flex;
     align-items: center;
+    color: #9ca3af; /* 灰色文字，对应 text-gray-400 */
 }
 
 .breadcrumb-modern .breadcrumb-item + .breadcrumb-item::before {
-    content: "›";
-    font-size: 1.5rem;
-    color: #9c27b0; /* 修改为紫色 */
-    padding: 0 15px;
-    text-shadow: 0 0 8px rgba(156, 39, 176, 0.6); /* 添加紫色发光效果 */
+    content: "/";
+    font-size: 1rem;
+    color: #4b5563; /* 深灰色分隔符，对应 text-gray-600 */
+    padding: 0 12px;
+    font-weight: 400;
 }
 
 .breadcrumb-modern .breadcrumb-link {
-    color: #e0e0e0; /* 浅灰色文字 */
+    color: #9ca3af; /* 灰色 */
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.2s ease;
-    padding: 6px 10px;
-    border-radius: 5px;
+    transition: color 0.2s ease;
+    padding: 4px 8px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    background: rgba(156, 39, 176, 0.1); /* 紫色透明背景 */
-    border: 1px solid rgba(156, 39, 176, 0.2);
+    background: transparent;
+    border: none;
 }
 
 .breadcrumb-modern .breadcrumb-link:hover {
-    color: #ffffff; /* 白色文字 */
-    background-color: rgba(156, 39, 176, 0.3); /* 更深的紫色背景 */
-    border-color: rgba(156, 39, 176, 0.5);
+    color: #60a5fa; /* 蓝色悬停，对应 hover:text-blue-400 */
+    background: transparent;
     text-decoration: none;
-    box-shadow: 0 0 15px rgba(156, 39, 176, 0.4);
-    transform: translateY(-2px);
+    box-shadow: none;
+    transform: none;
 }
 
 .breadcrumb-modern .breadcrumb-link i {
-    margin-right: 8px;
-    font-size: 0.9rem;
-    color: #9c27b0; /* 图标使用紫色 */
+    margin-right: 6px;
+    font-size: 0.85rem;
+    color: #9ca3af; /* 图标灰色，悬停时随文字变蓝 */
+    transition: color 0.2s ease;
+}
+
+.breadcrumb-modern .breadcrumb-link:hover i {
+    color: #60a5fa;
 }
 
 .breadcrumb-modern .breadcrumb-active {
-    color: #ffffff; /* 白色文字 */
+    color: #60a5fa; /* 蓝色，对应 text-blue-400 */
     font-weight: 600;
-    padding: 6px 10px;
-    background: rgba(79, 195, 247, 0.15); /* 浅蓝色背景 */
-    border-radius: 5px;
-    border: 1px solid rgba(79, 195, 247, 0.3);
+    padding: 4px 8px;
+    background: transparent;
+    border: none;
 }
 
 /* 响应式调整 */
 @media (max-width: 768px) {
-    .container {
-        padding: 25px;
-    }
-    
-    h1 { 
-        margin-bottom: 5px; /* 减小间距 */
-        font-weight: 300; 
-        letter-spacing: 1px;
-        font-size: 1.8rem;
-        margin-top: 0; /* 确保顶部没有多余间距 */
-    }
-
-    p { 
-        color: var(--text-dim); 
-        margin-bottom: 15px; /* 减小间距 */
-        font-size: 0.9rem;
-    }
-    
     .breadcrumb-modern {
-        padding: 12px 18px;
+        padding: 10px 16px;
     }
     
     .breadcrumb-modern .breadcrumb-item + .breadcrumb-item::before {
-        padding: 0 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 20px;
+        padding: 0 8px;
     }
     
     .breadcrumb-modern .breadcrumb-link,
@@ -113,6 +94,19 @@
     }
     
     .breadcrumb-modern .breadcrumb-link i {
-        margin-right: 5px;
+        margin-right: 4px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .breadcrumb-modern {
+        padding: 8px 12px;
+    }
+    
+    .breadcrumb-modern .breadcrumb-link,
+    .breadcrumb-modern .breadcrumb-active {
+        font-size: 0.8rem;
+        padding: 3px 5px;
     }
 }
