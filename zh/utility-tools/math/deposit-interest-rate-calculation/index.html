@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO 优化 -->
+    <title>智能存款利息计算器 2025 | 活期复利vs定期单利对比 | 专业金融工具</title>
+    <meta name="description" content="专业存款利息计算器，智能对比活期日复利与定期单利。采用国际金融360天标准，实时显示本息合计、利息收益及年化收益率(APY)。适合储户、理财经理使用。">
+    <meta name="keywords" content="存款利息计算器, 复利计算器, 定期利息, 活期利率, 日复利, 单利计算, 金融工具, 理财计算器, 2025">
+    <meta name="author" content="FinTool">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph / 社交媒体优化 -->
+    <meta property="og:title" content="智能存款利息计算器 - 活期复利对比定期单利">
+    <meta property="og:description" content="精确模拟日复利与单利收益，含图表分析及实际年化(APY)。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630?text=Deposit+Calculator">
+    <meta property="og:url" content="https://yourdomain.com/calculator">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="专业存款利息计算器 | 智能对比版">
+    <meta name="twitter:description" content="快速对比活期复利与定期单利，直观图表展示收益路径。">
+  <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 引入字体 & 基础框架 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 样式表 -->
+    <link rel="stylesheet" href="/static/css/utility-tools/math/deposit-interest-rate-calculation/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+    
+    <!-- 结构化数据 (JSON-LD) 保留在HTML中 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "专业存款利息计算器 - 智能对比版",
+        "description": "基于国际金融360天标准的存款利息计算工具，支持活期日复利与定期单利对比，提供收益图表和实际年化(APY)。",
+        "applicationCategory": "FinanceTool",
+        "operatingSystem": "All",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        },
+        "featureList": [
+            "日复利模拟",
+            "单利计算",
+            "收益图表展示",
+            "实际年化收益率(APY)"
+        ],
+        "screenshot": "https://via.placeholder.com/800x600?text=Calculator+Screenshot",
+        "softwareVersion": "2.0"
+    }
+    </script>
+</head>
+<body class="p-4 md:p-10 text-slate-700 antialiased">
+     <!-- 面包屑导航 -->
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> 实用工具
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-key"></i> 存款利息计算器</span>
+            </li>
+        </ol>
+    </nav>
+    
+    <!-- 语言切换器 -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/math/password-generator/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option" href="/en/utility-tools/math/password-generator/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+    <!-- 隐藏式H1 -->
+    <h1 class="sr-only">专业存款利息计算器 - 活期复利与定期单利对比工具</h1>
+    <div class="max-w-7xl mx-auto relative">
+        <!-- 装饰背景元素 -->
+        <div class="absolute -top-10 -left-10 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute -bottom-10 -right-10 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10"></div>
+        
+        <!-- 头部区域 更精致 -->
+        <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-8 bg-indigo-500 rounded-full"></span>
+                    <h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">存款利息计算器</h1>
+                </div>
+                <p class="text-slate-500 ml-3 text-base flex items-center gap-2">
+                    <span class="inline-flex gap-1">智能利率切换 · 活期复利与定期单利深度模型</span>
+                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                    <span class="text-indigo-500 text-sm font-medium bg-indigo-50 px-3 py-0.5 rounded-full">360天标准</span>
+                </p>
+            </div>
+            <div class="bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm px-5 py-3 rounded-2xl flex items-center gap-2">
+                <span class="text-amber-500 text-lg">💎</span>
+                <span class="text-sm font-semibold text-slate-700">算法：<span class="text-indigo-600">国际金融360天</span></span>
+            </div>
+        </header>
+
+        <!-- 主内容区 使用柔和卡片+微光 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- 左侧：参数配置区 美化卡片 -->
+            <div class="lg:col-span-4 space-y-6" role="form" aria-label="计算参数设置">
+                <div class="card-glow rounded-3xl shadow-xl bg-white/90 p-7 border border-white/60">
+                    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-7 flex items-center gap-2">
+                        <span class="w-1 h-4 bg-indigo-400 rounded-full"></span> 配置参数
+                    </h2>
+                    <div class="space-y-6">
+                        <!-- 本金 -->
+                        <div>
+                            <label for="principal" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5">
+                                <span>💰</span> 存款本金 <span class="text-xs text-slate-400 font-normal">(元)</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">¥</span>
+                                <input type="number" id="principal" value="100000" class="focus-ring w-full pl-12 pr-5 py-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl transition-all" min="0" step="1000" aria-describedby="principalHelp">
+                            </div>
+                            <div id="principalHelp" class="text-xs text-slate-400 mt-2">输入本金，最低0元</div>
+                        </div>
+                        <!-- 年利率 + 动态标签 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label for="rate" class="text-sm font-semibold text-slate-600 flex items-center gap-1.5"><span>📊</span> 年利率 (%)</label>
+                                <span id="rateTag" class="text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm">活期推荐</span>
+                            </div>
+                            <input type="number" id="rate" value="0.35" step="0.01" min="0" max="20" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl text-indigo-600 transition-all" aria-describedby="rateHelp">
+                            <div id="rateHelp" class="text-xs text-slate-400 mt-2">年利率百分比 (例: 0.35 = 0.35%)</div>
+                        </div>
+                        <!-- 存期 双列 -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="term" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"><span>⏳</span> 存期</label>
+                                <input type="number" id="term" value="1" min="0" step="1" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl" aria-label="存期数量">
+                            </div>
+                            <div>
+                                <label for="termUnit" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"><span>📅</span> 单位</label>
+                                <select id="termUnit" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold cursor-pointer appearance-none" aria-label="存期单位">
+                                    <option value="year">年</option>
+                                    <option value="month">月</option>
+                                    <option value="day">天</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 产品类型 用更精致卡片切换 -->
+                        <div class="pt-2">
+                            <fieldset>
+                                <legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"><span>🧩</span> 产品类型</legend>
+                                <div class="grid grid-cols-2 gap-3 p-1.5 bg-slate-100/80 rounded-2xl">
+                                    <label class="radio-option flex-1 text-center">
+                                        <input type="radio" name="calcMethod" value="compound" checked class="sr-only peer">
+                                        <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-indigo-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📈 日复利 (活期)</div>
+                                    </label>
+                                    <label class="radio-option flex-1 text-center">
+                                        <input type="radio" name="calcMethod" value="simple" class="sr-only peer">
+                                        <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📐 单利 (定期)</div>
+                                    </label>
+                                </div>
+                                <div class="sr-only" id="compoundDesc">选择后按日复利计算，适合活期存款模拟</div>
+                                <div class="sr-only" id="simpleDesc">选择后按单利计算，适合定期存款模拟</div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 提示卡片 - 完全重新设计，毛玻璃+渐变 -->
+                <div id="tipsCard" class="rounded-3xl p-7 bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl border border-slate-700/50 backdrop-blur-sm" aria-label="算法提示">
+                    <noscript>
+                        <div class="flex items-center gap-2 mb-3 font-bold text-indigo-300">💡 活期复利逻辑</div>
+                        <p class="text-sm leading-relaxed text-slate-300">本计算器支持日复利与单利对比，请启用JavaScript获得完整功能。</p>
+                    </noscript>
+                </div>
+            </div>
+
+            <!-- 右侧：结果区 重构为更细腻卡片 -->
+            <div class="lg:col-span-8 space-y-6">
+                <!-- 三个结果卡片 提升视觉层次 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-center">
+                    <div class="group bg-gradient-to-br from-indigo-600 to-indigo-500 p-6 rounded-3xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                        <p class="text-indigo-100 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>💰</span> 预计本息合计</p>
+                        <p id="resTotal" class="text-3xl font-bold font-mono tracking-tight">¥ 100,000.00</p>
+                        <div class="w-12 h-0.5 bg-white/30 mx-auto mt-3 rounded-full"></div>
+                    </div>
+                    <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>✨</span> 预期利息收益</p>
+                        <p id="resInterest" class="text-3xl font-bold text-emerald-500 font-mono">¥ 0.00</p>
+                        <div class="w-12 h-0.5 bg-emerald-200 mx-auto mt-3 rounded-full"></div>
+                    </div>
+                    <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>📈</span> 实际年化 (APY)</p>
+                        <p id="resApy" class="text-3xl font-bold text-slate-800 font-mono">0.35%</p>
+                        <div class="w-12 h-0.5 bg-indigo-200 mx-auto mt-3 rounded-full"></div>
+                    </div>
+                </div>
+
+                <!-- 图表卡片 加玻璃态 -->
+                <div class="bg-white/80 backdrop-blur-sm p-7 rounded-3xl border border-white/60 shadow-xl">
+                    <div class="flex items-center gap-2 mb-6">
+                        <span class="w-1 h-6 bg-indigo-400 rounded-full"></span>
+                        <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider">📊 收益增长路径 (月度展示)</h2>
+                    </div>
+                    <div class="h-[320px] w-full relative">
+                        <canvas id="growthChart" role="img" aria-label="收益曲线图" class="w-full h-full"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-4 text-center border-t border-slate-100 pt-3">* 图表按月展示，复利为日复利模拟，单利为直线增长；最终点标记数值。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部描述区块 优化成圆角卡片 -->
+        <div class="mt-16 text-sm bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 grid md:grid-cols-3 gap-8 shadow-inner">
+            <div class="flex gap-3">
+                <span class="text-indigo-500 text-xl">🔹</span>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-1">活期日复利</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">按国际金融360天标准，每日计息并滚入本金。适合活期存款、余额宝等产品收益模拟。实际年化(APY)高于名义利率。</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <span class="text-emerald-500 text-xl">🔸</span>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-1">定期单利</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">定期存款常用计息方式，利息不参与复投。适合大额存单、普通定期收益计算。图表呈直线增长。</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <span class="text-amber-500 text-xl">📊</span>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-1">智能对比</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">切换产品类型时自动填入典型利率(活期0.35%/定期2.75%)，帮助您快速决策。所有结果精确到分。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 简约footer -->
+        <footer class="text-center text-xs text-slate-400 mt-10 border-t border-slate-200/70 pt-6 flex justify-between items-center">
+            <p>© 2025 专业存款利息计算器 — 基于国际金融360天标准</p>
+            <p class="flex gap-2"><span class="w-1.5 h-1.5 bg-indigo-300 rounded-full"></span> 数据仅供参考，以银行实际为准</p>
+        </footer>
+    </div>
+
+  
+    <!-- 本地脚本 -->
+    <script src="/static/js/utility-tools/math/deposit-interest-rate-calculation/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
