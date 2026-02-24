@@ -86,8 +86,8 @@ function updateUI() {
     }
 
     // Update result cards
-    document.getElementById('resTotal').innerText = `¥ ${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-    document.getElementById('resInterest').innerText = `¥ ${(currentBalance - principal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    document.getElementById('resTotal').innerText = `$ ${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    document.getElementById('resInterest').innerText = `$ ${(currentBalance - principal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     
     // APY calculation: for compound it's (1+dailyRate)^360 -1, for simple it's just the nominal rate
     const apy = (method === 'compound') ? (Math.pow(1 + dailyRate, 360) - 1) * 100 : rate;
@@ -133,7 +133,7 @@ function renderChart(labels, data, color) {
             ctx.stroke();
 
             // Format value as currency
-            const formattedValue = '¥ ' + Number(lastValue).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            const formattedValue = '$ ' + Number(lastValue).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             ctx.font = '600 13px "Inter", "JetBrains Mono", monospace';
             ctx.textAlign = 'right';
             ctx.textBaseline = 'bottom';
@@ -188,7 +188,7 @@ function renderChart(labels, data, color) {
                     backgroundColor: '#1e293b', 
                     titleColor: '#f1f5f9',
                     callbacks: {
-                        label: (context) => `¥ ${Number(context.raw).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+                        label: (context) => `$ ${Number(context.raw).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
                     }
                 }
             },
@@ -198,7 +198,7 @@ function renderChart(labels, data, color) {
                     suggestedMax: Math.max(...data.map(Number)) * 1.05, 
                     grid: { color: '#e2e8f020' },
                     ticks: {
-                        callback: (value) => '¥' + value.toLocaleString()
+                        callback: (value) => '$' + value.toLocaleString()
                     }
                 } 
             }

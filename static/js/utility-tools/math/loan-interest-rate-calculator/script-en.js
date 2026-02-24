@@ -1,231 +1,224 @@
-let myChart = null;
+// script-en.js — English version of Loan Interest Calculator
+(function() {
+    let currentMode = 'equalInterest';
+    let pieChart = null;
+    let barChart = null;
 
-/**
- * Update the tips card and rate tag based on selected method (compound/simple)
- * @param {string} method - 'compound' or 'simple'
- * @param {number} rate - current annual rate
- */
-function updateTips(method, rate) {
-    const tipsCard = document.getElementById('tipsCard');
-    const rateTag = document.getElementById('rateTag');
-    
-    if (method === 'compound') {
-        rateTag.innerText = "Current typical";
-        rateTag.className = "text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm";
-        tipsCard.innerHTML = `
-            <div class="flex items-center gap-3 mb-4">
-                <span class="w-2 h-2 bg-indigo-400 rounded-full"></span>
-                <span class="font-bold text-indigo-300 text-sm tracking-wider">💡 Daily Compound Logic</span>
-            </div>
-            <p class="text-sm leading-relaxed text-slate-300">
-                Although <b class="text-white">current accounts</b> offer a lower nominal rate (typically 0.2% – 0.35%), they often apply <b class="text-white">daily compounding</b>: each day's small interest is added to the principal, earning interest thereafter – "interest on interest".
-            </p>
-            <div class="mt-5 pt-4 border-t border-white/20 text-xs text-slate-400 flex justify-between">
-                <span>Daily interest formula</span>
-                <span class="font-mono text-indigo-300">Daily interest = balance × (${rate}% / 360)</span>
-            </div>
-        `;
-    } else {
-        rateTag.innerText = "Fixed typical";
-        rateTag.className = "text-[11px] px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full font-medium shadow-sm";
-        tipsCard.innerHTML = `
-            <div class="flex items-center gap-3 mb-4">
-                <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
-                <span class="font-bold text-emerald-300 text-sm tracking-wider">💎 Fixed Deposit Simple Interest</span>
-            </div>
-            <p class="text-sm leading-relaxed text-slate-300">
-                <b class="text-white">Fixed deposits</b> offer higher rates (e.g., 2.75%), but banks typically use <b class="text-white">simple interest</b>. Interest does not compound; it grows linearly over the term.
-            </p>
-            <div class="mt-5 pt-4 border-t border-white/20 text-xs text-slate-400 flex justify-between">
-                <span>Total interest formula</span>
-                <span class="font-mono text-emerald-300">Interest = Principal × ${rate}% × years</span>
-            </div>
-        `;
-    }
-}
-
-/**
- * Main function: read inputs, calculate, update UI and chart
- */
-function updateUI() {
-    const principal = parseFloat(document.getElementById('principal').value) || 0;
-    const rate = parseFloat(document.getElementById('rate').value) || 0;
-    const term = parseInt(document.getElementById('term').value) || 0;
-    const unit = document.getElementById('termUnit').value;
-    const method = document.querySelector('input[name="calcMethod"]:checked').value;
-
-    updateTips(method, rate);
-
-    // Convert term to total days using 360-day convention (30-day month)
-    let totalDays = (unit === 'year') ? term * 360 : (unit === 'month' ? term * 30 : term);
-    const dailyRate = (rate / 100) / 360;
-    
-    let currentBalance = principal;
-    let labels = ['Start'];                 // English label for initial point
-    let dataPoints = [principal];
-
-    if (method === 'compound') {
-        // Simulate daily compounding, aggregate by month
-        for (let m = 1; m <= Math.ceil(totalDays/30); m++) {
-            for(let d = 1; d <= 30; d++) {
-                currentBalance *= (1 + dailyRate);
-            }
-            labels.push(`Month ${m}`);       // English month label
-            dataPoints.push(currentBalance.toFixed(2));
-        }
-    } else {
-        // Simple interest, also monthly points
-        for (let m = 1; m <= Math.ceil(totalDays/30); m++) {
-            labels.push(`Month ${m}`);
-            // simple interest accumulated up to this month
-            let balanceAtMonth = principal + (principal * dailyRate * m * 30);
-            dataPoints.push(balanceAtMonth.toFixed(2));
-        }
-        // final balance using exact total days
-        currentBalance = principal + (principal * dailyRate * totalDays);
-    }
-
-    // Update result cards
-    document.getElementById('resTotal').innerText = `¥ ${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-    document.getElementById('resInterest').innerText = `¥ ${(currentBalance - principal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-    
-    // APY calculation: for compound it's (1+dailyRate)^360 -1, for simple it's just the nominal rate
-    const apy = (method === 'compound') ? (Math.pow(1 + dailyRate, 360) - 1) * 100 : rate;
-    document.getElementById('resApy').innerText = `${apy.toFixed(4)}%`;
-
-    renderChart(labels, dataPoints, method === 'compound' ? '#4f46e5' : '#10b981');
-}
-
-/**
- * Renders the line chart with custom last-point marker and value label
- * @param {Array} labels - x-axis labels (months)
- * @param {Array} data - y-axis data points
- * @param {string} color - line color (indigo for compound, emerald for simple)
- */
-function renderChart(labels, data, color) {
-    const ctx = document.getElementById('growthChart').getContext('2d');
-    if (myChart) myChart.destroy();
-
-    // Custom plugin to draw a dashed horizontal line and a floating label at the last point
-    const lastPointLinePlugin = {
-        id: 'lastPointLine',
-        afterDraw: (chart) => {
-            const ctx = chart.ctx;
-            const meta = chart.getDatasetMeta(0);
-            if (!meta.data || meta.data.length === 0) return;
-
-            const lastPoint = meta.data[meta.data.length - 1];
-            const lastValue = chart.data.datasets[0].data[meta.data.length - 1];
-
-            const y = lastPoint.y;
-            const leftX = chart.chartArea.left;
-            const rightX = chart.chartArea.right;
-
-            ctx.save();
-            
-            // Dashed horizontal line at the level of last point
-            ctx.beginPath();
-            ctx.setLineDash([5, 5]);
-            ctx.moveTo(leftX, y);
-            ctx.lineTo(rightX, y);
-            ctx.lineWidth = 1.5;
-            ctx.strokeStyle = color + '80';
-            ctx.stroke();
-
-            // Format value as currency
-            const formattedValue = '¥ ' + Number(lastValue).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            ctx.font = '600 13px "Inter", "JetBrains Mono", monospace';
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'bottom';
-            
-            // Background for the label
-            const textWidth = ctx.measureText(formattedValue).width;
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-            ctx.shadowColor = 'rgba(0,0,0,0.1)';
-            ctx.shadowBlur = 8;
-            ctx.fillRect(rightX - textWidth - 12, y - 30, textWidth + 16, 26);
-            ctx.shadowColor = 'transparent';
-            
-            // Value text
-            ctx.fillStyle = color;
-            ctx.fillText(formattedValue, rightX - 6, y - 10);
-            
-            // Highlight last point with a white ring
-            ctx.beginPath();
-            ctx.arc(lastPoint.x, lastPoint.y, 6, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = color + '60';
-            ctx.fill();
-            ctx.lineWidth = 2.5;
-            ctx.strokeStyle = color;
-            ctx.stroke();
-
-            ctx.restore();
+    const modes = {
+        equalInterest: {
+            name: "Equal Payment",
+            desc: "Fixed monthly payment. Interest portion is higher in early stages, suitable for borrowers with stable long-term income.",
+            formula: "M = P × [r(1+r)^n] / [(1+r)^n - 1]",
+            symbols: "P: principal | r: monthly rate (annual/12) | n: total months | M: monthly payment"
+        },
+        equalPrincipal: {
+            name: "Decreasing Principal",
+            desc: "Fixed principal portion each month, interest decreases with principal. Lowest total interest but higher initial payments.",
+            formula: "Mₜ = (P/n) + (P - paid principalₜ₋₁) × r",
+            symbols: "P: principal | n: total months | r: monthly rate | Mₜ: payment in month t"
+        },
+        interestFirst: {
+            name: "Interest Only",
+            desc: "Pay only interest each month, repay full principal at the end. High capital efficiency, ideal for short-term business.",
+            formula: "Monthly interest = P × r",
+            symbols: "P: principal | r: monthly rate | final payment = principal + monthly interest"
+        },
+        lumpSum: {
+            name: "Lump Sum",
+            desc: "Pay all principal and accrued interest at maturity. No intermediate payments.",
+            formula: "Total repayment = P × (1 + annual rate × years)",
+            symbols: "P: principal | annual rate: input rate | years: loan term in years"
         }
     };
 
-    myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                borderColor: color,
-                backgroundColor: color + '15',
-                fill: true,
-                tension: 0.4,
-                borderWidth: 3,
-                pointRadius: 0
-            }]
-        },
-        options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            plugins: { 
-                legend: { display: false },
-                tooltip: { 
-                    backgroundColor: '#1e293b', 
-                    titleColor: '#f1f5f9',
-                    callbacks: {
-                        label: (context) => `¥ ${Number(context.raw).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
-                    }
-                }
-            },
-            scales: { 
-                x: { ticks: { autoSkip: true, maxTicksLimit: 8, color: '#475569' } },
-                y: { 
-                    suggestedMax: Math.max(...data.map(Number)) * 1.05, 
-                    grid: { color: '#e2e8f020' },
-                    ticks: {
-                        callback: (value) => '¥' + value.toLocaleString()
-                    }
-                } 
-            }
-        },
-        plugins: [lastPointLinePlugin]
-    });
-}
+    function formatCurrency(num) {
+        // Use en-US formatting with 2 decimal places (e.g., 1,234,567.89)
+        return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(num);
+    }
 
-// ----- Event listeners -----
+    window.switchMode = function(mode) {
+        currentMode = mode;
+        document.querySelectorAll('[id^="tab-"]').forEach(btn => btn.classList.remove('active-tab'));
+        document.getElementById(`tab-${mode}`).classList.add('active-tab');
+        document.getElementById('modeText').innerText = modes[mode].desc;
+        document.getElementById('modeFormula').innerText = modes[mode].formula;
+        document.getElementById('modeSymbols').innerHTML = '🔍 ' + modes[mode].symbols;
+        calculate();
+    };
 
-// Radio buttons: change rate to typical values when product type changes
-document.querySelectorAll('input[name="calcMethod"]').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-        const rateInput = document.getElementById('rate');
-        if (e.target.value === 'compound') {
-            rateInput.value = "0.35";
-        } else {
-            rateInput.value = "2.75";
+    function calculate() {
+        const P = parseFloat(document.getElementById('amountInput').value) || 0;
+        const annualRate = parseFloat(document.getElementById('rateInput').value) / 100 || 0;
+        const years = parseInt(document.getElementById('yearsInput').value) || 1;
+        const months = years * 12;
+        const r = annualRate / 12;
+
+        let totalInterest = 0;
+        let firstMonthPayment = 0;
+        let yearlyData = [];
+
+        let remainingP = P;
+        let tempYearlyP = 0;
+        let tempYearlyI = 0;
+
+        // Precompute equal payment monthly amount if needed
+        let monthlyMEqual = 0;
+        if (currentMode === 'equalInterest' && r > 0 && months > 0) {
+            monthlyMEqual = P * r * Math.pow(1 + r, months) / (Math.pow(1 + r, months) - 1);
+        } else if (currentMode === 'equalInterest' && r === 0) {
+            monthlyMEqual = P / months;
         }
-        updateUI();
-    });
-});
 
-// Input fields: update on any change
-['principal', 'rate', 'term', 'termUnit'].forEach(id => {
-    document.getElementById(id).addEventListener('input', updateUI);
-});
+        for (let i = 1; i <= months; i++) {
+            let mP = 0, mI = 0;
 
-// Initial calculation
-updateUI();
+            if (currentMode === 'equalInterest') {
+                if (r === 0) {
+                    mP = P / months;
+                    mI = 0;
+                } else {
+                    mI = remainingP * r;
+                    mP = monthlyMEqual - mI;
+                }
+                if (i === 1) firstMonthPayment = monthlyMEqual;
+            } 
+            else if (currentMode === 'equalPrincipal') {
+                mP = P / months;
+                mI = remainingP * r;
+                if (i === 1) firstMonthPayment = mP + mI;
+                if (i === months) {
+                    const lastM = mP + mI;
+                    // Show range for decreasing principal: first month ... last month
+                    firstMonthPayment = `${formatCurrency(firstMonthPayment)} ... ${formatCurrency(lastM)}`;
+                }
+            } 
+            else if (currentMode === 'interestFirst') {
+                mI = P * r;
+                mP = (i === months) ? P : 0;
+                if (i === 1) firstMonthPayment = P * r;
+            } 
+            else if (currentMode === 'lumpSum') {
+                // Lump sum: total interest spread over months for chart smoothness
+                const totalInterestLS = P * annualRate * years;
+                mI = totalInterestLS / months;
+                mP = (i === months) ? P : 0;
+                if (i === 1) firstMonthPayment = 0;   // No payment until maturity
+            }
+
+            tempYearlyP += mP;
+            tempYearlyI += mI;
+            remainingP -= mP;
+            totalInterest += mI;
+
+            if (i % 12 === 0 || i === months) {
+                yearlyData.push({
+                    year: `Year ${Math.ceil(i/12)}`,
+                    principal: tempYearlyP,
+                    interest: tempYearlyI
+                });
+                tempYearlyP = 0;
+                tempYearlyI = 0;
+            }
+        }
+
+        // Update DOM
+        animateValue("totalInterestResult", 0, totalInterest, 600);
+        // If firstMonthPayment is a string (range), keep as is; else format number
+        if (typeof firstMonthPayment === 'string') {
+            document.getElementById('monthlyRepayment').innerHTML = firstMonthPayment;
+        } else {
+            document.getElementById('monthlyRepayment').innerHTML = formatCurrency(firstMonthPayment);
+        }
+        document.getElementById('totalAll').innerText = formatCurrency(P + totalInterest);
+        document.getElementById('labelPrincipal').innerText = formatCurrency(P);
+        document.getElementById('labelInterest').innerText = formatCurrency(totalInterest);
+
+        updateCharts(P, totalInterest, yearlyData);
+    }
+
+    function animateValue(id, start, end, duration) {
+        const obj = document.getElementById(id);
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            obj.innerHTML = formatCurrency(Math.floor(progress * (end - start) + start));
+            if (progress < 1) window.requestAnimationFrame(step);
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    function updateCharts(principal, interest, yearlyData) {
+        // Pie chart
+        const ctxPie = document.getElementById('loanPieChart').getContext('2d');
+        if (pieChart) pieChart.destroy();
+        pieChart = new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ['Principal', 'Interest'],
+                datasets: [{
+                    data: [principal, interest],
+                    backgroundColor: ['#3b82f6', '#fbbf24'],
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    spacing: 5,
+                    offset: [0, 15]
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0f172a', titleColor: '#f1f5f9' } },
+                layout: { padding: 5 }
+            }
+        });
+
+        // Bar chart (yearly stacked)
+        const ctxBar = document.getElementById('loanBarChart').getContext('2d');
+        if (barChart) barChart.destroy();
+        barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: yearlyData.map(d => d.year),
+                datasets: [
+                    { label: 'Principal', data: yearlyData.map(d => d.principal), backgroundColor: '#3b82f6', stack: 'stack', borderRadius: 8, barPercentage: 0.65 },
+                    { label: 'Interest', data: yearlyData.map(d => d.interest), backgroundColor: '#fbbf24', stack: 'stack', borderRadius: 8, barPercentage: 0.65 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true, grid: { display: false, drawBorder: false }, ticks: { color: '#94a3b8', font: { size: 11 } } },
+                    y: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+                },
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } }
+            }
+        });
+    }
+
+    // Bind range sliders and number inputs
+    function bindInput(rangeId, inputId) {
+        const range = document.getElementById(rangeId);
+        const input = document.getElementById(inputId);
+        range.addEventListener('input', () => { input.value = range.value; calculate(); });
+        input.addEventListener('input', () => { 
+            let val = parseFloat(input.value) || (inputId.includes('years') ? 1 : 0);
+            if (inputId.includes('years') && val < 1) val = 1;
+            if (inputId.includes('years') && val > 30) val = 30;
+            if (inputId.includes('rate') && val > 24) val = 24;
+            if (inputId.includes('rate') && val < 0.1) val = 0.1;
+            if (inputId.includes('amount') && val > 10000000) val = 10000000;
+            if (inputId.includes('amount') && val < 10000) val = 10000;
+            input.value = val;
+            range.value = val;
+            calculate();
+        });
+    }
+
+    bindInput('amountRange', 'amountInput');
+    bindInput('rateRange', 'rateInput');
+    bindInput('yearsRange', 'yearsInput');
+
+    // Initialize with equal payment mode
+    window.switchMode('equalInterest');
+})();
