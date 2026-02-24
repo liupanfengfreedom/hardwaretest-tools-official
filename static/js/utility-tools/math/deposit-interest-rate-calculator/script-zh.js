@@ -17,7 +17,7 @@ function updateTips(method, rate) {
             </p>
             <div class="mt-5 pt-4 border-t border-white/20 text-xs text-slate-400 flex justify-between">
                 <span>当日利息公式</span>
-                <span class="font-mono text-indigo-300">余额 × (${rate}% / 360)</span>
+                <span class="font-mono text-indigo-300">当日利息 = 余额 × (${rate}% / 360)</span>
             </div>
         `;
     } else {
@@ -33,7 +33,7 @@ function updateTips(method, rate) {
             </p>
             <div class="mt-5 pt-4 border-t border-white/20 text-xs text-slate-400 flex justify-between">
                 <span>总利息公式</span>
-                <span class="font-mono text-emerald-300">本金 × ${rate}% × 年数</span>
+                <span class="font-mono text-emerald-300">总利息 = 本金 × ${rate}% × 年数</span>
             </div>
         `;
     }
