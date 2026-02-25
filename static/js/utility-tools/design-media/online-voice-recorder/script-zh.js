@@ -214,7 +214,7 @@ function showSourceActive(label) {
 }
 function showSourceIdle() {
   document.getElementById('sourceDisplay').innerHTML =
-    `<div class="source-empty">尚未选择音频源 — 点击 REC 后在弹窗中选择共享目标并勾选「分享音频」</div>`;
+    `<div class="source-empty">尚未选择音频源 — 点击录音后在弹窗中选择共享目标并勾选「分享音频」</div>`;
 }
 
 function setUI(rec) {
@@ -612,18 +612,57 @@ window.stopRecording = function() {
   if (sourceSelect) sourceSelect.disabled = false;
 };
 
-// ---------- 增强 setUI：状态文本动态显示来源 ----------
+// ---------- 增强 setUI：状态文本动态显示来源，按钮文字中文 ----------
 const originalSetUI = window.setUI;
 window.setUI = function(rec) {
   const btn = document.getElementById('recBtn');
   btn.classList.toggle('recording', rec);
-  document.getElementById('recBtnText').textContent = rec ? 'STOP' : 'REC';
+  document.getElementById('recBtnText').textContent = rec ? '停止' : '录音';
   document.getElementById('statusDot').classList.toggle('live', rec);
   const source = document.getElementById('sourceSelect')?.value;
   const sourceText = source === 'mic' ? '麦克风' : '系统音频';
   document.getElementById('statusText').textContent = rec
-    ? `RECORDING · 正在录制 ${sourceText}`
-    : 'STANDBY · 等待启动';
+    ? `录音中 · ${sourceText}`
+    : '待机 · 等待启动';
+};
+
+// ---------- 重写 showSourceIdle 使用中文 ----------
+window.showSourceIdle = function() {
+  document.getElementById('sourceDisplay').innerHTML =
+    `<div class="source-empty">尚未选择音频源 — 点击录音后在弹窗中选择共享目标并勾选「分享音频」</div>`;
+};
+
+// ---------- 重写 renderList 使空状态文本中文 ----------
+window.renderList = function() {
+  const c = document.getElementById('recordingsList');
+  document.getElementById('recCount').textContent = `${recordings.length} 条录音`;
+  if (!recordings.length) {
+    c.innerHTML = '<div class="empty-state">暂无录音 · 按录音并在弹窗中选择音频源</div>';
+    return;
+  }
+  c.innerHTML = recordings.map((r, i) => `
+    <div class="recording-item" id="item-${i}">
+      <div class="rec-num">${i + 1}</div>
+      <button class="ri-play-btn" id="play-${i}" onclick="togglePlay(${i})" title="播放/暂停">
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" id="play-icon-${i}"><polygon points="0,0 12,7 0,14"/></svg>
+      </button>
+      <div class="ri-time" id="time-${i}">0:00 / ${fmtShort(r.dur)}</div>
+      <div class="ri-scrubber-wrap" id="scrub-${i}">
+        <div class="ri-track"><div class="ri-fill" id="fill-${i}"></div></div>
+        <div class="ri-thumb" id="thumb-${i}"></div>
+      </div>
+      <button class="ri-vol-btn" id="vol-${i}" onclick="toggleMute(${i})" title="静音">🔊</button>
+      <select class="ri-fmt-select" id="fmt-${i}">
+        <option value="webm">WEBM</option>
+        <option value="wav">WAV</option>
+        <option value="ogg">OGG</option>
+        <option value="mp3">MP3</option>
+      </select>
+      <button class="ri-export-btn" onclick="exportItem(${i})">
+        <svg width="11" height="12" viewBox="0 0 11 12" fill="currentColor"><path d="M5.5 8L1 3.5h3V0h3v3.5h3L5.5 8z"/><rect x="0" y="10" width="11" height="2"/></svg>导出
+      </button>
+    </div>`).join('');
+  bindScrubbers();
 };
 
 // ---------- 确保 toggleRecording 使用新函数 ----------

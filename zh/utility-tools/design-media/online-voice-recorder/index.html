@@ -1,129 +1,334 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUDIO REC · 双源音频</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.0/css/all.min.css">
-<!-- 样式表 (保持不变) -->
-<link rel="stylesheet" href="/static/css/utility-tools/design-media/online-voice-recorder/style.css">
-<link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-<link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-<link rel="stylesheet" href="/static/css/shared/NavCard.css">
-<link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-<link rel="stylesheet" href="/static/css/shared/document.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO 基础优化 -->
+    <title>在线音频录制工具 - 录制系统声音或麦克风 | 音频工作室</title>
+    <meta name="description" content="免费在线音频录制工具，无需安装软件即可录制系统声音或麦克风。支持定时停止、多种导出格式（WEBM/WAV/MP3），实时波形可视化。兼容Chrome/Edge，macOS需配合BlackHole。">
+    <meta name="keywords" content="在线录音, 系统声音录制, 麦克风测试, 免费录音工具, 网页录音, 音频捕获, 屏幕共享音频">
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-J9HR7CNQR9');
-</script>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="在线音频录制工具 - 录制系统声音或麦克风">
+    <meta property="og:description" content="无需额外软件，录制系统声音或麦克风。支持定时、多种格式导出，实时波形反馈。">
+    <meta property="og:image" content="https://starryring.com/static/image/og/voice-recorder-preview.png">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/design-media/online-voice-recorder/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="在线音频录制工具 - 录制系统声音或麦克风">
+    <meta name="twitter:description" content="无需额外软件，录制系统声音或麦克风。支持定时、多种格式导出，实时波形反馈。">
+    <meta name="twitter:image" content="https://starryring.com/static/image/og/voice-recorder-preview.png">
+
+    <!-- 多语言与规范链接 -->
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/design-media/online-voice-recorder/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/online-voice-recorder/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/online-voice-recorder/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/online-voice-recorder/">
+
+    <!-- Favicon / 网站图标 -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- 字体与图标库 -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 原有样式表 -->
+    <link rel="stylesheet" href="/static/css/utility-tools/design-media/online-voice-recorder/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+
+    <!-- 结构化数据 (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "在线音频录制工具",
+                "description": "免费在线工具，可录制系统声音或麦克风，无需安装软件。支持定时停止、导出为WEBM/WAV/MP3，实时波形可视化。",
+                "applicationCategory": "MultimediaApplication",
+                "operatingSystem": ["Windows", "macOS", "Chrome OS", "Linux"],
+                "url": "https://starryring.com/zh/utility-tools/design-media/online-voice-recorder/",
+                "image": "https://starryring.com/static/image/og/voice-recorder-preview.png",
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "录制系统音频（需共享屏幕并勾选系统音频）",
+                    "录制麦克风（直接授权）",
+                    "定时停止录制（秒/分钟/小时）",
+                    "导出格式：WEBM / WAV / MP3",
+                    "实时波形可视化与VU表",
+                    "无需安装任何软件",
+                    "录音列表管理"
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "如何录制系统声音？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "在音频来源中选择“系统音频”，然后点击录音按钮。浏览器会弹出共享选择对话框，您需要选择分享整个屏幕、某个窗口或Chrome标签页，并务必勾选底部的“同时分享系统音频”选项。确认后即可开始录制系统音频。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "为什么我录不到系统声音？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "最常见的原因是在共享弹窗中没有勾选“分享音频”。请仔细查看弹窗底部是否有类似“同时分享系统音频”的复选框，并确保勾选。此外，macOS用户需要安装BlackHole虚拟声卡；Firefox浏览器不支持系统音频捕获，请使用Chrome或Edge。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "浏览器共享弹窗有哪些选项？如何操作？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "点击录音后，浏览器会弹出如下对话框：顶部提示“选择要分享的内容”，下方有三个选项卡：“Chrome标签页”、“窗口”、“整个屏幕”。您可以选择任意一项，但为了录制系统音频，建议选择“整个屏幕”或包含声音输出的窗口。最关键的是底部的“同时分享系统音频”复选框，必须勾选它才能捕获系统声音。最后点击“分享”按钮开始录制。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "支持哪些导出格式？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "您可以在设置区域选择自动导出格式：WEBM（原画质）、WAV（无损格式）、MP3（标准压缩格式）。若不选择自动导出，录音会保存在下方列表中，您可以后续手动导出。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "定时停止功能如何使用？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "在“定时停止”输入框中填写数字，并选择单位（秒/分钟/小时）。例如输入5并选择“分钟”，则录制将在5分钟后自动停止。输入0或不填表示手动停止。"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
-<div class="container">
-
-  <header>
-    <h1>SYS·REC</h1>
-    <div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--muted);text-shadow:0 2px 4px black;">DUAL AUDIO CAPTURE</div>
-      <div class="subtitle">系统声音 / 麦克风 · 无需额外软件</div>
+    <!-- 面包屑导航 -->
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/utility-tools/" class="breadcrumb-link">
+                    <i class="fas fa-toolbox"></i> 实用工具
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active"><i class="fas fa-microphone-alt"></i> 音频录制</span>
+            </li>
+        </ol>
+    </nav>
+    
+    <!-- 语言切换器（保留英文选项，但界面已全中文） -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/design-media/online-voice-recorder/" data-lang="zh">中文版</a>
+            <a class="language-option" href="/en/utility-tools/design-media/online-voice-recorder/" data-lang="en">English</a>
+        </div>
     </div>
-  </header>
 
-  <!-- How-to 卡片 -->
-  <div class="how-card">
-    <div style="color:var(--accent);font-size:10px;letter-spacing:3px;margin-bottom:12px;text-transform:uppercase">// 使用前须知</div>
-    <span class="os-tag">系统</span> 点击 <strong>REC</strong> 后，在弹窗中选择任意标签页 → 勾选底部 <strong>「分享音频」</strong> 确认共享<br>
-    <span class="os-tag">Edge</span> 选择屏幕或窗口 → 勾选 <strong>「共享系统音频」</strong><br>
-    <span class="os-tag">macOS</span> 系统音频需借助 <strong>BlackHole</strong> 虚拟声卡并在分享中选择<br>
-    <span class="os-tag">麦克风</span> 选择下方「麦克风」来源后，REC将直接请求麦克风权限，无需共享屏幕<br>
-    <span class="os-tag">Firefox</span> 系统音频不支持，但麦克风可用；建议使用 Chrome / Edge 获得完整功能
-  </div>
+    <!-- 主容器 -->
+    <div class="container">
+        <header>
+            <h1>录音机</h1>
+            <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--muted);text-shadow:0 2px 4px black;">双源音频捕获</div>
+                <div class="subtitle">系统声音 或 麦克风 · 无需额外软件</div>
+            </div>
+        </header>
 
-  <!-- 状态行 -->
-  <div class="status-row">
-    <div class="dot" id="statusDot"></div>
-    <span id="statusText">STANDBY · 等待启动</span>
-  </div>
+        <!-- 状态行 -->
+        <div class="status-row">
+            <div class="dot" id="statusDot"></div>
+            <span id="statusText">待机 · 等待启动</span>
+        </div>
 
-  <!-- 源显示面板 -->
-  <div class="section-label">// 当前捕获源</div>
-  <div class="source-panel">
-    <div id="sourceDisplay">
-      <div class="source-empty">尚未选择音频源 — 点击 REC 并根据来源选择共享或授权麦克风</div>
+        <!-- 源显示面板 -->
+        <div class="section-label"> 当前捕获源</div>
+        <div class="source-panel">
+            <div id="sourceDisplay">
+                <div class="source-empty">尚未选择音频源 — 点击录音并根据来源选择共享或授权麦克风</div>
+            </div>
+            <div class="warn-banner" id="noAudioWarn">
+                ⚠ 未检测到音频轨道。请确认在共享对话框中勾选了「分享音频」或允许麦克风访问，然后重试。
+            </div>
+        </div>
+
+        <!-- 波形可视化 -->
+        <div class="viz-wrap">
+            <div class="viz-label">信号</div>
+            <canvas id="waveCanvas"></canvas>
+            <div class="vu-wrap" id="vuMeter"></div>
+        </div>
+
+        <!-- 设置栏：来源选择 + 定时 + 自动导出（修改后：定时和自动导出在同一行） -->
+        <div class="settings-bar">
+            <!-- 音频来源 单独一行 -->
+            <div class="setting-group">
+                <span class="setting-label">音频来源</span>
+                <select class="setting-select" id="sourceSelect">
+                    <option value="system" selected>🔊 系统音频 (需共享并勾选音频)</option>
+                    <option value="mic">🎙️ 麦克风</option>
+                </select>
+            </div>
+
+            <!-- 定时停止 + 自动导出 并排一行 -->
+            <div style="display: flex; gap: 16px;">
+                <div class="setting-group" style="flex: 1;">
+                    <span class="setting-label">定时停止</span>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="autoStopInput" class="setting-input" placeholder="0 (手动)" min="0" step="any" title="输入0或者为空代表不限制时间（手动停止）">
+                        <select class="setting-select" id="autoStopUnit">
+                            <option value="1">秒</option>
+                            <option value="60" selected>分钟</option>
+                            <option value="3600">小时</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-group" style="flex: 1;">
+                    <span class="setting-label">结束后自动导出格式</span>
+                    <select class="setting-select" id="autoFormatSelect">
+                        <option value="none">关闭 / 仅保留在列表中</option>
+                        <option value="webm">WEBM (原画质)</option>
+                        <option value="wav">WAV (无损格式)</option>
+                        <option value="mp3">MP3 (标准格式)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主控制按钮 -->
+        <div class="controls">
+            <button id="recBtn" onclick="toggleRecording()">
+                <div class="rec-dot"></div>
+                <span id="recBtnText">录音</span>
+            </button>
+            <div class="timer" id="timer">00:00:00</div>
+        </div>
+
+        <!-- 录音列表 -->
+        <div class="list-header">
+            <div class="section-label" style="margin-bottom:0"> 录音列表</div>
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1.5px;background:rgba(0,0,0,0.3);padding:4px 14px;border-radius:40px;" id="recCount">0 条录音</div>
+        </div>
+        <div id="recordingsList">
+            <div class="empty-state">暂无录音 · 按录音并在弹窗中选择音频源</div>
+        </div>
+
+        <!-- ========== 功能区下方的内容 ========== -->
+
+        <!-- 使用前须知卡片 -->
+        <div class="how-card">
+            <div style="color:var(--accent);font-size:10px;letter-spacing:3px;margin-bottom:12px;text-transform:uppercase"> 使用前须知</div>
+            <span class="os-tag">系统音频</span> 点击 <strong>录音</strong> 后，浏览器会弹出共享选择对话框。请务必勾选底部的 <strong>「同时分享系统音频」</strong> 才能录制系统声音。<br>
+            <span class="os-tag">麦克风</span> 选择「麦克风」来源后，录音将直接请求麦克风权限，无需共享屏幕。<br>
+            <span class="os-tag">Edge/Chrome</span> 共享弹窗中可选择“整个屏幕”、“窗口”或“Chrome标签页”，勾选「分享音频」即可捕获系统音频。<br>
+            <span class="os-tag">macOS</span> 系统音频需借助 <strong>BlackHole</strong> 虚拟声卡，并在共享弹窗中选择该设备。<br>
+            <span class="os-tag">Firefox</span> 系统音频不支持，但麦克风可用；建议使用 Chrome / Edge 获得完整功能。
+        </div>
+
+        <!-- 浏览器共享弹窗详解 -->
+        <div class="faq-section" style="margin-top:40px;">
+            <h2><i class="fas fa-desktop"></i> 浏览器共享弹窗详解</h2>
+            <p style="color:#ccc; margin-bottom:20px;">当您点击录音并选择“系统音频”时，浏览器会弹出如下对话框。正确操作才能捕获系统声音。</p>
+            <div class="popup-diagram">
+                <div class="title">📋 弹窗内容示意 (Chrome/Edge)</div>
+                <div class="option">选择要与“网站”分享的内容</div>
+                <div class="option">网站将能查看你的画面内容</div>
+                <div class="option" style="font-weight:bold;">● Chrome 标签页</div>
+                <div class="option" style="font-weight:bold;">● 窗口</div>
+                <div class="option" style="font-weight:bold;">● 整个屏幕</div>
+                <div class="option" style="margin-left:20px;">屏幕 1</div>
+                <div class="option" style="margin-left:20px;">屏幕 2</div>
+                <div class="option highlight">✅ 同时分享系统音频  ← 必须勾选此项！</div>
+                <div class="option" style="display:flex; justify-content:space-between; margin-top:10px;">
+                    <span>分享</span> <span>取消</span>
+                </div>
+            </div>
+            <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:12px; margin-top:15px;">
+                <p><i class="fas fa-check-circle" style="color:#4caf50;"></i> <strong>操作步骤：</strong></p>
+                <ol style="color:#ccc; line-height:1.8; padding-left:20px;">
+                    <li>在弹窗顶部选择您要分享的内容（推荐选“整个屏幕”以确保捕获所有系统音频）。</li>
+                    <li><strong>务必勾选底部的“同时分享系统音频”复选框</strong>（不同浏览器可能显示为“分享音频”或“Share system audio”）。</li>
+                    <li>点击“分享”按钮开始录制。</li>
+                </ol>
+                <p style="color:#ffb347; margin-top:10px;">⚠️ 如果没有勾选音频选项，录制将只有画面（无声音）或直接失败。</p>
+            </div>
+        </div>
+
+       
+        <!-- 常见问题解答 FAQ -->
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> 常见问题解答</h2>
+            <div class="faq-item">
+                <div class="faq-question">如何录制系统声音？</div>
+                <div class="faq-answer">在音频来源中选择“系统音频”，然后点击录音按钮。浏览器会弹出共享选择对话框，您需要选择分享整个屏幕、某个窗口或Chrome标签页，并务必勾选底部的“同时分享系统音频”选项。确认后即可开始录制系统音频。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">为什么我录不到系统声音？</div>
+                <div class="faq-answer">最常见的原因是在共享弹窗中没有勾选“分享音频”。请仔细查看弹窗底部是否有类似“同时分享系统音频”的复选框，并确保勾选。此外，macOS用户需要安装BlackHole虚拟声卡；Firefox浏览器不支持系统音频捕获，请使用Chrome或Edge。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">浏览器共享弹窗有哪些选项？如何操作？</div>
+                <div class="faq-answer">点击录音后，浏览器会弹出如下对话框：顶部提示“选择要分享的内容”，下方有三个选项卡：“Chrome标签页”、“窗口”、“整个屏幕”。您可以选择任意一项，但为了录制系统音频，建议选择“整个屏幕”或包含声音输出的窗口。最关键的是底部的“同时分享系统音频”复选框，必须勾选它才能捕获系统声音。最后点击“分享”按钮开始录制。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">支持哪些导出格式？</div>
+                <div class="faq-answer">您可以在设置区域选择自动导出格式：WEBM（原画质）、WAV（无损格式）、MP3（标准压缩格式）。若不选择自动导出，录音会保存在下方列表中，您可以后续手动导出。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">定时停止功能如何使用？</div>
+                <div class="faq-answer">在“定时停止”输入框中填写数字，并选择单位（秒/分钟/小时）。例如输入5并选择“分钟”，则录制将在5分钟后自动停止。输入0或不填表示手动停止。</div>
+            </div>
+        </div>
     </div>
-    <div class="warn-banner" id="noAudioWarn">
-      ⚠ 未检测到音频轨道。请确认在共享对话框中勾选了「分享音频」或允许麦克风访问，然后重试。
-    </div>
-  </div>
 
-  <!-- 波形可视化 -->
-  <div class="viz-wrap">
-    <div class="viz-label">SIGNAL</div>
-    <canvas id="waveCanvas"></canvas>
-    <div class="vu-wrap" id="vuMeter"></div>
-  </div>
+    <!-- 提示 Toast -->
+    <div class="toast" id="toast"></div>
 
-  <!-- 设置栏：来源选择 + 定时 + 自动导出 -->
-  <div class="settings-bar">
-    <div class="setting-group">
-      <span class="setting-label">音频来源</span>
-      <select class="setting-select" id="sourceSelect">
-        <option value="system" selected>🔊 系统音频 (需共享)</option>
-        <option value="mic">🎙️ 麦克风</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <span class="setting-label">定时停止</span>
-      <div style="display: flex; gap: 8px;">
-        <input type="number" id="autoStopInput" class="setting-input" placeholder="0 (手动)" min="0" step="any" title="输入0或者为空代表不限制时间（手动停止）">
-        <select class="setting-select" id="autoStopUnit">
-          <option value="1">秒</option>
-          <option value="60" selected>分钟</option>
-          <option value="3600">小时</option>
-        </select>
-      </div>
-    </div>
-    <div class="setting-group">
-      <span class="setting-label">结束后自动导出格式</span>
-      <select class="setting-select" id="autoFormatSelect">
-        <option value="none">OFF / 仅保留在下方列表</option>
-        <option value="webm">WEBM (原画质)</option>
-        <option value="wav">WAV (无损格式)</option>
-        <option value="mp3">MP3 (标准格式)</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- 主控制按钮 -->
-  <div class="controls">
-    <button id="recBtn" onclick="toggleRecording()">
-      <div class="rec-dot"></div>
-      <span id="recBtnText">REC</span>
-    </button>
-    <div class="timer" id="timer">00:00:00</div>
-  </div>
-
-  <!-- 录音列表 -->
-  <div class="list-header">
-    <div class="section-label" style="margin-bottom:0">// 录音列表</div>
-    <div style="font-size:11px;color:var(--muted);letter-spacing:1.5px;background:rgba(0,0,0,0.3);padding:4px 14px;border-radius:40px;" id="recCount">0 条录音</div>
-  </div>
-  <div id="recordingsList">
-    <div class="empty-state">暂无录音 · 按 REC 并在弹窗中选择音频源</div>
-  </div>
-
-</div>
-
-<div class="toast" id="toast"></div>
-
-<!-- 脚本加载顺序：lame, 原业务逻辑, 语言切换, 双源增强 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
-<script src="/static/js/utility-tools/design-media/online-voice-recorder/script-zh.js"></script>
-<script src="/static/js/shared/switchlanguage.js"></script>
+    <!-- 脚本加载顺序 (保持不变) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+    <script src="/static/js/utility-tools/design-media/online-voice-recorder/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
