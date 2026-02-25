@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO REC · 双源音频</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.0/css/all.min.css">
+<!-- 样式表 (保持不变) -->
+<link rel="stylesheet" href="/static/css/utility-tools/design-media/online-voice-recorder/style.css">
+<link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+<link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+<link rel="stylesheet" href="/static/css/shared/NavCard.css">
+<link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+<link rel="stylesheet" href="/static/css/shared/document.css">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J9HR7CNQR9');
+</script>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>SYS·REC</h1>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--muted);text-shadow:0 2px 4px black;">DUAL AUDIO CAPTURE</div>
+      <div class="subtitle">系统声音 / 麦克风 · 无需额外软件</div>
+    </div>
+  </header>
+
+  <!-- How-to 卡片 -->
+  <div class="how-card">
+    <div style="color:var(--accent);font-size:10px;letter-spacing:3px;margin-bottom:12px;text-transform:uppercase">// 使用前须知</div>
+    <span class="os-tag">系统</span> 点击 <strong>REC</strong> 后，在弹窗中选择任意标签页 → 勾选底部 <strong>「分享音频」</strong> 确认共享<br>
+    <span class="os-tag">Edge</span> 选择屏幕或窗口 → 勾选 <strong>「共享系统音频」</strong><br>
+    <span class="os-tag">macOS</span> 系统音频需借助 <strong>BlackHole</strong> 虚拟声卡并在分享中选择<br>
+    <span class="os-tag">麦克风</span> 选择下方「麦克风」来源后，REC将直接请求麦克风权限，无需共享屏幕<br>
+    <span class="os-tag">Firefox</span> 系统音频不支持，但麦克风可用；建议使用 Chrome / Edge 获得完整功能
+  </div>
+
+  <!-- 状态行 -->
+  <div class="status-row">
+    <div class="dot" id="statusDot"></div>
+    <span id="statusText">STANDBY · 等待启动</span>
+  </div>
+
+  <!-- 源显示面板 -->
+  <div class="section-label">// 当前捕获源</div>
+  <div class="source-panel">
+    <div id="sourceDisplay">
+      <div class="source-empty">尚未选择音频源 — 点击 REC 并根据来源选择共享或授权麦克风</div>
+    </div>
+    <div class="warn-banner" id="noAudioWarn">
+      ⚠ 未检测到音频轨道。请确认在共享对话框中勾选了「分享音频」或允许麦克风访问，然后重试。
+    </div>
+  </div>
+
+  <!-- 波形可视化 -->
+  <div class="viz-wrap">
+    <div class="viz-label">SIGNAL</div>
+    <canvas id="waveCanvas"></canvas>
+    <div class="vu-wrap" id="vuMeter"></div>
+  </div>
+
+  <!-- 设置栏：来源选择 + 定时 + 自动导出 -->
+  <div class="settings-bar">
+    <div class="setting-group">
+      <span class="setting-label">音频来源</span>
+      <select class="setting-select" id="sourceSelect">
+        <option value="system" selected>🔊 系统音频 (需共享)</option>
+        <option value="mic">🎙️ 麦克风</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <span class="setting-label">定时停止</span>
+      <div style="display: flex; gap: 8px;">
+        <input type="number" id="autoStopInput" class="setting-input" placeholder="0 (手动)" min="0" step="any" title="输入0或者为空代表不限制时间（手动停止）">
+        <select class="setting-select" id="autoStopUnit">
+          <option value="1">秒</option>
+          <option value="60" selected>分钟</option>
+          <option value="3600">小时</option>
+        </select>
+      </div>
+    </div>
+    <div class="setting-group">
+      <span class="setting-label">结束后自动导出格式</span>
+      <select class="setting-select" id="autoFormatSelect">
+        <option value="none">OFF / 仅保留在下方列表</option>
+        <option value="webm">WEBM (原画质)</option>
+        <option value="wav">WAV (无损格式)</option>
+        <option value="mp3">MP3 (标准格式)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 主控制按钮 -->
+  <div class="controls">
+    <button id="recBtn" onclick="toggleRecording()">
+      <div class="rec-dot"></div>
+      <span id="recBtnText">REC</span>
+    </button>
+    <div class="timer" id="timer">00:00:00</div>
+  </div>
+
+  <!-- 录音列表 -->
+  <div class="list-header">
+    <div class="section-label" style="margin-bottom:0">// 录音列表</div>
+    <div style="font-size:11px;color:var(--muted);letter-spacing:1.5px;background:rgba(0,0,0,0.3);padding:4px 14px;border-radius:40px;" id="recCount">0 条录音</div>
+  </div>
+  <div id="recordingsList">
+    <div class="empty-state">暂无录音 · 按 REC 并在弹窗中选择音频源</div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 脚本加载顺序：lame, 原业务逻辑, 语言切换, 双源增强 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+<script src="/static/js/utility-tools/design-media/online-voice-recorder/script-zh.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
