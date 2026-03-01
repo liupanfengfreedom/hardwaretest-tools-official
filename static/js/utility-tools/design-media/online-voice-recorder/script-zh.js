@@ -250,7 +250,6 @@ function renderList() {
         <option value="webm">WEBM</option>
         <option value="wav">WAV</option>
         <option value="ogg">OGG</option>
-        <option value="mp3">MP3</option>
       </select>
       <button class="ri-export-btn" onclick="exportItem(${i})">
         <svg width="11" height="12" viewBox="0 0 11 12" fill="currentColor"><path d="M5.5 8L1 3.5h3V0h3v3.5h3L5.5 8z"/><rect x="0" y="10" width="11" height="2"/></svg>导出
@@ -410,11 +409,6 @@ function exportItem(i, forceFmt) {
     convertToWav(r.blob)
       .then(wb => { dlBlob(wb, r.name+'.wav', 'audio/wav'); showToast('WAV 导出完成', 'ok'); })
       .catch(() => showToast('WAV 转换失败', 'err'));
-  } else if (ext === 'mp3') {
-    showToast('正在编码 MP3…', '');
-    convertToMp3(r.blob)
-      .then(mb => { dlBlob(mb, r.name+'.mp3', 'audio/mpeg'); showToast('MP3 导出完成', 'ok'); })
-      .catch(e => showToast('MP3 失败：' + e.message, 'err'));
   } else {
     dlBlob(r.blob, `${r.name}.${ext}`, r.mime);
     showToast(`已导出 .${ext.toUpperCase()}`, 'ok');
@@ -426,43 +420,6 @@ function dlBlob(blob, name, type) {
   Object.assign(document.createElement('a'), { href: url, download: name }).click();
   setTimeout(() => URL.revokeObjectURL(url), 8000);
 }
-
-async function convertToMp3(blob) {
-  const ab   = await blob.arrayBuffer();
-  const actx = new AudioContext();
-  const abuf = await actx.decodeAudioData(ab);
-  const nCh  = abuf.numberOfChannels;
-  const sr   = abuf.sampleRate;
-  const nS   = abuf.length;
-  const kbps = 128;
-
-  if (typeof lamejs === 'undefined') throw new Error('lamejs 未加载，请检查网络连接');
-
-  const mp3enc = new lamejs.Mp3Encoder(nCh, sr, kbps);
-  const blockSize = 1152;
-  const chunks = [];
-
-  const L = abuf.getChannelData(0);
-  const R = nCh > 1 ? abuf.getChannelData(1) : L;
-
-  const toInt16 = ch => {
-    const buf = new Int16Array(ch.length);
-    ch.forEach((v, i) => { buf[i] = Math.max(-1, Math.min(1, v)) * (v < 0 ? 0x8000 : 0x7FFF); });
-    return buf;
-  };
-  const iL = toInt16(L), iR = toInt16(R);
-
-  for (let i = 0; i < nS; i += blockSize) {
-    const lSlice = iL.subarray(i, i + blockSize);
-    const rSlice = iR.subarray(i, i + blockSize);
-    const encoded = nCh > 1 ? mp3enc.encodeBuffer(lSlice, rSlice) : mp3enc.encodeBuffer(lSlice);
-    if (encoded.length > 0) chunks.push(new Int8Array(encoded));
-  }
-  const final = mp3enc.flush();
-  if (final.length > 0) chunks.push(new Int8Array(final));
-  return new Blob(chunks, { type: 'audio/mpeg' });
-}
-
 
 async function convertToWav(blob) {
   const ab   = await blob.arrayBuffer();
@@ -632,7 +589,7 @@ window.showSourceIdle = function() {
     `<div class="source-empty">尚未选择音频源 — 点击录音后在弹窗中选择共享目标并勾选「分享音频」</div>`;
 };
 
-// ---------- 重写 renderList 使空状态文本中文 ----------
+// ---------- 重写 renderList 使空状态文本中文，并移除 MP3 选项 ----------
 window.renderList = function() {
   const c = document.getElementById('recordingsList');
   document.getElementById('recCount').textContent = `${recordings.length} 条录音`;
@@ -656,7 +613,6 @@ window.renderList = function() {
         <option value="webm">WEBM</option>
         <option value="wav">WAV</option>
         <option value="ogg">OGG</option>
-        <option value="mp3">MP3</option>
       </select>
       <button class="ri-export-btn" onclick="exportItem(${i})">
         <svg width="11" height="12" viewBox="0 0 11 12" fill="currentColor"><path d="M5.5 8L1 3.5h3V0h3v3.5h3L5.5 8z"/><rect x="0" y="10" width="11" height="2"/></svg>导出
