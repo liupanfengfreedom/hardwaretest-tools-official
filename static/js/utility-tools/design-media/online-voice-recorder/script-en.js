@@ -1,5 +1,5 @@
-// script.js (English version)
-// Original logic preserved, all user-facing strings localized to English
+// /static/js/utility-tools/design-media/online-voice-recorder/script-en.js
+// ─── All-in-one English version with dual‑source support ─────────────────────
 
 let recordings     = [];
 let mediaRecorder  = null;
@@ -11,6 +11,7 @@ let analyser       = null;
 let animFrame      = null;
 let vuSegs         = [];
 
+// ---------- VU meter initialization ----------
 (function init() {
   const meter = document.getElementById('vuMeter');
   for (let i = 0; i < 28; i++) {
@@ -22,60 +23,90 @@ let vuSegs         = [];
   drawIdle();
 })();
 
-async function toggleRecording() {
-  isRecording ? stopRecording() : await startRecording();
-}
+// ---------- Core recording control ----------
+window.toggleRecording = function() {
+  isRecording ? stopRecording() : startRecording();
+};
 
-async function startRecording() {
-  document.getElementById('noAudioWarn').classList.remove('show');
+// ---------- Start recording (dual‑source) ----------
+window.startRecording = async function() {
+  const sourceSelect = document.getElementById('sourceSelect');
+  const source = sourceSelect.value;
+  sourceSelect.disabled = true; // disable while recording
+
   try {
-    const stream = await navigator.mediaDevices.getDisplayMedia({
-      video: { width: 1, height: 1, frameRate: 1 },
-      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
-    });
-
-    const audioTracks = stream.getAudioTracks();
-
-    if (!audioTracks.length) {
-      stream.getTracks().forEach(t => t.stop());
-      document.getElementById('noAudioWarn').classList.add('show');
-      showToast('No audio detected, please check "Share audio" and try again', 'err');
-      return;
+    if (source === 'system') {
+      // System audio: screen capture
+      const stream = await navigator.mediaDevices.getDisplayMedia({
+        video: { width: 1, height: 1, frameRate: 1 },
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
+      });
+      await setupRecorderFromStream(stream, false);
+    } else {
+      // Microphone: direct getUserMedia
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      await setupRecorderFromStream(stream, true);
     }
-
-    stream.getVideoTracks().forEach(t => { t.stop(); stream.removeTrack(t); });
-
-    const label = audioTracks[0].label || 'System Audio Output';
-    showSourceActive(label, false);
-
-    const actx = new AudioContext();
-    const src  = actx.createMediaStreamSource(stream);
-    analyser = actx.createAnalyser();
-    analyser.fftSize = 512;
-    analyser.smoothingTimeConstant = 0.75;
-    src.connect(analyser);
-
-    const mime = bestMime();
-    mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
-    recordedChunks = [];
-    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
-    mediaRecorder.onstop = () => saveRecording(mime);
-    mediaRecorder.start(100);
-
-    audioTracks[0].onended = () => { if (isRecording) stopRecording(); };
-
-    isRecording = true;
-    startTime   = Date.now();
-    startTimer();
-    drawWave();
-    setUI(true);
-    showToast('Recording started', 'ok');
-  } catch (e) {
-    if (e.name !== 'NotAllowedError') showToast('Failed to start: ' + e.message, 'err');
+  } catch (err) {
+    sourceSelect.disabled = false;
+    if (err.name === 'NotAllowedError') {
+      if (source === 'mic') showToast('Microphone permission denied', 'err');
+    } else if (err.message === 'NO_AUDIO_TRACK') {
+      showToast('No audio detected, please check "Share audio"', 'err');
+    } else {
+      showToast('Start failed: ' + (err.message || 'unknown error'), 'err');
+    }
+    setUI(false);
+    showSourceIdle();
+    console.warn('Recording start error:', err);
   }
+};
+
+// ---------- Setup recorder from a MediaStream ----------
+async function setupRecorderFromStream(stream, isMic) {
+  const audioTracks = stream.getAudioTracks();
+  if (!audioTracks.length) {
+    stream.getTracks().forEach(t => t.stop());
+    document.getElementById('noAudioWarn').classList.add('show');
+    throw new Error('NO_AUDIO_TRACK');
+  }
+  document.getElementById('noAudioWarn').classList.remove('show');
+
+  const label = audioTracks[0].label || (isMic ? 'Microphone' : 'System audio output');
+  showSourceActive(label, isMic);
+
+  // remove video tracks if any (system audio only)
+  stream.getVideoTracks().forEach(t => { t.stop(); stream.removeTrack(t); });
+
+  // auto‑stop if track ends
+  audioTracks.forEach(t => t.onended = () => {
+    if (isRecording) stopRecording();
+  });
+
+  const actx = new AudioContext();
+  const src = actx.createMediaStreamSource(stream);
+  analyser = actx.createAnalyser();
+  analyser.fftSize = 512;
+  analyser.smoothingTimeConstant = 0.75;
+  src.connect(analyser);
+
+  const mime = bestMime();
+  mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
+  recordedChunks = [];
+  mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+  mediaRecorder.onstop = () => saveRecording(mime);
+  mediaRecorder.start(100);
+
+  isRecording = true;
+  startTime = Date.now();
+  startTimer();
+  drawWave();
+  setUI(true);
+  showToast('Recording started', 'ok');
 }
 
-function stopRecording() {
+// ---------- Stop recording ----------
+window.stopRecording = function() {
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     mediaRecorder.stop();
     mediaRecorder.stream.getTracks().forEach(t => t.stop());
@@ -88,13 +119,12 @@ function stopRecording() {
   clearVU();
   setUI(false);
   showSourceIdle();
-}
 
-function bestMime() {
-  const list = ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/ogg','audio/mp4'];
-  return list.find(m => MediaRecorder.isTypeSupported(m)) || '';
-}
+  const sourceSelect = document.getElementById('sourceSelect');
+  if (sourceSelect) sourceSelect.disabled = false;
+};
 
+// ---------- Save recording (called onstop) ----------
 function saveRecording(mime) {
   const blob = new Blob(recordedChunks, { type: mime || 'audio/webm' });
   const ext  = mime.includes('ogg') ? 'ogg' : mime.includes('mp4') ? 'mp4' : 'webm';
@@ -102,10 +132,10 @@ function saveRecording(mime) {
   const name = `REC_${String(recordings.length + 1).padStart(3,'0')}_${nowStamp()}`;
   recordings.push({ blob, url: URL.createObjectURL(blob), name, ext, mime, dur, size: blob.size });
   renderList();
-  
+
   const autoFmt = document.getElementById('autoFormatSelect').value;
   if (autoFmt !== 'none') {
-    showToast(`Recording saved, auto-exporting as ${autoFmt.toUpperCase()}`, 'ok');
+    showToast(`Recording saved, auto‑exporting as ${autoFmt.toUpperCase()}`, 'ok');
     const lastIndex = recordings.length - 1;
     setTimeout(() => exportItem(lastIndex, autoFmt), 500);
   } else {
@@ -113,18 +143,19 @@ function saveRecording(mime) {
   }
 }
 
+// ---------- Timer & scheduled stop ----------
 function startTimer() {
   document.getElementById('timer').classList.add('active');
   timerInterval = setInterval(() => {
     const elapsed = (Date.now() - startTime) / 1000;
     document.getElementById('timer').textContent = fmt(elapsed);
-    
+
     const val = parseFloat(document.getElementById('autoStopInput').value);
     const unit = parseInt(document.getElementById('autoStopUnit').value, 10);
     const autoStopSec = (isNaN(val) || val <= 0) ? 0 : val * unit;
 
     if (autoStopSec > 0 && elapsed >= autoStopSec && isRecording) {
-      showToast('Reached set time, stopping automatically...', 'ok');
+      showToast('Scheduled time reached, stopping...', 'ok');
       stopRecording();
     }
   }, 100);
@@ -135,14 +166,23 @@ function stopTimer() {
   document.getElementById('timer').textContent = '00:00:00';
   document.getElementById('timer').classList.remove('active');
 }
+
 function fmt(s) {
   const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = Math.floor(s % 60);
   return [h,m,sec].map(n => String(n).padStart(2,'0')).join(':');
 }
+
 function nowStamp() {
   return new Date().toISOString().slice(0,19).replace(/[-:]/g,'').replace('T','_');
 }
 
+// ---------- MIME type detection ----------
+function bestMime() {
+  const list = ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/ogg','audio/mp4'];
+  return list.find(m => MediaRecorder.isTypeSupported(m)) || '';
+}
+
+// ---------- Canvas helpers ----------
 function cvs() {
   const c = document.getElementById('waveCanvas'), dpr = devicePixelRatio || 1;
   c.width  = c.offsetWidth  * dpr;
@@ -203,9 +243,10 @@ function updateVU(level) {
 }
 function clearVU() { vuSegs.forEach(s => s.className = 'vu-seg'); }
 
+// ---------- UI update functions (English) ----------
 function showSourceActive(label, isMic = false) {
   const icon = isMic ? '🎙' : '🖥';
-  const subText = isMic ? 'Microphone · via getUserMedia' : 'System Audio · via Screen Capture API';
+  const subText = isMic ? 'Microphone · captured via getUserMedia' : 'System audio · captured via Screen Capture API';
   document.getElementById('sourceDisplay').innerHTML = `
     <div class="source-active">
       <div class="src-icon-big">${icon}</div>
@@ -216,28 +257,30 @@ function showSourceActive(label, isMic = false) {
       <div class="src-badge">● LIVE</div>
     </div>`;
 }
+
 function showSourceIdle() {
   document.getElementById('sourceDisplay').innerHTML =
-    `<div class="source-empty">No audio source selected — click record and choose share target with "Share audio" checked</div>`;
+    `<div class="source-empty">No audio source selected — click REC and choose to share or allow microphone</div>`;
 }
 
 function setUI(rec) {
   const btn = document.getElementById('recBtn');
   btn.classList.toggle('recording', rec);
-  document.getElementById('recBtnText').textContent = rec ? 'Stop' : 'Record';
+  document.getElementById('recBtnText').textContent = rec ? 'STOP' : 'REC';
   document.getElementById('statusDot').classList.toggle('live', rec);
   const source = document.getElementById('sourceSelect')?.value;
-  const sourceText = source === 'mic' ? 'Microphone' : 'System Audio';
+  const sourceText = source === 'mic' ? 'Microphone' : 'System audio';
   document.getElementById('statusText').textContent = rec
     ? `Recording · ${sourceText}`
-    : 'Standby · waiting to start';
+    : 'Standby · Ready';
 }
 
+// ---------- Recordings list rendering (English) ----------
 function renderList() {
   const c = document.getElementById('recordingsList');
-  document.getElementById('recCount').textContent = `${recordings.length} recordings`;
+  document.getElementById('recCount').textContent = `${recordings.length} recording${recordings.length!==1?'s':''}`;
   if (!recordings.length) {
-    c.innerHTML = '<div class="empty-state">No recordings yet · Press REC and choose an audio source</div>';
+    c.innerHTML = '<div class="empty-state">No recordings · Press REC and select audio source in the popup</div>';
     return;
   }
   c.innerHTML = recordings.map((r, i) => `
@@ -256,7 +299,6 @@ function renderList() {
         <option value="webm">WEBM</option>
         <option value="wav">WAV</option>
         <option value="ogg">OGG</option>
-        <option value="mp3">MP3</option>
       </select>
       <button class="ri-export-btn" onclick="exportItem(${i})">
         <svg width="11" height="12" viewBox="0 0 11 12" fill="currentColor"><path d="M5.5 8L1 3.5h3V0h3v3.5h3L5.5 8z"/><rect x="0" y="10" width="11" height="2"/></svg>Export
@@ -270,6 +312,7 @@ function fmtShort(s) {
   return `${m}:${String(sec).padStart(2,'0')}`;
 }
 
+// ---------- Audio playback & scrubber ----------
 let audioMap = {};
 
 function togglePlay(i) {
@@ -319,7 +362,7 @@ function updateProgress(i) {
   const audio = audioMap[i];
   const r = recordings[i];
   if (!audio) return;
-  
+
   const dur = (audio.duration && audio.duration !== Infinity && !isNaN(audio.duration)) ? audio.duration : r.dur;
   if (!dur) return;
 
@@ -327,7 +370,7 @@ function updateProgress(i) {
   const fill  = document.getElementById(`fill-${i}`);
   const thumb = document.getElementById(`thumb-${i}`);
   const timeEl = document.getElementById(`time-${i}`);
-  
+
   if (fill)  { fill.style.width = pct + '%'; fill.classList.add('active'); }
   if (thumb)  thumb.style.left = pct + '%';
   if (timeEl) timeEl.textContent = `${fmtShort(audio.currentTime)} / ${fmtShort(dur)}`;
@@ -352,9 +395,9 @@ function bindScrubbers() {
     function applyPct(pct) {
       const audio = audioMap[i];
       const dur = (audio.duration && audio.duration !== Infinity && !isNaN(audio.duration)) ? audio.duration : r.dur;
-      
+
       audio.currentTime = pct * dur;
-      
+
       const fill  = document.getElementById(`fill-${i}`);
       const thumb = document.getElementById(`thumb-${i}`);
       const timeEl = document.getElementById(`time-${i}`);
@@ -404,26 +447,22 @@ function toggleMute(i) {
   btn.textContent = audio.muted ? '🔇' : '🔊';
 }
 
+// ---------- Export & WAV conversion ----------
 function exportItem(i, forceFmt) {
   const r = recordings[i];
   const selectEl = document.getElementById(`fmt-${i}`);
   const ext = forceFmt || selectEl.value;
-  
+
   if (forceFmt && selectEl) { selectEl.value = forceFmt; }
 
   if (ext === 'wav') {
     showToast('Converting to WAV…', '');
     convertToWav(r.blob)
-      .then(wb => { dlBlob(wb, r.name+'.wav', 'audio/wav'); showToast('WAV export complete', 'ok'); })
+      .then(wb => { dlBlob(wb, r.name+'.wav', 'audio/wav'); showToast('WAV export completed', 'ok'); })
       .catch(() => showToast('WAV conversion failed', 'err'));
-  } else if (ext === 'mp3') {
-    showToast('Encoding MP3…', '');
-    convertToMp3(r.blob)
-      .then(mb => { dlBlob(mb, r.name+'.mp3', 'audio/mpeg'); showToast('MP3 export complete', 'ok'); })
-      .catch(e => showToast('MP3 failed: ' + e.message, 'err'));
   } else {
     dlBlob(r.blob, `${r.name}.${ext}`, r.mime);
-    showToast(`Exported as .${ext.toUpperCase()}`, 'ok');
+    showToast(`Exported .${ext.toUpperCase()}`, 'ok');
   }
 }
 
@@ -431,42 +470,6 @@ function dlBlob(blob, name, type) {
   const url = URL.createObjectURL(new Blob([blob], { type }));
   Object.assign(document.createElement('a'), { href: url, download: name }).click();
   setTimeout(() => URL.revokeObjectURL(url), 8000);
-}
-
-async function convertToMp3(blob) {
-  const ab   = await blob.arrayBuffer();
-  const actx = new AudioContext();
-  const abuf = await actx.decodeAudioData(ab);
-  const nCh  = abuf.numberOfChannels;
-  const sr   = abuf.sampleRate;
-  const nS   = abuf.length;
-  const kbps = 128;
-
-  if (typeof lamejs === 'undefined') throw new Error('lamejs not loaded, check network connection');
-
-  const mp3enc = new lamejs.Mp3Encoder(nCh, sr, kbps);
-  const blockSize = 1152;
-  const chunks = [];
-
-  const L = abuf.getChannelData(0);
-  const R = nCh > 1 ? abuf.getChannelData(1) : L;
-
-  const toInt16 = ch => {
-    const buf = new Int16Array(ch.length);
-    ch.forEach((v, i) => { buf[i] = Math.max(-1, Math.min(1, v)) * (v < 0 ? 0x8000 : 0x7FFF); });
-    return buf;
-  };
-  const iL = toInt16(L), iR = toInt16(R);
-
-  for (let i = 0; i < nS; i += blockSize) {
-    const lSlice = iL.subarray(i, i + blockSize);
-    const rSlice = iR.subarray(i, i + blockSize);
-    const encoded = nCh > 1 ? mp3enc.encodeBuffer(lSlice, rSlice) : mp3enc.encodeBuffer(lSlice);
-    if (encoded.length > 0) chunks.push(new Int8Array(encoded));
-  }
-  const final = mp3enc.flush();
-  if (final.length > 0) chunks.push(new Int8Array(final));
-  return new Blob(chunks, { type: 'audio/mpeg' });
 }
 
 async function convertToWav(blob) {
@@ -490,6 +493,7 @@ async function convertToWav(blob) {
   return new Blob([data], { type: 'audio/wav' });
 }
 
+// ---------- Toast notification ----------
 function showToast(msg, type='') {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -498,110 +502,13 @@ function showToast(msg, type='') {
   t._t = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ----- Dual-source enhancement (fully localized) -----
-
-// Override startRecording with source selection
-window.startRecording = async function() {
-  const sourceSelect = document.getElementById('sourceSelect');
-  const source = sourceSelect.value;
-  sourceSelect.disabled = true;
-
-  try {
-    if (source === 'system') {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: { width: 1, height: 1, frameRate: 1 },
-        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
-      });
-      await setupRecorderFromStream(stream, false);
-    } else {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-      await setupRecorderFromStream(stream, true);
-    }
-  } catch (err) {
-    sourceSelect.disabled = false;
-    if (err.name === 'NotAllowedError') {
-      if (source === 'mic') showToast('Microphone permission denied', 'err');
-    } else if (err.message === 'NO_AUDIO_TRACK') {
-      showToast('No audio detected, please check "Share audio"', 'err');
-    } else {
-      showToast('Start failed: ' + (err.message || 'unknown error'), 'err');
-    }
-    setUI(false);
-    showSourceIdle();
-    console.warn('Recording start error:', err);
-  }
-};
-
-async function setupRecorderFromStream(stream, isMic) {
-  const audioTracks = stream.getAudioTracks();
-  if (!audioTracks.length) {
-    stream.getTracks().forEach(t => t.stop());
-    document.getElementById('noAudioWarn').classList.add('show');
-    throw new Error('NO_AUDIO_TRACK');
-  }
-  document.getElementById('noAudioWarn').classList.remove('show');
-
-  const label = audioTracks[0].label || (isMic ? 'Microphone' : 'System Audio Output');
-  showSourceActive(label, isMic);
-
-  stream.getVideoTracks().forEach(t => { t.stop(); stream.removeTrack(t); });
-
-  audioTracks.forEach(t => t.onended = () => {
-    if (isRecording) stopRecording();
-  });
-
-  const actx = new AudioContext();
-  const src = actx.createMediaStreamSource(stream);
-  analyser = actx.createAnalyser();
-  analyser.fftSize = 512;
-  analyser.smoothingTimeConstant = 0.75;
-  src.connect(analyser);
-
-  const mime = bestMime();
-  mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
-  recordedChunks = [];
-  mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
-  mediaRecorder.onstop = () => saveRecording(mime);
-  mediaRecorder.start(100);
-
-  isRecording = true;
-  startTime = Date.now();
-  startTimer();
-  drawWave();
-  setUI(true);
-  showToast('Recording started', 'ok');
-}
-
-// Ensure stopRecording re-enables source select
-const originalStopRecording = window.stopRecording;
-window.stopRecording = function() {
-  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-    mediaRecorder.stop();
-    mediaRecorder.stream.getTracks().forEach(t => t.stop());
-  }
-  isRecording = false;
-  stopTimer();
-  cancelAnimationFrame(animFrame);
-  analyser = null;
-  drawIdle();
-  clearVU();
-  setUI(false);
-  showSourceIdle();
-
-  const sourceSelect = document.getElementById('sourceSelect');
-  if (sourceSelect) sourceSelect.disabled = false;
-};
-
-// DOM ready: ensure source select is enabled, and update placeholder on change
+// ---------- Initialization ----------
 document.addEventListener('DOMContentLoaded', () => {
   const sourceSelect = document.getElementById('sourceSelect');
   if (sourceSelect) {
     sourceSelect.disabled = false;
     sourceSelect.addEventListener('change', () => {
-      if (!isRecording) {
-        showSourceIdle();
-      }
+      if (!isRecording) showSourceIdle();
     });
   }
-  // VU segments already created in init()
 });
