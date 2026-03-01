@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Basic SEO -->
+    <title>Online Audio Format Converter - Free MP3/WAV/FLAC/AAC Conversion | WAVFORM</title>
+    <meta name="description" content="Free online audio converter tool. Convert between MP3, WAV, FLAC, AAC, OGG, AIFF and more, or extract audio tracks from MP4/MKV/MOV videos. All processing happens locally in your browser – no upload, privacy safe.">
+    <meta name="keywords" content="audio converter, online converter, MP3 converter, WAV converter, FLAC converter, video to audio, free, local processing">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Online Audio Format Converter - Free Local Processing">
+    <meta property="og:description" content="Convert between MP3, WAV, FLAC, AAC and more, extract audio from videos. No upload, privacy safe.">
+    <meta property="og:image" content="https://starryring.com/static/image/og-audio-converter.png">
+    <meta property="og:url" content="https://starryring.com/en/utility-tools/design-media/audio-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Online Audio Format Converter - Free Local Processing">
+    <meta name="twitter:description" content="Convert between MP3, WAV, FLAC, AAC and more, extract audio from videos. No upload, privacy safe.">
+    <meta name="twitter:image" content="https://starryring.com/static/image/og-audio-converter.png">
+
+    <!-- Canonical and hreflang -->
+    <link rel="canonical" href="https://starryring.com/en/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/audio-converter/">
+
+    <!-- Favicon & Icons (same as main site) -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Structured Data (SoftwareApplication + FAQPage) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "WAVFORM Audio Converter",
+                "applicationCategory": "MultimediaApplication",
+                "operatingSystem": "Web",
+                "description": "Free online audio converter tool. Convert between MP3, WAV, FLAC, AAC, OGG, AIFF and more, or extract audio tracks from video files. All processing happens locally in your browser – no upload, privacy safe.",
+                "url": "https://starryring.com/en/utility-tools/design-media/audio-converter/",
+                "image": "https://starryring.com/static/image/og-audio-converter.png",
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/static/image/screenshot-audio-converter-main.jpg",
+                        "caption": "Audio converter main interface"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "MP3 / WAV / FLAC / AAC / OGG / AIFF conversion",
+                    "Extract audio from MP4, MKV, MOV, AVI videos",
+                    "Custom sample rate, channels, bitrate",
+                    "Local browser processing, files never uploaded",
+                    "Batch conversion support"
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Which audio formats are supported?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "We support conversion between common audio formats: MP3, WAV, FLAC, AAC / M4A, OGG (Opus), AIFF / AIF, WMA, WebM (Opus). You can also extract audio tracks from video files like MP4, MKV, MOV, AVI, 3GP, TS."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How good is the converted audio quality?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Quality depends on your settings. Lossless formats (WAV, AIFF) preserve the original audio data perfectly. For lossy formats (MP3, OGG) you can set the bitrate (up to 320 kbps) and sample rate (up to 96 kHz) to achieve the best balance between quality and file size."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Are my files uploaded? Is it private?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No upload at all! All conversion happens locally in your browser using Web Audio API, lamejs and other technologies. Your files never leave your device – perfect for sensitive recordings."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Why can't I convert some video files?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The tool depends on your browser's video decoding capabilities. If your video uses a codec not supported by the browser (e.g., some HEVC/H.265 videos), audio extraction may fail. Try converting to a more common codec (like H.264) first, or use one of the supported video formats."
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/design-media/audio-converter/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9HR7CNQR9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J9HR7CNQR9');
+    </script>
+
+    <!-- Minimal inline styles for H1 and instructions (keep consistent) -->
+    <style>
+        .page-main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 20px 0 10px;
+            letter-spacing: -0.02em;
+        }
+        .page-main-title .title-badge {
+            font-size: 1rem;
+            background: rgba(245, 166, 35, 0.2);
+            color: #f5a623;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            margin-left: 1rem;
+            font-weight: 500;
+            vertical-align: middle;
+            border: 1px solid rgba(245, 166, 35, 0.3);
+        }
+        @media (max-width: 600px) {
+            .page-main-title {
+                font-size: 1.8rem;
+            }
+            .page-main-title .title-badge {
+                display: block;
+                margin: 10px 0 0;
+                width: fit-content;
+            }
+        }
+        .instructions-section {
+            background: #121218;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border: 1px solid #2a2a35;
+        }
+        .instructions-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            background: linear-gradient(135deg, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .feature-item {
+            background: #1a1a24;
+            border-radius: 18px;
+            padding: 1.5rem;
+            border: 1px solid #2a2a35;
+        }
+        .feature-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #f5a623;
+        }
+        .feature-item p {
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .tip {
+            border-left: 3px solid #f5a623;
+            padding-left: 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .faq-section {
+            margin-top: 2rem;
+        }
+        .faq-item {
+            border-bottom: 1px solid #2a2a35;
+            padding: 1.5rem 0;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-item h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+        .faq-item p {
+            color: #bbb;
+            line-height: 1.6;
+        }
+        .faq-link-container {
+            margin-top: 0.8rem;
+        }
+        .faq-link {
+            color: #f5a623;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .faq-link i {
+            font-size: 0.8rem;
+        }
+        .faq-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Breadcrumb Navigation (last item fixed) -->
+    <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb-modern">
+                <li class="breadcrumb-item">
+                    <a href="/en/" class="breadcrumb-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/en/utility-tools/" class="breadcrumb-link">
+                        <i class="fas fa-toolbox"></i> Utilities
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-active">Audio Converter</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Language Switcher (links corrected) -->
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Choose language" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/zh/utility-tools/design-media/audio-converter/" data-lang="zh">
+                中文版
+            </a>
+            <a class="language-option selected" href="/en/utility-tools/design-media/audio-converter/" data-lang="en">
+                English
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-mark">WAV<span>FORM</span></div>
+                <div class="logo-sub">Audio Format Converter</div>
+            </div>
+            <div class="header-badge">
+                <div class="badge-dot"></div>
+                Local Processing · Privacy Safe
+            </div>
+        </header>
+
+        <!-- H1 main title (SEO) -->
+        <h1 class="page-main-title">
+            Online Audio Format Converter
+            <span class="title-badge">Free · Local</span>
+        </h1>
+
+        <!-- 01 — Upload Files -->
+        <div class="section-label">01 — Upload Files</div>
+        <div class="drop-zone" id="drop-zone">
+            <input type="file" id="file-input" multiple accept="audio/*,video/*,.mp3,.wav,.ogg,.flac,.aac,.m4a,.opus,.webm,.aiff,.aif,.wma,.mp4,.mov,.mkv,.avi,.m4v,.3gp,.ts">
+            <div class="drop-icon">
+                <svg viewBox="0 0 56 56" fill="none">
+                    <rect width="56" height="56" rx="12" fill="#18181f"/>
+                    <path d="M28 16v16m0-16l-6 6m6-6l6 6" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18 36h20" stroke="#3d3d52" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="28" cy="28" r="14" stroke="#2a2a35" stroke-width="1.5" stroke-dasharray="3 3"/>
+                </svg>
+            </div>
+            <div class="drop-title">Drag & drop audio files here</div>
+            <div class="drop-subtitle">or click to select · Supports all audio formats and video-to-audio extraction</div>
+            <div class="drop-formats">
+                <span class="fmt-chip">MP3</span>
+                <span class="fmt-chip">WAV</span>
+                <span class="fmt-chip">FLAC</span>
+                <span class="fmt-chip">AAC / M4A</span>
+                <span class="fmt-chip">OGG / Opus</span>
+                <span class="fmt-chip">AIFF / AIF</span>
+                <span class="fmt-chip">WMA</span>
+                <span class="fmt-chip">WebM</span>
+                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MP4</span>
+                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MKV</span>
+                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MOV</span>
+                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 AVI</span>
+            </div>
+        </div>
+
+        <!-- 02 — File Queue -->
+        <div id="file-list-section" style="display:none">
+            <div class="file-list-header">
+                <div class="section-label" style="margin:0;flex:1">02 — File Queue</div>
+                <button class="clear-all-btn" onclick="clearAll()">Clear All</button>
+            </div>
+            <div id="file-list"></div>
+            <div class="waveform-deco" id="waveform-deco" style="display:none"></div>
+        </div>
+
+        <!-- 03 — Conversion Settings -->
+        <div class="section-label">03 — Conversion Settings</div>
+        <div class="controls-panel">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label>Output Format</label>
+                    <select class="control-select" id="format-select" onchange="onFormatChange()">
+                        <optgroup label="── Lossless">
+                            <option value="wav">WAV — PCM Lossless</option>
+                            <option value="aiff">AIFF — Apple Lossless</option>
+                        </optgroup>
+                        <optgroup label="── Lossy">
+                            <option value="mp3" selected>MP3 — MPEG Audio</option>
+                            <option value="ogg" id="opt-ogg">OGG — Opus (browser encoding)</option>
+                            <option value="webm" id="opt-webm">WebM — Opus (browser encoding)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Sample Rate</label>
+                    <select class="control-select" id="samplerate-select">
+                        <option value="auto" selected>✦ Original (Auto)</option>
+                        <option value="44100">44,100 Hz — CD Quality</option>
+                        <option value="48000">48,000 Hz — Studio</option>
+                        <option value="96000">96,000 Hz — Hi-Res</option>
+                        <option value="22050">22,050 Hz — Compact</option>
+                        <option value="16000">16,000 Hz — Voice</option>
+                        <option value="8000">8,000 Hz — Telephone</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Channels</label>
+                    <select class="control-select" id="channels-select">
+                        <option value="auto" selected>✦ Original (Auto)</option>
+                        <option value="2">Stereo — Stereo</option>
+                        <option value="1">Mono — Mono</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top:20px" id="bitrate-row">
+                <div class="control-group">
+                    <label>MP3 Bitrate — <span id="bitrate-val">128</span> kbps</label>
+                    <input type="range" class="control-slider" id="bitrate-slider" min="64" max="320" step="32" value="128">
+                    <div class="slider-labels"><span>64k</span><span>128k</span><span>192k</span><span>256k</span><span>320k</span></div>
+                </div>
+            </div>
+            <div class="format-note" id="format-note"></div>
+        </div>
+
+        <!-- Convert Button -->
+        <button class="btn-convert" id="convert-btn" onclick="startConversion()">
+            <div class="btn-shimmer"></div>
+            ⚡ Start Conversion
+        </button>
+
+        <!-- Progress Card -->
+        <div id="conv-card">
+            <div class="conv-head">
+                <span class="conv-label-inline">Conversion Progress</span>
+                <div>
+                    <span class="conv-pct-inline" id="conv-pct">0</span><span class="conv-pct-unit-inline">%</span>
+                </div>
+            </div>
+            <div class="conv-bar-wrap">
+                <div class="conv-bar-track">
+                    <div class="conv-bar-fill" id="conv-bar-fill">
+                        <div class="conv-bar-head" id="conv-bar-head"></div>
+                    </div>
+                </div>
+                <div class="conv-seg-track" id="conv-seg-track"></div>
+            </div>
+            <div class="conv-footer-row">
+                <div class="conv-op" id="conv-op">Preparing...</div>
+                <div class="conv-steps" id="conv-steps"></div>
+            </div>
+        </div>
+
+        <!-- 04 — Download Results -->
+        <div id="download-area">
+            <div class="section-label">04 — Download Results</div>
+            <div id="download-list"></div>
+        </div>
+
+        <!-- Conversion Log -->
+        <div id="log-section">
+            <div class="section-label">— Conversion Log</div>
+            <div class="log-box" id="log-box"></div>
+        </div>
+
+        <!-- Added: Feature Description & FAQ (SEO boost) -->
+        <div class="instructions-section">
+            <h2>Professional Audio Converter Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>🎯 Lossless & Lossy Support</h3>
+                    <p>Choose from WAV, AIFF lossless formats, or MP3, OGG, WebM lossy formats. Perfect for archiving, sharing, or mobile devices.</p>
+                    <div class="tip">MP3 bitrate up to 320kbps, near‑lossless quality.</div>
+                </div>
+                <div class="feature-item">
+                    <h3>🎬 Extract Audio from Video</h3>
+                    <p>Drag in MP4, MKV, MOV, AVI files and automatically extract the audio stream to your chosen format. No extra tools needed.</p>
+                    <div class="tip">Supports common video formats; if decoding fails, try re‑encoding the video first.</div>
+                </div>
+                <div class="feature-item">
+                    <h3>⚙️ Fine Parameter Control</h3>
+                    <p>Customize sample rate (8kHz to 96kHz), channel count (mono/stereo), and bitrate (MP3). Full control over output quality.</p>
+                    <div class="tip">Select “Auto” to keep the original file’s sample rate and channels.</div>
+                </div>
+                <div class="feature-item">
+                    <h3>🔒 Privacy Safe, Zero Upload</h3>
+                    <p>All processing happens inside your browser. Your files never leave your device. Convert sensitive recordings with confidence.</p>
+                    <div class="tip">No privacy worries – convert and delete.</div>
+                </div>
+                <div class="feature-item">
+                    <h3>📦 Batch Conversion & Queue</h3>
+                    <p>Select multiple files at once; they queue up and are processed one by one. Download individually or batch‑package later.</p>
+                    <div class="tip">Clear the list anytime and start over.</div>
+                </div>
+                <div class="feature-item">
+                    <h3>🎧 Built‑in Mini Player</h3>
+                    <p>Preview converted audio directly on the page before downloading. Saves time and avoids repeated downloads.</p>
+                    <div class="tip">Pause, seek – quick preview.</div>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>Frequently Asked Questions (FAQ)</h2>
+
+                <div class="faq-item">
+                    <h3>Which audio formats are supported?</h3>
+                    <p>Currently we support conversion between: MP3, WAV, FLAC, AAC (M4A), OGG (Opus), AIFF, WMA, WebM (Opus). You can also extract audio from video files (MP4, MKV, MOV, AVI, 3GP, TS) and convert it to any of these formats. More formats will be added over time.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How good is the converted audio quality?</h3>
+                    <p>Quality depends entirely on your settings:<br>
+                    - For WAV or AIFF: lossless PCM, identical to the original audio data.<br>
+                    - For MP3: use the slider to set bitrate (64 kbps to 320 kbps) – higher gives better quality and larger files.<br>
+                    - Sample rate options let you downsample to reduce file size (e.g., 48kHz → 44.1kHz or 22kHz).<br>
+                    We recommend keeping original sample rate and stereo for best results.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Are files really not uploaded?</h3>
+                    <p>Yes, 100% local processing. We use the Web Audio API to decode, lamejs to encode MP3, and MediaRecorder for Opus. Everything happens in your browser's memory – no network transfer. You can even use this tool offline (after the page has been loaded once).</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Why can't I convert some video files?</h3>
+                    <p>Browsers can only decode video codecs they support. For instance, some MKV files may contain HEVC (H.265) video, and Safari or Chrome might not support its audio track. Try using a more common codec (like H.264 + AAC). If problems persist, convert the video encoding first, then extract the audio.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I convert multiple files at once?</h3>
+                    <p>Yes. Select several files – they appear in the queue. Click “Start Conversion” and the tool processes them one by one. You can add or remove files during conversion, but files that are currently being processed cannot be modified.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Will the page freeze when converting large files?</h3>
+                    <p>Audio encoding is CPU‑intensive, especially for large files or high bitrates. Although we optimise as much as possible, the main thread may briefly block. For very large files (e.g., >100 MB), please be patient – the progress bar updates in real time. A future version may introduce Web Workers for smoother performance.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div style="display:flex;align-items:center;gap:6px">
+                <span style="color:var(--amber)">🔒</span>
+                All processing done locally in your browser – files never uploaded to any server
+            </div>
+            <div>Web Audio API · lamejs · AIFF · MediaRecorder</div>
+        </footer>
+    </div>
+
+    <!-- Mini Player -->
+    <div id="mini-player">
+        <button id="mp-play-btn" onclick="mpToggle()">
+            <svg id="mp-play-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M4 2.5l8 4.5-8 4.5V2.5z" fill="currentColor"/>
+            </svg>
+            <svg id="mp-pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:none">
+                <rect x="2" y="2" width="4" height="10" rx="1" fill="currentColor"/>
+                <rect x="8" y="2" width="4" height="10" rx="1" fill="currentColor"/>
+            </svg>
+        </button>
+        <div id="mp-info">
+            <div id="mp-name">—</div>
+            <div id="mp-progress-wrap" onclick="mpSeek(event)">
+                <div id="mp-progress-fill"></div>
+            </div>
+        </div>
+        <div id="mp-time">0:00 / 0:00</div>
+        <button id="mp-close" onclick="mpClose()" title="Close">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Third-party libraries & local script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+    <script src="/static/js/utility-tools/design-media/audio-converter/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
