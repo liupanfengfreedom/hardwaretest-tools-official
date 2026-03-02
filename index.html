@@ -1,8 +1,27 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=/en/">
-  </head>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>语言重定向</title>
+    <script>
+        // 检测浏览器语言并重定向
+        (function() {
+            try {
+                // 获取浏览器语言，兼容各浏览器
+                var lang = navigator.language || navigator.browserLanguage || navigator.userLanguage || 'en';
+                lang = lang.toLowerCase();
+                // 如果语言以 'zh' 开头，跳转到中文页面，否则跳转到英文页面
+                var target = lang.startsWith('zh') ? '/zh/' : '/en/';
+                // 使用 replace 避免在历史记录中留下当前页面
+                window.location.replace(target);
+            } catch (e) {
+                // 出错时不做处理，用户可点击下方链接手动跳转
+                console.error('重定向失败', e);
+            }
+        })();
+    </script>
+    <!-- 备选手动链接，仅在未自动跳转时显示 -->
+</head>
   <body>
   <p><a href="/en/"></a></p>
   </body>
