@@ -1,24 +1,154 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WS Terminal</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- 外部资源 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO 基础元数据 -->
+    <title>WebSocket在线测试工具 - 免费WS/WSS客户端 | StarryRing</title>
+    <meta name="description" content="免费在线WebSocket测试工具，支持WS/WSS连接、自定义请求头、消息统计、模板发送、日志搜索，无需下载，快速调试WebSocket服务。">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="WebSocket在线测试工具">
+    <meta property="og:description" content="免费在线WebSocket测试工具，支持WS/WSS连接、自定义请求头、消息统计、模板发送，快速调试WebSocket服务。">
+    <meta property="og:image" content="https://starryring.com/preview-websocket.png">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/netdev/websocket-test/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WebSocket在线测试工具">
+    <meta name="twitter:description" content="免费在线WebSocket测试工具，支持WS/WSS连接、自定义请求头、消息统计、模板发送，快速调试WebSocket服务。">
+    <meta name="twitter:image" content="https://starryring.com/preview-websocket.png">
+
+    <!-- 规范链接与多语言 -->
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
+
+    <!-- Favicon 系列 -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- 结构化数据 (JSON-LD) 已包含FAQ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "在线WebSocket测试工具",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
+                "description": "免费在线WebSocket测试工具，支持WS/WSS连接、自定义请求头、消息统计、模板发送，快速调试WebSocket服务。",
+                "url": "https://starryring.com/zh/utility-tools/netdev/websocket-test/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://starryring.com/preview-websocket.png",
+                    "width": 1200,
+                    "height": 630,
+                    "caption": "WebSocket测试工具界面"
+                },
+                "screenshot": [
+                    {
+                        "@type": "ImageObject",
+                        "url": "https://starryring.com/static/image/zh/websocket-test-interface.png",
+                        "width": 1280,
+                        "height": 720,
+                        "caption": "WebSocket连接测试界面",
+                        "description": "WebSocket连接配置与消息收发界面"
+                    }
+                ],
+                "author": {
+                    "@type": "Organization",
+                    "name": "StarryRing",
+                    "url": "https://starryring.com",
+                    "logo": "https://starryring.com/logo.png"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "WebSocket / WebSocket Secure (WS/WSS) 连接",
+                    "自定义请求头添加",
+                    "消息发送与接收统计",
+                    "预设常用端点快速填充",
+                    "消息模板（Ping、Hello、订阅等）",
+                    "实时日志显示与搜索过滤",
+                    "多种消息格式：文本、JSON、Hex",
+                    "连接延迟实时测量"
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "什么是WebSocket？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "WebSocket是一种在单个TCP连接上进行全双工通信的协议，它使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。本工具可用于测试WebSocket服务是否正常工作。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何测试WebSocket连接？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "在输入框中填写WebSocket服务器URL（例如 wss://echo.websocket.org），点击「连接」按钮，连接成功后即可在下方输入消息并点击「发送」，接收到的消息会实时显示在日志区。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "为什么连接失败？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "可能的原因包括：服务器地址错误、服务器不支持WSS（尝试改用WS）、网络防火墙阻止、服务器未开启或跨域限制。请检查URL格式并确保目标服务器允许WebSocket连接。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "如何添加自定义请求头？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "在「连接配置」区域下方，点击「+ 添加」按钮，可以输入请求头的名称和值。WebSocket握手时会携带这些自定义头信息，适用于需要认证或特定参数的场景。"
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "支持哪些消息格式？",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "支持文本（Text）、JSON和十六进制（Hex）三种格式。选择对应格式后，输入框内可输入相应内容，发送时会自动转换。JSON格式还提供格式化和压缩按钮，方便编辑。"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <!-- 字体与样式 (保持原有) -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- 样式表 -->
     <link rel="stylesheet" href="/static/css/utility-tools/netdev/websocket-test/style.css">
     <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
     <link rel="stylesheet" href="/static/css/shared/NavCard.css">
     <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
     <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css"> <!-- 包含instructions-section等样式 -->
 </head>
 <body>
-     <!-- 添加微数据到面包屑导航 -->
+    <!-- 面包屑导航 (已含微数据) -->
     <div class="breadcrumb-section" itemscope itemtype="https://schema.org/BreadcrumbList">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb-modern">
@@ -36,173 +166,353 @@
                     </a>
                     <meta itemprop="position" content="2">
                 </li>
- 
                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                     <span class="breadcrumb-active" itemprop="name">WebSocket 终端</span>
-                    <meta itemprop="position" content="4">
+                    <meta itemprop="position" content="3">
                 </li>
             </ol>
         </nav>
     </div>
-    
-    <!-- 语言切换器 -->
+
+    <!-- 语言切换器 (保持不变) -->
     <div class="language-switcher">
         <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
             <i class="fas fa-globe"></i>
         </button>
         <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option selected" href="/zh/utility-tools/netdev/websocket-test/" data-lang="zh">
-                中文版
-            </a>
-            <a class="language-option" href="/en/utility-tools/netdev/websocket-test/" data-lang="en">
-                English
-            </a>
+            <a class="language-option selected" href="/zh/utility-tools/netdev/websocket-test/" data-lang="zh">中文版</a>
+            <a class="language-option" href="/en/utility-tools/netdev/websocket-test/" data-lang="en">English</a>
         </div>
     </div>
-    
-<header>
-  <div class="logo">
-    <div class="logo-icon"><svg viewBox="0 0 16 16"><polyline points="2,11 6,5 10,8 14,3"/></svg></div>
-    WS <em>Terminal</em>
-  </div>
-  <div class="htags"><span class="tag">v2.4</span><span class="tag">WebSocket</span><span class="tag">Client</span></div>
-</header>
-<div class="wrap">
-  <div class="card">
-    <div class="ch">
-      <div class="cl"><div class="cdot" id="hd" style="background:var(--text3)"></div>连接配置</div>
-      
-      <div class="strip">
-        <div class="seg"><div class="dot" id="sd"></div><span class="sl">状态：</span><span class="sv" id="ss">DISCONNECTED</span></div>
-        <div class="seg"><span class="sl">↑</span><span class="snu" id="scnt">0</span></div>
-        <div class="seg"><span class="sl">↓</span><span class="snd2" id="rcnt">0</span></div>
-        <div class="seg"><span class="sl">在线：</span><span class="sv" id="upd">—</span></div>
-        <span id="pb" class="pb">—ms</span>
-      </div>
-      
+
+    <!-- 头部：使用H1作为页面主标题 -->
+    <header>
+        <h1 class="logo">
+            <div class="logo-icon"><svg viewBox="0 0 16 16"><polyline points="2,11 6,5 10,8 14,3"/></svg></div>
+            WS <em>Terminal</em>
+        </h1>
+        <div class="htags"><span class="tag">v2.4</span><span class="tag">WebSocket</span><span class="tag">Client</span></div>
+    </header>
+
+    <!-- 添加简短引导描述 -->
+    <div style="max-width:1200px; margin:0 auto 16px auto; padding:0 20px; color:var(--text2); font-size:0.95rem;">
+        <p>⚡ 在线 WebSocket 测试工具：输入服务器地址，点击连接即可开始收发消息。支持自定义请求头、消息模板、实时统计与日志过滤。无需下载，快速调试。</p>
     </div>
-    <div class="cbody">
-      <div>
-        <span class="fl">WebSocket URL</span>
-        <div class="urow">
-          <div class="url-wrap">
-            <div class="url-field" id="url-field">
-              <span class="url-prefix" id="proto-prefix">wss://</span>
-              <input type="text" id="url" placeholder="echo.websocket.org" autocomplete="off"
-                onfocus="onUrlFocus()" oninput="onUrlInput()" onkeydown="onUrlKeydown(event)">
-              <button class="url-hist-btn" id="url-hist-btn" onclick="toggleHistDrop()" title="历史记录" tabindex="-1">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="2,3 5,7 8,3"/>
-                </svg>
-              </button>
+
+    <div class="wrap">
+        <!-- 连接配置区块 (标题改为H2) -->
+        <div class="card">
+            <div class="ch">
+                <h2 class="cl"><div class="cdot" id="hd" style="background:var(--text3)"></div>连接配置</h2>
+                <div class="strip">
+                    <div class="seg"><div class="dot" id="sd"></div><span class="sl">状态：</span><span class="sv" id="ss">DISCONNECTED</span></div>
+                    <div class="seg"><span class="sl">↑</span><span class="snu" id="scnt">0</span></div>
+                    <div class="seg"><span class="sl">↓</span><span class="snd2" id="rcnt">0</span></div>
+                    <div class="seg"><span class="sl">在线：</span><span class="sv" id="upd">—</span></div>
+                    <span id="pb" class="pb">—ms</span>
+                </div>
             </div>
-            <div class="url-hist-drop" id="url-hist-drop">
-              <div class="url-hist-header">
-                <span class="url-hist-label">
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6" cy="6" r="4.5"/><polyline points="6,3.5 6,6 7.5,7.5"/></svg>
-                  历史记录
-                </span>
-                <button class="url-hist-clear" onclick="clearAllHist()">清空全部</button>
-              </div>
-              <div class="url-hist-list" id="url-hist-list"></div>
+            <div class="cbody">
+                <div>
+                    <span class="fl">WebSocket URL</span>
+                    <div class="urow">
+                        <div class="url-wrap">
+                            <div class="url-field" id="url-field">
+                                <span class="url-prefix" id="proto-prefix">wss://</span>
+                                <input type="text" id="url" placeholder="echo.websocket.org" autocomplete="off"
+                                    onfocus="onUrlFocus()" oninput="onUrlInput()" onkeydown="onUrlKeydown(event)">
+                                <button class="url-hist-btn" id="url-hist-btn" onclick="toggleHistDrop()" title="历史记录" tabindex="-1">
+                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="2,3 5,7 8,3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="url-hist-drop" id="url-hist-drop">
+                                <div class="url-hist-header">
+                                    <span class="url-hist-label">
+                                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6" cy="6" r="4.5"/><polyline points="6,3.5 6,6 7.5,7.5"/></svg>
+                                        历史记录
+                                    </span>
+                                    <button class="url-hist-clear" onclick="clearAllHist()">清空全部</button>
+                                </div>
+                                <div class="url-hist-list" id="url-hist-list"></div>
+                            </div>
+                        </div>
+                        <button class="btn ba" id="cb2" onclick="doConn()">
+                            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>连接
+                        </button>
+                        <button class="btn bd" id="db" onclick="doDisc()" style="display:none">
+                            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>断开
+                        </button>
+                    </div>
+                </div>
+                <div class="prow">
+                    <span class="fl" style="margin:0">协议：</span>
+                    <button class="prc" onclick="selProto(this,'ws')">WS</button>
+                    <button class="prc act" onclick="selProto(this,'wss')">WSS</button>
+                </div>
+                <!-- 增加功能说明 -->
+                <p class="feature-desc" style="margin-top:12px; color:var(--text2); font-size:0.9rem; border-top:1px dashed rgba(255,255,255,0.1); padding-top:8px;">
+                    <i class="fas fa-info-circle"></i> 输入WebSocket服务器地址，选择ws/wss协议，可添加自定义请求头。连接成功后，状态指示灯变为绿色。
+                </p>
             </div>
-          </div>
-          <button class="btn ba" id="cb2" onclick="doConn()">
-            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>连接
-          </button>
-          <button class="btn bd" id="db" onclick="doDisc()" style="display:none">
-            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>断开
-          </button>
+            <div class="hsec">
+                <div class="htitle"><span>自定义请求头</span><button class="btn bs" onclick="addH()">+ 添加</button></div>
+                <div id="hl"></div>
+            </div>
         </div>
-      </div>
-      <div class="prow">
-        <span class="fl" style="margin:0">协议：</span>
-        <button class="prc" onclick="selProto(this,'ws')">WS</button>
-        <button class="prc act" onclick="selProto(this,'wss')">WSS</button>
-      </div>
-    </div>
-    <div class="hsec">
-      <div class="htitle"><span>自定义请求头</span><button class="btn bs" onclick="addH()">+ 添加</button></div>
-      <div id="hl"></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="mgrid">
-      <div class="met"><div class="mv" id="mT">0</div><div class="mlb">总消息</div></div>
-      <div class="met"><div class="mv mvb" id="mS">0</div><div class="mlb">已发送</div></div>
-      <div class="met"><div class="mv mvg" id="mR">0</div><div class="mlb">已接收</div></div>
-      <div class="met"><div class="mv mva" id="mB">0 B</div><div class="mlb">总流量</div></div>
-      <div class="met"><div class="mv" id="mL">—</div><div class="mlb">延迟 ms</div><div class="lc" id="lc"></div></div>
-    </div>
-  </div>
-  <div class="two">
-    <div class="card">
-      <div class="ch"><div class="cl"><div class="cdot" style="background:var(--warn)"></div>预设端点</div></div>
-      <div class="pbody">
-        <div class="pi act" onclick="selP(this,'echo.websocket.org')"><div class="pd" style="background:var(--accent)"></div><div><div class="pn">Echo Server</div><div class="pu">echo.websocket.org</div></div></div>
-        <div class="pi" onclick="selP(this,'ws.postman-echo.com/raw')"><div class="pd" style="background:var(--info)"></div><div><div class="pn">Postman Echo</div><div class="pu">ws.postman-echo.com/raw</div></div></div>
-        <div class="pi" onclick="selP(this,'localhost:8080/ws')"><div class="pd" style="background:var(--warn)"></div><div><div class="pn">Local Dev</div><div class="pu">localhost:8080/ws</div></div></div>
-        <div class="pi" onclick="selP(this,'localhost:3000/socket')"><div class="pd" style="background:var(--text3)"></div><div><div class="pn">Local Socket.IO</div><div class="pu">localhost:3000/socket</div></div></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="cl"><div class="cdot" style="background:var(--send)"></div>消息模板</div></div>
-      <div class="tbody">
-        <div class="ti" onclick="insPing()"><div class="tn">Ping</div><div class="tp">{"type":"ping",...}</div></div>
-        <div class="ti" onclick="insHello()"><div class="tn">Hello</div><div class="tp">{"type":"hello",...}</div></div>
-        <div class="ti" onclick="insTpl('sub')"><div class="tn">Subscribe</div><div class="tp">{"action":"subscribe",...}</div></div>
-        <div class="ti" onclick="insTpl('auth')"><div class="tn">Auth</div><div class="tp">{"type":"auth","token":...}</div></div>
-        <div class="ti" onclick="insTpl('hb')"><div class="tn">心跳</div><div class="tp">{"cmd":"heartbeat",...}</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="lh">
-      <div class="ftabs">
-        <button class="ft act" onclick="setF('all',this)">全部</button>
-        <button class="ft" onclick="setF('recv',this)">接收</button>
-        <button class="ft" onclick="setF('send',this)">发送</button>
-        <button class="ft" onclick="setF('sys',this)">系统</button>
-      </div>
-      <div class="la">
-        <div class="sw"><span class="si">&#9906;</span><input type="text" id="srch" placeholder="搜索..." oninput="rLog()"></div>
-        <button class="btn asb on" id="asb" onclick="togAS()">自动滚动</button>
-        <button class="btn bs" onclick="clrLog()">清空</button>
-        <button class="btn bs" onclick="expLog()">导出</button>
-      </div>
-    </div>
-    <div class="ml" id="ml">
-      <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg><span>连接后消息将在此显示</span></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="ch">
-      <div class="cl"><div class="cdot" style="background:var(--send)"></div>发送消息</div>
-      <select class="fs" id="fmtSel"><option value="text">Text</option><option value="json">JSON</option><option value="hex">Hex</option></select>
-    </div>
-    <div class="sbody">
-      <div class="stb">
-        <div class="sc">
-          <button class="btn scb" onclick="fmtJ()">格式化</button>
-          <button class="btn scb" onclick="minJ()">压缩</button>
-          <button class="btn scb" onclick="clrInp()">清除</button>
+
+        <!-- 消息统计区块 (H2) -->
+        <div class="card">
+            <h2 class="ch" style="margin-top:0; padding-top:0;"><div class="cl"><div class="cdot" style="background:var(--text3)"></div>消息统计</h2>
+            <div class="mgrid">
+                <div class="met"><div class="mv" id="mT">0</div><div class="mlb">总消息</div></div>
+                <div class="met"><div class="mv mvb" id="mS">0</div><div class="mlb">已发送</div></div>
+                <div class="met"><div class="mv mvg" id="mR">0</div><div class="mlb">已接收</div></div>
+                <div class="met"><div class="mv mva" id="mB">0 B</div><div class="mlb">总流量</div></div>
+                <div class="met"><div class="mv" id="mL">—</div><div class="mlb">延迟 ms</div><div class="lc" id="lc"></div></div>
+            </div>
+            <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+                <i class="fas fa-chart-line"></i> 实时统计收发消息数量、总字节数及当前连接延迟。延迟通过定时心跳计算。
+            </p>
         </div>
-        <span class="hint">Ctrl+Enter 发送</span>
-      </div>
-      <div class="srow">
-        <textarea class="mi" id="inp" placeholder="输入消息..." onkeydown="onK(event)"></textarea>
-        <button class="btn ba ssendbtn" id="sendbtn" onclick="doSend()" disabled>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M11 6.5L2 2l2 4.5-2 4.5 9-4.5z" fill="currentColor"/></svg>发送
-        </button>
-      </div>
+
+        <!-- 预设端点与消息模板 (两列布局，各加H2) -->
+        <div class="two">
+            <div class="card">
+                <h2 class="ch"><div class="cl"><div class="cdot" style="background:var(--warn)"></div>预设端点</h2>
+                <div class="pbody">
+                    <div class="pi act" onclick="selP(this,'echo.websocket.org')"><div class="pd" style="background:var(--accent)"></div><div><div class="pn">Echo Server</div><div class="pu">echo.websocket.org</div></div></div>
+                    <div class="pi" onclick="selP(this,'ws.postman-echo.com/raw')"><div class="pd" style="background:var(--info)"></div><div><div class="pn">Postman Echo</div><div class="pu">ws.postman-echo.com/raw</div></div></div>
+                    <div class="pi" onclick="selP(this,'localhost:8080/ws')"><div class="pd" style="background:var(--warn)"></div><div><div class="pn">Local Dev</div><div class="pu">localhost:8080/ws</div></div></div>
+                    <div class="pi" onclick="selP(this,'localhost:3000/socket')"><div class="pd" style="background:var(--text3)"></div><div><div class="pn">Local Socket.IO</div><div class="pu">localhost:3000/socket</div></div></div>
+                </div>
+                <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+                    <i class="fas fa-database"></i> 点击预设端点自动填充URL，快速连接公共测试服务器或本地开发地址。
+                </p>
+            </div>
+            <div class="card">
+                <h2 class="ch"><div class="cl"><div class="cdot" style="background:var(--send)"></div>消息模板</h2>
+                <div class="tbody">
+                    <div class="ti" onclick="insPing()"><div class="tn">Ping</div><div class="tp">{"type":"ping",...}</div></div>
+                    <div class="ti" onclick="insHello()"><div class="tn">Hello</div><div class="tp">{"type":"hello",...}</div></div>
+                    <div class="ti" onclick="insTpl('sub')"><div class="tn">Subscribe</div><div class="tp">{"action":"subscribe",...}</div></div>
+                    <div class="ti" onclick="insTpl('auth')"><div class="tn">Auth</div><div class="tp">{"type":"auth","token":...}</div></div>
+                    <div class="ti" onclick="insTpl('hb')"><div class="tn">心跳</div><div class="tp">{"cmd":"heartbeat",...}</div></div>
+                </div>
+                <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+                    <i class="fas fa-file-code"></i> 点击模板快速填充常用JSON消息，支持自定义编辑后发送。
+                </p>
+            </div>
+        </div>
+
+        <!-- 消息日志区块 (H2) -->
+        <div class="card">
+            <div class="lh">
+                <h2 class="ftabs" style="display:inline-block; margin:0; font-size:1.1rem; font-weight:600;">消息日志</h2>
+                <div style="display:flex; gap:4px;">
+                    <button class="ft act" onclick="setF('all',this)">全部</button>
+                    <button class="ft" onclick="setF('recv',this)">接收</button>
+                    <button class="ft" onclick="setF('send',this)">发送</button>
+                    <button class="ft" onclick="setF('sys',this)">系统</button>
+                </div>
+                <div class="la">
+                    <div class="sw"><span class="si">&#9906;</span><input type="text" id="srch" placeholder="搜索..." oninput="rLog()"></div>
+                    <button class="btn asb on" id="asb" onclick="togAS()">自动滚动</button>
+                    <button class="btn bs" onclick="clrLog()">清空</button>
+                    <button class="btn bs" onclick="expLog()">导出</button>
+                </div>
+            </div>
+            <div class="ml" id="ml">
+                <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg><span>连接后消息将在此显示</span></div>
+            </div>
+            <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+                <i class="fas fa-list"></i> 所有收发消息实时显示，可按类型过滤、关键词搜索，支持自动滚动和导出日志。
+            </p>
+        </div>
+
+        <!-- 发送消息区块 (H2) -->
+        <div class="card">
+            <div class="ch">
+                <h2 class="cl"><div class="cdot" style="background:var(--send)"></div>发送消息</h2>
+                <select class="fs" id="fmtSel"><option value="text">Text</option><option value="json">JSON</option><option value="hex">Hex</option></select>
+            </div>
+            <div class="sbody">
+                <div class="stb">
+                    <div class="sc">
+                        <button class="btn scb" onclick="fmtJ()">格式化</button>
+                        <button class="btn scb" onclick="minJ()">压缩</button>
+                        <button class="btn scb" onclick="clrInp()">清除</button>
+                    </div>
+                    <span class="hint">Ctrl+Enter 发送</span>
+                </div>
+                <div class="srow">
+                    <textarea class="mi" id="inp" placeholder="输入消息..." onkeydown="onK(event)"></textarea>
+                    <button class="btn ba ssendbtn" id="sendbtn" onclick="doSend()" disabled>
+                        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M11 6.5L2 2l2 4.5-2 4.5 9-4.5z" fill="currentColor"/></svg>发送
+                    </button>
+                </div>
+            </div>
+            <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+                <i class="fas fa-paper-plane"></i> 支持文本、JSON、Hex格式，JSON可格式化和压缩。快捷键 Ctrl+Enter 快速发送。
+            </p>
+        </div>
     </div>
-  </div>
-</div>
-  <!-- 延迟加载非关键JS -->
+
+    <!-- ========== 新增：6大核心功能特色 + FAQ 区域 ========== -->
+    <div class="instructions-section" style="max-width:1200px; margin:40px auto 0 auto; padding:0 20px;">
+        <div class="instructions-content">
+            <!-- 6大功能特色 -->
+            <h2>专业WebSocket测试工具特色</h2>
+            <div class="feature-grid">
+                <!-- 1. 多协议支持 -->
+                <div class="feature-item">
+                    <h3><i class="fas fa-exchange-alt"></i> 多协议支持 (WS/WSS)</h3>
+                    <p>支持 ws 和 wss 协议一键切换，自动补全 URL 前缀，兼容加密与非加密连接，满足不同服务器要求。</p>
+                    <div class="tip">
+                        <span class="tip-text">根据服务器自动选择协议</span>
+                    </div>
+                </div>
+                <!-- 2. 自定义请求头 -->
+                <div class="feature-item">
+                    <h3><i class="fas fa-headers"></i> 自定义请求头</h3>
+                    <p>支持添加任意 HTTP 请求头，满足认证、鉴权、携带 Token 等复杂场景需求，握手时自动发送。</p>
+                    <div class="tip">
+                        <span class="tip-text">点击“+ 添加”按钮输入头信息</span>
+                    </div>
+                </div>
+                <!-- 3. 实时消息统计 -->
+                <div class="feature-item">
+                    <h3><i class="fas fa-chart-pie"></i> 实时消息统计</h3>
+                    <p>实时统计发送/接收消息数、总流量、当前延迟，直观监控连接状态与数据吞吐量。</p>
+                    <div class="tip">
+                        <span class="tip-text">延迟通过心跳包计算，每秒更新</span>
+                    </div>
+                </div>
+                <!-- 4. 预设端点与模板 -->
+                <div class="feature-item">
+                    <h3><i class="fas fa-draw-polygon"></i> 预设端点与模板</h3>
+                    <p>内置常用公共测试服务器和消息模板（Ping、Hello、订阅等），一键填充，快速开始测试。</p>
+                    <div class="tip">
+                        <span class="tip-text">点击卡片自动填写URL或消息内容</span>
+                    </div>
+                </div>
+                <!-- 5. 强大的日志系统 -->
+                <div class="feature-item">
+                    <h3><i class="fas fa-history"></i> 强大的日志系统</h3>
+                    <p>实时显示所有收发消息，支持按类型过滤、关键词搜索、自动滚动，并可导出为文本文件。</p>
+                    <div class="tip">
+                        <span class="tip-text">日志最多保留最近500条</span>
+                    </div>
+                </div>
+                <!-- 6. 多格式消息编辑 -->
+                <div class="feature-item">
+                    <h3><i class="fas fa-edit"></i> 多格式消息编辑</h3>
+                    <p>支持文本、JSON、Hex 三种格式，JSON 可一键格式化/压缩，快捷键 Ctrl+Enter 快速发送。</p>
+                    <div class="tip">
+                        <span class="tip-text">选择格式后输入框自动适配</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 原有常见问题解答 (FAQ) 区域 -->
+            <h2>常见问题解答 (FAQ)</h2>
+            <div class="faq-section">
+                <div class="faq-item">
+                    <h3>什么是WebSocket？</h3>
+                    <p>WebSocket是一种在单个TCP连接上进行全双工通信的协议，它使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。本工具可用于测试WebSocket服务是否正常工作。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>如何测试WebSocket连接？</h3>
+                    <p>在输入框中填写WebSocket服务器URL（例如 wss://echo.websocket.org），点击「连接」按钮，连接成功后即可在下方输入消息并点击「发送」，接收到的消息会实时显示在日志区。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>为什么连接失败？</h3>
+                    <p>可能的原因包括：服务器地址错误、服务器不支持WSS（尝试改用WS）、网络防火墙阻止、服务器未开启或跨域限制。请检查URL格式并确保目标服务器允许WebSocket连接。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>如何添加自定义请求头？</h3>
+                    <p>在「连接配置」区域下方，点击「+ 添加」按钮，可以输入请求头的名称和值。WebSocket握手时会携带这些自定义头信息，适用于需要认证或特定参数的场景。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>支持哪些消息格式？</h3>
+                    <p>支持文本（Text）、JSON和十六进制（Hex）三种格式。选择对应格式后，输入框内可输入相应内容，发送时会自动转换。JSON格式还提供格式化和压缩按钮，方便编辑。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>日志可以保存吗？</h3>
+                    <p>可以。点击日志区域右上角的「导出」按钮，可将当前日志导出为文本文件，便于后续分析。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>如何计算延迟？</h3>
+                    <p>连接成功后，工具会定时发送一个内置的ping消息，并计算收到pong响应的时间，从而估算当前网络延迟，显示在「延迟 ms」处。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内部链接：相关工具导航卡片 (仿鼠标页面) -->
+    <div class="tools-navigation-section" style="max-width:1200px; margin:32px auto 0 auto; padding:0 20px;">
+        <h2 class="tools-navigation-title">
+            <i class="fas fa-tools"></i> 网络调试工具箱
+        </h2>
+        <p class="tools-navigation-subtitle">更多实用工具，助力网络开发与测试</p>
+        <div class="tools-navigation-grid">  
+            <a href="/zh/utility-tools/netdev/ping/" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-network-wired"></i></div>
+                        <h3>在线Ping测试</h3>
+                    </div>
+                    <p>检测网络延迟与连通性，支持IPv4/IPv6</p>
+                </div>
+            </a>
+            <a href="./" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-search"></i></div>
+                        <h3>DNS查询</h3>
+                    </div>
+                    <p>解析域名A记录、MX记录、TXT记录等</p>
+                </div>
+            </a>
+            <a href="./" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-plug"></i></div>
+                        <h3>端口扫描</h3>
+                    </div>
+                    <p>检测指定IP的开放端口，快速诊断服务</p>
+                </div>
+            </a>
+            <a href="./" class="tool-card">
+                <div class="tool-card-content">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-heading"></i></div>
+                        <h3>HTTP头查看</h3>
+                    </div>
+                    <p>分析网站响应头和安全配置</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 页脚 (仿鼠标页面) -->
+    <footer style="max-width:1200px; margin:32px auto 0 auto; padding:16px 20px; border-top:1px solid rgba(148,163,184,0.35); text-align:center; font-size:0.85rem; color:#9ca3af;">
+        <div style="margin-bottom:6px;">© 2024 StarryRing · 在线WebSocket测试工具</div>
+        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+            <a href="/zh/about-us" style="color:#60a5fa; text-decoration:none;">关于我们</a>
+            <a href="/zh/contact-us" style="color:#60a5fa; text-decoration:none;">联系我们</a>
+            <a href="/zh/disclaimer" style="color:#60a5fa; text-decoration:none;">免责声明</a>
+            <a href="/zh/privacy" style="color:#60a5fa; text-decoration:none;">隐私政策</a>
+            <a href="/zh/terms" style="color:#60a5fa; text-decoration:none;">使用条款</a>
+        </div>
+    </footer>
+
+    <!-- 延迟加载JS (保持不变) -->
     <script src="/static/js/utility-tools/netdev/websocket-test/script-zh.js" defer></script>
-    <script src="/static/js/shared/switchlanguage.js"defer></script>
-    
-    <!-- 添加页面加载优化 -->
+    <script src="/static/js/shared/switchlanguage.js" defer></script>
+
+    <!-- 无脚本降级 (保持不变) -->
     <noscript>
         <style>
             .container { display: block !important; }
