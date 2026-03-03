@@ -33,6 +33,79 @@
 **功能描述：** 提供全屏色彩测试（红/绿/蓝/白/黑）、坏点定位模式、亮点检测、漏光检查，以及移动色块测试，帮助您快速判断显示器是否存在质量问题。适用于电脑、手机、平板，全设备支持，无需下载应用。
 **>> [开始屏幕坏点检测](https://starryring.com/zh/toolbox/dead-pixel/)**
 
+## 更多工具与页面一览
+
+除了上面 6 个核心硬件检测工具，本项目还提供了一整套实用工具、输入压测工具以及站点说明页面。  
+下面列出了当前项目中所有对外开放的页面链接及其简要说明：
+
+### A. 站点导航与说明页面
+- **首页（中文）** – HardwareTest 中文首页与项目总览  
+  **链接：** https://starryring.com/zh/
+- **工具箱总览** – 所有硬件检测工具的入口页  
+  **链接：** https://starryring.com/zh/toolbox/
+- **实用工具总览（Utility Tools）** – 各类计算、转换、网络调试工具的入口  
+  **链接：** https://starryring.com/zh/utility-tools/
+- **输入设备压测中心** – 鼠标 / 键盘相关压测小游戏与工具的入口  
+  **链接：** https://starryring.com/zh/input-stress-test/
+- **关于我们** – 了解 HardwareTest 项目背景与团队信息  
+  **链接：** https://starryring.com/zh/about-us/
+- **联系我们** – 提交问题反馈、合作咨询与技术支持  
+  **链接：** https://starryring.com/zh/contact-us/
+- **免责声明** – 工具使用及检测结果的法律声明  
+  **链接：** https://starryring.com/zh/disclaimer/
+- **隐私政策** – 本站如何处理和保护您的数据隐私  
+  **链接：** https://starryring.com/zh/privacy/
+- **使用条款** – 使用本网站及工具时需要遵守的条款  
+  **链接：** https://starryring.com/zh/terms/
+
+### B. 实用工具 – 数学与金融计算
+- **随机数生成器** – 生成指定范围内的随机数，用于测试、模拟与抽样场景  
+  **链接：** https://starryring.com/zh/utility-tools/math/random-number-generator/
+- **存款利率计算器** – 计算存款利息、收益金额与实际年化利率  
+  **链接：** https://starryring.com/zh/utility-tools/math/deposit-interest-rate-calculator/
+- **贷款利率与还款计算器** – 估算贷款月供、本息总额与利息支出  
+  **链接：** https://starryring.com/zh/utility-tools/math/loan-interest-rate-calculator/
+- **货币转换计算器** – 根据自定义汇率在多种货币之间进行换算  
+  **链接：** https://starryring.com/zh/utility-tools/math/currency-calculator/
+- **随机密码生成器** – 按规则生成高强度随机密码，提升账号安全性  
+  **链接：** https://starryring.com/zh/utility-tools/math/password-generator/
+
+### C. 实用工具 – 网络与开发调试
+- **Ping 网络延迟测试工具** – 发送 ICMP Ping 请求，检测网络延迟与丢包情况  
+  **链接：** https://starryring.com/zh/utility-tools/netdev/ping/
+- **二维码生成器** – 将文本或链接快速生成二维码，方便扫码分享  
+  **链接：** https://starryring.com/zh/utility-tools/netdev/qr-code-generator/
+- **WebSocket 测试工具** – 连接到 WebSocket 服务器，调试收发消息与连接状态  
+  **链接：** https://starryring.com/zh/utility-tools/netdev/websocket-test/
+- **HTTP 请求 / POST 调试工具** – 构造并发送 HTTP 请求（如 GET/POST）以调试接口  
+  **链接：** https://starryring.com/zh/utility-tools/netdev/post-tool/
+
+### D. 实用工具 – 设计与多媒体
+- **图片格式转换工具** – 在多种图片格式之间互转，并可做基础处理  
+  **链接：** https://starryring.com/zh/utility-tools/design-media/image-converter/
+- **音频格式转换工具** – 在多种音频格式之间转换，方便播放与编辑  
+  **链接：** https://starryring.com/zh/utility-tools/design-media/audio-converter/
+- **网站 Favicon 图标生成器** – 从图片一键生成多尺寸网站图标  
+  **链接：** https://starryring.com/zh/utility-tools/design-media/favicon-generator/
+- **色彩分级 / 调色辅助工具** – 帮助进行调色、配色与颜色数值转换  
+  **链接：** https://starryring.com/zh/utility-tools/design-media/color-grading/
+- **在线录音工具** – 在浏览器中直接录音并导出音频文件  
+  **链接：** https://starryring.com/zh/utility-tools/design-media/online-voice-recorder/
+- **应用图标生成器** – 从一张图片批量生成多尺寸应用图标  
+  **链接：** https://starryring.com/zh/utility-tools/design-media/app-icon-generator/
+
+### E. 输入压测 – 鼠标相关
+- **鼠标瞄准压测小游戏** – 通过移动靶练习与测试鼠标精度与跟踪性能  
+  **链接：** https://starryring.com/zh/input-stress-test/mouse/aiming/
+- **鼠标射击压测小游戏** – 射击类场景测试鼠标点击反应与操作节奏  
+  **链接：** https://starryring.com/zh/input-stress-test/mouse/shooting/
+
+### F. 输入压测 – 键盘相关
+- **键盘打字压测 – 食物单词** – 使用与“食物”相关的单词进行高强度打字练习与测试  
+  **链接：** https://starryring.com/zh/input-stress-test/keyboard/typing/food-word/
+- **键盘打字压测 – 字母雨** – 以“字母下落”的形式训练打字速度与准确率  
+  **链接：** https://starryring.com/zh/input-stress-test/keyboard/typing/alphabet-raining/
+
 ## 特色功能亮点：
 - ✅ **免费使用** - 所有工具完全免费，无需注册登录
 - ✅ **跨平台支持** - 支持电脑、手机、平板等所有设备

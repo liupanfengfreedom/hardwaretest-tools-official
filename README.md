@@ -62,6 +62,81 @@ Works on monitors, laptops, phones, and tablets.
 
 ---
 
+### More Online Tools in This Project
+
+In addition to the core hardware tests above, this project also provides a full set of utility tools and input stress tests.  
+Below is a complete list of public pages with brief descriptions:
+
+#### A. Site & Navigation Pages
+- **Home (English)** – Project landing page and overview  
+  **Link:** https://starryring.com/en/
+- **Toolbox Overview** – Entry to all hardware test tools  
+  **Link:** https://starryring.com/en/toolbox/
+- **Utility Tools Overview** – Entry page for all utility tools (calculators, converters, network tools, etc.)  
+  **Link:** https://starryring.com/en/utility-tools/
+- **Input Stress Test Hub** – Entry page for all mouse/keyboard stress test games  
+  **Link:** https://starryring.com/en/input-stress-test/
+- **About Us** – Learn about the HardwareTest project and team  
+  **Link:** https://starryring.com/en/about-us/
+- **Contact Us** – How to reach us for support and feedback  
+  **Link:** https://starryring.com/en/contact-us/
+- **Disclaimer** – Legal disclaimer for tools and results  
+  **Link:** https://starryring.com/en/disclaimer/
+- **Privacy Policy** – How we handle your data and privacy  
+  **Link:** https://starryring.com/en/privacy/
+- **Terms of Service** – Usage terms for this website and tools  
+  **Link:** https://starryring.com/en/terms/
+
+#### B. Utility Tools – Math & Calculators
+- **Random Number Generator** – Generate random numbers in custom ranges for testing, simulations, and sampling  
+  **Link:** https://starryring.com/en/utility-tools/math/random-number-generator/
+- **Deposit Interest Rate Calculator** – Calculate deposit interest, income, and effective rates for savings products  
+  **Link:** https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/
+- **Loan Interest Rate Calculator** – Estimate loan repayment amounts, interest, and total cost over time  
+  **Link:** https://starryring.com/en/utility-tools/math/loan-interest-rate-calculator/
+- **Currency Calculator** – Convert between currencies with configurable exchange rates  
+  **Link:** https://starryring.com/en/utility-tools/math/currency-calculator/
+- **Password Generator** – Generate strong, random passwords with customizable rules  
+  **Link:** https://starryring.com/en/utility-tools/math/password-generator/
+
+#### C. Utility Tools – Network & Developer
+- **Ping Test Tool** – Send ICMP ping requests and measure network latency and packet loss  
+  **Link:** https://starryring.com/en/utility-tools/netdev/ping/
+- **QR Code Generator** – Generate QR codes from text or URLs for sharing and scanning  
+  **Link:** https://starryring.com/en/utility-tools/netdev/qr-code-generator/
+- **WebSocket Test Tool** – Connect to a WebSocket server and send/receive test messages  
+  **Link:** https://starryring.com/en/utility-tools/netdev/websocket-test/
+- **HTTP POST / Request Test Tool** – Send custom HTTP requests (e.g., POST/GET) for debugging APIs  
+  **Link:** https://starryring.com/en/utility-tools/netdev/post-tool/
+
+#### D. Utility Tools – Design & Media
+- **Image Converter** – Convert images between formats and adjust basic image parameters  
+  **Link:** https://starryring.com/en/utility-tools/design-media/image-converter/
+- **Audio Converter** – Convert audio files between formats for playback and editing needs  
+  **Link:** https://starryring.com/en/utility-tools/design-media/audio-converter/
+- **Favicon Generator** – Generate website favicons from uploaded images in multiple sizes  
+  **Link:** https://starryring.com/en/utility-tools/design-media/favicon-generator/
+- **Color Grading Helper** – Assist with color grading, palette adjustment, and color value conversions  
+  **Link:** https://starryring.com/en/utility-tools/design-media/color-grading/
+- **Online Voice Recorder** – Record audio directly in the browser and export recordings  
+  **Link:** https://starryring.com/en/utility-tools/design-media/online-voice-recorder/
+- **App Icon Generator** – Generate multi-size app icons from a single source image  
+  **Link:** https://starryring.com/en/utility-tools/design-media/app-icon-generator/
+
+#### E. Input Stress Test – Mouse
+- **Mouse Aiming Stress Test** – Mouse accuracy and tracking test with moving targets  
+  **Link:** https://starryring.com/en/input-stress-test/mouse/aiming/
+- **Mouse Shooting Stress Test** – Shooting-style mouse reaction and precision training  
+  **Link:** https://starryring.com/en/input-stress-test/mouse/shooting/
+
+#### F. Input Stress Test – Keyboard
+- **Typing Stress Test – Food Words** – High-intensity typing game using food-related words  
+  **Link:** https://starryring.com/en/input-stress-test/keyboard/typing/food-word/
+- **Typing Stress Test – Alphabet Raining** – Typing training game where letters fall like rain  
+  **Link:** https://starryring.com/en/input-stress-test/keyboard/typing/alphabet-raining/
+
+---
+
 ## ⭐ Key Features
 - ✅ **Free to Use** – All tools are completely free, no registration required
 - ✅ **Cross-Platform** – Works on PC, mobile, and tablet
