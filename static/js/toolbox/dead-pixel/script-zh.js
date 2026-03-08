@@ -18,7 +18,13 @@ function closeLanguageDropdown() {
         languageDropdown.classList.remove('show');
     }
 }
-
+// 控制页脚显示与隐藏的函数 
+function closefooter(value) {
+    const footer = document.getElementById('footer');
+    if (footer) {
+        footer.style.display = value ?  'none' : 'block';
+    }
+}
 function startTest() {
     enterFullScreen();
     isTesting = true;
@@ -29,7 +35,7 @@ function startTest() {
     
     // 关闭语言下拉菜单（如果打开）
     closeLanguageDropdown();
-    
+     closefooter(true);
     // 隐藏语言切换器
     const languageSwitcher = document.querySelector('.language-switcher');
     if (languageSwitcher) {
@@ -47,7 +53,7 @@ function stopTest() {
     body.classList.remove('testing-mode');
     body.style.backgroundColor = '#1a1a1a';
     largeHint.classList.remove('hint-visible');
-    
+     closefooter(false);
     // 恢复语言切换器的交互
     const languageSwitcher = document.querySelector('.language-switcher');
     if (languageSwitcher) {

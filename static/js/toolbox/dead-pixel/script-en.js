@@ -18,7 +18,13 @@ function closeLanguageDropdown() {
         languageDropdown.classList.remove('show');
     }
 }
-
+// Function to control footer display
+function closefooter(value) {
+    const footer = document.getElementById('footer');
+    if (footer) {
+        footer.style.display = value ?  'none' : 'block';
+    }
+}
 function startTest() {
     enterFullScreen();
     isTesting = true;
@@ -29,7 +35,7 @@ function startTest() {
     
     // Close language dropdown (if open)
     closeLanguageDropdown();
-    
+    closefooter(true);
     // Hide language switcher
     const languageSwitcher = document.querySelector('.language-switcher');
     if (languageSwitcher) {
@@ -47,6 +53,7 @@ function stopTest() {
     body.classList.remove('testing-mode');
     body.style.backgroundColor = '#1a1a1a';
     largeHint.classList.remove('hint-visible');
+    closefooter(false);
     
     // Restore language switcher interaction
     const languageSwitcher = document.querySelector('.language-switcher');
