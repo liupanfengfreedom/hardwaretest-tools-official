@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简网页录屏</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f4f4f9; }
+        video { width: 80%; max-width: 400px; border-radius: 8px; background: #000; margin-bottom: 20px; }
+        button { padding: 12px 24px; font-size: 16px; cursor: pointer; border: none; border-radius: 25px; color: white; transition: 0.3s; margin: 5px; }
+        #start { background-color: #007bff; }
+        #stop { background-color: #dc3545; display: none; }
+        #download { background-color: #28a745; display: none; }
+    </style>
+</head>
+<body>
+
+    <video id="preview" autoplay muted playsinline></video>
+    
+    <div>
+        <button id="start">开始录制屏幕</button>
+        <button id="stop">停止录制</button>
+        <a id="downloadLink"><button id="download">保存视频到相册</button></a>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        const startBtn = document.getElementById('start');
+        const stopBtn = document.getElementById('stop');
+        const downloadBtn = document.getElementById('download');
+        const preview = document.getElementById('preview');
+        const downloadLink = document.getElementById('downloadLink');
+
+        startBtn.onclick = async () => {
+            try {
+                // 1. 获取屏幕流
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { cursor: "always" },
+                    audio: true 
+                });
+
+                preview.srcObject = stream;
+                recordedChunks = [];
+
+                // 2. 配置录制器
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/mp4' }); // iOS 建议用 mp4
+
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) recordedChunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/mp4' });
+                    const url = URL.createObjectURL(blob);
+                    downloadLink.href = url;
+                    downloadLink.download = `screen-record-${Date.now()}.mp4`;
+                    downloadBtn.style.display = 'inline-block';
+                    preview.srcObject = null;
+                };
+
+                mediaRecorder.start();
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'inline-block';
+            } catch (err) {
+                alert("录制取消或失败: " + err);
+            }
+        };
+
+        stopBtn.onclick = () => {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop()); // 关闭摄像头/屏幕授权
+            startBtn.style.display = 'inline-block';
+            stopBtn.style.display = 'none';
+        };
+    </script>
+</body>
+</html>
