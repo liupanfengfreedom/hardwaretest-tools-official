@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIDFORM — Video Format Converter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c; --surface: #111116; --surface2: #18181f;
+    --border: #2a2a35; --border-bright: #3d3d52;
+    --amber: #f5a623; --amber-dim: #7a5112; --amber-glow: rgba(245,166,35,0.15);
+    --green: #2ecc71; --green-dim: rgba(46,204,113,0.15);
+    --red: #e74c3c; --red-dim: rgba(231,76,60,0.12);
+    --purple: #a78bfa; --purple-dim: rgba(167,139,250,0.12);
+    --text: #e8e8f0; --text-muted: #666678; --text-dim: #3a3a4a;
+    --radius: 6px; --radius-lg: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono',monospace; min-height:100vh; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(245,166,35,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,166,35,0.03) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
+  .container { max-width:860px; margin:0 auto; padding:48px 24px 80px; position:relative; z-index:1; }
+
+  header { display:flex; align-items:center; justify-content:space-between; margin-bottom:48px; }
+  .logo { display:flex; flex-direction:column; gap:2px; }
+  .logo-mark { font-family:'Syne',sans-serif; font-weight:800; font-size:28px; letter-spacing:-0.5px; color:var(--text); line-height:1; }
+  .logo-mark span { color:var(--amber); }
+  .logo-sub { font-size:9px; letter-spacing:3px; color:var(--text-muted); text-transform:uppercase; }
+  .header-badge { display:flex; align-items:center; gap:6px; background:var(--green-dim); border:1px solid rgba(46,204,113,0.25); border-radius:100px; padding:5px 12px; font-size:10px; letter-spacing:1.5px; color:var(--green); text-transform:uppercase; }
+  .badge-dot { width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* Engine banner */
+  #engine-banner { display:flex; align-items:center; gap:12px; background:var(--purple-dim); border:1px solid rgba(167,139,250,0.25); border-radius:var(--radius); padding:12px 16px; margin-bottom:20px; font-size:10px; color:var(--purple); letter-spacing:0.5px; transition:all 0.4s; }
+  #engine-banner.ready { background:var(--green-dim); border-color:rgba(46,204,113,0.25); color:var(--green); }
+  #engine-banner.error { background:var(--red-dim); border-color:rgba(231,76,60,0.2); color:var(--red); }
+  .engine-spinner { width:14px; height:14px; border-radius:50%; flex-shrink:0; border:2px solid rgba(167,139,250,0.2); border-top-color:var(--purple); animation:spin 0.8s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  #engine-banner.ready .engine-spinner, #engine-banner.error .engine-spinner { display:none; }
+  #engine-prog-bar { flex:1; height:3px; background:rgba(167,139,250,0.15); border-radius:2px; overflow:hidden; }
+  #engine-prog-fill { height:100%; background:var(--purple); border-radius:2px; width:0%; transition:width 0.3s ease; }
+  #engine-banner.ready #engine-prog-bar, #engine-banner.error #engine-prog-bar { display:none; }
+
+  .section-label { font-size:9px; letter-spacing:3px; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .drop-zone { border:1.5px dashed var(--border-bright); border-radius:var(--radius-lg); padding:56px 32px; text-align:center; cursor:pointer; transition:all 0.25s; position:relative; overflow:hidden; background:var(--surface); margin-bottom:32px; }
+  .drop-zone::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center,var(--amber-glow) 0%,transparent 70%); opacity:0; transition:opacity 0.3s; }
+  .drop-zone:hover::before, .drop-zone.drag-over::before { opacity:1; }
+  .drop-zone:hover, .drop-zone.drag-over { border-color:var(--amber); border-style:solid; }
+  .drop-zone.drag-over { transform:scale(1.01); }
+  .drop-icon { width:56px; height:56px; margin:0 auto 20px; }
+  .drop-icon svg { width:100%; height:100%; }
+  .drop-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--text); margin-bottom:8px; }
+  .drop-subtitle { font-size:11px; color:var(--text-muted); margin-bottom:24px; line-height:1.6; }
+  .drop-formats { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; }
+  .fmt-chip { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:3px 8px; font-size:10px; letter-spacing:0.5px; color:var(--text-muted); }
+  #file-input { display:none; }
+
+  #file-list { margin-bottom:28px; }
+  .file-item { display:grid; grid-template-columns:40px 1fr auto auto auto; align-items:center; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px; transition:border-color 0.2s; animation:slideIn 0.2s ease; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .file-item:hover { border-color:var(--border-bright); }
+  .file-icon { width:40px; height:40px; border-radius:var(--radius); background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:600; letter-spacing:0.5px; color:var(--amber); text-transform:uppercase; }
+  .file-info { min-width:0; }
+  .file-name { font-size:12px; color:var(--text); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:3px; }
+  .file-meta { font-size:10px; color:var(--text-muted); }
+  .file-status { font-size:10px; letter-spacing:0.5px; padding:4px 10px; border-radius:100px; font-weight:500; white-space:nowrap; }
+  .status-ready      { color:var(--text-muted); background:var(--surface2); border:1px solid var(--border); }
+  .status-scanning   { color:var(--purple); background:var(--purple-dim); border:1px solid rgba(167,139,250,0.3); animation:statusPulse 1s infinite; }
+  .status-converting { color:var(--amber); background:var(--amber-glow); border:1px solid var(--amber-dim); }
+  .status-done       { color:var(--green); background:var(--green-dim); border:1px solid rgba(46,204,113,0.25); }
+  .status-error      { color:var(--red); background:var(--red-dim); border:1px solid rgba(231,76,60,0.2); }
+  @keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  .info-tags { display:flex; gap:4px; margin-top:5px; flex-wrap:wrap; }
+  .info-tag { font-size:9px; padding:2px 6px; border-radius:3px; background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.2); color:var(--amber); letter-spacing:0.3px; }
+  .remove-btn { background:none; border:none; cursor:pointer; color:var(--text-dim); padding:4px; border-radius:4px; transition:color 0.2s; display:flex; align-items:center; justify-content:center; }
+  .remove-btn:hover { color:var(--red); }
+
+  .play-btn { width:32px; height:32px; border-radius:50%; border:1.5px solid var(--border-bright); background:var(--surface2); color:var(--text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.18s; position:relative; overflow:hidden; }
+  .play-btn:hover { border-color:var(--amber); color:var(--amber); background:var(--amber-glow); }
+  .play-btn.playing { border-color:var(--amber); background:var(--amber); color:#0a0a0c; box-shadow:0 0 12px rgba(245,166,35,0.4); }
+  .play-btn svg { pointer-events:none; }
+  .eq-bars { display:none; gap:2px; align-items:flex-end; height:12px; }
+  .play-btn.playing .eq-bars { display:flex; }
+  .play-btn.playing .play-icon { display:none; }
+  .eq-bar { width:2.5px; background:#0a0a0c; border-radius:1px; animation:eqAnim 0.6s ease-in-out infinite alternate; }
+  .eq-bar:nth-child(1){ height:4px; animation-delay:0s; }
+  .eq-bar:nth-child(2){ height:10px; animation-delay:0.15s; }
+  .eq-bar:nth-child(3){ height:6px; animation-delay:0.05s; }
+  .eq-bar:nth-child(4){ height:12px; animation-delay:0.2s; }
+  @keyframes eqAnim { from{transform:scaleY(0.3)} to{transform:scaleY(1)} }
+
+  #mini-player { position:fixed; bottom:24px; right:24px; width:300px; background:rgba(17,17,22,0.96); backdrop-filter:blur(16px); border:1px solid var(--border-bright); border-radius:var(--radius-lg); overflow:hidden; z-index:999; transform:translateY(20px) scale(0.96); opacity:0; pointer-events:none; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s ease; box-shadow:0 8px 32px rgba(0,0,0,0.6); }
+  #mini-player.visible { transform:translateY(0) scale(1); opacity:1; pointer-events:auto; }
+  #mp-video-wrap { width:100%; background:#000; aspect-ratio:16/9; overflow:hidden; position:relative; }
+  #mp-video { width:100%; height:100%; object-fit:contain; display:block; }
+  #mp-controls { padding:10px 14px; display:flex; align-items:center; gap:10px; }
+  #mp-play-btn { width:30px; height:30px; border-radius:50%; background:var(--amber); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#0a0a0c; flex-shrink:0; transition:opacity 0.2s; }
+  #mp-play-btn:hover { opacity:0.85; }
+  #mp-info { flex:1; min-width:0; }
+  #mp-name { font-size:10px; color:var(--text); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:5px; }
+  #mp-progress-wrap { height:3px; background:var(--border); border-radius:2px; cursor:pointer; }
+  #mp-progress-fill { height:100%; background:var(--amber); border-radius:2px; width:0%; transition:width 0.1s linear; pointer-events:none; }
+  #mp-time { font-size:9px; color:var(--text-muted); flex-shrink:0; letter-spacing:0.5px; }
+  #mp-close-btn { background:rgba(10,10,12,0.6); border:none; cursor:pointer; color:var(--text-dim); position:absolute; top:8px; right:8px; z-index:2; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; transition:color 0.2s; }
+  #mp-close-btn:hover { color:var(--text-muted); }
+
+  .controls-panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; margin-bottom:24px; }
+  .controls-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  .controls-row2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px; }
+  @media(max-width:600px){ .controls-grid,.controls-row2 { grid-template-columns:1fr; } }
+  .control-group label { display:block; font-size:9px; letter-spacing:2px; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px; }
+  .control-select { width:100%; background:var(--surface2); border:1px solid var(--border-bright); border-radius:var(--radius); color:var(--text); font-family:'JetBrains Mono',monospace; font-size:13px; padding:10px 32px 10px 12px; cursor:pointer; outline:none; transition:border-color 0.2s; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666678' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; }
+  .control-select:focus { border-color:var(--amber); }
+  .control-select option { background:#1a1a22; }
+  .control-slider { -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:var(--border); outline:none; cursor:pointer; margin-top:6px; }
+  .control-slider::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--amber); cursor:pointer; box-shadow:0 0 8px var(--amber-glow); }
+  .slider-labels { display:flex; justify-content:space-between; margin-top:6px; font-size:9px; color:var(--text-dim); }
+  .format-note { margin-top:14px; background:rgba(245,166,35,0.07); border:1px solid var(--amber-dim); border-radius:var(--radius); padding:10px 14px; font-size:10px; color:var(--text-muted); line-height:1.6; display:none; }
+  .format-note.show { display:block; }
+
+  .btn-convert { width:100%; background:var(--amber); color:#0a0a0c; border:none; border-radius:var(--radius); padding:16px 24px; font-family:'Syne',sans-serif; font-size:14px; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; margin-bottom:12px; }
+  .btn-convert:hover { background:#f7c96a; box-shadow:0 4px 24px rgba(245,166,35,0.35); transform:translateY(-1px); }
+  .btn-convert:active { transform:translateY(0); }
+  .btn-convert:disabled { opacity:0.35; cursor:not-allowed; transform:none; box-shadow:none; }
+  .btn-shimmer { position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent); animation:shimmer 2.5s infinite; }
+  @keyframes shimmer { 0%{left:-100%} 100%{left:200%} }
+
+  #download-area { display:none; }
+  .download-item { display:flex; align-items:center; gap:12px; background:var(--green-dim); border:1px solid rgba(46,204,113,0.25); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px; animation:slideIn 0.3s ease; }
+  .download-item .play-btn { flex-shrink:0; border-color:rgba(46,204,113,0.35); color:var(--green); }
+  .download-item .play-btn:hover { border-color:var(--green); background:var(--green-dim); color:var(--green); }
+  .download-item .play-btn.playing { background:var(--green); border-color:var(--green); color:#0a0a0c; box-shadow:0 0 12px rgba(46,204,113,0.35); }
+  .download-item .play-btn.playing .eq-bar { background:#0a0a0c; }
+  .download-info { flex:1; min-width:0; }
+  .download-name { font-size:12px; color:var(--text); margin-bottom:2px; }
+  .download-size { font-size:10px; color:var(--text-muted); }
+  .btn-dl { background:var(--green); color:#0a0a0c; border:none; border-radius:var(--radius); padding:8px 16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; cursor:pointer; white-space:nowrap; text-decoration:none; display:inline-flex; align-items:center; gap:6px; transition:opacity 0.2s; }
+  .btn-dl:hover { opacity:0.85; }
+
+  #log-section { display:none; margin-top:24px; }
+  .log-box { background:#08080a; border:1px solid var(--border); border-radius:var(--radius); padding:16px; font-size:10px; color:var(--text-muted); max-height:120px; overflow-y:auto; line-height:1.8; }
+  .log-line { display:block; }
+  .log-line.info    { color:var(--text-dim); }
+  .log-line.success { color:var(--green); }
+  .log-line.error   { color:var(--red); }
+  .log-line.active  { color:var(--amber); }
+
+  .filmstrip-deco { display:flex; align-items:center; justify-content:center; gap:3px; margin:20px 0; height:28px; opacity:0.3; }
+  .film-frame { width:16px; height:22px; border:1px solid var(--amber); border-radius:2px; position:relative; animation:filmAnim 1.6s ease-in-out infinite; flex-shrink:0; }
+  .film-frame::before,.film-frame::after { content:''; position:absolute; left:2px; right:2px; height:3px; background:var(--amber); border-radius:1px; }
+  .film-frame::before { top:2px; } .film-frame::after { bottom:2px; }
+  @keyframes filmAnim { 0%,100%{opacity:0.3;transform:scaleY(0.85)} 50%{opacity:1;transform:scaleY(1)} }
+
+  .file-list-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .clear-all-btn { background:none; border:1px solid var(--border); border-radius:var(--radius); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; padding:6px 12px; cursor:pointer; transition:all 0.2s; letter-spacing:0.5px; }
+  .clear-all-btn:hover { border-color:var(--red); color:var(--red); }
+
+  #conv-card { display:none; background:var(--surface); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:24px 28px 20px; margin-bottom:16px; position:relative; overflow:hidden; animation:slideIn 0.25s ease; }
+  #conv-card.active { display:block; }
+  #conv-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--amber),transparent); opacity:0.6; }
+  .conv-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
+  .conv-label-inline { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--text-muted); }
+  .conv-pct-inline { font-family:'Syne',sans-serif; font-weight:800; font-size:42px; line-height:1; color:transparent; background:linear-gradient(135deg,#fff 0%,var(--amber) 60%,#f7c96a 100%); -webkit-background-clip:text; background-clip:text; letter-spacing:-2px; }
+  .conv-pct-unit-inline { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--amber); opacity:0.7; margin-left:2px; }
+  .conv-bar-wrap { width:100%; position:relative; margin-bottom:10px; }
+  .conv-bar-track { width:100%; height:10px; background:rgba(255,255,255,0.04); border-radius:100px; border:1px solid rgba(245,166,35,0.1); position:relative; overflow:visible; }
+  .conv-bar-fill { height:100%; border-radius:100px; background:linear-gradient(90deg,#b36a00 0%,var(--amber) 55%,#ffe082 100%); width:0%; transition:width 0.18s cubic-bezier(0.4,0,0.2,1); position:relative; box-shadow:0 0 10px rgba(245,166,35,0.9),0 0 24px rgba(245,166,35,0.45); overflow:hidden; }
+  .conv-bar-fill::after { content:''; position:absolute; top:0; left:-60%; width:50%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent); animation:barSweep 1.3s ease-in-out infinite; }
+  @keyframes barSweep { 0%{left:-60%} 100%{left:130%} }
+  .conv-bar-head { position:absolute; right:-5px; top:50%; transform:translateY(-50%); width:12px; height:12px; border-radius:50%; background:#fff; box-shadow:0 0 0 3px rgba(245,166,35,0.4),0 0 10px rgba(245,166,35,1),0 0 20px rgba(245,166,35,0.6); }
+  .conv-seg-track { width:100%; display:flex; gap:3px; margin-top:5px; height:3px; }
+  .conv-seg { flex:1; border-radius:2px; background:rgba(255,255,255,0.05); transition:background 0.3s; position:relative; overflow:hidden; }
+  .conv-seg.seg-active { background:var(--amber-dim); }
+  .conv-seg.seg-active::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(245,166,35,0.8),transparent); animation:segSweep 0.8s ease-in-out infinite; }
+  @keyframes segSweep { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+  .conv-seg.seg-done { background:var(--amber); box-shadow:0 0 4px rgba(245,166,35,0.4); }
+  .conv-seg.seg-error { background:var(--red); }
+  .conv-footer-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; flex-wrap:wrap; }
+  .conv-op { font-size:10px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; min-height:14px; transition:opacity 0.15s; flex-shrink:0; }
+  .conv-op .op-highlight { color:var(--amber); font-weight:600; }
+  .conv-steps { display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
+  .conv-step { display:flex; align-items:center; gap:5px; padding:4px 10px; border-radius:100px; font-size:9px; letter-spacing:0.5px; transition:all 0.2s; border:1px solid var(--border); color:var(--text-dim); background:var(--surface2); white-space:nowrap; max-width:140px; overflow:hidden; text-overflow:ellipsis; }
+  .conv-step.step-active { border-color:var(--amber); color:var(--amber); background:var(--amber-glow); }
+  .conv-step.step-done   { border-color:rgba(46,204,113,0.3); color:var(--green); background:var(--green-dim); }
+  .conv-step.step-error  { border-color:rgba(231,76,60,0.3); color:var(--red); background:var(--red-dim); }
+  .step-dot { width:4px; height:4px; border-radius:50%; background:currentColor; flex-shrink:0; }
+  .conv-step.step-active .step-dot { animation:pulse 1s infinite; }
+
+  footer { margin-top:64px; padding-top:24px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:10px; color:var(--text-dim); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">
+      <div class="logo-mark">VID<span>FORM</span></div>
+      <div class="logo-sub">Video Format Converter</div>
+    </div>
+    <div class="header-badge"><div class="badge-dot"></div>本地处理 · 隐私安全</div>
+  </header>
+
+  <div id="engine-banner">
+    <div class="engine-spinner"></div>
+    <div id="engine-text">正在加载 FFmpeg 引擎（约 30MB，请稍候）...</div>
+    <div id="engine-prog-bar"><div id="engine-prog-fill"></div></div>
+  </div>
+
+  <div class="section-label">01 — 上传文件</div>
+  <div class="drop-zone" id="drop-zone">
+    <input type="file" id="file-input" multiple accept="video/*,.mp4,.mov,.mkv,.avi,.webm,.flv,.wmv,.m4v,.3gp,.ts,.mts,.ogv,.f4v,.gif">
+    <div class="drop-icon">
+      <svg viewBox="0 0 56 56" fill="none">
+        <rect width="56" height="56" rx="12" fill="#18181f"/>
+        <rect x="12" y="16" width="32" height="24" rx="3" stroke="#f5a623" stroke-width="2"/>
+        <rect x="9" y="19" width="4" height="4" rx="1" fill="#3d3d52"/><rect x="9" y="26" width="4" height="4" rx="1" fill="#3d3d52"/><rect x="9" y="33" width="4" height="4" rx="1" fill="#3d3d52"/>
+        <rect x="43" y="19" width="4" height="4" rx="1" fill="#3d3d52"/><rect x="43" y="26" width="4" height="4" rx="1" fill="#3d3d52"/><rect x="43" y="33" width="4" height="4" rx="1" fill="#3d3d52"/>
+        <path d="M24 22l10 6-10 6V22z" fill="#f5a623"/>
+      </svg>
+    </div>
+    <div class="drop-title">拖放视频文件到此处</div>
+    <div class="drop-subtitle">或点击选择文件 · 支持几乎所有视频格式</div>
+    <div class="drop-formats">
+      <span class="fmt-chip">MP4</span><span class="fmt-chip">MOV</span><span class="fmt-chip">MKV</span>
+      <span class="fmt-chip">AVI</span><span class="fmt-chip">WebM</span><span class="fmt-chip">FLV</span>
+      <span class="fmt-chip">WMV</span><span class="fmt-chip">3GP</span><span class="fmt-chip">TS</span>
+      <span class="fmt-chip">OGV</span><span class="fmt-chip">GIF</span><span class="fmt-chip">M4V</span>
+    </div>
+  </div>
+
+  <div id="file-list-section" style="display:none">
+    <div class="file-list-header">
+      <div class="section-label" style="margin:0;flex:1">02 — 文件队列</div>
+      <button class="clear-all-btn" onclick="clearAll()">清空列表</button>
+    </div>
+    <div id="file-list"></div>
+    <div class="filmstrip-deco" id="filmstrip-deco" style="display:none"></div>
+  </div>
+
+  <div class="section-label">03 — 转换设置</div>
+  <div class="controls-panel">
+    <div class="controls-grid">
+      <div class="control-group">
+        <label>目标格式</label>
+        <select class="control-select" id="format-select" onchange="onFormatChange()">
+          <optgroup label="── 主流格式">
+            <option value="mp4" selected>MP4 — H.264（最兼容）</option>
+            <option value="webm">WebM — VP9（Web 标准）</option>
+            <option value="mkv">MKV — H.264（万能容器）</option>
+            <option value="mov">MOV — H.264（Apple）</option>
+          </optgroup>
+          <optgroup label="── 其他格式">
+            <option value="avi">AVI — MPEG-4（传统）</option>
+            <option value="flv">FLV — H.264（Flash）</option>
+            <option value="wmv">WMV — Windows Media</option>
+            <option value="3gp">3GP — H.264（移动端）</option>
+            <option value="ts">TS — H.264（广播流）</option>
+            <option value="ogv">OGV — Theora（开放）</option>
+            <option value="gif">GIF — 动图（无声）</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>分辨率</label>
+        <select class="control-select" id="resolution-select">
+          <option value="auto" selected>✦ 原始分辨率（自动）</option>
+          <option value="3840:2160">3840×2160 — 4K</option>
+          <option value="1920:1080">1920×1080 — Full HD</option>
+          <option value="1280:720">1280×720 — HD</option>
+          <option value="854:480">854×480 — SD</option>
+          <option value="640:360">640×360 — 低清</option>
+          <option value="426:240">426×240 — 超低</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>帧率</label>
+        <select class="control-select" id="fps-select">
+          <option value="auto" selected>✦ 原始帧率（自动）</option>
+          <option value="60">60 fps</option>
+          <option value="30">30 fps</option>
+          <option value="24">24 fps — 电影</option>
+          <option value="15">15 fps</option>
+          <option value="10">10 fps</option>
+        </select>
+      </div>
+    </div>
+    <div class="controls-row2" id="bitrate-rows">
+      <div class="control-group">
+        <label>视频码率 — <span id="vbitrate-val">2000</span> kbps</label>
+        <input type="range" class="control-slider" id="vbitrate-slider" min="200" max="8000" step="200" value="2000">
+        <div class="slider-labels"><span>200k</span><span>2M</span><span>4M</span><span>6M</span><span>8M</span></div>
+      </div>
+      <div class="control-group" id="abitrate-row">
+        <label>音频码率 — <span id="abitrate-val">128</span> kbps</label>
+        <input type="range" class="control-slider" id="abitrate-slider" min="64" max="320" step="32" value="128">
+        <div class="slider-labels"><span>64k</span><span>128k</span><span>192k</span><span>256k</span><span>320k</span></div>
+      </div>
+    </div>
+    <div class="format-note" id="format-note"></div>
+  </div>
+
+  <button class="btn-convert" id="convert-btn" onclick="startConversion()" disabled>
+    <div class="btn-shimmer"></div>⏳ 引擎加载中...
+  </button>
+
+  <div id="conv-card">
+    <div class="conv-head">
+      <span class="conv-label-inline">转换进度</span>
+      <div><span class="conv-pct-inline" id="conv-pct">0</span><span class="conv-pct-unit-inline">%</span></div>
+    </div>
+    <div class="conv-bar-wrap">
+      <div class="conv-bar-track">
+        <div class="conv-bar-fill" id="conv-bar-fill"><div class="conv-bar-head"></div></div>
+      </div>
+      <div class="conv-seg-track" id="conv-seg-track"></div>
+    </div>
+    <div class="conv-footer-row">
+      <div class="conv-op" id="conv-op">准备中...</div>
+      <div class="conv-steps" id="conv-steps"></div>
+    </div>
+  </div>
+
+  <div id="download-area">
+    <div class="section-label">04 — 下载结果</div>
+    <div id="download-list"></div>
+  </div>
+
+  <div id="log-section">
+    <div class="section-label">— 转换日志</div>
+    <div class="log-box" id="log-box"></div>
+  </div>
+
+  <footer>
+    <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--amber)">🔒</span>所有处理在浏览器本地完成，文件不上传至任何服务器</div>
+    <div>FFmpeg.wasm · 支持全格式互转</div>
+  </footer>
+</div>
+
+<!-- Floating mini video player -->
+<div id="mini-player">
+  <button id="mp-close-btn" onclick="mpClose()" title="关闭">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 1l8 8M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </button>
+  <div id="mp-video-wrap"><video id="mp-video" playsinline></video></div>
+  <div id="mp-controls">
+    <button id="mp-play-btn" onclick="mpToggle()">
+      <svg id="mp-play-icon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 2l7 4-7 4V2z" fill="currentColor"/></svg>
+      <svg id="mp-pause-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:none"><rect x="2" y="2" width="3" height="8" rx="1" fill="currentColor"/><rect x="7" y="2" width="3" height="8" rx="1" fill="currentColor"/></svg>
+    </button>
+    <div id="mp-info">
+      <div id="mp-name">—</div>
+      <div id="mp-progress-wrap" onclick="mpSeek(event)"><div id="mp-progress-fill"></div></div>
+    </div>
+    <div id="mp-time">0:00 / 0:00</div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+<script>
+"use strict";
+
+// ── FFmpeg v0.11 ─────────────────────────────────────────────
+var ffmpeg = null;
+var ffmpegReady = false;
+var _fetchFile = null;
+
+async function loadFFmpeg() {
+  try {
+    if (typeof FFmpeg === 'undefined' || !FFmpeg.createFFmpeg) {
+      throw new Error('FFmpeg 脚本未加载，请检查网络后刷新页面');
+    }
+    var { createFFmpeg, fetchFile } = FFmpeg;
+    _fetchFile = fetchFile;
+
+    setEngProg(20);
+    ffmpeg = createFFmpeg({
+      corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
+      log: false,
+      progress: function(p) {
+        if (typeof p.ratio === 'number') {
+          var base  = (_convCurrent / Math.max(_convTotal, 1)) * 100;
+          var slice = 100 / Math.max(_convTotal, 1);
+          convSetPct(base + slice * Math.min(p.ratio, 0.97));
+        }
+      }
+    });
+
+    // Intercept logs
+    ffmpeg.setLogger(function(e) {
+      if (e.message && e.message.trim()) addLog(e.message, 'info');
+    });
+
+    setEngProg(40);
+    await ffmpeg.load();
+    setEngProg(100);
+    ffmpegReady = true;
+
+    document.getElementById('engine-banner').classList.add('ready');
+    document.getElementById('engine-text').textContent = '✓ FFmpeg 引擎就绪 — 支持全格式互转';
+    var btn = document.getElementById('convert-btn');
+    btn.disabled = false;
+    btn.innerHTML = '<div class="btn-shimmer"></div>⚡ 开始转换';
+    addLog('FFmpeg.wasm 就绪 — MP4 · MKV · MOV · AVI · WebM · FLV · WMV · 3GP · TS · OGV · GIF', 'success');
+  } catch(err) {
+    document.getElementById('engine-banner').classList.add('error');
+    document.getElementById('engine-text').textContent = '✗ 引擎加载失败：' + err.message;
+    addLog('FFmpeg 加载失败: ' + err.message, 'error');
+  }
+}
+function setEngProg(p) { document.getElementById('engine-prog-fill').style.width = p + '%'; }
+loadFFmpeg();
+
+// ── Format definitions ───────────────────────────────────────
+var FMT = {
+  mp4:  { ext:'mp4',  mime:'video/mp4',        vc:'libx264',    ac:'aac',        note:'H.264/AAC，兼容所有设备和平台，推荐首选。' },
+  webm: { ext:'webm', mime:'video/webm',        vc:'libvpx-vp9', ac:'libopus',    note:'VP9/Opus，现代 Web 标准，压缩率高，Chrome/Firefox/Edge 支持。' },
+  mkv:  { ext:'mkv',  mime:'video/x-matroska',  vc:'libx264',    ac:'aac',        note:'万能容器格式，支持多音轨/字幕，适合存档。' },
+  mov:  { ext:'mov',  mime:'video/quicktime',   vc:'libx264',    ac:'aac',        note:'Apple QuickTime 格式，适合 macOS/iOS 工作流。' },
+  avi:  { ext:'avi',  mime:'video/x-msvideo',   vc:'mpeg4',      ac:'mp3',        note:'传统 AVI 格式，兼容老旧设备，文件较大。' },
+  flv:  { ext:'flv',  mime:'video/x-flv',       vc:'libx264',    ac:'aac',        note:'Flash 视频格式，H.264，适合流媒体平台。' },
+  wmv:  { ext:'wmv',  mime:'video/x-ms-wmv',    vc:'wmv2',       ac:'wmav2',      note:'Windows Media Video，适合 Windows 环境播放。' },
+  '3gp':{ ext:'3gp',  mime:'video/3gpp',        vc:'libx264',    ac:'aac',        note:'移动端格式，文件小，适合旧手机和低带宽场景。' },
+  ts:   { ext:'ts',   mime:'video/mp2t',         vc:'libx264',    ac:'aac',        note:'MPEG Transport Stream，广播/流媒体传输格式。' },
+  ogv:  { ext:'ogv',  mime:'video/ogg',          vc:'libtheora',  ac:'libvorbis',  note:'完全开放的 Ogg/Theora 格式，适合开源项目。' },
+  gif:  { ext:'gif',  mime:'image/gif',           vc:null,        ac:null,         note:'⚠ GIF 无声音，建议设低分辨率和帧率，否则文件极大。', noAudio:true },
+};
+
+function onFormatChange() {
+  var fmt = document.getElementById('format-select').value;
+  var cfg = FMT[fmt];
+  var note = document.getElementById('format-note');
+  var rows = document.getElementById('bitrate-rows');
+  var arow = document.getElementById('abitrate-row');
+  rows.style.display = (cfg && cfg.noAudio) ? 'none' : '';
+  arow.style.display = (cfg && cfg.noAudio) ? 'none' : '';
+  if (cfg && cfg.note) {
+    note.textContent = 'ℹ ' + cfg.note;
+    note.classList.add('show');
+    note.style.borderColor = cfg.noAudio ? 'rgba(245,166,35,0.5)' : '';
+  } else { note.classList.remove('show'); }
+}
+onFormatChange();
+document.getElementById('vbitrate-slider').addEventListener('input', function() { document.getElementById('vbitrate-val').textContent = this.value; });
+document.getElementById('abitrate-slider').addEventListener('input', function() { document.getElementById('abitrate-val').textContent = this.value; });
+
+// ── Files ────────────────────────────────────────────────────
+var files = [];
+var dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('click', function() { document.getElementById('file-input').click(); });
+dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag-over'); });
+dropZone.addEventListener('drop', function(e) { e.preventDefault(); dropZone.classList.remove('drag-over'); addFiles(Array.from(e.dataTransfer.files)); });
+document.getElementById('file-input').addEventListener('change', function(e) { addFiles(Array.from(e.target.files)); e.target.value = ''; });
+
+function addFiles(newFiles) {
+  newFiles.forEach(function(f) {
+    if (!files.find(function(x) { return x.name===f.name && x.size===f.size; })) {
+      var entry = { file:f, name:f.name, size:f.size, status:'scanning', id:Date.now()+Math.random(), dw:null, dh:null, dur:null };
+      files.push(entry); probeVideo(entry);
+    }
+  });
+  renderFileList();
+}
+
+function probeVideo(entry) {
+  var v = document.createElement('video'); v.preload='metadata';
+  var url = URL.createObjectURL(entry.file); v.src = url;
+  v.onloadedmetadata = function() {
+    entry.dw = v.videoWidth||null; entry.dh = v.videoHeight||null;
+    entry.dur = isFinite(v.duration) ? v.duration : null;
+    entry.status = 'ready'; URL.revokeObjectURL(url);
+    renderFileList(); updateResHint();
+  };
+  v.onerror = function() { URL.revokeObjectURL(url); entry.status='ready'; renderFileList(); };
+}
+
+function updateResHint() {
+  var sel = document.getElementById('resolution-select');
+  if (sel.value !== 'auto') return;
+  var det = files.filter(function(f){return f.dw&&f.dh;});
+  var opt = sel.querySelector('option[value="auto"]');
+  if (!opt) return;
+  if (det.length===1) opt.textContent = '✦ 原始分辨率 — '+det[0].dw+'×'+det[0].dh;
+  else if (det.length>1) opt.textContent = '✦ 原始分辨率（混合）';
+  else opt.textContent = '✦ 原始分辨率（自动）';
+}
+
+function fmtSize(b) { return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB'; }
+function fmtDur(s) { var m=Math.floor(s/60),ss=Math.floor(s%60); return m+':'+(ss<10?'0':'')+ss; }
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function buildFilmstrip() {
+  var d=document.getElementById('filmstrip-deco'); d.innerHTML='';
+  for(var i=0;i<18;i++){var f=document.createElement('div');f.className='film-frame';f.style.animationDelay=(i*.09)+'s';d.appendChild(f);}
+}
+
+function renderFileList() {
+  var list=document.getElementById('file-list'), sec=document.getElementById('file-list-section'), deco=document.getElementById('filmstrip-deco');
+  if(!files.length){sec.style.display='none';return;}
+  sec.style.display='block'; deco.style.display='flex'; buildFilmstrip(); list.innerHTML='';
+  files.forEach(function(f,idx){
+    var sc={ready:'status-ready',scanning:'status-scanning',converting:'status-converting',done:'status-done',error:'status-error'}[f.status]||'status-ready';
+    var st={ready:'READY',scanning:'SCANNING',converting:'PROCESSING',done:'DONE',error:'ERROR'}[f.status]||'READY';
+    var ext=(f.name.split('.').pop()||'?').toUpperCase().slice(0,4);
+    var tags='';
+    if(f.dw||f.dur){
+      tags='<div class="info-tags">';
+      if(f.dw&&f.dh) tags+='<span class="info-tag">'+f.dw+'×'+f.dh+'</span>';
+      if(f.dur) tags+='<span class="info-tag">'+fmtDur(f.dur)+'</span>';
+      tags+='</div>';
+    }
+    var item=document.createElement('div'); item.className='file-item'; item.id='fi-'+f.id;
+    item.innerHTML='<div class="file-icon">🎬 '+ext+'</div>'+
+      '<div class="file-info"><div class="file-name">'+esc(f.name)+'</div><div class="file-meta">'+fmtSize(f.size)+'</div>'+tags+'</div>'+
+      '<span class="file-status '+sc+'">'+st+'</span>'+
+      '<button class="remove-btn" onclick="removeFile('+idx+')" title="移除"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>';
+    list.appendChild(item);
+    if(!f._pu) f._pu=URL.createObjectURL(f.file);
+    var uid='s'+f.id.toString().replace('.','');
+    regPlay(uid,f._pu,f.name);
+    var pb=document.createElement('div'); pb.innerHTML=mkPlayBtn(uid);
+    item.insertBefore(pb.firstChild, item.querySelector('.file-status'));
+  });
+}
+
+function removeFile(idx){files.splice(idx,1);renderFileList();}
+function clearAll(){
+  files=[];renderFileList();
+  document.getElementById('download-list').innerHTML='';
+  document.getElementById('download-area').style.display='none';
+  document.getElementById('log-section').style.display='none';
+  var o=document.querySelector('#resolution-select option[value="auto"]');
+  if(o) o.textContent='✦ 原始分辨率（自动）';
+}
+function setFileStatus(id,s){var f=files.find(function(x){return x.id===id;});if(f){f.status=s;renderFileList();}}
+
+function addLog(msg,type){
+  type=type||'info';
+  var box=document.getElementById('log-box');
+  document.getElementById('log-section').style.display='block';
+  var line=document.createElement('span'); line.className='log-line '+type;
+  var t=new Date().toLocaleTimeString('en',{hour12:false});
+  line.textContent='['+t+'] '+msg;
+  box.appendChild(document.createElement('br')); box.appendChild(line);
+  box.scrollTop=box.scrollHeight;
+}
+
+// ── Conversion ───────────────────────────────────────────────
+async function startConversion(){
+  if(!ffmpegReady){addLog('FFmpeg 尚未就绪','error');return;}
+  if(!files.length){addLog('请先上传文件','error');return;}
+  var fmt=document.getElementById('format-select').value;
+  var cfg=FMT[fmt];
+  var res=document.getElementById('resolution-select').value;
+  var fps=document.getElementById('fps-select').value;
+  var vbr=parseInt(document.getElementById('vbitrate-slider').value);
+  var abr=parseInt(document.getElementById('abitrate-slider').value);
+
+  var btn=document.getElementById('convert-btn');
+  btn.disabled=true; btn.textContent='⏳ 转换中...';
+  var dlArea=document.getElementById('download-area');
+  var dlList=document.getElementById('download-list');
+  dlList.innerHTML=''; dlArea.style.display='none';
+
+  var names=files.map(function(f){return f.name;});
+  convInit(files.length); convSetFileNames(names);
+
+  for(var i=0;i<files.length;i++){
+    _convCurrent=i;
+    var f=files[i];
+    var base=f.name.replace(/\.[^/.]+$/,'');
+    var outName=base+'.'+cfg.ext;
+    var inName='in_'+i+'.'+((f.name.split('.').pop())||'mp4');
+    try{
+      setFileStatus(f.id,'converting'); convSetFile(i); convSetFileNames(names);
+      convSetOp('写入文件...',null); addLog('载入: '+f.name,'active');
+      convSetPct((i/files.length)*100+2);
+      ffmpeg.FS('writeFile', inName, await _fetchFile(f.file));
+      convSetOp('编码 → '+cfg.ext.toUpperCase(), cfg.ext.toUpperCase());
+      addLog('编码 → '+outName,'active');
+
+      if(fmt==='gif'){
+        var pal='pal_'+i+'.png';
+        var sf='';
+        if(fps!=='auto') sf='fps='+fps+',';
+        if(res!=='auto') sf+=('scale='+res+':flags=lanczos'); else sf+=('scale=iw:ih:flags=lanczos');
+        await ffmpeg.run('-i',inName,'-vf',sf+',palettegen',pal);
+        await ffmpeg.run('-i',inName,'-i',pal,'-lavfi',sf+' [x]; [x][1:v] paletteuse','-loop','0',outName);
+        try{ffmpeg.FS('unlink',pal);}catch(e){}
+      } else {
+        var args=['-i',inName];
+        if(cfg.vc) args.push('-c:v',cfg.vc);
+        if(res!=='auto') args.push('-vf','scale='+res);
+        if(fps!=='auto') args.push('-r',fps);
+        args.push('-b:v',vbr+'k');
+        if(cfg.vc==='libx264') args.push('-preset','fast','-crf','23');
+        if(cfg.vc==='libvpx-vp9') args.push('-deadline','realtime','-cpu-used','4');
+        if(cfg.ac){ args.push('-c:a',cfg.ac,'-b:a',abr+'k'); } else { args.push('-an'); }
+        args.push('-y',outName);
+        await ffmpeg.run.apply(ffmpeg, args);
+      }
+
+      var data=ffmpeg.FS('readFile', outName);
+      var blob=new Blob([data.buffer],{type:cfg.mime});
+      try{ffmpeg.FS('unlink',inName);}catch(e){}
+      try{ffmpeg.FS('unlink',outName);}catch(e){}
+
+      var url=URL.createObjectURL(blob);
+      var uid='o'+Date.now()+i;
+      regPlay(uid,url,outName);
+
+      var resLbl=res==='auto'?(f.dw&&f.dh?f.dw+'×'+f.dh:'原始'):res.replace(':','×');
+      var fpsLbl=fps==='auto'?'原始fps':fps+'fps';
+
+      var dl=document.createElement('div'); dl.className='download-item';
+      dl.innerHTML=(fmt!=='gif'?mkPlayBtn(uid):'')+
+        '<div class="download-info"><div class="download-name">'+esc(outName)+'</div>'+
+        '<div class="download-size">'+fmtSize(blob.size)+' · '+cfg.ext.toUpperCase()+' · '+resLbl+(fmt!=='gif'?' · '+fpsLbl:'')+'</div></div>'+
+        '<a class="btn-dl" href="'+url+'" download="'+esc(outName)+'"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7m0 0L3 5m3 3l3-3M1 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>下载</a>';
+      dlList.appendChild(dl);
+
+      setFileStatus(f.id,'done');
+      addLog('✓ '+outName+' — '+fmtSize(blob.size),'success');
+      convFileDone(i); convSetPct((i+1)/files.length*100);
+    }catch(err){
+      setFileStatus(f.id,'error');
+      addLog('✗ '+f.name+': '+(err.message||String(err)),'error');
+      convFileError(i);
+      try{await ffmpeg.deleteFile(inName);}catch(e){}
+    }
+  }
+  dlArea.style.display='block';
+  btn.disabled=false; btn.innerHTML='<div class="btn-shimmer"></div>⚡ 再次转换';
+  convDone();
+}
+
+// ── Mini player ──────────────────────────────────────────────
+var _mpv=document.getElementById('mp-video'), _curBtn=null, _curSrc=null;
+_mpv.addEventListener('timeupdate',function(){
+  if(!_mpv.duration)return;
+  document.getElementById('mp-progress-fill').style.width=(_mpv.currentTime/_mpv.duration*100)+'%';
+  document.getElementById('mp-time').textContent=fmtDur(_mpv.currentTime)+' / '+fmtDur(_mpv.duration);
+});
+_mpv.addEventListener('ended',function(){_setBtn(null);document.getElementById('mp-play-icon').style.display='';document.getElementById('mp-pause-icon').style.display='none';});
+_mpv.addEventListener('play',function(){document.getElementById('mp-play-icon').style.display='none';document.getElementById('mp-pause-icon').style.display='';});
+_mpv.addEventListener('pause',function(){document.getElementById('mp-play-icon').style.display='';document.getElementById('mp-pause-icon').style.display='none';});
+function _setBtn(el){if(_curBtn&&_curBtn!==el)_curBtn.classList.remove('playing');_curBtn=el;if(el)el.classList.add('playing');}
+function playSource(url,name,btn){
+  if(_curSrc===url&&!_mpv.paused){_mpv.pause();if(btn)btn.classList.remove('playing');return;}
+  if(_curSrc===url&&_mpv.paused){_mpv.play();_setBtn(btn);return;}
+  _mpv.pause();_mpv.src=url;_curSrc=url;_mpv.currentTime=0;
+  document.getElementById('mp-name').textContent=name;
+  document.getElementById('mp-progress-fill').style.width='0%';
+  document.getElementById('mp-time').textContent='0:00 / 0:00';
+  _mpv.play().then(function(){_setBtn(btn);document.getElementById('mini-player').classList.add('visible');})
+    .catch(function(e){addLog('预览失败: '+e.message,'error');});
+}
+function mpToggle(){if(_mpv.paused)_mpv.play();else _mpv.pause();}
+function mpSeek(e){var r=e.currentTarget.getBoundingClientRect();if(_mpv.duration)_mpv.currentTime=((e.clientX-r.left)/r.width)*_mpv.duration;}
+function mpClose(){_mpv.pause();_setBtn(null);document.getElementById('mini-player').classList.remove('visible');}
+
+function mkPlayBtn(uid){
+  return '<button class="play-btn" id="pb'+uid+'" onclick="onPB(\''+uid+'\')" title="预览">'+
+    '<span class="play-icon"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 1.5l7 4-7 4V1.5z" fill="currentColor"/></svg></span>'+
+    '<span class="eq-bars"><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span></span>'+
+  '</button>';
+}
+var _pm={};
+function regPlay(uid,url,name){_pm[uid]={url:url,name:name};}
+function onPB(uid){var e=_pm[uid];if(!e)return;playSource(e.url,e.name,document.getElementById('pb'+uid));}
+
+// ── Progress card ────────────────────────────────────────────
+var _convTotal=0,_convCurrent=0,_convPct=0,_pctRaf=null,_dispPct=0;
+function convInit(total){
+  _convTotal=total;_convCurrent=0;_convPct=0;_dispPct=0;
+  var seg=document.getElementById('conv-seg-track'); seg.innerHTML='';
+  for(var i=0;i<total;i++){var s=document.createElement('div');s.className='conv-seg';s.id='cs'+i;seg.appendChild(s);}
+  document.getElementById('conv-steps').innerHTML='';
+  document.getElementById('conv-bar-fill').style.width='0%';
+  document.getElementById('conv-pct').textContent='0';
+  document.getElementById('conv-op').innerHTML='准备中...';
+  document.getElementById('conv-card').classList.add('active');
+}
+function convSetFile(idx){
+  _convCurrent=idx;
+  for(var i=0;i<_convTotal;i++){
+    var s=document.getElementById('cs'+i);if(!s)continue;
+    s.classList.remove('seg-active','seg-done','seg-error');
+    if(i<idx)s.classList.add('seg-done');else if(i===idx)s.classList.add('seg-active');
+  }
+}
+function convSetFileNames(names){
+  var steps=document.getElementById('conv-steps'); steps.innerHTML='';
+  var cur=_convCurrent,start=Math.max(0,cur-1),end=Math.min(names.length,start+5);
+  for(var j=start;j<end;j++){
+    var p=document.createElement('div');
+    p.className='conv-step'+(j<cur?' step-done':j===cur?' step-active':'');
+    p.id='cp'+j;
+    p.innerHTML='<span class="step-dot"></span>'+(j<cur?'✓ ':'')+esc(names[j].replace(/\.[^/.]+$/,'').slice(0,20));
+    steps.appendChild(p);
+  }
+}
+function convSetOp(text,hl){
+  var el=document.getElementById('conv-op');
+  if(hl) el.innerHTML=text.replace(hl,'<span class="op-highlight">'+hl+'</span>');
+  else el.textContent=text;
+}
+function convSetPct(pct){
+  _convPct=Math.max(0,Math.min(100,Math.round(pct)));
+  if(_pctRaf)cancelAnimationFrame(_pctRaf);
+  (function tick(){
+    var d=_convPct-_dispPct;
+    if(Math.abs(d)<0.5)_dispPct=_convPct; else _dispPct+=d*0.12;
+    var v=Math.round(_dispPct);
+    document.getElementById('conv-pct').textContent=v;
+    document.getElementById('conv-bar-fill').style.width=_dispPct+'%';
+    if(_dispPct<_convPct-0.5)_pctRaf=requestAnimationFrame(tick);
+  })();
+}
+function convFileError(idx){
+  var s=document.getElementById('cs'+idx);if(s){s.classList.remove('seg-active');s.classList.add('seg-error');}
+  var p=document.getElementById('cp'+idx);if(p){p.classList.remove('step-active');p.classList.add('step-error');}
+}
+function convFileDone(idx){
+  var s=document.getElementById('cs'+idx);if(s){s.classList.remove('seg-active');s.classList.add('seg-done');}
+  var p=document.getElementById('cp'+idx);if(p){p.classList.remove('step-active');p.classList.add('step-done');}
+}
+function convDone(){
+  convSetPct(100);convSetOp('转换完成 ✓',null);
+  document.getElementById('conv-bar-fill').style.boxShadow='0 0 16px rgba(46,204,113,0.8),0 0 36px rgba(46,204,113,0.4)';
+  document.getElementById('conv-bar-fill').style.background='linear-gradient(90deg,#0e6634,var(--green),#a8f0c6)';
+  setTimeout(function(){document.getElementById('conv-card').classList.remove('active');},900);
+}
+</script>
+</body>
+</html>
