@@ -1,5 +1,7 @@
 var ws=null,sent=0,recv=0,bytes=0,autoS=true,curF='all';
 var connAt=null,upIv=null,pingIv=null,pingTs=null,latH=[];
+// busyState: '' | 'connecting' | 'disconnecting' — used to ignore repeated clicks
+var busyState = '';
 var curProto='wss';
 var log=[];
 
@@ -170,16 +172,54 @@ document.addEventListener('mousedown',function(e){
 function selProto(el,p){document.querySelectorAll('.prc').forEach(function(c){c.classList.remove('act')});el.classList.add('act');curProto=p;document.getElementById('proto-prefix').textContent=p+'://';}
 function getUrl(){var r=document.getElementById('url').value.trim().replace(/^wss?:\/\//,'');return curProto+'://'+r;}
 function doConn(){
+  if(busyState) return; // ignore if already connecting/disconnecting
+  busyState = 'connecting';
+  var cb=document.getElementById('cb2'), db=document.getElementById('db');
+  if(cb){ cb.dataset.origText = cb.dataset.origText || cb.textContent; cb.textContent = 'Connecting…'; cb.disabled = true; cb.classList.add('busy'); }
+  if(db){ db.dataset.origText = db.dataset.origText || db.textContent; db.disabled = true; }
   var url=getUrl();
   if(document.getElementById('url').value.trim()){pushUrlHist(url);}
   setSt('ing','CONNECTING...');
-  try{ws=new WebSocket(url);}catch(e){addSys('Connection failed: '+e.message,'error');setSt('err','ERROR');return;}
-  ws.onopen=function(){setSt('on','CONNECTED');document.getElementById('cb2').style.display='none';document.getElementById('db').style.display='';document.getElementById('sendbtn').disabled=false;connAt=Date.now();startUp();sent=0;recv=0;bytes=0;updStats();addSys('Connected to '+url);startPing();};
+  try{ws=new WebSocket(url);}catch(e){addSys('Connection failed: '+e.message,'error');setSt('err','ERROR');busyState='';if(cb&&cb.dataset.origText){cb.textContent=cb.dataset.origText;cb.disabled=false;cb.classList.remove('busy');}return;}
+  ws.onopen=function(){
+    busyState = '';
+    setSt('on','CONNECTED');
+    var cb2=document.getElementById('cb2'), db=document.getElementById('db');
+    if(cb2){ cb2.style.display='none'; if(cb2.dataset.origText){ cb2.textContent = cb2.dataset.origText; cb2.disabled = false; cb2.classList.remove('busy'); } }
+    if(db){ db.style.display=''; if(db.dataset.origText){ db.textContent = db.dataset.origText; db.disabled = false; } }
+    document.getElementById('sendbtn').disabled=false;connAt=Date.now();startUp();sent=0;recv=0;bytes=0;updStats();addSys('Connected to '+url);startPing();
+  };
   ws.onmessage=function(e){recv++;bytes+=new Blob([e.data]).size;updStats();push('recv',e.data);if(pingTs){recLat(Date.now()-pingTs);pingTs=null;}};
-  ws.onclose=function(e){setSt('','DISCONNECTED');document.getElementById('cb2').style.display='';document.getElementById('db').style.display='none';document.getElementById('sendbtn').disabled=true;stopUp();stopPing();addSys('Connection closed [code: '+e.code+'] '+(e.reason||''));ws=null;};
-  ws.onerror=function(){setSt('err','ERROR');addSys('Connection error','error');};
+  ws.onclose=function(e){
+    busyState = '';
+    setSt('','DISCONNECTED');
+    var cb2=document.getElementById('cb2'), db=document.getElementById('db');
+    if(cb2){ cb2.style.display=''; if(cb2.dataset.origText) { cb2.textContent = cb2.dataset.origText; cb2.disabled = false; cb2.classList.remove('busy'); } }
+    if(db){ db.style.display='none'; if(db.dataset.origText) { db.textContent = db.dataset.origText; db.disabled = true; } }
+    document.getElementById('sendbtn').disabled=true;stopUp();stopPing();addSys('Connection closed [code: '+e.code+'] '+(e.reason||''));ws=null;
+  };
+  ws.onerror=function(){
+    busyState = '';
+    setSt('err','ERROR');addSys('Connection error','error');
+    var cb2=document.getElementById('cb2'), db=document.getElementById('db');
+    if(cb2 && cb2.dataset.origText){ cb2.textContent = cb2.dataset.origText; cb2.disabled = false; cb2.classList.remove('busy'); }
+    if(db && db.dataset.origText){ db.textContent = db.dataset.origText; db.disabled = true; }
+  };
 }
-function doDisc(){if(ws){ws.close(1000,'User disconnect');ws=null;}}
+function doDisc(){
+  if(busyState) return; // ignore repeated clicks
+  busyState = 'disconnecting';
+  var db=document.getElementById('db');
+  if(db){ db.dataset.origText = db.dataset.origText || db.textContent; db.textContent = 'Disconnecting…'; db.disabled = true; db.classList.add('busy'); }
+  if(ws){
+    try{ ws.close(1000,'User disconnect'); }
+    catch(e){ /* ignore */ }
+    // let onclose handle cleanup
+  } else {
+    busyState = '';
+    if(db && db.dataset.origText){ db.textContent = db.dataset.origText; db.disabled = true; db.classList.remove('busy'); }
+  }
+}
 function doSend(){var msg=document.getElementById('inp').value.trim();if(!msg||!ws||ws.readyState!==1)return;ws.send(msg);sent++;bytes+=new Blob([msg]).size;updStats();push('send',msg);document.getElementById('inp').value='';}
 function onK(e){if(e.ctrlKey&&e.key==='Enter'){e.preventDefault();doSend();}}
 function push(dir,content){var n=new Date();var t=n.toTimeString().slice(0,8)+'.'+String(n.getMilliseconds()).padStart(3,'0');var entry={id:performance.now(),t:t,dir:dir,content:String(content)};log.push(entry);appendE(entry);}
@@ -215,3 +255,23 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 addSys('WS Terminal v2.4.0 ready');
 addSys('Tip: wss://echo.websocket.org — sends back any message');
 addSys('Note: After connection, a ping is sent every 10s to measure latency');
+
+// On page load, prefill URL input from selected preset endpoint if any
+function initSelectedPreset(){
+  try{
+    var sel = document.querySelector('.pi.act') || document.querySelector('.pi');
+    if(!sel) return;
+    var pu = sel.querySelector('.pu');
+    var raw = pu? pu.textContent.trim() : (sel.getAttribute('data-url')||'');
+    if(!raw) return;
+    var m = raw.match(/^(wss?:\/\/)(.+)/i);
+    if(m){
+      curProto = m[1].replace('://','');
+      document.getElementById('proto-prefix').textContent = curProto+'://';
+      document.getElementById('url').value = m[2];
+    } else {
+      document.getElementById('url').value = raw.replace(/^wss?:\/\//,'');
+    }
+  }catch(e){}
+}
+document.addEventListener('DOMContentLoaded',initSelectedPreset);
