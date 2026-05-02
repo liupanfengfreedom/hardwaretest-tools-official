@@ -7,13 +7,13 @@ const config = {
 
 // Default excluded characters
 const defaultExclusions = {
-    uppercase: [],  // Default: no uppercase letters excluded
-    lowercase: [],  // Default: no lowercase letters excluded
-    numbers: [],    // Default: no numbers excluded
-    symbols: ["#", "!", "@"]  // Default: exclude these three symbols
+    uppercase: [],      // No uppercase excluded by default
+    lowercase: [],      // No lowercase excluded by default
+    numbers: [],        // No numbers excluded by default
+    symbols: ["#", "!", "@"]  // Exclude these special symbols by default
 };
 
-// Currently excluded characters
+// Current excluded characters
 let excludedChars = {
     uppercase: [...defaultExclusions.uppercase],
     lowercase: [...defaultExclusions.lowercase],
@@ -21,7 +21,7 @@ let excludedChars = {
     symbols: [...defaultExclusions.symbols]
 };
 
-// DOM Elements
+// DOM elements
 const slider = document.getElementById('slider');
 const lenDisplay = document.getElementById('len-display');
 const output = document.getElementById('output');
@@ -38,7 +38,13 @@ const generateText = document.getElementById('generate-text');
 const generateIcon = document.getElementById('generate-icon');
 const exportBtn = document.getElementById('export-btn');
 
-// Analysis Statistics Elements
+// "Must contain" checkboxes
+const reqUpper = document.getElementById('req-upper');
+const reqLower = document.getElementById('req-lower');
+const reqNumber = document.getElementById('req-number');
+const reqSymbol = document.getElementById('req-symbol');
+
+// Analysis stats elements
 const charCount = document.getElementById('char-count');
 const upperCount = document.getElementById('upper-count');
 const lowerCount = document.getElementById('lower-count');
@@ -47,11 +53,11 @@ const symbolCount = document.getElementById('symbol-count');
 const poolSizeEl = document.getElementById('pool-size');
 const excludedCountEl = document.getElementById('excluded-count');
 
-// History
+// Password history
 let passwordHistory = JSON.parse(localStorage.getItem('pwHistory') || '[]');
 const maxHistory = 20;
 
-// Preset Configurations
+// Preset configurations
 const presets = {
     high: { len: 16, up: true, lo: true, num: true, sym: true },
     mobile: { len: 12, up: true, lo: true, num: true, sym: false },
@@ -59,9 +65,9 @@ const presets = {
     memorable: { len: 14, up: true, lo: true, num: true, sym: false }
 };
 
-// Initialize Character Selector
+// Initialize character selector UI
 function initCharSelector() {
-    // Generate uppercase letters
+    // Uppercase letters
     const uppercaseContainer = document.getElementById('uppercase-chars');
     uppercaseContainer.innerHTML = '';
     for (let char of config.uppercase) {
@@ -73,7 +79,7 @@ function initCharSelector() {
         uppercaseContainer.appendChild(charItem);
     }
 
-    // Generate lowercase letters
+    // Lowercase letters
     const lowercaseContainer = document.getElementById('lowercase-chars');
     lowercaseContainer.innerHTML = '';
     for (let char of config.lowercase) {
@@ -85,7 +91,7 @@ function initCharSelector() {
         lowercaseContainer.appendChild(charItem);
     }
 
-    // Generate numbers
+    // Numbers
     const numberContainer = document.getElementById('number-chars');
     numberContainer.innerHTML = '';
     for (let char of config.numbers) {
@@ -97,7 +103,7 @@ function initCharSelector() {
         numberContainer.appendChild(charItem);
     }
 
-    // Generate special symbols
+    // Symbols
     const symbolContainer = document.getElementById('symbol-chars');
     symbolContainer.innerHTML = '';
     for (let char of config.symbols) {
@@ -112,7 +118,7 @@ function initCharSelector() {
     updateExcludedCount();
 }
 
-// Toggle Character Exclusion Status
+// Toggle exclusion status for a single character
 function toggleCharExclusion(type, char) {
     const index = excludedChars[type].indexOf(char);
     if (index === -1) {
@@ -128,10 +134,11 @@ function toggleCharExclusion(type, char) {
     });
     
     updateExcludedCount();
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Update Excluded Character Count
+// Update total excluded characters count
 function updateExcludedCount() {
     const totalExcluded = 
         excludedChars.uppercase.length + 
@@ -142,7 +149,7 @@ function updateExcludedCount() {
     excludedCountEl.textContent = totalExcluded;
 }
 
-// Include All Characters
+// Include all characters
 function includeAllChars() {
     excludedChars = {
         uppercase: [],
@@ -151,10 +158,11 @@ function includeAllChars() {
         symbols: []
     };
     initCharSelector();
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Exclude All Characters
+// Exclude all characters
 function excludeAllChars() {
     excludedChars = {
         uppercase: [...config.uppercase],
@@ -163,10 +171,11 @@ function excludeAllChars() {
         symbols: [...config.symbols]
     };
     initCharSelector();
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Reset to Default Exclusions
+// Reset to default exclusions
 function resetDefaultExclusions() {
     excludedChars = {
         uppercase: [...defaultExclusions.uppercase],
@@ -175,27 +184,25 @@ function resetDefaultExclusions() {
         symbols: [...defaultExclusions.symbols]
     };
     initCharSelector();
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Include All Characters in Category
+// Include all characters of a specific category
 function includeCategory(type) {
-    console.log(`Including category: ${type}`);
-    // Ensure correct key names
     if (type === 'numbers' || type === 'symbols' || type === 'uppercase' || type === 'lowercase') {
         excludedChars[type] = [];
         updateCategoryUI(type);
         updateExcludedCount();
+        updateRequireCheckboxStates();
         generate();
     } else {
         console.error(`Unknown category: ${type}`);
     }
 }
 
-// Exclude All Characters in Category
+// Exclude all characters of a specific category
 function excludeCategory(type) {
-    console.log(`Excluding category: ${type}`);
-    // Ensure correct key names
     if (type === 'numbers' && config.numbers) {
         excludedChars[type] = [...config.numbers];
     } else if (type === 'symbols' && config.symbols) {
@@ -211,13 +218,12 @@ function excludeCategory(type) {
     
     updateCategoryUI(type);
     updateExcludedCount();
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Reset Category to Default
+// Reset a specific category to its default excluded characters
 function resetCategory(type) {
-    console.log(`Resetting category: ${type}, default values:`, defaultExclusions[type]);
-    // Ensure correct key names
     if (type === 'numbers' && defaultExclusions.numbers) {
         excludedChars[type] = [...defaultExclusions.numbers];
     } else if (type === 'symbols' && defaultExclusions.symbols) {
@@ -227,19 +233,18 @@ function resetCategory(type) {
     } else if (type === 'lowercase' && defaultExclusions.lowercase) {
         excludedChars[type] = [...defaultExclusions.lowercase];
     } else {
-        console.error(`Unknown category or default exclusions missing: ${type}`);
+        console.error(`Unknown category or default exclusion missing: ${type}`);
         return;
     }
     
     updateCategoryUI(type);
     updateExcludedCount();
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Update Specific Category UI
+// Update UI for a specific category
 function updateCategoryUI(type) {
-    console.log(`Updating UI for category: ${type}`);
-    // Determine container ID based on type
     let containerId;
     if (type === 'uppercase') {
         containerId = 'uppercase-chars';
@@ -261,12 +266,9 @@ function updateCategoryUI(type) {
     }
     
     const charItems = container.querySelectorAll('.char-item');
-    console.log(`Found ${charItems.length} character items`);
-    
     charItems.forEach(item => {
         const char = item.dataset.char;
         const isExcluded = excludedChars[type] && excludedChars[type].includes(char);
-        
         if (isExcluded) {
             item.classList.add('excluded');
         } else {
@@ -275,49 +277,52 @@ function updateCategoryUI(type) {
     });
 }
 
-// Get Available Character Pool
+// Get the current available character pool based on exclusions
 function getAvailablePool() {
     let pool = "";
     
-    // Add non-excluded uppercase letters
     for (let char of config.uppercase) {
-        if (!excludedChars.uppercase.includes(char)) {
-            pool += char;
-        }
+        if (!excludedChars.uppercase.includes(char)) pool += char;
     }
-    
-    // Add non-excluded lowercase letters
     for (let char of config.lowercase) {
-        if (!excludedChars.lowercase.includes(char)) {
-            pool += char;
-        }
+        if (!excludedChars.lowercase.includes(char)) pool += char;
     }
-    
-    // Add non-excluded numbers
     for (let char of config.numbers) {
-        if (!excludedChars.numbers.includes(char)) {
-            pool += char;
-        }
+        if (!excludedChars.numbers.includes(char)) pool += char;
     }
-    
-    // Add non-excluded special symbols
     for (let char of config.symbols) {
-        if (!excludedChars.symbols.includes(char)) {
-            pool += char;
-        }
+        if (!excludedChars.symbols.includes(char)) pool += char;
     }
     
     return pool;
 }
 
-// Initialize Event Listeners
+// Get available characters for a specific type (not excluded)
+function getAvailableChars(type) {
+    let chars = config[type] || "";
+    return chars.split('').filter(c => !excludedChars[type].includes(c));
+}
+
+// Generate random string from given pool using Crypto API
+function generateRandomString(pool, len) {
+    if (len <= 0) return '';
+    const randomValues = new Uint32Array(len);
+    window.crypto.getRandomValues(randomValues);
+    let result = '';
+    for (let i = 0; i < len; i++) {
+        result += pool[randomValues[i] % pool.length];
+    }
+    return result;
+}
+
+// Initialize event listeners
 function init() {
     slider.oninput = () => {
         lenDisplay.innerText = slider.value;
         generate();
     };
 
-    // Preset Buttons
+    // Preset buttons
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const type = btn.dataset.preset;
@@ -325,25 +330,17 @@ function init() {
         });
     });
     
-    // Generate Button
     generateBtn.addEventListener('click', generate);
-    
-    // Batch Generate Button
     multipleBtn.addEventListener('click', generateMultiple);
-    
-    // Copy Buttons
     cBtn.addEventListener('click', copyAction);
     copyBtn2.addEventListener('click', copyAction);
-    
-    // Export Button
     exportBtn.addEventListener('click', exportPasswords);
     
-    // Character Selector Buttons
     document.getElementById('include-all-btn').addEventListener('click', includeAllChars);
     document.getElementById('exclude-all-btn').addEventListener('click', excludeAllChars);
     document.getElementById('reset-default-btn').addEventListener('click', resetDefaultExclusions);
     
-    // Category Action Buttons
+    // Category action buttons
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const category = btn.dataset.category;
@@ -359,7 +356,7 @@ function init() {
         });
     });
     
-    // Character Item Click Events (delegation)
+    // Character item click delegation
     document.querySelectorAll('.char-selector-grid').forEach(container => {
         container.addEventListener('click', (e) => {
             const charItem = e.target.closest('.char-item');
@@ -371,29 +368,59 @@ function init() {
         });
     });
     
-    // Add Keyboard Shortcut Support
+    // "Must contain" checkboxes
+    [reqUpper, reqLower, reqNumber, reqSymbol].forEach(cb => {
+        cb.addEventListener('change', () => {
+            generate();
+        });
+    });
+    
+    // Keyboard shortcuts
     document.addEventListener('keydown', handleKeyboardShortcuts);
     
-    // Initialize Character Selector
     initCharSelector();
-    
-    // Auto-generate on page load
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Keyboard Shortcuts
+// Update enabled/disabled state of "must contain" checkboxes based on available characters
+function updateRequireCheckboxStates() {
+    if (getAvailableChars('uppercase').length === 0) {
+        reqUpper.disabled = true;
+        reqUpper.checked = false;
+    } else {
+        reqUpper.disabled = false;
+    }
+    if (getAvailableChars('lowercase').length === 0) {
+        reqLower.disabled = true;
+        reqLower.checked = false;
+    } else {
+        reqLower.disabled = false;
+    }
+    if (getAvailableChars('numbers').length === 0) {
+        reqNumber.disabled = true;
+        reqNumber.checked = false;
+    } else {
+        reqNumber.disabled = false;
+    }
+    if (getAvailableChars('symbols').length === 0) {
+        reqSymbol.disabled = true;
+        reqSymbol.checked = false;
+    } else {
+        reqSymbol.disabled = false;
+    }
+}
+
+// Handle keyboard shortcuts
 function handleKeyboardShortcuts(e) {
-    // Space or Enter to generate new password
     if (e.code === 'Space' || e.code === 'Enter') {
         e.preventDefault();
         generate();
     }
-    // Ctrl+C to copy password
     else if (e.code === 'KeyC' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
         copyAction();
     }
-    // Number keys for quick length setting
     else if (e.code.startsWith('Digit') && !e.ctrlKey && !e.metaKey) {
         const num = parseInt(e.code.replace('Digit', ''));
         if (num >= 6 && num <= 9) {
@@ -404,7 +431,7 @@ function handleKeyboardShortcuts(e) {
     }
 }
 
-// Apply Preset
+// Apply a preset configuration
 function applyPreset(type) {
     const preset = presets[type];
     if (!preset) return;
@@ -412,13 +439,17 @@ function applyPreset(type) {
     slider.value = preset.len;
     lenDisplay.innerText = preset.len;
     
-    // Update preset button states
-    updatePresetButtons(type);
+    reqUpper.checked = preset.up || false;
+    reqLower.checked = preset.lo || false;
+    reqNumber.checked = preset.num || false;
+    reqSymbol.checked = preset.sym || false;
     
+    updatePresetButtons(type);
+    updateRequireCheckboxStates();
     generate();
 }
 
-// Update Preset Button States
+// Update active preset button styling
 function updatePresetButtons(activeType = null) {
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -431,49 +462,84 @@ function updatePresetButtons(activeType = null) {
     }
 }
 
-// Generate Password
+// Main password generation
 function generate() {
-    // Show loading state
     generateIcon.textContent = '';
     generateIcon.classList.add('loading');
     generateText.textContent = 'Generating...';
     
-    // Delay execution to ensure UI update
     setTimeout(() => {
         try {
+            const len = parseInt(slider.value);
             const pool = getAvailablePool();
             
-            if(!pool) {
-                output.innerText = "No available characters, please reduce excluded characters";
+            if (!pool) {
+                output.innerText = "No characters available — please reduce exclusions.";
                 updateMeter(0, 0);
                 updateAnalysis("", 0);
                 resetGenerateButton();
                 return;
             }
-
-            const len = parseInt(slider.value);
-            let pwd = "";
-            const randomValues = new Uint32Array(len);
-            window.crypto.getRandomValues(randomValues);
-
-            for(let i=0; i<len; i++) {
-                pwd += pool[randomValues[i] % pool.length];
-            }
-
-            output.innerText = pwd;
             
-            // Update strength and statistics
+            // Collect required character types
+            const requirements = [];
+            if (reqUpper.checked && getAvailableChars('uppercase').length > 0) requirements.push('uppercase');
+            if (reqLower.checked && getAvailableChars('lowercase').length > 0) requirements.push('lowercase');
+            if (reqNumber.checked && getAvailableChars('numbers').length > 0) requirements.push('numbers');
+            if (reqSymbol.checked && getAvailableChars('symbols').length > 0) requirements.push('symbols');
+            
+            if (requirements.length > len) {
+                output.innerText = "Too many required types for the selected length. Increase length or reduce requirements.";
+                updateMeter(0, 0);
+                updateAnalysis("", 0);
+                resetGenerateButton();
+                return;
+            }
+            
+            for (let type of requirements) {
+                if (getAvailableChars(type).length === 0) {
+                    output.innerText = `"${type}" has no available characters — uncheck the requirement or stop excluding these characters.`;
+                    updateMeter(0, 0);
+                    updateAnalysis("", 0);
+                    resetGenerateButton();
+                    return;
+                }
+            }
+            
+            let pwd;
+            if (requirements.length === 0) {
+                pwd = generateRandomString(pool, len);
+            } else {
+                const needed = [...requirements];
+                const requiredChars = needed.map(type => {
+                    const available = getAvailableChars(type);
+                    const randByte = new Uint32Array(1);
+                    window.crypto.getRandomValues(randByte);
+                    const idx = randByte[0] % available.length;
+                    return available[idx];
+                });
+                
+                const remainingLen = len - requiredChars.length;
+                const remaining = generateRandomString(pool, remainingLen);
+                
+                const combined = requiredChars.concat(remaining.split(''));
+                const randArr = new Uint32Array(combined.length);
+                window.crypto.getRandomValues(randArr);
+                for (let i = combined.length - 1; i > 0; i--) {
+                    const j = randArr[i] % (i + 1);
+                    [combined[i], combined[j]] = [combined[j], combined[i]];
+                }
+                pwd = combined.join('');
+            }
+            
+            output.innerText = pwd;
             updateMeter(len, pool.length);
             updateAnalysis(pwd, pool.length);
-            
-            // Add to history
             addToHistory(pwd);
-            
-            // Reset copy button state
             cBtn.classList.remove('copied');
             
         } catch (error) {
-            output.innerText = "Generation failed, please try again";
+            output.innerText = "Generation failed. Please try again.";
             console.error("Password generation error:", error);
         } finally {
             resetGenerateButton();
@@ -481,14 +547,14 @@ function generate() {
     }, 50);
 }
 
-// Reset Generate Button State
+// Reset generate button to default state
 function resetGenerateButton() {
     generateIcon.classList.remove('loading');
     generateIcon.textContent = '🔄';
     generateText.textContent = 'Generate New Password';
 }
 
-// Update Password Strength Meter
+// Update strength meter and entropy display
 function updateMeter(len, poolSize) {
     const entropy = len * (poolSize > 0 ? Math.log2(poolSize) : 0);
     let pct = Math.min((entropy / 120) * 100, 100);
@@ -503,21 +569,19 @@ function updateMeter(len, poolSize) {
     sText.innerText = label;
     sText.className = colorClass;
     
-    // Update entropy value and cracking time
     entropyValue.textContent = Math.round(entropy) + " bits";
     updateCrackTime(entropy);
 }
 
-// Update Cracking Time Estimation
+// Estimate crack time based on entropy
 function updateCrackTime(entropy) {
-    // Assume attacker tries 1 trillion guesses per second (10^12)
     const guessesPerSecond = 1e12;
     const seconds = Math.pow(2, entropy) / guessesPerSecond;
     
-    let timeText = "Instant";
+    let timeText = "instantly";
     
     if (seconds < 1) {
-        timeText = "Instant";
+        timeText = "instantly";
     } else if (seconds < 60) {
         timeText = Math.round(seconds) + " seconds";
     } else if (seconds < 3600) {
@@ -532,10 +596,10 @@ function updateCrackTime(entropy) {
         timeText = Math.round(seconds/31536000000) + " centuries";
     }
     
-    crackTime.textContent = `Estimated cracking time: ${timeText}`;
+    crackTime.textContent = `Estimated crack time: ${timeText}`;
 }
 
-// Update Password Analysis
+// Update password analysis stats
 function updateAnalysis(password, poolSize) {
     if (!password) {
         charCount.textContent = "0";
@@ -560,7 +624,7 @@ function updateAnalysis(password, poolSize) {
     poolSizeEl.textContent = poolSize;
 }
 
-// Add to History
+// Add generated password to history
 function addToHistory(password) {
     const timestamp = new Date().toISOString();
     passwordHistory.unshift({
@@ -570,19 +634,16 @@ function addToHistory(password) {
         excludedChars: {...excludedChars}
     });
     
-    // Limit history size
     if (passwordHistory.length > maxHistory) {
         passwordHistory = passwordHistory.slice(0, maxHistory);
     }
-    
-    // Save to local storage
     localStorage.setItem('pwHistory', JSON.stringify(passwordHistory));
 }
 
-// Copy Password
+// Copy password to clipboard
 function copyAction() {
     const text = output.innerText;
-    if(text.includes('No available characters') || text.includes('Generation failed') || text.includes('Generating')) {
+    if(text.includes('No characters available') || text.includes('failed') || text.includes('Generating secure')) {
         return;
     }
     
@@ -591,14 +652,10 @@ function copyAction() {
         copyBtn2.classList.add('copied');
         toast.classList.add('show');
         
-        // Update copy button icon to checkmark
         const copyIcon = cBtn.querySelector('svg');
         if (copyIcon) {
             const originalHTML = copyIcon.innerHTML;
-            copyIcon.innerHTML = `
-                <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            `;
-            
+            copyIcon.innerHTML = `<path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
             setTimeout(() => {
                 copyIcon.innerHTML = originalHTML;
             }, 2000);
@@ -611,19 +668,19 @@ function copyAction() {
         }, 2000);
     }).catch(err => {
         console.error("Copy failed:", err);
-        toast.textContent = "Copy failed, please manually select and copy";
+        toast.textContent = "Copy failed. Please select and copy manually.";
         toast.style.background = "var(--danger)";
         toast.classList.add('show');
         
         setTimeout(() => {
             toast.classList.remove('show');
             toast.style.background = "var(--success)";
-            toast.textContent = "Password successfully copied to clipboard!";
+            toast.textContent = "Password copied to clipboard!";
         }, 2000);
     });
 }
 
-// Generate Multiple Passwords
+// Generate multiple passwords at once (batch of 5)
 function generateMultiple() {
     const count = 5;
     const passwords = [];
@@ -632,38 +689,55 @@ function generateMultiple() {
         passwords.push(generateSinglePassword());
     }
     
-    // Display batch passwords
     output.innerHTML = passwords.map((pwd, idx) => 
         `<div style="margin-bottom: 8px; font-size: 1.4rem;">${idx+1}. ${pwd}</div>`
     ).join('');
     
-    // Update analysis (based on first password)
     const pool = getAvailablePool();
     updateAnalysis(passwords[0], pool.length);
     updateMeter(passwords[0].length, pool.length);
 }
 
-// Generate Single Password (for batch generation)
+// Generate a single password (used for batch generation, respects requirements)
 function generateSinglePassword() {
+    const len = parseInt(slider.value);
     const pool = getAvailablePool();
     if (!pool) return "Generation failed";
     
-    const len = parseInt(slider.value);
-    let pwd = "";
-    const randomValues = new Uint32Array(len);
-    window.crypto.getRandomValues(randomValues);
-
-    for(let i=0; i<len; i++) {
-        pwd += pool[randomValues[i] % pool.length];
-    }
+    const requirements = [];
+    if (reqUpper.checked && getAvailableChars('uppercase').length > 0) requirements.push('uppercase');
+    if (reqLower.checked && getAvailableChars('lowercase').length > 0) requirements.push('lowercase');
+    if (reqNumber.checked && getAvailableChars('numbers').length > 0) requirements.push('numbers');
+    if (reqSymbol.checked && getAvailableChars('symbols').length > 0) requirements.push('symbols');
     
-    return pwd;
+    if (requirements.length > len) return "Too many requirements";
+    
+    if (requirements.length === 0) {
+        return generateRandomString(pool, len);
+    } else {
+        const requiredChars = requirements.map(type => {
+            const available = getAvailableChars(type);
+            const randByte = new Uint32Array(1);
+            window.crypto.getRandomValues(randByte);
+            const idx = randByte[0] % available.length;
+            return available[idx];
+        });
+        const remaining = generateRandomString(pool, len - requiredChars.length);
+        const combined = requiredChars.concat(remaining.split(''));
+        const randArr = new Uint32Array(combined.length);
+        window.crypto.getRandomValues(randArr);
+        for (let i = combined.length - 1; i > 0; i--) {
+            const j = randArr[i] % (i + 1);
+            [combined[i], combined[j]] = [combined[j], combined[i]];
+        }
+        return combined.join('');
+    }
 }
 
-// Export Passwords
+// Export password history to a text file
 function exportPasswords() {
     if (passwordHistory.length === 0) {
-        alert("No password history available");
+        alert("No password history to export.");
         return;
     }
     
@@ -682,13 +756,12 @@ function exportPasswords() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    // Show export success notification
-    toast.textContent = `Exported ${passwordHistory.length} passwords`;
+    toast.textContent = `Exported ${passwordHistory.length} passwords.`;
     toast.classList.add('show');
     setTimeout(() => {
         toast.classList.remove('show');
     }, 2000);
 }
 
-// Initialize Application
+// Start the app
 window.addEventListener('DOMContentLoaded', init);

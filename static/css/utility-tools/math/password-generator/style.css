@@ -3,8 +3,9 @@
     --accent-glow: rgba(99, 102, 241, 0.2);
     --bg: #0a0c10;
     --card: #161b22;
+    --text: #f0f6fc;          /* 新增：正文字色变量 */
     --text-p: #f0f6fc;
-    --text-s: #8b949e;
+    --text-s: #c9d1d9;       /* 修改：提升次要文字亮度，原 #8b949e */
     --border: #30363d;
     --success: #2ea043;
     --warning: #dbab09;
@@ -21,14 +22,13 @@ body {
     margin: 0; 
     font-family: 'Inter', sans-serif;
     background: var(--bg); 
-    color: var(--text);
-    /* 修改以下部分 */
+    color: var(--text);        /* 现在引用已定义的 --text 变量 */
     display: flex; 
-    flex-direction: column; /* 纵向排列 */
-    align-items: center;    /* 水平居中 */
-    justify-content: flex-start; /* 从顶部开始 */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     min-height: 100vh;
-    padding: 0; /* 移除默认内边距，方便导航栏置顶 */
+    padding: 0;
 }
 
 .container {
@@ -164,6 +164,7 @@ body {
 #strength-text {
     font-size: 0.9rem;
     font-weight: 600;
+    color: var(--text-p);
 }
 
 #entropy-value {
@@ -185,6 +186,7 @@ body {
     justify-content: space-between; 
     align-items: center;
     font-size: 0.9rem; 
+    color: var(--text-p);
     margin-bottom: 10px; 
 }
 
@@ -355,6 +357,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .char-selector-btn:hover {
     background: rgba(255,255,255,0.1);
     border-color: var(--accent);
+    color: var(--text-p);
 }
 
 .char-selector-btn.reset {
@@ -386,6 +389,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     border-radius: 12px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.2rem;
+    color: var(--text-p);
     cursor: pointer;
     user-select: none;
     position: relative;
@@ -474,6 +478,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .category-btn:hover {
     background: rgba(255,255,255,0.1);
     border-color: var(--accent);
+    color: var(--text-p);
 }
 
 .category-btn.reset {
@@ -490,6 +495,101 @@ input[type="range"]::-webkit-slider-thumb:hover {
     box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
 }
 
+/* 必须包含要求面板 */
+.require-container {
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+.require-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-p);
+}
+
+.require-hint {
+    font-size: 0.75rem;
+    color: var(--text-s);
+    font-weight: normal;
+}
+
+.require-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.require-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+.require-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.require-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.require-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.require-checkbox:checked + .require-box {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.require-checkbox:checked + .require-box::after {
+    content: "✓";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.require-checkbox:disabled + .require-box {
+    opacity: 0.3;
+    border-color: var(--danger);
+    background: rgba(248, 81, 73, 0.1);
+}
+
+.require-checkbox:disabled ~ .require-text {
+    opacity: 0.4;
+    color: var(--text-s);
+}
+
+.require-text {
+    font-size: 0.9rem;
+    color: var(--text-p);
+    user-select: none;
+}
+
 /* 分析统计 */
 .analysis {
     background: rgba(255,255,255,0.03);
@@ -498,6 +598,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     margin: 1.5rem 0;
     font-size: 0.85rem;
     border: 1px solid var(--border);
+    color: var(--text-p);
 }
 
 .analysis h4 {
@@ -517,6 +618,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     justify-content: space-between;
     padding: 5px 0;
     border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-s);
 }
 
 .stat-value {
@@ -524,7 +626,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     color: var(--accent);
 }
 
-/* 按钮组 - 移动到字符选择器下方 */
+/* 按钮组 */
 .button-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -561,6 +663,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     border: 1px solid rgba(46, 160, 67, 0.3);
     border-radius: 12px;
     font-size: 0.85rem;
+    color: var(--text-p);
 }
 
 .security-tips h4 {

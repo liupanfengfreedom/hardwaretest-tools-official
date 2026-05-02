@@ -38,6 +38,12 @@ const generateText = document.getElementById('generate-text');
 const generateIcon = document.getElementById('generate-icon');
 const exportBtn = document.getElementById('export-btn');
 
+// 新增：必须包含的开关元素
+const reqUpper = document.getElementById('req-upper');
+const reqLower = document.getElementById('req-lower');
+const reqNumber = document.getElementById('req-number');
+const reqSymbol = document.getElementById('req-symbol');
+
 // 分析统计元素
 const charCount = document.getElementById('char-count');
 const upperCount = document.getElementById('upper-count');
@@ -128,6 +134,7 @@ function toggleCharExclusion(type, char) {
     });
     
     updateExcludedCount();
+    updateRequireCheckboxStates(); // 更新必须包含复选框状态
     generate();
 }
 
@@ -151,6 +158,7 @@ function includeAllChars() {
         symbols: []
     };
     initCharSelector();
+    updateRequireCheckboxStates();
     generate();
 }
 
@@ -163,6 +171,7 @@ function excludeAllChars() {
         symbols: [...config.symbols]
     };
     initCharSelector();
+    updateRequireCheckboxStates();
     generate();
 }
 
@@ -175,6 +184,7 @@ function resetDefaultExclusions() {
         symbols: [...defaultExclusions.symbols]
     };
     initCharSelector();
+    updateRequireCheckboxStates();
     generate();
 }
 
@@ -186,6 +196,7 @@ function includeCategory(type) {
         excludedChars[type] = [];
         updateCategoryUI(type);
         updateExcludedCount();
+        updateRequireCheckboxStates();
         generate();
     } else {
         console.error(`未知的类别: ${type}`);
@@ -211,6 +222,7 @@ function excludeCategory(type) {
     
     updateCategoryUI(type);
     updateExcludedCount();
+    updateRequireCheckboxStates();
     generate();
 }
 
@@ -233,6 +245,7 @@ function resetCategory(type) {
     
     updateCategoryUI(type);
     updateExcludedCount();
+    updateRequireCheckboxStates();
     generate();
 }
 
@@ -310,6 +323,24 @@ function getAvailablePool() {
     return pool;
 }
 
+// 获取各类可用的字符（未排除的）
+function getAvailableChars(type) {
+    let chars = config[type] || "";
+    return chars.split('').filter(c => !excludedChars[type].includes(c));
+}
+
+// 从给定字符池生成指定长度的随机字符串（使用 Crypto API）
+function generateRandomString(pool, len) {
+    if (len <= 0) return '';
+    const randomValues = new Uint32Array(len);
+    window.crypto.getRandomValues(randomValues);
+    let result = '';
+    for (let i = 0; i < len; i++) {
+        result += pool[randomValues[i] % pool.length];
+    }
+    return result;
+}
+
 // 初始化事件监听
 function init() {
     slider.oninput = () => {
@@ -371,14 +402,56 @@ function init() {
         });
     });
     
+    // 必须包含复选框监听
+    [reqUpper, reqLower, reqNumber, reqSymbol].forEach(cb => {
+        cb.addEventListener('change', () => {
+            generate();
+        });
+    });
+    
     // 添加快捷键支持
     document.addEventListener('keydown', handleKeyboardShortcuts);
     
     // 初始化字符选择器
     initCharSelector();
     
+    // 初始化必须包含复选框状态
+    updateRequireCheckboxStates();
+    
     // 页面加载时自动生成
     generate();
+}
+
+// 更新必须包含复选框的启用/禁用状态
+function updateRequireCheckboxStates() {
+    // 大写字母
+    if (getAvailableChars('uppercase').length === 0) {
+        reqUpper.disabled = true;
+        reqUpper.checked = false;
+    } else {
+        reqUpper.disabled = false;
+    }
+    // 小写字母
+    if (getAvailableChars('lowercase').length === 0) {
+        reqLower.disabled = true;
+        reqLower.checked = false;
+    } else {
+        reqLower.disabled = false;
+    }
+    // 数字
+    if (getAvailableChars('numbers').length === 0) {
+        reqNumber.disabled = true;
+        reqNumber.checked = false;
+    } else {
+        reqNumber.disabled = false;
+    }
+    // 特殊符号
+    if (getAvailableChars('symbols').length === 0) {
+        reqSymbol.disabled = true;
+        reqSymbol.checked = false;
+    } else {
+        reqSymbol.disabled = false;
+    }
 }
 
 // 键盘快捷键
@@ -412,9 +485,15 @@ function applyPreset(type) {
     slider.value = preset.len;
     lenDisplay.innerText = preset.len;
     
+    // 更新必须包含的复选框
+    reqUpper.checked = preset.up || false;
+    reqLower.checked = preset.lo || false;
+    reqNumber.checked = preset.num || false;
+    reqSymbol.checked = preset.sym || false;
+    
     // 更新预设按钮状态
     updatePresetButtons(type);
-    
+    updateRequireCheckboxStates(); // 根据可用字符更新禁用状态
     generate();
 }
 
@@ -433,43 +512,86 @@ function updatePresetButtons(activeType = null) {
 
 // 生成密码
 function generate() {
-    // 显示加载状态
     generateIcon.textContent = '';
     generateIcon.classList.add('loading');
     generateText.textContent = '生成中...';
     
-    // 延迟执行以确保UI更新
     setTimeout(() => {
         try {
+            const len = parseInt(slider.value);
             const pool = getAvailablePool();
             
-            if(!pool) {
+            if (!pool) {
                 output.innerText = "没有可用的字符，请减少排除的字符";
                 updateMeter(0, 0);
                 updateAnalysis("", 0);
                 resetGenerateButton();
                 return;
             }
-
-            const len = parseInt(slider.value);
-            let pwd = "";
-            const randomValues = new Uint32Array(len);
-            window.crypto.getRandomValues(randomValues);
-
-            for(let i=0; i<len; i++) {
-                pwd += pool[randomValues[i] % pool.length];
+            
+            // 收集必须包含的类型要求
+            const requirements = [];
+            if (reqUpper.checked && getAvailableChars('uppercase').length > 0) requirements.push('uppercase');
+            if (reqLower.checked && getAvailableChars('lowercase').length > 0) requirements.push('lowercase');
+            if (reqNumber.checked && getAvailableChars('numbers').length > 0) requirements.push('numbers');
+            if (reqSymbol.checked && getAvailableChars('symbols').length > 0) requirements.push('symbols');
+            
+            // 检查是否要求的类型数量超过密码长度
+            if (requirements.length > len) {
+                output.innerText = "必须包含的类型数量超过密码长度，请增加长度或减少要求";
+                updateMeter(0, 0);
+                updateAnalysis("", 0);
+                resetGenerateButton();
+                return;
             }
-
+            
+            // 检查是否所有要求的类型都有可用字符
+            for (let type of requirements) {
+                if (getAvailableChars(type).length === 0) {
+                    output.innerText = `"${type}" 类型的可用字符已被全部排除，请取消要求或取消排除`;
+                    updateMeter(0, 0);
+                    updateAnalysis("", 0);
+                    resetGenerateButton();
+                    return;
+                }
+            }
+            
+            let pwd;
+            if (requirements.length === 0) {
+                // 没有要求，随机从整个池生成
+                pwd = generateRandomString(pool, len);
+            } else {
+                // 先为每个要求选择一个随机字符（使用crypto安全随机）
+                const needed = [...requirements];
+                const requiredChars = needed.map(type => {
+                    const available = getAvailableChars(type);
+                    const randByte = new Uint32Array(1);
+                    window.crypto.getRandomValues(randByte);
+                    const idx = randByte[0] % available.length;
+                    return available[idx];
+                });
+                
+                // 剩余长度用整个池填充
+                const remainingLen = len - requiredChars.length;
+                const remaining = generateRandomString(pool, remainingLen);
+                
+                // 合并并洗牌
+                const combined = requiredChars.concat(remaining.split(''));
+                // Fisher-Yates shuffle using crypto
+                const randArr = new Uint32Array(combined.length);
+                window.crypto.getRandomValues(randArr);
+                for (let i = combined.length - 1; i > 0; i--) {
+                    const j = randArr[i] % (i + 1);
+                    [combined[i], combined[j]] = [combined[j], combined[i]];
+                }
+                pwd = combined.join('');
+            }
+            
             output.innerText = pwd;
             
-            // 更新强度和统计
             updateMeter(len, pool.length);
             updateAnalysis(pwd, pool.length);
-            
-            // 添加到历史记录
             addToHistory(pwd);
-            
-            // 重置复制按钮状态
             cBtn.classList.remove('copied');
             
         } catch (error) {
@@ -643,21 +765,41 @@ function generateMultiple() {
     updateMeter(passwords[0].length, pool.length);
 }
 
-// 生成单个密码（用于批量生成）
+// 生成单个密码（用于批量生成，遵循必须包含要求）
 function generateSinglePassword() {
+    const len = parseInt(slider.value);
     const pool = getAvailablePool();
     if (!pool) return "生成失败";
     
-    const len = parseInt(slider.value);
-    let pwd = "";
-    const randomValues = new Uint32Array(len);
-    window.crypto.getRandomValues(randomValues);
-
-    for(let i=0; i<len; i++) {
-        pwd += pool[randomValues[i] % pool.length];
-    }
+    // 收集必须包含的类型要求
+    const requirements = [];
+    if (reqUpper.checked && getAvailableChars('uppercase').length > 0) requirements.push('uppercase');
+    if (reqLower.checked && getAvailableChars('lowercase').length > 0) requirements.push('lowercase');
+    if (reqNumber.checked && getAvailableChars('numbers').length > 0) requirements.push('numbers');
+    if (reqSymbol.checked && getAvailableChars('symbols').length > 0) requirements.push('symbols');
     
-    return pwd;
+    if (requirements.length > len) return "要求过多";
+    
+    if (requirements.length === 0) {
+        return generateRandomString(pool, len);
+    } else {
+        const requiredChars = requirements.map(type => {
+            const available = getAvailableChars(type);
+            const randByte = new Uint32Array(1);
+            window.crypto.getRandomValues(randByte);
+            const idx = randByte[0] % available.length;
+            return available[idx];
+        });
+        const remaining = generateRandomString(pool, len - requiredChars.length);
+        const combined = requiredChars.concat(remaining.split(''));
+        const randArr = new Uint32Array(combined.length);
+        window.crypto.getRandomValues(randArr);
+        for (let i = combined.length - 1; i > 0; i--) {
+            const j = randArr[i] % (i + 1);
+            [combined[i], combined[j]] = [combined[j], combined[i]];
+        }
+        return combined.join('');
+    }
 }
 
 // 导出密码
