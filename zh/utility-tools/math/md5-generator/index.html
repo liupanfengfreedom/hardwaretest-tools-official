@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+    <meta name="description" content="免费在线 MD5 哈希生成器，支持文本、文件、Hex、Base64 与批量输入，快速计算 MD5-32、MD5-16 和大写 MD5 校验值。">
+    <meta name="keywords" content="MD5哈希工具,MD5生成器,MD5校验,MD5计算器,在线MD5,文件MD5,文本MD5,批量MD5">
+    <meta property="og:title" content="MD5 哈希生成器与校验工具 | StarryRing">
+    <meta property="og:description" content="在线生成文本、文件、Hex、Base64 与批量输入的 MD5 哈希，支持 MD5-32、MD5-16 和大写输出。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/math/md5-generator/">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MD5 哈希生成器与校验工具">
+    <meta name="twitter:description" content="免费在线 MD5 哈希生成器，支持文本、文件、Hex、Base64 与批量输入。">
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/math/md5-generator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/md5-generator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/md5-generator/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/math/md5-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/md5-generator/">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/md5-generator/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/md5-generator/script-zh.js" as="script">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "主页",
+              "item": "https://starryring.com/zh/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "实用工具",
+              "item": "https://starryring.com/zh/utility-tools/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "MD5 哈希生成器",
+              "item": "https://starryring.com/zh/utility-tools/math/md5-generator/"
+            }
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MD5 哈希生成器",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Web",
+          "url": "https://starryring.com/zh/utility-tools/math/md5-generator/",
+          "description": "免费在线 MD5 哈希生成器，支持文本、文件、Hex、Base64 与批量输入。",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "MD5-32 标准输出",
+            "MD5-16 缩短输出",
+            "MD5 大写输出",
+            "文本、文件、Hex、Base64 输入",
+            "按行批量哈希",
+            "批量结果导出 CSV"
+          ]
+        }
+      ]
+    }
+    </script>
+    <title>MD5 哈希生成器与校验工具 | StarryRing</title>
+</head>
+<body>
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/zh/utility-tools/" class="breadcrumb-link">实用工具</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="breadcrumb-active">MD5 哈希工具</span>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false">
+            <i class="fas fa-globe"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/math/md5-generator/" data-lang="zh">中文版</a>
+            <a class="language-option" href="/en/utility-tools/math/md5-generator/" data-lang="en">English</a>
+        </div>
+    </div>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="logo-group">
+      <span class="logo-tag">// hash · digest · fingerprint</span>
+      <h1 class="logo-title">MD5 <span>Hash</span></h1>
+    </div>
+    <div class="header-badge">
+      <div class="badge">CLIENT-SIDE ONLY</div>
+      <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.3);">REAL-TIME COMPUTE</div>
+    </div>
+  </header>
+
+  <!-- Info Banner -->
+  <div class="info-banner">
+    <span style="font-size:15px;flex-shrink:0;">ℹ</span>
+    <span>MD5 是 <strong>128-bit 单向哈希函数</strong>，生成 32 位十六进制摘要。适用于数据校验与指纹识别，<strong>不建议</strong>用于密码存储（推荐 bcrypt / Argon2）。</span>
+  </div>
+
+  <!-- Stats Strip -->
+  <div class="stats-strip">
+    <div class="stat-cell">
+      <span class="stat-label">已处理</span>
+      <span class="stat-value" id="statHashes">0</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">总字节</span>
+      <span class="stat-value" id="statBytes">0</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">输出格式</span>
+      <span class="stat-value" id="statFormat" style="font-size:13px;margin-top:2px">HEX-32</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">模式</span>
+      <span class="stat-value" id="statMode" style="font-size:13px;margin-top:2px">STANDARD</span>
+    </div>
+  </div>
+
+  <!-- Config Panel -->
+  <div class="config-panel">
+    <div class="config-header">
+      <div class="config-header-icon">⚙</div>
+      <span class="config-title">输出配置</span>
+    </div>
+    <div class="config-grid">
+      <div class="field-group">
+        <a class="field-label-link" href="#explain-variant" onclick="scrollToExplain('explain-variant')">哈希变体</a>
+        <div class="select-wrapper">
+          <select class="field-select" id="hashVariant" onchange="onConfigChange()">
+            <option value="md5-32">MD5-32（标准，32位）</option>
+            <option value="md5-16">MD5-16（中段，16位）</option>
+            <option value="md5-upper">MD5-32 大写</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <a class="field-label-link" href="#explain-encoding" onclick="scrollToExplain('explain-encoding')">输入编码</a>
+        <div class="select-wrapper">
+          <select class="field-select" id="inputEncoding" onchange="onConfigChange()">
+            <option value="utf8">UTF-8 文本</option>
+            <option value="hex">Hex 字节流</option>
+            <option value="base64">Base64</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <a class="field-label-link" href="#explain-batch" onclick="scrollToExplain('explain-batch')">批量模式</a>
+        <div class="select-wrapper">
+          <select class="field-select" id="batchMode" onchange="onConfigChange()">
+            <option value="single">单行 / 全文</option>
+            <option value="multi">按行拆分（批量）</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IO Section -->
+  <div class="io-section">
+    <!-- Input -->
+    <div class="io-panel input-panel">
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-zone-icon">📂</div>
+        <div class="drop-zone-text">拖放文件以计算哈希</div>
+      </div>
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          输入内容
+        </div>
+        <div class="io-actions">
+          <div id="fileBadge" style="display:none" class="file-badge">
+            <span>📄</span>
+            <span class="file-badge-name" id="fileBadgeName">file.txt</span>
+            <span class="file-badge-clear" onclick="clearFile()" title="移除文件">✕</span>
+          </div>
+          <button class="add-batch-btn hidden" id="addBatchBtn" onclick="addBatchLine()" title="在末尾添加新批次行">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            添加批次
+          </button>
+          <label class="upload-btn" title="上传文件">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            上传文件
+            <input type="file" id="fileInput" style="display:none" onchange="loadFile(event)">
+          </label>
+          <button class="icon-btn" onclick="pasteInput()" title="粘贴">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button class="icon-btn" onclick="clearInput()" title="清空">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+        </div>
+      </div>
+      <textarea class="io-textarea" id="inputText" placeholder="在此输入文本，或拖放 / 上传文件…" oninput="onInputChange()" spellcheck="false"></textarea>
+      <div class="io-footer">
+        <span class="io-stat" id="inputStat">0 bytes</span>
+        <span class="io-stat" style="color:rgba(255,107,53,0.6);font-size:9px;letter-spacing:1px;">INPUT</span>
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div class="io-panel output-panel">
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          主输出 <span id="outputFormatTag" style="color:var(--accent4);margin-left:4px;">MD5-32</span>
+        </div>
+        <div class="io-actions">
+          <button class="icon-btn" id="copyOutputBtn" onclick="copyOutput(this)" title="复制">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+      <textarea class="io-textarea" id="outputText" readonly placeholder="哈希结果将显示在此…" spellcheck="false"></textarea>
+      <div class="io-footer">
+        <span class="io-stat" id="outputStat">—</span>
+        <span class="io-stat" style="color:rgba(191,127,255,0.6);font-size:9px;letter-spacing:1px;">OUTPUT</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Bar -->
+  <div class="action-bar">
+    <button class="btn-primary" onclick="runHash()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      GENERATE HASH
+    </button>
+    <button class="btn-secondary" onclick="clearAll()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
+      清空全部
+    </button>
+    <div class="auto-badge">
+      <div class="auto-badge-dot"></div>
+      实时计算已开启
+    </div>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-indicator"></div>
+    <span id="statusText">就绪 — 输入文本后自动计算，或点击按钮手动触发</span>
+  </div>
+
+  <!-- Hash Results Panel -->
+  <div class="results-panel" id="resultsPanel">
+    <div class="results-header">
+      <div class="results-title">
+        <div class="results-title-dot"></div>
+        哈希摘要详情
+      </div>
+      <button class="copy-all-btn" id="copyAllBtn" onclick="copyAll(this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        复制全部
+      </button>
+    </div>
+    <div class="hash-rows" id="hashRows">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- Batch Table -->
+  <div class="batch-table-wrap" id="batchTableWrap">
+    <div class="batch-header">
+      <div class="batch-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+        批量哈希结果
+      </div>
+      <button class="export-csv-btn" onclick="exportCSV()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        导出 CSV
+      </button>
+    </div>
+    <table class="batch-table">
+      <thead>
+        <tr>
+          <th>原始内容</th>
+          <th>MD5-32</th>
+          <th>MD5-16</th>
+          <th>MD5-32 大写</th>
+        </tr>
+      </thead>
+      <tbody id="batchTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Explain: 哈希变体 -->
+  <div class="explain-section" id="explain-variant">
+    <div class="explain-section-header">
+      <div class="explain-section-icon">🔬</div>
+      <span class="explain-section-title">哈希变体</span>
+      <span class="explain-section-id">#explain-variant</span>
+    </div>
+    <div class="explain-rows">
+      <div class="explain-row">
+        <span class="explain-row-key">MD5-32<br><span style="color:var(--text3);font-weight:400;font-size:10px;">标准输出</span></span>
+        <span class="explain-row-val">RFC 1321 定义的标准 MD5，对任意长度输入产生 <code>128-bit</code> 摘要，以 <code>32</code> 个十六进制小写字符表示。广泛用于文件完整性校验、数据指纹与去重。示例：<code>5d41402abc4b2a76b9719d911017c592</code></span>
+      </div>
+      <div class="explain-row">
+        <span class="explain-row-key">MD5-16<br><span style="color:var(--text3);font-weight:400;font-size:10px;">截短输出</span></span>
+        <span class="explain-row-val">取标准 MD5-32 的第 <code>9–24</code> 位字符（共 16 位），等效于截取中间 64-bit。长度更紧凑，但碰撞概率更高（约 <code>2⁻⁶⁴</code>），适用于短 ID / Token 生成等低安全要求场景，不建议用于安全校验。</span>
+      </div>
+      <div class="explain-row">
+        <span class="explain-row-key">MD5-32 大写<br><span style="color:var(--text3);font-weight:400;font-size:10px;">大写输出</span></span>
+        <span class="explain-row-val">与 MD5-32 内容完全相同，仅将输出字母全部转为大写（<code>A–F</code>）。部分旧系统（如某些支付签名、企业接口）要求大写格式，哈希值本身无差异。示例：<code>5D41402ABC4B2A76B9719D911017C592</code></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explain: 输入编码 -->
+  <div class="explain-section" id="explain-encoding">
+    <div class="explain-section-header">
+      <div class="explain-section-icon">📥</div>
+      <span class="explain-section-title">输入编码</span>
+      <span class="explain-section-id">#explain-encoding</span>
+    </div>
+    <div class="explain-rows">
+      <div class="explain-row">
+        <span class="explain-row-key">UTF-8 文本<br><span style="color:var(--text3);font-weight:400;font-size:10px;">默认</span></span>
+        <span class="explain-row-val">将输入内容视为 <code>UTF-8</code> 编码字符串，自动将多字节字符（中文、日文、emoji 等）转换为字节序列后再计算哈希。这是最常见的使用场景，直接输入文本即可。</span>
+      </div>
+      <div class="explain-row">
+        <span class="explain-row-key">Hex 字节流<br><span style="color:var(--text3);font-weight:400;font-size:10px;">十六进制</span></span>
+        <span class="explain-row-val">将输入视为十六进制字符串（<code>0–9、a–f</code>，忽略空格），每两个字符解析为一个字节后计算哈希。适用于对原始二进制数据（如密钥、协议报文）进行哈希的场景。输入示例：<code>48 65 6c 6c 6f</code></span>
+      </div>
+      <div class="explain-row">
+        <span class="explain-row-key">Base64<br><span style="color:var(--text3);font-weight:400;font-size:10px;">Base64 解码</span></span>
+        <span class="explain-row-val">将输入视为标准 <code>Base64</code> 编码字符串，先解码为原始字节，再对字节进行哈希。常用于对图片、文件内容的 Base64 表示计算其原始哈希值。输入示例：<code>SGVsbG8=</code></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explain: 批量模式 -->
+  <div class="explain-section" id="explain-batch">
+    <div class="explain-section-header">
+      <div class="explain-section-icon">📋</div>
+      <span class="explain-section-title">批量模式</span>
+      <span class="explain-section-id">#explain-batch</span>
+    </div>
+    <div class="explain-rows">
+      <div class="explain-row">
+        <span class="explain-row-key">单行 / 全文<br><span style="color:var(--text3);font-weight:400;font-size:10px;">默认</span></span>
+        <span class="explain-row-val">将输入框中的全部内容（包括换行符）作为<strong style="color:#c8e0f0;">一个整体</strong>计算哈希，输出单条结果。适用于对完整文本、段落或文件内容进行指纹提取。换行符会被包含在哈希计算中。</span>
+      </div>
+      <div class="explain-row">
+        <span class="explain-row-key">按行拆分<br><span style="color:var(--text3);font-weight:400;font-size:10px;">批量</span></span>
+        <span class="explain-row-val">以 <code>\n</code> 为分隔符将输入拆分为多行，每行单独计算哈希，空行自动忽略。主输出框按行显示对应哈希，下方展示完整批量结果表（MD5-32 / MD5-16 / 大写），并可一键导出为 <code>CSV</code> 文件。适用于批量处理用户名、密码列表、数据集等场景。</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+    <script src="/static/js/utility-tools/math/md5-generator/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
