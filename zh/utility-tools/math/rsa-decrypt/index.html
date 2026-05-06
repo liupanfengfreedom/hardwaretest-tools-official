@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060e0a">
+    <meta name="description" content="免费在线 RSA 解密工具，支持导入 PEM 私钥、读取 Base64 或 Hex 密文，并在浏览器本地完成 RSA-OAEP 解密。">
+    <meta name="keywords" content="RSA解密工具,RSA私钥解密,RSA-OAEP,PEM私钥,Base64解密,Hex解密,在线RSA,Web Crypto">
+    <meta property="og:title" content="RSA 解密工具与私钥解码器 | StarryRing">
+    <meta property="og:description" content="在线导入 PEM 私钥，解密 Base64、Hex 或 .enc 密文，全部计算都在浏览器本地完成。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/math/rsa-decrypt/">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RSA 解密工具与私钥解码器 | StarryRing">
+    <meta name="twitter:description" content="在线导入 PEM 私钥，解密 Base64、Hex 或 .enc 密文，全部计算都在浏览器本地完成。">
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/rsa-decrypt/">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/rsa-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/rsa-decrypt/script-zh.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "主页",
+          "item": "https://starryring.com/zh/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "实用工具",
+          "item": "https://starryring.com/zh/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "RSA 解密工具",
+          "item": "https://starryring.com/zh/utility-tools/math/rsa-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "RSA 解密工具",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/zh/utility-tools/math/rsa-decrypt/",
+      "description": "免费在线 RSA 解密工具，支持 PEM 私钥导入和 RSA-OAEP 本地解密。",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "导入 PEM 私钥",
+        "支持 Base64 与 Hex 密文输入",
+        "支持上传 .enc 文件",
+        "支持多种 OAEP Hash 选项",
+        "全部计算在浏览器本地完成"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "RSA 解密为什么必须使用私钥？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RSA 是非对称加密算法，公钥用于加密，私钥用于解密。只有持有与公钥匹配的私钥，才能还原被 RSA-OAEP 加密的数据。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "这个页面支持哪些密文输入格式？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "当前支持 Base64、Hex 文本密文，以及上传 .enc 二进制文件。文件模式会自动按原始字节处理，无需额外选择编码。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "为什么 ENCRYPTED PRIVATE KEY 无法直接使用？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "带密码保护的 ENCRYPTED PRIVATE KEY 需要先输入口令解锁，而这个页面为了保持纯浏览器、无额外依赖的实现，当前只支持未加密的 PRIVATE KEY / RSA PRIVATE KEY。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "RSA 解密失败通常是什么原因？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "常见原因包括私钥与加密公钥不匹配、OAEP Hash 选项不一致、密文内容损坏，或输入的不是原始加密结果。"
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+    <title>RSA 解密工具与私钥解码器 | StarryRing</title>
+</head>
+<body>
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item"><a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a></li>
+            <li class="breadcrumb-item"><a href="/zh/utility-tools/" class="breadcrumb-link">实用工具</a></li>
+            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">RSA 解密工具</span></li>
+        </ol>
+    </nav>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false"><i class="fas fa-globe"></i></button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/math/rsa-decrypt/" data-lang="zh">中文版</a>
+            <a class="language-option" href="/en/utility-tools/math/rsa-decrypt/" data-lang="en">English</a>
+        </div>
+    </div>
+<div class="scan-effect"></div>
+
+<div class="container">
+  <header>
+    <div class="logo-group">
+      <span class="logo-tag">// cryptographic tool v2.0</span>
+      <h1 class="logo-title">RSA <span>Decipher</span></h1>
+    </div>
+    <div class="header-right">
+      <div class="badge">CLIENT-SIDE ONLY</div>
+      <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
+      <a href="/zh/utility-tools/math/rsa-encrypt/" class="encrypt-link">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        切换加密工具
+      </a>
+    </div>
+  </header>
+
+  <!-- Security Banner -->
+  <div class="security-banner">
+    <span class="security-banner-icon">🔒</span>
+    <span><strong>纯客户端运行</strong> — 密钥与数据仅在你的浏览器内处理，从不上传至任何服务器。基于浏览器原生 Web Crypto API 实现。</span>
+  </div>
+
+  <!-- Config -->
+  <div class="config-panel">
+    <div class="config-header">
+      <div class="config-header-icon">⚙</div>
+      <span class="config-title">Algorithm Configuration</span>
+    </div>
+    <div class="config-grid" style="grid-template-columns: repeat(2, 1fr)">
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-keysize" class="label-link">Key Size</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="keySize">
+            <option value="2048">2048-bit</option>
+            <option value="3072">3072-bit</option>
+            <option value="4096" selected>4096-bit</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-hash" class="label-link">OAEP Hash</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="hash">
+            <option value="SHA-1">SHA-1</option>
+            <option value="SHA-256" selected>SHA-256</option>
+            <option value="SHA-384">SHA-384</option>
+            <option value="SHA-512">SHA-512</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key & IV -->
+  <div class="key-section">
+    <div class="config-header" style="justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="config-header-icon" style="color:var(--accent3)">🔑</div>
+        <span class="config-title">Key Material</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="paste-json-btn" onclick="pasteJsonConfig()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          粘贴 JSON 配置
+        </button>
+        <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          上传配置文件
+        </button>
+        <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)">
+      </div>
+    </div>
+    <div class="field-group">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <!-- 修改：将 Private Key 和 (PEM) 拆分为两个链接 -->
+        <label class="field-label" style="margin-bottom:0">
+            <a href="#explain-key" class="label-link">Private Key</a> 
+            (<a href="#explain-pem" class="label-link">PEM</a>)
+        </label>
+        <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="显示/隐藏私钥" style="margin-left:auto">
+          <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+        <button class="copy-field-btn" onclick="pasteField('secretKey')" title="粘贴私钥">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+        </button>
+        <button class="gen-btn" onclick="triggerPemUpload()" title="上传 .pem 文件" style="color:var(--accent2);border-color:rgba(0,212,255,0.4);background:rgba(0,212,255,0.06);display:flex;align-items:center;gap:6px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          上传 .pem
+        </button>
+        <input type="file" id="pemFileInput" accept=".pem,.key,.txt" style="display:none" onchange="loadPemFile(this)">
+      </div>
+      <textarea class="field-input" id="secretKey" rows="8" placeholder="-----BEGIN PRIVATE KEY-----&#10;...&#10;-----END PRIVATE KEY-----&#10;&#10;粘贴 RSA 私钥（PEM 格式），或点击「上传 .pem」加载文件" autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:150px;line-height:1.5"></textarea>
+      <div id="pemErrorBar" style="display:none;align-items:center;gap:8px;padding:8px 14px;margin-top:6px;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.4);border-radius:3px;font-family:var(--mono);font-size:11px;color:#ff8080;">
+        <span style="font-size:15px;flex-shrink:0">✕</span>
+        <span id="pemErrorMsg"></span>
+      </div>
+      <div id="pemSuccessBar" style="display:none;align-items:center;gap:8px;padding:8px 14px;margin-top:6px;background:rgba(0,255,157,0.05);border:1px solid rgba(0,255,157,0.25);border-radius:3px;font-family:var(--mono);font-size:11px;color:var(--accent);">
+        <span style="font-size:15px;flex-shrink:0">✓</span>
+        <span id="pemSuccessMsg"></span>
+      </div>
+      <div class="key-hint" id="keyHint">RSA-OAEP 解密使用私钥（<span id="keySizeHint">4096</span>-bit / <span id="hashHint">SHA-256</span>）— 与加密时使用的公钥必须配对</div>
+    </div>
+  </div>
+
+  <!-- IO -->
+  <div class="io-section">
+    <!-- Ciphertext input -->
+    <div class="io-panel input-panel" id="inputPanel">
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-zone-icon">⬇</div>
+        <div class="drop-zone-text">松开以加载 .enc 文件</div>
+      </div>
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          CIPHERTEXT / INPUT
+        </div>
+        <div class="io-actions">
+          <button class="upload-btn" onclick="triggerFileInput()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            上传文件
+          </button>
+          <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="清空">✕</button>
+          <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="粘贴">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+      </div>
+      <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt">
+      <textarea class="io-textarea" id="inputText" placeholder="在此粘贴密文（Base64 或 Hex 格式）...&#10;&#10;或上传 .enc 二进制文件"></textarea>
+      <div class="io-footer">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="io-stat" id="inputStat">0 bytes</span>
+          <div class="file-badge" id="inputFileBadge" style="display:none">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <span class="file-badge-name" id="inputFileName"></span>
+            <button class="file-badge-clear" onclick="clearFileInput()" title="移除文件">✕</button>
+          </div>
+        </div>
+        <div class="encoding-tabs" id="encodingTabs">
+          <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')">BASE64</button>
+          <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')">HEX</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plaintext output -->
+    <div class="io-panel output-panel">
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          PLAINTEXT / OUTPUT
+        </div>
+        <div class="io-actions">
+          <button class="icon-btn" onclick="copyOutput(this)" title="复制输出">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+      <textarea class="io-textarea" id="outputText" placeholder="解密结果将显示在此处..." readonly></textarea>
+      <div class="output-file-strip" id="outputFileStrip">
+        <div class="output-file-info">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          <span id="outputFileLabel">解密文件可下载</span>
+        </div>
+        <button class="download-file-btn" onclick="downloadOutputFile()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          DOWNLOAD FILE
+        </button>
+      </div>
+      <div class="io-footer">
+        <span class="io-stat" id="outputStat">0 bytes</span>
+        <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Row -->
+  <div class="action-row">
+    <button class="primary-btn decrypt-btn" onclick="runDecrypt()">◀ DECRYPT</button>
+    <a href="/zh/utility-tools/math/rsa-encrypt/" class="encrypt-nav-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+      需要加密？
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-indicator"></div>
+    <span class="status-text" id="statusText">就绪 — 输入密钥、IV 和密文后点击解密</span>
+    <span class="status-time" id="statusTime"></span>
+  </div>
+
+  <!-- Info Strip -->
+  <div class="info-strip">
+    <div class="info-card">
+      <div class="info-card-label">Algorithm</div>
+      <div class="info-card-value">RSA</div>
+      <div class="info-card-sub" id="infoMode">OAEP / SHA-256</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Key Strength</div>
+      <div class="info-card-value" id="infoKeySize">4096</div>
+      <div class="info-card-sub">bits</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Security Level</div>
+      <div class="info-card-value" id="infoSecurity">HIGH</div>
+      <div class="info-card-sub" id="infoSecSub">Asymmetric</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Decrypted</div>
+      <div class="info-card-value" id="infoBytes">0</div>
+      <div class="info-card-sub">bytes this session</div>
+    </div>
+  </div>
+
+  <!-- Explain Sections -->
+  <div class="explain-section" id="explain-key">
+    <div class="explain-icon">🔑</div>
+    <div class="explain-body">
+      <div class="explain-title">为什么 RSA 解密使用私钥？</div>
+      <div class="explain-text">RSA 是非对称加密算法。加密时使用公钥，解密时<strong style="color:#f0fff6">必须使用与该公钥配对的私钥</strong>。私钥由密钥生成工具在加密页面生成，两者唯一对应——提供不匹配的私钥将导致解密失败。<br><br>私钥必须严格保密。若私钥丢失，任何人（包括数据的所有者）都将无法解密对应密文。请务必在生成时妥善保存私钥文件。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-keysize">
+    <div class="explain-icon">📏</div>
+    <div class="explain-body">
+      <div class="explain-title">密钥长度（Key Size）必须与加密时一致</div>
+      <div class="explain-text">解密时选择的 Key Size 必须与加密时使用的公钥长度一致。若选错，私钥导入时会因长度不匹配直接报错。<br><br>一般来说，正确粘贴私钥 PEM 内容后，工具会自动使用正确长度。如果导入失败，请检查 Key Size 与 Hash 是否匹配。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-hash">
+    <div class="explain-icon">⚙️</div>
+    <div class="explain-body">
+      <div class="explain-title">OAEP Hash 必须与加密时一致</div>
+      <div class="explain-text">RSA-OAEP 解密时使用的 Hash 算法必须与加密时完全相同，否则解密将失败或返回错误结果。<br><br>如果加密时使用的是 SHA-256（推荐默认值），解密时也需选择 SHA-256。若不确定，可尝试不同 Hash 选项直到成功。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-encoding">
+    <div class="explain-icon">🔠</div>
+    <div class="explain-body">
+      <div class="explain-title">输入编码（Input Encoding）— 密文是什么格式？</div>
+      <div class="explain-text">加密工具输出的密文是经过编码的文本。解密时需选择与加密输出时相同的编码格式，工具才能正确还原为原始二进制字节再进行解密。<br><br><strong style="color:#c0e8d0">Base64</strong>：密文由字母、数字和 <code style="color:var(--accent)">+/=</code> 组成。<strong style="color:#c0e8d0">Hex</strong>：密文由 <code style="color:var(--accent)">0-9</code> 和 <code style="color:var(--accent)">a-f</code> 组成，长度是字节数的两倍。若上传的是 .enc 二进制文件，则编码选项自动忽略。</div>
+    </div>
+  </div>
+
+  <!-- 新增：PEM 格式详解区域 -->
+  <div class="explain-section" id="explain-pem">
+    <div class="explain-icon">📄</div>
+    <div class="explain-body">
+      <div class="explain-title">PEM 格式详解</div>
+      <div class="explain-text">
+        <p><strong>1️⃣ PEM 格式详细介绍</strong><br>
+        PEM（Privacy-Enhanced Mail）是一种存储和传输密钥、证书的文本格式。它将二进制数据（DER 格式）进行 Base64 编码，并在首尾添加类似 <code>-----BEGIN <标签>-----</code> 和 <code>-----END <标签>-----</code> 的页眉页脚。常见标签有：<code>PUBLIC KEY</code>、<code>PRIVATE KEY</code>、<code>CERTIFICATE</code> 等。这种格式易于在文本环境中复制、粘贴和传输，是目前最通用的密钥交换格式。</p>
+
+        <p><strong>2️⃣ 除了 PEM 还可以是哪些格式？</strong><br>
+        - <strong>DER</strong>：纯二进制格式，直接存储 ASN.1 结构，无法直接阅读，常见于 Java 平台。<br>
+        - <strong>HEX</strong>：将 DER 二进制表示为十六进制字符串，便于调试或嵌入代码。<br>
+        - <strong>Base64（无页眉）</strong>：仅对 DER 进行 Base64 编码，不带 PEM 页眉，用于某些配置或紧凑表示（如 JWT）。<br>
+        - <strong>PKCS#12 (PFX)</strong>：一种包含公钥和私钥的二进制容器格式，通常带有密码保护，用于浏览器或 Windows 系统。</p>
+
+        <p><strong>3️⃣ 什么时候用哪种格式？</strong><br>
+        - <strong>PEM</strong>：最通用，适用于 OpenSSL、Web 服务器（Nginx/Apache）、API 交换等场景。<br>
+        - <strong>DER</strong>：常用于 Java 环境或需要严格二进制存储的场合。<br>
+        - <strong>HEX</strong>：在调试、嵌入式系统或需要精确查看字节内容时使用。<br>
+        - <strong>Base64（无页眉）</strong>：当格式受限或需要紧凑表示时（如 JSON Web Token 的一部分）。<br>
+        - <strong>PKCS#12</strong>：需要同时传输公钥和私钥并保护私钥时（通常带密码）。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
+    <script src="/static/js/utility-tools/math/rsa-decrypt/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
