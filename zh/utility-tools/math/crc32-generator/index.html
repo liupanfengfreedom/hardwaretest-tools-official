@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+    <meta name="description" content="免费在线 CRC32 校验工具，支持文本、文件、Hex、Base64 与多种 CRC32 变体计算，适合校验文件完整性与数据传输结果。">
+    <meta name="keywords" content="CRC32工具,CRC32校验,CRC32生成器,CRC32计算器,在线CRC32,文件CRC32,CRC32校验值,CRC32变体">
+    <meta property="og:title" content="CRC32 校验生成器与比对工具 | StarryRing">
+    <meta property="og:description" content="在线计算文本、文件、Hex、Base64 的 CRC32 校验值，支持 ISO-HDLC、Castagnoli、MPEG-2、BZIP2 等变体。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/math/crc32-generator/">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CRC32 校验生成器与比对工具">
+    <meta name="twitter:description" content="免费在线 CRC32 校验工具，支持文本、文件、Hex、Base64 与多种 CRC32 变体计算。">
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/crc32-generator/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/crc32-generator/script-zh.js" as="script">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "主页",
+              "item": "https://starryring.com/zh/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "实用工具",
+              "item": "https://starryring.com/zh/utility-tools/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "CRC32 校验工具",
+              "item": "https://starryring.com/zh/utility-tools/math/crc32-generator/"
+            }
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "CRC32 校验工具",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Web",
+          "url": "https://starryring.com/zh/utility-tools/math/crc32-generator/",
+          "description": "免费在线 CRC32 校验工具，支持文本、文件、Hex、Base64 与多种 CRC32 变体计算。",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "支持 CRC32 ISO-HDLC、Castagnoli、MPEG-2、BZIP2",
+            "支持文本、文件、Hex、Base64 输入",
+            "支持十六进制、十进制、二进制、八进制输出",
+            "支持 CRC32 结果比对验证",
+            "实时计算与文件拖放"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "CRC32 是什么？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CRC32 是一种 32 位循环冗余校验算法，常用于检测文件、网络数据包和压缩数据在传输或存储过程中是否发生意外错误。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "这个 CRC32 工具支持哪些输入格式？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "本工具支持普通 UTF-8 文本、Hex 十六进制字节流、Base64 编码内容以及直接上传文件，并可在浏览器本地计算 CRC32。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "这个页面支持哪些 CRC32 变体？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "当前页面支持 CRC-32/ISO-HDLC、CRC-32C（Castagnoli）、CRC-32/MPEG-2 和 CRC-32/BZIP2，可用于不同协议和文件格式的校验需求。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "CRC32 可以用于安全加密或密码存储吗？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "不可以。CRC32 适合做误码检测和完整性校验，不具备密码学安全性，不能替代哈希加密算法或密码存储方案。"
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <title>CRC32 校验生成器与比对工具 | StarryRing</title>
+</head>
+<body>
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item"><a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a></li>
+            <li class="breadcrumb-item"><a href="/zh/utility-tools/" class="breadcrumb-link">实用工具</a></li>
+            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">CRC32 校验工具</span></li>
+        </ol>
+    </nav>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false"><i class="fas fa-globe"></i></button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/math/crc32-generator/" data-lang="zh">中文版</a>
+            <a class="language-option" href="/en/utility-tools/math/crc32-generator/" data-lang="en">English</a>
+        </div>
+    </div>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="logo-group">
+      <span class="logo-tag">// checksum utility</span>
+      <div class="logo-title">CRC<span>32</span> — 校验工具</div>
+    </div>
+    <div class="header-badge">
+      <div class="badge">CLIENT-SIDE ONLY</div>
+      <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.25);">NO DATA TRANSMITTED</div>
+    </div>
+  </header>
+
+  <!-- Info banner -->
+  <div class="info-banner">
+    <span>🔵</span>
+    所有计算均在<strong>浏览器本地</strong>完成，数据不会上传至任何服务器。支持 CRC-32/ISO-HDLC、CRC-32C、CRC-32/MPEG-2、CRC-32/BZIP2 四种多项式变体。
+  </div>
+
+  <!-- Config panel -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon">⚙</div>
+      <span class="panel-title">计算配置</span>
+    </div>
+    <div class="config-grid">
+      <div class="field-group">
+        <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-variants', VARIANT_INDEX[document.getElementById('crcVariant').value])">CRC 变体 ↗</a>
+        <div class="select-wrapper">
+          <select class="field-select" id="crcVariant">
+            <option value="iso">CRC-32/ISO-HDLC（以太网、ZIP、PNG）</option>
+            <option value="castagnoli">CRC-32C / Castagnoli（iSCSI、NVMe）</option>
+            <option value="mpeg2">CRC-32/MPEG-2（MPEG-2 传输流）</option>
+            <option value="bzip2">CRC-32/BZIP2（BZip2 压缩）</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-encoding', ENCODING_INDEX[document.getElementById('inputEncoding').value])">输入编码 ↗</a>
+        <div class="select-wrapper">
+          <select class="field-select" id="inputEncoding">
+            <option value="utf8">UTF-8 文本</option>
+            <option value="hex">Hex（十六进制字节）</option>
+            <option value="base64">Base64</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-output', FORMAT_INDEX[document.getElementById('outputFormat').value])">输出格式 ↗</a>
+        <div class="select-wrapper">
+          <select class="field-select" id="outputFormat">
+            <option value="hex">十六进制（0x…）</option>
+            <option value="decimal">十进制</option>
+            <option value="binary">二进制</option>
+            <option value="octal">八进制</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input area -->
+  <div class="input-area" id="inputArea">
+    <div class="io-header">
+      <div class="io-title">
+        <div class="io-dot"></div>
+        输入数据
+      </div>
+      <div class="io-actions">
+        <span id="fileBadge" style="display:none;" class="file-badge">
+          <span class="file-badge-name" id="fileNameLabel"></span>
+          <button class="file-badge-clear" onclick="clearFile()">✕</button>
+        </span>
+        <label class="upload-btn" for="fileInput" title="上传文件计算校验值">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          上传文件
+        </label>
+        <input type="file" id="fileInput" style="display:none" onchange="handleFileUpload(event)">
+        <button class="icon-btn" title="粘贴" onclick="pasteInput()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        </button>
+        <button class="icon-btn" title="清空" onclick="clearInput()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+      </div>
+    </div>
+    <textarea class="io-textarea" id="inputText" placeholder="在此输入文本，或上传文件…&#10;&#10;实时计算 CRC32 校验值" spellcheck="false"></textarea>
+    <div class="drop-zone" id="dropZone">
+      <div style="font-size:28px;color:var(--accent);">⬇</div>
+      <div class="drop-zone-text">拖放文件到此处</div>
+    </div>
+    <div class="io-footer">
+      <span class="io-stat" id="inputStat">0 bytes</span>
+      <span id="previewTypeBadge" style="display:none;" class="preview-type-badge"></span>
+      <div class="format-tabs">
+        <button class="format-tab active" data-enc="utf8" onclick="setEncoding(this,'utf8')">UTF-8</button>
+        <button class="format-tab" data-enc="hex" onclick="setEncoding(this,'hex')">HEX</button>
+        <button class="format-tab" data-enc="base64" onclick="setEncoding(this,'base64')">BASE64</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action row -->
+  <div class="action-row">
+    <button class="primary-btn" id="calcBtn" onclick="runCalculate()">
+      ⟳ &nbsp; 计算 CRC32
+    </button>
+    <button class="clear-btn" onclick="clearAll()">重置全部</button>
+  </div>
+
+  <!-- Status bar -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-indicator"></div>
+    <span class="status-text" id="statusText">就绪 — 输入数据后点击「计算 CRC32」</span>
+    <span class="status-time" id="statusTime"></span>
+  </div>
+
+  <!-- Results panel -->
+  <div class="panel green-line">
+    <div class="panel-header">
+      <div class="panel-icon" style="color:var(--accent2);">◈</div>
+      <span class="panel-title">计算结果</span>
+    </div>
+
+    <!-- Primary result card -->
+    <div class="result-primary" id="result-primary">
+      <div class="result-primary-header">
+        <div class="result-primary-meta">
+          <span class="result-primary-name" id="primary-name">—</span>
+          <span class="result-primary-desc" id="primary-desc"></span>
+        </div>
+        <button class="result-copy-btn result-copy-primary" id="copy-primary" onclick="copyPrimary()">COPY</button>
+      </div>
+      <div class="result-primary-value" id="primary-value">—</div>
+      <div class="result-primary-fmts" id="primary-fmts"></div>
+    </div>
+
+    <!-- Secondary results row -->
+    <div class="result-secondary-row" id="result-secondary-row">
+      <div class="result-secondary" id="sec-iso" onclick="switchVariant('iso')">
+        <div class="result-secondary-label">ISO-HDLC</div>
+        <div class="result-secondary-val empty" id="secval-iso">—</div>
+      </div>
+      <div class="result-secondary" id="sec-castagnoli" onclick="switchVariant('castagnoli')">
+        <div class="result-secondary-label">Castagnoli</div>
+        <div class="result-secondary-val empty" id="secval-castagnoli">—</div>
+      </div>
+      <div class="result-secondary" id="sec-mpeg2" onclick="switchVariant('mpeg2')">
+        <div class="result-secondary-label">MPEG-2</div>
+        <div class="result-secondary-val empty" id="secval-mpeg2">—</div>
+      </div>
+      <div class="result-secondary" id="sec-bzip2" onclick="switchVariant('bzip2')">
+        <div class="result-secondary-label">BZIP2</div>
+        <div class="result-secondary-val empty" id="secval-bzip2">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verify panel -->
+  <div class="panel purple-line">
+    <div class="panel-header">
+      <div class="panel-icon" style="color:var(--accent4);">✓</div>
+      <span class="panel-title">校验比对</span>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:#7a9dba;margin-bottom:14px;">
+      粘贴预期的 CRC32 值，与当前计算结果进行比对验证
+    </div>
+    <div class="verify-row">
+      <div class="field-group">
+        <label class="field-label">预期校验值</label>
+        <input class="field-input" id="expectedCRC" placeholder="e.g. 0xCBF43926  或  3421780262" autocomplete="off" spellcheck="false">
+      </div>
+      <button class="verify-btn" onclick="runVerify()">比对</button>
+    </div>
+    <div class="verify-result" id="verifyResult" style="display:none;"></div>
+  </div>
+
+  <!-- Info strip -->
+  <div class="info-strip">
+    <div class="info-cell">
+      <div class="info-cell-label">输入字节数</div>
+      <div class="info-cell-value" id="infoBytes">0</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">累计计算次数</div>
+      <div class="info-cell-value" id="infoCalcs">0</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">当前变体</div>
+      <div class="info-cell-value" id="infoVariant" style="font-size:12px;letter-spacing:0;">ISO-HDLC</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">耗时 (ms)</div>
+      <div class="info-cell-value" id="infoMs">—</div>
+    </div>
+  </div>
+
+  <!-- ═══ Knowledge Section 1 — CRC 变体 ═══ -->
+  <div class="explain-section-header" id="explain-variants">
+    <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// CRC32 变体说明</div>
+    <span class="explain-section-badge">CRC 变体</span>
+  </div>
+  <div class="explain-section-wrap explain-grid" id="wrap-variants">
+    <div class="explain-card">
+      <div class="explain-card-title">
+        CRC-32 / ISO-HDLC
+        <span class="etag">PKZip · PNG · Ethernet</span>
+      </div>
+      <div class="explain-card-text">
+        最常见的 CRC-32 实现，也称 CRC-32b。使用多项式 0x04C11DB7 的比特反射形式 0xEDB88320，输入字节与输出结果均做位反射（LSB first），初始值与最终异或值均为 0xFFFFFFFF。
+        <br><br>广泛用于 ZIP、gzip、PNG 图片、以太网帧校验（IEEE 802.3）、PKCS#7 等，是事实上的"默认 CRC-32"。
+      </div>
+      <table class="param-table">
+        <tr><td>多项式</td><td><code>0x04C11DB7</code>（正常）/ <code>0xEDB88320</code>（反射）</td></tr>
+        <tr><td>初始值</td><td><code>0xFFFFFFFF</code></td></tr>
+        <tr><td>输入反射</td><td>是（RefIn = true）</td></tr>
+        <tr><td>输出反射</td><td>是（RefOut = true）</td></tr>
+        <tr><td>最终异或</td><td><code>0xFFFFFFFF</code></td></tr>
+        <tr><td>校验值</td><td><code>0xCBF43926</code>（对 "123456789"）</td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        CRC-32C / Castagnoli
+        <span class="etag">iSCSI · NVMe · SCTP</span>
+      </div>
+      <div class="explain-card-text">
+        由 G. Castagnoli 等人于 1993 年提出，采用多项式 0x1EDC6F41（反射形式 0x82F63B78）。在相同 Hamming 距离下比 ISO-HDLC 多项式具有更优秀的突发错误检测能力。
+        <br><br>Intel SSE4.2 与 ARM CRC32 指令集均提供硬件加速，现代存储协议（iSCSI、NVMe、Btrfs、SCTP）广泛采用。
+      </div>
+      <table class="param-table">
+        <tr><td>多项式</td><td><code>0x1EDC6F41</code>（正常）/ <code>0x82F63B78</code>（反射）</td></tr>
+        <tr><td>初始值</td><td><code>0xFFFFFFFF</code></td></tr>
+        <tr><td>输入反射</td><td>是（RefIn = true）</td></tr>
+        <tr><td>输出反射</td><td>是（RefOut = true）</td></tr>
+        <tr><td>最终异或</td><td><code>0xFFFFFFFF</code></td></tr>
+        <tr><td>校验值</td><td><code>0xE3069283</code>（对 "123456789"）</td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        CRC-32 / MPEG-2
+        <span class="etag">MPEG-2 · DVB · ATSC</span>
+      </div>
+      <div class="explain-card-text">
+        使用与 ISO-HDLC 相同的多项式 0x04C11DB7，但输入和输出均<strong style="color:#dff0ff">不做位反射</strong>（MSB first，大端序），初始值 0xFFFFFFFF，最终不做异或（XorOut = 0x00000000）。
+        <br><br>主要用于 MPEG-2 传输流（TS）的 PSI/SI 表格（PAT、PMT、NIT 等），以及 DVB、ATSC 广播系统的帧完整性校验。
+      </div>
+      <table class="param-table">
+        <tr><td>多项式</td><td><code>0x04C11DB7</code></td></tr>
+        <tr><td>初始值</td><td><code>0xFFFFFFFF</code></td></tr>
+        <tr><td>输入反射</td><td>否（RefIn = false）</td></tr>
+        <tr><td>输出反射</td><td>否（RefOut = false）</td></tr>
+        <tr><td>最终异或</td><td><code>0x00000000</code>（不异或）</td></tr>
+        <tr><td>校验值</td><td><code>0x0376E6E7</code>（对 "123456789"）</td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        CRC-32 / BZIP2
+        <span class="etag">BZip2 · AAL5 · DECT</span>
+      </div>
+      <div class="explain-card-text">
+        参数与 MPEG-2 几乎相同（多项式 0x04C11DB7，不反射，初值 0xFFFFFFFF），唯一区别是<strong style="color:#dff0ff">最终结果与 0xFFFFFFFF 异或</strong>（即对所有位取反），也称 CRC-32/AAL5 或 CRC-32/DECT-B。
+        <br><br>用于 BZip2 压缩文件格式及 ATM AAL5 协议的帧尾部校验字段。
+      </div>
+      <table class="param-table">
+        <tr><td>多项式</td><td><code>0x04C11DB7</code></td></tr>
+        <tr><td>初始值</td><td><code>0xFFFFFFFF</code></td></tr>
+        <tr><td>输入反射</td><td>否（RefIn = false）</td></tr>
+        <tr><td>输出反射</td><td>否（RefOut = false）</td></tr>
+        <tr><td>最终异或</td><td><code>0xFFFFFFFF</code></td></tr>
+        <tr><td>校验值</td><td><code>0xFC891918</code>（对 "123456789"）</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ Knowledge Section 2 — 输入编码 ═══ -->
+  <div class="explain-section-header" id="explain-encoding">
+    <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// 输入编码说明</div>
+    <span class="explain-section-badge">输入编码</span>
+  </div>
+  <div class="explain-section-wrap explain-grid" id="wrap-encoding" style="grid-template-columns:repeat(3,1fr);">
+    <div class="explain-card" style="--card-accent:var(--accent3);">
+      <div class="explain-card-title">
+        UTF-8 文本
+        <span class="etag">默认 · 通用</span>
+      </div>
+      <div class="explain-card-text">
+        将输入框中的字符串按 <strong style="color:#dff0ff">UTF-8</strong> 编码转换为字节序列，再计算 CRC32。这是最常用的模式，适合对普通文本、程序源码、JSON 等内容校验。
+        <br><br>注意：同一段文字若采用不同字符编码（如 GBK、UTF-16），所得字节流不同，CRC32 结果也会不同。本工具固定使用 UTF-8。
+      </div>
+      <table class="param-table" style="margin-top:10px;">
+        <tr><td>适用场景</td><td>普通文字、源代码、JSON、XML</td></tr>
+        <tr><td>示例</td><td>"Hello" → <code>48 65 6C 6C 6F</code>（5 bytes）</td></tr>
+        <tr><td>中文字符</td><td>每个汉字占 3 bytes（UTF-8）</td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        Hex 十六进制
+        <span class="etag">二进制数据 · 协议报文</span>
+      </div>
+      <div class="explain-card-text">
+        将输入视为<strong style="color:#dff0ff">十六进制字节字面量</strong>直接解析为原始字节，忽略空格/换行。每两个十六进制字符对应一个字节（00–FF）。
+        <br><br>适用于需要对特定二进制数据（如网络帧、固件镜像片段、内存 dump）精确计算 CRC 的场景，可直接粘贴 Wireshark/hex dump 输出。
+      </div>
+      <table class="param-table" style="margin-top:10px;">
+        <tr><td>格式要求</td><td>仅允许 <code>0-9</code> 和 <code>a-f / A-F</code></td></tr>
+        <tr><td>字符数</td><td>必须为偶数（每字节 2 个字符）</td></tr>
+        <tr><td>示例</td><td><code>48656C6C6F</code> = "Hello"（5 bytes）</td></tr>
+        <tr><td>空格处理</td><td>自动忽略，<code>48 65 6C</code> 等同 <code>48656C</code></td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        Base64
+        <span class="etag">编码二进制 · 证书 · 图片</span>
+      </div>
+      <div class="explain-card-text">
+        将输入视为 <strong style="color:#dff0ff">Base64 编码字符串</strong>，先解码为原始二进制字节再计算 CRC32。常见于对 PEM 证书、JWT payload、Data URI（图片/文件）等 Base64 编码内容直接校验的场景。
+        <br><br>支持标准 Base64 字符集（A-Z a-z 0-9 + /），填充字符 <code>=</code> 可选。不支持 URL-safe Base64（<code>-</code> <code>_</code>）。
+      </div>
+      <table class="param-table" style="margin-top:10px;">
+        <tr><td>字符集</td><td><code>A-Z a-z 0-9 + / =</code></td></tr>
+        <tr><td>示例</td><td><code>SGVsbG8=</code> → "Hello"（5 bytes）</td></tr>
+        <tr><td>URL-safe</td><td>不支持，请先替换 <code>-→+</code> <code>_→/</code></td></tr>
+        <tr><td style="color:#ff6464;border-color:rgba(255,100,100,0.2);">⚠ 1 个字符</td><td style="color:#ff6464;border-color:rgba(255,100,100,0.2);">无效 — 6 bits 不足以凑成 1 字节（需要 8 bits）</td></tr>
+        <tr><td>2 个字符</td><td>解码出 <strong style="color:#dff0ff">1 字节</strong>（最小合法输入）</td></tr>
+        <tr><td>3 个字符</td><td>解码出 <strong style="color:#dff0ff">2 字节</strong></td></tr>
+        <tr><td>4 个字符</td><td>解码出 <strong style="color:#dff0ff">3 字节</strong>（每 4 字符为一组循环）</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ Knowledge Section 3 — 输出格式 ═══ -->
+  <div class="explain-section-header" id="explain-output">
+    <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// 输出格式说明</div>
+    <span class="explain-section-badge">输出格式</span>
+  </div>
+  <div class="explain-section-wrap explain-grid" id="wrap-output">
+    <div class="explain-card">
+      <div class="explain-card-title">
+        十六进制 Hex
+        <span class="etag">最常用 · 默认</span>
+      </div>
+      <div class="explain-card-text">
+        以 <strong style="color:#dff0ff">0x</strong> 前缀的 8 位十六进制数表示（大写），每个字符代表 4 bits，共 32 bits。这是绝大多数工具、文档、源代码中记录 CRC32 值的标准格式。
+        <br><br>与十进制相比，十六进制能直观体现字节边界，便于对照内存 dump、协议字段。
+      </div>
+      <table class="param-table" style="margin-top:10px;">
+        <tr><td>示例</td><td><code>0xCBF43926</code></td></tr>
+        <tr><td>位数</td><td>8 个十六进制字符 = 32 bits</td></tr>
+        <tr><td>进制</td><td>16 进制（0-9, A-F）</td></tr>
+        <tr><td>适用</td><td>代码、文档、Wireshark、hex editor</td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        十进制 Decimal
+        <span class="etag">无符号 32 位整数</span>
+      </div>
+      <div class="explain-card-text">
+        以<strong style="color:#dff0ff">无符号 32 位十进制整数</strong>表示，范围 0 – 4,294,967,295（2³²−1）。部分编程语言（Python、Java）在比较 CRC 时使用十进制整数，数据库字段也常存储十进制。
+        <br><br>注意：CRC32 结果应视为无符号整数。在 Java/C# 的 int（有符号）中，超过 0x7FFFFFFF 的值会显示为负数，需强制转换为 uint。
+      </div>
+      <table class="param-table" style="margin-top:10px;">
+        <tr><td>示例</td><td><code>3421780262</code></td></tr>
+        <tr><td>范围</td><td>0 – 4,294,967,295</td></tr>
+        <tr><td>注意</td><td>Java int 需 <code>& 0xFFFFFFFFL</code> 转换</td></tr>
+        <tr><td>适用</td><td>数据库、Python struct、比较运算</td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        二进制 Binary
+        <span class="etag">位级分析</span>
+      </div>
+      <div class="explain-card-text">
+        以 <strong style="color:#dff0ff">0b</strong> 前缀的 32 位二进制字符串表示，每个字符为 0 或 1，左侧高位（MSB）对齐，不足 32 位则左侧补零。
+        <br><br>主要用于理解 CRC 算法内部结构、分析多项式除法步骤、教学演示，以及嵌入式系统中需要逐位处理校验码的场景。
+      </div>
+      <table class="param-table" style="margin-top:10px;">
+        <tr><td>示例</td><td><code>0b11001011…00100110</code></td></tr>
+        <tr><td>位数</td><td>固定 32 位，左补零</td></tr>
+        <tr><td>最高位</td><td>位 31（MSB）在最左侧</td></tr>
+        <tr><td>适用</td><td>算法分析、教学、嵌入式调试</td></tr>
+      </table>
+    </div>
+    <div class="explain-card">
+      <div class="explain-card-title">
+        八进制 Octal
+        <span class="etag">Unix · 文件系统</span>
+      </div>
+      <div class="explain-card-text">
+        以 <strong style="color:#dff0ff">0o</strong> 前缀的 11 位八进制数表示（32 bits 最多需要 11 位八进制字符，因为 3×11 = 33 &gt; 32）。每个八进制字符代表 3 bits。
+        <br><br>在现代 CRC 校验中八进制较少使用，但在部分 Unix 工具（cksum 早期实现）、嵌入式固件工具链及某些旧版通信协议规范中仍有记录。
+      </div>
+      <table class="param-table" style="margin-top:10px;">
+        <tr><td>示例</td><td><code>0o31572031046</code></td></tr>
+        <tr><td>位数</td><td>最多 11 位八进制字符</td></tr>
+        <tr><td>每字符</td><td>表示 3 bits（0-7）</td></tr>
+        <tr><td>适用</td><td>Unix 工具、旧版协议规范</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+    <script src="/static/js/utility-tools/math/crc32-generator/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
