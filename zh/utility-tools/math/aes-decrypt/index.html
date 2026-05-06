@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+    <meta name="description" content="免费在线 AES 解密工具，支持 CBC、CTR、GCM 模式，读取 Base64、Hex 或 .enc 密文，并在浏览器本地完成 AES 解密。">
+    <meta name="keywords" content="AES解密工具,AES-CBC,AES-CTR,AES-GCM,在线AES解密,Base64解密,Hex解密,Web Crypto,.enc解密">
+    <meta property="og:title" content="AES 解密工具与配置导入器 | StarryRing">
+    <meta property="og:description" content="在线导入 AES 密钥与 IV，解密 Base64、Hex 或 .enc 密文，全部计算在浏览器本地完成。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AES 解密工具与配置导入器 | StarryRing">
+    <meta name="twitter:description" content="在线导入 AES 密钥与 IV，解密 Base64、Hex 或 .enc 密文，全部计算在浏览器本地完成。">
+    <link rel="canonical" href="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/aes-decrypt/script-zh.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "主页",
+          "item": "https://starryring.com/zh/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "实用工具",
+          "item": "https://starryring.com/zh/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "AES 解密工具",
+          "item": "https://starryring.com/zh/utility-tools/math/aes-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "AES 解密工具",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/zh/utility-tools/math/aes-decrypt/",
+      "description": "免费在线 AES 解密工具，支持密钥、IV 导入以及浏览器本地解密。",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "支持 AES-CBC、AES-CTR、AES-GCM",
+        "支持 Base64、Hex 与 .enc 密文输入",
+        "支持导入配置 JSON",
+        "支持二进制结果下载",
+        "全部计算在浏览器本地完成"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "AES 解密为什么需要与加密相同的密钥？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AES 是对称加密算法，解密必须使用与加密阶段完全相同的密钥，否则无法正确恢复原始内容。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "为什么 IV 或 Nonce 也必须一致？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CBC、CTR、GCM 模式都依赖 IV 或 Nonce 来确定加密过程的状态，解密时只有使用同一组参数才能得到正确结果。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "为什么 GCM 模式会提示认证失败？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GCM 除了解密还会校验密文完整性。只要密钥、Nonce 或密文有任何不匹配，就会触发认证失败。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "上传 .enc 文件和粘贴 Base64、Hex 有什么区别？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "上传 .enc 文件会直接按原始字节处理，而粘贴文本密文时，需要根据实际格式选择 Base64 或 Hex 编码。"
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+    <title>AES 解密工具与配置导入器 | StarryRing</title>
+</head>
+<body>
+    <nav aria-label="面包屑导航" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item"><a href="/zh/" class="breadcrumb-link"><i class="fas fa-home"></i> 主页</a></li>
+            <li class="breadcrumb-item"><a href="/zh/utility-tools/" class="breadcrumb-link">实用工具</a></li>
+            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">AES 解密工具</span></li>
+        </ol>
+    </nav>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="选择语言" aria-expanded="false"><i class="fas fa-globe"></i></button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option selected" href="/zh/utility-tools/math/aes-decrypt/" data-lang="zh">中文版</a>
+            <a class="language-option" href="/en/utility-tools/math/aes-decrypt/" data-lang="en">English</a>
+        </div>
+    </div>
+<div class="scan-effect"></div>
+
+<div class="container">
+  <header>
+    <div class="logo-group">
+      <span class="logo-tag">// cryptographic tool v2.0</span>
+      <h1 class="logo-title">AES <span>Decipher</span></h1>
+    </div>
+    <div class="header-right">
+      <div class="badge">CLIENT-SIDE ONLY</div>
+      <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
+      <a href="/zh/utility-tools/math/aes-encrypt/" class="encrypt-link">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        切换加密工具
+      </a>
+    </div>
+  </header>
+
+  <!-- Security Banner -->
+  <div class="security-banner">
+    <span class="security-banner-icon">🔒</span>
+    <span><strong>纯客户端运行</strong> — 密钥与数据仅在你的浏览器内处理，从不上传至任何服务器。基于浏览器原生 Web Crypto API 实现。</span>
+  </div>
+
+  <!-- Config -->
+  <div class="config-panel">
+    <div class="config-header">
+      <div class="config-header-icon">⚙</div>
+      <span class="config-title">Algorithm Configuration</span>
+    </div>
+    <div class="config-grid">
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-mode" class="label-link">Mode</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="mode">
+            <option value="CBC">CBC</option>
+            <option value="CTR">CTR</option>
+            <option value="GCM">GCM</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-keysize" class="label-link">Key Size</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="keySize">
+            <option value="128">128-bit</option>
+            <option value="192">192-bit</option>
+            <option value="256" selected>256-bit</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-padding" class="label-link">Padding</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="padding">
+            <option value="PKCS7">PKCS#7</option>
+            <option value="ZERO">Zero Pad</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key & IV -->
+  <div class="key-section">
+    <div class="config-header" style="justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="config-header-icon" style="color:var(--accent3)">🔑</div>
+        <span class="config-title">Key & IV Material</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="paste-json-btn" onclick="pasteJsonConfig()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          粘贴 JSON 配置
+        </button>
+        <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          上传配置文件
+        </button>
+        <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)">
+      </div>
+    </div>
+    <div class="key-fields">
+      <div class="field-group">
+        <div class="key-row">
+          <div class="field-group" style="flex:1">
+            <label class="field-label"><a href="#explain-key" class="label-link">Secret Key</a></label>
+            <input type="password" class="field-input" id="secretKey" placeholder="输入解密密钥..." autocomplete="off" spellcheck="false">
+          </div>
+          <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="显示/隐藏密钥">
+            <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+          <button class="copy-field-btn" onclick="pasteField('secretKey')" title="粘贴密钥">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+        <div class="key-hint" id="keyHint">Hex 密钥需 <span id="keyLengthHint">64</span> 字符 (32 bytes)</div>
+      </div>
+      <div class="field-group">
+        <div class="key-row">
+          <div class="field-group" style="flex:1">
+            <label class="field-label"><a href="#explain-iv" class="label-link">IV / Nonce</a></label>
+            <input type="text" class="field-input" id="iv" placeholder="输入 IV..." autocomplete="off" spellcheck="false">
+          </div>
+          <button class="copy-field-btn" onclick="pasteField('iv')" title="粘贴 IV">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+        <div class="key-hint">Hex IV 需 <span id="ivLengthHint">32</span> 字符 (CBC/CTR=32, GCM=24)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IO -->
+  <div class="io-section">
+    <!-- Ciphertext input -->
+    <div class="io-panel input-panel" id="inputPanel">
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-zone-icon">⬇</div>
+        <div class="drop-zone-text">松开以加载 .enc 文件</div>
+      </div>
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          CIPHERTEXT / INPUT
+        </div>
+        <div class="io-actions">
+          <button class="upload-btn" onclick="triggerFileInput()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            上传文件
+          </button>
+          <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="清空">✕</button>
+          <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="粘贴">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+      </div>
+      <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt">
+      <textarea class="io-textarea" id="inputText" placeholder="在此粘贴密文（Base64 或 Hex 格式）...&#10;&#10;或上传 .enc 二进制文件"></textarea>
+      <div class="io-footer">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="io-stat" id="inputStat">0 bytes</span>
+          <div class="file-badge" id="inputFileBadge" style="display:none">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <span class="file-badge-name" id="inputFileName"></span>
+            <button class="file-badge-clear" onclick="clearFileInput()" title="移除文件">✕</button>
+          </div>
+        </div>
+        <div class="encoding-tabs" id="encodingTabs">
+          <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')">BASE64</button>
+          <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')">HEX</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plaintext output -->
+    <div class="io-panel output-panel">
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          PLAINTEXT / OUTPUT
+        </div>
+        <div class="io-actions">
+          <button class="icon-btn" onclick="copyOutput(this)" title="复制输出">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+      <textarea class="io-textarea" id="outputText" placeholder="解密结果将显示在此处..." readonly></textarea>
+      <div class="output-file-strip" id="outputFileStrip">
+        <div class="output-file-info">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          <span id="outputFileLabel">解密文件可下载</span>
+        </div>
+        <button class="download-file-btn" onclick="downloadOutputFile()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          DOWNLOAD FILE
+        </button>
+      </div>
+      <div class="io-footer">
+        <span class="io-stat" id="outputStat">0 bytes</span>
+        <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Row -->
+  <div class="action-row">
+    <button class="primary-btn decrypt-btn" onclick="runDecrypt()">◀ DECRYPT</button>
+    <a href="/zh/utility-tools/math/aes-encrypt/" class="encrypt-nav-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+      需要加密？
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-indicator"></div>
+    <span class="status-text" id="statusText">就绪 — 输入密钥、IV 和密文后点击解密</span>
+    <span class="status-time" id="statusTime"></span>
+  </div>
+
+  <!-- Info Strip -->
+  <div class="info-strip">
+    <div class="info-card">
+      <div class="info-card-label">Algorithm</div>
+      <div class="info-card-value">AES</div>
+      <div class="info-card-sub" id="infoMode">CBC Mode</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Key Strength</div>
+      <div class="info-card-value" id="infoKeySize">256</div>
+      <div class="info-card-sub">bits</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Security Level</div>
+      <div class="info-card-value" id="infoSecurity">HIGH</div>
+      <div class="info-card-sub" id="infoSecSub">Military Grade</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Decrypted</div>
+      <div class="info-card-value" id="infoBytes">0</div>
+      <div class="info-card-sub">bytes this session</div>
+    </div>
+  </div>
+
+  <!-- Explain Sections -->
+  <div class="explain-section" id="explain-key">
+    <div class="explain-icon">🔑</div>
+    <div class="explain-body">
+      <div class="explain-title">为什么需要 Secret Key（密钥）？</div>
+      <div class="explain-text">AES 是对称加密算法，加密和解密使用同一把密钥。解密时<strong style="color:#f0fff6">必须提供与加密时完全相同的密钥</strong>，任何一位字符不同都会导致解密失败或产生乱码。<br><br>密钥必须严格保密——任何持有密钥的人都能解密数据。若密钥丢失，加密数据将永久无法恢复。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-iv">
+    <div class="explain-icon">🎲</div>
+    <div class="explain-body">
+      <div class="explain-title">为什么需要 IV / Nonce（初始向量）？</div>
+      <div class="explain-text"><strong style="color:#f0fff6">IV 必须与加密时使用的完全一致</strong>，否则解密结果将是乱码。CBC 和 CTR 模式使用 16 字节（32 hex 字符）IV；GCM 模式使用 12 字节（24 hex 字符）Nonce。<br><br>IV 通常在加密时一并保存或传输，本身无需保密。若 IV 丢失，同样无法正确解密。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-mode">
+    <div class="explain-icon">⚙️</div>
+    <div class="explain-body">
+      <div class="explain-title">加密模式（Mode）必须与加密时一致</div>
+      <div class="explain-text">解密时选择的 Mode 必须和加密时完全相同，否则解密将直接报错或输出乱码。<br><br><strong style="color:#c0e8d0">CBC</strong>：最常用，需要 IV，解密时逐块处理。<strong style="color:#c0e8d0">CTR</strong>：流式模式，可并行解密，速度快。<strong style="color:#c0e8d0">GCM</strong>：自带完整性验证，若密文被篡改解密时会直接报错，是最安全的模式。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-keysize">
+    <div class="explain-icon">📏</div>
+    <div class="explain-body">
+      <div class="explain-title">密钥长度（Key Size）必须与加密时一致</div>
+      <div class="explain-text">密钥长度决定了 AES 的轮数（128-bit 10轮，192-bit 12轮，256-bit 14轮），加解密必须使用相同长度。<br><br>若选错 Key Size，导入密钥时会因长度不匹配直接报错。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-padding">
+    <div class="explain-icon">📦</div>
+    <div class="explain-body">
+      <div class="explain-title">填充方式（Padding）必须与加密时一致</div>
+      <div class="explain-text">解密完成后，工具会按照所选 Padding 方案去除填充字节，还原原始数据。若 Padding 不匹配，结果末尾会出现多余字节或报错。<br><br><strong style="color:#c0e8d0">PKCS#7</strong>：最常用，自动精确去除填充。<strong style="color:#c0e8d0">Zero Padding</strong>：去除末尾 <code style="color:var(--accent)">00</code> 字节，适用于已知数据长度的场景。</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-encoding">
+    <div class="explain-icon">🔠</div>
+    <div class="explain-body">
+      <div class="explain-title">输入编码（Input Encoding）— 密文是什么格式？</div>
+      <div class="explain-text">加密工具输出的密文是经过编码的文本。解密时需选择与加密输出时相同的编码格式，工具才能正确还原为原始二进制字节再进行解密。<br><br><strong style="color:#c0e8d0">Base64</strong>：密文由字母、数字和 <code style="color:var(--accent)">+/=</code> 组成，末尾通常有 <code style="color:var(--accent)">=</code> 填充。<strong style="color:#c0e8d0">Hex</strong>：密文由 <code style="color:var(--accent)">0-9</code> 和 <code style="color:var(--accent)">a-f</code> 组成，长度是原始字节数的两倍。若上传的是 .enc 二进制文件，则编码选项自动忽略。</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
+    <script src="/static/js/utility-tools/math/aes-decrypt/script-zh.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
