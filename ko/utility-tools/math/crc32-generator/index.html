@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/crc32-generator/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/crc32-generator/script-ko.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "유틸리티 도구",
+          "item": "https://starryring.com/ko/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "CRC32 체크섬 도구",
+          "item": "https://starryring.com/ko/utility-tools/math/crc32-generator/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "CRC32 체크섬 도구",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/ko/utility-tools/math/crc32-generator/",
+      "description": "텍스트, 파일, 16진수 입력, Base64 및 여러 CRC32 변형을 위한 무료 온라인 CRC32 체크섬 도구입니다.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "ISO-HDLC, Castagnoli, MPEG-2 및 BZIP2 CRC32 변형 지원",
+        "텍스트, 파일, 16진수 및 Base64 입력 지원",
+        "16진수, 10진수, 2진수, 8진수 출력 지원",
+        "예상 값에 대한 체크섬 확인",
+        "드래그 앤 드롭 파일 지원을 통한 실시간 계산"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "CRC32란 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CRC32는 저장 또는 전송 중에 파일, 압축 데이터 및 네트워크 패킷에서 우발적인 오류를 감지하는 데 일반적으로 사용되는 32비트 순환 중복 검사 알고리즘입니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "이 CRC32 도구는 어떤 입력 형식을 지원합니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이 도구는 UTF-8 텍스트, 16진수 바이트 스트림, Base64로 인코딩된 입력 및 직접 파일 업로드를 지원하며 모두 브라우저에서 로컬로 처리됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "이 페이지에서는 어떤 CRC32 변형을 사용할 수 있습니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이 페이지는 다양한 파일 형식 및 프로토콜 호환성 요구에 맞게 CRC-32/ISO-HDLC, CRC-32C(Castagnoli), CRC-32/MPEG-2 및 CRC-32/BZIP2를 지원합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "CRC32를 보안 해싱 또는 비밀번호 저장에 사용할 수 있습니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "아니요. CRC32는 무결성 검사 및 오류 감지에만 사용됩니다. 이는 암호화된 보안 해시가 아니므로 비밀번호 저장에 사용해서는 안 됩니다."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>CRC32 체크섬 생성기 및 검증 도구 | StarryRing</title>
+<meta name="description" content="텍스트, 파일, 16진수 입력, Base64 및 여러 CRC32 변형을 위한 무료 온라인 CRC32 체크섬 생성기입니다. 파일 무결성 검사 및 데이터 확인에 적합합니다.">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/math/crc32-generator/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="CRC32 체크섬 생성기 및 검증 도구 | StarryRing">
+    <meta property="og:description" content="텍스트, 파일, 16진수 입력 및 Base64에 대한 CRC32 체크섬을 계산합니다. ISO-HDLC, Castagnoli, MPEG-2 및 BZIP2 CRC32 변형을 지원합니다.">
+    <meta name="twitter:title" content="CRC32 체크섬 생성기 및 검증 도구">
+    <meta name="twitter:description" content="텍스트, 파일, 16진수 입력, Base64 및 여러 CRC32 변형을 위한 무료 온라인 CRC32 체크섬 도구입니다.">
+    <meta name="keywords" content="crc32 도구,crc32 체크섬,crc32 생성기,crc32 계산기,온라인 crc32,파일 crc32,crc32 검증 도구,crc32 변형">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/crc32-generator/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/crc32-generator/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/crc32-generator/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/crc32-generator/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/math/crc32-generator/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/crc32-generator/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/ko/" class="breadcrumb-link"> <i class="fas fa-home"> </i> 홈 </a> </li> 
+             <li class="breadcrumb-item"> <a href="/ko/utility-tools/" class="breadcrumb-link"> 유틸리티 도구 </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> CRC32 체크섬 도구 </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="container"> 
+
+   <!-- Header --> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // 체크섬 유틸리티 </span> 
+       <div class="logo-title"> CRC <span> 32 </span> 체크섬 도구 </div> 
+     </div> 
+     <div class="header-badge"> 
+       <div class="badge"> 클라이언트 측 전용 </div> 
+       <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.25);"> 전송된 데이터 없음 </div> 
+     </div> 
+   </header> 
+
+   <!-- Info banner --> 
+   <div class="info-banner"> 
+     <span> 🔵</span> 
+    모든 계산은 </strong> 브라우저에서 로컬로 <strong> 실행됩니다. 어떤 서버에도 데이터가 업로드되지 않습니다. CRC-32/ISO-HDLC, CRC-32C, CRC-32/MPEG-2 및 CRC-32/BZIP2 변형을 지원합니다.
+   </div> 
+
+   <!-- Config panel --> 
+   <div class="panel"> 
+     <div class="panel-header"> 
+       <div class="panel-icon"> ⚙ </div> 
+       <span class="panel-title"> 계산 설정 </span> 
+     </div> 
+     <div class="config-grid"> 
+       <div class="field-group"> 
+         <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-variants', VARIANT_INDEX[document.getElementById('crcVariant').value])"> CRC 변형 ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="crcVariant"> 
+             <option value="iso"> CRC-32/ISO-HDLC(이더넷, ZIP, PNG) </option> 
+             <option value="castagnoli"> CRC-32C / 카스타뇰리(iSCSI, NVMe) </option> 
+             <option value="mpeg2"> CRC-32/MPEG-2(MPEG-2 전송 스트림) </option> 
+             <option value="bzip2"> CRC-32/BZIP2(BZip2 압축) </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"><a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-encoding', ENCODING_INDEX[document.getElementById('inputEncoding').value])"> 입력 인코딩 ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="inputEncoding"> 
+             <option value="utf8"> UTF-8 텍스트 </option> 
+             <option value="hex"> 16진수(바이트 스트림) </option> 
+             <option value="base64"> 베이스64 </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-output', FORMAT_INDEX[document.getElementById('outputFormat').value])"> 출력 형식 ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="outputFormat"> 
+             <option value="hex"> 16진수(0x...) </option> 
+             <option value="decimal"> 십진수 </option> 
+             <option value="binary"> 바이너리 </option> 
+             <option value="octal"> 8진수 </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Input area --> 
+   <div class="input-area" id="inputArea"> 
+     <div class="io-header"> 
+       <div class="io-title"> 
+         <div class="io-dot"> </div> 
+        입력 데이터
+       </div> 
+       <div class="io-actions"> 
+         <span id="fileBadge" style="display:none;" class="file-badge"> 
+           <span class="file-badge-name" id="fileNameLabel"> </span> 
+           <button class="file-badge-clear" onclick="clearFile()"> ✕ </button> 
+         </span> 
+         <label class="upload-btn" for="fileInput" title="Upload a file to calculate its checksum"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          파일 업로드
+         </label> 
+         <input type="file" id="fileInput" style="display:none" onchange="handleFileUpload(event)"> 
+         <button class="icon-btn" title="Paste" onclick="pasteInput()"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/> </svg> 
+         </button> 
+         <button class="icon-btn" title="Clear" onclick="clearInput()"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <polyline points="3 6 5 6 21 6"/> <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/> <path d="M10 11v6M14 11v6"/> </svg> 
+         </button> 
+       </div> 
+     </div> 
+     <textarea class="io-textarea" id="inputText" placeholder="Enter text here, or upload a file...&#10;&#10;Calculate CRC32 checksums in real time" spellcheck="false"> </textarea> 
+     <div class="drop-zone" id="dropZone"> 
+       <div style="font-size:28px;color:var(--accent);"> ⬇ </div><div class="drop-zone-text"> 여기에 파일을 드롭하세요 </div> 
+     </div> 
+     <div class="io-footer"> 
+       <span class="io-stat" id="inputStat"> 0바이트 </span> 
+       <span id="previewTypeBadge" style="display:none;" class="preview-type-badge"> </span> 
+       <div class="format-tabs"> 
+         <button class="format-tab active" data-enc="utf8" onclick="setEncoding(this,'utf8')"> UTF-8 </button> 
+         <button class="format-tab" data-enc="hex" onclick="setEncoding(this,'hex')"> HEX </button> 
+         <button class="format-tab" data-enc="base64" onclick="setEncoding(this,'base64')"> BASE64 </button> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action row --> 
+   <div class="action-row"> 
+     <button class="primary-btn" id="calcBtn" onclick="runCalculate()"> 
+      ⟳   CRC32 계산
+     </button> 
+     <button class="clear-btn" onclick="clearAll()"> 모두 재설정 </button> 
+   </div> 
+
+   <!-- Status bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> 준비 - 데이터를 입력하고 "CRC32 계산" </span>을 클릭하세요. 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Results panel --> 
+   <div class="panel green-line"> 
+     <div class="panel-header"> 
+       <div class="panel-icon" style="color:var(--accent2);"> ◈ </div> 
+       <span class="panel-title"> 계산 결과 </span> 
+     </div> 
+
+     <!-- Primary result card --> 
+     <div class="result-primary" id="result-primary"> 
+       <div class="result-primary-header"> 
+         <div class="result-primary-meta"> 
+           <span class="result-primary-name" id="primary-name"> — </span> 
+           <span class="result-primary-desc" id="primary-desc"> </span> 
+         </div> 
+         <button class="result-copy-btn result-copy-primary" id="copy-primary" onclick="copyPrimary()"> 복사 </button> 
+       </div> 
+       <div class="result-primary-value" id="primary-value"> — </div> 
+       <div class="result-primary-fmts" id="primary-fmts"> </div> 
+     </div> 
+
+     <!-- Secondary results row --> 
+     <div class="result-secondary-row" id="result-secondary-row"> 
+       <div class="result-secondary" id="sec-iso" onclick="switchVariant('iso')"> 
+         <div class="result-secondary-label"> ISO-HDLC </div> 
+         <div class="result-secondary-val empty" id="secval-iso"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-castagnoli" onclick="switchVariant('castagnoli')"> 
+         <div class="result-secondary-label"> 카스타뇰리 </div> 
+         <div class="result-secondary-val empty" id="secval-castagnoli"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-mpeg2" onclick="switchVariant('mpeg2')"> 
+         <div class="result-secondary-label"> MPEG-2 </div> 
+         <div class="result-secondary-val empty" id="secval-mpeg2"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-bzip2" onclick="switchVariant('bzip2')"> 
+         <div class="result-secondary-label"> BZIP2 </div> 
+         <div class="result-secondary-val empty" id="secval-bzip2"> — </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Verify panel --> 
+   <div class="panel purple-line"> 
+     <div class="panel-header"> 
+       <div class="panel-icon" style="color:var(--accent4);"> ✓ </div><span class="panel-title"> 체크섬 확인 </span> 
+     </div> 
+     <div style="font-family:var(--mono);font-size:11px;color:#7a9dba;margin-bottom:14px;"> 
+      예상 CRC32 값을 붙여넣어 현재 계산과 비교합니다.
+     </div> 
+     <div class="verify-row"> 
+       <div class="field-group"> 
+         <label class="field-label"> 예상 체크섬 </label> 
+         <input class="field-input" id="expectedCRC" placeholder="e.g. 0xCBF43926 or 3421780262" autocomplete="off" spellcheck="false"> 
+       </div> 
+       <button class="verify-btn" onclick="runVerify()"> </button> 확인 
+     </div> 
+     <div class="verify-result" id="verifyResult" style="display:none;"> </div> 
+   </div> 
+
+   <!-- Info strip --> 
+   <div class="info-strip"> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 입력 바이트 </div> 
+       <div class="info-cell-value" id="infoBytes"> 0 </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 총계산 </div> 
+       <div class="info-cell-value" id="infoCalcs"> 0 </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 현재 변형 </div> 
+       <div class="info-cell-value" id="infoVariant" style="font-size:12px;letter-spacing:0;"> ISO-HDLC </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 경과 시간(ms) </div> 
+       <div class="info-cell-value" id="infoMs"> — </div> 
+     </div> 
+   </div> 
+
+   <!-- Knowledge Section 1 - CRC Variants --> 
+   <div class="explain-section-header" id="explain-variants"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // CRC32 변형 가이드 </div> 
+     <span class="explain-section-badge"> CRC 변형 </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-variants"> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / ISO-HDLC
+         <span class="etag"> PKZip · PNG · 이더넷 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        가장 일반적인 CRC-32 구현으로 CRC-32b라고도 합니다. 이는 다항식 0x04C11DB7의 반영된 형태, 즉 0xEDB88320을 사용합니다. 입력 바이트와 출력은 모두 비트 반영(LSB 우선)되며 초기 값과 최종 XOR은 모두 0xFFFFFFFF로 설정됩니다.
+         <br> <br> ZIP, gzip, PNG 이미지, 이더넷 프레임(IEEE 802.3), PKCS#7 및 많은 레거시 시스템에서 널리 사용됩니다. 이는 사실상 "기본 CRC-32" 변형입니다.
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 다항식 </td> <td> <code> 0x04C11DB7 </code>(정상) / <code> 0xEDB88320 </code>(반영) </td> </tr> 
+         <tr> <td> 초기값 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 입력 반사 </td> <td> 예(RefIn = true) </td> </tr> 
+         <tr> <td> 출력 반사 </td> <td> 예(RefOut = true) </td> </tr> 
+         <tr> <td> 최종 XOR </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 값 확인 </td> <td> <code> 0xCBF43926 </code>("123456789"의 경우) </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32C / 카스타뇰리
+         <span class="etag"> iSCSI · NVMe · SCTP </span> 
+       </div> 
+       <div class="explain-card-text">1993년 G. Castagnoli와 동료가 제안한 이 변형은 다항식 0x1EDC6F41(0x82F63B78 ​​형식으로 반영됨)을 사용합니다. 동일한 해밍 거리에서 ISO-HDLC 다항식보다 더 강력한 버스트 오류 감지 기능을 제공합니다.
+         <br> <br> 하드웨어 가속은 Intel SSE4.2 및 ARM CRC32 명령어를 통해 사용할 수 있습니다. 이는 iSCSI, NVMe, Btrfs 및 SCTP와 같은 최신 스토리지 및 전송 프로토콜에 널리 사용됩니다.
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 다항식 </td> <td> <code> 0x1EDC6F41 </code>(정상) / <code> 0x82F63B78 </code>(반영) </td> </tr> 
+         <tr> <td> 초기값 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 입력 반사 </td> <td> 예(RefIn = true) </td> </tr> 
+         <tr> <td> 출력 반사 </td> <td> 예(RefOut = true) </td> </tr> 
+         <tr> <td> 최종 XOR </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 값 확인 </td> <td> <code> 0xE3069283 </code>("123456789"의 경우) </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / MPEG-2
+         <span class="etag"> MPEG-2 · DVB · ATSC </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        ISO-HDLC와 동일한 0x04C11DB7 다항식을 사용하지만 입력이나 출력 모두 <strong style="color:#dff0ff"> 비트 반영 </strong>(MSB 우선, 빅엔디안)이 아닙니다. 초기값은 0xFFFFFFFF이고 최종 XOR은 비활성화됩니다(XorOut = 0x00000000).
+         <br> <br> 주로 MPEG-2 전송 스트림(PAT, PMT, NIT 및 관련 테이블)의 PSI/SI 테이블과 DVB 및 ATSC 방송 시스템의 무결성 검사에 사용됩니다.
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 다항식 </td> <td> <code> 0x04C11DB7 </code> </td> </tr> 
+         <tr> <td> 초기값 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 입력 반사 </td> <td> 아니요(RefIn = false) </td> </tr> 
+         <tr> <td> 출력 반사 </td> <td> 아니요(RefOut = false) </td> </tr> 
+         <tr> <td> 최종 XOR </td> <td> <code> 0x00000000 </code>(비활성화됨) </td> </tr> 
+         <tr> <td> 값 확인 </td> <td> <code> 0x0376E6E7 </code>("123456789"의 경우) </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / BZIP2
+         <span class="etag"> BZip2 · AAL5 · DECT </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        해당 매개변수는 MPEG-2(다항식 0x04C11DB7, 반사 없음, 초기값 0xFFFFFFFF)와 거의 동일합니다. 유일한 차이점은 모든 비트를 뒤집는 0xFFFFFFFF </strong> 의 <strong style="color:#dff0ff"> 최종 XOR입니다. CRC-32/AAL5 또는 CRC-32/DECT-B라고도 합니다.
+         <br> <br> BZip2 압축 파일 형식과 ATM AAL5 프로토콜의 트레일러 체크섬 필드에서 사용됩니다.
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 다항식 </td> <td> <code> 0x04C11DB7 </code> </td> </tr> 
+         <tr> <td> 초기값 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 입력 반사 </td> <td> 아니요(RefIn = false) </td> </tr> 
+         <tr> <td> 출력 반사 </td> <td> 아니요(RefOut = false) </td> </tr> 
+         <tr> <td> 최종 XOR </td> <td> <code> 0xFFFFFFFF </code> </td> </tr><tr> <td> 값 확인 </td> <td> <code> 0xFC891918 </code>("123456789"의 경우) </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+   <!-- ═══ Knowledge Section 2 — Input Encoding ═══ --> 
+   <div class="explain-section-header" id="explain-encoding"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // 입력 인코딩 안내 </div> 
+     <span class="explain-section-badge"> 입력 인코딩 </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-encoding" style="grid-template-columns:repeat(3,1fr);"> 
+     <div class="explain-card" style="--card-accent:var(--accent3);"> 
+       <div class="explain-card-title"> 
+        UTF-8 텍스트
+         <span class="etag"> 기본값 · 일반 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        입력을 <strong style="color:#dff0ff"> UTF-8 </strong> 문자열로 처리하고 이를 바이트로 변환한 다음 CRC32를 계산합니다. 이는 일반 텍스트, 소스 코드, JSON 및 유사한 콘텐츠에 가장 일반적인 모드입니다.
+         <br> <br> 참고: GBK 또는 UTF-16과 같은 다른 문자 세트로 인코딩된 동일한 텍스트는 다른 바이트 스트림을 생성하므로 다른 CRC32 값이 생성됩니다. 이 도구는 항상 UTF-8을 사용합니다.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 최적 </td> <td> 일반 텍스트, 소스 코드, JSON, XML </td> </tr> 
+         <tr> <td> 예 </td> <td> "안녕하세요" → <code> 48 65 6C 6C 6F </code> (5바이트) </td> </tr> 
+         <tr> <td> CJK 문자 </td> <td> 대부분의 CJK 문자는 UTF-8에서 3바이트를 사용합니다 </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        16진수
+         <span class="etag"> 바이너리 데이터 · 프로토콜 프레임 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        입력을 원시 <strong style="color:#dff0ff"> 16진수 바이트 리터럴 </strong> 으로 처리합니다. 공백과 줄바꿈은 무시됩니다. 2개의 16진수 문자마다 1바이트(00-FF)가 됩니다.
+         <br> <br> 네트워크 프레임, 펌웨어 이미지 조각 또는 메모리 덤프와 같은 정확한 바이너리 데이터에 대한 CRC 검사가 필요할 때 유용합니다. Wireshark 또는 16진수 덤프 출력을 직접 붙여넣을 수 있습니다.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 형식 </td> <td> <code> 0-9 </code> 및 <code> a-f / A-F </code>만 허용됩니다 </td> </tr> 
+         <tr> <td> 문자 수 </td> <td> 짝수여야 합니다(바이트당 2자) </td> </tr> 
+         <tr> <td> 예 </td> <td> <code> 48656C6C6F </code> = "안녕하세요"(5바이트) </td> </tr> 
+         <tr> <td> 공백 </td> <td> 자동으로 무시됩니다.  <code> 48 65 6C </code>는 <code> 48656C </code> </td> </tr>과 동일합니다. 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        Base64
+         <span class="etag"> 인코딩된 바이너리 · 인증서 · 이미지 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        입력을 <strong style="color:#dff0ff"> Base64로 인코딩된 문자열 </strong> 으로 처리하고 이를 원시 바이트로 디코딩한 다음 CRC32를 계산합니다. PEM 인증서, JWT 페이로드, 데이터 URI 및 기타 Base64 콘텐츠에 유용합니다.<br> <br> 표준 Base64 알파벳(A-Z a-z 0-9 + /)을 지원합니다. 패딩 문자 <code> = </code>은 선택 사항입니다. URL 안전 Base64( <code> - </code> <code> _ </code> )는 지원되지 않습니다.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 알파벳 </td> <td> <code> A-Z a-z 0-9 + / = </code> </td> </tr> 
+         <tr> <td> 예 </td> <td> <code> SGVsbG8= </code> → "안녕하세요"(5바이트) </td> </tr> 
+         <tr> <td> URL 안전 </td> <td> 지원되지 않습니다. <code> -→+ </code> 및 <code> _→/ </code> 먼저 </td> </tr> 교체 
+         <tr> <td style="color:#ff6464;border-color:rgba(255,100,100,0.2);"> ⚠ 1자 </td> <td style="color:#ff6464;border-color:rgba(255,100,100,0.2);"> 유효하지 않음 — 6비트로는 1바이트를 구성하기에 충분하지 않습니다(8비트 필요) </td> </tr> 
+         <tr> <td> 2자 </td> <td> <strong style="color:#dff0ff">으로 디코딩 1바이트 </strong>(최소 유효 입력) </td> </tr> 
+         <tr> <td> 3자 </td> <td> <strong style="color:#dff0ff"> 2바이트로 디코딩 </strong> </td> </tr> 
+         <tr> <td> 4자 </td> <td> <strong style="color:#dff0ff"> 3바이트로 디코딩 </strong>(패턴은 4자마다 반복됨) </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+   <!-- ═══ Knowledge Section 3 — Output Format ═══ --> 
+   <div class="explain-section-header" id="explain-output"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // 출력 형식 안내 </div> 
+     <span class="explain-section-badge"> 출력 형식 </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-output"> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        16진수
+         <span class="etag"> 가장 일반적 · 기본값 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        <strong style="color:#dff0ff"> 0x </strong> 접두사가 붙은 8자리 대문자 16진수로 값을 표시합니다. 각 문자는 4비트를 나타내며 총 32비트입니다. 이는 대부분의 도구, 소스 코드 및 문서에 사용되는 표준 형식입니다.
+         <br> <br> 10진수 출력과 비교하여 16진수는 바이트 경계를 더 쉽게 검사하고 메모리 덤프 및 프로토콜 필드를 더 자연스럽게 일치시킵니다.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 예 </td> <td> <code> 0xCBF43926 </code> </td> </tr> 
+         <tr> <td> 길이 </td> <td> 8개의 16진수 문자 = 32비트 </td> </tr> 
+         <tr> <td> 베이스 </td> <td> 베이스 16(0-9, A-F) </td> </tr> 
+         <tr> <td> </td> <td> 코드, 문서, Wireshark, 16진수 편집기 </td> </tr>에 적합 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        소수
+         <span class="etag"> 부호 없는 32비트 정수 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        체크섬을 0~4,294,967,295(2³²−1) 범위의 <strong style="color:#dff0ff"> 부호 없는 32비트 10진수 </strong>으로 표시합니다. 일부 언어와 도구는 CRC 값을 십진수 형식으로 비교하며 데이터베이스 필드는 종종 이 표현을 저장합니다.<br> <br> 참고: CRC32 결과는 부호 없는 정수로 처리되어야 합니다. Java 또는 C#과 같은 부호 있는 int 유형에서 0x7FFFFFFF 이상의 값은 음수로 나타날 수 있으므로 단위 또는 더 넓은 부호 없는 표현으로 변환해야 합니다.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 예시 </td> <td> <code> 3421780262 </code> </td> </tr> 
+         <tr> <td> 범위 </td> <td> 0–4,294,967,295 </td> </tr> 
+         <tr> <td> 참고 </td> <td> Java int의 경우 <code> 및 0xFFFFFFFFL </code> </td> </tr>로 변환합니다. 
+         <tr> <td> </td> <td> 데이터베이스, Python 구조체 값, 숫자 비교에 적합 </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        바이너리
+         <span class="etag"> 비트 수준 분석 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        체크섬을 <strong style="color:#dff0ff"> 0b </strong> 접두사가 붙은 32비트 이진 문자열로 표시합니다. 각 문자는 0 또는 1이며 왼쪽의 최상위 비트에 맞춰 정렬되고 필요한 경우 앞에 0이 채워집니다.
+         <br> <br> 주로 내부 CRC 알고리즘 이해, 다항식 나눗셈 연구, 교육 및 비트 수준 체크섬 처리가 필요한 임베디드 시나리오에 유용합니다.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 예 </td> <td> <code> 0b11001011…00100110 </code> </td> </tr> 
+         <tr> <td> 길이 </td> <td> 왼쪽 제로 패딩을 사용하여 32비트로 고정 </td> </tr> 
+         <tr> <td> 가장 높은 비트 </td> <td> 비트 31(MSB)이 가장 왼쪽에 나타납니다 </td> </tr> 
+         <tr> <td> 최적 </td> <td> 알고리즘 분석, 교육, 임베디드 디버깅 </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        8진수
+         <span class="etag"> Unix · 파일 시스템 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        <strong style="color:#dff0ff"> 0o </strong> 접두사가 붙은 11자리 8진수로 체크섬을 표시합니다. 3×11 = 33 > 32이므로 32비트에는 최대 11개의 8진 문자가 필요합니다. 각 8진수는 3비트를 나타냅니다.
+         <br> <br> 8진수 출력은 최신 CRC 작업 흐름에서는 일반적이지 않지만 일부 Unix 도구, 내장형 펌웨어 도구 체인 및 이전 통신 프로토콜 사양에는 여전히 나타납니다.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 예 </td> <td> <code> 0o31572031046 </code> </td> </tr> 
+         <tr> <td> 길이 </td> <td> 최대 11자리 8진수 </td> </tr> 
+         <tr> <td> 자릿수당 </td> <td> 3비트(0-7)를 나타냄 </td> </tr> 
+         <tr> <td> </td> <td> Unix 도구, 이전 프로토콜 사양에 적합 </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+ </div> <!-- /container --> 
+
+ <!-- Toast --> 
+ <div class="toast" id="toast"> </div><script src="/static/js/utility-tools/math/crc32-generator/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

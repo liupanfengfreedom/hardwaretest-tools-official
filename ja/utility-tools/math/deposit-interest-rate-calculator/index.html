@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO optimized for English keywords -->
+    <title>預金金利計算ツール : 毎日の複利と単利 | StarryRing</title>
+<meta name="author" content="FinTool">
+    <meta name="robots" content="index, follow">
+    <!-- Canonical & Hreflang (English version) -->
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <!-- Open Graph / Social Media (English) -->
+
+<meta property="og:type" content="website">
+    <meta property="og:image" content="https://starryring.com/static/images/og-deposit-calculator.jpg">
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/static/images/twitter-deposit-calculator.jpg">
+    <!-- Preconnect resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Local styles (same as Chinese version) -->
+    <link rel="stylesheet" href="/static/css/utility-tools/math/deposit-interest-rate-calculator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+
+    <!-- Structured Data (JSON-LD) - English FAQ -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "プロフェッショナルな預金金利計算ツール - 複利と単純",
+      "description": "360 日の金融慣例を使用した預金計算ツール。インタラクティブなチャートとAPYで日次複利（当座預金）と単利（定期預金）を比較します。 1億ドルのような高額な金額もサポートします。",
+      "applicationCategory": "FinanceTool",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "$"
+      },
+      "featureList": [
+        "毎日の化合物シミュレーション",
+        "単利計算",
+        "成長グラフ",
+        "年間利回り (APY)",
+        "1億ドルの利息見積もり"
+      ],
+      "screenshot": "https://yourdomain.com/static/images/screenshot-deposit-calculator.jpg",
+      "softwareVersion": "2.0"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "APY（年率利回り）とは何ですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "APY は、複利を考慮した場合の実質収益率を反映します。毎日の複利モードでは、この計算機は名目年率を APY に自動的に変換するため、複利と単利の本当の違いを確認できます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "なぜ 1 年を 365 日ではなく 360 日とするのでしょうか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "国際金融市場 (銀行間金利、一部の預金商品など) では、簡素化と一貫性のために 360 日の慣例がよく使用されます。このツールはその基準に従って、機関金利の見積もりと一致します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "当座預金と定期預金の利回りを簡単に比較するにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "商品タイプで「日次複利（現行）」と「単利（固定）」を切り替えるだけです。一般的なレート（電流の場合は 0.35%、固定の場合は 2.75%）は自動入力されますが、手動で調整することもできます。グラフは即座に更新され、成長パスが表示されます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "1億ドルを1年間預けた場合の利息はいくらですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "この計算ツールを使用します。元本として 100,000,000 を入力し、1 年を選択して、現在または固定を選択します。一般的な金利では、現行 (0.35%) の利回りは約 35,000 ドル、固定 (2.75%) の利回りは約 2,750,000 ドルです。実際のレートは銀行によって異なります。このツールを使用すると、簡単に比較できます。"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<meta name="description" content="毎日の複利 (当座預金) と単利 (定期預金) を比較する専門的な預金金利計算ツール。 360 日のコンベンション、リアルタイム チャート、APY、および大規模な元本 (例: 1 億) のサポート。貯蓄者や銀行家に最適です。">
+    <link rel="canonical" href="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
+<meta property="og:url" content="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="預金金利計算ツール - 複利と単純 | StarryRing">
+    <meta property="og:description" content="チャートとAPYを使用した、毎日の複利と単利の正確なシミュレーション。 1億預金のリターンを計算します。">
+    <meta name="twitter:title" content="プロフェッショナルな預金金利計算ツール |複合 vs 単純">
+    <meta name="twitter:description" content="毎日の複利 (現行) と単利 (固定) を成長グラフと並べて比較します。 1億以上のプリンシパルを処理します。">
+    <meta name="keywords" content="預金金利計算機、金利計算機、銀行金利計算機、定期預金計算機、複利、単利、360 日ベース、APY、1 億ドル利子">
+</head>
+<body class="p-4 md:p-10 text-slate-700 antialiased">
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/deposit-interest-rate-calculator/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/deposit-interest-rate-calculator/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation (English) --> 
+     <nav aria-label="Breadcrumb" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> 
+                 <a href="/ja/" class="breadcrumb-link"> <i class="fas fa-home"> </i> ホーム </a> 
+             </li> 
+             <li class="breadcrumb-item"> 
+                 <a href="/ja/utility-tools/" class="breadcrumb-link"> 
+                     <i class="fas fa-toolbox"> </i> ユーティリティ ツール
+                 </a> 
+             </li> 
+             <li class="breadcrumb-item" aria-current="page"> 
+                 <span class="breadcrumb-active"> <i class="fas fa-calculator"> </i> 預金金利計算ツール </span> 
+             </li> 
+         </ol> 
+     </nav> 
+
+     <!-- Language Switcher (English selected) --> 
+ <div class="max-w-7xl mx-auto relative"> 
+         <!-- decorative background elements --> 
+         <div class="absolute -top-10 -left-10 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl -z-10"> </div> 
+         <div class="absolute -bottom-10 -right-10 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10"> </div> 
+
+         <!-- Header (English) --> 
+         <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4"> 
+             <div class="space-y-1"> 
+                 <div class="flex items-center gap-2"> 
+                     <span class="w-1.5 h-8 bg-indigo-500 rounded-full"> </span> 
+                     <h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight"> 預金金利計算ツール </h1> 
+                 </div> 
+                 <p class="text-slate-500 ml-3 text-base flex items-center gap-2 flex-wrap"> 
+                     <span class="inline-flex gap-1"> 日次複合 vs 単純 · 360 日ベース </span> 
+                     <span class="w-1 h-1 bg-slate-300 rounded-full"> </span> 
+                     <span class="text-indigo-500 text-sm font-medium bg-indigo-50 px-3 py-0.5 rounded-full"> 360 日大会 </span> 
+                 </p> 
+             </div><div class="bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm px-5 py-3 rounded-2xl flex items-center gap-2"> 
+                 <span class="text-amber-500 text-lg"> 💎 </span> 
+                 <span class="text-sm font-semibold text-slate-700"> 方法: <span class="text-indigo-600"> 国際 360 日 </span> </span> 
+             </div> 
+         </header> 
+
+         <!-- Main content: left controls / right results --> 
+         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8"> 
+             <!-- Left: Parameter panel --> 
+             <div class="lg:col-span-4 space-y-6" role="form" aria-label="Calculation parameters"> 
+                 <div class="card-glow rounded-3xl shadow-xl bg-white/90 p-7 border border-white/60"> 
+                     <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-7 flex items-center gap-2"> 
+                         <span class="w-1 h-4 bg-indigo-400 rounded-full"> </span> パラメータ
+                     </h2> 
+                     <div class="space-y-6"> 
+                         <!-- Principal --> 
+                         <div> 
+                             <label for="principal" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"> 
+                                 <span> 💰 </span> 校長 <span class="text-xs text-slate-400 font-normal"> ($) </span> 
+                             </label> 
+                             <div class="relative"> 
+                                 <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xl"> $ </span> 
+                                 <input type="number" id="principal" value="100000" class="focus-ring w-full pl-12 pr-5 py-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl transition-all" min="0" step="1000" aria-describedby="principalHelp"> 
+                             </div> 
+                             <div id="principalHelp" class="text-xs text-slate-400 mt-2"> プリンシパルを入力してください (0 は許可されます) </div> 
+                         </div> 
+                         <!-- Annual rate + dynamic tag --> 
+                         <div> 
+                             <div class="flex justify-between items-center mb-2"> 
+                                 <label for="rate" class="text-sm font-semibold text-slate-600 flex items-center gap-1.5"> <span> 📊 </span> 年率 (%) </label> 
+                                 <span id="rateTag" class="text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm"> 現在の標準値 </span> 
+                             </div> 
+                             <input type="number" id="rate" value="0.35" step="0.01" min="0" max="20" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl text-indigo-600 transition-all" aria-describedby="rateHelp"> 
+                             <div id="rateHelp" class="text-xs text-slate-400 mt-2"> パーセンテージ (例: 0.35 = 0.35%) </div> 
+                         </div> 
+                         <!-- Term (dual column) --> 
+                         <div class="grid grid-cols-2 gap-4"> 
+                             <div><label for="term" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"> <span> ⏳ </span> 用語 </label> 
+                                 <input type="number" id="term" value="1" min="0" step="1" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl" aria-label="Term quantity"> 
+                             </div> 
+                             <div> 
+                                 <label for="termUnit" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"> <span> 📅 </span> ユニット </label> 
+                                 <select id="termUnit" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold cursor-pointer appearance-none" aria-label="Term unit"> 
+                                     <option value="year"> 年 </option> 
+                                     <option value="month"> 月 </option> 
+                                     <option value="day"> 日 </option> 
+                                 </select> 
+                             </div> 
+                         </div> 
+                         <!-- Product type (radio) --> 
+                         <div class="pt-2"> 
+                             <fieldset> 
+                                 <legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"> <span> 🧩 </span> 製品タイプ </legend> 
+                                 <div class="grid grid-cols-2 gap-3 p-1.5 bg-slate-100/80 rounded-2xl"> 
+                                     <label class="radio-option flex-1 text-center"> 
+                                         <input type="radio" name="calcMethod" value="compound" checked class="sr-only peer"> 
+                                         <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-indigo-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all"> 📈 毎日の化合物 (現在) </div> 
+                                     </label> 
+                                     <label class="radio-option flex-1 text-center"> 
+                                         <input type="radio" name="calcMethod" value="simple" class="sr-only peer"> 
+                                         <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all"> 📐 単利（固定） </div> 
+                                     </label> 
+                                 </div> 
+                                 <div class="sr-only" id="compoundDesc"> 毎日の複利計算を選択し、現在/普通預金口座をシミュレート </div> 
+                                 <div class="sr-only" id="simpleDesc"> 単利を選択、定期預金をシミュレート </div> 
+                             </fieldset> 
+                         </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Info card (dynamic tips) - content updated via JS --><div id="tipsCard" class="rounded-3xl p-7 bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl border border-slate-700/50 backdrop-blur-sm" aria-label="algorithm hint"> 
+                     <!-- filled by JavaScript --> 
+                 </div> 
+             </div> 
+
+             <!-- Right: Results + Chart --> 
+             <div class="lg:col-span-8 space-y-6"> 
+                 <!-- Three result cards (aria-live) --> 
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-center"> 
+                     <div class="group bg-gradient-to-br from-indigo-600 to-indigo-500 p-6 rounded-3xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"> 
+                         <p class="text-indigo-100 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"> <span> 💰 </span> 満期額 </p> 
+                         <p id="resTotal" class="text-3xl font-bold font-mono tracking-tight" aria-live="polite"> $ 100,000.00 </p> 
+                         <div class="w-12 h-0.5 bg-white/30 mx-auto mt-3 rounded-full"> </div> 
+                     </div> 
+                     <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"> 
+                         <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"> <span> ✨ </span> 獲得利息 </p> 
+                         <p id="resInterest" class="text-3xl font-bold text-emerald-500 font-mono" aria-live="polite"> $ 0.00 </p> 
+                         <div class="w-12 h-0.5 bg-emerald-200 mx-auto mt-3 rounded-full"> </div> 
+                     </div> 
+                     <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"> 
+                         <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"> <span> 📈 </span> APY (実際) </p> 
+                         <p id="resApy" class="text-3xl font-bold text-slate-800 font-mono" aria-live="polite"> 0.35% </p> 
+                         <div class="w-12 h-0.5 bg-indigo-200 mx-auto mt-3 rounded-full"> </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Chart card --> 
+                 <div class="bg-white/80 backdrop-blur-sm p-7 rounded-3xl border border-white/60 shadow-xl"> 
+                     <div class="flex items-center gap-2 mb-6"> 
+                         <span class="w-1 h-6 bg-indigo-400 rounded-full"> </span> 
+                         <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider"> 📊 成長パス (毎月) </h2> 
+                     </div> 
+                     <div class="h-[320px] w-full relative"> 
+                         <canvas id="growthChart" role="img" aria-label="Interest growth chart" class="w-full h-full"> </canvas> 
+                     </div><p class="text-xs text-slate-400 mt-4 text-center border-t border-slate-100 pt-3"> * 月ごとのデータ ポイント。 Compound = 毎日の複利、Simple = リニア。最終値がマークされます。現在と固定を視覚的に比較します。 </p> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <!-- Bottom description blocks (English) --> 
+         <div class="mt-16 text-sm bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 grid md:grid-cols-3 gap-8 shadow-inner"> 
+             <div class="flex gap-3"> 
+                 <span class="text-indigo-500 text-xl"> 🔹 </span> 
+                 <div> 
+                     <h3 class="font-bold text-slate-800 mb-1"> 日次化合物 (現在) </h3> 
+                     <p class="text-slate-500 text-xs leading-relaxed"> 360 日の慣例に従い、利息は毎日計算され、元本に加算されます。当座預金口座、マネーマーケットファンドに最適です。 APY > 名目金利。 </p> 
+                 </div> 
+             </div> 
+             <div class="flex gap-3"> 
+                 <span class="text-emerald-500 text-xl"> 🔸 </span> 
+                 <div> 
+                     <h3 class="font-bold text-slate-800 mb-1"> 単利（固定） </h3> 
+                     <p class="text-slate-500 text-xs leading-relaxed"> 定期預金の標準。利息は増えません。直線的な成長。定期預金やCDの計算に適しています。 </p> 
+                 </div> 
+             </div> 
+             <div class="flex gap-3"> 
+                 <span class="text-amber-500 text-xl"> 📊 </span> 
+                 <div> 
+                     <h3 class="font-bold text-slate-800 mb-1"> スマートな比較 </h3> 
+                     <p class="text-slate-500 text-xs leading-relaxed"> 商品タイプを切り替えると、標準レート (0.35% / 2.75%) が自動入力されます。結果は小数点第 2 位まで表示されます。 1億ドルのような多額の元本をサポートします。 </p> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <!-- FAQ section (English) --> 
+         <div class="mt-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 shadow-inner"> 
+             <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"> 
+                 <span class="w-1 h-6 bg-indigo-400 rounded-full"> </span> よくある質問 (FAQ)
+             </h2> 
+             <div class="space-y-5"> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> APY（年率利回り）とは何ですか? </h3> 
+                     <p class="text-sm text-slate-600 mt-1"> APY は、複利を考慮した場合の実質収益率を反映します。毎日の複利モードでは、この計算機は名目年率を APY に自動的に変換するため、複利と単利の本当の違いを確認できます。 </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> 1 年を 365 日ではなく 360 日にするのはなぜですか? </h3><p class="text-sm text-slate-600 mt-1"> 国際金融市場 (例: 銀行間金利、一部の預金商品) では、簡素化と一貫性のために 360 日の慣例がよく使用されます。このツールはその基準に従って、機関金利の見積もりと一致します。 </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> 現在の預金と定期預金の収益を簡単に比較するにはどうすればよいですか? </h3> 
+                     <p class="text-sm text-slate-600 mt-1"> 商品タイプで「日次複利（現行）」と「単利（固定）」を切り替えるだけです。一般的なレート（電流の場合は 0.35%、固定の場合は 2.75%）は自動入力されますが、手動で調整することもできます。グラフは即座に更新され、成長パスが表示されます。 </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> 1 億ドルを 1 年間預けた場合の利息はいくらですか? </h3> 
+                     <p class="text-sm text-slate-600 mt-1"> この計算機を使用します。元本として 100,000,000 を入力し、1 年を選択して、現在または固定を選択します。一般的な金利では、現行 (0.35%) の利回りは約 35,000 ドル、固定 (2.75%) の利回りは約 2,750,000 ドルです。実際のレートは銀行によって異なります。このツールを使用すると、簡単に比較できます。 </p> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <!-- Simple footer --> 
+         <footer class="text-center text-xs text-slate-400 mt-10 border-t border-slate-200/70 pt-6"> 
+             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2"> 
+                 <p> © プロフェッショナルな預金利息計算ツール — 360 日慣例 |銀行レートツール </p> 
+                 <p class="flex gap-2 justify-center md:justify-end"> <span class="w-1.5 h-1.5 bg-indigo-300 rounded-full"> </span> 参照のみ。実際の銀行レートは異なる場合があります。 </p> 
+             </div> 
+             <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;"> 
+                 <a href="/ja/about-us/" style="color:#2563eb;text-decoration:none;"> 私たちについて </a> 
+                 <a href="/ja/contact-us/" style="color:#2563eb;text-decoration:none;"> お問い合わせ </a> 
+                 <a href="/ja/disclaimer/" style="color:#2563eb;text-decoration:none;"> 免責事項 </a> 
+                 <a href="/ja/privacy/" style="color:#2563eb;text-decoration:none;"> プライバシーポリシー </a> 
+                 <a href="/ja/terms/" style="color:#2563eb;text-decoration:none;"> 利用規約 </a> 
+             </div> 
+         </footer> 
+     </div> 
+
+     <!-- Scripts (English version JS) --><script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="/static/js/utility-tools/math/deposit-interest-rate-calculator/script-ja.js" defer></script>
+    <script src="/static/js/shared/switchlanguage.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060e0a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/rsa-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/rsa-decrypt/script-hi.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "घर",
+          "item": "https://starryring.com/hi/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "उपयोगिता उपकरण",
+          "item": "https://starryring.com/hi/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "आरएसए डिक्रिप्शन टूल",
+          "item": "https://starryring.com/hi/utility-tools/math/rsa-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "आरएसए डिक्रिप्शन टूल",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/hi/utility-tools/math/rsa-decrypt/",
+      "description": "पीईएम निजी कुंजी आयात और ब्राउज़र-साइड आरएसए-ओएईपी डिक्रिप्शन के साथ मुफ्त ऑनलाइन आरएसए डिक्रिप्शन टूल।",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "PEM निजी कुंजी आयात करें",
+        "बेस64 और हेक्स सिफरटेक्स्ट स्वीकार करें",
+        "बाइनरी .enc फ़ाइलें लोड करें",
+        "एकाधिक OAEP हैश विकल्पों का समर्थन करें",
+        "पूरी तरह ब्राउज़र में चलाएँ"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "RSA डिक्रिप्शन के लिए निजी कुंजी की आवश्यकता क्यों है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "आरएसए एक असममित एल्गोरिथम है। सार्वजनिक कुंजी डेटा को एन्क्रिप्ट करती है, जबकि मेल खाने वाली निजी कुंजी इसे डिक्रिप्ट करती है। सही निजी कुंजी के बिना, RSA-OAEP सिफरटेक्स्ट को पुनर्प्राप्त नहीं किया जा सकता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "यहां कौन से सिफरटेक्स्ट प्रारूप समर्थित हैं?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "यह पेज बेस64 टेक्स्ट, हेक्स टेक्स्ट और अपलोड की गई .enc बाइनरी फ़ाइलों का समर्थन करता है। फ़ाइल मोड सीधे कच्चे बाइट्स को संसाधित करता है, इसलिए आपको मैन्युअल रूप से एन्कोडिंग चुनने की आवश्यकता नहीं है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "मैं सीधे एन्क्रिप्टेड निजी कुंजी फ़ाइल का उपयोग क्यों नहीं कर सकता?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "पासवर्ड से सुरक्षित एन्क्रिप्टेड निजी कुंजी फ़ाइलों को पहले पासफ़्रेज़ के साथ अनलॉक किया जाना चाहिए। इस पृष्ठ को हल्का और ब्राउज़र-केवल रखने के लिए, यह वर्तमान में केवल अनएन्क्रिप्टेड निजी कुंजी / आरएसए निजी कुंजी फ़ाइलों का समर्थन करता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "आमतौर पर आरएसए डिक्रिप्शन विफल होने का क्या कारण है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "सबसे आम कारण हैं बेमेल निजी कुंजी, एन्क्रिप्शन के दौरान उपयोग की गई कुंजी से भिन्न OAEP हैश, दूषित सिफरटेक्स्ट, या इनपुट जो मूल एन्क्रिप्टेड आउटपुट नहीं है।"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>आरएसए डिक्रिप्शन टूल और प्राइवेट कुंजी डिकोडर | StarryRing</title>
+<meta name="description" content="पीईएम निजी कुंजी, बेस64 या हेक्स सिफरटेक्स्ट और ब्राउज़र-साइड आरएसए-ओएईपी डिक्रिप्शन के लिए मुफ्त ऑनलाइन आरएसए डिक्रिप्शन टूल।">
+    <link rel="canonical" href="https://starryring.com/hi/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/rsa-decrypt/">
+<meta property="og:url" content="https://starryring.com/hi/utility-tools/math/rsa-decrypt/">
+    <meta property="og:locale" content="hi_IN">
+<meta property="og:title" content="आरएसए डिक्रिप्शन टूल और प्राइवेट कुंजी डिकोडर | StarryRing">
+    <meta property="og:description" content="एक PEM निजी कुंजी आयात करें, Base64, Hex, या .enc सिफरटेक्स्ट को डिक्रिप्ट करें, और प्रत्येक ऑपरेशन को अपने ब्राउज़र के अंदर रखें।">
+    <meta name="twitter:title" content="आरएसए डिक्रिप्शन टूल और प्राइवेट कुंजी डिकोडर | तारों वाली अंगूठी">
+    <meta name="twitter:description" content="एक PEM निजी कुंजी आयात करें, Base64, Hex, या .enc सिफरटेक्स्ट को डिक्रिप्ट करें, और प्रत्येक ऑपरेशन को अपने ब्राउज़र के अंदर रखें।">
+    <meta name="keywords" content="आरएसए डिक्रिप्शन टूल, आरएसए निजी कुंजी डिकोडर, आरएसए-ओएईपी, पीईएम निजी कुंजी, बेस 64 डिक्रिप्ट, हेक्स डिक्रिप्ट, ऑनलाइन आरएसए, वेब क्रिप्टो">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/rsa-decrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/rsa-decrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/rsa-decrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/rsa-decrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/rsa-decrypt/" data-lang="ko">한국어</a>
+            <a class="language-option selected" href="/hi/utility-tools/math/rsa-decrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/hi/" class="breadcrumb-link"> <i class="fas fa-home"> </i> होम </a> </li> 
+             <li class="breadcrumb-item"> <a href="/hi/utility-tools/" class="breadcrumb-link"> उपयोगिता उपकरण </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> RSA डिक्रिप्शन टूल </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // क्रिप्टोग्राफ़िक टूल v2.0 </span> 
+       <h1 class="logo-title"> RSA <span> डिसिफ़र </span> </h1> 
+     </div> 
+     <div class="header-right"> 
+       <div class="badge"> केवल क्लाइंट-साइड </div> 
+       <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> वेब क्रिप्टो एपीआई </div> 
+       <a href="/hi/utility-tools/math/rsa-encrypt/" class="encrypt-link"> 
+         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+        एन्क्रिप्शन टूल पर स्विच करें
+       </a> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒 </span> 
+     <span> <strong> केवल क्लाइंट-साइड </strong> - कुंजी और डेटा आपके ब्राउज़र के अंदर रहते हैं और कभी भी किसी सर्वर पर अपलोड नहीं किए जाते हैं। मूल वेब क्रिप्टो एपीआई द्वारा संचालित। </span> 
+   </div> 
+
+   <!-- Config --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> एल्गोरिथम कॉन्फ़िगरेशन </span> 
+     </div> 
+     <div class="config-grid" style="grid-template-columns: repeat(2, 1fr)"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> कुंजी आकार </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="2048"> 2048-बिट </option> 
+             <option value="3072"> 3072-बिट </option> 
+             <option value="4096" selected> 4096-बिट </option></select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-hash" class="label-link"> OAEP हैश </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="hash"> 
+             <option value="SHA-1"> SHA-1 </option> 
+             <option value="SHA-256" selected> SHA-256 </option> 
+             <option value="SHA-384"> SHA-384 </option> 
+             <option value="SHA-512"> SHA-512 </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key & IV --> 
+   <div class="key-section"> 
+     <div class="config-header" style="justify-content:space-between"> 
+       <div style="display:flex;align-items:center;gap:10px"> 
+         <div class="config-header-icon" style="color:var(--accent3)"> 🔑 </div> 
+         <span class="config-title"> मुख्य सामग्री </span> 
+       </div> 
+       <div style="display:flex;gap:8px"> 
+         <button class="paste-json-btn" onclick="pasteJsonConfig()"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+          JSON कॉन्फ़िगरेशन चिपकाएँ
+         </button> 
+         <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          कॉन्फ़िग फ़ाइल अपलोड करें
+         </button> 
+         <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)"> 
+       </div> 
+     </div> 
+     <div class="field-group"> 
+       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"> 
+         <label class="field-label" style="margin-bottom:0"> 
+             <a href="#explain-key" class="label-link"> निजी कुंजी </a>  
+            ( <a href="#explain-pem" class="label-link"> PEM </a> )
+         </label> 
+         <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide private key" style="margin-left:auto"> 
+           <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/> <circle cx="12" cy="12" r="3"/> </svg> 
+           <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"> <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/> <line x1="1" y1="1" x2="23" y2="23"/> </svg> 
+         </button><button class="copy-field-btn" onclick="pasteField('secretKey')" title="Paste Private Key"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+         </button> 
+         <button class="gen-btn" onclick="triggerPemUpload()" title="Upload .pem file" style="color:var(--accent2);border-color:rgba(0,212,255,0.4);background:rgba(0,212,255,0.06);display:flex;align-items:center;gap:6px"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          अपलोड करें .pem
+         </button> 
+         <input type="file" id="pemFileInput" accept=".pem,.key,.txt" style="display:none" onchange="loadPemFile(this)"> 
+       </div> 
+       <textarea class="field-input" id="secretKey" rows="8" placeholder="-----BEGIN PRIVATE KEY-----&#10;...&#10;-----END PRIVATE KEY-----&#10;&#10;Paste an RSA private key in PEM format, or click &quot;Upload .pem&quot; to load a file" autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:150px;line-height:1.5"> </textarea> 
+       <div id="pemErrorBar" style="display:none;align-items:center;gap:8px;padding:8px 14px;margin-top:6px;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.4);border-radius:3px;font-family:var(--mono);font-size:11px;color:#ff8080;"> 
+         <span style="font-size:15px;flex-shrink:0"> ✕ </span> 
+         <span id="pemErrorMsg"> </span> 
+       </div> 
+       <div id="pemSuccessBar" style="display:none;align-items:center;gap:8px;padding:8px 14px;margin-top:6px;background:rgba(0,255,157,0.05);border:1px solid rgba(0,255,157,0.25);border-radius:3px;font-family:var(--mono);font-size:11px;color:var(--accent);"> 
+         <span style="font-size:15px;flex-shrink:0"> ✓ </span> 
+         <span id="pemSuccessMsg"> </span> 
+       </div> 
+       <div class="key-hint" id="keyHint"> RSA-OAEP डिक्रिप्शन निजी कुंजी का उपयोग करता है ( <span id="keySizeHint"> 4096 </span> -बिट / <span id="hashHint"> SHA-256 </span> ) - इसे एन्क्रिप्शन के दौरान उपयोग की गई सार्वजनिक कुंजी से मेल खाना चाहिए </div> 
+     </div> 
+   </div> 
+
+   <!-- IO --> 
+   <div class="io-section"> 
+     <!-- Ciphertext input --> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> .enc फ़ाइल लोड करने के लिए रिलीज़ करें </div> 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          सिफरटेक्स्ट/इनपुट
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            फ़ाइल अपलोड करें
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Paste ciphertext here in Base64 or Hex...&#10;&#10;Or upload a binary .enc file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0 बाइट्स </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+             <span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="encoding-tabs" id="encodingTabs"> 
+           <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')"> BASE64 </button> 
+           <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')"> हेक्स </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <!-- Plaintext output --> 
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          प्लेनटेक्स्ट/आउटपुट
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Decrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> डिक्रिप्टेड फ़ाइल डाउनलोड करने के लिए तैयार है </span> 
+         </div> 
+         <button class="download-file-btn" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          फ़ाइल डाउनलोड करें
+         </button> 
+       </div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0 बाइट्स </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn decrypt-btn" onclick="runDecrypt()"> ◀ DECRYPT </button> 
+     <a href="/hi/utility-tools/math/rsa-encrypt/" class="encrypt-nav-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+      एन्क्रिप्शन की आवश्यकता है?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/> <polyline points="15 3 21 3 21 9"/> <line x1="10" y1="14" x2="21" y2="3"/> </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> तैयार - एक निजी कुंजी और सिफरटेक्स्ट चिपकाएँ, फिर डिक्रिप्ट </span> पर क्लिक करें 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> एल्गोरिथम </div> 
+       <div class="info-card-value"> आरएसए </div> 
+       <div class="info-card-sub" id="infoMode"> OAEP / SHA-256 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> मुख्य ताकत </div> 
+       <div class="info-card-value" id="infoKeySize"> 4096 </div> 
+       <div class="info-card-sub"> बिट्स </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> सुरक्षा स्तर </div> 
+       <div class="info-card-value" id="infoSecurity"> उच्च </div> 
+       <div class="info-card-sub" id="infoSecSub"> असममित </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> डिक्रिप्टेड </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub"> इस सत्र में बाइट्स </div> 
+     </div> 
+   </div> 
+
+   <!-- Explain Sections --> 
+   <div class="explain-section" id="explain-key"> 
+     <div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> RSA डिक्रिप्शन के लिए निजी कुंजी की आवश्यकता क्यों है? </div><div class="explain-text"> RSA एक असममित एन्क्रिप्शन एल्गोरिथम है। सार्वजनिक कुंजी डेटा को एन्क्रिप्ट करती है, जबकि <strong style="color:#f0fff6"> डिक्रिप्शन के लिए </strong> से मेल खाने वाली निजी कुंजी आवश्यक है। निजी कुंजी एन्क्रिप्शन पृष्ठ पर उपयोग की गई सार्वजनिक कुंजी से विशिष्ट रूप से मेल खाती है, इसलिए एक बेमेल कुंजी डिक्रिप्शन विफल हो जाएगी। <br> <br> निजी कुंजी गोपनीय रहनी चाहिए। यदि यह खो जाता है, तो मूल डेटा स्वामी सहित कोई भी, मिलान वाले सिफरटेक्स्ट को पुनर्प्राप्त नहीं कर सकता है। निजी कुंजी फ़ाइल उत्पन्न होने पर उसे सावधानीपूर्वक सहेजें। </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> कुंजी का आकार एन्क्रिप्शन सेटअप से मेल खाना चाहिए </div> 
+       <div class="explain-text"> चयनित कुंजी का आकार एन्क्रिप्शन के दौरान उपयोग की जाने वाली सार्वजनिक कुंजी के आकार से मेल खाना चाहिए। यदि ऐसा नहीं होता है, तो निजी कुंजी आयात तुरंत विफल हो सकता है क्योंकि कुंजी सामग्री पंक्तिबद्ध नहीं होती है। <br> <br> ज्यादातर मामलों में, एक बार जब आप सही PEM निजी कुंजी पेस्ट कर देते हैं, तो ब्राउज़र स्वचालित रूप से सही लंबाई के साथ काम करेगा। यदि आयात अभी भी विफल रहता है, तो सत्यापित करें कि कुंजी आकार और हैश चयन दोनों एन्क्रिप्शन सेटिंग्स से मेल खाते हैं। </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-hash"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> OAEP हैश को एन्क्रिप्शन से बिल्कुल मेल खाना चाहिए </div> 
+       <div class="explain-text"> RSA-OAEP डिक्रिप्शन के लिए उपयोग किया जाने वाला हैश एल्गोरिदम एन्क्रिप्शन के दौरान उपयोग किए गए हैश एल्गोरिदम के समान होना चाहिए। यदि हैश भिन्न है, तो डिक्रिप्शन विफल हो जाएगा या अमान्य आउटपुट लौटाएगा। <br> <br> यदि एन्क्रिप्शन चरण में SHA-256 का उपयोग किया जाता है, जो अनुशंसित डिफ़ॉल्ट है, तो इस पृष्ठ को भी SHA-256 का उपयोग करना चाहिए। यदि आप अनिश्चित हैं, तो सही संयोजन सफल होने तक उपलब्ध हैश विकल्पों का परीक्षण करें। </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> इनपुट एन्कोडिंग: सिफरटेक्स्ट किस प्रारूप में है? </div> 
+       <div class="explain-text"> एन्क्रिप्शन उपकरण एन्कोडेड टेक्स्ट को आउटपुट करता है। इसे सही ढंग से डिक्रिप्ट करने के लिए, इस पृष्ठ को समान एन्कोडिंग का उपयोग करना चाहिए ताकि यह आरएसए-ओएईपी डिक्रिप्शन चलाने से पहले मूल बाइनरी बाइट्स को पुनर्स्थापित कर सके। <br> <br> <strong style="color:#c0e8d0"> Base64 </strong> सिफरटेक्स्ट अक्षरों, अंकों और <code style="color:var(--accent)"> +/= </code> का उपयोग करता है।  <strong style="color:#c0e8d0"> हेक्स </strong> सिफरटेक्स्ट प्रति बाइट दो अक्षरों के साथ <code style="color:var(--accent)"> 0-9 </code> और <code style="color:var(--accent)"> a-f </code> का उपयोग करता है। यदि आप बाइनरी .enc फ़ाइल अपलोड करते हैं, तो एन्कोडिंग चयनकर्ता स्वचालित रूप से अनदेखा कर दिया जाता है। </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-pem"> 
+     <div class="explain-icon"> 📄 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> PEM प्रारूप समझाया गया </div> 
+       <div class="explain-text"> 
+         <p> <strong> 1️⃣ PEM क्या है? </strong> <br>पीईएम (गोपनीयता-उन्नत मेल) एक टेक्स्ट प्रारूप है जिसका उपयोग कुंजी और प्रमाणपत्रों को संग्रहीत और स्थानांतरित करने के लिए किया जाता है। यह बेस 64-बाइनरी डीईआर डेटा को एनकोड करता है और इसे हेडर और फुटर लाइनों जैसे <code> -----BEGIN निजी कुंजी----- </code> और <code> -----END निजी कुंजी----- </code> के साथ लपेटता है। सामान्य लेबल में <code> सार्वजनिक कुंजी </code>, <code> निजी कुंजी </code>, और <code> प्रमाणपत्र </code> शामिल हैं। क्योंकि यह सादा पाठ है, PEM को कॉपी करना, पेस्ट करना और सिस्टम में एक्सचेंज करना आसान है। </p> 
+
+         <p> <strong> 2️⃣ आप अन्य कौन से प्रारूप देख सकते हैं? </strong> <br> 
+        - <strong> DER </strong> : एक कच्चा बाइनरी प्रारूप जो ASN.1 संरचनाओं को सीधे संग्रहीत करता है और जावा या प्रमाणपत्र टूलींग में आम है। <br> 
+        - <strong> HEX </strong> : डीईआर बाइट्स का एक हेक्साडेसिमल स्ट्रिंग प्रतिनिधित्व, कोड में बाइट डेटा को डीबग करने या एम्बेड करने के लिए उपयोगी है। <br> 
+        - <strong> बेस64 हेडर के बिना </strong> : डीईआर पेलोड को बेस64 के रूप में एन्कोड किया गया है लेकिन पीईएम रैपर के बिना, अक्सर कॉम्पैक्ट कॉन्फ़िगरेशन प्रारूपों में उपयोग किया जाता है। <br> 
+        - <strong> PKCS#12 (PFX) </strong> : एक बाइनरी कंटेनर जो सार्वजनिक और निजी कुंजी को एक साथ पैकेज कर सकता है, आमतौर पर पासवर्ड से संरक्षित होता है। </p> 
+
+         <p> <strong> 3️⃣ प्रत्येक प्रारूप का उपयोग कब किया जाना चाहिए? </strong> <br> 
+        - <strong> PEM </strong> : ओपनएसएसएल, वेब सर्वर, एपीआई एक्सचेंज और मैनुअल कुंजी हैंडलिंग के लिए सबसे सार्वभौमिक विकल्प। <br> 
+        - <strong> DER </strong> : जब बाइनरी स्टोरेज को प्राथमिकता दी जाती है या प्लेटफ़ॉर्म-विशिष्ट टूलींग द्वारा आवश्यक किया जाता है तो उपयोगी होता है। <br> 
+        - <strong> HEX </strong> : डिबगिंग और उन स्थितियों के लिए उपयोगी जहां बाइट-स्तरीय निरीक्षण मायने रखता है। <br> 
+        - <strong> बेस64 बिना हेडर के </strong> : तब उपयोगी है जब आसपास का प्रारूप पीईएम रैपर की अनुमति नहीं देता है और आप एक कॉम्पैक्ट टेक्स्ट पेलोड चाहते हैं। <br> 
+        - <strong> PKCS#12 </strong> : सबसे अच्छा तब जब आपको पासवर्ड सुरक्षा के साथ प्रमाणपत्र और निजी कुंजी को एक साथ ले जाने की आवश्यकता हो। </p> 
+       </div> 
+     </div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/rsa-decrypt/script-hi.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

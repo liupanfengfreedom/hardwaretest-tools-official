@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Basic SEO -->
+    <title>온라인 오디오 형식 변환기 - 무료 MP3/WAV/FLAC/AAC 변환 | StarryRing</title>
+<!-- Open Graph / Facebook -->
+
+<meta property="og:image" content="https://starryring.com/static/image/og-audio-converter.png">
+<meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/static/image/og-audio-converter.png">
+
+    <!-- Canonical and hreflang -->
+
+
+<!-- Favicon & Icons (same as main site) -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Structured Data (SoftwareApplication + FAQPage) -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "WAVFORM 오디오 변환기",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web",
+      "description": "무료 온라인 오디오 변환기 도구. MP3, WAV, FLAC, AAC, OGG, AIFF 등을 변환하거나 비디오 파일에서 오디오 트랙을 추출하세요. 모든 처리는 귀하의 브라우저에서 로컬로 이루어집니다. 업로드가 없고 개인정보가 보호됩니다.",
+      "url": "https://starryring.com/ko/utility-tools/design-media/audio-converter/",
+      "image": "https://starryring.com/static/image/og-audio-converter.png",
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/static/image/screenshot-audio-converter-main.jpg",
+          "caption": "오디오 변환기 메인 인터페이스"
+        }
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "MP3 / WAV / FLAC / AAC / OGG / AIFF 변환",
+        "MP4, MKV, MOV, AVI 비디오에서 오디오 추출",
+        "사용자 정의 샘플 속도, 채널, 비트 전송률",
+        "로컬 브라우저 처리, 파일이 업로드되지 않음",
+        "일괄 변환 지원"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "어떤 오디오 형식이 지원되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MP3, WAV, FLAC, AAC/M4A, OGG(Opus), AIFF/AIF, WMA, WebM(Opus) 등 일반적인 오디오 형식 간의 변환을 지원합니다. MP4, MKV, MOV, AVI, 3GP, TS와 같은 비디오 파일에서 오디오 트랙을 추출할 수도 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "변환된 오디오 품질은 얼마나 좋습니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "품질은 설정에 따라 다릅니다. 무손실 형식(WAV, AIFF)은 원본 오디오 데이터를 완벽하게 보존합니다. 손실이 있는 형식(MP3, OGG)의 경우 비트 전송률(최대 320kbps)과 샘플링 속도(최대 96kHz)를 설정하여 품질과 파일 크기 간의 최상의 균형을 얻을 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "내 파일이 업로드되나요? 비공개인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "업로드가 전혀 없습니다! 모든 변환은 Web Audio API, lamejs 및 기타 기술을 사용하여 브라우저에서 로컬로 발생합니다. 파일이 장치 외부로 유출되지 않으므로 민감한 녹음에 적합합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "일부 비디오 파일을 변환할 수 없는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이 도구는 브라우저의 비디오 디코딩 기능에 따라 다릅니다. 비디오가 브라우저에서 지원하지 않는 코덱(예: 일부 HEVC/H.265 비디오)을 사용하는 경우 오디오 추출이 실패할 수 있습니다. 먼저 보다 일반적인 코덱(예: H.264)으로 변환해 보거나 지원되는 비디오 형식 중 하나를 사용해 보십시오."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/design-media/audio-converter/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+
+
+
+    <!-- Minimal inline styles for H1 and instructions (keep consistent) -->
+    <style>
+        .page-main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 20px 0 10px;
+            letter-spacing: -0.02em;
+        }
+        .page-main-title .title-badge {
+            font-size: 1rem;
+            background: rgba(245, 166, 35, 0.2);
+            color: #f5a623;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            margin-left: 1rem;
+            font-weight: 500;
+            vertical-align: middle;
+            border: 1px solid rgba(245, 166, 35, 0.3);
+        }
+        @media (max-width: 600px) {
+            .page-main-title {
+                font-size: 1.8rem;
+            }
+            .page-main-title .title-badge {
+                display: block;
+                margin: 10px 0 0;
+                width: fit-content;
+            }
+        }
+        .instructions-section {
+            background: #121218;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border: 1px solid #2a2a35;
+        }
+        .instructions-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            background: linear-gradient(135deg, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .feature-item {
+            background: #1a1a24;
+            border-radius: 18px;
+            padding: 1.5rem;
+            border: 1px solid #2a2a35;
+        }
+        .feature-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #f5a623;
+        }
+        .feature-item p {
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .tip {
+            border-left: 3px solid #f5a623;
+            padding-left: 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .faq-section {
+            margin-top: 2rem;
+        }
+        .faq-item {
+            border-bottom: 1px solid #2a2a35;
+            padding: 1.5rem 0;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-item h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+        .faq-item p {
+            color: #bbb;
+            line-height: 1.6;
+        }
+        .faq-link-container {
+            margin-top: 0.8rem;
+        }
+        .faq-link {
+            color: #f5a623;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .faq-link i {
+            font-size: 0.8rem;
+        }
+        .faq-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+<meta name="description" content="무료 온라인 오디오 변환기 도구. MP3, WAV, FLAC, AAC, OGG, AIFF 등을 변환하거나 MP4/MKV/MOV 비디오에서 오디오 트랙을 추출하세요. 모든 처리는 귀하의 브라우저에서 로컬로 이루어집니다. 업로드가 없고 개인정보가 보호됩니다.">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/design-media/audio-converter/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/audio-converter/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/design-media/audio-converter/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="온라인 오디오 형식 변환기 - 무료 로컬 처리">
+    <meta property="og:description" content="MP3, WAV, FLAC, AAC 등을 변환하고 비디오에서 오디오를 추출하세요. 업로드가 없으며 개인정보가 보호됩니다.">
+    <meta name="twitter:title" content="온라인 오디오 형식 변환기 - 무료 로컬 처리">
+    <meta name="twitter:description" content="MP3, WAV, FLAC, AAC 등을 변환하고 비디오에서 오디오를 추출하세요. 업로드가 없으며 개인정보가 보호됩니다.">
+    <meta name="keywords" content="오디오 변환기, 온라인 변환기, MP3 변환기, WAV 변환기, FLAC 변환기, 비디오를 오디오로, 무료, 로컬 처리">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/design-media/audio-converter/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/design-media/audio-converter/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/design-media/audio-converter/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/design-media/audio-converter/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/design-media/audio-converter/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/design-media/audio-converter/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation (last item fixed) --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ko/" class="breadcrumb-link"> 
+                         <i class="fas fa-home"> </i> 홈
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ko/utility-tools/" class="breadcrumb-link"> 
+                         <i class="fas fa-toolbox"> </i> 유틸리티
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <span class="breadcrumb-active"> 오디오 변환기 </span> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+     <!-- Language Switcher (links corrected) --> 
+ <div class="container"> 
+         <header> 
+             <div class="logo"> 
+                 <div class="logo-mark"> WAV <span> 양식 </span> </div> 
+                 <div class="logo-sub"> 오디오 포맷 변환기 </div> 
+             </div> 
+             <div class="header-badge"> 
+                 <div class="badge-dot"> </div> 
+                로컬 처리 · 개인 정보 보호
+             </div> 
+         </header> 
+
+         <!-- H1 main title (SEO) --> 
+         <h1 class="page-main-title"> 
+            온라인 오디오 형식 변환기
+             <span class="title-badge"> 무료 · 로컬 </span> 
+         </h1> 
+
+         <!-- 01 — Upload Files --> 
+         <div class="section-label"> 01 — 파일 업로드 </div> 
+         <div class="drop-zone" id="drop-zone"> 
+             <input type="file" id="file-input" multiple accept="audio/*,video/*,.mp3,.wav,.ogg,.flac,.aac,.m4a,.opus,.webm,.aiff,.aif,.wma,.mp4,.mov,.mkv,.avi,.m4v,.3gp,.ts"> 
+             <div class="drop-icon"> 
+                 <svg viewBox="0 0 56 56" fill="none"> 
+                     <rect width="56" height="56" rx="12" fill="#18181f"/> 
+                     <path d="M28 16v16m0-16l-6 6m6-6l6 6" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> 
+                     <path d="M18 36h20" stroke="#3d3d52" stroke-width="2" stroke-linecap="round"/><circle cx="28" cy="28" r="14" stroke="#2a2a35" stroke-width="1.5" stroke-dasharray="3 3"/> 
+                 </svg> 
+             </div> 
+             <div class="drop-title"> 여기에 오디오 파일을 드래그 앤 드롭하세요 </div> 
+             <div class="drop-subtitle"> 또는 클릭하여 선택 · 모든 오디오 형식 및 비디오-오디오 추출 </div> 지원 
+             <div class="drop-formats"> 
+                 <span class="fmt-chip"> MP3 </span> 
+                 <span class="fmt-chip"> WAV </span> 
+                 <span class="fmt-chip"> FLAC </span> 
+                 <span class="fmt-chip"> AAC / M4A </span> 
+                 <span class="fmt-chip"> OGG / Opus </span> 
+                 <span class="fmt-chip"> AIFF / AIF </span> 
+                 <span class="fmt-chip"> WMA </span> 
+                 <span class="fmt-chip"> 웹엠 </span> 
+                 <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)"> 🎬 MP4 </span> 
+                 <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)"> 🎬 MKV </span> 
+                 <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)"> 🎬 MOV </span> 
+                 <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)"> 🎬AVI </span> 
+             </div> 
+         </div> 
+
+         <!-- 02 — File Queue --> 
+         <div id="file-list-section" style="display:none"> 
+             <div class="file-list-header"> 
+                 <div class="section-label" style="margin:0;flex:1"> 02 — 파일 대기열 </div> 
+                 <button class="clear-all-btn" onclick="clearAll()"> 모두 지우기 </button> 
+             </div> 
+             <div id="file-list"> </div> 
+             <div class="waveform-deco" id="waveform-deco" style="display:none"> </div> 
+         </div> 
+
+         <!-- 03 — Conversion Settings --> 
+         <div class="section-label"> 03 — 변환 설정 </div> 
+         <div class="controls-panel"> 
+             <div class="controls-grid"> 
+                 <div class="control-group"> 
+                     <label> 출력 형식 </label> 
+                     <select class="control-select" id="format-select" onchange="onFormatChange()"> 
+                         <optgroup label="── Lossless"> 
+                             <option value="wav"> WAV — PCM 무손실 </option> 
+                             <option value="aiff"> AIFF — 애플 무손실 </option> 
+                         </optgroup> 
+                         <optgroup label="── Lossy"> 
+                             <option value="mp3" selected> MP3 — MPEG 오디오 </option> 
+                             <option value="ogg" id="opt-ogg"> OGG — Opus(브라우저 인코딩) </option> 
+                             <option value="webm" id="opt-webm"> WebM — Opus(브라우저 인코딩) </option> 
+                         </optgroup> 
+                     </select> 
+                 </div> 
+                 <div class="control-group"> 
+                     <label> 샘플링 속도 </label> 
+                     <select class="control-select" id="samplerate-select"><option value="auto" selected> ✦ 원본(자동) </option> 
+                         <option value="44100"> 44,100Hz — CD 품질 </option> 
+                         <option value="48000"> 48,000Hz — 스튜디오 </option> 
+                         <option value="96000"> 96,000Hz — 고해상도 </option> 
+                         <option value="22050"> 22,050Hz — 컴팩트 </option> 
+                         <option value="16000"> 16,000Hz - 음성 </option> 
+                         <option value="8000"> 8,000Hz — 전화 </option> 
+                     </select> 
+                 </div> 
+                 <div class="control-group"> 
+                     <label> 채널 </label> 
+                     <select class="control-select" id="channels-select"> 
+                         <option value="auto" selected> ✦ 원본(자동) </option> 
+                         <option value="2"> 스테레오 — 스테레오 </option> 
+                         <option value="1"> 모노 — 모노 </option> 
+                     </select> 
+                 </div> 
+             </div> 
+             <div style="margin-top:20px" id="bitrate-row"> 
+                 <div class="control-group"> 
+                     <label> MP3 비트 전송률 — <span id="bitrate-val"> 128 </span> kbps </label> 
+                     <input type="range" class="control-slider" id="bitrate-slider" min="64" max="320" step="32" value="128"> 
+                     <div class="slider-labels"> <span> 64k </span> <span> 128k </span> <span> 192k </span> <span> 256k </span> <span> 320k </span> </div> 
+                 </div> 
+             </div> 
+             <div class="format-note" id="format-note"> </div> 
+         </div> 
+
+         <!-- Convert Button --> 
+         <button class="btn-convert" id="convert-btn" onclick="startConversion()"> 
+             <div class="btn-shimmer"> </div> 
+            ⚡ 변환 시작
+         </button> 
+
+         <!-- Progress Card --> 
+         <div id="conv-card"> 
+             <div class="conv-head"> 
+                 <span class="conv-label-inline"> 전환 진행 </span> 
+                 <div> 
+                     <span class="conv-pct-inline" id="conv-pct"> 0 </span> <span class="conv-pct-unit-inline"> % </span> 
+                 </div> 
+             </div> 
+             <div class="conv-bar-wrap"> 
+                 <div class="conv-bar-track"> 
+                     <div class="conv-bar-fill" id="conv-bar-fill"> 
+                         <div class="conv-bar-head" id="conv-bar-head"> </div> 
+                     </div> 
+                 </div> 
+                 <div class="conv-seg-track" id="conv-seg-track"> </div> 
+             </div> 
+             <div class="conv-footer-row"> 
+                 <div class="conv-op" id="conv-op"> 준비 중... </div> 
+                 <div class="conv-steps" id="conv-steps"> </div> 
+             </div> 
+         </div> 
+
+         <!-- 04 — Download Results --> 
+         <div id="download-area"> 
+             <div class="section-label"> 04 - 결과 다운로드 </div> 
+             <div id="download-list"> </div> 
+         </div> 
+
+         <!-- Conversion Log --> 
+         <div id="log-section"> 
+             <div class="section-label"> — 전환 로그 </div> 
+             <div class="log-box" id="log-box"> </div> 
+         </div><!-- Added: Feature Description & FAQ (SEO boost) --> 
+         <div class="instructions-section"> 
+             <h2> 전문 오디오 변환기 기능 </h2> 
+             <div class="feature-grid"> 
+                 <div class="feature-item"> 
+                     <h3> 🎯 무손실 및 손실 지원 </h3> 
+                     <p> WAV, AIFF 무손실 형식 또는 MP3, OGG, WebM 손실 형식 중에서 선택하세요. 보관, 공유 또는 모바일 장치에 적합합니다. </p> 
+                     <div class="tip"> 최대 320kbps의 MP3 비트 전송률, 무손실에 가까운 품질. </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> 🎬 비디오에서 오디오 추출 </h3> 
+                     <p> MP4, MKV, MOV, AVI 파일을 드래그하면 선택한 형식으로 오디오 스트림이 자동으로 추출됩니다. 추가 도구가 필요하지 않습니다. </p> 
+                     <div class="tip"> 일반적인 비디오 형식을 지원합니다. 디코딩에 실패하면 먼저 비디오를 다시 인코딩해 보십시오. </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> ⚙️ 미세한 매개변수 제어 </h3> 
+                     <p> 샘플 속도(8kHz ~ 96kHz), 채널 수(모노/스테레오) 및 비트 전송률(MP3)을 사용자 정의하세요. 출력 품질을 완벽하게 제어할 수 있습니다. </p> 
+                     <div class="tip"> 원본 파일의 샘플링 속도와 채널을 유지하려면 "자동"을 선택하세요. </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> 🔒 개인정보 보호, 업로드 없음 </h3> 
+                     <p> 모든 처리는 브라우저 내에서 이루어집니다. 귀하의 파일은 절대로 장치를 떠나지 않습니다. 민감한 녹음을 자신있게 변환하세요. </p> 
+                     <div class="tip"> 개인 정보 보호 걱정은 없습니다. 변환하고 삭제하세요. </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> 📦 일괄 변환 및 대기열 </h3> 
+                     <p> 한 번에 여러 파일을 선택하세요. 대기열에 추가되어 하나씩 처리됩니다. 개별적으로 다운로드하거나 나중에 일괄 패키지로 다운로드하세요. </p> 
+                     <div class="tip"> 언제든지 목록을 지우고 다시 시작하세요. </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> 🎧 내장 미니 플레이어 </h3> 
+                     <p> 다운로드하기 전에 변환된 오디오를 페이지에서 직접 미리 보세요. 시간을 절약하고 반복적인 다운로드를 방지합니다. </p> 
+                     <div class="tip"> 일시 정지, 탐색 – 빠른 미리보기. </div> 
+                 </div> 
+             </div> 
+
+             <div class="faq-section"> 
+                 <h2> 자주 묻는 질문(FAQ) </h2> 
+
+                 <div class="faq-item"> 
+                     <h3> 어떤 오디오 형식이 지원되나요? </h3> 
+                     <p> 현재 MP3, WAV, FLAC, AAC(M4A), OGG(Opus), AIFF, WMA, WebM(Opus) 간 변환을 지원합니다. 비디오 파일(MP4, MKV, MOV, AVI, 3GP, TS)에서 오디오를 추출하고 이러한 형식으로 변환할 수도 있습니다. 시간이 지남에 따라 더 많은 형식이 추가될 예정입니다. </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> 변환된 오디오 품질은 얼마나 좋나요? </h3> 
+                     <p> 품질은 전적으로 귀하의 설정에 따라 달라집니다. <br>- WAV 또는 AIFF의 경우: 원본 오디오 데이터와 동일한 무손실 PCM. <br> 
+                    - MP3의 경우: 슬라이더를 사용하여 비트 전송률(64kbps ~ 320kbps)을 설정합니다. 높을수록 품질이 좋고 파일 크기가 커집니다. <br> 
+                    - 샘플 속도 옵션을 사용하면 다운샘플링하여 파일 크기를 줄일 수 있습니다(예: 48kHz → 44.1kHz 또는 22kHz). <br> 
+                    최상의 결과를 얻으려면 원래 샘플 속도와 스테레오를 유지하는 것이 좋습니다. </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> 파일이 정말 업로드되지 않나요? </h3> 
+                     <p> 예, 100% 로컬 처리입니다. 우리는 Web Audio API를 사용하여 디코딩하고, lamejs를 사용하여 MP3를 인코딩하고, MediaRecorder for Opus를 사용합니다. 모든 작업은 브라우저의 메모리에서 이루어지며 네트워크 전송은 없습니다. 이 도구는 오프라인에서도 사용할 수 있습니다(페이지가 한 번 로드된 후). </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> 일부 동영상 파일을 변환할 수 없는 이유는 무엇인가요? </h3> 
+                     <p> 브라우저는 지원하는 비디오 코덱만 디코딩할 수 있습니다. 예를 들어 일부 MKV 파일에는 HEVC(H.265) 비디오가 포함될 수 있으며 Safari 또는 Chrome은 해당 오디오 트랙을 지원하지 않을 수 있습니다. 보다 일반적인 코덱(예: H.264 + AAC)을 사용해 보세요. 문제가 지속되면 먼저 비디오 인코딩을 변환한 다음 오디오를 추출하십시오. </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> 여러 파일을 한 번에 변환할 수 있나요? </h3> 
+                     <p> 네. 여러 파일을 선택하면 대기열에 나타납니다. "변환 시작"을 클릭하면 도구가 하나씩 처리합니다. 변환 중에 파일을 추가하거나 제거할 수 있지만 현재 처리 중인 파일은 수정할 수 없습니다. </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> 대용량 파일을 변환하면 페이지가 멈추나요? </h3> 
+                     <p> 오디오 인코딩은 특히 대용량 파일이나 높은 비트 전송률의 경우 CPU 집약적입니다. 최대한 최적화하더라도 메인 스레드가 잠시 차단될 수 있습니다. 매우 큰 파일(예: 100MB 이상)의 경우 잠시 기다려 주십시오. 진행률 표시줄이 실시간으로 업데이트됩니다. 향후 버전에서는 보다 원활한 성능을 위해 Web Worker가 도입될 수 있습니다. </p> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <footer> 
+             <div style="display:flex;align-items:center;gap:6px"> 
+                 <span style="color:var(--amber)"> 🔒</span> 
+                모든 처리는 브라우저에서 로컬로 수행되며 파일은 어떤 서버에도 업로드되지 않습니다.
+             </div> 
+             <div> 웹 오디오 API · lamejs · AIFF · MediaRecorder </div> 
+             <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;"> 
+                 <a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+                 <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+                 <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+                 <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a><a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+             </div> 
+         </footer> 
+     </div> 
+
+     <!-- Mini Player --> 
+     <div id="mini-player"> 
+         <button id="mp-play-btn" onclick="mpToggle()"> 
+             <svg id="mp-play-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"> 
+                 <path d="M4 2.5l8 4.5-8 4.5V2.5z" fill="currentColor"/> 
+             </svg> 
+             <svg id="mp-pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:none"> 
+                 <rect x="2" y="2" width="4" height="10" rx="1" fill="currentColor"/> 
+                 <rect x="8" y="2" width="4" height="10" rx="1" fill="currentColor"/> 
+             </svg> 
+         </button> 
+         <div id="mp-info"> 
+             <div id="mp-name"> — </div> 
+             <div id="mp-progress-wrap" onclick="mpSeek(event)"> 
+                 <div id="mp-progress-fill"> </div> 
+             </div> 
+         </div> 
+         <div id="mp-time"> 0:00 / 0:00 </div> 
+         <button id="mp-close" onclick="mpClose()" title="Close"> 
+             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"> 
+                 <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> 
+             </svg> 
+         </button> 
+     </div> 
+
+     <!-- Third-party libraries & local script --><script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+    <script src="/static/js/utility-tools/design-media/audio-converter/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

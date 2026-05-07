@@ -1,0 +1,937 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>Kiểm tra tỷ lệ thăm dò chuột trực tuyến - Phân tích tần suất sự kiện & jitter</title>
+<!-- Canonical & Internationalization -->
+
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Author -->
+    <meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Mouse polling rate test tool interface preview">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/mouse/polling-rate/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/twitter-image.png">
+    <meta name="twitter:creator" content="@starryring">
+
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mouse Polling Rate Test">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <link rel="preload" href="/static/css/toolbox/mouse/polling-rate/style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Structured Data Schema Markup -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Trình kiểm tra tần suất sự kiện chuột",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "Công cụ kiểm tra tần suất sự kiện chuột trực tuyến miễn phí, phát hiện tốc độ lấy mẫu chuyển động của chuột theo thời gian thực, phân tích jitter, giám sát hiệu suất trong trình duyệt",
+      "url": "https://starryring.com/vi/toolbox/mouse/polling-rate/",
+      "image": "https://starryring.com/vi/toolbox/mouse/polling-rate/og-image.png",
+      "screenshot": "https://starryring.com/vi/toolbox/mouse/polling-rate/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Giám sát tần số thời gian thực",
+        "Phân tích jitter",
+        "Phát hiện tốc độ lấy mẫu sự kiện",
+        "Hiển thị biểu đồ thời gian thực",
+        "Xuất dữ liệu CSV",
+        "So sánh hiệu suất trình duyệt"
+      ],
+      "softwareVersion": "2.1.0",
+      "datePublished": "2024-01-01",
+      "dateModified": "2024-12-20"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Tại sao kiểm tra web hiển thị tần suất sự kiện chuột thấp hơn tỷ lệ bỏ phiếu USB thực tế?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Các sự kiện chuột trong môi trường trình duyệt bị giới hạn bởi nhiều lớp: điều chỉnh sự kiện trình duyệt, đồng bộ hóa tốc độ làm mới màn hình, lập lịch hệ điều hành, v.v. Các trang web không thể truy cập trực tiếp dữ liệu thô từ lớp USB HID, chỉ thông qua giao diện sự kiện chuột do trình duyệt cung cấp."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm thế nào để có kết quả xét nghiệm chính xác hơn?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1. Đảm bảo cửa sổ trình duyệt ở phía trước và đang hoạt động. 2. Đóng các tab và ứng dụng không cần thiết. 3. Thực hiện di chuyển chuột nhanh, liên tục trong khu vực kiểm tra. 4. Giữ tư thế thi ổn định để tránh rung tay."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Jitter là gì? Tại sao nó quan trọng?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jitter phản ánh sự ổn định của khoảng thời gian xảy ra sự kiện chuột. Độ giật thấp có nghĩa là các khoảng thời gian diễn ra sự kiện đều đồng đều, mang lại cảm giác di chuyển chuột mượt mà. Độ giật cao có thể khiến chuyển động của chuột có cảm giác giật hình hoặc không ổn định, ngay cả khi tần số trung bình cao."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Tại sao các trình duyệt khác nhau hiển thị kết quả kiểm tra khác nhau?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Các trình duyệt khác nhau (Chrome, Firefox, Edge, Safari) sử dụng các cơ chế xử lý sự kiện, chiến lược điều tiết và tối ưu hóa hiệu suất khác nhau. Chrome thường cung cấp tần suất sự kiện cao hơn nhưng hiệu suất cụ thể cũng phụ thuộc vào hệ điều hành và cấu hình phần cứng."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm cách nào để xác định xem hiệu suất sự kiện chuột có bình thường không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tình huống bình thường: Hiển thị 60Hz: tần số sự kiện ≈ 60Hz. Hiển thị 120Hz: tần số sự kiện ≈ 120Hz. Hiển thị 144Hz: tần số sự kiện ≈ 120-144Hz. Hiển thị 240Hz: tần số sự kiện ≈ 200Hz. Nếu tần số thấp hơn nhiều so với tốc độ làm mới màn hình thì có thể có vấn đề về hiệu suất."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://starryring.com/vi/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Hộp công cụ kiểm tra chuột",
+          "item": "https://starryring.com/vi/toolbox/mouse/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Kiểm tra tỷ lệ bỏ phiếu của chuột",
+          "item": "https://starryring.com/vi/toolbox/mouse/polling-rate/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Cách sử dụng Công cụ kiểm tra tỷ lệ bỏ phiếu của chuột",
+      "description": "Hướng dẫn từng bước để kiểm tra tần suất và hiệu suất sự kiện chuột của bạn",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Nhập khu vực kiểm tra",
+          "text": "Di chuyển chuột vào vùng kiểm tra màu xanh trên trang để bắt đầu theo dõi các sự kiện chuột.",
+          "image": "https://starryring.com/vi/toolbox/mouse/polling-rate/step1.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Thực hiện các động tác nhanh",
+          "text": "Di chuyển chuột nhanh và liên tục trong khu vực thử nghiệm để tạo dữ liệu sự kiện.",
+          "image": "https://starryring.com/vi/toolbox/mouse/polling-rate/step2.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Giám sát tần số thời gian thực",
+          "text": "Xem màn hình hiển thị tần số hiện tại và biểu đồ thời gian thực để biết tốc độ lấy mẫu sự kiện chuột.",
+          "image": "https://starryring.com/vi/toolbox/mouse/polling-rate/step3.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Kiểm tra giá trị jitter",
+          "text": "Quan sát phép đo độ giật để đánh giá tính ổn định của các khoảng thời gian diễn ra sự kiện chuột.",
+          "image": "https://starryring.com/vi/toolbox/mouse/polling-rate/step4.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Xuất dữ liệu để phân tích",
+          "text": "Sử dụng tính năng xuất CSV để lưu dữ liệu thử nghiệm để phân tích chi tiết.",
+          "image": "https://starryring.com/vi/toolbox/mouse/polling-rate/step5.png"
+        }
+      ],
+      "totalTime": "PT3M"
+    }
+  ]
+}
+</script>
+
+    <!-- External resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Project styles -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/toolbox/mouse/polling-rate/style.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Công cụ kiểm tra tần suất sự kiện chuột trực tuyến miễn phí. Phát hiện thời gian thực tốc độ lấy mẫu chuyển động của chuột, phân tích độ giật và giám sát hiệu suất trong trình duyệt. Không cần tải xuống.">
+    <link rel="canonical" href="https://starryring.com/vi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+<meta property="og:url" content="https://starryring.com/vi/toolbox/mouse/polling-rate/">
+    <meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="🖱️ Kiểm tra tỷ lệ thăm dò chuột trực tuyến - Phân tích tần suất sự kiện & độ biến động">
+    <meta property="og:description" content="Công cụ kiểm tra tần suất sự kiện chuột trực tuyến miễn phí. Phát hiện thời gian thực tốc độ lấy mẫu chuyển động của chuột, phân tích độ giật và giám sát hiệu suất trong trình duyệt.">
+    <meta name="twitter:title" content="🖱️ Kiểm tra tỷ lệ thăm dò chuột trực tuyến - Phân tích tần suất sự kiện & độ biến động">
+    <meta name="twitter:description" content="Công cụ kiểm tra tần suất sự kiện chuột trực tuyến miễn phí. Phát hiện thời gian thực tốc độ lấy mẫu chuyển động của chuột, phân tích độ giật và giám sát hiệu suất trong trình duyệt.">
+</head>
+
+<body class="p-4 md:p-8">
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/mouse/polling-rate/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/mouse/polling-rate/" data-lang="zh">简体中文</a>
+            <a class="language-option selected" href="/vi/toolbox/mouse/polling-rate/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/toolbox/mouse/polling-rate/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/toolbox/mouse/polling-rate/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/mouse/polling-rate/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/vi/" class="breadcrumb-link"> 
+                         <i class="fas fa-home"> </i> Trang chủ
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/vi/toolbox/" class="breadcrumb-link"> 
+                        Hộp công cụ
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/vi/toolbox/mouse/" class="breadcrumb-link"> 
+                        Hộp công cụ kiểm tra chuột
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item">                    
+                     <span class="breadcrumb-active"> Kiểm tra tỷ lệ bỏ phiếu </span> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+    
+     <!-- Language Switcher --> 
+ <main class="max-w-6xl mx-auto space-y-6" itemscope itemtype="https://schema.org/SoftwareApplication"> 
+         <meta itemprop="applicationCategory" content="UtilitiesApplication"> 
+        
+         <!-- Header --> 
+         <header> 
+             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4"> 
+                 <div> 
+                     <h1 class="text-3xl font-bold tracking-tight text-white" itemprop="name"> 
+                        Trình kiểm tra tần suất sự kiện của chuột trình duyệt (Không phải
+                         <a href="#desktop-tool-section" 
+                           class="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors"> 
+                            Tỷ lệ thăm dò USB thực
+                         </a> 
+                        )
+                     </h1> 
+                     <p class="text-slate-400" itemprop="description"> Công cụ phân tích jitter và giám sát tốc độ lấy mẫu chuột chuyên nghiệp (Tự động khởi động) </p> 
+                 </div> 
+                 <div class="flex gap-3"> 
+                     <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50"> 
+                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"> </span><span class="text-sm font-semibold text-blue-400"> Giám sát </span> 
+                     </div> 
+                     <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition"> 
+                        Xóa dữ liệu
+                     </button> 
+                 </div> 
+             </div> 
+         </header> 
+
+         <!-- Main Dashboard --> 
+         <section aria-label="Mouse frequency test main panel"> 
+             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"> 
+                
+                 <!-- Left: Statistics and test area --> 
+                 <div class="lg:col-span-2 space-y-6"> 
+                     <!-- Statistics grid --> 
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4"> 
+                         <div class="stat-card p-4 rounded-lg"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> Tần số hiện tại </div> 
+                             <div id="currHz" class="text-3xl font-bold mono text-blue-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-emerald-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> Tần số tối đa </div> 
+                             <div id="maxHz" class="text-3xl font-bold mono text-emerald-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-purple-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> Tần suất trung bình </div> 
+                             <div id="avgHz" class="text-3xl font-bold mono text-purple-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-orange-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> Jitter </div> 
+                             <div id="jitter" class="text-3xl font-bold mono text-orange-400"> 0 <small class="text-sm ml-1 text-slate-500"> ms </small> </div> 
+                         </div> 
+                     </div> 
+
+                     <!-- Real-time chart --> 
+                     <div class="glass-panel p-6 h-80"> 
+                         <canvas id="pollingChart"> </canvas> 
+                     </div> 
+
+                     <!-- Test interaction area --> 
+                     <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border"> 
+                         <div class="text-center pointer-events-none"> 
+                             <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75"> 
+                                  <div class="w-2 h-2 bg-blue-500 rounded-full"> </div> 
+                             </div><p class="text-lg font-medium"> Di chuyển chuột nhanh vào khu vực này để kiểm tra </p> 
+                             <p class="text-sm text-slate-500"> Không cần nhấp chuột, chỉ cần di chuyển để thu thập dữ liệu trong thời gian thực </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Right: Log --> 
+                 <div class="flex flex-col h-full"> 
+                     <div class="glass-panel flex flex-col h-full max-h-[740px]"> 
+                         <div class="p-4 border-b border-slate-700 flex justify-between items-center"> 
+                             <h3 class="font-bold"> Nhật ký thời gian thực </h3> 
+                             <span id="eventCount" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400"> 0 sự kiện </span> 
+                         </div> 
+                         <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-2 text-xs mono"> 
+                             <div class="text-slate-500 italic"> Đang chờ dữ liệu... </div> 
+                         </div> 
+                         <div class="p-4 border-t border-slate-700"> 
+                             <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600"> 
+                                Xuất nhật ký CSV
+                             </button> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+        
+
+         <!-- Feature description and FAQ section --> 
+         <section aria-label="Feature introduction"> 
+             <div class="instructions-section"> 
+                 <div class="instructions-content"> 
+                     <h2> Tính năng kiểm tra tần số sự kiện chuột chuyên nghiệp </h2> 
+                     <div class="feature-grid"> 
+                         <div class="feature-item"> 
+                             <h3> Giám sát tần số thời gian thực </h3> 
+                             <p> Hiển thị thời gian thực tần số sự kiện chuột hiện tại (Hz), giúp bạn hiểu được tốc độ thực tế mà trình duyệt xử lý các sự kiện di chuyển chuột. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> Lưu ý: Môi trường web bị giới hạn bởi trình duyệt và tốc độ làm mới màn hình </span> 
+                             </div> 
+                         </div> 
+
+                         <div class="feature-item"> 
+                             <h3> Phân tích jitter </h3> 
+                             <p> Tính độ lệch chuẩn của các khoảng thời gian diễn ra sự kiện, phản ánh độ ổn định về thời gian của các sự kiện chuột. Giá trị jitter thấp hơn cho thấy các sự kiện ổn định hơn. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> Độ giật cao có thể khiến chuyển động của chuột không mượt mà </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> Ghi tần số tối đa </h3><p> Tự động ghi lại tần suất sự kiện cao nhất đạt được trong quá trình thử nghiệm, giúp bạn hiểu được hiệu suất tốt nhất của hệ thống. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> Môi trường web thường không thể đạt được tỷ lệ bỏ phiếu USB thực sự </span> 
+                             </div> 
+                         </div> 
+                   
+                         <div class="feature-item"> 
+                             <h3> Tính tần số trung bình </h3> 
+                             <p> Tính toán tần suất sự kiện trung bình dựa trên dữ liệu lịch sử, cung cấp các chỉ số tham chiếu hiệu suất ổn định hơn. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> Thời gian thử nghiệm lâu hơn cho kết quả trung bình chính xác hơn </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> Hiển thị biểu đồ theo thời gian thực </h3> 
+                             <p> Trực quan hóa xu hướng thay đổi tần số thông qua biểu đồ đường động, giúp bạn dễ dàng quan sát những biến động và bất thường về hiệu suất. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> Biểu đồ hiển thị xu hướng của 100 điểm dữ liệu gần đây nhất </span> 
+                             </div> 
+                         </div>        
+                        
+                         <div class="feature-item"> 
+                             <h3> Xuất dữ liệu CSV </h3> 
+                             <p> Hỗ trợ xuất nhật ký kiểm tra hoàn chỉnh ở định dạng CSV để phân tích sâu và bảo toàn dữ liệu. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> Dữ liệu đã xuất có thể được sử dụng để phân tích thêm bằng Excel, Python, v.v. </span> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <div class="faq-section"> 
+                         <h2> Câu hỏi thường gặp (FAQ) </h2> 
+                        
+                         <div class="faq-item"> 
+                             <h3> Tại sao thử nghiệm trên web cho thấy tần suất sự kiện chuột thấp hơn tỷ lệ bỏ phiếu USB thực tế? </h3> 
+                             <p> Các sự kiện chuột trong môi trường trình duyệt bị giới hạn bởi nhiều lớp: điều chỉnh sự kiện trình duyệt, đồng bộ hóa tốc độ làm mới màn hình, lập lịch hệ điều hành, v.v. Các trang web không thể truy cập trực tiếp dữ liệu thô từ lớp USB HID mà chỉ thông qua giao diện sự kiện chuột do trình duyệt cung cấp. </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> Làm cách nào để có kết quả kiểm tra chính xác hơn? </h3> 
+                             <p> 1. Đảm bảo cửa sổ trình duyệt ở nền trước và đang hoạt động <br> 
+                               2. Đóng các tab và ứng dụng không cần thiết <br> 
+                               3. Thực hiện di chuyển chuột nhanh, liên tục trong khu vực thử nghiệm <a href="#testArea" class="text-blue-400 hover:text-blue-300"> </a> <br>4. Xem <a href="/static/toolbox/mouse/polling-rate/" class="text-blue-400 hover:text-blue-300"> hướng dẫn sử dụng chi tiết </a> để biết thêm mẹo </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> Jitter là gì? Tại sao nó quan trọng? </h3> 
+                             <p> Jitter phản ánh sự ổn định của khoảng thời gian xảy ra sự kiện chuột. Độ giật thấp có nghĩa là các khoảng thời gian diễn ra sự kiện đều đồng đều, mang lại cảm giác di chuyển chuột mượt mà. Độ giật cao có thể khiến chuyển động của chuột có cảm giác giật hình hoặc không ổn định, ngay cả khi tần số trung bình cao. </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> Tại sao các trình duyệt khác nhau hiển thị kết quả kiểm tra khác nhau? </h3> 
+                             <p> Các trình duyệt khác nhau (Chrome, Firefox, Edge, Safari) sử dụng các cơ chế xử lý sự kiện, chiến lược điều tiết và tối ưu hóa hiệu suất khác nhau. Chrome thường cung cấp tần suất sự kiện cao hơn nhưng hiệu suất cụ thể cũng phụ thuộc vào hệ điều hành và cấu hình phần cứng. </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> Làm cách nào để xác định xem hiệu suất của sự kiện chuột có bình thường không? </h3> 
+                             <p> Các tình huống thông thường: <br> 
+                               - Hiển thị 60Hz: tần số sự kiện ≈ 60Hz <br> 
+                               - Hiển thị 120Hz: tần số sự kiện ≈ 120Hz <br> 
+                               - Hiển thị 144Hz: tần số sự kiện ≈ 120-144Hz <br> 
+                               - Hiển thị 240Hz: tần số sự kiện ≈ 200Hz <br> 
+                               Nếu tần số thấp hơn nhiều so với tốc độ làm mới màn hình thì có thể có vấn đề về hiệu suất. </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> Khi nào tôi nên kiểm tra tần suất sự kiện chuột? </h3> 
+                             <p> Các tình huống thử nghiệm được đề xuất: <br> 
+                               - Cảm giác chuột di chuyển bị giật hoặc không phản hồi <br> 
+                               - So sánh hiệu suất đầu vào giữa các trình duyệt hoặc hệ thống khác nhau <br> 
+                               - Đánh giá tác động của màn hình hoặc card đồ họa mới đến độ trễ đầu vào <br> 
+                               - Chẩn đoán sự cố phản hồi của chuột trong ứng dụng web </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Important note panel (Always expanded) --> 
+         <section aria-label="Important usage notes"> 
+             <div class="glass-panel mt-6"> 
+                 <!-- Panel title --> 
+                 <div class="w-full p-4 bg-slate-800/50"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> ⚠️ </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> Lưu ý quan trọng về kiểm tra tỷ lệ bỏ phiếu trên web </h4><p class="text-sm text-slate-400 mt-1"> Vui lòng đọc kỹ các lưu ý sau để hiểu chính xác kết quả kiểm tra </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                
+                 <!-- Content area (Always expanded) --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                    
+                     <div class="pt-4 border-t border-slate-700"> 
+                         <p class="mb-4"> <b> "Tốc độ thăm dò (Hz)" được hiển thị trên trang này KHÔNG tương đương với tốc độ thăm dò USB thực của chuột của bạn. </b> </p> 
+                     </div> 
+                    
+                     <!-- Why web test results are usually only 60Hz / 120Hz? --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-blue-300 mb-2"> 🤔 Tại sao kết quả test web thường chỉ có 60Hz/120Hz? </h5> 
+                         <p class="mb-3"> Trong môi trường trình duyệt web: </p> 
+                         <ul class="space-y-2 ml-4 list-disc list-outside"> 
+                             <li> Dữ liệu chuột được lấy thông qua <b> các sự kiện trình duyệt (di chuyển chuột / di chuyển con trỏ) </b> </li> 
+                             <li> Trình duyệt <b> điều tiết và hợp nhất các sự kiện </b> </li> 
+                             <li> Tần suất kích hoạt sự kiện thường là <b> được đồng bộ hóa với tốc độ làm mới màn hình </b> </li> 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Display refresh rate comparison table --> 
+                     <div class="overflow-x-auto"> 
+                         <h5 class="font-bold text-white mb-3"> 🖥️ Tốc độ làm mới hiển thị so với tần suất có thể quan sát được trên web </h5> 
+                         <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden"> 
+                             <thead class="bg-slate-800"> 
+                                 <tr> 
+                                     <th class="p-3 text-left border-b border-slate-700"> Tốc độ làm mới hiển thị </th> 
+                                     <th class="p-3 text-left border-b border-slate-700"> Tần suất sự kiện có thể quan sát được trên web </th> 
+                                 </tr> 
+                             </thead> 
+                             <tbody> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 60Hz </td> 
+                                     <td class="p-3"> ≈ 60Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 120Hz </td> 
+                                     <td class="p-3"> ≈ 120Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 144Hz </td> 
+                                     <td class="p-3"> ≈ 120-144Hz </td> 
+                                 </tr> 
+                                 <tr> 
+                                     <td class="p-3"> 240Hz </td><td class="p-3"> ≈ 200Hz </td> 
+                                 </tr> 
+                             </tbody> 
+                         </table> 
+                     </div> 
+                    
+                     <!-- Technical explanation --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <p class="mb-3"> 
+                             <b> Ngay cả khi phần cứng chuột của bạn được đặt ở tốc độ thăm dò USB 1000Hz, <br> 
+                            môi trường web không thể truy cập trực tiếp dữ liệu thực từ lớp USB HID. </b> 
+                         </p> 
+                         <p class="text-sm text-slate-400"> 1000Hz thực được phản ánh ở đâu? </p> 
+                         <p class="mt-2"> Tỷ lệ bỏ phiếu USB thực tồn tại ở: </p> 
+                         <ul class="space-y-1 ml-4 mt-1"> 
+                             <li> • Đầu vào thô của hệ điều hành / lớp HID </li> 
+                             <li> • Công cụ trò chơi (như Unreal Engine, Unity) </li> 
+                             <li> • Công cụ kiểm tra ở cấp độ máy tính để bàn (không dựa trên web) </li> 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Applicable scenarios --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Suitable for --> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-emerald-400 text-lg"> ✅ </span> 
+                                 <h5 class="font-bold text-emerald-300"> Công cụ này phù hợp với mục đích gì? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> Phát hiện xem hoạt động nhập chuột vào trình duyệt có mượt mà hay không </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> So sánh hiệu suất sự kiện trên các trình duyệt/màn hình khác nhau </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> Kiểm tra tình trạng giật, mất sự kiện hoặc điều tiết bất thường </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Not suitable for --> 
+                         <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-rose-400 text-lg"> ❌ </span><h5 class="font-bold text-rose-300"> Công cụ này KHÔNG phù hợp với mục đích gì? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> Xác định xem chuột có hỗ trợ 500Hz / 1000Hz hay không </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> Thay thế các công cụ kiểm tra tỷ lệ bỏ phiếu USB trên máy tính để bàn </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Suggestions and tips --> 
+                     <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg"> 
+                         <div class="flex items-center gap-2 mb-3"> 
+                             <span class="text-blue-400 text-lg"> 💡 </span> 
+                             <h5 class="font-bold text-blue-300"> Đề xuất </h5> 
+                         </div> 
+                         <p class="mb-3"> 
+                            Nếu bạn cần xác minh tỷ lệ bỏ phiếu USB thực của chuột, <br> 
+                            sử dụng trình điều khiển của nhà sản xuất hoặc phần mềm kiểm tra đầu vào thô của máy tính để bàn <a href="#desktop-tool-section" class="text-blue-400 hover:text-blue-300 underline transition"> </a> .
+                         </p> 
+                         <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3"> 
+                             <span class="text-blue-400 text-lg mt-0.5"> 👉 </span> 
+                             <div> 
+                                 <p class="font-medium text-blue-200"> Mẹo: </p> 
+                                 <p class="text-sm mt-1"> Đảm bảo cửa sổ trình duyệt ở phía trước và tab đang hoạt động, nếu không trình duyệt sẽ chủ động giảm tần suất sự kiện. </p> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Python desktop tool introduction - Modified version --> 
+         <section aria-label="Desktop testing tool introduction"> 
+             <div id="desktop-tool-section" class="glass-panel mt-6"> 
+                 <!-- Panel title - Consistent structure with above --> 
+                 <div class="w-full p-4 bg-blue-900/20"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> 🐍 </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> Công cụ kiểm tra tỷ lệ bỏ phiếu thực tế trên chuột để bàn </h4> 
+                             <p class="text-sm text-slate-400 mt-1"> Công cụ Python Professional - Vượt qua các giới hạn của trình duyệt </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                         <!-- Optimized Image Display --><figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png"> 
+                         <img src="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png" 
+                            alt="Desktop testing tool interface screenshot"
+                            width="800" height="450"
+                            class="w-full h-auto"
+                            loading="lazy"
+                            itemprop="contentUrl"> 
+                         <figcaption class="image-caption" itemprop="caption"> 
+                            Giao diện công cụ kiểm tra tỷ lệ bỏ phiếu trên chuột máy tính để bàn
+                         </figcaption> 
+                     </figure>    
+                 <!-- Content area (Always expanded) - Consistent structure with above --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                     <!-- Tool introduction --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <div class="flex items-start gap-3"> 
+                             <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center"> 
+                                 <span class="text-2xl"> 🔧 </span> 
+                             </div> 
+                             <div> 
+                                 <h5 class="font-bold text-blue-300 mb-2"> Tại sao bạn cần một công cụ dành cho máy tính để bàn? </h5> 
+                                 <p class="mb-2"> Thử nghiệm web bị giới hạn bởi trình duyệt và hệ điều hành, không thể truy cập dữ liệu thăm dò thực tế từ lớp USB HID. Các công cụ dành cho máy tính để bàn ghi lại dữ liệu đầu vào thô của chuột trực tiếp thông qua API cấp hệ thống, cung cấp dữ liệu Tỷ lệ kiểm soát vòng USB thực. </p> 
+                                 <div class="mt-3 p-3 bg-slate-900/50 rounded"> 
+                                     <p class="text-emerald-400 font-medium"> 🌐 Kiểm tra trình duyệt so với 🐍 Công cụ máy tính để bàn Python </p> 
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2"> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📊 Nguồn dữ liệu </p> 
+                                             <p> Sự kiện trình duyệt (di chuyển chuột) </p> 
+                                             <p class="text-xs text-red-400"> Bị giới hạn </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🔧 Nguồn dữ liệu </p> 
+                                             <p> Đầu vào thô của hệ thống (Đầu vào thô) </p> 
+                                             <p class="text-xs text-emerald-400"> Không giới hạn </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📈 Độ chính xác tối đa </p> 
+                                             <p> ≈ Hiển thị tốc độ làm mới </p><p class="text-xs text-red-400"> ~200Hz </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🚀 Độ chính xác tối đa </p> 
+                                             <p> Tỷ lệ bỏ phiếu thực tế của USB </p> 
+                                             <p class="text-xs text-emerald-400"> ~8000Hz </p> 
+                                         </div> 
+                                     </div> 
+                                 </div> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Feature highlights --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Core features --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-blue-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                                 <span> ✨ </span> Các tính năng cốt lõi
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> Phát hiện tỷ lệ bỏ phiếu thực </b> - Đo trực tiếp dữ liệu lớp USB HID </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> Tự động nhận dạng bánh răng </b> - Nhận dạng thông minh 125/250/500/1000/2000/4000/8000Hz </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> Phân tích độ ổn định chuyên nghiệp </b> - Độ lệch chuẩn, giá trị P95, đánh giá jitter </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> Biểu đồ dạng sóng thời gian thực </b> - Trực quan hóa xu hướng thay đổi tỷ lệ bỏ phiếu </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> Hỗ trợ đa ngôn ngữ </b> - Chuyển đổi giao diện tiếng Anh/tiếng Trung </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Technical advantages --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-purple-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"><span> ⚡ </span> Ưu điểm kỹ thuật
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> Truy cập cấp hệ thống </b> - Bỏ qua các giới hạn của trình duyệt, giao tiếp trực tiếp với phần cứng </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> Độ chính xác nano giây </b> - Dựa trên Python time.perf_counter_ns() </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> Thuật toán lọc thông minh </b> - Tự động lọc dữ liệu bất thường để có kết quả chính xác hơn </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> Công cụ phân tích thời gian thực </b> - Cửa sổ lấy mẫu 600 điểm dữ liệu, hiển thị dạng sóng 150 điểm </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> Hệ thống đánh giá chuyên nghiệp </b> - Đánh giá tính điểm và xếp hạng độ ổn định </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Supported devices --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                             <span> 🎮 </span> Thiết bị được hỗ trợ và bánh răng tỷ lệ bỏ phiếu
+                         </h5> 
+                         <div class="overflow-x-auto"> 
+                             <table class="w-full border-collapse"> 
+                                 <thead class="bg-slate-800"> 
+                                     <tr> 
+                                         <th class="p-3 text-left border-b border-slate-700"> Tỷ lệ bỏ phiếu </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> Thiết bị phù hợp </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> Độ trễ </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> Tính năng </th> 
+                                     </tr> 
+                                 </thead> 
+                                 <tbody> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 125Hz </td><td class="p-3"> Chuột văn phòng thông thường </td> 
+                                         <td class="p-3 text-orange-400"> 8 mili giây </td> 
+                                         <td class="p-3 text-sm text-slate-400"> Tốc độ USB cơ bản </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 250Hz </td> 
+                                         <td class="p-3"> Chuột chơi game cấp thấp </td> 
+                                         <td class="p-3 text-yellow-400"> 4ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> Cài đặt trò chơi phổ biến </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 500Hz </td> 
+                                         <td class="p-3"> Chuột chơi game tầm trung </td> 
+                                         <td class="p-3 text-blue-400"> 2ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> Chế độ hiệu suất cao </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 1000Hz </td> 
+                                         <td class="p-3"> Chuột thể thao điện tử cao cấp </td> 
+                                         <td class="p-3 text-emerald-400"> 1ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> Thể thao điện tử có độ trễ thấp </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 2000Hz </td> 
+                                         <td class="p-3"> Chuột thể thao điện tử tiên tiến </td> 
+                                         <td class="p-3 text-emerald-300"> 0,5 mili giây </td> 
+                                         <td class="p-3 text-sm text-slate-400"> Độ trễ cực thấp </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 4000Hz </td> 
+                                         <td class="p-3"> Chuột thể thao điện tử hàng đầu </td> 
+                                         <td class="p-3 text-emerald-200"> 0,25 mili giây </td> 
+                                         <td class="p-3 text-sm text-slate-400"> Cấp độ chuyên nghiệp </td> 
+                                     </tr> 
+                                     <tr> 
+                                         <td class="p-3 font-mono"> 8000Hz </td> 
+                                         <td class="p-3"> Chuột thể thao điện tử cực chất </td> 
+                                         <td class="p-3 text-emerald-100"> 0,125 mili giây </td> 
+                                         <td class="p-3 text-sm text-slate-400"> Đẳng cấp hàng đầu </td> 
+                                     </tr> 
+                                 </tbody> 
+                             </table></div> 
+                     </div> 
+                    
+                     <!-- Usage scenario comparison --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-emerald-300 mb-3"> ✅ Khi nào nên sử dụng công cụ Python </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> Xác minh cài đặt tỷ lệ bỏ phiếu USB thực của chuột </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> So sánh hiệu suất tỷ lệ bỏ phiếu của chuột khác nhau </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> Kiểm tra chuột có tốc độ lấy mẫu quá mức (2000Hz+) </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> Đánh giá hiệu suất thiết bị thể thao điện tử chuyên nghiệp </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-white mb-3"> 🔄 Khi nào nên sử dụng thử nghiệm web </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> Kiểm tra nhanh độ mượt của trình duyệt khi nhập </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> So sánh hiệu suất của các trình duyệt khác nhau </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> Thử nghiệm chuột cơ bản trên nhiều nền tảng </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> Kiểm tra nhanh mà không cần cài đặt </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- GitHub link and download --><div class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-4 rounded-lg border border-blue-700/50"> 
+                         <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                             <div> 
+                                 <h5 class="font-bold text-white text-lg mb-2"> 🚀 Tải Công cụ máy tính để bàn Python </h5> 
+                                 <p class="text-slate-300 mb-1"> Mã nguồn mở miễn phí · Độ chính xác ở cấp độ chuyên nghiệp · Cập nhật liên tục </p> 
+                                 <p class="text-sm text-slate-400"> Hỗ trợ các hệ thống Windows/macOS/Linux </p> 
+                             </div> 
+                             <div class="flex gap-3"> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/tree/main" 
+                                   class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition flex items-center gap-2 border border-slate-600"> 
+                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> 
+                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/> 
+                                     </svg> 
+                                    Kho lưu trữ GitHub
+                                 </a> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/releases/tag/v1.0.0/" 
+                                   class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition flex items-center gap-2"> 
+                                     <span> 📦 Tải xuống phiên bản mới nhất </span> 
+                                 </a> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+         <!-- Social sharing section --> 
+         <div class="glass-panel mt-6 p-4"> 
+             <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                 <div> 
+                     <h5 class="font-bold text-white"> Bạn thấy công cụ này hữu ích? </h5> 
+                     <p class="text-sm text-slate-400"> Chia sẻ với những người dùng khác có thể cần nó </p> 
+                 </div> 
+                 <div class="flex items-center gap-4"> 
+                     <span class="text-slate-400 hidden md:inline"> Chia sẻ lên: </span><a href="https://twitter.com/share?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Professional mouse event frequency testing tool, real-time detection of mouse movement event sampling rate and jitter analysis" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-600 transition duration-300"
+                       aria-label="Share on Twitter"> 
+                         <i class="fab fa-twitter"> </i> 
+                     </a> 
+                     <a href="https://www.reddit.com/submit?url=https://starryring.com/en/toolbox/mouse/polling-rate/&title=Mouse Event Frequency Tester - Professional detection of browser mouse event sampling rate" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-orange-600 transition duration-300"
+                       aria-label="Share on Reddit"> 
+                         <i class="fab fa-reddit"> </i> 
+                     </a> 
+                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://starryring.com/en/toolbox/mouse/polling-rate/" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-700 transition duration-300"
+                       aria-label="Share on Facebook"> 
+                         <i class="fab fa-facebook"> </i> 
+                     </a> 
+                     <a href="https://t.me/share/url?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Mouse event frequency testing tool" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-500 transition duration-300"
+                       aria-label="Share on Telegram"> 
+                         <i class="fab fa-telegram"> </i> 
+                     </a> 
+                 </div> 
+             </div> 
+         </div> 
+     </main> 
+
+     <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2026 StarryRing · Trình kiểm tra tần suất sự kiện chuột </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/vi/about-us/" style="color:#60a5fa;text-decoration:none;"> Giới thiệu về chúng tôi </a> 
+             <a href="/vi/contact-us/" style="color:#60a5fa;text-decoration:none;"> Liên hệ với chúng tôi </a> 
+             <a href="/vi/disclaimer/" style="color:#60a5fa;text-decoration:none;"> Tuyên bố miễn trừ trách nhiệm </a> 
+             <a href="/vi/privacy/" style="color:#60a5fa;text-decoration:none;"> Chính sách quyền riêng tư </a> 
+             <a href="/vi/terms/" style="color:#60a5fa;text-decoration:none;"> Điều khoản dịch vụ </a> 
+         </div> 
+     </footer> 
+    
+     <!-- Add language switcher JS --><script src="/static/js/shared/switchlanguage.js"></script>
+    <script src="/static/js/toolbox/mouse/polling-rate/script-vi.js" defer></script>
+</body>
+</html>

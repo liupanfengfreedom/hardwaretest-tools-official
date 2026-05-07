@@ -1,0 +1,937 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>माउस पोलिंग दर परीक्षण ऑनलाइन - घटना आवृत्ति और घबराहट विश्लेषण</title>
+<!-- Canonical & Internationalization -->
+
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Author -->
+    <meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Mouse polling rate test tool interface preview">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/mouse/polling-rate/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/twitter-image.png">
+    <meta name="twitter:creator" content="@starryring">
+
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mouse Polling Rate Test">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <link rel="preload" href="/static/css/toolbox/mouse/polling-rate/style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Structured Data Schema Markup -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "माउस इवेंट फ़्रीक्वेंसी परीक्षक",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "मुफ़्त ऑनलाइन माउस इवेंट फ़्रीक्वेंसी परीक्षण उपकरण, माउस मूवमेंट सैंपलिंग दर का वास्तविक समय में पता लगाना, घबराना विश्लेषण, ब्राउज़र में प्रदर्शन की निगरानी",
+      "url": "https://starryring.com/hi/toolbox/mouse/polling-rate/",
+      "image": "https://starryring.com/hi/toolbox/mouse/polling-rate/og-image.png",
+      "screenshot": "https://starryring.com/hi/toolbox/mouse/polling-rate/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "वास्तविक समय आवृत्ति निगरानी",
+        "घबराहट विश्लेषण",
+        "घटना नमूनाकरण दर का पता लगाना",
+        "वास्तविक समय चार्ट प्रदर्शन",
+        "सीएसवी डेटा निर्यात",
+        "ब्राउज़र प्रदर्शन तुलना"
+      ],
+      "softwareVersion": "2.1.0",
+      "datePublished": "2024-01-01",
+      "dateModified": "2024-12-20"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "वेब परीक्षण वास्तविक USB मतदान दर की तुलना में कम माउस ईवेंट आवृत्ति क्यों दिखाता है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ब्राउज़र वातावरण में माउस इवेंट कई परतों द्वारा सीमित होते हैं: ब्राउज़र इवेंट थ्रॉटलिंग, डिस्प्ले रिफ्रेश रेट सिंक्रोनाइज़ेशन, ऑपरेटिंग सिस्टम शेड्यूलिंग, आदि। वेब पेज सीधे यूएसबी एचआईडी परत से कच्चे डेटा तक नहीं पहुंच सकते हैं, केवल ब्राउज़र द्वारा प्रदान किए गए माउस इवेंट इंटरफ़ेस के माध्यम से।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "अधिक सटीक परीक्षण परिणाम कैसे प्राप्त करें?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1. सुनिश्चित करें कि ब्राउज़र विंडो अग्रभूमि में और सक्रिय है। 2. अनावश्यक टैब और एप्लिकेशन बंद करें। 3. परीक्षण क्षेत्र के भीतर तेज, निरंतर माउस मूवमेंट करें। 4. हाथ मिलाने से बचने के लिए परीक्षण की स्थिर मुद्रा बनाए रखें।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "जिटर क्या है? यह महत्वपूर्ण क्यों है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "जिटर माउस घटना अंतराल समय की स्थिरता को दर्शाता है। कम घबराहट का मतलब है कि घटना अंतराल एक समान है, जिसके परिणामस्वरूप माउस की सहज गति का एहसास होता है। उच्च घबराहट के कारण माउस की गति लड़खड़ाती या अस्थिर महसूस हो सकती है, भले ही औसत आवृत्ति अधिक हो।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "अलग-अलग ब्राउज़र अलग-अलग परीक्षण परिणाम क्यों दिखाते हैं?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "विभिन्न ब्राउज़र (क्रोम, फ़ायरफ़ॉक्स, एज, सफारी) विभिन्न इवेंट प्रोसेसिंग तंत्र, थ्रॉटलिंग रणनीतियों और प्रदर्शन अनुकूलन का उपयोग करते हैं। क्रोम आमतौर पर उच्च ईवेंट आवृत्ति प्रदान करता है, लेकिन विशिष्ट प्रदर्शन ऑपरेटिंग सिस्टम और हार्डवेयर कॉन्फ़िगरेशन पर भी निर्भर करता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "यह कैसे निर्धारित करें कि माउस इवेंट का प्रदर्शन सामान्य है या नहीं?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "सामान्य स्थितियाँ: 60Hz डिस्प्ले: घटना आवृत्ति ≈ 60Hz। 120Hz डिस्प्ले: इवेंट फ़्रीक्वेंसी ≈ 120Hz। 144Hz डिस्प्ले: इवेंट फ़्रीक्वेंसी ≈ 120-144Hz। 240Hz डिस्प्ले: इवेंट फ़्रीक्वेंसी ≈ 200Hz। यदि आवृत्ति डिस्प्ले रिफ्रेश दर से बहुत कम है, तो प्रदर्शन संबंधी समस्याएं हो सकती हैं।"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "घर",
+          "item": "https://starryring.com/hi/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "माउस टेस्ट टूलबॉक्स",
+          "item": "https://starryring.com/hi/toolbox/mouse/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "माउस मतदान दर परीक्षण",
+          "item": "https://starryring.com/hi/toolbox/mouse/polling-rate/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "माउस पोलिंग रेट टेस्ट टूल का उपयोग कैसे करें",
+      "description": "अपने माउस ईवेंट आवृत्ति और प्रदर्शन का परीक्षण करने के लिए चरण-दर-चरण मार्गदर्शिका",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "परीक्षण क्षेत्र दर्ज करें",
+          "text": "माउस घटनाओं की निगरानी शुरू करने के लिए अपने माउस को पृष्ठ पर नीले परीक्षण क्षेत्र में ले जाएँ।",
+          "image": "https://starryring.com/hi/toolbox/mouse/polling-rate/step1.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "तीव्र गति से हरकतें करें",
+          "text": "ईवेंट डेटा उत्पन्न करने के लिए अपने माउस को परीक्षण क्षेत्र के भीतर तेज़ी से और लगातार घुमाएँ।",
+          "image": "https://starryring.com/hi/toolbox/mouse/polling-rate/step2.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "वास्तविक समय आवृत्ति की निगरानी करें",
+          "text": "माउस ईवेंट नमूनाकरण दर देखने के लिए वर्तमान आवृत्ति प्रदर्शन और वास्तविक समय चार्ट देखें।",
+          "image": "https://starryring.com/hi/toolbox/mouse/polling-rate/step3.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "घबराहट मूल्यों की जाँच करें",
+          "text": "माउस घटना अंतराल की स्थिरता का आकलन करने के लिए घबराहट माप का निरीक्षण करें।",
+          "image": "https://starryring.com/hi/toolbox/mouse/polling-rate/step4.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "विश्लेषण के लिए डेटा निर्यात करें",
+          "text": "विस्तृत विश्लेषण के लिए परीक्षण डेटा को सहेजने के लिए सीएसवी निर्यात सुविधा का उपयोग करें।",
+          "image": "https://starryring.com/hi/toolbox/mouse/polling-rate/step5.png"
+        }
+      ],
+      "totalTime": "पीटी3एम"
+    }
+  ]
+}
+</script>
+
+    <!-- External resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Project styles -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/toolbox/mouse/polling-rate/style.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="निःशुल्क ऑनलाइन माउस इवेंट आवृत्ति परीक्षण उपकरण। माउस मूवमेंट सैंपलिंग दर, घबराहट विश्लेषण और ब्राउज़र में प्रदर्शन की निगरानी का वास्तविक समय में पता लगाना। कोई डाउनलोड आवश्यक नहीं है.">
+    <link rel="canonical" href="https://starryring.com/hi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+<meta property="og:url" content="https://starryring.com/hi/toolbox/mouse/polling-rate/">
+    <meta property="og:locale" content="hi_IN">
+<meta property="og:title" content="🖱️ माउस पोलिंग दर परीक्षण ऑनलाइन - घटना आवृत्ति और घबराहट विश्लेषण">
+    <meta property="og:description" content="निःशुल्क ऑनलाइन माउस इवेंट आवृत्ति परीक्षण उपकरण। माउस मूवमेंट सैंपलिंग दर, घबराहट विश्लेषण और ब्राउज़र में प्रदर्शन की निगरानी का वास्तविक समय में पता लगाना।">
+    <meta name="twitter:title" content="🖱️ माउस पोलिंग दर परीक्षण ऑनलाइन - घटना आवृत्ति और घबराहट विश्लेषण">
+    <meta name="twitter:description" content="निःशुल्क ऑनलाइन माउस इवेंट आवृत्ति परीक्षण उपकरण। माउस मूवमेंट सैंपलिंग दर, घबराहट विश्लेषण और ब्राउज़र में प्रदर्शन की निगरानी का वास्तविक समय में पता लगाना।">
+</head>
+
+<body class="p-4 md:p-8">
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/mouse/polling-rate/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/mouse/polling-rate/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/mouse/polling-rate/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/toolbox/mouse/polling-rate/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/toolbox/mouse/polling-rate/" data-lang="ko">한국어</a>
+            <a class="language-option selected" href="/hi/toolbox/mouse/polling-rate/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/hi/" class="breadcrumb-link"> 
+                         <i class="fas fa-home"> </i> होम
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/hi/toolbox/" class="breadcrumb-link"> 
+                        टूलबॉक्स
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/hi/toolbox/mouse/" class="breadcrumb-link"> 
+                        माउस टेस्ट टूलबॉक्स
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item">                    
+                     <span class="breadcrumb-active"> मतदान दर परीक्षण </span> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+    
+     <!-- Language Switcher --> 
+ <main class="max-w-6xl mx-auto space-y-6" itemscope itemtype="https://schema.org/SoftwareApplication"> 
+         <meta itemprop="applicationCategory" content="UtilitiesApplication"> 
+        
+         <!-- Header --> 
+         <header> 
+             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4"> 
+                 <div> 
+                     <h1 class="text-3xl font-bold tracking-tight text-white" itemprop="name"> 
+                        ब्राउज़र माउस इवेंट फ़्रीक्वेंसी परीक्षक (नहीं
+                         <a href="#desktop-tool-section" 
+                           class="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors"> 
+                            वास्तविक यूएसबी पोलिंग दर
+                         </a> 
+                        )
+                     </h1> 
+                     <p class="text-slate-400" itemprop="description"> पेशेवर माउस नमूनाकरण दर निगरानी और घबराहट विश्लेषण उपकरण (स्वचालित रूप से प्रारंभ) </p> 
+                 </div> 
+                 <div class="flex gap-3"> 
+                     <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50"> 
+                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"> </span><span class="text-sm font-semibold text-blue-400"> निगरानी </span> 
+                     </div> 
+                     <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition"> 
+                        डेटा साफ़ करें
+                     </button> 
+                 </div> 
+             </div> 
+         </header> 
+
+         <!-- Main Dashboard --> 
+         <section aria-label="Mouse frequency test main panel"> 
+             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"> 
+                
+                 <!-- Left: Statistics and test area --> 
+                 <div class="lg:col-span-2 space-y-6"> 
+                     <!-- Statistics grid --> 
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4"> 
+                         <div class="stat-card p-4 rounded-lg"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> वर्तमान आवृत्ति </div> 
+                             <div id="currHz" class="text-3xl font-bold mono text-blue-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-emerald-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> अधिकतम आवृत्ति </div> 
+                             <div id="maxHz" class="text-3xl font-bold mono text-emerald-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-purple-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> औसत आवृत्ति </div> 
+                             <div id="avgHz" class="text-3xl font-bold mono text-purple-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-orange-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> जिटर </div> 
+                             <div id="jitter" class="text-3xl font-bold mono text-orange-400"> 0 <small class="text-sm ml-1 text-slate-500"> एमएस </small> </div> 
+                         </div> 
+                     </div> 
+
+                     <!-- Real-time chart --> 
+                     <div class="glass-panel p-6 h-80"> 
+                         <canvas id="pollingChart"> </canvas> 
+                     </div> 
+
+                     <!-- Test interaction area --> 
+                     <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border"> 
+                         <div class="text-center pointer-events-none"> 
+                             <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75"> 
+                                  <div class="w-2 h-2 bg-blue-500 rounded-full"> </div> 
+                             </div><p class="text-lg font-medium"> </p> का परीक्षण करने के लिए इस क्षेत्र में माउस को तेज़ी से ले जाएँ 
+                             <p class="text-sm text-slate-500"> किसी क्लिक की आवश्यकता नहीं है, बस वास्तविक समय में डेटा कैप्चर करने के लिए आगे बढ़ें </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Right: Log --> 
+                 <div class="flex flex-col h-full"> 
+                     <div class="glass-panel flex flex-col h-full max-h-[740px]"> 
+                         <div class="p-4 border-b border-slate-700 flex justify-between items-center"> 
+                             <h3 class="font-bold"> वास्तविक समय लॉग </h3> 
+                             <span id="eventCount" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400"> 0 इवेंट </span> 
+                         </div> 
+                         <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-2 text-xs mono"> 
+                             <div class="text-slate-500 italic"> डेटा की प्रतीक्षा है... </div> 
+                         </div> 
+                         <div class="p-4 border-t border-slate-700"> 
+                             <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600"> 
+                                सीएसवी लॉग निर्यात करें
+                             </button> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+        
+
+         <!-- Feature description and FAQ section --> 
+         <section aria-label="Feature introduction"> 
+             <div class="instructions-section"> 
+                 <div class="instructions-content"> 
+                     <h2> व्यावसायिक माउस इवेंट फ़्रीक्वेंसी परीक्षक सुविधाएँ </h2> 
+                     <div class="feature-grid"> 
+                         <div class="feature-item"> 
+                             <h3> वास्तविक समय आवृत्ति निगरानी </h3> 
+                             <p> वर्तमान माउस इवेंट फ़्रीक्वेंसी (Hz) का वास्तविक समय प्रदर्शन, आपको उस वास्तविक गति को समझने में मदद करता है जिस पर ब्राउज़र माउस मूवमेंट इवेंट को संसाधित करता है। </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> नोट: वेब वातावरण ब्राउज़र और प्रदर्शन ताज़ा दर द्वारा सीमित है </span> 
+                             </div> 
+                         </div> 
+
+                         <div class="feature-item"> 
+                             <h3> जिटर विश्लेषण </h3> 
+                             <p> माउस घटनाओं की समय स्थिरता को दर्शाते हुए, घटना अंतराल के मानक विचलन की गणना करें। कम घबराहट मान अधिक स्थिर घटनाओं का संकेत देते हैं। </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> उच्च घबराहट के कारण माउस की गति सुचारू नहीं लग सकती </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> अधिकतम आवृत्ति रिकॉर्डिंग </h3><p> परीक्षण के दौरान प्राप्त उच्चतम ईवेंट आवृत्ति को स्वचालित रूप से रिकॉर्ड करें, जिससे आपको अपने सिस्टम के सर्वोत्तम प्रदर्शन को समझने में मदद मिलेगी। </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> वेब वातावरण आमतौर पर वास्तविक USB मतदान दर तक नहीं पहुंच पाता </span> 
+                             </div> 
+                         </div> 
+                   
+                         <div class="feature-item"> 
+                             <h3> औसत आवृत्ति गणना </h3> 
+                             <p> अधिक स्थिर प्रदर्शन संदर्भ संकेतक प्रदान करते हुए, ऐतिहासिक डेटा के आधार पर औसत घटना आवृत्ति की गणना करें। </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> अधिक परीक्षण समय अधिक सटीक औसत देता है </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> वास्तविक समय चार्ट प्रदर्शन </h3> 
+                             <p> डायनामिक लाइन चार्ट के माध्यम से आवृत्ति परिवर्तन रुझानों को विज़ुअलाइज़ करें, जिससे प्रदर्शन में उतार-चढ़ाव और विसंगतियों का निरीक्षण करना आसान हो जाता है। </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> चार्ट पिछले 100 डेटा बिंदुओं के रुझान दिखाता है </span> 
+                             </div> 
+                         </div>        
+                        
+                         <div class="feature-item"> 
+                             <h3> CSV डेटा निर्यात </h3> 
+                             <p> गहन विश्लेषण और डेटा संरक्षण के लिए सीएसवी प्रारूप में संपूर्ण परीक्षण लॉग निर्यात करने का समर्थन। </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> निर्यातित डेटा का उपयोग एक्सेल, पायथन आदि के साथ आगे के विश्लेषण के लिए किया जा सकता है। </span> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <div class="faq-section"> 
+                         <h2> अक्सर पूछे जाने वाले प्रश्न (FAQ) </h2> 
+                        
+                         <div class="faq-item"> 
+                             <h3> वेब परीक्षण वास्तविक USB मतदान दर की तुलना में कम माउस ईवेंट आवृत्ति क्यों दिखाता है? </h3> 
+                             <p> ब्राउज़र वातावरण में माउस इवेंट कई परतों द्वारा सीमित होते हैं: ब्राउज़र इवेंट थ्रॉटलिंग, डिस्प्ले रिफ्रेश रेट सिंक्रोनाइज़ेशन, ऑपरेटिंग सिस्टम शेड्यूलिंग, आदि। वेब पेज सीधे USB HID परत से कच्चे डेटा तक नहीं पहुंच सकते हैं, केवल ब्राउज़र द्वारा प्रदान किए गए माउस इवेंट इंटरफ़ेस के माध्यम से। </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> अधिक सटीक परीक्षण परिणाम कैसे प्राप्त करें? </h3> 
+                             <p> 1. सुनिश्चित करें कि ब्राउज़र विंडो अग्रभूमि में है और सक्रिय है <br> 
+                               2. अनावश्यक टैब और एप्लिकेशन बंद करें <br> 
+                               3. <a href="#testArea" class="text-blue-400 hover:text-blue-300"> परीक्षण क्षेत्र </a> <br> के भीतर तेज, निरंतर माउस मूवमेंट करें4. अधिक युक्तियों के लिए <a href="/static/toolbox/mouse/polling-rate/" class="text-blue-400 hover:text-blue-300"> विस्तृत उपयोगकर्ता मार्गदर्शिका </a> देखें </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> जिटर क्या है? यह महत्वपूर्ण क्यों है? </h3> 
+                             <p> जिटर माउस इवेंट अंतराल समय की स्थिरता को दर्शाता है। कम घबराहट का मतलब है कि घटना अंतराल एक समान है, जिसके परिणामस्वरूप माउस की सहज गति का एहसास होता है। उच्च घबराहट के कारण माउस की गति लड़खड़ाती या अस्थिर महसूस हो सकती है, भले ही औसत आवृत्ति अधिक हो। </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> अलग-अलग ब्राउज़र अलग-अलग परीक्षण परिणाम क्यों दिखाते हैं? </h3> 
+                             <p> विभिन्न ब्राउज़र (क्रोम, फ़ायरफ़ॉक्स, एज, सफारी) विभिन्न इवेंट प्रोसेसिंग तंत्र, थ्रॉटलिंग रणनीतियों और प्रदर्शन अनुकूलन का उपयोग करते हैं। क्रोम आमतौर पर उच्च ईवेंट आवृत्ति प्रदान करता है, लेकिन विशिष्ट प्रदर्शन ऑपरेटिंग सिस्टम और हार्डवेयर कॉन्फ़िगरेशन पर भी निर्भर करता है। </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> यह कैसे निर्धारित करें कि माउस इवेंट का प्रदर्शन सामान्य है? </h3> 
+                             <p> सामान्य स्थितियाँ: <br> 
+                               - 60Hz डिस्प्ले: इवेंट फ़्रीक्वेंसी ≈ 60Hz <br> 
+                               - 120Hz डिस्प्ले: इवेंट फ़्रीक्वेंसी ≈ 120Hz <br> 
+                               - 144 हर्ट्ज डिस्प्ले: इवेंट फ्रीक्वेंसी ≈ 120-144 हर्ट्ज <br> 
+                               - 240Hz डिस्प्ले: इवेंट फ़्रीक्वेंसी ≈ 200Hz <br> 
+                               यदि आवृत्ति डिस्प्ले रिफ्रेश दर से बहुत कम है, तो प्रदर्शन संबंधी समस्याएं हो सकती हैं। </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> मुझे माउस ईवेंट आवृत्ति का परीक्षण कब करना चाहिए? </h3> 
+                             <p> अनुशंसित परीक्षण स्थितियाँ: <br> 
+                               - माउस की हरकत हकलाना या प्रतिक्रिया न करना महसूस होना <br> 
+                               - विभिन्न ब्राउज़रों या सिस्टमों के बीच इनपुट प्रदर्शन की तुलना करना <br> 
+                               - इनपुट विलंबता पर नए डिस्प्ले या ग्राफिक्स कार्ड के प्रभाव का मूल्यांकन <br> 
+                               - वेब अनुप्रयोगों में माउस प्रतिक्रिया समस्याओं का निदान </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Important note panel (Always expanded) --> 
+         <section aria-label="Important usage notes"> 
+             <div class="glass-panel mt-6"> 
+                 <!-- Panel title --> 
+                 <div class="w-full p-4 bg-slate-800/50"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> ⚠️ </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> वेब पोलिंग दर परीक्षण के बारे में महत्वपूर्ण नोट्स </h4><p class="text-sm text-slate-400 mt-1"> परीक्षण परिणामों को सही ढंग से समझने के लिए कृपया निम्नलिखित नोट्स को ध्यान से पढ़ें </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                
+                 <!-- Content area (Always expanded) --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                    
+                     <div class="pt-4 border-t border-slate-700"> 
+                         <p class="mb-4"> <b> इस पृष्ठ पर प्रदर्शित "मतदान दर (हर्ट्ज)" आपके माउस की वास्तविक USB मतदान दर के बराबर नहीं है। </b> </p> 
+                     </div> 
+                    
+                     <!-- Why web test results are usually only 60Hz / 120Hz? --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-blue-300 mb-2"> 🤔 वेब परीक्षण के परिणाम आमतौर पर केवल 60Hz/120Hz ही क्यों होते हैं? </h5> 
+                         <p class="mb-3"> वेब ब्राउज़र परिवेश में: </p> 
+                         <ul class="space-y-2 ml-4 list-disc list-outside"> 
+                             <li> माउस डेटा <b> ब्राउज़र ईवेंट (माउसमूव / पॉइंटरमोव) के माध्यम से प्राप्त किया जाता है </b> </li> 
+                             <li> ब्राउज़र्स <b> थ्रॉटल और मर्ज </b> ईवेंट </li> 
+                             <li> इवेंट ट्रिगरिंग आवृत्ति आमतौर पर <b> स्क्रीन रिफ्रेश दर के साथ सिंक्रनाइज़ होती है </b> </li> 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Display refresh rate comparison table --> 
+                     <div class="overflow-x-auto"> 
+                         <h5 class="font-bold text-white mb-3"> 🖥️ प्रदर्शन ताज़ा दर बनाम वेब अवलोकनीय आवृत्ति </h5> 
+                         <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden"> 
+                             <thead class="bg-slate-800"> 
+                                 <tr> 
+                                     <th class="p-3 text-left border-b border-slate-700"> प्रदर्शन ताज़ा दर </th> 
+                                     <th class="p-3 text-left border-b border-slate-700"> वेब अवलोकन योग्य घटना आवृत्ति </th> 
+                                 </tr> 
+                             </thead> 
+                             <tbody> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 60Hz </td> 
+                                     <td class="p-3"> ≈ 60Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 120Hz </td> 
+                                     <td class="p-3"> ≈ 120Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 144Hz </td> 
+                                     <td class="p-3"> ≈ 120-144हर्ट्ज </td> 
+                                 </tr> 
+                                 <tr> 
+                                     <td class="p-3"> 240Hz </td><td class="p-3"> ≈ 200Hz </td> 
+                                 </tr> 
+                             </tbody> 
+                         </table> 
+                     </div> 
+                    
+                     <!-- Technical explanation --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <p class="mb-3"> 
+                             <b> भले ही आपका माउस हार्डवेयर 1000Hz USB पोलिंग दर पर सेट हो, <br> 
+                            वेब वातावरण USB HID परत से सीधे वास्तविक डेटा तक नहीं पहुंच सकता है। </b> 
+                         </p> 
+                         <p class="text-sm text-slate-400"> वास्तविक 1000 हर्ट्ज़ कहाँ परिलक्षित होता है? </p> 
+                         <p class="mt-2"> वास्तविक USB मतदान दर यहां मौजूद है: </p> 
+                         <ul class="space-y-1 ml-4 mt-1"> 
+                             <li> • ऑपरेटिंग सिस्टम रॉ इनपुट / HID परत </li> 
+                             <li> • गेम इंजन (जैसे अनरियल इंजन, यूनिटी) </li> 
+                             <li> • डेस्कटॉप-स्तरीय परीक्षण उपकरण (वेब-आधारित नहीं) </li> 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Applicable scenarios --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Suitable for --> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-emerald-400 text-lg"> ✅ </span> 
+                                 <h5 class="font-bold text-emerald-300"> यह टूल किसके लिए उपयुक्त है? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> यह पता लगाना कि ब्राउज़र में माउस इनपुट सुचारू है या नहीं </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> विभिन्न ब्राउज़रों/डिस्प्ले पर इवेंट प्रदर्शन की तुलना करना </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> हकलाना, घटना में कमी, या असामान्य थ्रॉटलिंग की जाँच करना </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Not suitable for --> 
+                         <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-rose-400 text-lg"> ❌ </span><h5 class="font-bold text-rose-300"> यह उपकरण किसके लिए उपयुक्त नहीं है? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> यह निर्धारित करना कि माउस 500 हर्ट्ज / 1000 हर्ट्ज का समर्थन करता है या नहीं </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> डेस्कटॉप USB मतदान दर परीक्षण उपकरण बदलना </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Suggestions and tips --> 
+                     <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg"> 
+                         <div class="flex items-center gap-2 mb-3"> 
+                             <span class="text-blue-400 text-lg"> 💡 </span> 
+                             <h5 class="font-bold text-blue-300"> सुझाव </h5> 
+                         </div> 
+                         <p class="mb-3"> 
+                            यदि आपको अपने माउस की वास्तविक USB पोलिंग दर सत्यापित करने की आवश्यकता है, तो <br> 
+                            निर्माता ड्राइवर या <a href="#desktop-tool-section" class="text-blue-400 hover:text-blue-300 underline transition"> डेस्कटॉप रॉ इनपुट परीक्षण सॉफ़्टवेयर </a> का उपयोग करें।
+                         </p> 
+                         <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3"> 
+                             <span class="text-blue-400 text-lg mt-0.5"> 📌 </span> 
+                             <div> 
+                                 <p class="font-medium text-blue-200"> टिप: </p> 
+                                 <p class="text-sm mt-1"> सुनिश्चित करें कि ब्राउज़र विंडो अग्रभूमि में है और टैब सक्रिय है, अन्यथा ब्राउज़र सक्रिय रूप से ईवेंट आवृत्ति कम कर देगा। </p> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Python desktop tool introduction - Modified version --> 
+         <section aria-label="Desktop testing tool introduction"> 
+             <div id="desktop-tool-section" class="glass-panel mt-6"> 
+                 <!-- Panel title - Consistent structure with above --> 
+                 <div class="w-full p-4 bg-blue-900/20"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> 🐍 </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> डेस्कटॉप माउस वास्तविक मतदान दर परीक्षण उपकरण </h4> 
+                             <p class="text-sm text-slate-400 mt-1"> पायथन प्रोफेशनल टूल - ब्राउज़र की सीमाओं को तोड़ें </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                         <!-- Optimized Image Display --><figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png"> 
+                         <img src="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png" 
+                            alt="Desktop testing tool interface screenshot"
+                            width="800" height="450"
+                            class="w-full h-auto"
+                            loading="lazy"
+                            itemprop="contentUrl"> 
+                         <figcaption class="image-caption" itemprop="caption"> 
+                            डेस्कटॉप माउस मतदान दर परीक्षण उपकरण इंटरफ़ेस
+                         </figcaption> 
+                     </figure>    
+                 <!-- Content area (Always expanded) - Consistent structure with above --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                     <!-- Tool introduction --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <div class="flex items-start gap-3"> 
+                             <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center"> 
+                                 <span class="text-2xl"> 🔧 </span> 
+                             </div> 
+                             <div> 
+                                 <h5 class="font-bold text-blue-300 mb-2"> आपको डेस्कटॉप टूल की आवश्यकता क्यों है? </h5> 
+                                 <p class="mb-2"> वेब परीक्षण ब्राउज़र और ऑपरेटिंग सिस्टम द्वारा सीमित है, USB HID परत से वास्तविक मतदान डेटा तक पहुंचने में असमर्थ है। डेस्कटॉप उपकरण सिस्टम-स्तरीय एपीआई के माध्यम से सीधे माउस कच्चे इनपुट को कैप्चर करते हैं, जिससे वास्तविक यूएसबी पोलिंग दर डेटा मिलता है। </p> 
+                                 <div class="mt-3 p-3 bg-slate-900/50 rounded"> 
+                                     <p class="text-emerald-400 font-medium"> 🌐 ब्राउज़र टेस्ट बनाम 🐍 पायथन डेस्कटॉप टूल </p> 
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2"> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📊 डेटा स्रोत </p> 
+                                             <p> ब्राउज़र ईवेंट (माउसमूव) </p> 
+                                             <p class="text-xs text-red-400"> लिमिटेड </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🔧 डेटा स्रोत </p> 
+                                             <p> सिस्टम रॉ इनपुट (रॉ इनपुट) </p> 
+                                             <p class="text-xs text-emerald-400"> असीमित </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📈 अधिकतम परिशुद्धता </p> 
+                                             <p> ≈ ताज़ा दर प्रदर्शित करें </p><p class="text-xs text-red-400"> ~200 हर्ट्ज </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🚀 अधिकतम परिशुद्धता </p> 
+                                             <p> USB वास्तविक मतदान दर </p> 
+                                             <p class="text-xs text-emerald-400"> ~8000हर्ट्ज़ </p> 
+                                         </div> 
+                                     </div> 
+                                 </div> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Feature highlights --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Core features --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-blue-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                                 <span> ✨ </span> मुख्य विशेषताएं
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> वास्तविक मतदान दर का पता लगाना </b> - USB HID परत डेटा का प्रत्यक्ष माप </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> स्वचालित गियर पहचान </b> - 125/250/500/1000/2000/4000/8000Hz की स्मार्ट पहचान </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> व्यावसायिक स्थिरता विश्लेषण </b> - मानक विचलन, P95 मान, घबराहट मूल्यांकन </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> वास्तविक समय तरंग चार्ट </b> - मतदान दर परिवर्तन के रुझान देखें </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> बहुभाषी समर्थन </b> - अंग्रेजी/चीनी इंटरफ़ेस स्विचिंग </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Technical advantages --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-purple-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"><span> ⚡ </span> तकनीकी लाभ
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> सिस्टम-स्तरीय पहुंच </b> - ब्राउज़र सीमाओं को बायपास करें, हार्डवेयर के साथ सीधे संचार करें </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> नैनोसेकंड परिशुद्धता </b> - पायथन टाइम पर आधारित.perf_counter_ns() </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> स्मार्ट फ़िल्टरिंग एल्गोरिदम </b> - अधिक सटीक परिणामों के लिए स्वचालित रूप से असामान्य डेटा फ़िल्टर करें </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> रीयल-टाइम विश्लेषण इंजन </b> - 600 डेटा पॉइंट सैंपलिंग विंडो, 150 पॉइंट वेवफॉर्म डिस्प्ले </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> व्यावसायिक मूल्यांकन प्रणाली </b> - स्थिरता स्कोरिंग और रेटिंग मूल्यांकन </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Supported devices --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                             <span> 🎮 </span> समर्थित उपकरण और मतदान दर गियर
+                         </h5> 
+                         <div class="overflow-x-auto"> 
+                             <table class="w-full border-collapse"> 
+                                 <thead class="bg-slate-800"> 
+                                     <tr> 
+                                         <th class="p-3 text-left border-b border-slate-700"> मतदान दर </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> उपयुक्त उपकरण </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> विलंबता </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> विशेषताएँ </th> 
+                                     </tr> 
+                                 </thead> 
+                                 <tbody> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 125Hz </td><td class="p-3"> नियमित कार्यालय चूहे </td> 
+                                         <td class="p-3 text-orange-400"> 8ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> मूल USB दर </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 250Hz </td> 
+                                         <td class="p-3"> एंट्री-लेवल गेमिंग चूहे </td> 
+                                         <td class="p-3 text-yellow-400"> 4ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> सामान्य गेम सेटिंग्स </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 500Hz </td> 
+                                         <td class="p-3"> मिड-रेंज गेमिंग चूहे </td> 
+                                         <td class="p-3 text-blue-400"> 2ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> उच्च प्रदर्शन मोड </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 1000Hz </td> 
+                                         <td class="p-3"> हाई-एंड ई-स्पोर्ट्स चूहे </td> 
+                                         <td class="p-3 text-emerald-400"> 1ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> ई-स्पोर्ट्स कम विलंबता </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 2000Hz </td> 
+                                         <td class="p-3"> उन्नत ई-स्पोर्ट्स चूहे </td> 
+                                         <td class="p-3 text-emerald-300"> 0.5ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> अति निम्न विलंबता </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 4000Hz </td> 
+                                         <td class="p-3"> शीर्ष ई-स्पोर्ट्स चूहे </td> 
+                                         <td class="p-3 text-emerald-200"> 0.25ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> व्यावसायिक ग्रेड </td> 
+                                     </tr> 
+                                     <tr> 
+                                         <td class="p-3 font-mono"> 8000Hz </td> 
+                                         <td class="p-3"> एक्सट्रीम ई-स्पोर्ट्स चूहे </td> 
+                                         <td class="p-3 text-emerald-100"> 0.125ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> फ्लैगशिप ग्रेड </td> 
+                                     </tr> 
+                                 </tbody> 
+                             </table></div> 
+                     </div> 
+                    
+                     <!-- Usage scenario comparison --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-emerald-300 mb-3"> ✅ पायथन टूल का उपयोग कब करें </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> माउस वास्तविक USB मतदान दर सेटिंग्स सत्यापित करें </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> विभिन्न माउस मतदान दर प्रदर्शन की तुलना करें </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> परीक्षण ओवरसैंपलिंग दर चूहों (2000Hz+) </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> व्यावसायिक ई-स्पोर्ट्स उपकरण प्रदर्शन मूल्यांकन </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-white mb-3"> 🔄 वेब परीक्षण का उपयोग कब करें </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> ब्राउज़र इनपुट सहजता की त्वरित जांच करें </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> विभिन्न ब्राउज़र प्रदर्शन की तुलना करें </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> क्रॉस-प्लेटफ़ॉर्म बुनियादी माउस परीक्षण </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> इंस्टालेशन के बिना त्वरित परीक्षण </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- GitHub link and download --><div class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-4 rounded-lg border border-blue-700/50"> 
+                         <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                             <div> 
+                                 <h5 class="font-bold text-white text-lg mb-2"> 🚀 पायथन डेस्कटॉप टूल प्राप्त करें </h5> 
+                                 <p class="text-slate-300 mb-1"> मुक्त स्रोत मुक्त · व्यावसायिक ग्रेड सटीकता · लगातार अद्यतन </p> 
+                                 <p class="text-sm text-slate-400"> विंडोज़/मैकओएस/लिनक्स सिस्टम का समर्थन करता है </p> 
+                             </div> 
+                             <div class="flex gap-3"> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/tree/main" 
+                                   class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition flex items-center gap-2 border border-slate-600"> 
+                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> 
+                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/> 
+                                     </svg> 
+                                    गिटहब रिपॉजिटरी
+                                 </a> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/releases/tag/v1.0.0/" 
+                                   class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition flex items-center gap-2"> 
+                                     <span> 📦 नवीनतम संस्करण डाउनलोड करें </span> 
+                                 </a> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+         <!-- Social sharing section --> 
+         <div class="glass-panel mt-6 p-4"> 
+             <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                 <div> 
+                     <h5 class="font-bold text-white"> क्या यह टूल उपयोगी है? </h5> 
+                     <p class="text-sm text-slate-400"> अन्य उपयोगकर्ताओं के साथ साझा करें जिन्हें इसकी आवश्यकता हो सकती है </p> 
+                 </div> 
+                 <div class="flex items-center gap-4"> 
+                     <span class="text-slate-400 hidden md:inline"> इसे साझा करें: </span><a href="https://twitter.com/share?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Professional mouse event frequency testing tool, real-time detection of mouse movement event sampling rate and jitter analysis" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-600 transition duration-300"
+                       aria-label="Share on Twitter"> 
+                         <i class="fab fa-twitter"> </i> 
+                     </a> 
+                     <a href="https://www.reddit.com/submit?url=https://starryring.com/en/toolbox/mouse/polling-rate/&title=Mouse Event Frequency Tester - Professional detection of browser mouse event sampling rate" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-orange-600 transition duration-300"
+                       aria-label="Share on Reddit"> 
+                         <i class="fab fa-reddit"> </i> 
+                     </a> 
+                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://starryring.com/en/toolbox/mouse/polling-rate/" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-700 transition duration-300"
+                       aria-label="Share on Facebook"> 
+                         <i class="fab fa-facebook"> </i> 
+                     </a> 
+                     <a href="https://t.me/share/url?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Mouse event frequency testing tool" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-500 transition duration-300"
+                       aria-label="Share on Telegram"> 
+                         <i class="fab fa-telegram"> </i> 
+                     </a> 
+                 </div> 
+             </div> 
+         </div> 
+     </main> 
+
+     <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2026 StarryRing · माउस इवेंट फ़्रीक्वेंसी परीक्षक </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/hi/about-us/" style="color:#60a5fa;text-decoration:none;"> हमारे बारे में </a> 
+             <a href="/hi/contact-us/" style="color:#60a5fa;text-decoration:none;"> हमसे संपर्क करें </a> 
+             <a href="/hi/disclaimer/" style="color:#60a5fa;text-decoration:none;"> अस्वीकरण </a> 
+             <a href="/hi/privacy/" style="color:#60a5fa;text-decoration:none;"> गोपनीयता नीति </a> 
+             <a href="/hi/terms/" style="color:#60a5fa;text-decoration:none;"> सेवा की शर्तें </a> 
+         </div> 
+     </footer> 
+    
+     <!-- Add language switcher JS --><script src="/static/js/shared/switchlanguage.js"></script>
+    <script src="/static/js/toolbox/mouse/polling-rate/script-hi.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://starryring.com/preview.png">
+<meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/preview.png">
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <title>Apple Magic Keyboard Tester - Apple キーボードのチャタリング/故障をオンラインでテスト | StarryRing</title>
+    
+    <!-- Shared Styles (original framework) -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="/static/css/toolbox/keyboard/apple-keyboard/style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Apple Magic Keyboard & Apple Keyboard Tester",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "AppleOS",
+        "iOS"
+      ],
+      "description": "オンライン Apple Magic Keyboard Tester: Apple キーボード キーを専門的にテストし、チャタリング検出を行い、ファンクション キーや修飾子を含むすべてのキーをサポートし、リアルタイム ログ分析を行います。 Magic Keyboard およびその他の Apple キーボードと互換性があります。",
+      "url": "https://starryring.com/ja/toolbox/keyboard/Apple-keyboard/",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://starryring.com/static/image/ja/Apple-keyboard-test-tool.png",
+        "width": "1200",
+        "height": "630",
+        "caption": "Apple キーボード テスター インターフェイス"
+      },
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/static/image/ja/Apple-keyboard-layout-test.png",
+          "width": "1280",
+          "height": "720",
+          "caption": "Apple キーボード レイアウト テスト インターフェイス",
+          "description": "Apple Magic Keyboard と互換性のある完全な Apple キーボードの視覚化"
+        },
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/static/image/ja/Apple-keyboard-log-panel.png",
+          "width": "1280",
+          "height": "720",
+          "caption": "診断ログパネル",
+          "description": "リアルタイムの重要なイベントとチャットアラート"
+        }
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "フルキーボードのキーテスト (ファンクションキー、修飾子を含む)",
+        "チャタリング検出 (<80ms 赤色警報)",
+        "修飾キーの組み合わせテスト",
+        "リアルタイムロギング (プレス/リリースのタイムスタンプ)",
+        "KeyCode と表示される値",
+        "最大同時キーテスト (NKRO 検出)",
+        "Apple Magic Keyboardおよび他のAppleキーボードとの完璧な互換性"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apple Magic Keyboard のキーをテストするにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ページ中央のキーボードレイアウトを見ながら、Magic Keyboard の任意のキーを押します。対応するキーが強調表示され、ステータス パネルにはキー名、KeyCode、およびその値が表示され、ログ領域には各プレスとリリースがタイムスタンプとともに記録されます。キーが応答しない場合は、ハードウェアの問題または Bluetooth 接続の問題を示している可能性があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "チャタリング検出とは何ですか? Magic Keyboard のキーがチャタリングしているかどうかを確認するにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "チャタリング検出は、同じキーを 2 回押す間の時間間隔を監視します。間隔が 80 ミリ秒未満の場合 (通常、異常な素早いダブルクリックを示します)、ログ エントリは赤色で強調表示され、チャタリング アラートとしてラベル付けされます。これは、一部のキーボード メカニズムで一般的な、潜在的なスイッチ バウンスの問題を特定するのに役立ちます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apple Magic Keyboard でキーを押しても応答がログに記録されないのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "テスト領域がアクティブであることを確認してください (いずれかのキーを直接押してください)。それでも応答がない場合は、ブラウザの許可の問題またはハードウェアの問題である可能性があります。ページを更新するか、別のブラウザを使用してみてください (Chrome、Edge を推奨)。特に Bluetooth 接続の場合は、OS がキーボードを認識しているかどうかも確認してください。有線Magic Keyboardもサポートされています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "修飾キー (コマンド、オプションなど) をテストするにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "修飾キーを押すだけです (例: 左の Command、右の Option)。オンスクリーン キーボードの対応するキーが点灯し、ステータス パネルにキーの名前とコードが表示されます。複数の修飾キーを同時に押して、組み合わせキーの認識をテストできます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "どの Apple キーボード レイアウトがサポートされていますか? Apple Magic Keyboardは互換性がありますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "このツールは、標準 ISO Apple キーボード レイアウトを使用し、ファンクション キー (F1 ～ F12)、数字キー、文字、句読点、最下行の修飾子 (Control、Option、Command) および矢印キーを含むすべての主要キーをカバーします。 Apple Magic Keyboard (テンキー バージョンを含む)、Magic Keyboard、AppleBook 内蔵キーボード、およびその他のサードパーティ製 Apple キーボードと完全な互換性があります。"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "家",
+          "item": "https://starryring.com/ja/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ツールボックス",
+          "item": "https://starryring.com/ja/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "キーボードテスト",
+          "item": "https://starryring.com/ja/toolbox/keyboard/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Apple キーボードのテスト",
+          "item": "https://starryring.com/ja/toolbox/keyboard/Apple-keyboard/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <meta name="description" content="オンライン Apple Magic Keyboard Tester: Apple キーボード キーを専門的にテストし、チャタリング検出、ファンクション キーや修飾子を含むすべてのキーをサポート、リアルタイム ログ分析、ダウンロードは不要です。 Magic Keyboard およびその他の Apple キーボードと互換性があります。">
+    <link rel="canonical" href="https://starryring.com/ja/toolbox/keyboard/apple-keyboard/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/keyboard/apple-keyboard/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/keyboard/apple-keyboard/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/keyboard/apple-keyboard/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/keyboard/apple-keyboard/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/keyboard/apple-keyboard/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/">
+<meta property="og:url" content="https://starryring.com/ja/toolbox/keyboard/apple-keyboard/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="Apple Magic Keyboard Tester - キーのチャタリング/故障をオンラインで検出">
+    <meta property="og:description" content="オンライン Apple Magic Keyboard Tester: Apple キーボード キーを専門的にテストし、チャタリング検出を行い、ファンクション キーや修飾子を含むすべてのキーをサポートし、リアルタイム ログ分析を行います。 Magic Keyboard およびその他の Apple キーボードと互換性があります。">
+    <meta name="twitter:title" content="Apple Magic Keyboard Tester - キーのチャタリング/故障をオンラインで検出">
+    <meta name="twitter:description" content="オンライン Apple Magic Keyboard Tester: Apple キーボード キーを専門的にテストし、チャタリング検出を行い、ファンクション キーや修飾子を含むすべてのキーをサポートし、リアルタイム ログ分析を行います。 Magic Keyboard およびその他の Apple キーボードと互換性があります。">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/keyboard/apple-keyboard/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/keyboard/apple-keyboard/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/keyboard/apple-keyboard/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/toolbox/keyboard/apple-keyboard/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/toolbox/keyboard/apple-keyboard/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/keyboard/apple-keyboard/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language Switcher --> 
+ <!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ja/" class="breadcrumb-link"> 
+                         <i class="fas fa-home" aria-hidden="true"> </i>  
+                         <span> ホーム </span> 
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ja/toolbox/" class="breadcrumb-link"> 
+                         <i class="fas fa-box" aria-hidden="true"> </i> <span> ツールボックス </span> 
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ja/toolbox/keyboard/" class="breadcrumb-link"> 
+                         <i class="fas fa-keyboard" aria-hidden="true"> </i> <span> キーボードテスト </span> 
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <span class="breadcrumb-active"> Apple キーボード テスト </span> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+     <div class="tester-container"> 
+         <header> 
+             <h1> ⚡ Apple キーボード診断 </h1> 
+             <div class="status-panel"> 
+                 <div class="stat-item"> 最後のキー: <span id="last-key"> - </span> </div> 
+                 <div class="stat-item"> キーコード: <span id="key-code"> - </span> </div> 
+                 <div class="concurrent-badge" id="concurrent-info"> 現在:0 最大:0 </div> 
+                 <button id="reset-btn"> ⟲ リセットテスト </button> 
+             </div> 
+         </header> 
+
+         <div class="info-row"> 
+             <div class="key-detail"> ⌨️ キー: <span id="info-key"> — </span> </div> 
+             <div class="key-detail"> 🆔 コード: <span id="info-code"> — </span> </div> 
+             <div class="key-detail"> 🔢 どれ: <span id="info-which"> — </span> </div> 
+         </div> 
+
+         <!-- Keyboard layout (IDs strictly match script) --> 
+         <div class="keyboard-iso" id="keyboard"> 
+             <div class="row function-row"> 
+                 <div class="key esc" id="Escape"> <span> esc </span> </div> 
+                 <div class="key" id="F1"> <span> F1 </span> </div><div class="key" id="F2"> <span> F2 </span> </div> 
+                 <div class="key" id="F3"> <span> F3 </span> </div> 
+                 <div class="key" id="F4"> <span> F4 </span> </div> 
+                 <div class="key" id="F5"> <span> F5 </span> </div> 
+                 <div class="key" id="F6"> <span> F6 </span> </div> 
+                 <div class="key" id="F7"> <span> F7 </span> </div> 
+                 <div class="key" id="F8"> <span> F8 </span> </div> 
+                 <div class="key" id="F9"> <span> F9 </span> </div> 
+                 <div class="key" id="F10"> <span> F10 </span> </div> 
+                 <div class="key" id="F11"> <span> F11 </span> </div> 
+                 <div class="key" id="F12"> <span> F12 </span> </div> 
+                 <div class="key power" id="Power"> <span> ⌽ </span> </div> 
+             </div> 
+             <div class="row"> 
+                 <div class="key" id="Backquote"> <span> ~ </span> <span> ` </span> </div> 
+                 <div class="key" id="Digit1"> <span> ! </span> <span> 1 </span> </div> 
+                 <div class="key" id="Digit2"> <span> @ </span> <span> 2 </span> </div> 
+                 <div class="key" id="Digit3"> <span> # </span> <span> 3 </span> </div> 
+                 <div class="key" id="Digit4"> <span> $ </span> <span> 4 </span> </div> 
+                 <div class="key" id="Digit5"> <span> % </span> <span> 5 </span> </div> 
+                 <div class="key" id="Digit6"> <span> ^ </span> <span> 6 </span> </div> 
+                 <div class="key" id="Digit7"> <span> & </span> <span> 7 </span> </div> 
+                 <div class="key" id="Digit8"> <span> * </span> <span> 8 </span> </div> 
+                 <div class="key" id="Digit9"> <span> ( </span> <span> 9 </span> </div> 
+                 <div class="key" id="Digit0"> <span> ) </span> <span> 0 </span> </div> 
+                 <div class="key" id="Minus"> <span> _ </span> <span> - </span> </div> 
+                 <div class="key" id="Equal"> <span> + </span> <span> = </span> </div> 
+                 <div class="key delete" id="Backspace"> <span> 削除 </span> </div> 
+             </div> 
+             <div class="row"> 
+                 <div class="key tab" id="Tab"> <span> タブ </span> </div> 
+                 <div class="key" id="KeyQ"> <span> Q </span> </div> 
+                 <div class="key" id="KeyW"> <span> W </span> </div> 
+                 <div class="key" id="KeyE"> <span> E </span> </div> 
+                 <div class="key" id="KeyR"> <span> R </span> </div> 
+                 <div class="key" id="KeyT"> <span> T </span> </div> 
+                 <div class="key" id="KeyY"> <span> Y </span> </div> 
+                 <div class="key" id="KeyU"> <span> う </span> </div> 
+                 <div class="key" id="KeyI"> <span> 私 </span> </div> 
+                 <div class="key" id="KeyO"> <span> O </span> </div> 
+                 <div class="key" id="KeyP"> <span> P </span> </div> 
+                 <div class="key" id="BracketLeft"> <span> { </span> <span> [ </span> </div> 
+                 <div class="key" id="BracketRight"> <span> } </span> <span> ] </span> </div> 
+                 <div class="key enter-upper" id="Enter"> <span> 戻る </span> </div> 
+             </div> 
+             <div class="row"> 
+                 <div class="key capslock" id="CapsLock"> <span> CapsLock </span> </div> 
+                 <div class="key" id="KeyA"> <span> A </span> </div><div class="key" id="KeyS"> <span> S </span> </div> 
+                 <div class="key" id="KeyD"> <span> D </span> </div> 
+                 <div class="key" id="KeyF"> <span> F </span> </div> 
+                 <div class="key" id="KeyG"> <span> G </span> </div> 
+                 <div class="key" id="KeyH"> <span> H </span> </div> 
+                 <div class="key" id="KeyJ"> <span> J </span> </div> 
+                 <div class="key" id="KeyK"> <span> K </span> </div> 
+                 <div class="key" id="KeyL"> <span> L </span> </div> 
+                 <div class="key" id="Semicolon"> <span> : </span> <span> ; </span> </div> 
+                 <div class="key" id="Quote"> <span> " </span> <span> ' </span> </div> 
+                 <div class="key" id="Backslash"> <span> | </span> <span> \ </span> </div> 
+             </div> 
+             <div class="row"> 
+                 <div class="key shift-left" id="ShiftLeft"> <span> シフト </span> </div> 
+                 <div class="key" id="IntlBackslash"> <span> ~ </span> <span> ` </span> </div> 
+                 <div class="key" id="KeyZ"> <span> Z </span> </div> 
+                 <div class="key" id="KeyX"> <span> X </span> </div> 
+                 <div class="key" id="KeyC"> <span> C </span> </div> 
+                 <div class="key" id="KeyV"> <span> V </span> </div> 
+                 <div class="key" id="KeyB"> <span> B </span> </div> 
+                 <div class="key" id="KeyN"> <span> N </span> </div> 
+                 <div class="key" id="KeyM"> <span> M </span> </div> 
+                 <div class="key" id="Comma"> <span> <</span> <span> 、 </span> </div> 
+                 <div class="key" id="Period"> <span> > </span> <span> 。 </span> </div> 
+                 <div class="key" id="Slash"> <span> ? </span> <span> / </span> </div> 
+                 <div class="key shift-right" id="ShiftRight"> <span> シフト </span> </div> 
+             </div> 
+             <div class="row"> 
+                 <div class="key fn" id="Fn"> <span> fn </span> </div> 
+                 <div class="key control" id="ControlLeft"> <span> 制御 </span> <span> ⌃ </span> </div> 
+                 <div class="key option" id="OptionLeft"> <span> オプション </span> <span> ⌥ </span> </div> 
+                 <div class="key command" id="MetaLeft"> <span> コマンド </span> <span> ⌘ </span> </div> 
+                 <div class="key space" id="Space"> <span> </span> </div> 
+                 <div class="key command" id="MetaRight"> <span> コマンド </span> <span> ⌘ </span> </div> 
+                 <div class="key option" id="OptionRight"> <span> オプション </span> <span> ⌥ </span> </div> 
+                 <div class="arrow-group"> 
+                     <div class="key arrow" id="ArrowLeft"> <span> ◀ </span> </div> 
+                     <div class="arrow-vertical"> 
+                         <div class="key arrow" id="ArrowUp"> <span> ▲ </span> </div> 
+                         <div class="key arrow" id="ArrowDown"> <span> ▼ </span> </div> 
+                     </div> 
+                     <div class="key arrow" id="ArrowRight"> <span> ▶ </span> </div> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <div class="log-panel"> 
+             <div class="log-header"> 
+                 <span> 📋 イベントログ (おしゃべり閾値 <80ms in red · hold ignored)</span> 
+                 <button id="clear-log"> ログをクリア </button></div> 
+             <div id="log-entries" class="log-entries"> 
+                 <div class="log-entry"> <span class="timestamp"> ⏱️ </span> ログを開始しました。任意のキーを押してください... (↓ 下/↑ 上) </div> 
+             </div> 
+         </div> 
+     </div> 
+
+     <!-- Features and FAQ Section (enhanced SEO & UX) --> 
+     <div class="instructions-section"> 
+         <div class="instructions-content"> 
+             <h2> Apple Magic Keyboard と Apple Keyboard Tester の機能 </h2> 
+             <div class="feature-grid"> 
+                 <div class="feature-item"> 
+                     <h3> フルキーボードビジュアル化・Magic Keyboard対応 </h3> 
+                     <p> 完全な Apple ISO キーボード レイアウト。 Apple Magic Keyboard、Magic Keyboard、AppleBook 内蔵キーボードのいずれを使用している場合でも、キーを押すたびに対応するキーが即座にハイライト表示されます。ファンクション キー、修飾キー、国際キーをサポートし、直感的なフィードバックを実現します。 </p> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> 正確なびびり検出 </h3> 
+                     <p> キーを押すたびに自動的にタイムスタンプが付けられます。 80 ミリ秒以内に 2 回押すと、ログ エントリが赤で強調表示され、Magic Keyboard の潜在的なスイッチ バウンスの問題をすばやく特定できるようになります。 </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> ヒント: 通常のキー間隔は通常 >100ms です。異常な速いチャタリングは、スイッチの老朽化によって発生することがよくあります。 </span> 
+                     </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> 修飾子とコンボ キーのテスト </h3> 
+                     <p> Control、Option、Command、Fn、およびその他の修飾子を個別にテストします。複数のキーを同時に押して、NKRO をテストします (最大同時キーが表示されます)。 Magic Keyboard のバタフライまたはシザー機構の評価に最適です。 </p> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> リアルタイムログとキーコード分析 </h3> 
+                     <p> すべてのプレスとリリースは、正確な時間、キー、コード、およびその値とともに記録されます。これは、Magic Keyboard で入力の詳細や Bluetooth 遅延を分析する開発者や上級ユーザーに最適です。 </p> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> すべての最新ブラウザと互換性あり </h3> 
+                     <p> バニラ JavaScript で構築されており、プラグインは必要ありません。 Chrome、Edge、Safari、Firefox でスムーズに動作します。 Bluetooth接続のMagic Keyboardでも動作します。 </p> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> ワンクリックでリセット、テストを繰り返す </h3> 
+                     <p> [テストをリセット] をクリックすると、すべてのカウントとログがクリアされ、複数のテスト ラウンドを実行したり、異なるキーボード (例: Magic Keyboard とサードパーティ) を比較したりすることが簡単になります。 </p> 
+                 </div> 
+             </div> 
+
+             <div class="faq-section"> 
+                 <h2> よくある質問 (FAQ) </h2> 
+
+                 <div class="faq-item"> 
+                     <h3> Apple Magic Keyboard のキーをテストするにはどうすればよいですか? </h3><p> ページ中央のキーボード レイアウトを見ながら、Magic Keyboard の任意のキーを押します。対応するキーが強調表示され、ステータス パネルにはキー名、KeyCode、およびその値が表示され、ログ領域には各プレスとリリースがタイムスタンプとともに記録されます。キーが応答しない場合は、ハードウェアの問題または Bluetooth 接続の問題を示している可能性があります。 </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> チャタリング検出とは何ですか? Magic Keyboard のキーがチャタリングしているかどうかを確認するにはどうすればよいですか? </h3> 
+                     <p> チャタリング検出は、同じキーを 2 回押す間の時間間隔を監視します。間隔が 80 ミリ秒未満の場合 (通常、異常な素早いダブルクリックを示します)、ログ エントリは赤色で強調表示され、チャタリング アラートとしてラベル付けされます。これは、一部のキーボード メカニズムで一般的な、潜在的なスイッチ バウンスの問題を特定するのに役立ちます。 </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> Apple Magic Keyboard でキーを押しても応答がログに記録されないのはなぜですか? </h3> 
+                     <p> テスト領域がアクティブであることを確認してください (いずれかのキーを直接押してください)。それでも応答がない場合は、ブラウザの許可の問題またはハードウェアの問題である可能性があります。ページを更新するか、別のブラウザを使用してみてください (Chrome、Edge を推奨)。特に Bluetooth 接続の場合は、OS がキーボードを認識しているかどうかも確認してください。有線Magic Keyboardもサポートされています。 </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> 修飾キー (コマンド、オプションなど) をテストするにはどうすればよいですか? </h3> 
+                     <p> 修飾キーを押すだけです (例: 左の Command、右の Option)。オンスクリーン キーボードの対応するキーが点灯し、ステータス パネルにキーの名前とコードが表示されます。複数の修飾キーを同時に押して、組み合わせキーの認識をテストできます。 </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> どの Apple キーボード レイアウトがサポートされていますか? Apple Magic Keyboardは互換性がありますか? </h3> 
+                     <p> このツールは、標準 ISO Apple キーボード レイアウトを使用し、ファンクション キー (F1 ～ F12)、数字キー、文字、句読点、最下行の修飾子 (Control、Option、Command) および矢印キーを含むすべての主要キーをカバーします。 Apple Magic Keyboard (テンキー バージョンを含む)、Magic Keyboard、AppleBook 内蔵キーボード、およびその他のサードパーティ製 Apple キーボードと完全な互換性があります。 </p> 
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> Magic Keyboard の最大同時キー (NKRO) の重要性は何ですか? </h3> 
+                     <p> 最大同時キーは、同時に押しても正しく認識されるキーの数を示します。ゲーマーや複雑なショートカットを持つユーザーにとって、高い NKRO 値は重要です。 Magic Keyboard は通常、6 キー ロールオーバーをサポートしています。このツールは、現在押されているキーの数を記録し、テスト中の過去の最大値を表示することで、キーボードの実際の同時実行能力についての洞察を得ることができます。 </p> 
+                 </div></div> 
+         </div> 
+     </div> 
+
+     <!-- Local script (core logic in English) --><script src="/static/js/toolbox/keyboard/apple-keyboard/script-ja.js"></script><!-- Shared scripts (optional dependencies) --><script src="/static/js/shared/switchlanguage.js"></script><footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2026 StarryRing · Apple キーボード テスター </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/ja/about-us/" style="color:#60a5fa;text-decoration:none;"> 私たちについて </a> 
+             <a href="/ja/contact-us/" style="color:#60a5fa;text-decoration:none;"> お問い合わせ </a> 
+             <a href="/ja/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 免責事項 </a> 
+             <a href="/ja/privacy/" style="color:#60a5fa;text-decoration:none;"> プライバシーポリシー </a> 
+             <a href="/ja/terms/" style="color:#60a5fa;text-decoration:none;"> 利用規約 </a> 
+         </div> 
+     </footer></body>
+</html>

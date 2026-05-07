@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta (English) -->
+    <title>WebSocket 온라인 테스트 도구 - 무료 WS/WSS 클라이언트 | StarryRing</title>
+<!-- Open Graph / Facebook -->
+
+<meta property="og:image" content="https://starryring.com/preview-websocket.png">
+<meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/preview-websocket.png">
+
+    <!-- Canonical & hreflang -->
+
+
+<!-- Favicon (same) -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Structured Data (JSON-LD) with English FAQ -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "온라인 WebSocket 테스트 도구",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "무료 온라인 WebSocket 테스트 도구입니다. WS/WSS 연결, 사용자 정의 헤더, 메시지 통계, 템플릿, 로그 검색을 지원합니다. 다운로드가 필요 없으며 디버깅이 빠릅니다.",
+      "url": "https://starryring.com/ko/utility-tools/netdev/websocket-test/",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://starryring.com/preview-websocket.png",
+        "width": 1200,
+        "height": 630,
+        "caption": "WebSocket 테스트 도구 인터페이스"
+      },
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/static/image/ko/websocket-test-interface.png",
+          "width": 1280,
+          "height": 720,
+          "caption": "WebSocket 연결 테스트 인터페이스",
+          "description": "WebSocket 연결 구성 및 메시징 인터페이스"
+        }
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "WebSocket/WebSocket 보안(WS/WSS) 연결",
+        "커스텀 헤더 추가",
+        "보내고 받은 메시지 통계",
+        "공통 끝점 빠른 채우기",
+        "메시지 템플릿(Ping, Hello, Subscribe 등)",
+        "검색 및 필터를 통한 실시간 로그",
+        "다양한 메시지 형식: 텍스트, JSON, Hex",
+        "실시간 연결 대기 시간 측정"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "웹소켓이란 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WebSocket은 단일 TCP 연결을 통해 전이중 통신을 제공하는 프로토콜로, 서버가 클라이언트에 데이터를 푸시할 수 있습니다. 이 도구는 WebSocket 서비스가 올바르게 작동하는지 테스트하는 데 도움이 됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "WebSocket 연결을 어떻게 테스트합니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WebSocket 서버 URL(예: wss://echo.websocket.org)을 입력하고 '연결'을 클릭하세요. 연결되면 입력 영역에 메시지를 입력하고 '보내기'를 클릭하세요. 받은 메시지가 로그에 나타납니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "연결이 실패하는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "가능한 이유: 잘못된 서버 주소, 서버가 WSS를 지원하지 않음(WS 시도), 방화벽 차단, 서버 다운 또는 CORS 제한. URL을 확인하고 서버가 WebSocket 연결을 허용하는지 확인하세요."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "사용자 정의 헤더를 어떻게 추가하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "'연결 설정'에서 '+ 추가'를 클릭하여 헤더 이름과 값을 입력하세요. 이러한 헤더는 WebSocket 핸드셰이크 중에 전송되며 인증 또는 사용자 지정 매개변수에 유용합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "어떤 메시지 형식이 지원되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "텍스트, JSON, 16진수. 형식을 선택하고 내용을 입력하면 자동으로 변환됩니다. JSON 모드에는 쉽게 편집할 수 있도록 형식화 및 축소 버튼이 포함되어 있습니다."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+    <!-- Fonts & Styles (keep original) -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/netdev/websocket-test/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <meta name="description" content="무료 온라인 WebSocket 테스트 도구입니다. WS/WSS 연결, 사용자 정의 헤더, 메시지 통계, 템플릿, 로그 검색을 지원합니다. 다운로드가 필요 없으며 디버깅이 빠릅니다.">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/netdev/websocket-test/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="WebSocket 온라인 테스트 도구">
+    <meta property="og:description" content="무료 온라인 WebSocket 테스트 도구입니다. WS/WSS 연결, 사용자 정의 헤더, 메시지 통계, 템플릿, 빠른 디버깅을 지원합니다.">
+    <meta name="twitter:title" content="WebSocket 온라인 테스트 도구">
+    <meta name="twitter:description" content="무료 온라인 WebSocket 테스트 도구입니다. WS/WSS 연결, 사용자 정의 헤더, 메시지 통계, 템플릿, 빠른 디버깅을 지원합니다.">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/netdev/websocket-test/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/netdev/websocket-test/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/netdev/websocket-test/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/netdev/websocket-test/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/netdev/websocket-test/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/netdev/websocket-test/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb (English) --> 
+     <div class="breadcrumb-section" itemscope itemtype="https://schema.org/BreadcrumbList"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/ko/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-home"> </i>  
+                         <span itemprop="name"> 홈 </span> 
+                     </a> 
+                     <meta itemprop="position" content="1"> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/ko/utility-tools/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-toolbox"> </i> 
+                         <span itemprop="name"> 유틸리티 </span> 
+                     </a> 
+                     <meta itemprop="position" content="2"> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <span class="breadcrumb-active" itemprop="name"> WebSocket 터미널 </span> 
+                     <meta itemprop="position" content="3"> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+     <!-- Language Switcher (English selected) --> 
+ <!-- Header --> 
+     <header> 
+         <h1 class="logo"> 
+             <div class="logo-icon"> <svg viewBox="0 0 16 16"> <polyline points="2,11 6,5 10,8 14,3"/> </svg> </div> 
+            WS <em> 터미널 </em> 
+         </h1> 
+         <div class="htags"> <span class="tag"> v2.4 </span> <span class="tag"> WebSocket </span> <span class="tag"> 클라이언트 </span> </div> 
+     </header> 
+
+     <!-- Short description --> 
+     <div style="max-width:1200px; margin:0 auto 16px auto; padding:0 20px; color:var(--text2); font-size:0.95rem;"> 
+         <p> ⚡ 온라인 WebSocket 테스트 도구: 서버 주소를 입력하고 연결을 클릭한 후 메시징을 시작합니다. 사용자 정의 헤더, 템플릿, 실시간 통계 및 로그 필터링을 지원합니다. 다운로드가 필요 없으며 디버깅이 빠릅니다. </p> 
+     </div> 
+
+     <div class="wrap"> 
+         <!-- Connection Settings --><div class="card"> 
+             <div class="ch"> 
+                 <h2 class="cl"> <div class="cdot" id="hd" style="background:var(--text3)"> </div> 연결 설정 </h2> 
+                 <div class="strip"> 
+                     <div class="seg"> <div class="dot" id="sd"> </div> <span class="sl"> 상태: </span> <span class="sv" id="ss"> 연결 해제됨 </span> </div> 
+                     <div class="seg"> <span class="sl"> ↑ </span> <span class="snu" id="scnt"> 0 </span> </div> 
+                     <div class="seg"> <span class="sl"> ↓ </span> <span class="snd2" id="rcnt"> 0 </span> </div> 
+                     <div class="seg"> <span class="sl"> 가동 시간: </span> <span class="sv" id="upd"> — </span> </div> 
+                     <span id="pb" class="pb"> —ms </span> 
+                 </div> 
+             </div> 
+             <div class="cbody"> 
+                 <div> 
+                     <span class="fl"> 웹소켓 URL </span> 
+                     <div class="urow"> 
+                         <div class="url-wrap"> 
+                             <div class="url-field" id="url-field"> 
+                                 <span class="url-prefix" id="proto-prefix"> wss:// </span> 
+                                 <input type="text" id="url" placeholder="echo.websocket.org" autocomplete="off"
+                                    onfocus="onUrlFocus()" oninput="onUrlInput()" onkeydown="onUrlKeydown(event)"> 
+                                 <button class="url-hist-btn" id="url-hist-btn" onclick="toggleHistDrop()" title="History" tabindex="-1"> 
+                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"> 
+                                         <polyline points="2,3 5,7 8,3"/> 
+                                     </svg> 
+                                 </button> 
+                             </div> 
+                             <div class="url-hist-drop" id="url-hist-drop"> 
+                                 <div class="url-hist-header"> 
+                                     <span class="url-hist-label"> 
+                                         <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"> <circle cx="6" cy="6" r="4.5"/> <polyline points="6,3.5 6,6 7.5,7.5"/> </svg> 
+                                        역사
+                                     </span> 
+                                     <button class="url-hist-clear" onclick="clearAllHist()"> 모두 지우기 </button> 
+                                 </div> 
+                                 <div class="url-hist-list" id="url-hist-list"> </div> 
+                             </div> 
+                         </div> 
+                         <button class="btn ba" id="cb2" onclick="doConn()"> 
+                             <svg width="10" height="10" viewBox="0 0 12 12" fill="none"> <circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/> <path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> </svg> 연결하다
+                         </button><button class="btn bd" id="db" onclick="doDisc()" style="display:none"> 
+                             <svg width="10" height="10" viewBox="0 0 12 12" fill="none"> <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> </svg> 연결 끊기
+                         </button> 
+                     </div> 
+                 </div> 
+                 <div class="prow"> 
+                     <span class="fl" style="margin:0"> 프로토콜: </span> 
+                     <button class="prc" onclick="selProto(this,'ws')"> WS </button> 
+                     <button class="prc act" onclick="selProto(this,'wss')"> WSS </button> 
+                 </div> 
+                 <p class="feature-desc" style="margin-top:12px; color:var(--text2); font-size:0.9rem; border-top:1px dashed rgba(255,255,255,0.1); padding-top:8px;"> 
+                     <i class="fas fa-info-circle"> </i> WebSocket 서버 주소를 입력하고 ws/wss를 선택하고 필요한 경우 사용자 정의 헤더를 추가하세요. 성공적으로 연결되면 상태 표시기가 녹색으로 변합니다.
+                 </p> 
+             </div> 
+             <div class="hsec"> 
+                 <div class="htitle"> <span> 사용자 정의 헤더 </span> <button class="btn bs" onclick="addH()"> + </button> </div> 추가 
+                 <div id="hl"> </div> 
+             </div> 
+         </div> 
+
+         <!-- Message Statistics --> 
+         <div class="card"> 
+             <h2 class="ch" style="margin-top:0; padding-top:0;"> <div class="cl"> <div class="cdot" style="background:var(--text3)"> </div> 메시지 통계 </h2> 
+             <div class="mgrid"> 
+                 <div class="met"> <div class="mv" id="mT"> 0 </div> <div class="mlb"> 합계 </div> </div> 
+                 <div class="met"> <div class="mv mvb" id="mS"> 0 </div> <div class="mlb"> 보냄 </div> </div> 
+                 <div class="met"> <div class="mv mvg" id="mR"> 0 </div> <div class="mlb"> 수신 </div> </div> 
+                 <div class="met"> <div class="mv mva" id="mB"> 0 B </div> <div class="mlb"> 교통 </div> </div> 
+                 <div class="met"> <div class="mv" id="mL"> — </div> <div class="mlb"> 지연 시간 ms </div> <div class="lc" id="lc"> </div> </div> 
+             </div> 
+             <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                 <i class="fas fa-chart-line"> </i> 전송/수신된 메시지, 총 바이트 및 현재 대기 시간의 실시간 통계입니다. 대기 시간은 주기적인 하트비트를 통해 계산됩니다.
+             </p> 
+         </div> 
+
+         <!-- Preset Endpoints & Message Templates (two columns) --> 
+         <div class="two"> 
+             <div class="card"> 
+                 <h2 class="ch"> <div class="cl"> <div class="cdot" style="background:var(--warn)"> </div> 사전 설정된 엔드포인트 </h2> 
+                 <div class="pbody"> 
+                     <div class="pi act" onclick="selP(this,'echo.websocket.org')"> <div class="pd" style="background:var(--accent)"> </div> <div> <div class="pn"> 에코 서버 </div> <div class="pu"> echo.websocket.org </div> </div> </div><div class="pi" onclick="selP(this,'ws.postman-echo.com/raw')"> <div class="pd" style="background:var(--info)"> </div> <div> <div class="pn"> 우편 배달부 에코 </div> <div class="pu"> ws.postman-echo.com/raw </div> </div> </div> 
+                     <div class="pi" onclick="selP(this,'localhost:8080/ws')"> <div class="pd" style="background:var(--warn)"> </div> <div> <div class="pn"> 로컬 개발 </div> <div class="pu"> localhost:8080/ws </div> </div> </div> 
+                     <div class="pi" onclick="selP(this,'localhost:3000/socket')"> <div class="pd" style="background:var(--text3)"> </div> <div> <div class="pn"> 로컬 Socket.IO </div> <div class="pu"> localhost:3000/소켓 </div> </div> </div> 
+                 </div> 
+                 <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                     <i class="fas fa-database"> </i> 사전 설정을 클릭하여 URL을 즉시 채우고 공개 테스트 서버 또는 로컬 개발자 주소에 연결하세요.
+                 </p> 
+             </div> 
+             <div class="card"> 
+                 <h2 class="ch"> <div class="cl"> <div class="cdot" style="background:var(--send)"> </div> 메시지 템플릿 </h2> 
+                 <div class="tbody"> 
+                     <div class="ti" onclick="insPing()"> <div class="tn"> 핑 </div> <div class="tp"> {"유형":"핑",...} </div> </div> 
+                     <div class="ti" onclick="insHello()"> <div class="tn"> 안녕하세요 </div> <div class="tp"> {"type":"안녕하세요",...} </div> </div> 
+                     <div class="ti" onclick="insTpl('sub')"> <div class="tn"> 구독 </div> <div class="tp"> {"action":"subscribe",...} </div> </div> 
+                     <div class="ti" onclick="insTpl('auth')"> <div class="tn"> 인증 </div> <div class="tp"> {"유형":"인증","토큰":...} </div> </div> 
+                     <div class="ti" onclick="insTpl('hb')"> <div class="tn"> 하트비트 </div> <div class="tp"> {"cmd":"하트비트",...} </div> </div> 
+                 </div> 
+                 <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                     <i class="fas fa-file-code"> </i> 일반적인 JSON 메시지를 삽입하려면 템플릿을 클릭하세요. 보내기 전에 편집하세요.
+                 </p> 
+             </div> 
+         </div> 
+
+         <!-- Send Message --> 
+         <div class="card"> 
+             <div class="ch"> 
+                 <h2 class="cl"> <div class="cdot" style="background:var(--send)"> </div> 메시지 보내기 </h2> 
+                 <select class="fs" id="fmtSel"> <option value="text"> 텍스트 </option> <option value="json"> JSON </option> <option value="hex"> 16진수 </option> </select> 
+             </div> 
+             <div class="sbody"> 
+                 <div class="stb"> 
+                     <div class="sc"> 
+                         <button class="btn scb" onclick="fmtJ()"> 형식 </button> 
+                         <button class="btn scb" onclick="minJ()"> 미니파이 </button> 
+                         <button class="btn scb" onclick="clrInp()"> </button> 지우기 
+                     </div> 
+                     <span class="hint"> </span>을 보내려면 Ctrl+Enter를 누르세요. 
+                 </div> 
+                 <div class="srow"><textarea class="mi" id="inp" placeholder="Enter message..." onkeydown="onK(event)"> </textarea> 
+                     <button class="btn ba ssendbtn" id="sendbtn" onclick="doSend()" disabled> 
+                         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"> <path d="M11 6.5L2 2l2 4.5-2 4.5 9-4.5z" fill="currentColor"/> </svg> 보내기
+                     </button> 
+                 </div> 
+             </div> 
+             <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                 <i class="fas fa-paper-plane"> </i> 텍스트, JSON, Hex를 지원합니다. JSON을 형식화하거나 축소할 수 있습니다. 단축키: Ctrl+Enter를 눌러 보냅니다.
+             </p> 
+         </div> 
+
+         <!-- Message Log --> 
+         <div class="card"> 
+             <div class="lh"> 
+                 <h2 class="ftabs" style="display:inline-block; margin:0; font-size:1.1rem; font-weight:600;"> 메시지 로그 </h2> 
+                 <div style="display:flex; gap:4px;"> 
+                     <button class="ft act" onclick="setF('all',this)"> 전체 </button> 
+                     <button class="ft" onclick="setF('recv',this)"> </button> 수신됨 
+                     <button class="ft" onclick="setF('send',this)"> </button> 보냄 
+                     <button class="ft" onclick="setF('sys',this)"> 시스템 </button> 
+                 </div> 
+                 <div class="la"> 
+                     <div class="sw"> <span class="si"> ⚲ </span> <input type="text" id="srch" placeholder="Search..." oninput="rLog()"> </div> 
+                     <button class="btn asb on" id="asb" onclick="togAS()"> 자동 스크롤 </button> 
+                     <button class="btn bs" onclick="clrLog()"> </button> 지우기 
+                     <button class="btn bs" onclick="expLog()"> 내보내기 </button> 
+                 </div> 
+             </div> 
+             <div class="ml" id="ml"> 
+                 <div class="empty"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"> <rect x="3" y="5" width="18" height="14" rx="2"/> <path d="M7 9h10M7 13h6"/> </svg> <span> 연결 후 여기에 메시지가 나타납니다. </span> </div> 
+             </div> 
+             <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                 <i class="fas fa-list"> </i> 주고받은 모든 메시지가 실시간으로 표시됩니다. 유형별 필터링, 키워드별 검색, 자동 스크롤 및 내보내기가 지원됩니다.
+             </p> 
+         </div> 
+     </div> 
+
+     <!-- ========== 6 Core Features + FAQ (English) ========== --> 
+     <div class="instructions-section" style="max-width:1200px; margin:40px auto 0 auto; padding:0 20px;"> 
+         <div class="instructions-content"> 
+             <h2> 전문 WebSocket 테스트 도구 기능 </h2> 
+             <div class="feature-grid"> 
+                 <!-- 1. Multi-protocol --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-exchange-alt"> </i> 다중 프로토콜(WS/WSS) </h3> 
+                     <p> 한 번의 클릭으로 ws와 wss 사이를 전환하세요. 암호화된 일반 연결과 호환되는 자동 완성 URL 접두어입니다. </p> 
+                     <div class="tip"><span class="tip-text"> 서버 </span>에 따라 프로토콜 자동 선택 
+                     </div> 
+                 </div> 
+                 <!-- 2. Custom headers --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-headers"> </i> 사용자 정의 헤더 </h3> 
+                     <p> 인증, 토큰 또는 사용자 정의 매개변수에 대한 HTTP 헤더를 추가하세요. 핸드셰이크 중에 전송됩니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 헤더 키/값 </span>을 입력하려면 '+ 추가'를 클릭하세요. 
+                     </div> 
+                 </div> 
+                 <!-- 3. Real‑time stats --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-chart-pie"> </i> 실시간 통계 </h3> 
+                     <p> 전송/수신 횟수, 총 트래픽 및 현재 대기 시간을 모니터링합니다. 매초마다 업데이트됩니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 하트비트 핑을 통해 계산된 지연 시간 </span> 
+                     </div> 
+                 </div> 
+                 <!-- 4. Presets & Templates --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-draw-polygon"> </i> 사전 설정 및 템플릿 </h3> 
+                     <p> 즉각적인 테스트를 위한 내장형 공개 테스트 서버 및 메시지 템플릿(Ping, Hello, Subscribe 등). </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 카드를 클릭하여 URL을 자동으로 입력하거나 </span> 메시지를 보내세요. 
+                     </div> 
+                 </div> 
+                 <!-- 5. Powerful Logging --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-history"> </i> 강력한 로깅 </h3> 
+                     <p> 유형 필터, 키워드 검색, 자동 스크롤 및 텍스트 파일로 내보내기 기능을 갖춘 실시간 로그입니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 최근 500개의 메시지를 유지합니다 </span> 
+                     </div> 
+                 </div> 
+                 <!-- 6. Multi‑format Editor --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-edit"> </i> 다중 형식 편집기 </h3> 
+                     <p> 텍스트, JSON, 16진수. JSON 형식/축소 버튼, 빠른 전송을 위한 Ctrl+Enter 단축키. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 입력 필드가 선택한 형식에 맞게 조정됩니다 </span> 
+                     </div> 
+                 </div> 
+             </div> 
+
+             <h2> 자주 묻는 질문(FAQ) </h2> 
+             <div class="faq-section"> 
+                 <div class="faq-item"> 
+                     <h3> 웹소켓이란 무엇인가요? </h3> 
+                     <p> WebSocket은 단일 TCP 연결을 통해 전이중 통신을 제공하는 프로토콜로, 서버가 클라이언트에 데이터를 푸시할 수 있도록 해줍니다. 이 도구는 WebSocket 서비스가 올바르게 작동하는지 테스트하는 데 도움이 됩니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> WebSocket 연결을 어떻게 테스트하나요? </h3><p> WebSocket 서버 URL(예: wss://echo.websocket.org)을 입력하고 '연결'을 클릭하세요. 연결되면 입력 영역에 메시지를 입력하고 '보내기'를 클릭하세요. 받은 메시지가 로그에 나타납니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 왜 연결이 실패하나요? </h3> 
+                     <p> 가능한 이유: 잘못된 서버 주소, 서버가 WSS를 지원하지 않음(WS 시도), 방화벽 차단, 서버 다운 또는 CORS 제한. URL을 확인하고 서버가 WebSocket 연결을 허용하는지 확인하세요. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 맞춤 헤더를 어떻게 추가하나요? </h3> 
+                     <p> '연결 설정'에서 '+ 추가'를 클릭하여 헤더 이름과 값을 입력하세요. 이러한 헤더는 WebSocket 핸드셰이크 중에 전송되며 인증 또는 사용자 지정 매개변수에 유용합니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 어떤 메시지 형식이 지원되나요? </h3> 
+                     <p> 텍스트, JSON 및 16진수. 형식을 선택하고 내용을 입력하면 자동으로 변환됩니다. JSON 모드에는 쉽게 편집할 수 있도록 형식화 및 축소 버튼이 포함되어 있습니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 로그를 저장할 수 있나요? </h3> 
+                     <p> 네. 로그 영역의 '내보내기' 버튼을 클릭하면 현재 로그를 텍스트 파일로 다운로드할 수 있습니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 지연 시간은 어떻게 계산되나요? </h3> 
+                     <p> 연결 후 도구는 내장된 핑 메시지를 10초마다 보내고 퐁이 수신될 때까지의 시간을 측정하여 현재 대기 시간을 표시합니다. </p> 
+                 </div> 
+             </div> 
+         </div> 
+     </div> 
+
+     <!-- Internal Links: Related Tools (English) --> 
+     <div class="tools-navigation-section" style="max-width:1200px; margin:32px auto 0 auto; padding:0 20px;"> 
+         <h2 class="tools-navigation-title"> 
+             <i class="fas fa-tools"> </i> 네트워크 디버깅 툴킷
+         </h2> 
+         <p class="tools-navigation-subtitle"> 네트워크 개발 및 테스트를 지원하는 추가 유틸리티 </p> 
+         <div class="tools-navigation-grid">   
+             <a href="/ko/utility-tools/netdev/ping/" class="tool-card"> 
+                 <div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-network-wired"> </i> </div> 
+                         <h3> 온라인 핑 테스트 </h3> 
+                     </div> 
+                     <p> 대기 시간 및 연결 확인, IPv4/IPv6 지원 </p> 
+                 </div> 
+             </a> 
+             <a href="./" class="tool-card"> 
+                 <div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-search"> </i> </div> 
+                         <h3> DNS 조회 </h3> 
+                     </div> 
+                     <p> A, MX, TXT 레코드 등을 해결하세요 </p> 
+                 </div> 
+             </a> 
+             <a href="./" class="tool-card"><div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-plug"> </i> </div> 
+                         <h3> 포트 스캐너 </h3> 
+                     </div> 
+                     <p> 타겟 IP의 오픈 포트 확인, 빠른 서비스 진단 </p> 
+                 </div> 
+             </a> 
+             <a href="./" class="tool-card"> 
+                 <div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-heading"> </i> </div> 
+                         <h3> HTTP 헤더 </h3> 
+                     </div> 
+                     <p> 응답 헤더 및 보안 설정 분석 </p> 
+                 </div> 
+             </a> 
+         </div> 
+     </div> 
+
+     <!-- Footer (English links) --> 
+     <footer style="max-width:1200px; margin:32px auto 0 auto; padding:16px 20px; border-top:1px solid rgba(148,163,184,0.35); text-align:center; font-size:0.85rem; color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2024 StarryRing · 온라인 WebSocket 테스트 도구 </div> 
+         <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;"> 
+             <a href="/ko/about-us/" style="color:#60a5fa; text-decoration:none;"> 회사 소개 </a> 
+             <a href="/ko/contact-us/" style="color:#60a5fa; text-decoration:none;"> 문의하기 </a> 
+             <a href="/ko/disclaimer/" style="color:#60a5fa; text-decoration:none;"> 면책조항 </a> 
+             <a href="/ko/privacy/" style="color:#60a5fa; text-decoration:none;"> 개인정보 보호정책 </a> 
+             <a href="/ko/terms/" style="color:#60a5fa; text-decoration:none;"> 이용약관 </a> 
+         </div> 
+     </footer> 
+
+     <!-- Deferred JS (English version) --><script src="/static/js/utility-tools/netdev/websocket-test/script-ko.js" defer></script>
+    <script src="/static/js/shared/switchlanguage.js" defer></script><!-- No‑script fallback --> 
+     <noscript> 
+         <style> 
+            .container { 표시: 차단!중요; }
+            .언어 전환기 { 표시: 없음; }
+         </style> 
+         <p style="text-align: center; padding: 20px; color: var(--warning);"> 
+            참고: 이 페이지의 전체 기능을 이용하려면 JavaScript가 필요합니다. 브라우저에서 JavaScript를 활성화하십시오.
+         </p> 
+     </noscript></body>
+</html>

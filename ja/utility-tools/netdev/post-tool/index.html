@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <!-- SEO Meta Tags -->
+  <title>オンライン POST ツール / API テスター - 純粋なフロントエンド HTTP リクエスト デバッグ ツール | StarryRing</title>
+<!-- Canonical & Internationalization -->
+
+
+<!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <style>
+    /* Initial hide to prevent encoding issues */
+    html { visibility: hidden; opacity: 0; }
+  </style>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/css/utility-tools/netdev/post-tool/style.css" media="print" 
+  onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
+  <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+  <link rel="stylesheet" href="/static/css/shared/document.css">
+  
+  <!-- Robots -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Author -->
+  <meta name="author" content="StarryRing">
+  <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/utility-tools/netdev/post-tool/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Online POST Tool Interface Preview">
+  <meta property="og:site_name" content="StarryRing Toolbox">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://starryring.com/en/utility-tools/netdev/post-tool/">
+
+<meta name="twitter:image" content="https://starryring.com/en/utility-tools/netdev/post-tool/twitter-image-en.png">
+  <meta name="twitter:creator" content="@starryring">
+  
+  <!-- Mobile Optimization -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="POST Tool">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="msapplication-TileColor" content="#1a1a1a">
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preload" href="/static/css/netdev/style.css" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  
+  <!-- Structured Data Schema Markup -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "オンライン POST ツール / API テスター",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "無料のオンライン POST ツールと API テスター、純粋なフロントエンド実装、HTTP メソッド、JSON/フォーム データ、リクエスト ヘッダー設定、認証デバッグをサポートし、API 開発とデバッグの学習に最適",
+      "url": "https://starryring.com/ja/utility-tools/netdev/post-tool/",
+      "image": "https://starryring.com/ja/utility-tools/netdev/post-tool/og-image-en.png",
+      "screenshot": "https://starryring.com/ja/utility-tools/netdev/post-tool/screenshot-en.png",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "HTTP メソッドのサポート (POST/GET/PUT/DELETE/PATCH)",
+        "JSON とフォームのデータ形式",
+        "カスタムリクエストヘッダー設定",
+        "URL履歴記録",
+        "リアルタイムの応答プレビュー"
+      ],
+      "softwareVersion": "1.0.0",
+      "datePublished": "2024-03-01",
+      "dateModified": "2024-12-20"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "この POST ツールにはサーバーのサポートが必要ですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "いいえ、これは完全にブラウザ内で実行される純粋なフロントエンド ツールです。すべてのリクエストはブラウザの Fetch API を通じて送信され、バックエンド サーバーのサポートは必要ありません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "どのような HTTP メソッドがサポートされていますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "POST、GET、PUT、DELETE、PATCH の 5 つの HTTP メソッドをサポートし、基本的な RESTful API 開発ニーズを満たします。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "クロスオリジンリクエストを処理するにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ブラウザーの同一オリジン ポリシー制限により、クロスオリジン リクエストでは、ターゲット サーバーが CORS (Cross-Origin Resource Sharing) ヘッダーを構成する必要があります。クロスオリジンの問題が発生した場合は、ターゲット API サーバーで Access-Control-Allow-Origin およびその他の CORS ヘッダーが正しく構成されていることを確認してください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ファイルのアップロードはサポートされていますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "現在のバージョンでは主に JSON とフォーム データ形式をサポートしています。ファイルアップロード機能は開発中です。マルチパート/フォームデータ形式のサポートは、将来のバージョンで追加される予定です。"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "家",
+          "item": "https://starryring.com/ja/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ユーティリティツール",
+          "item": "https://starryring.com/ja/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "ネットワークテストツール",
+          "item": "https://starryring.com/ja/utility-tools/NetDev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "ポストツール",
+          "item": "https://starryring.com/ja/utility-tools/netdev/post-tool/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "オンライン POST ツールを使用して API インターフェイスをテストする方法",
+      "description": "API インターフェイスのテストとデバッグにオンライン POST ツールを使用するためのステップバイステップ ガイド",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "リクエストURLを入力してください",
+          "text": "URL 入力ボックスにテストする API インターフェイスのアドレスを入力します。過去に使用したURLを履歴から選択できます。",
+          "image": "https://starryring.com/ja/utility-tools/netdev/post-tool/step1-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "HTTPメソッドを選択します",
+          "text": "ドロップダウン メニューから適切な HTTP メソッド (POST/GET/PUT/DELETE/PATCH) を選択します。",
+          "image": "https://starryring.com/ja/utility-tools/netdev/post-tool/step2-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "リクエストのヘッダーと本文を構成する",
+          "text": "必要に応じて、リクエスト ヘッダー (Content-Type、Authorization など) とリクエスト本文 (JSON またはフォーム データ) を構成します。",
+          "image": "https://starryring.com/ja/utility-tools/netdev/post-tool/step3-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "リクエストを送信してレスポンスを表示する",
+          "text": "「リクエストを送信」ボタンをクリックします。このツールは HTTP リクエストを送信し、ステータス コード、応答ヘッダー、および応答本文を応答パネルに表示します。",
+          "image": "https://starryring.com/ja/utility-tools/netdev/post-tool/step4-en.png"
+        }
+      ],
+      "totalTime": "PT2M"
+    }
+  ]
+}
+</script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="description" content="無料のオンライン POST ツールと API テスター、純粋なフロントエンド実装、サーバーは不要です。 HTTP メソッド (POST/GET/PUT/DELETE)、JSON/フォーム データ、リクエスト ヘッダー設定、認証デバッグをサポートし、API 開発とデバッグの学習に最適です。">
+    <link rel="canonical" href="https://starryring.com/ja/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
+<meta property="og:url" content="https://starryring.com/ja/utility-tools/netdev/post-tool/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="🚀 オンライン POST ツール / API テスター - 純粋なフロントエンド HTTP リクエスト デバッグ ツール">
+    <meta property="og:description" content="無料のオンライン POST ツールと API テスター、純粋なフロントエンド実装、サーバーは不要です。 HTTP メソッド、JSON/フォーム データ、リクエスト ヘッダー設定、認証デバッグをサポートします。">
+    <meta name="twitter:title" content="🚀 オンライン POST ツール / API テスター - 純粋なフロントエンド HTTP リクエスト デバッグ ツール">
+    <meta name="twitter:description" content="無料のオンライン POST ツールと API テスター、純粋なフロントエンド実装、サーバーは不要です。 HTTP メソッド、JSON/フォーム データ、リクエスト ヘッダー設定、認証デバッグをサポートします。">
+    <meta name="keywords" content="POSTツール、APIテスター、HTTPリクエストデバッグ、インターフェーステスト、オンラインデバッグツール、フロントエンド開発ツール、REST APIテスト、JSONデバッグ">
+</head>
+
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/netdev/post-tool/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/netdev/post-tool/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/netdev/post-tool/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/utility-tools/netdev/post-tool/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/netdev/post-tool/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/netdev/post-tool/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language switcher --> 
+ <!-- Breadcrumb navigation --> 
+   <nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+     <ol class="breadcrumb-modern"> 
+       <li class="breadcrumb-item"> 
+         <a href="/ja/" class="breadcrumb-link"> <i class="fas fa-home"> </i> ホーム </a> 
+       </li> 
+       <li class="breadcrumb-item"> 
+         <a href="/ja/utility-tools/" class="breadcrumb-link"> 
+             <i class="fas fa-toolbox"> </i> ユーティリティ ツール
+         </a> 
+     </li> 
+       <li class="breadcrumb-item" aria-current="page"> 
+         <span class="breadcrumb-active"> <i class="fas fa-paper-plane"> </i> POST ツール </span> 
+       </li> 
+     </ol> 
+   </nav> 
+  
+   <!-- Main content container --> 
+   <div class="main-container"> 
+     <header> 
+       <h1> 🚀 オンライン POST ツール / API テスター </h1> 
+       <p class="subtitle"> 純粋なフロントエンド HTTP リクエスト デバッグ ツール、複数の HTTP メソッドとデータ形式をサポート </p> 
+     </header> 
+
+     <!-- Tool panel container --> 
+     <div class="tool-panel-container"> 
+       <main> 
+         <!-- Request panel --> 
+         <section class="tool-section"> 
+           <h2> <i class="fas fa-paper-plane"> </i> 構成のリクエスト </h2> 
+          
+           <div class="form-group"> 
+             <label for="url"> <i class="fas fa-link"> </i> リクエストURL </label> 
+             <!-- Wrapper container and history dropdown --> 
+             <div class="url-wrapper"> 
+               <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" /> 
+               <div id="urlHistoryList" class="history-dropdown"> </div> 
+             </div> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="method"> <i class="fas fa-exchange-alt"> </i> リクエストメソッド </label> 
+             <select id="method"> 
+               <option value="POST"> 投稿 </option> 
+               <option value="GET"> 取得 </option> 
+               <option value="PUT"> 入力 </option> 
+               <option value="DELETE"> 削除 </option> 
+               <option value="PATCH"> パッチ </option> 
+             </select> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="headers"> <i class="fas fa-heading"> </i> リクエストヘッダー (JSON) </label> 
+             <div class="body-container"> 
+               <div><textarea id="headers" placeholder='{ "Content-Type": "application/json", "Authorization": "Bearer token" }'> </textarea> 
+               </div> 
+               <div> 
+                 <div id="headersFields"> </div> 
+                 <button type="button" id="addHeadersFieldBtn" class="btn-secondary"> <i class="fas fa-plus"> </i> フィールドを追加 </button> 
+               </div> 
+             </div> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="bodyType"> <i class="fas fa-code"> </i> リクエストボディタイプ </label> 
+             <select id="bodyType"> 
+               <option value="json"> JSON </option> 
+               <option value="form"> フォーム (x-www-form-urlencoded) </option> 
+             </select> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="body"> <i class="fas fa-file-code"> </i> リクエストボディ（JSON / フォーム） </label> 
+             <div class="body-container"> 
+               <div> 
+                 <textarea id="body" placeholder='{ "key": "value", "data": "example" }'> </textarea> 
+               </div> 
+               <div> 
+                 <div id="bodyFields"> </div> 
+                 <button type="button" id="addBodyFieldBtn" class="btn-secondary"> <i class="fas fa-plus"> </i> フィールドを追加 </button> 
+               </div> 
+             </div> 
+           </div> 
+          
+           <button id="sendRequestBtn" class="btn-primary"> <i class="fas fa-play"> </i> リクエスト送信 </button> 
+         </section> 
+
+         <!-- Response panel --> 
+         <section class="tool-section"> 
+           <h2> <i class="fas fa-reply"> </i> 応答結果 </h2> 
+          
+           <div class="form-group"> 
+             <label for="status"> <i class="fas fa-tachometer-alt"> </i> ステータス </label> 
+             <input id="status" readonly /> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="resHeaders"> <i class="fas fa-heading"> </i> 応答ヘッダー </label> 
+             <pre id="resHeaders"> </pre> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="response"> <i class="fas fa-file-alt"> </i> レスポンスボディ </label> 
+             <pre id="response"> </pre> 
+           </div> 
+         </section> 
+       </main> 
+     </div> 
+    
+     <!-- ===== Feature Introduction Area ===== --> 
+     <div class="instructions-section"> 
+       <div class="instructions-content"> 
+         <h2> <i class="fas fa-star"> </i> ツールの機能 </h2> 
+        
+         <div class="feature-grid"> 
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-laptop-code"> </i> 純粋なフロントエンド実装 </h3> 
+             <p> ブラウザ内で完全に実行され、サーバーは必要ありません。すべての HTTP リクエストはブラウザーの Fetch API を通じて送信され、データのプライバシーとセキュリティが確保されます。 </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-exchange-alt"> </i> 複数の HTTP メソッド </h3> 
+             <p> POST、GET、PUT、DELETE、PATCH の 5 つの HTTP メソッドをサポートし、基本的な RESTful API 開発ニーズを満たします。 </p> 
+           </div> 
+          
+           <div class="feature-item"><h3> <i class="fas fa-code"> </i> マルチフォーマットデータのサポート </h3> 
+             <p> JSON とフォーム データ形式をサポートしており、さまざまな種類の API インターフェイスをテストするのに便利です。 JSON エディターは構文の強調表示と検証を提供します。 </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-heading"> </i> カスタム リクエスト ヘッダー </h3> 
+             <p> リクエスト ヘッダーを柔軟に構成し、Content-Type、Authorization、User-Agent などの一般的なヘッダーをサポートし、複雑な API テスト要件を満たします。 </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-history"> </i> URL履歴記録 </h3> 
+             <p> 最近使用した URL を自動的に保存するため、素早い切り替えや繰り返しのテストに便利で、デバッグ効率が向上します。 </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-eye"> </i> リアルタイム応答プレビュー </h3> 
+             <p> HTTPステータスコード、レスポンスヘッダー、レスポンスボディを即座に表示し、JSON形式の表示をサポートし、APIの戻り結果を分析しやすくします。 </p> 
+           </div> 
+         </div> 
+        
+         <div class="faq-section"> 
+           <h2> <i class="fas fa-question-circle"> </i> よくある質問 </h2> 
+          
+           <div class="faq-item"> 
+             <h3> このツールは HTTPS をサポートしていますか? </h3> 
+             <p> はい、HTTPS プロトコルを完全にサポートしています。テスト用に任意の有効な HTTPS URL を入力できます。このツールはブラウザのセキュリティ ポリシーに従います。 </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> クロスオリジンリクエストを処理するにはどうすればよいですか? </h3> 
+             <p> クロスオリジン リクエストでは、ターゲット サーバーが CORS (Cross-Origin Resource Sharing) ヘッダーを構成する必要があります。クロスオリジン エラーが発生した場合は、API サーバーが Access-Control-Allow-Origin などの正しい CORS ポリシーを構成していることを確認してください。 </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> ファイルのアップロードはサポートされていますか? </h3> 
+             <p> 現在のバージョンでは主に JSON とフォーム データ形式をサポートしています。 multipart/form-data 形式 (ファイル アップロード用) は、将来のバージョンでサポートされる予定です。このツールで FormData API を使用して、ファイルのアップロード テストを行うことができます。 </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> データはサーバーに保存されますか? </h3> 
+             <p> いいえ。すべてのデータはブラウザのローカル ストレージ (localStorage) に保存され、サーバーにはアップロードされないため、API キーと機密データのセキュリティが確保されます。 </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> WebSocket テストをサポートしていますか? </h3> 
+             <p> 現在のバージョンは、HTTP/HTTPS リクエストのテストに重点を置いています。 WebSocket テスト ツールは開発中であり、将来のバージョンで提供される予定です。 </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> HTTPプロトコルの学習に適していますか？ </h3> 
+             <p> 学習に最適！このツールは、HTTP リクエストとレスポンスのすべてのコンポーネントを直感的に表示し、HTTP プロトコル、RESTful API 設計、およびデバッグ手法を学習するための理想的なツールです。 </p></div> 
+         </div> 
+        
+         <div class="usage-tips"> 
+           <h2> <i class="fas fa-lightbulb"> </i> 使用上のヒント </h2> 
+           <ul> 
+             <li> ショートカット Ctrl+Enter (Windows) または Cmd+Enter (Mac) を使用してリクエストをすばやく送信します </li> 
+             <li> JSON データは読み取りと編集が容易になるように自動的にフォーマットされます </li> 
+             <li> 応答データはクリップボードにコピーしてさらに分析できます </li> 
+             <li> ローカル開発の場合、推奨される URL 形式: http://localhost:port </li> 
+             <li> 頻繁に使用する API 設定を保存して、迅速に繰り返しテストできる </li> 
+           </ul> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <footer> 
+     <p> © 2024-2026 StarryRing ツールボックス · 純粋なフロントエンド POST ツール · フェッチ API </p> 
+     <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;"> 
+       <a href="/ja/about-us/" style="color:#60a5fa;text-decoration:none;"> 私たちについて </a> 
+       <a href="/ja/contact-us/" style="color:#60a5fa;text-decoration:none;"> お問い合わせ </a> 
+       <a href="/ja/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 免責事項 </a> 
+       <a href="/ja/privacy/" style="color:#60a5fa;text-decoration:none;"> プライバシーポリシー </a> 
+       <a href="/ja/terms/" style="color:#60a5fa;text-decoration:none;"> 利用規約 </a> 
+     </div> 
+   </footer><script src="/static/js/utility-tools/netdev/post-tool/script-ja.js"></script>
+  <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

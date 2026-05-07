@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060e0a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/rsa-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/rsa-decrypt/script-ja.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "家",
+          "item": "https://starryring.com/ja/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ユーティリティツール",
+          "item": "https://starryring.com/ja/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "RSA 復号化ツール",
+          "item": "https://starryring.com/ja/utility-tools/math/rsa-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "RSA 復号化ツール",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/ja/utility-tools/math/rsa-decrypt/",
+      "description": "PEM 秘密キーのインポートとブラウザ側の RSA-OAEP 復号化を備えた無料のオンライン RSA 復号化ツール。",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "PEM 秘密キーをインポートする",
+        "Base64 および 16 進暗号文を受け入れる",
+        "バイナリ .enc ファイルをロードする",
+        "複数の OAEP ハッシュ オプションをサポート",
+        "完全にブラウザ内で実行"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "RSA 復号化に秘密キーが必要なのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RSA は非対称アルゴリズムです。公開キーはデータを暗号化し、対応する秘密キーはデータを復号化します。正しい秘密キーがないと、RSA-OAEP 暗号文を復元できません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ここではどのような暗号文形式がサポートされていますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "このページは、Base64 テキスト、16 進テキスト、およびアップロードされた .enc バイナリ ファイルをサポートしています。ファイル モードでは生のバイトが直接処理されるため、エンコーディングを手動で選択する必要はありません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ENCRYPTED PRIVATE KEY ファイルを直接使用できないのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "パスワードで保護された ENCRYPTED PRIVATE KEY ファイルは、最初にパスフレーズを使用してロックを解除する必要があります。このページを軽量かつブラウザ専用にするため、現在は暗号化されていない PRIVATE KEY / RSA PRIVATE KEY ファイルのみをサポートしています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "RSA 復号化が失敗する原因は通常何ですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "最も一般的な原因は、秘密キーの不一致、暗号化中に使用されたものとは異なる OAEP ハッシュ、破損した暗号文、または元の暗号化された出力ではない入力です。"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>RSA 復号化ツールと秘密キー デコーダー | StarryRing</title>
+<meta name="description" content="PEM 秘密キー、Base64 または Hex 暗号文、ブラウザ側の RSA-OAEP 復号化のための無料のオンライン RSA 復号化ツール。">
+    <link rel="canonical" href="https://starryring.com/ja/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/rsa-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/rsa-decrypt/">
+<meta property="og:url" content="https://starryring.com/ja/utility-tools/math/rsa-decrypt/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="RSA 復号化ツールと秘密キー デコーダー | StarryRing">
+    <meta property="og:description" content="PEM 秘密キーをインポートし、Base64、Hex、または .enc 暗号文を復号化し、すべての操作をブラウザー内に保持します。">
+    <meta name="twitter:title" content="RSA 復号化ツールと秘密キー デコーダー |スターリーリング">
+    <meta name="twitter:description" content="PEM 秘密キーをインポートし、Base64、Hex、または .enc 暗号文を復号化し、すべての操作をブラウザー内に保持します。">
+    <meta name="keywords" content="RSA 復号化ツール、RSA 秘密キー デコーダー、RSA-OAEP、PEM 秘密キー、Base64 復号化、16 進数復号化、オンライン RSA、Web 暗号化">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/rsa-decrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/rsa-decrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/rsa-decrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/utility-tools/math/rsa-decrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/rsa-decrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/rsa-decrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/ja/" class="breadcrumb-link"> <i class="fas fa-home"> </i> ホーム </a> </li> 
+             <li class="breadcrumb-item"> <a href="/ja/utility-tools/" class="breadcrumb-link"> ユーティリティ ツール </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> RSA 復号化ツール </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // 暗号化ツール v2.0 </span> 
+       <h1 class="logo-title"> RSA <span> 解読 </span> </h1> 
+     </div> 
+     <div class="header-right"> 
+       <div class="badge"> クライアント側のみ </div> 
+       <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> ウェブ暗号化 API </div> 
+       <a href="/ja/utility-tools/math/rsa-encrypt/" class="encrypt-link"> 
+         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+        暗号化ツールに切り替える
+       </a> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒 </span> 
+     <span> <strong> クライアント側のみ </strong> - キーとデータはブラウザ内に留まり、サーバーにアップロードされることはありません。ネイティブ Web Crypto API を利用します。 </span> 
+   </div> 
+
+   <!-- Config --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> アルゴリズム構成 </span> 
+     </div> 
+     <div class="config-grid" style="grid-template-columns: repeat(2, 1fr)"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> キーのサイズ </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="2048"> 2048 ビット </option> 
+             <option value="3072"> 3072 ビット </option> 
+             <option value="4096" selected> 4096 ビット </option></select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-hash" class="label-link"> OAEP ハッシュ </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="hash"> 
+             <option value="SHA-1"> SHA-1 </option> 
+             <option value="SHA-256" selected> SHA-256 </option> 
+             <option value="SHA-384"> SHA-384 </option> 
+             <option value="SHA-512"> SHA-512 </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key & IV --> 
+   <div class="key-section"> 
+     <div class="config-header" style="justify-content:space-between"> 
+       <div style="display:flex;align-items:center;gap:10px"> 
+         <div class="config-header-icon" style="color:var(--accent3)"> 🔑 </div> 
+         <span class="config-title"> キーマテリアル </span> 
+       </div> 
+       <div style="display:flex;gap:8px"> 
+         <button class="paste-json-btn" onclick="pasteJsonConfig()"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+          JSON 構成を貼り付けます
+         </button> 
+         <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          設定ファイルのアップロード
+         </button> 
+         <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)"> 
+       </div> 
+     </div> 
+     <div class="field-group"> 
+       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"> 
+         <label class="field-label" style="margin-bottom:0"> 
+             <a href="#explain-key" class="label-link"> 秘密鍵 </a>  
+            ( <a href="#explain-pem" class="label-link"> PEM </a> )
+         </label> 
+         <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide private key" style="margin-left:auto"> 
+           <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/> <circle cx="12" cy="12" r="3"/> </svg> 
+           <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"> <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/> <line x1="1" y1="1" x2="23" y2="23"/> </svg> 
+         </button><button class="copy-field-btn" onclick="pasteField('secretKey')" title="Paste Private Key"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+         </button> 
+         <button class="gen-btn" onclick="triggerPemUpload()" title="Upload .pem file" style="color:var(--accent2);border-color:rgba(0,212,255,0.4);background:rgba(0,212,255,0.06);display:flex;align-items:center;gap:6px"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          .pem をアップロードする
+         </button> 
+         <input type="file" id="pemFileInput" accept=".pem,.key,.txt" style="display:none" onchange="loadPemFile(this)"> 
+       </div> 
+       <textarea class="field-input" id="secretKey" rows="8" placeholder="-----BEGIN PRIVATE KEY-----&#10;...&#10;-----END PRIVATE KEY-----&#10;&#10;Paste an RSA private key in PEM format, or click &quot;Upload .pem&quot; to load a file" autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:150px;line-height:1.5"> </textarea> 
+       <div id="pemErrorBar" style="display:none;align-items:center;gap:8px;padding:8px 14px;margin-top:6px;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.4);border-radius:3px;font-family:var(--mono);font-size:11px;color:#ff8080;"> 
+         <span style="font-size:15px;flex-shrink:0"> ✕ </span> 
+         <span id="pemErrorMsg"> </span> 
+       </div> 
+       <div id="pemSuccessBar" style="display:none;align-items:center;gap:8px;padding:8px 14px;margin-top:6px;background:rgba(0,255,157,0.05);border:1px solid rgba(0,255,157,0.25);border-radius:3px;font-family:var(--mono);font-size:11px;color:var(--accent);"> 
+         <span style="font-size:15px;flex-shrink:0"> ✓ </span> 
+         <span id="pemSuccessMsg"> </span> 
+       </div> 
+       <div class="key-hint" id="keyHint"> RSA-OAEP 復号化では秘密鍵 ( <span id="keySizeHint"> 4096 </span> -bit / <span id="hashHint"> SHA-256 </span> ) を使用します - 暗号化中に使用された公開鍵 </div> と一致する必要があります 
+     </div> 
+   </div> 
+
+   <!-- IO --> 
+   <div class="io-section"> 
+     <!-- Ciphertext input --> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> リリースして .enc ファイルをロードします </div> 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          暗号文 / 入力
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            ファイルをアップロードする
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Paste ciphertext here in Base64 or Hex...&#10;&#10;Or upload a binary .enc file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0バイト </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+             <span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="encoding-tabs" id="encodingTabs"> 
+           <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')"> BASE64 </button> 
+           <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')"> 16進数 </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <!-- Plaintext output --> 
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          プレーンテキスト / 出力
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Decrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> 復号化されたファイルをダウンロードする準備ができました </span> 
+         </div> 
+         <button class="download-file-btn" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          ファイルをダウンロードする
+         </button> 
+       </div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0バイト </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn decrypt-btn" onclick="runDecrypt()"> ◀ 暗号化 </button> 
+     <a href="/ja/utility-tools/math/rsa-encrypt/" class="encrypt-nav-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+      暗号化が必要ですか?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/> <polyline points="15 3 21 3 21 9"/> <line x1="10" y1="14" x2="21" y2="3"/> </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> 準備完了 - 秘密キーと暗号文を貼り付け、[復号化] をクリックします </span> 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> アルゴリズム </div> 
+       <div class="info-card-value"> RSA </div> 
+       <div class="info-card-sub" id="infoMode"> OAEP / SHA-256 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 主要な強度 </div> 
+       <div class="info-card-value" id="infoKeySize"> 4096 </div> 
+       <div class="info-card-sub"> ビット </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> セキュリティ レベル </div> 
+       <div class="info-card-value" id="infoSecurity"> 高 </div> 
+       <div class="info-card-sub" id="infoSecSub"> 非対称 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 復号化 </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub"> このセッションのバイト数 </div> 
+     </div> 
+   </div> 
+
+   <!-- Explain Sections --> 
+   <div class="explain-section" id="explain-key"> 
+     <div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> RSA 復号化に秘密キーが必要なのはなぜですか? </div><div class="explain-text"> RSA は非対称暗号化アルゴリズムです。公開鍵はデータを暗号化しますが、 <strong style="color:#f0fff6"> の復号化には対応する秘密鍵が必要です </strong> 。秘密キーは暗号化ページで使用される公開キーに一意に対応するため、キーが一致しないと復号化が失敗します。 <br> <br> 秘密キーは機密にしておく必要があります。これが失われると、元のデータ所有者を含め、誰も一致する暗号文を回復できなくなります。秘密キー ファイルが生成されたら、慎重に保存してください。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> キーのサイズは暗号化設定と一致する必要があります </div> 
+       <div class="explain-text"> 選択したキーのサイズは、暗号化中に使用される公開キーのサイズと一致する必要があります。そうでない場合、キーマテリアルが一致しないため、秘密キーのインポートがすぐに失敗する可能性があります。 <br> <br> ほとんどの場合、正しい PEM 秘密キーを貼り付けると、ブラウザは自動的に適切な長さで動作します。それでもインポートが失敗する場合は、キーのサイズとハッシュの選択の両方が暗号化設定と一致していることを確認してください。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-hash"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> OAEP ハッシュは暗号化と正確に一致する必要があります </div> 
+       <div class="explain-text"> RSA-OAEP 復号化に使用されるハッシュ アルゴリズムは、暗号化中に使用されるものと同一である必要があります。ハッシュが異なる場合、復号化が失敗するか、無効な出力が返されます。 <br> <br> 暗号化ステップで SHA-256 が使用された場合 (推奨デフォルト)、このページでも SHA-256 を使用する必要があります。よくわからない場合は、正しい組み合わせが成功するまで、利用可能なハッシュ オプションをテストしてください。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 入力エンコーディング: 暗号文の形式は何ですか? </div> 
+       <div class="explain-text"> 暗号化ツールはエンコードされたテキストを出力します。正しく復号化するには、このページで同じエンコーディングを使用し、RSA-OAEP 復号化を実行する前に元のバイナリ バイトを復元できるようにする必要があります。 <br> <br> <strong style="color:#c0e8d0"> Base64 </strong> 暗号文では、文字、数字、および <code style="color:var(--accent)"> +/= </code> が使用されます。  <strong style="color:#c0e8d0"> 16 進数 </strong> 暗号文は <code style="color:var(--accent)"> 0-9 </code> および <code style="color:var(--accent)"> a-f </code> を使用し、1 バイトあたり 2 文字で構成されます。バイナリ .enc ファイルをアップロードする場合、エンコード セレクターは自動的に無視されます。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-pem"> 
+     <div class="explain-icon"> 📄 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> PEM フォーマットの説明 </div> 
+       <div class="explain-text"> 
+         <p> <strong> 1️⃣ PEM とは何ですか? </strong> <br>PEM (Privacy-Enhanced Mail) は、キーと証明書の保存と転送に使用されるテキスト形式です。バイナリ DER データを Base64 エンコードし、 <code> -----BEGIN PRIVATE KEY----- </code> および <code> -----END PRIVATE KEY----- </code> などのヘッダー行とフッター行でラップします。一般的なラベルには、 <code> PUBLIC KEY </code> 、 <code> PRIVATE KEY </code> 、および <code> CERTIFICATE </code> が含まれます。 PEM はプレーン テキストであるため、コピー、貼り付け、システム間での交換が簡単です。 </p> 
+
+         <p> <strong> 2️⃣ 他にどのような形式があるでしょうか? </strong> <br> 
+        - <strong> DER </strong> : ASN.1 構造を直接保存する生のバイナリ形式で、Java または証明書ツールで一般的です。 <br> 
+        - <strong> HEX </strong> : DER バイトの 16 進文字列表現。デバッグやコードへのバイト データの埋め込みに役立ちます。 <br> 
+        - <strong> ヘッダーなしの Base64 </strong> : Base64 としてエンコードされた DER ペイロードですが、PEM ラッパーはなく、コンパクトな構成形式でよく使用されます。 <br> 
+        - <strong> PKCS#12 (PFX) </strong> : 公開鍵と秘密鍵を一緒にパッケージ化できるバイナリ コンテナで、通常はパスワードで保護されています。 </p> 
+
+         <p> <strong> 3️⃣ 各形式はいつ使用する必要がありますか? </strong> <br> 
+        - <strong> PEM </strong> : OpenSSL、Web サーバー、API 交換、手動キー処理に最も汎用的な選択肢です。 <br> 
+        - <strong> DER </strong> : プラットフォーム固有のツールでバイナリ ストレージが優先または必要な場合に便利です。 <br> 
+        - <strong> HEX </strong> : デバッグやバイトレベルの検査が重要な状況に便利です。 <br> 
+        - <strong> ヘッダーなしの Base64 </strong> : 周囲の形式で PEM ラッパーが許可されておらず、コンパクトなテキスト ペイロードが必要な場合に便利です。 <br> 
+        - <strong> PKCS#12 </strong> : 証明書と秘密キーをパスワード保護とともに転送する必要がある場合に最適です。 </p> 
+       </div> 
+     </div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/rsa-decrypt/script-ja.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

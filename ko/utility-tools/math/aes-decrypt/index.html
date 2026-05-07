@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/aes-decrypt/script-ko.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "유틸리티 도구",
+          "item": "https://starryring.com/ko/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "AES 암호 해독 도구",
+          "item": "https://starryring.com/ko/utility-tools/math/aes-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "AES 암호 해독 도구",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/ko/utility-tools/math/aes-decrypt/",
+      "description": "키 및 IV 가져오기 기능과 브라우저 측 암호 해독 기능을 갖춘 무료 온라인 AES 암호 해독 도구입니다.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "AES-CBC, AES-CTR 및 AES-GCM 지원",
+        "Base64, Hex 및 .enc 암호문 허용",
+        "암호화 구성을 JSON으로 가져오기",
+        "필요할 때 바이너리 출력 다운로드",
+        "브라우저에서 완전히 실행"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "AES 암호 해독이 암호화와 동일한 키를 사용해야 하는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AES는 대칭 암호이므로 암호화 단계에서 정확히 동일한 키가 다시 사용될 때만 해독이 작동합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IV 또는 nonce 값도 일치해야 하는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CBC, CTR 및 GCM은 모두 암호화 상태의 일부로 IV 또는 nonce에 따라 달라집니다. 암호 해독 중에 다른 값을 사용하면 잘못된 결과가 발생하거나 완전한 실패가 발생합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "GCM이 인증 실패를 보고하는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GCM은 무결성과 기밀성을 확인합니다. 키, nonce 또는 암호문이 완벽하게 일치하지 않으면 인증이 실패하고 출력이 거부됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": ".enc 파일 업로드와 Base64 또는 Hex 붙여넣기의 차이점은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "업로드된 .enc 파일은 원시 바이트로 직접 처리됩니다. 대신 텍스트 암호문을 붙여넣는 경우 먼저 올바른 Base64 또는 Hex 인코딩을 선택해야 합니다."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>AES 암호 해독 도구 및 구성 가져오기 | StarryRing</title>
+<meta name="description" content="Base64, Hex 또는 .enc 암호문 지원 및 브라우저 측 암호 해독 기능을 갖춘 CBC, CTR 및 GCM 모드용 무료 온라인 AES 암호 해독 도구입니다.">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/math/aes-decrypt/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="AES 암호 해독 도구 및 구성 가져오기 | StarryRing">
+    <meta property="og:description" content="AES 키와 IV를 가져오고, Base64, Hex 또는 .enc 암호문을 해독하고, 모든 작업을 브라우저 내에 보관하세요.">
+    <meta name="twitter:title" content="AES 암호 해독 도구 및 구성 가져오기 | 별이 빛나는 반지">
+    <meta name="twitter:description" content="AES 키와 IV를 가져오고, Base64, Hex 또는 .enc 암호문을 해독하고, 모든 작업을 브라우저 내에 보관하세요.">
+    <meta name="keywords" content="AES 암호 해독 도구,AES-CBC,AES-CTR,AES-GCM,온라인 AES 암호 해독,Base64 암호 해독,16진수 암호 해독,웹 암호화,.enc 암호 해독">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/aes-decrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/aes-decrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/aes-decrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/aes-decrypt/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/math/aes-decrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/aes-decrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/ko/" class="breadcrumb-link"> <i class="fas fa-home"> </i> 홈 </a> </li> 
+             <li class="breadcrumb-item"> <a href="/ko/utility-tools/" class="breadcrumb-link"> 유틸리티 도구 </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> AES 암호 해독 도구 </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // 암호화 도구 v2.0 </span> 
+       <h1 class="logo-title"> AES <span> 해독 </span> </h1> 
+     </div> 
+     <div class="header-right"> 
+       <div class="badge"> 클라이언트 측 전용 </div> 
+       <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> 웹 암호화 API </div> 
+       <a href="/ko/utility-tools/math/aes-encrypt/" class="encrypt-link"> 
+         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+        암호화 도구로 전환
+       </a> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒</span> 
+     <span> <strong> 클라이언트 측 전용 </strong> - 키와 데이터는 브라우저 내부에 유지되며 어떤 서버에도 업로드되지 않습니다. 모든 암호화 작업은 기본 Web Crypto API에서 실행됩니다. </span> 
+   </div> 
+
+   <!-- Config --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> 알고리즘 구성 </span> 
+     </div> 
+     <div class="config-grid"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-mode" class="label-link"> 모드 </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="mode"> 
+             <option value="CBC"> CBC </option> 
+             <option value="CTR"> CTR </option> 
+             <option value="GCM"> GCM </option> 
+           </select> 
+         </div> 
+       </div><div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> 키 크기 </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="128"> 128비트 </option> 
+             <option value="192"> 192비트 </option> 
+             <option value="256" selected> 256비트 </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-padding" class="label-link"> 패딩 </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="padding"> 
+             <option value="PKCS7"> PKCS#7 </option> 
+             <option value="ZERO"> 제로 패드 </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key & IV --> 
+   <div class="key-section"> 
+     <div class="config-header" style="justify-content:space-between"> 
+       <div style="display:flex;align-items:center;gap:10px"> 
+         <div class="config-header-icon" style="color:var(--accent3)"> 🔑 </div> 
+         <span class="config-title"> 키 및 IV 재료 </span> 
+       </div> 
+       <div style="display:flex;gap:8px"> 
+         <button class="paste-json-btn" onclick="pasteJsonConfig()"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+          JSON 구성 붙여넣기
+         </button> 
+         <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          구성 파일 업로드
+         </button> 
+         <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)"> 
+       </div> 
+     </div> 
+     <div class="key-fields"> 
+       <div class="field-group"> 
+         <div class="key-row"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-key" class="label-link"> 비밀키 </a> </label> 
+             <input type="password" class="field-input" id="secretKey" placeholder="Enter the decryption key..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide key"> 
+             <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/> <circle cx="12" cy="12" r="3"/> </svg><svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"> <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/> <line x1="1" y1="1" x2="23" y2="23"/> </svg> 
+           </button> 
+           <button class="copy-field-btn" onclick="pasteField('secretKey')" title="Paste key"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint" id="keyHint"> 16진수 키에는 <span id="keyLengthHint"> 64자 </span> 문자(32바이트) </div>가 필요합니다. 
+       </div> 
+       <div class="field-group"> 
+         <div class="key-row"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-iv" class="label-link"> IV / Nonce </a> </label> 
+             <input type="text" class="field-input" id="iv" placeholder="Enter the IV..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="copy-field-btn" onclick="pasteField('iv')" title="Paste IV"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint"> 16진수 IV에는 <span id="ivLengthHint"> 32개의 </span> 문자가 필요합니다(CBC/CTR=32, GCM=24) </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- IO --> 
+   <div class="io-section"> 
+     <!-- Ciphertext input --> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> .enc 파일을 로드하려면 릴리스 </div> 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          암호문/입력
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            파일 업로드
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Paste ciphertext here in Base64 or Hex...&#10;&#10;Or upload a binary .enc file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0바이트 </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+             <span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="encoding-tabs" id="encodingTabs"> 
+           <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')"> BASE64 </button> 
+           <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')"> HEX </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <!-- Plaintext output --> 
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          평문 / 출력
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Decrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> 복호화된 파일 다운로드 준비 완료 </span> 
+         </div> 
+         <button class="download-file-btn" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          파일 다운로드
+         </button></div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0바이트 </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn decrypt-btn" onclick="runDecrypt()"> ◀ </button> 해독 
+     <a href="/ko/utility-tools/math/aes-encrypt/" class="encrypt-nav-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+      암호화가 필요합니까?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/> <polyline points="15 3 21 3 21 9"/> <line x1="10" y1="14" x2="21" y2="3"/> </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> 준비 - 키, IV 및 암호문을 입력한 다음 </span> 해독을 클릭합니다. 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 알고리즘 </div> 
+       <div class="info-card-value"> AES </div> 
+       <div class="info-card-sub" id="infoMode"> CBC 모드 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 핵심강점 </div> 
+       <div class="info-card-value" id="infoKeySize"> 256 </div> 
+       <div class="info-card-sub"> 비트 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 보안 수준 </div> 
+       <div class="info-card-value" id="infoSecurity"> 높음 </div> 
+       <div class="info-card-sub" id="infoSecSub"> 군용 등급 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 해독됨 </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub"> 이 세션의 바이트 </div> 
+     </div> 
+   </div> 
+
+   <!-- Explain Sections --> 
+   <div class="explain-section" id="explain-key"> 
+     <div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 비밀키는 왜 필요한가요? </div> 
+       <div class="explain-text"> AES는 대칭 암호이므로 암호화와 복호화에 동일한 키가 사용됩니다. 암호 해독 중에 <strong style="color:#f0fff6"> 키는 암호화 키와 정확히 </strong> 일치해야 합니다. 한 문자만 달라도 오류가 발생하거나 읽을 수 없는 출력이 발생합니다. <br> <br> 비밀 키는 기밀로 유지되어야 합니다. 키를 가진 사람은 누구나 데이터를 복호화할 수 있으며, 키를 분실할 경우 암호화된 내용을 복구하는 것이 불가능할 수 있습니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-iv"> 
+     <div class="explain-icon"> 🎲 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> IV/nonce가 필요한 이유는 무엇입니까? </div><div class="explain-text"> <strong style="color:#f0fff6"> IV 또는 nonce는 암호화 중에 사용된 값과 정확히 </strong> 일치해야 하며, 그렇지 않으면 해독된 결과가 유효하지 않습니다. CBC와 CTR은 16바이트 IV(32진수 문자)를 사용하는 반면 GCM은 12바이트 nonce(24진수 문자)를 사용합니다. <br> <br> IV는 일반적으로 암호문과 함께 이동하므로 비밀을 유지할 필요가 없지만, 누락된 경우 더 이상 적절한 암호 해독이 불가능합니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-mode"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 암호화 모드는 </div>과 정확히 일치해야 합니다. 
+       <div class="explain-text"> 여기에서 선택한 모드는 암호화 중에 사용된 모드와 동일해야 합니다. 그렇지 않으면 암호 해독이 실패하거나 읽을 수 없는 출력이 생성됩니다. <br> <br> <strong style="color:#c0e8d0"> CBC </strong>은 IV가 필요한 공통 차단 모드입니다.  <strong style="color:#c0e8d0"> CTR </strong>은 스트림처럼 동작하며 대용량 데이터에 대해 빠릅니다.  <strong style="color:#c0e8d0"> GCM </strong>은 무결성 검사를 추가하므로 변조된 암호문은 즉시 실패합니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 키 크기는 암호화 단계 </div>과 일치해야 합니다. 
+       <div class="explain-text"> 키 크기에 따라 AES 라운드 수가 결정되며, 암호화와 복호화는 동일한 키 길이를 사용해야 합니다. <br> <br> 잘못된 키 크기를 선택한 경우 키 길이가 선택한 AES 변형과 더 이상 일치하지 않기 때문에 키 가져오기가 즉시 실패합니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-padding"> 
+     <div class="explain-icon"> 📦 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 패딩은 암호화 단계 </div>과 일치해야 합니다. 
+       <div class="explain-text"> 해독 후 도구는 선택한 구성표에 따라 패딩을 제거합니다. 패딩 모드가 잘못된 경우 출력은 가비지 바이트로 끝나거나 완전히 실패할 수 있습니다. <br> <br> <strong style="color:#c0e8d0"> PKCS#7 </strong>이 가장 일반적인 선택이며 패딩을 정확하게 제거합니다.  <strong style="color:#c0e8d0"> 제로 패딩 </strong> 후행 <code style="color:var(--accent)"> 00 </code> 바이트를 잘라내고 원래 길이를 알고 있는 경우에만 안전합니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠</div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 입력 인코딩: 암호문의 형식은 무엇입니까? </div> 
+       <div class="explain-text"> 암호화 도구는 인코딩된 텍스트 암호문을 출력합니다. 올바르게 암호를 해독하려면 AES 암호 해독을 실행하기 전에 브라우저가 원본 바이트를 다시 작성할 수 있도록 동일한 인코딩을 선택하십시오. <br> <br> <strong style="color:#c0e8d0"> Base64 </strong> 문자, 숫자 및 <code style="color:var(--accent)"> +/= </code> 을 사용하며 종종 후행 패딩이 포함됩니다.  <strong style="color:#c0e8d0"> 16진수 </strong>은 바이트당 2개의 문자로 <code style="color:var(--accent)"> 0-9 </code> 및 <code style="color:var(--accent)"> a-f </code>을 사용합니다. 바이너리 .enc 파일을 업로드하면 인코딩 선택이 자동으로 무시됩니다. </div></div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/aes-decrypt/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

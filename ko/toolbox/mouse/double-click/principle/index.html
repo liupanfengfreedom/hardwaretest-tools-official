@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>더블 클릭 테스트 도구 작동 방식 - 잘못된 더블 클릭 감지에 대한 자세한 설명</title>
+<meta name="author" content="StarryRing Tools">
+    <meta name="copyright" content="Copyright © 2026 StarryRing Tools. All rights reserved.">
+    
+    <!-- Canonical & Internationalization -->
+
+
+
+<!-- Favicon (unchanged, file paths are same) -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Referrer and Security -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="rating" content="general">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+
+
+<meta property="og:image" content="https://assets.starryring.com/mouse/double-clicks-principle-og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Schematic diagram of mouse double-click working principle">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+<meta property="og:updated_time" content="2026-01-10T00:00:00+08:00">
+    <meta property="og:article:published_time" content="2026-01-05T00:00:00+08:00">
+    <meta property="og:article:modified_time" content="2026-01-10T00:00:00+08:00">
+    <meta property="og:article:author" content="StarryRing Tools">
+    <meta property="og:article:section" content="Hardware Testing">
+    <meta property="og:article:tag" content="Mouse Testing">
+    <meta property="og:article:tag" content="Hardware Diagnostics">
+    <meta property="og:article:tag" content="Fault Detection">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/mouse/double-click/principle/">
+
+<meta name="twitter:image" content="https://assets.starryring.com/mouse/double-clicks-principle-twitter.png">
+    <meta name="twitter:creator" content="@starryring">
+    <meta name="twitter:site" content="@starryring">
+    <meta name="twitter:label1" content="Estimated reading time">
+    <meta name="twitter:data1" content="5 minutes">
+    <meta name="twitter:label2" content="Technology Type">
+    <meta name="twitter:data2" content="Hardware Detection Principles">
+    
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Double-Click Test Principle">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    
+    <!-- Performance Optimization (unchanged) -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="/fonts.googleapis.com">
+    <link rel="dns-prefetch" href="/fonts.gstatic.com">
+    <link rel="preload" href="/static/css/shared/article.css" as="style">
+    <link rel="preload" href="/static/css/shared/table.css" as="style">
+    <link rel="preload" href="https://assets.starryring.com/mouse/double-clickschematic.png" as="image">
+    
+    <!-- Stylesheets (unchanged) -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/image-modal.css">
+    <link rel="stylesheet" href="/static/css/shared/article.css">
+    <link rel="stylesheet" href="/static/css/shared/table.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
+    
+    <!-- Structured Data Schema Markup -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "더블 클릭 테스트 도구의 작동 방식에 대한 자세한 설명",
+      "description": "마우스 더블클릭 작동 방식과 잘못된 더블클릭 감지 메커니즘에 대한 심층적인 설명입니다. 마우스 마이크로스위치, 디바운싱 기술, 하드웨어 결함 진단 원리 및 솔루션에 대한 세부 정보입니다.",
+      "image": [
+        "https://assets.starryring.com/mouse/double-clickschematic.png",
+        "https://assets.starryring.com/mouse/zh/theprincipleofmouse.png"
+      ],
+      "datePublished": "2026-01-05T00:00:00+08:00",
+      "dateModified": "2026-01-10T00:00:00+08:00",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing 도구",
+        "url": "https://starryring.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "StarryRing 도구",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/logo.png",
+          "width": 300,
+          "height": 60
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://starryring.com/ko/toolbox/mouse/double-click/principle/"
+      },
+      "articleSection": "하드웨어 테스트",
+      "keywords": "마우스 더블클릭 테스트, 더블클릭 오류 감지, 마우스 마이크로스위치, 디바운싱 기술, 마우스 오류 진단, 마우스 클릭 채터링 감지",
+      "wordCount": 1800,
+      "timeRequired": "PT5M",
+      "inLanguage": "ko",
+      "articleBody": "이 기사에서는 마우스 더블클릭의 작동 원리, 잘못된 더블클릭 감지 메커니즘, 마우스 마이크로스위치의 구조와 일반적인 문제, 디바운싱 기술의 구현 원리에 대해 자세히 설명합니다. 하드웨어 수준의 오류 분석 및 소프트웨어 수준의 감지 알고리즘이 포함됩니다."
+    },
+    {
+      "@type": "HowTo",
+      "name": "마우스 더블클릭 작동 원리를 이해하는 방법",
+      "description": "마우스 더블 클릭 감지 메커니즘 및 기술 원리의 단계별 분석",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "마우스 신호 전송 이해",
+          "text": "마우스는 버튼 상태, 변위 변경, 스크롤 휠 방향 등 세 가지 유형의 정보만 컴퓨터에 보냅니다. 더블클릭 신호 자체를 보내지는 않습니다.",
+          "image": "https://assets.starryring.com/mouse/ko/step1-signals.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "두 번 클릭의 정의 이해",
+          "text": "더블 클릭은 운영 체제에서 정의한 개념입니다. 즉, 500ms 내에 두 번 연속 버튼을 누르는 것입니다. 시간 간격은 OS에 의해 결정됩니다.",
+          "image": "https://assets.starryring.com/mouse/ko/step2-double-click.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "잘못된 더블클릭 식별",
+          "text": "잘못된 두 번 클릭은 일반적으로 80ms 미만의 간격으로 하드웨어 문제로 인해 발생하는 의도하지 않은 다중 클릭을 의미합니다.",
+          "image": "https://assets.starryring.com/mouse/ko/step3-fault-double.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "결함의 원인 분석",
+          "text": "일반적인 원인으로는 마이크로스위치 노후화, 접촉 산화, 먼지/잔해물 유입, 기계적 마모 등이 있습니다.",
+          "image": "https://assets.starryring.com/mouse/ko/step4-causes.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "탐지 원리 이해",
+          "text": "고정밀 타이밍 및 이벤트 리스너를 사용하여 두 개의 연속된 mousedown 이벤트 사이의 시간 간격을 분석합니다.",
+          "image": "https://assets.starryring.com/mouse/ko/step5-detection.png"
+        }
+      ],
+      "totalTime": "PT5M"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "마우스는 컴퓨터에 어떤 정보를 보내나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "마우스는 버튼 상태(누름/놓기), 변위 변경(X/Y축 이동), 스크롤 휠 방향의 세 가지 유형의 정보만 보냅니다. 마우스 자체는 더블클릭 신호를 보내지 않습니다. 두 번 클릭은 시간 간격에 따라 운영 체제에 의해 결정됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "잘못된 더블클릭이란 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "잘못된 더블 클릭은 사용자가 한 번만 클릭했지만 마우스 하드웨어 문제(예: 마이크로 스위치 접촉 불량)로 인해 시스템이 일반적으로 80ms 미만의 간격으로 여러 클릭 신호를 수신하는 경우입니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "더블클릭 오류는 어떻게 발생하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "주로 스위치 노화, 접점 산화, 먼지/잔해물 유입 및 기계적 마모를 포함하여 마이크로 스위치 내부 접점의 비정상적인 개폐로 인해 발생합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "잘못된 더블클릭을 감지하는 방법은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "마우스 이벤트를 수신하고, 타임스탬프를 기록하고, 두 개의 연속된 마우스 다운 이벤트 사이의 시간 간격을 분석합니다. 간격이 80ms 미만일 경우 더블클릭 불량으로 판단됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "디바운싱 기능을 지원하는 마우스는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rapoo VT 시리즈, VGN Dragonfly 시리즈, 특정 Razer 모델, Logitech G Pro 시리즈 등과 같은 일부 고급 마우스 브랜드는 드라이버 소프트웨어를 통해 디바운싱 매개변수 조정을 지원합니다."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "도구 상자",
+          "item": "https://starryring.com/ko/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "마우스 테스트 도구",
+          "item": "https://starryring.com/ko/toolbox/mouse/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "더블클릭 테스트 원리",
+          "item": "https://starryring.com/ko/toolbox/mouse/double-click/principle/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<meta name="description" content="마우스 더블클릭 작동 방식과 잘못된 더블클릭 감지 메커니즘에 대한 심층적인 설명입니다. 마우스 마이크로스위치, 디바운싱 기술, 하드웨어 결함 진단 원리 및 솔루션에 대한 세부 정보입니다.">
+    <link rel="canonical" href="https://starryring.com/ko/toolbox/mouse/double-click/principle/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/mouse/double-click/principle/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/mouse/double-click/principle/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/mouse/double-click/principle/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/mouse/double-click/principle/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/mouse/double-click/principle/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/mouse/double-click/principle/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/mouse/double-click/principle/">
+<meta property="og:url" content="https://starryring.com/ko/toolbox/mouse/double-click/principle/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="🖱️ 더블 클릭 테스트 도구 작동 방식에 대한 자세한 설명 - 마우스 오류 감지 기술">
+    <meta property="og:description" content="마우스 더블클릭 작동 방식과 잘못된 더블클릭 감지 메커니즘에 대한 심층적인 설명입니다. 마우스 마이크로스위치, 디바운싱 기술, 하드웨어 결함 진단 원리 및 솔루션에 대한 세부 정보입니다.">
+    <meta name="twitter:title" content="🖱️ 더블 클릭 테스트 도구 작동 방식에 대한 자세한 설명 - 마우스 오류 감지 기술">
+    <meta name="twitter:description" content="마우스 더블클릭 작동 방식과 잘못된 더블클릭 감지 메커니즘에 대한 심층적인 설명입니다. 마우스 마이크로스위치, 디바운싱 기술, 하드웨어 결함 진단 원리 및 솔루션에 대한 세부 정보입니다.">
+    <meta name="keywords" content="마우스 더블 클릭 테스트, 잘못된 더블 클릭 감지, 마우스 마이크로스위치, 디바운싱 기술, 마우스 오류 진단, 마우스 클릭 채터링 감지, 하드웨어 테스트 도구">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/mouse/double-click/principle/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/mouse/double-click/principle/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/mouse/double-click/principle/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/toolbox/mouse/double-click/principle/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/toolbox/mouse/double-click/principle/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/mouse/double-click/principle/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language Switcher --> 
+ <!-- Sidebar Table of Contents --> 
+     <nav class="sidebar-nav"> 
+     <h2> 목차 </h2> 
+     <a href="#t1"> 1. 마우스는 어떤 정보를 보내나요? </a> 
+     <a href="#t2"> 2. 더블클릭이란 무엇입니까? </a> 
+     <a href="#t3"> 3. 더블클릭 오류란 무엇입니까? </a> 
+     <a href="#t4"> 4. 잘못된 더블클릭은 어떻게 발생합니까? </a> 
+     <a href="#t5"> 5. 이 도구가 잘못된 더블 클릭을 감지하는 방법 </a> 
+     <a href="#t6"> 6. 잘못된 더블클릭을 줄이기 위해 마우스가 할 수 있는 일 </a> 
+ </nav> 
+
+ <main> 
+         <!-- Breadcrumb Navigation --> 
+     <nav aria-label="Breadcrumb Navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> 
+                 <a href="/ko/" class="breadcrumb-link"> <i class="fas fa-home"> </i> 홈 </a> 
+             </li> 
+             <li class="breadcrumb-item"> 
+                 <a href="/ko/toolbox/mouse/" class="breadcrumb-link"> <i class="fas fa-toolbox"> </i> 마우스 테스트 도구 </a> 
+             </li> 
+             <li class="breadcrumb-item"> 
+                 <a href="/ko/toolbox/mouse/double-click/" class="breadcrumb-link"> <i class="fas fa-toolbox"> </i> 더블클릭 테스트 </a> 
+             </li> 
+             <li class="breadcrumb-item" aria-current="page"> 
+                 <span class="breadcrumb-active"> <i class="fas fa-mouse"> </i> 두 번 클릭 테스트 도구 - 작동 원리 </span> 
+             </li> 
+         </ol> 
+     </nav> 
+     <h1> 더블클릭 테스트 도구 - 세부 작동 원리 </h1> 
+     <p> 이 문서에서는 마우스 두 번 클릭이 작동하는 방식과 이 도구가 잘못된 두 번 클릭을 감지하는 데 사용하는 메커니즘에 대해 자세히 설명합니다. </p> 
+
+     <section id="t1" class="section"> 
+         <h2> 1. 마우스는 컴퓨터로 어떤 정보를 전송합니까? </h2> 
+         <p> 마우스는 세 가지 유형의 정보만 컴퓨터에 보냅니다: </p> 
+         <ul> 
+             <li> <strong> 버튼 상태: </strong> 버튼을 눌렀는지 놓았는지 여부. </li> 
+             <li> <strong> 변위 변경: </strong> X 및 Y축의 이동량입니다. </li> 
+             <li> <strong> 스크롤 휠 방향: </strong> 휠을 위로 스크롤할지 아래로 스크롤할지 여부입니다. </li> 
+         </ul><p> 맞습니다. 제대로 읽으셨습니다. 마우스는 </strong> <strong> 두 번 클릭 신호 </strong>을 컴퓨터에 보내는 것이 아니라 <strong>을 수행하지 않습니다. 버튼을 누르고 놓을 때 생성된 시간 펄스만 보냅니다. 정확히 말하면 마우스 자체는 <a href="#t2"> 더블클릭이 </a> 무엇인지 알지 못합니다. 그렇다면 더블클릭이 발생하면 컴퓨터는 어떻게 알 수 있을까요? 컴퓨터는 더블클릭 신호를 어디서 얻나요? 괜찮아요; 다음 섹션, <a href="#t2"> 더블클릭이란 무엇입니까? </a> 님, 이에 대해 설명합니다. </p> 
+     </section> 
+
+     <section id="t2" class="section"> 
+         <h2> 2. 더블클릭이란 무엇입니까? </h2> 
+         <p> <strong> 두 번 클릭 </strong>은 시간 임계값(일반적으로 500ms) 내에 마우스 버튼을 두 번 누르면 발생합니다(이 임계값은 다양한 시스템/설정에서 조정 가능하며 Windows/macOS 제어판에서 특정 구성을 볼 수 있습니다). 이러한 신호는 운영 체제에서 두 번 클릭으로 인식됩니다. 맞습니다. 두 번 클릭 신호는 운영 체제 자체에 의해 정의됩니다. 타임 펄스 신호가 정의와 일치하는 한 OS는 아래 그림과 같이 주저 없이 이를 더블 클릭으로 인식합니다. </p> 
+        
+         <div class="tip-box"> 
+         <h3> 참고: </h3> 
+           두 번 누르는 간격이 500ms 미만이면 더블클릭으로 계산됩니다. 즉, 50ms 또는 20ms 간격도 적합합니다. 그런데 인간이 어떻게 그 속도에 도달할 수 있습니까? 그들은 할 수 없습니다. 그러나 운영 체제는 인간이 그것을 할 수 있는지 여부에는 관심이 없습니다. 간격이 500ms 미만인 경우에만 중요합니다. 이는 또한 일부 마우스에서 <strong> <a href="#t3"> 잘못된 더블 클릭 </a> </strong> 문제(사람이 아닌 행동에 의해 트리거되는 더블 클릭)를 경험하는 이유를 설명합니다.
+         </div> 
+         <div class="tip-box"> 
+         <h3> 참고: </h3> 
+            <strong> 왼쪽 버튼 두 번 클릭 </strong>은 Windows 및 macOS와 같은 주류 운영 체제의 기본 상호 작용 논리입니다. 전문 소프트웨어: 일부 CAD 도면 소프트웨어, 3D 모델링 도구(특정 Blender 플러그인 등) 또는 지리 정보 시스템(GIS)에서 <strong> 마우스 오른쪽 버튼 더블 클릭 </strong>은 "현재 명령 취소" 또는 "이전 메뉴로 돌아가기"로 정의됩니다. 이러한 소프트웨어에서는 마우스 오른쪽 버튼을 두 번 클릭하면 현재 작업을 빠르게 취소하거나 이전 보기로 돌아갈 수 있어 작업 흐름 효율성이 향상됩니다.
+         </div> 
+        <!-- Image Modal --> 
+             <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="Enlarged Image View" hidden> 
+                 <div class="modal-content" id="modalContent"> 
+                     <button class="modal-close" id="modalClose" aria-label="Close Image View"> × </button> 
+                     <img id="modalImage" src="" alt="" itemprop="image"> 
+                     <button class="modal-zoom" id="modalZoom" aria-label="Zoom In/Out Image"> 
+                         <i class="fas fa-search-plus" aria-hidden="true"> </i> 
+                     </button> 
+                     <div class="modal-caption" id="modalCaption"> </div> 
+                 </div> 
+             </div> 
+            <!-- Optimized Image Display --><figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/zh/theprincipleofmouse.png"> 
+                     <img src="https://assets.starryring.com/mouse/double-click-schematic.png" 
+                         alt="Mouse Double-Click Timeline Schematic"
+                         loading="lazy"
+                         itemprop="contentUrl"> 
+                     <figcaption class="image-caption" itemprop="caption"> 
+                        마우스 버튼 상태 타이밍 다이어그램 - 시간이 지남에 따라 마우스 버튼 상태가 어떻게 변하는지 보여줍니다.
+                     </figcaption> 
+                     <div class="image-hint" aria-hidden="true"> 이미지를 더블클릭하시면 확대됩니다. </div> 
+                 </figure>    
+     </section> 
+
+     <section id="t3" class="section"> 
+         <h2> 3. 더블클릭 오류란 무엇입니까? </h2> 
+         <p> <strong> 두 번 클릭 오류 </strong>은 사용자가 한 번만 클릭했지만 마우스 하드웨어 문제로 인해 시스템이 일반적으로 80ms 미만의 간격으로 여러 번의 클릭 신호를 수신하는 경우입니다. 인간의 클릭 속도는 이만큼 빠를 수 없지만 이번 펄스는 운영 체제의 <strong> <a href="#t2"> 더블 클릭 정의 </a> </strong> 을 충족합니다. </p> 
+         <p> 잘못된 더블클릭은 일반적으로 다음과 같이 나타납니다. </p> 
+         <ul> 
+             <li> 한 번 클릭하면 파일이 열리고 즉시 닫힙니다(선택 및 선택 취소). </li> 
+             <li> 드래그가 갑자기 중단됩니다. </li> 
+             <li> 텍스트를 한 번 클릭하면 두 단어가 선택됩니다. </li> 
+         </ul> 
+        
+         <div class="tip-box"> 
+         <h3> 참고: </h3> 
+            <strong> 더블클릭 불량 </strong>은 '비정상 더블클릭', '채터링', '클릭 바운스' 또는 하드웨어 오판 더블클릭이라고도 합니다.
+         </div> 
+     </section> 
+
+     <section id="t4" class="section"> 
+         <h2> 4. 잘못된 더블클릭은 어떻게 발생합니까? </h2> 
+         <p> 더블클릭 불량의 근본 원인은 <strong> 마이크로스위치 </strong> 내부 접점의 비정상적인 개폐에 있습니다. 일반적인 원인은 다음과 같습니다: </p> 
+         <ul> 
+             <li> <strong> 마이크로스위치 노후화: </strong> 장기간 사용 후 금속 스프링 피로로 인해 리바운드 불량이 발생합니다. </li> 
+             <li> <strong> 접촉 산화: </strong> 공기 중의 황화물은 표면 산화를 유발하여 접촉 저항을 증가시킵니다. </li> 
+             <li> <strong> 먼지 또는 이물질: </strong> 마이크로 스위치에 들어가 접촉이 불안정해집니다. </li> 
+             <li> <strong> 기계적 마모: </strong> 접점의 표면 마모로 인해 접촉 불량이 발생합니다. </li> 
+         </ul> 
+         <p> 이러한 물리적 변화로 인해 한 번 누르는 동안 회로가 여러 번 잠깐 열렸다가 닫히게 되어 시스템이 이를 여러 번의 클릭으로 잘못 해석하게 됩니다. </p> 
+     </section> 
+
+     <section id="t5" class="section"> 
+         <h2> 5. 이 도구가 잘못된 더블 클릭을 감지하는 방법 </h2> 
+         <p> 이 도구는 지능형 알고리즘과 결합된 고정밀 타이밍 및 이벤트 리스너를 사용하여 사람이 생성하지 않은 비정상적인 클릭 신호를 정확하게 식별합니다. </p> 
+        
+         <h3> 탐지 원리: </h3> 
+         <ul><li> <strong> 이벤트 청취: </strong> 마우스 <code> mousedown </code> 및 <code> mouseup </code> 이벤트의 실시간 캡처. </li> 
+             <li> <strong> 타임스탬프 기록: </strong> 각 이벤트에 대해 정확한 타임스탬프(밀리초 정확도)를 기록합니다. </li> 
+             <li> <strong> 간격 분석: </strong> 두 개의 연속 <code> 마우스 다운 </code> 이벤트 사이의 시간 간격을 계산합니다. </li> 
+         </ul> 
+
+         <h3> 판단 논리: </h3> 
+         <p> 두 개의 <code> mousedown </code> 이벤트 사이의 간격이 <strong> 80ms </strong> 미만인 경우 더블클릭 불량으로 판단됩니다. 이는 일반적인 사람의 두 번 클릭 간격이 일반적으로 100ms보다 크기 때문입니다. 80ms보다 짧은 연속 클릭은 하드웨어 바운스로 인해 발생할 가능성이 매우 높습니다. </p> 
+
+         <div class="logic-box"> 
+             <strong> 판정 공식: </strong> <br> 
+            if (timeBetweenPresses < 80ms) → Judged as Faulty Double-Click
+        </div> 
+
+         <div class="log-demo"> 
+             <strong> 잘못된 더블클릭 로그 예: </strong> <br> 
+            [10:00:01] 왼쪽 버튼 아래로 <br> 
+            [10:00:01] 왼쪽 버튼 누르기(간격: 45ms) → <span style="color: #fb7185;"> </span> 채팅 감지됨 
+         </div> 
+
+         <p> 이 도구는 잘못된 더블클릭 횟수도 계산합니다. </p> 
+     </section> 
+     <section id="t6" class="section"> 
+         <h2> 6. 잘못된 더블클릭을 줄이기 위해 마우스가 할 수 있는 일은 무엇입니까? </h2> 
+         <p> 일부 고급 마우스 브랜드 및 모델은 디바운싱 기능을 제공하므로 사용자는 드라이버 소프트웨어를 통해 디바운싱 매개변수를 조정하여 잘못된 더블클릭 발생을 줄일 수 있습니다. 아래는 디바운싱 기능을 통합한 후의 마우스 작동 상태 다이어그램입니다. </p> 
+
+         <div class="svg-container"> 
+             <svg width="1100" height="720" viewBox="0 0 1100 720"
+                xmlns="http:/www.w3.org/2000/svg"
+                font-family="Arial, sans-serif"> 
+
+             <!-- ========== Definitions ========== --> 
+             <defs> 
+                 <marker id="arrow" markerWidth="10" markerHeight="10"
+                        refX="8" refY="3" orient="auto"> 
+                 <path d="M0,0 L0,6 L9,3 z" fill="currentColor"/> 
+                 </marker> 
+
+                 <style> 
+                .state { 채우기:#1e293b; }
+                .active { 애니메이션:펄스 1.4초 무한; }
+
+                @keyframes 펄스 {
+                    0%{필터:밝기(1)}
+                    50%{필터:밝기(1.6)}
+                    100%{필터:밝기(1)}
+                }
+
+                .플로우 {
+                    채우기:없음;
+                    획 너비:3;
+                    스트로크-다샤레이:8 6;
+                    애니메이션:흐름 1.8초 선형 무한;
+                }
+
+                @keyframes 흐름 {
+                    { 스트로크-대시 오프셋:-28; }
+                }
+
+                .ok { 스트로크:#22c55e; }
+                .fail { 스트로크:#818cf8; }
+                .bad { 스트로크:#ef4444; }
+                 </style> 
+             </defs> 
+
+             <!-- ========== Background ========== --> 
+             <rect width="1100" height="720" rx="20" fill="#020617"/><!-- ========== Title ========== --> 
+             <text x="550" y="42" text-anchor="middle"
+                    font-size="22" fill="#e5e7eb" font-weight="bold"> 
+                마우스 두 번 클릭 상태 머신 완료
+             </text> 
+
+             <!-- ========== States ========== --> 
+             <!-- Idle --> 
+             <rect x="470" y="80" width="160" height="60" rx="12"
+                    class="state active"/> 
+             <text x="550" y="118" text-anchor="middle" fill="#e5e7eb"> 대기 중 </text> 
+
+             <!-- First Press --> 
+             <rect x="180" y="190" width="220" height="70" rx="12" class="state"/> 
+             <text x="290" y="232" text-anchor="middle" fill="#e5e7eb"> 
+                첫 보도
+             </text> 
+
+             <!-- First Release --> 
+             <rect x="180" y="300" width="220" height="70" rx="12" class="state"/> 
+             <text x="290" y="342" text-anchor="middle" fill="#e5e7eb"> 
+                첫 번째 릴리스
+             </text> 
+
+             <!-- Waiting for Second Click --> 
+             <rect x="450" y="300" width="260" height="90" rx="14" class="state"/> 
+             <text x="580" y="338" text-anchor="middle" fill="#e5e7eb"> 
+                두 번째 클릭을 기다리는 중
+             </text> 
+             <text x="580" y="360" text-anchor="middle" fill="#94a3b8" font-size="12"> 
+                더블 클릭 타이머 활성화
+             </text> 
+
+             <!-- Second Press --> 
+             <rect x="800" y="300" width="220" height="70" rx="12" class="state"/> 
+             <text x="910" y="342" text-anchor="middle" fill="#e5e7eb"> 
+                두 번째 언론
+             </text> 
+
+             <!-- Success --> 
+             <rect x="800" y="440" width="220" height="70" rx="12"
+                    fill="#052e16"/> 
+             <text x="910" y="480" text-anchor="middle"
+                    fill="#22c55e" font-weight="bold"> 
+                두 번 클릭 확인됨
+             </text> 
+
+             <!-- Timeout/Distance Failure --> 
+             <rect x="450" y="440" width="260" height="70" rx="12"
+                    fill="#312e81"/> 
+             <text x="580" y="480" text-anchor="middle"
+                    fill="#c7d2fe"> 
+                시간 초과/거리 실패
+             </text> 
+
+             <!-- Hardware Bounce --> 
+             <rect x="180" y="440" width="220" height="110" rx="12"
+                    fill="#3b1d1d"/> 
+             <text x="290" y="472" text-anchor="middle"
+                    fill="#fecaca" font-weight="bold"> 
+                하드웨어 바운스
+             </text> 
+             <text x="290" y="494" text-anchor="middle"
+                    fill="#fecaca" font-size="12"> 
+                접촉 소음(3회)
+             </text> 
+
+             <!-- ========== Flows ========== --> 
+             <path d="M550 140 L290 190" class="flow ok" marker-end="url(#arrow)"/> 
+             <path d="M290 260 L290 300" class="flow ok" marker-end="url(#arrow)"/> 
+             <path d="M400 335 L450 335" class="flow ok" marker-end="url(#arrow)"/> 
+             <path d="M710 335 L800 335" class="flow ok" marker-end="url(#arrow)"/><path d="M910 370 L910 440" class="flow ok" marker-end="url(#arrow)"/> 
+
+             <!-- Failure --> 
+             <path d="M580 390 L580 440" class="flow fail" marker-end="url(#arrow)"/> 
+
+             <!-- Three Bounces --> 
+             <path d="M290 370 L290 420" class="flow bad" marker-end="url(#arrow)"/> 
+             <circle cx="260" cy="400" r="6" fill="#ef4444"/> 
+             <circle cx="290" cy="410" r="6" fill="#ef4444"/> 
+             <circle cx="320" cy="400" r="6" fill="#ef4444"/> 
+
+             <!-- Return --> 
+             <path d="M290 550 C290 620 550 620 550 140"
+                    class="flow bad" marker-end="url(#arrow)"/> 
+             <path d="M580 510 C580 620 550 620 550 140"
+                    class="flow fail" marker-end="url(#arrow)"/> 
+             <path d="M910 510 C910 620 550 620 550 140"
+                    class="flow ok" marker-end="url(#arrow)"/> 
+
+             <!-- ========== Metrics Panel ========== --> 
+             <rect x="760" y="80" width="300" height="160" rx="14"
+                    fill="#020617" stroke="#334155"/> 
+
+             <text x="910" y="108" text-anchor="middle"
+                    fill="#e5e7eb" font-weight="bold"> 
+                실시간 지표(시뮬레이션)
+             </text> 
+
+             <text x="790" y="140" fill="#94a3b8"> 간격: </text> 
+             <text x="950" y="140" fill="#e5e7eb" id="interval"> 87ms </text> 
+
+             <text x="790" y="168" fill="#94a3b8"> 클릭수: </text> 
+             <text x="950" y="168" fill="#e5e7eb" id="clicks"> 2 </text> 
+
+             <text x="790" y="196" fill="#94a3b8"> 반송 횟수: </text> 
+             <text x="950" y="196" fill="#ef4444" id="bounce"> 3 </text> 
+
+             <!-- Bottom Note --> 
+             <text x="550" y="690" text-anchor="middle"
+                    fill="#64748b" font-size="13"> 
+                빨간색 경로: 하드웨어 바운스 감지를 나타냅니다. 파란색 경로: 시간 초과 또는 거리 실패를 나타냅니다. 녹색 경로: 성공을 나타냅니다.
+             </text> 
+             </svg> 
+         </div> 
+
+         <h2> 다음은 디바운싱 조정을 지원하는 마우스 브랜드 및 모델의 몇 가지 예입니다. </h2> 
+
+          <div class="table-container"> 
+             <table> 
+                 <thead> 
+                     <tr> 
+                         <th> <i class="fas fa-tag"> </i> 브랜드 </th> 
+                         <th> <i class="fas fa-list-alt"> </i> 시리즈/모델 예 </th> 
+                         <th> <i class="fas fa-desktop"> </i> 드라이버 소프트웨어 이름 </th> 
+                         <th> <i class="fas fa-sliders-h"> </i> 디바운싱 조정 범위(일반) </th> 
+                         <th> <i class="fas fa-sticky-note"> </i> 참고 </th> 
+                     </tr> 
+                 </thead> 
+                 <tbody> 
+                     <tr> 
+                         <td class="brand"> 라푸 </td> 
+                         <td class="model"> VT 시리즈(VT1 Pro Max, VT3s Max, VT3 Pro Max, VT1 Air Max, VT9 등) </td> 
+                         <td class="software"> A-허브 </td> 
+                         <td class="range"> 일반적으로 지원되며 조정 가능 0~20ms </td> 
+                         <td class="note"> </td> 
+                     </tr><tr> 
+                         <td class="brand"> VGN </td> 
+                         <td class="model"> Dragonfly 시리즈(Dragonfly F1 Pro Max 등) </td> 
+                         <td class="software"> VGN VHUB </td> 
+                         <td class="range"> 맞춤형 디바운싱 지원 </td> 
+                         <td class="note"> </td> 
+                     </tr> 
+                     <tr> 
+                         <td class="brand"> 키크론 </td> 
+                         <td class="model"> 일부 게임용 마우스 </td> 
+                         <td class="software"> 키크론 런처 </td> 
+                         <td class="range"> 드래그 가능한 조정 </td> 
+                         <td class="note"> </td> 
+                     </tr> 
+                     <tr> 
+                         <td class="brand"> 레이저 </td> 
+                         <td class="model"> 일부 고급 모델(예: 펌웨어 업데이트 후 특정 Viper/DeathAdder 모델) </td> 
+                         <td class="software"> 레이저 시냅스 </td> 
+                         <td class="range"> 일부 모델은 </td>을 지원합니다(전부는 아님). 
+                         <td class="note"> </td> 
+                     </tr> 
+                     <tr> 
+                         <td class="brand"> 로지텍 </td> 
+                         <td class="model"> G Pro 시리즈(일부 모델) </td> 
+                         <td class="software"> G 허브 </td> 
+                         <td class="range"> 부분 지원(4ms부터) </td> 
+                         <td class="note"> </td> 
+                     </tr> 
+                     <tr> 
+                         <td class="brand"> 마치니케 </td> 
+                         <td class="model"> L8Max 모델 </td> 
+                         <td class="software"> L8 드라이버 </td> 
+                         <td class="range"> 지원(2ms, 4ms, 8ms) </td> 
+                         <td class="note"> </td> 
+                     </tr> 
+                 </tbody> 
+             </table> 
+         </div> 
+        
+         <div class="legend"> 
+             <div class="legend-item"> 
+                 <div class="color-sample brand-color"> </div> 
+                 <span> 브랜드명 </span> 
+             </div> 
+             <div class="legend-item"> 
+                 <div class="color-sample model-color"> </div> 
+                 <span> 마우스 모델 </span> 
+             </div> 
+             <div class="legend-item"> 
+                 <div class="color-sample software-color"> </div> 
+                 <span> 드라이버 소프트웨어 </span> 
+             </div> 
+             <div class="legend-item"> 
+                 <div class="color-sample range-color"> </div> 
+                 <span> 디바운싱 범위 </span> 
+             </div> 
+             <div class="legend-item"> 
+                 <div class="color-sample note-color"> </div> 
+                 <span> 메모 </span> 
+             </div> 
+         </div> 
+     </section> 
+ </main> 
+
+ <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;"> 
+     <div style="margin-bottom:6px;"> © 2026 StarryRing · 마우스 더블클릭 테스트 원리 </div> 
+     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"><a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+         <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+         <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+         <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a> 
+         <a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+     </div> 
+ </footer><script src="/static/js/shared/image-modal.js"></script>
+<script src="/static/js/shared/article.js"></script>
+<script src="/static/js/shared/table.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+
+</body>
+</html>

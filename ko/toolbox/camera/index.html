@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- Core SEO Meta Tags -->
+    <title>온라인 웹캠 테스트 도구 - 전문 카메라 해상도 및 FPS 테스터 | StarryRing</title>
+<meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Canonical URL & Hreflang -->
+
+
+
+<!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/camera/og-image-en.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Preview of the online webcam test tool interface">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/camera/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/camera/og-image-en.jpg">
+    <meta name="twitter:creator" content="@starryring">
+    
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Webcam Test">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#121212">
+    <meta name="msapplication-TileColor" content="#121212">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="/sitemap-tools-en.xml">
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="/static/css/toolbox/camera/style.css" as="style">
+    <link rel="preload" href="/static/js/toolbox/camera/script-ko.js" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Critical CSS (Above the Fold) -->
+    <style>
+        /* Critical CSS - Above the fold styles */
+        :root { 
+            --bg-color: #121212; 
+            --card-bg: #1e1e1e; 
+            --text-main: #e0e0e0; 
+            --text-muted: #a0a0a0; 
+            --accent: #4a6bff; 
+            --accent-hover: #3a5bef; 
+            --border: #333; 
+            --success: #00d4aa; 
+            --danger: #ef4444; 
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        
+        h1 { 
+            margin-bottom: 20px; 
+            font-weight: 300; 
+            margin-top: 20px; 
+            text-align: center; 
+            font-size: clamp(1.5rem, 4vw, 2.2rem); 
+        }
+        
+        .badge { 
+            background: var(--success); 
+            color: white; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-size: 0.6rem; 
+            vertical-align: middle; 
+            margin-left: 8px; 
+            font-weight: 600; 
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+        }
+        
+        /* Mobile touch optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            button, select {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Reduced motion (accessibility) */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+    
+    <!-- Non-critical CSS async loading -->
+    <link rel="stylesheet" href="/static/css/toolbox/camera/style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/static/css/toolbox/camera/style.css"></noscript>
+    
+    <!-- Shared Stylesheets -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
+   
+    <!-- Structured Data Schema Markup (merged, English) -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "온라인 웹캠 테스트 도구",
+      "description": "포괄적인 성능 분석을 갖춘 전문 온라인 카메라 테스트 도구",
+      "url": "https://starryring.com/ko/toolbox/camera/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com"
+      },
+      "featureList": [
+        "실시간 비디오 스트림 테스트",
+        "해상도 및 FPS 측정",
+        "하드웨어 성능 분석",
+        "장치 전환 및 관리",
+        "거울 뒤집기 기능",
+        "실시간 성능 모니터링"
+      ],
+      "softwareVersion": "2.1.0",
+      "datePublished": "2026-01-01",
+      "dateModified": "2026-01-05"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "카메라가 표시되지 않는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이는 브라우저 권한 제한이나 카메라 하드웨어 문제 때문일 수 있습니다. 다음 사항을 확인하십시오. 1) 브라우저가 카메라에 액세스할 수 있도록 허용합니다. 2) 카메라가 올바르게 연결되어 있습니다. 3) 현재 카메라를 사용하는 다른 응용 프로그램이 없습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "카메라 프레임 속도(FPS)를 어떻게 테스트하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "페이지 오른쪽 상단에서 실시간 FPS 값을 확인하세요. 전문가용 카메라는 일반적으로 30fps 이상을 지원하고 고급 카메라는 60fps 이상을 지원합니다. 안정적인 프레임 속도는 원활한 비디오의 핵심입니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "카메라 품질이 좋지 않은지 어떻게 알 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "다음 사항을 발견한 경우: 1) 영상이 흐릿합니다. 2) 낮은 프레임 속도로 인해 끊김 현상이 발생합니다. 3) 색상 왜곡; 4) 저조도에서는 성능이 좋지 않습니다. 이는 카메라 품질 문제를 나타낼 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "어떤 종류의 카메라가 지원되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "노트북 내장 카메라, USB 외부 카메라, 웹캠, 회의 카메라, 라이브 스트리밍 카메라 등 모든 유형의 카메라가 지원됩니다. Windows, macOS 및 Linux와 호환됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "카메라 해상도를 어떻게 테스트하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "도구는 자동으로 현재 해상도를 표시합니다. 고품질 카메라는 일반적으로 1080p(1920x1080) 이상을 지원하는 반면, 표준 카메라는 720p(1280x720)만 지원할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "내 테스트 데이터가 저장되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "모든 테스트 데이터는 현재 브라우저 세션에만 저장됩니다. 페이지를 새로 고치거나 탭을 닫으면 해당 정보가 손실됩니다. 우리는 귀하의 개인 정보를 보호하기 위해 카메라 데이터를 수집하거나 업로드하지 않습니다."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "도구 상자",
+          "item": "https://starryring.com/ko/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "웹캠 테스트 도구",
+          "item": "https://starryring.com/ko/toolbox/camera/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "웹캠 테스트 도구를 사용하는 방법",
+      "description": "카메라 성능, 해상도 및 프레임 속도를 테스트하기 위한 단계별 가이드",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "카메라 권한 허용",
+          "text": "메시지가 표시되면 브라우저가 카메라에 액세스할 수 있도록 허용합니다. 이는 테스트가 작동하는 데 필요합니다.",
+          "image": "https://starryring.com/ko/toolbox/camera/step1-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "카메라 장치 선택",
+          "text": "여러 대의 카메라가 연결되어 있는 경우 장치 드롭다운 메뉴에서 카메라를 선택하세요.",
+          "image": "https://starryring.com/ko/toolbox/camera/step2-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "비디오 스트림을 확인하세요",
+          "text": "실시간 영상을 관찰하여 카메라가 제대로 작동하는지 확인하세요. 흐릿함, 끊김 또는 색상 문제를 확인하세요.",
+          "image": "https://starryring.com/ko/toolbox/camera/step3-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "성능 데이터 분석",
+          "text": "통계 패널에서 해상도, FPS 및 하드웨어 기능을 확인하세요. 실시간 성과 지표를 모니터링합니다.",
+          "image": "https://starryring.com/ko/toolbox/camera/step4-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "고급 기능 테스트",
+          "text": "거울 뒤집기 기능을 사용해 보세요. 카메라가 지원하는 경우 다양한 해상도 모드를 탐색해 보세요.",
+          "image": "https://starryring.com/ko/toolbox/camera/step5-en.png"
+        }
+      ],
+      "totalTime": "PT2M"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://starryring.com/ko/toolbox/camera/#webpage",
+      "url": "https://starryring.com/ko/toolbox/camera/",
+      "name": "온라인 웹캠 테스트 도구",
+      "description": "카메라 성능 및 해상도 테스트를 위한 무료 온라인 카메라 테스트 도구",
+      "inLanguage": "ko",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://starryring.com/#website",
+        "url": "https://starryring.com",
+        "name": "StarryRing",
+        "description": "무료 온라인 도구 및 유틸리티"
+      }
+    }
+  ]
+}
+</script>
+<meta name="description" content="무료 온라인 웹캠 테스트 도구. 실시간 카메라 성능 테스트, 해상도 확인, FPS 측정, 하드웨어 성능 분석. 다운로드가 필요하지 않습니다. 노트북 카메라, USB 카메라 등을 지원합니다.">
+    <link rel="canonical" href="https://starryring.com/ko/toolbox/camera/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/camera/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/camera/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/camera/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/camera/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/camera/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/camera/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/camera/">
+<meta property="og:url" content="https://starryring.com/ko/toolbox/camera/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="📷 온라인 웹캠 테스트 도구 - 무료 카메라 확인 및 해상도 테스트">
+    <meta property="og:description" content="무료 온라인 웹캠 테스트 도구. 실시간 카메라 성능 테스트, 해상도 확인, FPS 측정. 다운로드가 필요하지 않습니다.">
+    <meta name="twitter:title" content="📷 온라인 웹캠 테스트 도구 - 무료 카메라 확인 및 해상도 테스트">
+    <meta name="twitter:description" content="무료 온라인 웹캠 테스트 도구. 실시간 카메라 성능 테스트, 해상도 확인, FPS 측정. 다운로드가 필요하지 않습니다.">
+    <meta name="keywords" content="웹캠 테스트, 카메라 테스트, 온라인 웹캠 테스터, 카메라 해상도 테스트, FPS 테스트, 카메라 성능 테스트, 노트북 카메라 테스트, USB 카메라 테스트, 회의 카메라 테스트, 웹캠 품질 확인">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/camera/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/camera/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/camera/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/toolbox/camera/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/toolbox/camera/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/camera/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language Switcher --> 
+ <!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/ko/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-home" aria-hidden="true"> </i>  
+                         <span itemprop="name"> 홈 </span> 
+                     </a> 
+                     <meta itemprop="position" content="1" /> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/ko/toolbox/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-box" aria-hidden="true"> </i> <span itemprop="name"> 도구상자 </span> 
+                     </a> 
+                     <meta itemprop="position" content="2" /> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <span class="breadcrumb-active" itemprop="name"> 웹캠 테스트 도구 </span> 
+                     <meta itemprop="position" content="3" /> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+
+     <!-- Page Main Title --> 
+     <h1 id="title-text"> 전문 웹캠 테스트 도구 - 실시간 카메라 감지, 해상도/FPS 분석 <span class="badge"> 무료 온라인 도구 </span> </h1> 
+
+     <!-- Introductory Content --> 
+     <div class="intro-section"> 
+         <p> 무료 온라인 웹캠 테스트 도구이며 소프트웨어 설치가 필요하지 않습니다. WebRTC 기술로 개발된 이 제품은 <strong> 비디오 스트림 품질 테스트 </strong> , <strong> 해상도 감지 </strong> , <strong> 프레임 속도(FPS) 분석 </strong> , <strong> 하드웨어 성능 확인 </strong>을 포함하여 카메라 성능 지표를 실시간으로 측정합니다. 다양한 장치 유형 지원: </p> 
+         <div class="keyboard-types"> 
+             <span class="keyboard-type-tag"> 노트북 카메라 </span> 
+             <span class="keyboard-type-tag"> USB 외장 카메라 </span> 
+             <span class="keyboard-type-tag"> 웹캠 </span> 
+             <span class="keyboard-type-tag"> HD 카메라 </span><span class="keyboard-type-tag"> 회의 카메라 </span> 
+             <span class="keyboard-type-tag"> 라이브 스트리밍 카메라 </span> 
+             <span class="keyboard-type-tag"> 휴대폰 카메라(브라우저 지원 필요) </span> 
+         </div> 
+         <div class="compatibility-note"> 
+             <i class="fas fa-info-circle"> </i> <strong> 호환성 참고: </strong> 이 도구는 Chrome, Firefox, Edge, Safari와 같은 최신 브라우저에서 작동하며 HTTPS 환경 또는 로컬 호스트 액세스가 필요합니다.
+         </div> 
+     </div> 
+
+     <div class="container"> 
+         <section> 
+             <div class="card" style="margin-bottom: 20px;"> 
+                 <div class="controls-row"> 
+                     <div class="select-group"> 
+                         <label id="video-label" for="videoSource"> 영상 출처 </label> 
+                         <select id="videoSource"> <option> 장치 감지 중... </option> </select> 
+                     </div> 
+                 </div> 
+                 <div class="controls-row" style="margin-bottom: 0;"> 
+                     <div class="btn-group"> 
+                         <button id="btn-mirror" class="secondary"> 거울뒤집기 </button> 
+                     </div> 
+                 </div> 
+             </div> 
+
+             <div class="card" style="padding: 10px;"> 
+                 <div class="video-wrapper"> 
+                     <video id="video" autoplay playsinline aria-label="Camera live feed"> </video> 
+                     <div class="overlay-stats"> 
+                         <span id="live-res"> 0x0 </span> |  <span id="live-fps"> 0 </span> FPS
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <aside> 
+             <div class="card"> 
+                 <h3 id="status-header-text"> <span class="status-dot"> </span> 장치 상태 </h3> 
+                 <table class="info-table"> 
+                     <tr> <td id="run-status-label"> 상태 </td> <td id="status-text"> 권한 요청 중... </td> </tr> 
+                     <tr> <td id="device-name-label"> 장치 이름 </td> <td id="device-label"> - </td> </tr> 
+                     <tr> <td id="actual-res-label"> 실제 해상도 </td> <td id="info-res"> - </td> </tr> 
+                     <tr> <td id="aspect-ratio-label"> 화면 비율 </td> <td id="info-aspect"> - </td> </tr> 
+                 </table> 
+
+                 <h3 id="caps-header-text" style="margin-top: 20px;"> 하드웨어 기능 </h3> 
+                 <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;"> * 브라우저/드라이버에서 읽은 매개변수 </div> 
+                 <table class="info-table" id="capabilities-table"> 
+                     <tr> <td> - </td> <td> - </td> </tr> 
+                 </table> 
+             </div> 
+         </aside> 
+     </div> 
+
+     <!-- Core Advantages --> 
+     <div class="stats-section"> 
+         <h2> 웹캠 테스트 도구의 주요 장점 </h2> 
+         <div class="stats-grid"> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> 100% </div> 
+                 <div class="stat-title"> 무료 </div> 
+                 <p> 등록 불필요, 비용 없음 </p> 
+             </div> 
+             <div class="stat-item"><div class="stat-number"> 실시간 </div> 
+                 <div class="stat-title"> 즉석 테스트 </div> 
+                 <p> 카메라 매개변수를 즉시 확인하세요 </p> 
+             </div> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> 개인정보 보호 </div> 
+                 <div class="stat-title"> 보안 </div> 
+                 <p> 데이터는 로컬에 유지되며 업로드되지 않습니다 </p> 
+             </div> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> 다중 장치 </div> 
+                 <div class="stat-title"> 폭넓은 호환성 </div> 
+                 <p> 모든 카메라 유형 지원 </p> 
+             </div> 
+         </div> 
+     </div> 
+
+
+     <!-- Feature Description and FAQ Section --> 
+     <section class="instructions-section"> 
+         <div class="instructions-content" id="instructions-content"> 
+             <h2> 전문 웹캠 테스트 도구 기능 </h2> 
+             <p> 📖 개요: 전문 웹캠 테스트 도구는 기본 비디오 스트리밍부터 고급 성능 분석까지 포괄적인 카메라 테스트를 제공하여 카메라 상태를 완전히 이해할 수 있도록 도와줍니다. 노트북 내장 카메라, USB 외부 카메라, 웹캠 등을 포함한 모든 카메라 유형을 지원합니다. </p> 
+            
+             <div class="feature-grid"> 
+                 <div class="feature-item"> 
+                     <h3> 🔍 실시간 영상 스트림 확인 </h3> 
+                     <p> 카메라 비디오 스트림을 실시간으로 표시하여 전송이 안정적이고 원활하며 끊김, 지연 또는 프레임 저하가 없는지 감지합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 팁: </span> 끊김 없이 비디오 스트림이 부드러운지 관찰하세요. 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 📊 해상도 및 프레임 속도 테스트 </h3> 
+                     <p> 카메라의 최대 지원 해상도, 최적 해상도, 다양한 프레임 속도 모드를 감지하여 실시간 해상도 및 FPS 데이터를 표시합니다. </p> 
+   
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> ⚙️ 하드웨어 성능 분석 </h3> 
+                     <p> 지원되는 해상도 범위, 프레임 속도 범위, 초점 모드, 화이트 밸런스 등을 포함한 카메라의 기본 하드웨어 매개변수를 표시합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 카메라의 실제 성능을 이해하려면 하드웨어 성능에 주의하세요 </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 🎯 장치 전환 및 관리 </h3> 
+                     <p> 여러 카메라 장치 간 전환을 지원하여 사용 가능한 모든 카메라를 자동으로 감지하고 나열하므로 다양한 장치를 쉽게 테스트할 수 있습니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 비교 테스트를 위해 카메라 간 전환 </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"><h3> 🔄 거울 뒤집기 기능 </h3> 
+                     <p> 셀카 모드를 시뮬레이션하기 위한 미러 플립 스위치를 제공하여 카메라의 미러 처리 기능과 디스플레이 효과를 테스트합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 미러 기능은 화상회의나 셀카에 유용합니다 </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 📈 실시간 성능 모니터링 </h3> 
+                     <p> FPS, 해상도, 상태 등 주요 매개변수를 실시간으로 표시하여 카메라 성능을 정량적으로 평가할 수 있습니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 데이터 모니터링은 카메라 상태를 체계적으로 평가하는 데 도움이 됩니다 </span> 
+                     </div> 
+                 </div> 
+             </div> 
+            
+             <div class="faq-section"> 
+                 <h2> 자주 묻는 질문(FAQ) </h2> 
+                
+                 <div class="faq-item"> 
+                     <h3> 카메라가 표시되지 않는 이유는 무엇인가요? </h3> 
+                     <p> 브라우저 권한 제한이나 카메라 하드웨어 문제 때문일 수 있습니다. 다음 사항을 확인하십시오. 1) 브라우저가 카메라에 액세스할 수 있도록 허용합니다. 2) 카메라가 올바르게 연결되어 있습니다. 3) 현재 카메라를 사용하는 다른 응용 프로그램이 없습니다. </p> 
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> 카메라 프레임 속도를 어떻게 테스트하나요? </h3> 
+                     <p> 페이지 오른쪽 상단에 실시간 FPS 값을 보세요. 전문가용 카메라는 일반적으로 30fps 이상을 지원하고 고급 카메라는 60fps 이상을 지원합니다. 안정적인 프레임 속도는 원활한 비디오의 핵심입니다. </p> 
+    
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> 카메라 품질이 좋지 않은지 어떻게 알 수 있나요? </h3> 
+                     <p> 다음 사항이 발견될 경우: 1) 영상이 흐릿합니다. 2) 낮은 프레임 속도로 인해 끊김 현상이 발생합니다. 3) 색상 왜곡; 4) 저조도에서는 성능이 좋지 않습니다. 이는 카메라 품질 문제를 나타낼 수 있습니다. </p> 
+
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> 어떤 종류의 카메라가 지원되나요? </h3> 
+                     <p> 노트북 내장 카메라, USB 외부 카메라, 웹캠, 회의 카메라, 라이브 스트리밍 카메라 등 모든 유형의 카메라가 지원됩니다. Windows, macOS 및 Linux와 호환됩니다. </p> 
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> 카메라 해상도를 어떻게 테스트하나요? </h3> 
+                     <p> 도구는 자동으로 현재 해상도를 표시합니다. 고품질 카메라는 일반적으로 1080p(1920x1080) 이상을 지원하는 반면, 표준 카메라는 720p(1280x720)만 지원할 수 있습니다. </p> 
+
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> 테스트 데이터가 저장되나요? </h3><p> 모든 테스트 데이터는 현재 브라우저 세션에만 저장됩니다. 페이지를 새로 고치거나 탭을 닫으면 해당 정보가 손실됩니다. 우리는 귀하의 개인 정보를 보호하기 위해 카메라 데이터를 수집하거나 업로드하지 않습니다. </p> 
+                     <div class="faq-link-container"> 
+                         <span class="faq-tip-text"> 데이터 보안: 모든 데이터는 로컬에서 처리됩니다 </span> 
+                     </div> 
+                 </div> 
+             </div> 
+         </div> 
+     </section> 
+
+     <!-- Scripts (English version) --><script src="/static/js/toolbox/camera/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script><footer style="width:100%;max-width:960px;margin:40px auto 0;padding:20px 10px;border-top:1px solid rgba(255,255,255,0.12);text-align:center;font-size:0.85rem;color:var(--text-muted);"> 
+         <div style="margin-bottom:8px;"> 
+            © 2026 스타리링
+         </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+             <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+             <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+             <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a> 
+             <a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+         </div> 
+     </footer></body>
+</html>

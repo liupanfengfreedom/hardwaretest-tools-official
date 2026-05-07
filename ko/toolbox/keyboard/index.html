@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>전문 온라인 키보드 테스터 - NKRO, 채터링 및 응답 테스트 | StarryRing</title>
+<!-- Canonical & Internationalization -->
+
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Author -->
+    <meta name="author" content="Starry Tool">
+    <meta name="copyright" content="© 2026 Starry Tool. All rights reserved.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/keyboard/og-image-en.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Online keyboard tester interface preview">
+    <meta property="og:image:type" content="image/png">
+<meta property="og:site_name" content="Starry Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/keyboard/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/keyboard/twitter-image-en.png">
+    <meta name="twitter:image:alt" content="Online keyboard tester interface preview">
+    <meta name="twitter:creator" content="@starryring">
+
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Keyboard Tester">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="/static/css/toolbox/keyboard/style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/toolbox/keyboard/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+   
+    <!-- Structured Data Schema Markup -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "description": "탐색경로 탐색",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "도구 상자",
+          "item": "https://starryring.com/ko/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "키보드 테스터",
+          "item": "https://starryring.com/ko/toolbox/keyboard/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "온라인 키보드 테스터",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "무료 온라인 키보드 테스터. 채터링, 더블클릭, 응답 지연, NKRO(풀 키 롤오버)를 감지하고 수리 조언을 받으세요.",
+      "url": "https://starryring.com/ko/toolbox/keyboard/",
+      "image": "https://starryring.com/ko/toolbox/keyboard/og-image-en.png",
+      "author": {
+        "@type": "Organization",
+        "name": "별이 빛나는 도구"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "키보드 채터링(더블클릭 문제)을 어떻게 감지합니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이 도구의 키 누름 간격 감지 기능을 사용하십시오. 동일한 키를 두 번 누르는 간격이 80ms 미만이면 시스템은 이를 빨간색으로 표시하여 인간이 아닌 요인(스위치 고장, 접촉 산화 등)이 발생할 수 있음을 나타냅니다. 일반적인 인간 작업 간격은 일반적으로 100ms 이상입니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "키보드 디바운스 기술이란 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "디바운스 기술은 누를 때 기계식 스위치에서 여러 전기 펄스가 발생하는 것을 방지합니다. 키를 누르면 기계적 접점이 튕겨져 빠르게 켜짐/꺼짐 신호가 발생합니다. 디바운스 회로 또는 소프트웨어는 신호 확인을 지연(일반적으로 5-20ms)하여 한 번의 누르기가 한 번만 인식되도록 합니다."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<meta name="description" content="무료 온라인 키보드 테스터. 키 채터링, 더블클릭, 응답 지연 및 NKRO(전체 키 롤오버)를 전문적으로 감지합니다. 진단 및 수리 조언이 포함된 실시간 피드백. 지금 키보드 테스트를 시작하세요!">
+    <link rel="canonical" href="https://starryring.com/ko/toolbox/keyboard/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/keyboard/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/keyboard/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/keyboard/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/keyboard/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/keyboard/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/keyboard/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/keyboard/">
+<meta property="og:url" content="https://starryring.com/ko/toolbox/keyboard/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="온라인 키보드 테스터 - 채터링, NKRO 및 응답 감지">
+    <meta property="og:description" content="무료 온라인 키보드 테스터. 채터링, 더블클릭, 응답 지연 및 NKRO를 감지합니다. 모든 키보드 유형에서 작동합니다.">
+    <meta name="twitter:title" content="온라인 키보드 테스터 - 채터링, NKRO 및 응답 감지">
+    <meta name="twitter:description" content="무료 온라인 키보드 테스터. 채터링, 더블클릭, 응답 지연 및 NKRO를 감지합니다.">
+    <meta name="keywords" content="키보드 테스터, 키보드 테스트, 키 채터링 테스트, NKRO 테스트, 키보드 응답 테스트, 기계식 키보드 테스트, 키보드 진단, 온라인 키보드 테스트, 키 누름 간격, 안티 고스팅 테스트">
+</head>
+
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/keyboard/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/keyboard/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/keyboard/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/toolbox/keyboard/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/toolbox/keyboard/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/keyboard/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language switcher --> 
+ <!-- Breadcrumb navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ko/" class="breadcrumb-link"> 
+                         <i class="fas fa-home" aria-hidden="true"> </i>  
+                         <span> 홈 </span> 
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ko/toolbox/" class="breadcrumb-link"> 
+                         <i class="fas fa-box" aria-hidden="true"> </i> <span> 도구상자 </span> 
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <span class="breadcrumb-active"> 키보드 테스터 </span> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+     <!-- Page main title and short description --> 
+     <header role="banner" class="page-header"> 
+         <div class="header-content"> 
+             <h1 id="i18n-h1"> 온라인 키보드 테스터 </h1> 
+             <p class="lead-text"> 전문적인 무료 온라인 키보드 테스터. 키 감지, 채터링 테스트, 응답 지연 분석, NKRO(풀 키 롤오버) 진단을 신속하게 수행합니다. 실시간으로 전문적인 수리 조언을 받아보세요. </p> 
+         </div> 
+     </header> 
+
+     <!-- Quick start hint --> 
+     <div class="quick-start"> 
+         <div class="quick-tip"> 
+             <i class="fas fa-lightbulb"> </i> 
+             <span> 힌트: 테스트를 시작하려면 키보드의 아무 키나 누르세요. 키가 실시간으로 강조 표시됩니다. 전문적인 확인을 위해 "진단" 버튼을 클릭하세요. </span> 
+         </div> 
+     </div> 
+
+     <!-- Statistics bar --> 
+     <div class="stats-bar"> 
+         <div class="stat-items"> 
+             <div class="stat-item"> 
+                 <span class="stat-label" id="i18n-tested-keys"> 테스트된 키 </span> 
+                 <span class="stat-value" id="count-tested"> 0 </span> 
+             </div> 
+             <div class="stat-item"> 
+                 <span class="stat-label" id="i18n-total-strokes"> 총 프레스 수 </span> 
+                 <span class="stat-value" id="count-total"> 0 </span> 
+             </div> 
+             <div class="stat-item"> 
+                 <span class="stat-label" id="i18n-active-keys"> 동시(NKRO) </span><span class="stat-value" id="count-active"> 0 </span> 
+             </div> 
+             <div class="stat-item"> 
+                 <span class="stat-label"> 최대 동시 </span> 
+                 <span class="stat-value" id="count-max"> 0 </span> 
+             </div> 
+         </div> 
+        
+         <!-- Button group --> 
+         <div class="button-group"> 
+             <button class="btn-tips" onclick="showKeyboardTips()"> 
+                 <i class="fas fa-lightbulb"> </i> 팁
+             </button> 
+             <button class="btn-diagnosis" onclick="startDiagnosis()"> 
+                 <i class="fas fa-stethoscope"> </i> 진단
+             </button> 
+             <button class="btn-reset" id="i18n-reset-btn" onclick="resetTest()"> 
+                 <i class="fas fa-redo"> </i> 재설정
+             </button> 
+         </div> 
+     </div> 
+
+     <!-- Keyboard layout --> 
+     <div class="keyboard-container"> 
+         <!-- Main section --> 
+         <div class="main-section"> 
+             <div class="row" style="margin-bottom: 15px;"> 
+                 <div class="key" data-code="Escape" id="i18n-key-esc"> ESC </div> 
+                 <div style="width: 30px;"> </div> 
+                 <div class="key" data-code="F1"> F1 </div> 
+                 <div class="key" data-code="F2"> F2 </div> 
+                 <div class="key" data-code="F3"> F3 </div> 
+                 <div class="key" data-code="F4"> F4 </div> 
+                 <div style="width: 15px;"> </div> 
+                 <div class="key" data-code="F5"> F5 </div> 
+                 <div class="key" data-code="F6"> F6 </div> 
+                 <div class="key" data-code="F7"> F7 </div> 
+                 <div class="key" data-code="F8"> F8 </div> 
+                 <div style="width: 15px;"> </div> 
+                 <div class="key" data-code="F9"> F9 </div> 
+                 <div class="key" data-code="F10"> F10 </div> 
+                 <div class="key" data-code="F11"> F11 </div> 
+                 <div class="key" data-code="F12"> F12 </div> 
+             </div> 
+
+             <div class="row"> 
+                 <div class="key" data-code="Backquote"> ` </div> 
+                 <div class="key" data-code="Digit1"> 1 </div> 
+                 <div class="key" data-code="Digit2"> 2 </div> 
+                 <div class="key" data-code="Digit3"> 3 </div> 
+                 <div class="key" data-code="Digit4"> 4 </div> 
+                 <div class="key" data-code="Digit5"> 5 </div> 
+                 <div class="key" data-code="Digit6"> 6 </div> 
+                 <div class="key" data-code="Digit7"> 7 </div> 
+                 <div class="key" data-code="Digit8"> 8 </div> 
+                 <div class="key" data-code="Digit9"> 9 </div> 
+                 <div class="key" data-code="Digit0"> 0 </div> 
+                 <div class="key" data-code="Minus"> - </div> 
+                 <div class="key" data-code="Equal"> = </div> 
+                 <div class="key w-2" data-code="Backspace" id="i18n-key-backspace"> Bksp </div> 
+             </div> 
+
+             <div class="row"> 
+                 <div class="key w-1-5" data-code="Tab" id="i18n-key-tab"> 탭 </div> 
+                 <div class="key" data-code="KeyQ"> Q </div> 
+                 <div class="key" data-code="KeyW"> 여 </div><div class="key" data-code="KeyE"> E </div> 
+                 <div class="key" data-code="KeyR">R </div> 
+                 <div class="key" data-code="KeyT"> ㅜㅜ </div> 
+                 <div class="key" data-code="KeyY"> 네 </div> 
+                 <div class="key" data-code="KeyU"> 유 </div> 
+                 <div class="key" data-code="KeyI"> 나는 </div> 
+                 <div class="key" data-code="KeyO"> 오 </div> 
+                 <div class="key" data-code="KeyP"> 피 </div> 
+                 <div class="key" data-code="BracketLeft"> [ </div> 
+                 <div class="key" data-code="BracketRight"> ] </div> 
+                 <div class="key w-1-5" data-code="Backslash"> \ </div> 
+             </div> 
+
+             <div class="row"> 
+                 <div class="key w-1-75" data-code="CapsLock" id="i18n-key-caps"> 캡스 </div> 
+                 <div class="key" data-code="KeyA"> </div> 
+                 <div class="key" data-code="KeyS"> S </div> 
+                 <div class="key" data-code="KeyD"> ㄷ </div> 
+                 <div class="key" data-code="KeyF"> 에프 </div> 
+                 <div class="key" data-code="KeyG"> 지</div> 
+                 <div class="key" data-code="KeyH"> H</div> 
+                 <div class="key" data-code="KeyJ"> J </div> 
+                 <div class="key" data-code="KeyK"> 케이 </div> 
+                 <div class="key" data-code="KeyL"> 엘 </div> 
+                 <div class="key" data-code="Semicolon"> ; </div> 
+                 <div class="key" data-code="Quote"> ' </div> 
+                 <div class="key w-2-25" data-code="Enter" id="i18n-key-enter"> </div> 입력 
+             </div> 
+
+             <div class="row"> 
+                 <div class="key w-2-25" data-code="ShiftLeft" id="i18n-key-lshift"> 시프트 </div> 
+                 <div class="key" data-code="KeyZ"> Z </div> 
+                 <div class="key" data-code="KeyX"> X </div> 
+                 <div class="key" data-code="KeyC"> ㄷ</div> 
+                 <div class="key" data-code="KeyV"> 뷔 </div> 
+                 <div class="key" data-code="KeyB"> ㄴ</div> 
+                 <div class="key" data-code="KeyN"> 아니요 </div> 
+                 <div class="key" data-code="KeyM"> 남</div> 
+                 <div class="key" data-code="Comma"> , </div> 
+                 <div class="key" data-code="Period"> . </div> 
+                 <div class="key" data-code="Slash"> / </div> 
+                 <div class="key w-2-75" data-code="ShiftRight" id="i18n-key-rshift"> 교대 </div> 
+             </div> 
+
+             <div class="row"> 
+                 <div class="key w-1-5" data-code="ControlLeft" id="i18n-key-lctrl"> Ctrl </div> 
+                 <div class="key w-1-5" data-code="MetaLeft" id="i18n-key-lwin"> 승리 </div> 
+                 <div class="key w-1-5" data-code="AltLeft" id="i18n-key-lalt"> 알트 </div> 
+                 <div class="key w-6-25" data-code="Space" id="i18n-key-space"> 스페이스 </div> 
+                 <div class="key w-1-5" data-code="AltRight" id="i18n-key-ralt"> 대체 </div> 
+                 <div class="key w-1-5" data-code="MetaRight" id="i18n-key-rwin"> 승리 </div> 
+                 <div class="key w-1-5" data-code="ContextMenu" id="i18n-key-menu"> 메뉴 </div> 
+                 <div class="key w-1-5" data-code="ControlRight" id="i18n-key-rctrl"> Ctrl </div></div> 
+         </div> 
+
+         <!-- Control section --> 
+         <div class="control-section"> 
+             <div class="control-group"> 
+                 <div class="key" data-code="PrintScreen"> <small id="i18n-key-prtscr"> PrtSc </small> </div> 
+                 <div class="key" data-code="ScrollLock"> <small id="i18n-key-scrlk"> ScrLk </small> </div> 
+                 <div class="key" data-code="Pause"> <small id="i18n-key-pause"> 일시정지 </small> </div> 
+             </div> 
+             <div class="control-group"> 
+                 <div class="key" data-code="Insert"> <small id="i18n-key-ins"> 인 </small> </div> 
+                 <div class="key" data-code="Home"> <small id="i18n-key-home"> 홈 </small> </div> 
+                 <div class="key" data-code="PageUp"> <small id="i18n-key-pgup"> PgUp </small> </div> 
+                 <div class="key" data-code="Delete"> <small id="i18n-key-del"> 델 </small> </div> 
+                 <div class="key" data-code="End"> <small id="i18n-key-end"> 종료 </small> </div> 
+                 <div class="key" data-code="PageDown"> <small id="i18n-key-pgdn"> PgDn </small> </div> 
+             </div> 
+            
+             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: auto;"> 
+                 <div> </div> 
+                 <div class="key" data-code="ArrowUp"> ↑ </div> 
+                 <div> </div> 
+                 <div class="key" data-code="ArrowLeft"> ← </div> 
+                 <div class="key" data-code="ArrowDown"> ↓ </div> 
+                 <div class="key" data-code="ArrowRight"> → </div> 
+             </div> 
+         </div> 
+
+         <!-- Numpad section --> 
+         <div class="numpad-section"> 
+             <div class="key" data-code="NumLock"> <small id="i18n-key-numlk"> 번호 </small> </div> 
+             <div class="key" data-code="NumpadDivide"> / </div> 
+             <div class="key" data-code="NumpadMultiply"> * </div> 
+             <div class="key" data-code="NumpadSubtract"> - </div> 
+            
+             <div class="key" data-code="Numpad7"> 7 </div> 
+             <div class="key" data-code="Numpad8"> 8 </div> 
+             <div class="key" data-code="Numpad9"> 9 </div> 
+             <div class="key h-2" data-code="NumpadAdd" id="i18n-key-numpadadd"> + </div> 
+            
+             <div class="key" data-code="Numpad4"> 4 </div> 
+             <div class="key" data-code="Numpad5"> 5 </div> 
+             <div class="key" data-code="Numpad6"> 6 </div> 
+            
+             <div class="key" data-code="Numpad1"> 1 </div> 
+             <div class="key" data-code="Numpad2"> 2 </div> 
+             <div class="key" data-code="Numpad3"> 3 </div> 
+             <div class="key h-2" data-code="NumpadEnter" id="i18n-key-numpadenter"> 엔터 </div> 
+            
+             <div class="key w-2" style="grid-column: span 2;" data-code="Numpad0"> 0 </div> 
+             <div class="key" data-code="NumpadDecimal"> . </div> 
+         </div> 
+     </div> 
+
+     <!-- Info panel --> 
+     <div class="info-panel"> 
+         <div class="info-box"> 
+             <div id="i18n-event-key"> 키 이름 </div> 
+             <div id="info-key"> - </div> 
+         </div> 
+         <div class="info-box"> 
+             <div id="i18n-event-code"> 코드 </div><div id="info-code"> - </div> 
+         </div> 
+         <div class="info-box"> 
+             <div id="i18n-event-which"> 어떤 값 </div> 
+             <div id="info-which"> - </div> 
+         </div> 
+         <div class="info-box"> 
+             <div id="i18n-time-delta"> 간격 </div> 
+             <div id="info-time"> - ms </div> 
+         </div> 
+     </div> 
+
+     <!-- Key press interval log output --> 
+     <div class="log-container"> 
+         <div class="log-header"> 
+             <h3> <i class="fas fa-history"> </i> 키 누름 로그 </h3> 
+             <div class="log-controls"> 
+                 <button class="log-btn" onclick="toggleLog()" id="toggle-log"> 
+                     <i class="fas fa-eye"> </i> 토글
+                 </button> 
+                 <button class="log-btn" onclick="clearLog()"> 
+                     <i class="fas fa-trash"> </i> 클리어
+                 </button> 
+                 <button class="log-btn" onclick="toggleAutoScroll()" id="toggle-scroll"> 
+                     <i class="fas fa-scroll"> </i> 자동 스크롤
+                 </button> 
+             </div> 
+         </div> 
+         <div class="log-content" id="log-content"> 
+             <div class="log-entry log-info"> 
+                 <span class="log-time"> [00:00:00] </span> 
+                 <span class="log-message"> 로그가 시작되었습니다. 동일한 키를 두 번 누르는 간격을 감지합니다. 80ms 미만의 간격은 빨간색으로 표시됩니다. </span> 
+             </div> 
+             <div class="log-entry log-info"> 
+                 <span class="log-time"> [00:00:00] </span> 
+                 <span class="log-message"> 일반적인 인간 작업은 일반적으로 100ms를 초과합니다. 80ms 미만은 채터링을 나타낼 수 있습니다. </span> 
+             </div> 
+         </div> 
+         <div class="log-stats"> 
+             <div class="log-stat"> 
+                 <span class="log-stat-label"> 총 로그: </span> 
+                 <span class="log-stat-value" id="log-count"> 2 </span> 
+             </div> 
+             <div class="log-stat"> 
+                 <span class="log-stat-label"> 경고: </span> 
+                 <span class="log-stat-value" id="log-warning-count"> 0 </span> 
+             </div> 
+             <div class="log-stat"> 
+                 <span class="log-stat-label"> 최소 간격: </span> 
+                 <span class="log-stat-value" id="log-min-interval"> - ms </span> 
+             </div> 
+         </div> 
+     </div> 
+
+     <!-- ========== Full text content below keyboard ========== --> 
+
+     <!-- Tool features --> 
+     <section class="intro-section enhanced" id="features"> 
+         <h2> 종합 키보드 테스트 및 진단 </h2> 
+        
+         <p> 이 온라인 키보드 테스터는 특히 키 누름 간격 감지, 채터링, 두 번 클릭, 잘못된 키, 응답 지연 및 NKRO(전체 키 롤오버)와 같은 일반적인 문제를 대상으로 전체 키보드 진단 기능을 제공합니다. 당사의 전문적인 탐지 알고리즘은 문제를 신속하게 찾아내고 수리 조언을 제공하는 데 도움이 됩니다. </p> 
+        
+         <div class="benefits-grid"> 
+             <div class="benefit-card"> 
+                 <i class="fas fa-clock"> </i> 
+                 <h3> 키 누르기 간격 </h3><p> 동일한 키를 두 번 누르는 사이의 시간을 측정합니다. 80ms 미만의 간격(빨간색)을 자동으로 잠재적인 채터링으로 표시하여 디바운스 문제를 진단하는 데 도움을 줍니다. </p> 
+             </div> 
+             <div class="benefit-card"> 
+                 <i class="fas fa-redo-alt"> </i> 
+                 <h3> 잡담 / </h3> 더블클릭 
+                 <p> 스위치 노화, 접점 산화 또는 먼지로 인한 채터링을 감지합니다. 누르기/손 떼기 이벤트를 계산하고 고정 키를 식별합니다. </p> 
+             </div> 
+             <div class="benefit-card"> 
+                 <i class="fas fa-tachometer-alt"> </i> 
+                 <h3> 응답 지연 </h3> 
+                 <p> 키 응답 시간을 실시간으로 측정합니다. Bluetooth 간섭, USB 전원 문제 또는 시스템 로드로 인한 지연을 밀리초 단위로 정확하게 분석합니다. </p> 
+             </div> 
+             <div class="benefit-card"> 
+                 <i class="fas fa-bolt"> </i> 
+                 <h3> NKRO(전체 키 롤오버) </h3> 
+                 <p> 키보드의 NKRO 기능을 테스트합니다. 최대 36개 이상의 동시 키를 지원합니다. 동시 키 수를 실시간으로 표시합니다. </p> 
+             </div> 
+         </div> 
+     </section> 
+
+     <!-- In‑depth SEO content: key press interval expertise --> 
+     <section class="seo-content-section" itemscope itemtype="https://schema.org/Article"> 
+         <meta itemprop="datePublished" content="2024-01-01"> 
+         <meta itemprop="dateModified" content="2024-01-01"> 
+         <div class="article-image-container" style="text-align: center; margin: 20px 0;"> 
+             <img src="https://assets.starryring.com/keyboard/en/mechanical-switch-chattering.png" 
+                alt="Diagram of mechanical switch contact bounce (chattering) – abnormal multiple pulses from a single press" 
+                title="Keyboard chattering principle"
+                style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;"> 
+             <p style="font-size: 0.85rem; color: #888; margin-top: 8px;"> 그림 1: 산화된 기계적 접촉으로 인한 비정상적인 신호 바운스(채터링의 근본 원인) </p> 
+         </div> 
+         <h2 itemprop="headline"> 키 누름 간격 감지: 채터링 및 디바운스 기술 진단 </h2> 
+        
+         <div itemprop="articleBody"> 
+             <p> <strong> 키워드: </strong> 키 누름 간격 감지, 채터링 진단, 두 번 클릭 복구, 키보드 디바운스, 키 응답 시간, 기계식 스위치 바운스, 키 반복 속도 테스트 </p> 
+            
+             <h3> 키 누름 간격 감지란 무엇이며 왜 중요한가요? </h3> 
+            
+             <p> 키 누름 간격 감지는 키보드 떨림 및 더블클릭 문제를 진단하는 핵심 기술입니다. 동일한 키를 두 번 누르는 사이의 시간을 정확하게 측정하면 다음과 같은 문제를 식별할 수 있습니다. </p> 
+            
+             <div class="seo-table"> 
+                 <table> 
+                     <thead> 
+                         <tr> 
+                             <th> 간격 </th> 
+                             <th> 가능한 원인 </th> 
+                             <th> 진단 </th> 
+                             <th> 수리 제안 </th></tr> 
+                     </thead> 
+                     <tbody> 
+                         <tr> 
+                             <td> <strong> <20ms </strong> </td> 
+                             <td> 접점 바운스, 회로 불량, 심각한 채터링 </td> 
+                             <td class="error-text"> 심각한 결함 – 즉시 수리가 필요함 </td> 
+                             <td> 스위치 교체, 회로 점검, 전문 서비스 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> <strong> 20-50ms </strong> </td> 
+                             <td> 보통의 채터링, 디바운스 실패, 먼지 </td> 
+                             <td class="warning-text"> 중간 정도의 결함 – 사용자 경험에 영향을 미침 </td> 
+                             <td> 스위치 청소, 펌웨어 업데이트, 디바운스 조정 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> <strong> 50-80ms </strong> </td> 
+                             <td> 가벼운 떨림, 조기 전환 노화 </td> 
+                             <td class="warning-text"> 가벼운 결함 – 모니터 </td> 
+                             <td> 정기적인 청소, 무거운 타이핑 자제, 키보드 백업 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> <strong> 80-200ms </strong> </td> 
+                             <td> 보통의 빠른 타이핑, 게임 </td> 
+                             <td class="success-text"> 정상 범위 – 사람이 조작하는 </td> 
+                             <td> 조치가 필요하지 않습니다 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> <strong> >200ms </strong> </td> 
+                             <td> 일반적인 타이핑 속도, 조심스러운 조작 </td> 
+                             <td class="success-text"> 정상 범위 – 안전 </td> 
+                             <td> 조치가 필요하지 않습니다 </td> 
+                         </tr> 
+                     </tbody> 
+                 </table> 
+             </div> 
+            
+             <h3> 키보드 디바운스 기술 설명 </h3> 
+             <div class="article-image-container" style="text-align: center; margin: 20px 0;"> 
+                 <img src="https://assets.starryring.com/keyboard/en/keyboard-debounce.png" 
+                    alt="Diagram of keyboard debounce algorithm – filtering invalid bounce signals under 20ms" 
+                    title="Keyboard debounce workflow"
+                    style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;"> 
+                 <p style="font-size: 0.85rem; color: #888; margin-top: 8px;"> 그림 2: 잘못된 연락처 반송을 필터링하는 펌웨어 디바운스 알고리즘 </p> 
+             </div> 
+             <div class="comparison-grid"> 
+                 <div class="comparison-card"> 
+                     <h4> <i class="fas fa-microchip"> </i> 하드웨어 디바운스 </h4> 
+                     <ul> 
+                         <li> <strong> 작동 방식: </strong> RC 회로(저항기 커패시터)를 사용하여 신호 인식을 지연하고 접점 바운스를 필터링합니다 </li> 
+                         <li> <strong> 응답 시간: </strong> 일반적으로 5‑20ms 지연, 안정적인 감지 </li> 보장<li> <strong> 장점: </strong> 안정적, CPU 사용량 없음 </li> 
+                         <li> <strong> 단점: </strong> 더 높은 비용, 제한된 응답 속도 </li> 
+                         <li> <strong> 일반적인 용도: </strong> 고급 기계식 키보드, 게임용 키보드 </li> 
+                     </ul> 
+                     <p> <strong> 테스트 방법: </strong> 이 도구를 사용하세요. 디바운스 시간(예: 20ms)보다 짧은 간격이 계속 등록되면 하드웨어 디바운스가 실패할 수 있습니다. </p> 
+                 </div> 
+                
+                 <div class="comparison-card"> 
+                     <h4> <i class="fas fa-code"> </i> 소프트웨어 디바운스 </h4> 
+                     <ul> 
+                         <li> <strong> 작동 방식: </strong> 드라이버 또는 펌웨어가 주요 이벤트 처리를 지연합니다 </li> 
+                         <li> <strong> 응답 시간: </strong> 광범위하게 조정 가능, 일반적으로 10‑30ms </li> 
+                         <li> <strong> 장점: </strong> 유연성, 저렴한 비용 </li> 
+                         <li> <strong> 단점: </strong> 시스템 리소스를 사용하며 응답 속도에 영향을 줄 수 있음 </li> 
+                         <li> <strong> 일반적인 용도: </strong> 대부분의 멤브레인 키보드, 중급 기계식 키보드 </li> 
+                     </ul> 
+                     <p> <strong> 테스트 방법: </strong> 타이핑 속도를 다양하게 바꾸고 간격의 일관성을 관찰하십시오. 큰 변동은 잘못된 디바운스 설정을 나타낼 수 있습니다. </p> 
+                 </div> 
+             </div> 
+            
+             <h3> 채팅의 일반적인 원인 및 해결 방법 </h3> 
+            
+             <div class="maintenance-tips"> 
+                 <div class="tip-card"> 
+                     <i class="fas fa-wrench"> </i> 
+                     <h4> 기계식 키보드 잡담 </h4> 
+                     <p> <strong> 원인: </strong> 스프링 피로, 산화된 접점, 먼지 축적, 납땜 접합부 균열 </p> 
+                     <p> <strong> 수리 단계: </strong> </p> 
+                     <ol> 
+                         <li> 이소프로필 알코올로 내부 접점을 청소합니다 </li> 
+                         <li> 결함이 있는 스위치 교체(저비용) </li> 
+                         <li> 느슨한 접합부를 재납땜 </li> 
+                         <li> 키보드 디바운스 설정 조정 </li> 
+                     </ol> 
+                     <p> <strong> 예방: </strong> 정기적인 청소, 액체 사용 금지, 키캡 먼지 커버 사용 </p> 
+                 </div> 
+                
+                 <div class="tip-card"> 
+                     <i class="fas fa-tools"> </i> 
+                     <h4> 멤브레인 키보드 잡담 </h4> 
+                     <p> <strong> 원인: </strong> 전도성 트레이스 마모, 실리콘 돔 변형, PCB 산화, 전반적인 노후화 </p> 
+                     <p> <strong> 수리 단계: </strong> </p> 
+                     <ol> 
+                         <li> 깨끗한 전도성 트레이스 및 PCB 접점 </li> 
+                         <li> 마모된 실리콘 돔 교체(예비품이 있는 경우) </li> 
+                         <li> 전도성 은색 페인트를 사용하여 깨진 흔적 복구 </li> 
+                         <li> 광범위하다면 키보드를 교체하세요 </li> 
+                     </ol><p> <strong> 예방: </strong> 부드러운 사용, 청결 유지, 고온 다습 방지 </p> 
+                 </div> 
+                
+                 <div class="tip-card"> 
+                     <i class="fas fa-cogs"> </i> 
+                     <h4> 소프트웨어/드라이버 문제 </h4> 
+                     <p> <strong> 원인: </strong> 드라이버 충돌, OS 설정, 펌웨어 버그, 전원 관리 </p> 
+                     <p> <strong> 수리 단계: </strong> </p> 
+                     <ol> 
+                         <li> 키보드 드라이버 및 펌웨어 업데이트 </li> 
+                         <li> OS 전원 관리 설정을 확인하세요 </li> 
+                         <li> 키보드를 공장 기본값으로 재설정 </li> 
+                         <li> 시스템 문제를 파악하기 위해 다른 컴퓨터에서 테스트 </li> 
+                     </ol> 
+                     <p> <strong> 예방: </strong> 정기적인 드라이버 업데이트, 백업 설정, 안정적인 OS 버전 사용 </p> 
+                 </div> 
+             </div> 
+            
+             <h3> 참조 키 누르기 간격 </h3> 
+            
+             <div class="data-chart"> 
+                 <div class="chart-item"> 
+                     <span class="chart-label"> 전문 타이피스트 </span> 
+                     <div class="chart-bar"> 
+                         <div class="chart-fill" style="width: 65%;" data-value="100-150ms"> </div> 
+                     </div> 
+                     <span class="chart-value"> 100-150ms </span> 
+                 </div> 
+                 <div class="chart-item"> 
+                     <span class="chart-label"> 일반 사용자 </span> 
+                     <div class="chart-bar"> 
+                         <div class="chart-fill" style="width: 45%;" data-value="150-300ms"> </div> 
+                     </div> 
+                     <span class="chart-value"> 150-300ms </span> 
+                 </div> 
+                 <div class="chart-item"> 
+                     <span class="chart-label"> 게이머(높은 APM) </span> 
+                     <div class="chart-bar"> 
+                         <div class="chart-fill" style="width: 80%;" data-value="80-120ms"> </div> 
+                     </div> 
+                     <span class="chart-value"> 80-120ms </span> 
+                 </div> 
+                 <div class="chart-item"> 
+                     <span class="chart-label"> 수다의 한계점 </span> 
+                     <div class="chart-bar"> 
+                         <div class="chart-fill threshold" style="width: 25%;" data-value="<80ms"> </div> 
+                     </div> 
+                     <span class="chart-value"> <80ms </span> 
+                 </div> 
+                 <div class="chart-item"> 
+                     <span class="chart-label"> 연락처 반송 범위 </span> 
+                     <div class="chart-bar"> 
+                         <div class="chart-fill error" style="width: 10%;" data-value="1-20ms"> </div> 
+                     </div> 
+                     <span class="chart-value"> 1-20ms </span> 
+                 </div> 
+             </div> 
+            
+             <div class="conclusion-box"> 
+                 <h4> <i class="fas fa-check-circle"> </i> 키 누르기 간격 테스트 모범 사례 </h4> 
+                 <ol><li> <strong> 정기적으로 테스트: </strong> 이 도구를 매달 사용하십시오. 특히 자주 사용하는 키(WASD, 공백, Enter)에 대해 </li> 
+                     <li> <strong> 경고 주의: </strong> 빨간색으로 표시된 로그(간격 <80ms)는 잠재적인 문제를 나타냅니다. 조기에 조치를 취하세요 </li> 
+                     <li> <strong> 기준 설정: </strong> 새 키보드를 테스트하여 향후 비교를 위한 참조 생성 </li> 
+                     <li> <strong> 추세 추적: </strong> 시간 경과에 따른 간격 변화를 기록하여 키보드 수명 예측 </li> 
+                     <li> <strong> 신속한 수리: </strong> 잡담은 조기에 처리하여 추가 피해 방지 </li> 
+                 </ol> 
+                 <p> <strong> 전문가 팁: </strong> e스포츠 선수와 헤비 타이피스트의 경우 매 분기마다 전체 키 간격 테스트를 수행하여 키보드를 최상의 상태로 유지하세요. </p> 
+             </div> 
+         </div> 
+        
+         <div class="author-info" itemprop="author" itemscope itemtype="https://schema.org/Person"> 
+             <meta itemprop="name" content="Starry Tool Technical Team"> 
+             <p> <strong> 작성자: </strong> <span itemprop="name"> Starry Tool 기술팀 </span> |  <strong> 업데이트됨: </strong> <span itemprop="dateModified"> 2024년 </span> </p> 
+             <p> <strong> 전문 지식: </strong> 키보드 진단, 키 누름 간격 분석, 디바운스 기술, 기계식 키보드 수리 </p> 
+         </div> 
+     </section> 
+
+     <!-- Usage guide --> 
+     <section class="usage-guide" id="usage-guide"> 
+         <h2> 키보드 테스터 사용 방법 </h2> 
+        
+         <p> 이 도구의 키 누르기 간격 기능은 채터링 및 더블클릭 문제를 진단하는 데 도움이 됩니다. 다음 단계를 따르세요: </p> 
+        
+         <div class="guide-steps"> 
+             <div class="step"> 
+                 <div class="step-number"> 1 </div> 
+                 <div class="step-content"> 
+                     <h3> 간격 테스트 시작 </h3> 
+                     <p> 같은 키를 반복해서 빠르게 누르세요(권장: W, 스페이스 또는 Enter). 로그 패널을 살펴보세요. 타임스탬프를 기록하고 간격을 자동으로 계산합니다. </p> 
+                     <p> <strong> 요점: </strong> </p> 
+                     <ul> 
+                         <li> 일반적인 휴먼 간격은 일반적으로 >100ms </li>입니다. 
+                         <li> 빠른 게이머는 80‑120ms </li>에 도달할 수 있습니다. 
+                         <li> 간격 <strong class="error-text"> 80ms 미만은 빨간색 </strong>으로 표시되어 하드웨어 문제가 있을 수 있음 </li>을 나타냅니다. 
+                     </ul> 
+                 </div> 
+             </div> 
+            
+             <div class="step"> 
+                 <div class="step-number"> 2 </div> 
+                 <div class="step-content"> 
+                     <h3> 로그 해석 </h3> 
+                     <p> 로그에 자세한 간격 정보가 표시됩니다: </p> 
+                     <ul> 
+                         <li> <span class="log-normal"> 흰색: </span> 정상(≥80ms) </li> 
+                         <li> <span class="log-warning"> 노란색: </span> 짧음(50‑79ms) – 주의 </li> 
+                         <li> <span class="log-error"> 빨간색: </span> 비정상(<50ms) – 오류 가능성 </li><li> <span class="log-critical"> 진한 빨간색: </span> 심각(<20ms) – 확인된 오류 </li> 
+                     </ul> 
+                     <p> <strong> 로그 형식: </strong> [시간] 키[키 이름] 간격:[시간]ms [상태] </p> 
+                 </div> 
+             </div> 
+            
+             <div class="step"> 
+                 <div class="step-number"> 3 </div> 
+                 <div class="step-content"> 
+                     <h3> 결과 분석 </h3> 
+                     <p> 로그를 사용하여 키보드 상태를 평가하세요. </p> 
+                     <table class="problem-table"> 
+                         <tr> 
+                             <th> 관찰 </th> 
+                             <th> 가능한 문제 </th> 
+                             <th> 심각도 </th> 
+                         </tr> 
+                         <tr> 
+                             <td> 가끔 빨간색 로그 </td> 
+                             <td> 가벼운 수다, 조기 노화 </td> 
+                             <td class="warning-text"> ★☆☆☆☆ 약간 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> 빨간색 로그가 자주 발생함 </td> 
+                             <td> 중간 정도의 잡담 – 청소/수리 필요 </td> 
+                             <td class="warning-text"> ★★★☆☆ 보통 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> <20ms 간격이 많음 </td> 
+                             <td> 심한 채터링, 디바운스 실패 </td> 
+                             <td class="error-text"> ★★★★★ 심함 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> 특정 키만 </td> 
+                             <td> 단일 스위치/트레이 손상됨 </td> 
+                             <td class="warning-text"> ★★☆☆☆ 현지화됨 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> 모든 키 정상 </td> 
+                             <td> 키보드는 건강합니다 </td> 
+                             <td class="success-text"> ☆☆☆☆☆ 좋다 </td> 
+                         </tr> 
+                     </table> 
+                 </div> 
+             </div> 
+            
+             <div class="step"> 
+                 <div class="step-number"> 4 </div> 
+                 <div class="step-content"> 
+                     <h3> 조치를 취하세요 </h3> 
+                     <p> 결과에 따라: </p> 
+                     <ol> 
+                         <li> <strong> 경미함: </strong> 정기적으로 청소하고, 변화를 모니터링하세요 </li> 
+                         <li> <strong> 보통: </strong> 철저하게 청소하고 수리를 고려하세요 </li> 
+                         <li> <strong> 심각: </strong> 즉시 수리하거나 키보드 </li> 교체 
+                         <li> <strong> 현지화: </strong> 단일 스위치(기계식) 교체 또는 대상 수정 </li> 교체 
+                     </ol> 
+                     <p> <strong> 수리 조언: </strong> 기계식 키보드는 수리할 가치가 있습니다(저렴한 스위치 교체). 광범위한 문제가 있는 멤브레인 키보드의 경우 교체가 더 실용적인 경우가 많습니다. </p> 
+                 </div> 
+             </div> 
+         </div> 
+     </section> 
+
+     <!-- FAQ Section --><section class="faq-section" id="faq"> 
+         <h2> 키보드 테스트 FAQ </h2> 
+        
+         <div class="faq-container"> 
+             <div class="faq-item"> 
+                 <h3> 키 누르기 간격으로 키보드 오류를 감지할 수 있는 이유는 무엇입니까? </h3> 
+                 <div class="faq-answer active"> 
+                     <p> 키 누름 간격 감지는 다음 원칙을 기반으로 합니다. </p> 
+                     <ol> 
+                         <li> <strong> 인간의 한계: </strong> 한 손가락으로 단일 키를 의도적으로 가장 빠르게 반복하는 것은 일반적으로 80ms를 초과합니다. </li> 
+                         <li> <strong> 기계적 제약: </strong> 스위치에는 물리적 리바운드 시간이 있으므로 정상적인 작동에서는 이를 우회할 수 없습니다. </li> 
+                         <li> <strong> 디바운스 설계: </strong> 키보드는 접촉 바운스를 필터링하기 위해 신호 인식을 지연(5‑30ms)합니다. </li> 
+                         <li> <strong> 결함 서명: </strong> 채터링은 산화된 접촉, 스프링 피로 등으로 인해 비정상적으로 빠르고 반복되는 신호를 생성합니다. </li> 
+                     </ol> 
+                     <p> 따라서 80ms 미만의 간격은 사람이 조작하기보다는 하드웨어 오류를 강력히 시사합니다. </p> 
+                 </div> 
+             </div> 
+            
+             <div class="faq-item"> 
+                 <h3> 80ms 미만 간격은 언제 적법할 수 있습니까? </h3> 
+                 <div class="faq-answer active"> 
+                     <p> 80ms 미만의 간격이 합법적일 수 있는 드문 경우: </p> 
+                     <ul> 
+                         <li> <strong> 손가락 번갈아 사용: </strong> 두 손가락(예: 검지와 가운데)을 사용하여 동일한 키를 빠르게 누르면 60-80ms 간격을 달성할 수 있습니다 </li> 
+                         <li> <strong> 특기: </strong> 전문 타이피스트나 피아니스트는 뛰어난 손가락 속도를 가질 수 있습니다 </li> 
+                         <li> <strong> 자동 테스트: </strong> 매크로 또는 테스트 도구 사용 </li> 
+                         <li> <strong> 우발적인 충돌: </strong> 의도하지 않은 키 터치 </li> 
+                     </ul> 
+                     <p> <strong> 구분 방법: </strong> 합법적인 빠른 프레스는 일반적으로 리드미컬하고 제어되는 반면, 잡담은 무작위적이고 제어할 수 없습니다. 50ms 미만의 간격이 자주 나타나는 것은 거의 확실하게 키보드 오류를 나타냅니다. </p> 
+                 </div> 
+             </div> 
+            
+             <div class="faq-item"> 
+                 <h3> 기계식 키보드와 멤브레인 키보드의 채터링은 어떻게 다른가요? </h3> 
+                 <div class="faq-answer active"> 
+                     <p> 실패 메커니즘은 다릅니다: </p> 
+                     <div class="comparison-grid" style="grid-template-columns: 1fr 1fr; margin: 15px 0;"> 
+                         <div> 
+                             <h4> 기계적인 재잘거림 </h4> 
+                             <ul> 
+                                 <li> <strong> 원인: </strong> 내부 접점 산화, 스프링 피로, 먼지 </li> 
+                                 <li> <strong> 특성: </strong> 일반적으로 단일 스위치에 영향을 미치며 교체 가능 </li> 
+                                 <li> <strong> 간격: </strong> 일반적으로 10‑50ms, 상당히 일관됨 </li><li> <strong> 수정: </strong> 스위치 교체(저렴한 비용, ~$1‑2) </li> 
+                             </ul> 
+                         </div> 
+                         <div> 
+                             <h4> 막채터링 </h4> 
+                             <ul> 
+                                 <li> <strong> 원인: </strong> 전도성 트레이스 마모, 돔 변형, PCB 산화 </li> 
+                                 <li> <strong> 특성: </strong> 부위에 영향을 미치는 경우가 많으며 수리가 어렵습니다 </li> 
+                                 <li> <strong> 간격: </strong> 광범위하게 변동, 20-80ms 가능 </li> 
+                                 <li> <strong> 수정: </strong> 철저한 청소 또는 키보드 교체 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                     <p> <strong> 진단적 차이: </strong> 기계적인 채터링이 더 일관된 경향이 있습니다. 막 채터링이 더 무작위로 발생합니다. 로그에 패턴이 표시됩니다. </p> 
+                 </div> 
+             </div> 
+            
+             <div class="faq-item"> 
+                 <h3> 간격 측정에 따라 수리를 선택하는 방법은 무엇입니까? </h3> 
+                 <div class="faq-answer active"> 
+                     <p> 간격에 따라 수리 방법 선택: </p> 
+                     <table class="problem-table"> 
+                         <tr> 
+                             <th> 간격 범위 </th> 
+                             <th> 심각도 </th> 
+                             <th> 기계식 키보드 </th> 
+                             <th> 멤브레인 키보드 </th> 
+                         </tr> 
+                         <tr> 
+                             <td> 70‑79ms </td> 
+                             <td> 경증, 조기 노화 </td> 
+                             <td> 깨끗한 스위치, 모니터 </td> 
+                             <td> 흔적을 깨끗하게 유지하고 습기를 피하세요 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> 50‑69ms </td> 
+                             <td> 보통, 주의가 필요함 </td> 
+                             <td> 철저한 청소, 스위치 교체를 고려 </td> 
+                             <td> 전문적인 청소, 여분의 키보드 준비 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> 30‑49ms </td> 
+                             <td> 심각, 사용에 영향을 미침 </td> 
+                             <td> 결함이 있는 스위치를 즉시 교체하십시오 </td> 
+                             <td> 교체를 고려하세요 </td> 
+                         </tr> 
+                         <tr> 
+                             <td> <30ms </td> 
+                             <td> 중대한 실패 </td> 
+                             <td> 회로 점검, 전체 수리 </td> 
+                             <td> 즉시 키보드 교체 </td> 
+                         </tr> 
+                     </table> 
+                     <p> <strong> 비용 고려 사항: </strong> 기계식 키보드는 수리할 가치가 있습니다(저렴한 스위치 교체). 멤브레인 키보드를 교체하는 것이 더 경제적인 경우가 많습니다. </p> 
+                 </div> 
+             </div> 
+         </div> 
+     </section> 
+
+     <!-- Call-to-action --><div class="cta-section"> 
+         <div class="cta-content"> 
+             <h2> 지금 키보드 테스트를 시작하세요 </h2> 
+             <p> 키보드가 떨리나요? 업무나 게임에 영향을 미칠 때까지 기다리지 마십시오. 전문 테스터를 사용하여 주요 간격을 측정하고 잠재적인 문제를 조기에 발견하세요. </p> 
+             <div class="cta-buttons"> 
+                 <button onclick="startIntervalTest()" class="cta-primary"> 
+                     <i class="fas fa-play-circle"> </i> 테스트 시작
+                 </button> 
+                 <a href="#usage-guide" class="cta-secondary"> 
+                     <i class="fas fa-book"> </i> 사용자 가이드
+                 </a> 
+             </div> 
+         </div> 
+     </div> 
+
+
+     <!-- Scripts --><script src="/static/js/toolbox/keyboard/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script><footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2026 StarryRing · 온라인 키보드 테스터 </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+             <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+             <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+             <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a> 
+             <a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+         </div> 
+     </footer></body>
+</html>

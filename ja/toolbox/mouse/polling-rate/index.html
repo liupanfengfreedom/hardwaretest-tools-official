@@ -1,0 +1,937 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>オンラインでのマウスポーリングレートテスト - イベント頻度とジッター分析</title>
+<!-- Canonical & Internationalization -->
+
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Author -->
+    <meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Mouse polling rate test tool interface preview">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/mouse/polling-rate/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/twitter-image.png">
+    <meta name="twitter:creator" content="@starryring">
+
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mouse Polling Rate Test">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <link rel="preload" href="/static/css/toolbox/mouse/polling-rate/style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Structured Data Schema Markup -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "マウスイベント頻度テスター",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "無料のオンライン マウス イベント頻度テスト ツール、マウス動作のサンプリング レートのリアルタイム検出、ジッター分析、ブラウザーでのパフォーマンス監視",
+      "url": "https://starryring.com/ja/toolbox/mouse/polling-rate/",
+      "image": "https://starryring.com/ja/toolbox/mouse/polling-rate/og-image.png",
+      "screenshot": "https://starryring.com/ja/toolbox/mouse/polling-rate/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "リアルタイムの周波数監視",
+        "ジッター解析",
+        "イベントサンプリングレート検出",
+        "リアルタイムチャート表示",
+        "CSVデータエクスポート",
+        "ブラウザのパフォーマンス比較"
+      ],
+      "softwareVersion": "2.1.0",
+      "datePublished": "2024-01-01",
+      "dateModified": "2024-12-20"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Web テストで、実際の USB ポーリング レートよりも低いマウス イベント頻度が示されるのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ブラウザ環境におけるマウス イベントは、ブラウザ イベントの調整、ディスプレイのリフレッシュ レートの同期、オペレーティング システムのスケジュールなど、複数の層によって制限されます。Web ページは、USB HID 層からの生データに直接アクセスすることはできず、ブラウザが提供するマウス イベント インターフェイスを介してのみアクセスできます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "より正確なテスト結果を得るにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1. ブラウザ ウィンドウがフォアグラウンドでアクティブになっていることを確認します。 2. 不要なタブやアプリケーションを閉じます。 3. テスト領域内でマウスを高速で連続的に動かします。 4. 手の震えを避けるために、安定したテスト姿勢を維持してください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ジッターとは何ですか?なぜ重要なのでしょうか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ジッターは、マウス イベントの間隔時間の安定性を反映します。ジッターが低いため、イベントの間隔が均一になり、スムーズなマウスの動きを実現します。平均周波数が高くても、ジッターが高いと、マウスの動きが途切れたり、不安定になったりすることがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "異なるブラウザーで異なるテスト結果が表示されるのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ブラウザー (Chrome、Firefox、Edge、Safari) が異なれば、使用するイベント処理メカニズム、スロットリング戦略、パフォーマンスの最適化も異なります。通常、Chrome はより高いイベント頻度を提供しますが、特定のパフォーマンスはオペレーティング システムとハードウェア構成にも依存します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "マウス イベントのパフォーマンスが正常かどうかを判断するにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "通常の状況: 60Hz 表示: イベント周波数 ≈ 60Hz。 120Hz 表示: イベント周波数 ≈ 120Hz。 144Hz ディスプレイ: イベント周波数 ≈ 120 ～ 144Hz。 240Hz 表示: イベント周波数 ≈ 200Hz。周波数がディスプレイのリフレッシュ レートよりも大幅に低い場合、パフォーマンスの問題が発生する可能性があります。"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "家",
+          "item": "https://starryring.com/ja/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "マウステストツールボックス",
+          "item": "https://starryring.com/ja/toolbox/mouse/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "マウスポーリングレートテスト",
+          "item": "https://starryring.com/ja/toolbox/mouse/polling-rate/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "マウスポーリングレートテストツールの使用方法",
+      "description": "マウス イベントの頻度とパフォーマンスをテストするためのステップバイステップ ガイド",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "テストエリアに入る",
+          "text": "ページ上の青いテスト領域にマウスを移動して、マウス イベントの監視を開始します。",
+          "image": "https://starryring.com/ja/toolbox/mouse/polling-rate/step1.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "素早い動きを行う",
+          "text": "テスト領域内でマウスを素早く継続的に動かして、イベント データを生成します。",
+          "image": "https://starryring.com/ja/toolbox/mouse/polling-rate/step2.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "リアルタイムの頻度を監視する",
+          "text": "現在の周波数表示とリアルタイム チャートを見て、マウス イベントのサンプリング レートを確認します。",
+          "image": "https://starryring.com/ja/toolbox/mouse/polling-rate/step3.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "ジッター値を確認する",
+          "text": "ジッター測定を観察して、マウス イベント間隔の安定性を評価します。",
+          "image": "https://starryring.com/ja/toolbox/mouse/polling-rate/step4.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "分析用にデータをエクスポートする",
+          "text": "CSV エクスポート機能を使用して、詳細な分析のためにテスト データを保存します。",
+          "image": "https://starryring.com/ja/toolbox/mouse/polling-rate/step5.png"
+        }
+      ],
+      "totalTime": "PT3M"
+    }
+  ]
+}
+</script>
+
+    <!-- External resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Project styles -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/toolbox/mouse/polling-rate/style.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="無料のオンライン マウス イベント頻度テスト ツール。マウスの動きのサンプリング レートのリアルタイム検出、ジッター分析、ブラウザーでのパフォーマンス監視。ダウンロードは必要ありません。">
+    <link rel="canonical" href="https://starryring.com/ja/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+<meta property="og:url" content="https://starryring.com/ja/toolbox/mouse/polling-rate/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="🖱️ オンラインでのマウスポーリングレートテスト - イベント頻度とジッター分析">
+    <meta property="og:description" content="無料のオンライン マウス イベント頻度テスト ツール。マウスの動きのサンプリング レートのリアルタイム検出、ジッター分析、ブラウザーでのパフォーマンス監視。">
+    <meta name="twitter:title" content="🖱️ オンラインでのマウスポーリングレートテスト - イベント頻度とジッター分析">
+    <meta name="twitter:description" content="無料のオンライン マウス イベント頻度テスト ツール。マウスの動きのサンプリング レートのリアルタイム検出、ジッター分析、ブラウザーでのパフォーマンス監視。">
+</head>
+
+<body class="p-4 md:p-8">
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/mouse/polling-rate/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/mouse/polling-rate/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/mouse/polling-rate/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/toolbox/mouse/polling-rate/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/toolbox/mouse/polling-rate/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/mouse/polling-rate/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ja/" class="breadcrumb-link"> 
+                         <i class="fas fa-home"> </i> ホーム
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ja/toolbox/" class="breadcrumb-link"> 
+                        ツールボックス
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ja/toolbox/mouse/" class="breadcrumb-link"> 
+                        マウステストツールボックス
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item">                    
+                     <span class="breadcrumb-active"> ポーリング レート テスト </span> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+    
+     <!-- Language Switcher --> 
+ <main class="max-w-6xl mx-auto space-y-6" itemscope itemtype="https://schema.org/SoftwareApplication"> 
+         <meta itemprop="applicationCategory" content="UtilitiesApplication"> 
+        
+         <!-- Header --> 
+         <header> 
+             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4"> 
+                 <div> 
+                     <h1 class="text-3xl font-bold tracking-tight text-white" itemprop="name"> 
+                        ブラウザのマウス イベント頻度テスター (非
+                         <a href="#desktop-tool-section" 
+                           class="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors"> 
+                            実際の USB ポーリング レート
+                         </a> 
+                        )
+                     </h1> 
+                     <p class="text-slate-400" itemprop="description"> プロフェッショナルなマウスサンプリングレートモニタリングおよびジッター解析ツール（自動起動） </p> 
+                 </div> 
+                 <div class="flex gap-3"> 
+                     <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50"> 
+                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"> </span><span class="text-sm font-semibold text-blue-400"> モニタリング </span> 
+                     </div> 
+                     <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition"> 
+                        データのクリア
+                     </button> 
+                 </div> 
+             </div> 
+         </header> 
+
+         <!-- Main Dashboard --> 
+         <section aria-label="Mouse frequency test main panel"> 
+             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"> 
+                
+                 <!-- Left: Statistics and test area --> 
+                 <div class="lg:col-span-2 space-y-6"> 
+                     <!-- Statistics grid --> 
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4"> 
+                         <div class="stat-card p-4 rounded-lg"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> 現在の周波数 </div> 
+                             <div id="currHz" class="text-3xl font-bold mono text-blue-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-emerald-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> 最大周波数 </div> 
+                             <div id="maxHz" class="text-3xl font-bold mono text-emerald-400"> 0 <small class="text-sm ml-1 text-slate-500"> ヘルツ </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-purple-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> 平均周波数 </div> 
+                             <div id="avgHz" class="text-3xl font-bold mono text-purple-400"> 0 <small class="text-sm ml-1 text-slate-500"> Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-orange-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> ジッター </div> 
+                             <div id="jitter" class="text-3xl font-bold mono text-orange-400"> 0 <small class="text-sm ml-1 text-slate-500"> ミリ秒 </small> </div> 
+                         </div> 
+                     </div> 
+
+                     <!-- Real-time chart --> 
+                     <div class="glass-panel p-6 h-80"> 
+                         <canvas id="pollingChart">  </canvas> 
+                     </div> 
+
+                     <!-- Test interaction area --> 
+                     <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border"> 
+                         <div class="text-center pointer-events-none"> 
+                             <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75"> 
+                                  <div class="w-2 h-2 bg-blue-500 rounded-full"> </div> 
+                             </div><p class="text-lg font-medium"> この領域でマウスを素早く動かして </p> をテストします 
+                             <p class="text-sm text-slate-500"> クリックする必要はありません。移動するだけでリアルタイムでデータをキャプチャできます </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Right: Log --> 
+                 <div class="flex flex-col h-full"> 
+                     <div class="glass-panel flex flex-col h-full max-h-[740px]"> 
+                         <div class="p-4 border-b border-slate-700 flex justify-between items-center"> 
+                             <h3 class="font-bold"> リアルタイムログ </h3> 
+                             <span id="eventCount" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400"> 0 イベント </span> 
+                         </div> 
+                         <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-2 text-xs mono"> 
+                             <div class="text-slate-500 italic"> データを待っています... </div> 
+                         </div> 
+                         <div class="p-4 border-t border-slate-700"> 
+                             <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600"> 
+                                CSVログのエクスポート
+                             </button> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+        
+
+         <!-- Feature description and FAQ section --> 
+         <section aria-label="Feature introduction"> 
+             <div class="instructions-section"> 
+                 <div class="instructions-content"> 
+                     <h2> プロフェッショナル向けマウス イベント周波数テスターの機能 </h2> 
+                     <div class="feature-grid"> 
+                         <div class="feature-item"> 
+                             <h3> リアルタイム周波数モニタリング </h3> 
+                             <p> 現在のマウス イベントの周波数 (Hz) をリアルタイムで表示します。ブラウザがマウス移動イベントを処理する実際の速度を理解するのに役立ちます。 </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> 注: Web 環境はブラウザとディスプレイのリフレッシュ レートによって制限されます </span> 
+                             </div> 
+                         </div> 
+
+                         <div class="feature-item"> 
+                             <h3> ジッタ解析 </h3> 
+                             <p> マウス イベントの時間安定性を反映して、イベント間隔の標準偏差を計算します。ジッター値が低いほど、イベントがより安定していることを示します。 </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> ジッターが高いと、マウスの動きが滑らかでなくなる場合があります </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> 最大記録周波数 </h3><p> テスト中に達成された最高のイベント頻度を自動的に記録し、システムの最高のパフォーマンスを把握するのに役立ちます。 </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> Web 環境では通常、実際の USB ポーリング レートに達することができません </span> 
+                             </div> 
+                         </div> 
+                   
+                         <div class="feature-item"> 
+                             <h3> 平均周波数の計算 </h3> 
+                             <p> 履歴データに基づいて平均イベント頻度を計算し、より安定したパフォーマンス参照指標を提供します。 </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> テスト時間を長くすると、より正確な平均値が得られます </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> リアルタイムチャート表示 </h3> 
+                             <p> 周波数変化の傾向を動的な折れ線グラフで可視化し、性能の変動や異常を容易に観察できます。 </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> グラフには、過去 100 データ ポイントの傾向が表示されます </span> 
+                             </div> 
+                         </div>        
+                        
+                         <div class="feature-item"> 
+                             <h3> CSV データのエクスポート </h3> 
+                             <p> 詳細な分析とデータ保存のために、CSV 形式での完全なテスト ログのエクスポートをサポートします。 </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> エクスポートされたデータは、Excel、Python などでさらに分析するために使用できます。 </span> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <div class="faq-section"> 
+                         <h2> よくある質問 (FAQ) </h2> 
+                        
+                         <div class="faq-item"> 
+                             <h3> Web テストでは、実際の USB ポーリング レートよりも低いマウス イベント頻度が示されるのはなぜですか? </h3> 
+                             <p> ブラウザ環境のマウス イベントは、ブラウザ イベントのスロットリング、ディスプレイのリフレッシュ レートの同期、オペレーティング システムのスケジュールなど、複数のレイヤーによって制限されます。Web ページは、ブラウザが提供するマウス イベント インターフェイスを介してのみ、USB HID レイヤーからの生データに直接アクセスできません。 </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> より正確なテスト結果を得るにはどうすればよいですか? </h3> 
+                             <p> 1. ブラウザ ウィンドウが最前面にあり、アクティブになっていることを確認します <br> 
+                               2. 不要なタブやアプリケーションを閉じる <br> 
+                               3. <a href="#testArea" class="text-blue-400 hover:text-blue-300"> テスト領域内で高速で連続的なマウス移動を実行します </a> <br>4. <a href="/static/toolbox/mouse/polling-rate/" class="text-blue-400 hover:text-blue-300"> の詳細なユーザー ガイド </a> でその他のヒントをご覧ください </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> ジッターとは何ですか?なぜ重要なのでしょうか? </h3> 
+                             <p> ジッターは、マウス イベントの間隔時間の安定性を反映します。ジッターが低いため、イベントの間隔が均一になり、スムーズなマウスの動きを実現します。平均周波数が高くても、ジッターが高いと、マウスの動きが途切れたり、不安定になったりすることがあります。 </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> ブラウザごとに異なるテスト結果が表示されるのはなぜですか? </h3> 
+                             <p> ブラウザー (Chrome、Firefox、Edge、Safari) が異なれば、使用するイベント処理メカニズム、スロットリング戦略、パフォーマンスの最適化も異なります。通常、Chrome はより高いイベント頻度を提供しますが、特定のパフォーマンスはオペレーティング システムとハードウェア構成にも依存します。 </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> マウス イベントのパフォーマンスが正常かどうかを確認するにはどうすればよいですか? </h3> 
+                             <p> 通常の状況: <br> 
+                               - 60Hz 表示: イベント周波数 ≈ 60Hz <br> 
+                               - 120Hz 表示: イベント周波数 ≈ 120Hz <br> 
+                               - 144Hz 表示: イベント周波数 ≈ 120-144Hz <br> 
+                               - 240Hz 表示: イベント周波数 ≈ 200Hz <br> 
+                               周波数がディスプレイのリフレッシュ レートよりも大幅に低い場合、パフォーマンスの問題が発生する可能性があります。 </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> マウス イベントの頻度をいつテストすればよいですか? </h3> 
+                             <p> 推奨されるテスト状況: <br> 
+                               - マウスの動きが途切れたり、反応しなくなったりする <br> 
+                               - 異なるブラウザまたはシステム間の入力パフォーマンスの比較 <br> 
+                               - 新しいディスプレイまたはグラフィックス カードが入力遅延に与える影響の評価 <br> 
+                               - Web アプリケーションのマウス応答の問題の診断 </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Important note panel (Always expanded) --> 
+         <section aria-label="Important usage notes"> 
+             <div class="glass-panel mt-6"> 
+                 <!-- Panel title --> 
+                 <div class="w-full p-4 bg-slate-800/50"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> ⚠️ </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> Web ポーリング レート テストに関する重要な注意事項 </h4><p class="text-sm text-slate-400 mt-1"> テスト結果を正しく理解するために、次の注意事項をよくお読みください </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                
+                 <!-- Content area (Always expanded) --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                    
+                     <div class="pt-4 border-t border-slate-700"> 
+                         <p class="mb-4"> <b> このページに表示される「ポーリング レート (Hz)」は、マウスの実際の USB ポーリング レートと同等ではありません。 </b> </p> 
+                     </div> 
+                    
+                     <!-- Why web test results are usually only 60Hz / 120Hz? --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-blue-300 mb-2"> 🤔 Web テストの結果が通常 60Hz / 120Hz しかないのはなぜですか? </h5> 
+                         <p class="mb-3"> Webブラウザ環境の場合：</p> 
+                         <ul class="space-y-2 ml-4 list-disc list-outside"> 
+                             <li> マウス データは <b> ブラウザ イベント (mousemove / pointermove) を通じて取得されます </b> </li> 
+                             <li> ブラウザ <b> スロットルとマージ </b> イベント </li> 
+                             <li> イベントのトリガー頻度は通常 <b> 画面のリフレッシュ レートと同期します </b> </li> 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Display refresh rate comparison table --> 
+                     <div class="overflow-x-auto"> 
+                         <h5 class="font-bold text-white mb-3"> 🖥️ ディスプレイのリフレッシュ レートと Web での観察可能な周波数 </h5> 
+                         <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden"> 
+                             <thead class="bg-slate-800"> 
+                                 <tr> 
+                                     <th class="p-3 text-left border-b border-slate-700"> ディスプレイ リフレッシュ レート </th> 
+                                     <th class="p-3 text-left border-b border-slate-700"> Web で監視可能なイベントの頻度 </th> 
+                                 </tr> 
+                             </thead> 
+                             <tbody> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 60Hz </td> 
+                                     <td class="p-3"> ≒ 60Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 120Hz </td> 
+                                     <td class="p-3"> ≒ 120Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 144Hz </td> 
+                                     <td class="p-3"> ≈ 120-144Hz </td> 
+                                 </tr> 
+                                 <tr> 
+                                     <td class="p-3"> 240Hz </td><td class="p-3"> ≈ 200Hz </td> 
+                                 </tr> 
+                             </tbody> 
+                         </table> 
+                     </div> 
+                    
+                     <!-- Technical explanation --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <p class="mb-3"> 
+                             <b> マウス ハードウェアが 1000Hz USB ポーリング レートに設定されている場合でも、<br> 
+                            Web 環境は、USB HID レイヤーから実際のデータに直接アクセスできません。 </b> 
+                         </p> 
+                         <p class="text-sm text-slate-400"> 本当の 1000Hz はどこに反映されますか? </p> 
+                         <p class="mt-2"> 実際の USB ポーリング レートは次のとおりです: </p> 
+                         <ul class="space-y-1 ml-4 mt-1"> 
+                             <li> • オペレーティング システムの生入力 / HID レイヤー </li> 
+                             <li> • ゲーム エンジン (Unreal Engine、Unity など) </li> 
+                             <li> • デスクトップ レベルのテスト ツール (Web ベースではない) </li> 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Applicable scenarios --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Suitable for --> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-emerald-400 text-lg"> ✅ </span> 
+                                 <h5 class="font-bold text-emerald-300"> このツールは何に適していますか? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> ブラウザでのマウス入力がスムーズかどうかを検出 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> さまざまなブラウザ/ディスプレイ間でのイベント パフォーマンスの比較 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> スタッタリング、イベント損失、または異常なスロットリングをチェックしています </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Not suitable for --> 
+                         <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-rose-400 text-lg"> ❌ </span><h5 class="font-bold text-rose-300"> このツールが適さないのは何ですか? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> マウスが 500Hz / 1000Hz をサポートしているかどうかを確認する </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> デスクトップ USB ポーリング レート テスト ツールの代替 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Suggestions and tips --> 
+                     <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg"> 
+                         <div class="flex items-center gap-2 mb-3"> 
+                             <span class="text-blue-400 text-lg"> 💡 </span> 
+                             <h5 class="font-bold text-blue-300"> 提案 </h5> 
+                         </div> 
+                         <p class="mb-3"> 
+                            マウスの実際の USB ポーリング レートを確認する必要がある場合は、<br> をご覧ください。 
+                            メーカーのドライバまたは <a href="#desktop-tool-section" class="text-blue-400 hover:text-blue-300 underline transition"> デスクトップ生入力テスト ソフトウェア </a> を使用してください。
+                         </p> 
+                         <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3"> 
+                             <span class="text-blue-400 text-lg mt-0.5"> 📌 </span> 
+                             <div> 
+                                 <p class="font-medium text-blue-200"> ヒント: </p> 
+                                 <p class="text-sm mt-1"> ブラウザ ウィンドウが最前面にあり、タブがアクティブであることを確認してください。そうしないと、ブラウザはイベントの頻度を積極的に減らします。 </p> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Python desktop tool introduction - Modified version --> 
+         <section aria-label="Desktop testing tool introduction"> 
+             <div id="desktop-tool-section" class="glass-panel mt-6"> 
+                 <!-- Panel title - Consistent structure with above --> 
+                 <div class="w-full p-4 bg-blue-900/20"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> 🐍 </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> デスクトップ マウス リアル ポーリング レート テスト ツール </h4> 
+                             <p class="text-sm text-slate-400 mt-1"> Python プロフェッショナル ツール - ブラウザの制限を突破する </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                         <!-- Optimized Image Display --><figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png"> 
+                         <img src="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png" 
+                            alt="Desktop testing tool interface screenshot"
+                            width="800" height="450"
+                            class="w-full h-auto"
+                            loading="lazy"
+                            itemprop="contentUrl"> 
+                         <figcaption class="image-caption" itemprop="caption"> 
+                            デスクトップ マウスのポーリング レート テスト ツールのインターフェイス
+                         </figcaption> 
+                     </figure>    
+                 <!-- Content area (Always expanded) - Consistent structure with above --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                     <!-- Tool introduction --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <div class="flex items-start gap-3"> 
+                             <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center"> 
+                                 <span class="text-2xl"> 🔧 </span> 
+                             </div> 
+                             <div> 
+                                 <h5 class="font-bold text-blue-300 mb-2"> デスクトップ ツールが必要な理由は何ですか? </h5> 
+                                 <p class="mb-2"> Web テストはブラウザとオペレーティング システムによって制限されており、USB HID レイヤーから実際のポーリング データにアクセスできません。デスクトップ ツールは、システム レベルの API を通じてマウスの生の入力を直接キャプチャし、実際の USB ポーリング レート データを提供します。 </p> 
+                                 <div class="mt-3 p-3 bg-slate-900/50 rounded"> 
+                                     <p class="text-emerald-400 font-medium"> 🌐 ブラウザ テスト vs 🐍 Python デスクトップ ツール </p> 
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2"> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📊 データ ソース </p> 
+                                             <p> ブラウザ イベント (mousemove) </p> 
+                                             <p class="text-xs text-red-400"> 限定 </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🔧 データ ソース </p> 
+                                             <p> システム生入力 (Raw 入力) </p> 
+                                             <p class="text-xs text-emerald-400"> 無制限 </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📈 最高精度 </p> 
+                                             <p> ≈ ディスプレイリフレッシュレート </p><p class="text-xs text-red-400"> ~200Hz </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🚀 最高の精度 </p> 
+                                             <p> USB 実ポーリング レート </p> 
+                                             <p class="text-xs text-emerald-400"> ~8000Hz </p> 
+                                         </div> 
+                                     </div> 
+                                 </div> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Feature highlights --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Core features --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-blue-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                                 <span> ✨ </span> コア機能
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> リアルポーリングレート検出 </b> - USB HID 層データの直接測定 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> 自動ギア認識 </b> - 125/250/500/1000/2000/4000/8000Hz をスマートに認識 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> プロフェッショナルな安定性分析 </b> - 標準偏差、P95 値、ジッター評価 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> リアルタイム波形チャート </b> - ポーリングレートの変化傾向を可視化 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> 多言語サポート </b> - 英語/中国語インターフェース切り替え </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Technical advantages --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-purple-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"><span> ⚡ </span> 技術的な利点
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> システムレベルのアクセス </b> - ブラウザの制限をバイパスし、ハードウェアと直接通信 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> ナノ秒精度 </b> - Python time.perf_counter_ns() に基づく </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> スマート フィルタリング アルゴリズム </b> - より正確な結果を得るために異常なデータを自動的にフィルタリングします </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> リアルタイム解析エンジン </b> - 600データポイントのサンプリングウィンドウ、150ポイントの波形表示 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> 専門的な評価システム </b> - 安定性スコアリングと評価評価 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Supported devices --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                             <span> 🎮 </span> サポートされているデバイスとポーリング レートのギア
+                         </h5> 
+                         <div class="overflow-x-auto"> 
+                             <table class="w-full border-collapse"> 
+                                 <thead class="bg-slate-800"> 
+                                     <tr> 
+                                         <th class="p-3 text-left border-b border-slate-700"> ポーリングレート </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> 適切なデバイス </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> レイテンシ </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> 特徴 </th> 
+                                     </tr> 
+                                 </thead> 
+                                 <tbody> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 125Hz </td><td class="p-3"> 通常のオフィスマウス </td> 
+                                         <td class="p-3 text-orange-400"> 8ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 基本 USB レート </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 250Hz </td> 
+                                         <td class="p-3"> エントリーレベルのゲーミング マウス </td> 
+                                         <td class="p-3 text-yellow-400"> 4ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> ゲーム共通設定 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 500Hz </td> 
+                                         <td class="p-3"> ミッドレンジ ゲーミング マウス </td> 
+                                         <td class="p-3 text-blue-400"> 2ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> ハイパフォーマンスモード </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 1000Hz </td> 
+                                         <td class="p-3"> ハイエンド e スポーツ マウス </td> 
+                                         <td class="p-3 text-emerald-400"> 1ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> E スポーツの低遅延 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 2000Hz </td> 
+                                         <td class="p-3"> 先進的な e スポーツ マウス </td> 
+                                         <td class="p-3 text-emerald-300"> 0.5ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 超低遅延 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 4000Hz </td> 
+                                         <td class="p-3"> トップ e スポーツ マウス </td> 
+                                         <td class="p-3 text-emerald-200"> 0.25ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> プロ仕様 </td> 
+                                     </tr> 
+                                     <tr> 
+                                         <td class="p-3 font-mono"> 8000Hz </td> 
+                                         <td class="p-3"> エクストリーム e スポーツ マウス </td> 
+                                         <td class="p-3 text-emerald-100"> 0.125ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> フラッグシップグレード </td> 
+                                     </tr> 
+                                 </tbody> 
+                             </table></div> 
+                     </div> 
+                    
+                     <!-- Usage scenario comparison --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-emerald-300 mb-3"> ✅ Python ツールを使用する場合 </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> マウスの実際の USB ポーリング レート設定を確認します </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> さまざまなマウスのポーリング レートのパフォーマンスを比較 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> オーバーサンプリング レートのマウスをテストする (2000Hz+) </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> プロ向けeスポーツ機器の性能評価 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-white mb-3"> 🔄 Web テストをいつ使用するか </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> ブラウザ入力のスムーズさをすぐにチェック </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> さまざまなブラウザのパフォーマンスを比較 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> クロスプラットフォームの基本的なマウス テスト </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> インストール不要のクイック テスト </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- GitHub link and download --><div class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-4 rounded-lg border border-blue-700/50"> 
+                         <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                             <div> 
+                                 <h5 class="font-bold text-white text-lg mb-2"> 🚀 Python デスクトップ ツールを入手 </h5> 
+                                 <p class="text-slate-300 mb-1"> オープンソースは無料 · プロ級の精度 · 継続的に更新 </p> 
+                                 <p class="text-sm text-slate-400"> Windows/macOS/Linux システムをサポート </p> 
+                             </div> 
+                             <div class="flex gap-3"> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/tree/main" 
+                                   class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition flex items-center gap-2 border border-slate-600"> 
+                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> 
+                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/> 
+                                     </svg> 
+                                    GitHub リポジトリ
+                                 </a> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/releases/tag/v1.0.0/" 
+                                   class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition flex items-center gap-2"> 
+                                     <span> 📦 最新バージョンをダウンロード </span> 
+                                 </a> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+         <!-- Social sharing section --> 
+         <div class="glass-panel mt-6 p-4"> 
+             <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                 <div> 
+                     <h5 class="font-bold text-white"> このツールは役に立ちますか? </h5> 
+                     <p class="text-sm text-slate-400"> 必要とする可能性のある他のユーザーと共有 </p> 
+                 </div> 
+                 <div class="flex items-center gap-4"> 
+                     <span class="text-slate-400 hidden md:inline"> 共有先: </span><a href="https://twitter.com/share?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Professional mouse event frequency testing tool, real-time detection of mouse movement event sampling rate and jitter analysis" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-600 transition duration-300"
+                       aria-label="Share on Twitter"> 
+                         <i class="fab fa-twitter"> </i> 
+                     </a> 
+                     <a href="https://www.reddit.com/submit?url=https://starryring.com/en/toolbox/mouse/polling-rate/&title=Mouse Event Frequency Tester - Professional detection of browser mouse event sampling rate" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-orange-600 transition duration-300"
+                       aria-label="Share on Reddit"> 
+                         <i class="fab fa-reddit"> </i> 
+                     </a> 
+                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://starryring.com/en/toolbox/mouse/polling-rate/" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-700 transition duration-300"
+                       aria-label="Share on Facebook"> 
+                         <i class="fab fa-facebook"> </i> 
+                     </a> 
+                     <a href="https://t.me/share/url?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Mouse event frequency testing tool" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-500 transition duration-300"
+                       aria-label="Share on Telegram"> 
+                         <i class="fab fa-telegram"> </i> 
+                     </a> 
+                 </div> 
+             </div> 
+         </div> 
+     </main> 
+
+     <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2026 StarryRing · マウス イベント頻度テスター </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/ja/about-us/" style="color:#60a5fa;text-decoration:none;"> 私たちについて </a> 
+             <a href="/ja/contact-us/" style="color:#60a5fa;text-decoration:none;"> お問い合わせ </a> 
+             <a href="/ja/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 免責事項 </a> 
+             <a href="/ja/privacy/" style="color:#60a5fa;text-decoration:none;"> プライバシーポリシー </a> 
+             <a href="/ja/terms/" style="color:#60a5fa;text-decoration:none;"> 利用規約 </a> 
+         </div> 
+     </footer> 
+    
+     <!-- Add language switcher JS --><script src="/static/js/shared/switchlanguage.js"></script>
+    <script src="/static/js/toolbox/mouse/polling-rate/script-ja.js" defer></script>
+</body>
+</html>

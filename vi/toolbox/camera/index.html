@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- Core SEO Meta Tags -->
+    <title>Công cụ kiểm tra webcam trực tuyến - Trình kiểm tra độ phân giải camera & FPS chuyên nghiệp | StarryRing</title>
+<meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Canonical URL & Hreflang -->
+
+
+
+<!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/camera/og-image-en.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Preview of the online webcam test tool interface">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/camera/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/camera/og-image-en.jpg">
+    <meta name="twitter:creator" content="@starryring">
+    
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Webcam Test">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#121212">
+    <meta name="msapplication-TileColor" content="#121212">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="/sitemap-tools-en.xml">
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="/static/css/toolbox/camera/style.css" as="style">
+    <link rel="preload" href="/static/js/toolbox/camera/script-vi.js" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Critical CSS (Above the Fold) -->
+    <style>
+        /* Critical CSS - Above the fold styles */
+        :root { 
+            --bg-color: #121212; 
+            --card-bg: #1e1e1e; 
+            --text-main: #e0e0e0; 
+            --text-muted: #a0a0a0; 
+            --accent: #4a6bff; 
+            --accent-hover: #3a5bef; 
+            --border: #333; 
+            --success: #00d4aa; 
+            --danger: #ef4444; 
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        
+        h1 { 
+            margin-bottom: 20px; 
+            font-weight: 300; 
+            margin-top: 20px; 
+            text-align: center; 
+            font-size: clamp(1.5rem, 4vw, 2.2rem); 
+        }
+        
+        .badge { 
+            background: var(--success); 
+            color: white; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-size: 0.6rem; 
+            vertical-align: middle; 
+            margin-left: 8px; 
+            font-weight: 600; 
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+        }
+        
+        /* Mobile touch optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            button, select {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Reduced motion (accessibility) */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+    
+    <!-- Non-critical CSS async loading -->
+    <link rel="stylesheet" href="/static/css/toolbox/camera/style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/static/css/toolbox/camera/style.css"></noscript>
+    
+    <!-- Shared Stylesheets -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
+   
+    <!-- Structured Data Schema Markup (merged, English) -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Công cụ kiểm tra webcam trực tuyến",
+      "description": "Công cụ kiểm tra camera trực tuyến chuyên nghiệp với phân tích hiệu suất toàn diện",
+      "url": "https://starryring.com/vi/toolbox/camera/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com"
+      },
+      "featureList": [
+        "Kiểm tra luồng video thời gian thực",
+        "Đo độ phân giải & FPS",
+        "Phân tích khả năng phần cứng",
+        "Chuyển đổi và quản lý thiết bị",
+        "Chức năng lật gương",
+        "Giám sát hiệu suất thời gian thực"
+      ],
+      "softwareVersion": "2.1.0",
+      "datePublished": "2026-01-01",
+      "dateModified": "2026-01-05"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Tại sao máy ảnh của tôi không hiển thị?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Điều này có thể là do hạn chế về quyền của trình duyệt hoặc sự cố phần cứng máy ảnh. Hãy đảm bảo: 1) Bạn cho phép trình duyệt truy cập vào máy ảnh; 2) Camera được kết nối đúng cách; 3) Hiện không có ứng dụng nào khác đang sử dụng máy ảnh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm cách nào để kiểm tra tốc độ khung hình của camera (FPS)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nhìn vào giá trị FPS thời gian thực ở góc trên bên phải của trang. Máy ảnh chuyên nghiệp thường hỗ trợ 30fps trở lên, máy ảnh cao cấp có thể đạt 60fps trở lên. Tốc độ khung hình ổn định là chìa khóa để video mượt mà."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm cách nào để biết chất lượng camera của tôi kém?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nếu bạn nhận thấy: 1) Video mờ; 2) Tốc độ khung hình thấp gây giật hình; 3) Biến dạng màu sắc; 4) Hiệu suất kém trong điều kiện ánh sáng yếu, điều này có thể cho thấy chất lượng máy ảnh có vấn đề."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Những loại máy ảnh được hỗ trợ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tất cả các loại camera đều được hỗ trợ: camera tích hợp trong máy tính xách tay, camera gắn ngoài USB, webcam, camera hội nghị, camera phát trực tiếp, v.v. Tương thích với Windows, macOS và Linux."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm cách nào để kiểm tra độ phân giải của camera?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Công cụ tự động hiển thị độ phân giải hiện tại. Camera chất lượng cao thường hỗ trợ 1080p (1920x1080) trở lên, trong khi camera tiêu chuẩn chỉ có thể hỗ trợ 720p (1280x720)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Dữ liệu thử nghiệm của tôi có được lưu không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tất cả dữ liệu kiểm tra chỉ được lưu trữ trong phiên trình duyệt hiện tại của bạn. Nó sẽ bị mất khi bạn làm mới trang hoặc đóng tab. Chúng tôi không thu thập hoặc tải lên bất kỳ dữ liệu máy ảnh nào, đảm bảo quyền riêng tư của bạn."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Hộp công cụ",
+          "item": "https://starryring.com/vi/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Công cụ kiểm tra webcam",
+          "item": "https://starryring.com/vi/toolbox/camera/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Cách sử dụng công cụ kiểm tra webcam",
+      "description": "Hướng dẫn từng bước để kiểm tra hiệu suất, độ phân giải và tốc độ khung hình của máy ảnh",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Cho phép quyền sử dụng máy ảnh",
+          "text": "Khi được nhắc, hãy cho phép trình duyệt truy cập vào máy ảnh của bạn. Điều này là cần thiết để thử nghiệm hoạt động.",
+          "image": "https://starryring.com/vi/toolbox/camera/step1-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Chọn thiết bị chụp ảnh",
+          "text": "Nếu bạn có nhiều camera được kết nối, hãy chọn camera của bạn từ menu thả xuống của thiết bị.",
+          "image": "https://starryring.com/vi/toolbox/camera/step2-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Kiểm tra luồng video",
+          "text": "Quan sát video thời gian thực để đảm bảo camera hoạt động bình thường. Kiểm tra các vấn đề về độ mờ, giật hình hoặc màu sắc.",
+          "image": "https://starryring.com/vi/toolbox/camera/step3-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Phân tích dữ liệu hiệu suất",
+          "text": "Xem độ phân giải, FPS và khả năng phần cứng trong bảng thống kê. Theo dõi các chỉ số hiệu suất thời gian thực.",
+          "image": "https://starryring.com/vi/toolbox/camera/step4-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Kiểm tra các tính năng nâng cao",
+          "text": "Hãy thử chức năng lật gương. Nếu máy ảnh của bạn hỗ trợ nó, hãy khám phá các chế độ phân giải khác nhau.",
+          "image": "https://starryring.com/vi/toolbox/camera/step5-en.png"
+        }
+      ],
+      "totalTime": "PT2M"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://starryring.com/vi/toolbox/camera/#webpage",
+      "url": "https://starryring.com/vi/toolbox/camera/",
+      "name": "Công cụ kiểm tra webcam trực tuyến",
+      "description": "Công cụ kiểm tra máy ảnh trực tuyến miễn phí để kiểm tra hiệu suất và độ phân giải của máy ảnh",
+      "inLanguage": "vi",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://starryring.com/#website",
+        "url": "https://starryring.com",
+        "name": "StarryRing",
+        "description": "Các công cụ, tiện ích trực tuyến miễn phí"
+      }
+    }
+  ]
+}
+</script>
+<meta name="description" content="Công cụ kiểm tra webcam trực tuyến miễn phí. Kiểm tra hiệu suất camera thời gian thực, kiểm tra độ phân giải, đo FPS, phân tích khả năng phần cứng. Không cần tải xuống. Hỗ trợ máy ảnh máy tính xách tay, máy ảnh USB, v.v.">
+    <link rel="canonical" href="https://starryring.com/vi/toolbox/camera/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/camera/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/camera/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/camera/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/camera/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/camera/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/camera/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/camera/">
+<meta property="og:url" content="https://starryring.com/vi/toolbox/camera/">
+    <meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="📷 Công cụ kiểm tra webcam trực tuyến - Kiểm tra độ phân giải và kiểm tra camera miễn phí">
+    <meta property="og:description" content="Công cụ kiểm tra webcam trực tuyến miễn phí. Kiểm tra hiệu suất camera thời gian thực, kiểm tra độ phân giải, đo FPS. Không cần tải xuống.">
+    <meta name="twitter:title" content="📷 Công cụ kiểm tra webcam trực tuyến - Kiểm tra độ phân giải và kiểm tra camera miễn phí">
+    <meta name="twitter:description" content="Công cụ kiểm tra webcam trực tuyến miễn phí. Kiểm tra hiệu suất camera thời gian thực, kiểm tra độ phân giải, đo FPS. Không cần tải xuống.">
+    <meta name="keywords" content="kiểm tra webcam, kiểm tra camera, kiểm tra webcam trực tuyến, kiểm tra độ phân giải camera, kiểm tra FPS, kiểm tra hiệu suất camera, kiểm tra camera máy tính xách tay, kiểm tra camera USB, kiểm tra camera hội nghị, kiểm tra chất lượng webcam">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/camera/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/camera/" data-lang="zh">简体中文</a>
+            <a class="language-option selected" href="/vi/toolbox/camera/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/toolbox/camera/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/toolbox/camera/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/camera/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language Switcher --> 
+ <!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/vi/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-home" aria-hidden="true"> </i>  
+                         <span itemprop="name"> Trang chủ </span> 
+                     </a> 
+                     <meta itemprop="position" content="1" /> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/vi/toolbox/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-box" aria-hidden="true"> </i> <span itemprop="name"> Hộp công cụ </span> 
+                     </a> 
+                     <meta itemprop="position" content="2" /> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <span class="breadcrumb-active" itemprop="name"> Công cụ kiểm tra webcam </span> 
+                     <meta itemprop="position" content="3" /> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+
+     <!-- Page Main Title --> 
+     <h1 id="title-text"> Công cụ kiểm tra webcam chuyên nghiệp - Phát hiện camera, phân tích độ phân giải/FPS trong thời gian thực <span class="badge"> Công cụ trực tuyến miễn phí </span> </h1> 
+
+     <!-- Introductory Content --> 
+     <div class="intro-section"> 
+         <p> Công cụ kiểm tra webcam trực tuyến miễn phí, không cần cài đặt phần mềm. Được phát triển bằng công nghệ WebRTC, nó đo các số liệu hiệu suất của máy ảnh trong thời gian thực, bao gồm: <strong> kiểm tra chất lượng luồng video </strong> , <strong> phát hiện độ phân giải </strong> , <strong> phân tích tốc độ khung hình (FPS) </strong> , <strong> kiểm tra khả năng phần cứng </strong> . Hỗ trợ nhiều loại thiết bị khác nhau: </p> 
+         <div class="keyboard-types"> 
+             <span class="keyboard-type-tag"> Máy ảnh máy tính xách tay </span> 
+             <span class="keyboard-type-tag"> Camera ngoài USB </span> 
+             <span class="keyboard-type-tag"> Webcam </span> 
+             <span class="keyboard-type-tag"> Máy ảnh HD </span><span class="keyboard-type-tag"> Camera hội nghị </span> 
+             <span class="keyboard-type-tag"> Camera phát trực tiếp </span> 
+             <span class="keyboard-type-tag"> Máy ảnh điện thoại (yêu cầu hỗ trợ trình duyệt) </span> 
+         </div> 
+         <div class="compatibility-note"> 
+             <i class="fas fa-info-circle"> </i> <strong> Lưu ý về khả năng tương thích: </strong> Công cụ này hoạt động với các trình duyệt hiện đại như Chrome, Firefox, Edge, Safari và yêu cầu môi trường HTTPS hoặc quyền truy cập localhost.
+         </div> 
+     </div> 
+
+     <div class="container"> 
+         <section> 
+             <div class="card" style="margin-bottom: 20px;"> 
+                 <div class="controls-row"> 
+                     <div class="select-group"> 
+                         <label id="video-label" for="videoSource"> Nguồn video </label> 
+                         <select id="videoSource"> <option> Đang phát hiện thiết bị... </option> </select> 
+                     </div> 
+                 </div> 
+                 <div class="controls-row" style="margin-bottom: 0;"> 
+                     <div class="btn-group"> 
+                         <button id="btn-mirror" class="secondary"> Lật gương </button> 
+                     </div> 
+                 </div> 
+             </div> 
+
+             <div class="card" style="padding: 10px;"> 
+                 <div class="video-wrapper"> 
+                     <video id="video" autoplay playsinline aria-label="Camera live feed"> </video> 
+                     <div class="overlay-stats"> 
+                         <span id="live-res"> 0x0 </span> |  <span id="live-fps"> 0 </span> FPS
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <aside> 
+             <div class="card"> 
+                 <h3 id="status-header-text"> <span class="status-dot"> </span> Trạng thái thiết bị </h3> 
+                 <table class="info-table"> 
+                     <tr> <td id="run-status-label"> Trạng thái </td> <td id="status-text"> Đang yêu cầu quyền... </td> </tr> 
+                     <tr> <td id="device-name-label"> Tên thiết bị </td> <td id="device-label"> - </td> </tr> 
+                     <tr> <td id="actual-res-label"> Độ phân giải thực tế </td> <td id="info-res"> - </td> </tr> 
+                     <tr> <td id="aspect-ratio-label"> Tỷ lệ khung hình </td> <td id="info-aspect"> - </td> </tr> 
+                 </table> 
+
+                 <h3 id="caps-header-text" style="margin-top: 20px;"> Khả năng phần cứng </h3> 
+                 <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;"> * Tham số được đọc từ trình duyệt/trình điều khiển </div> 
+                 <table class="info-table" id="capabilities-table"> 
+                     <tr> <td> - </td> <td> - </td> </tr> 
+                 </table> 
+             </div> 
+         </aside> 
+     </div> 
+
+     <!-- Core Advantages --> 
+     <div class="stats-section"> 
+         <h2> Ưu điểm chính của Công cụ kiểm tra webcam </h2> 
+         <div class="stats-grid"> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> 100% </div> 
+                 <div class="stat-title"> Miễn phí </div> 
+                 <p> Không cần đăng ký, không mất phí </p> 
+             </div> 
+             <div class="stat-item"><div class="stat-number"> Thời gian thực </div> 
+                 <div class="stat-title"> Thử nghiệm tức thì </div> 
+                 <p> Xem ngay thông số camera </p> 
+             </div> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> Quyền riêng tư </div> 
+                 <div class="stat-title"> Bảo mật </div> 
+                 <p> Dữ liệu vẫn ở cục bộ, không bao giờ được tải lên </p> 
+             </div> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> Đa thiết bị </div> 
+                 <div class="stat-title"> Khả năng tương thích rộng </div> 
+                 <p> Hỗ trợ tất cả các loại máy ảnh </p> 
+             </div> 
+         </div> 
+     </div> 
+
+
+     <!-- Feature Description and FAQ Section --> 
+     <section class="instructions-section"> 
+         <div class="instructions-content" id="instructions-content"> 
+             <h2> Tính năng của Công cụ kiểm tra webcam chuyên nghiệp </h2> 
+             <p> 📖 Tổng quan: Công cụ kiểm tra webcam chuyên nghiệp cung cấp khả năng kiểm tra camera toàn diện, từ truyền phát video cơ bản đến phân tích hiệu suất nâng cao, giúp bạn hiểu đầy đủ trạng thái camera của mình. Hỗ trợ tất cả các loại máy ảnh, bao gồm máy ảnh tích hợp trong máy tính xách tay, máy ảnh ngoài USB, webcam, v.v. </p> 
+            
+             <div class="feature-grid"> 
+                 <div class="feature-item"> 
+                     <h3> 🔍 Kiểm tra luồng video theo thời gian thực </h3> 
+                     <p> Hiển thị luồng video của camera trong thời gian thực, phát hiện xem đường truyền có ổn định, mượt mà và không bị giật, trễ hoặc rớt khung hình hay không. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Mẹo: Quan sát xem luồng video có mượt mà, không bị giật hình hay không </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 📊 Kiểm tra độ phân giải và tốc độ khung hình </h3> 
+                     <p> Phát hiện độ phân giải được hỗ trợ tối đa, độ phân giải tối ưu và các chế độ tốc độ khung hình khác nhau của máy ảnh, hiển thị độ phân giải thời gian thực và dữ liệu FPS. </p> 
+   
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> ⚙️ Phân tích khả năng phần cứng </h3> 
+                     <p> Hiển thị các thông số phần cứng cơ bản của máy ảnh, bao gồm phạm vi độ phân giải được hỗ trợ, phạm vi tốc độ khung hình, chế độ lấy nét, cân bằng trắng, v.v. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Hãy chú ý đến khả năng phần cứng để hiểu hiệu suất thực sự của máy ảnh </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 🎯 Quản lý và chuyển đổi thiết bị </h3> 
+                     <p> Hỗ trợ chuyển đổi giữa nhiều thiết bị camera, tự động phát hiện và liệt kê tất cả các camera hiện có, giúp dễ dàng kiểm tra các thiết bị khác nhau. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Chuyển đổi giữa các máy ảnh để thử nghiệm so sánh </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"><h3> 🔄 Chức năng lật gương </h3> 
+                     <p> Cung cấp công tắc lật gương để mô phỏng chế độ selfie, kiểm tra khả năng xử lý gương và hiệu ứng hiển thị của máy ảnh. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Chức năng gương rất hữu ích cho hội nghị truyền hình và chụp ảnh selfie </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 📈 Giám sát hiệu suất theo thời gian thực </h3> 
+                     <p> Hiển thị các thông số chính như FPS, độ phân giải và trạng thái trong thời gian thực, cho phép đánh giá định lượng hiệu suất của máy ảnh. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Giám sát dữ liệu giúp đánh giá tình trạng camera một cách có hệ thống </span> 
+                     </div> 
+                 </div> 
+             </div> 
+            
+             <div class="faq-section"> 
+                 <h2> Các câu hỏi thường gặp (FAQ) </h2> 
+                
+                 <div class="faq-item"> 
+                     <h3> Tại sao máy ảnh của tôi không hiển thị? </h3> 
+                     <p> Điều này có thể là do hạn chế về quyền của trình duyệt hoặc sự cố phần cứng máy ảnh. Hãy đảm bảo: 1) Bạn cho phép trình duyệt truy cập vào máy ảnh; 2) Camera được kết nối đúng cách; 3) Hiện không có ứng dụng nào khác đang sử dụng máy ảnh. </p> 
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> Làm cách nào để kiểm tra tốc độ khung hình của máy ảnh? </h3> 
+                     <p> Hãy xem giá trị FPS thời gian thực ở góc trên cùng bên phải của trang. Máy ảnh chuyên nghiệp thường hỗ trợ 30fps trở lên, máy ảnh cao cấp có thể đạt 60fps trở lên. Tốc độ khung hình ổn định là chìa khóa để video mượt mà. </p> 
+    
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> Làm cách nào để biết chất lượng camera của tôi kém? </h3> 
+                     <p> Nếu bạn nhận thấy: 1) Video mờ; 2) Tốc độ khung hình thấp gây giật hình; 3) Biến dạng màu sắc; 4) Hiệu suất kém trong điều kiện ánh sáng yếu, điều này có thể cho thấy chất lượng máy ảnh có vấn đề. </p> 
+
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> Những loại máy ảnh nào được hỗ trợ? </h3> 
+                     <p> Tất cả các loại máy ảnh đều được hỗ trợ: máy ảnh tích hợp trong máy tính xách tay, máy ảnh gắn ngoài USB, webcam, máy ảnh hội nghị, máy ảnh phát trực tiếp, v.v. Tương thích với Windows, macOS và Linux. </p> 
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> Làm cách nào để kiểm tra độ phân giải của máy ảnh? </h3> 
+                     <p> Công cụ tự động hiển thị độ phân giải hiện tại. Camera chất lượng cao thường hỗ trợ 1080p (1920x1080) trở lên, trong khi camera tiêu chuẩn chỉ có thể hỗ trợ 720p (1280x720). </p> 
+
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> Dữ liệu thử nghiệm của tôi có được lưu không? </h3><p> Tất cả dữ liệu kiểm tra chỉ được lưu trữ trong phiên trình duyệt hiện tại của bạn. Nó sẽ bị mất khi bạn làm mới trang hoặc đóng tab. Chúng tôi không thu thập hoặc tải lên bất kỳ dữ liệu máy ảnh nào, đảm bảo quyền riêng tư của bạn. </p> 
+                     <div class="faq-link-container"> 
+                         <span class="faq-tip-text"> Bảo mật dữ liệu: tất cả dữ liệu được xử lý cục bộ </span> 
+                     </div> 
+                 </div> 
+             </div> 
+         </div> 
+     </section> 
+
+     <!-- Scripts (English version) --><script src="/static/js/toolbox/camera/script-vi.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script><footer style="width:100%;max-width:960px;margin:40px auto 0;padding:20px 10px;border-top:1px solid rgba(255,255,255,0.12);text-align:center;font-size:0.85rem;color:var(--text-muted);"> 
+         <div style="margin-bottom:8px;"> 
+            © 2026 StarryRing
+         </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/vi/about-us/" style="color:#60a5fa;text-decoration:none;"> Giới thiệu về chúng tôi </a> 
+             <a href="/vi/contact-us/" style="color:#60a5fa;text-decoration:none;"> Liên hệ với chúng tôi </a> 
+             <a href="/vi/disclaimer/" style="color:#60a5fa;text-decoration:none;"> Tuyên bố miễn trừ trách nhiệm </a> 
+             <a href="/vi/privacy/" style="color:#60a5fa;text-decoration:none;"> Chính sách quyền riêng tư </a> 
+             <a href="/vi/terms/" style="color:#60a5fa;text-decoration:none;"> Điều khoản dịch vụ </a> 
+         </div> 
+     </footer></body>
+</html>

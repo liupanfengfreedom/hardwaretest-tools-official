@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4a6ee0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Primary meta description and keywords -->
+<!-- Open Graph meta tags -->
+
+<meta property="og:image" content="https://starryring.com/random-number-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="CyberNum Random Number Generator Interface Screenshot - Professional Online Random Number Tool">
+<meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+<!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/random-number-preview.png">
+    <meta name="twitter:site" content="@StarryRing">
+    
+    <!-- Internationalization links -->
+
+
+
+<!-- Preload critical resources -->
+    <link rel="preload" href="/static/js/utility-tools/math/random-number-generator/script-ko.js" as="script">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/css/utility-tools/math/random-number-generator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+
+    
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "CyberNum - 난수 엔진",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS",
+        "Android",
+        "iOS"
+      ],
+      "description": "전문 온라인 난수 생성기, 정수, 소수, 사용자 정의 범위 난수 생성 지원, 일괄 생성, 고유성 확인, 기록 기능 포함",
+      "url": "https://starryring.com/ko/utility-tools/math/random-number-generator/",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://starryring.com/random-number-preview.png",
+        "width": "1200",
+        "height": "630",
+        "caption": "CyberNum 난수 생성기 인터페이스"
+      },
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/random-number-screenshot1.jpg",
+          "width": "1280",
+          "height": "720",
+          "caption": "난수 생성 인터페이스",
+          "description": "난수 생성 매개변수 설정 및 결과 표시 표시"
+        },
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/random-number-screenshot2.jpg",
+          "width": "1200",
+          "height": "900",
+          "caption": "이력관리 인터페이스",
+          "description": "난수 생성 내역 기록 및 관리 기능을 보여줍니다."
+        }
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "정수 모드 난수 생성",
+        "십진수 모드 난수 생성",
+        "사용자 정의 범위 난수 생성",
+        "일괄 생성(최대 1000개 숫자)",
+        "고유성 확인 기능",
+        "이력관리(10개 기록)",
+        "다양한 출력 형식(쉼표, 개행, 공백 구분)",
+        "재현 가능한 무작위 시퀀스를 위한 시드 입력",
+        "복사 및 내보내기 기능"
+      ],
+      "datePublished": "2023-03-10",
+      "dateModified": "2024-02-15",
+      "softwareVersion": "1.2.0"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "CyberNum 난수 엔진이란 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CyberNum은 정수 모드, 소수 모드 및 사용자 정의 범위 모드를 포함한 여러 난수 생성 모드를 지원하는 전문 온라인 난수 생성기입니다. 복권, 테스트, 비밀번호 생성 및 기타 다양한 시나리오에 적합한 일괄 생성, 고유성 확인, 기록 기능을 제공합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "이 도구를 사용하여 난수를 생성하는 방법은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "먼저 생성 모드(정수, 소수 또는 범위)를 선택한 다음 관련 매개변수를 설정합니다. 정수 모드에서는 자릿수를 설정합니다. 십진수 모드에서는 십진수 정밀도를 설정합니다. 범위 모드에서는 최소값과 최대값을 설정합니다. 그런 다음 생성 수와 고유성이 필요한지 여부를 설정하고 마지막으로 '임의 시퀀스 생성' 버튼을 클릭합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "시드 기능은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "시드 기능을 사용하면 특정 값을 입력하여 동일한 시드로 생성된 난수 시퀀스를 완전히 동일하게 만들 수 있습니다. 이는 테스트, 실험 또는 교육 시연과 같이 재현 가능한 무작위 시퀀스가 ​​필요한 시나리오에 유용합니다. 비워두면 시간 기반 무작위 시드가 사용되어 매번 다른 시퀀스가 ​​생성됩니다."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "유틸리티 도구",
+          "item": "https://starryring.com/ko/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "수학 도구",
+          "item": "https://starryring.com/ko/utility-tools/math/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "CyberNum 난수 엔진",
+          "item": "https://starryring.com/ko/utility-tools/math/random-number-generator/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "CyberNum을 사용하여 난수 시퀀스를 생성하는 방법",
+      "description": "CyberNum 난수 엔진을 사용하여 난수 시퀀스를 생성하는 방법에 대한 단계별 가이드",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "생성 모드 선택: 정수 모드(고정 숫자), 소수 모드(지정된 정밀도) 또는 범위 모드(사용자 정의 최소/최대 값)"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "해당 매개변수 설정: 자릿수, 소수 정밀도, 범위 값 등"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "세대 수(1~1000)를 설정하고 고유성이 필요한지 여부를 선택합니다(중복 없음)."
+        },
+        {
+          "@type": "HowToStep",
+          "text": "선택사항: 재현 가능한 무작위 시퀀스에 대한 시드 값을 입력하거나, 완전히 무작위인 경우 비워 둡니다."
+        },
+        {
+          "@type": "HowToStep",
+          "text": "출력 형식 선택: 쉼표 구분, 줄 바꿈 구분 또는 공백 구분"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "'임의 시퀀스 생성' 버튼을 클릭하고 결과 영역에서 생성된 난수를 확인하세요."
+        }
+      ],
+      "totalTime": "PT1M",
+      "tool": {
+        "@type": "SoftwareApplication",
+        "name": "CyberNum 난수 엔진"
+      }
+    }
+  ]
+}
+</script>
+    
+    <title>CyberNum - 전문 온라인 난수 엔진, 정수, 십진수, 사용자 정의 범위 난수 생성 지원 | StarryRing</title>
+<meta name="description" content="CyberNum - 전문 온라인 난수 생성기는 정수, 소수, 사용자 정의 범위 난수 생성을 지원하고 일괄 생성, 고유성 확인, 기록 기능을 제공합니다. 복권, 테스트, 비밀번호 생성 등을 위한 무료 난수 생성기">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/math/random-number-generator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/random-number-generator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/random-number-generator/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/random-number-generator/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/random-number-generator/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/random-number-generator/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/random-number-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/random-number-generator/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/math/random-number-generator/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="CyberNum - 전문 온라인 난수 엔진 | StarryRing">
+    <meta property="og:description" content="무료 온라인 난수 생성기, 정수, 소수, 사용자 정의 범위 난수 생성, 일괄 생성, 고유성 확인, 기록 기능 지원">
+    <meta name="twitter:title" content="CyberNum - 온라인 난수 엔진">
+    <meta name="twitter:description" content="무료 온라인 난수 생성기, 정수, 소수, 사용자 정의 범위 난수 생성, 일괄 생성, 고유성 확인, 기록 기능 지원">
+    <meta name="keywords" content="난수 생성기, 온라인 난수 도구, 난수 생성, 난수 선택기, 난수 테스트, 배치 난수 생성, 난수 도구, 난수 엔진">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/random-number-generator/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/random-number-generator/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/random-number-generator/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/random-number-generator/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/math/random-number-generator/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/random-number-generator/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation --> 
+     <nav aria-label="Breadcrumb Navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> 
+                 <a href="/ko/" class="breadcrumb-link"> <i class="fas fa-home"> </i> 홈 </a> 
+             </li> 
+             <li class="breadcrumb-item"> 
+                 <a href="/ko/utility-tools/" class="breadcrumb-link"> 
+                     <i class="fas fa-toolbox"> </i> 유틸리티 도구
+                 </a> 
+             </li> 
+             <li class="breadcrumb-item" aria-current="page"> 
+                 <span class="breadcrumb-active"> <i class="fas fa-paper-plane"> </i> 난수 생성기 </span> 
+             </li> 
+         </ol> 
+     </nav> 
+    
+     <!-- Language Switcher --> 
+ <!-- Main Title and Description --> 
+     <h1 style="margin-top: 1rem; text-align: center; color: var(--accent); font-size: 1.8rem; margin-bottom: 1rem;"> CyberNum - 전문 난수 엔진 </h1> 
+     <p style="text-align: center; color: var(--text-secondary); max-width: 800px; margin: 0 auto 2rem; padding: 0 1rem;"> 전문 난수 생성기는 정수, 소수, 사용자 정의 범위 난수 생성을 지원하며 일괄 생성, 고유성 확인, 기록 기능을 갖추고 있습니다. 복권, 테스트, 비밀번호 생성 등에 적합한 무료 난수 생성기 </p> 
+    
+     <div class="container"> 
+         <!-- Original tool interface remains unchanged --> 
+         <div class="result-wrapper"> 
+             <div id="result-display"> 준비됨 </div> 
+             <div class="result-actions"> 
+                 <button class="action-btn" onclick="copyResult()"> 
+                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <rect x="9" y="9" width="13" height="13" rx="2" ry="2"> </rect> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"> </path> </svg> 
+                    복사
+                 </button> 
+                 <button class="action-btn" onclick="exportResults()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"> </path> <polyline points="7 10 12 15 17 10"> </polyline> <line x1="12" y1="15" x2="12" y2="3"> </line> </svg> 
+                    수출
+                 </button> 
+                 <button class="action-btn" onclick="formatLargeNumbers()"> 
+                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"> </path> </svg> 
+                    형식
+                 </button> 
+             </div> 
+         </div> 
+
+         <div class="controls"> 
+             <div class="mode-selector"> 
+                 <button class="mode-btn active" onclick="setMode('int', this)"> 정수 모드 </button> 
+                 <button class="mode-btn" onclick="setMode('dec', this)"> 십진수 모드 </button> 
+                 <button class="mode-btn" onclick="setMode('range', this)"> 범위 모드 </button> 
+             </div> 
+
+             <!-- Digits Mode --> 
+             <div id="digits-mode" class="input-group"> 
+                 <label> </label>을 생성할 숫자 
+                 <input type="number" id="digits" value="6" min="1" max="100"> 
+                 <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;"> 
+                    매우 큰 정수를 지원합니다. 적절한 표시를 위해 50자리를 초과하지 않는 것이 좋습니다.
+                 </div> 
+             </div> 
+            
+             <!-- Range Mode --> 
+             <div id="range-mode" class="input-row" style="display: none;"> 
+                 <div class="input-group"> 
+                     <label> 최소값(Min) </label> 
+                     <input type="text" id="min" value="0" placeholder="e.g.: 0"> 
+                 </div> 
+                 <div class="input-group"> 
+                     <label> 최대값(Max) </label> 
+                     <input type="text" id="max" value="100" placeholder="e.g.: 100"> 
+                 </div> 
+             </div> 
+
+             <!-- Decimal Options --> 
+             <div id="decimal-options" class="input-group" style="display: none;"> 
+                 <label> 소수점 정밀도 </label> 
+                 <input type="number" id="precision" value="2" min="1" max="15"> 
+             </div> 
+
+             <div class="input-row"> 
+                 <div class="input-group"> 
+                     <label> </label> 생성 카운트 
+                     <input type="number" id="count" value="5" min="1" max="1000"> 
+                 </div> 
+                 <div class="input-group"> 
+                     <label> 시드(선택사항) </label> 
+                     <input type="text" id="seed" placeholder="Leave empty for random seed"> 
+                 </div> 
+             </div> 
+
+             <div class="checkbox-group"> 
+                 <input type="checkbox" id="unique" onchange="toggleMaxCount()"> 
+                 <label for="unique" style="font-size: 0.9rem; cursor: pointer;"> 고유함(중복 없음) </label> 
+             </div><div class="format-options"> 
+                 <div class="format-option"> 
+                     <input type="radio" id="format-comma" name="format" value="comma" checked> 
+                     <label for="format-comma"> 쉼표로 구분 </label> 
+                 </div> 
+                 <div class="format-option"> 
+                     <input type="radio" id="format-newline" name="format" value="newline"> 
+                     <label for="format-newline"> 줄 바꿈으로 구분됨 </label> 
+                 </div> 
+                 <div class="format-option"> 
+                     <input type="radio" id="format-space" name="format" value="space"> 
+                     <label for="format-space"> 공백으로 구분됨 </label> 
+                 </div> 
+             </div> 
+
+             <div id="warning-area"> </div> 
+
+             <div class="button-group"> 
+                 <button class="gen-btn" onclick="generate()"> 
+                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M21 2v6h-6"> </path> <path d="M3 12a9 9 0 0 1 15-6.7L21 8"> </path> <path d="M3 22v-6h6"> </path> <path d="M21 12a9 9 0 0 1-15 6.7L3 16"> </path> </svg> 
+                    무작위 시퀀스 생성
+                 </button> 
+                 <button class="sec-btn" onclick="toggleHistory()"> 
+                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"> </polyline> </svg> 
+                    역사
+                 </button> 
+             </div> 
+         </div> 
+
+         <!-- History Section --> 
+         <div id="history-section" class="history-section"> 
+             <div class="history-header"> 
+                 <h3 style="margin: 0; color: var(--text-secondary); font-size: 1rem;"> 최근 생성된 시퀀스 </h3> 
+                 <button class="action-btn" onclick="clearHistory()" style="padding: 6px 10px; font-size: 0.8rem;"> 
+                    기록 지우기
+                 </button> 
+             </div> 
+             <div id="history-list" class="history-list"> 
+                 <!-- History will be dynamically inserted --> 
+             </div> 
+         </div> 
+     </div> 
+    
+   
+    
+     <!-- Feature Description and FAQ Section --> 
+     <div class="instructions-section"> 
+         <div class="instructions-content"> 
+             <h2> CyberNum 난수 엔진 기능 </h2> 
+             <p> 📖 소개: 전문 난수 생성기, 다중 난수 생성 모드 지원, 일괄 생성, 고유성 확인, 기록 기능 제공. <strong> 난수 생성기 </strong> , <strong> 온라인 난수 도구 </strong> , <strong> 난수 선택기 </strong> 기능의 완벽한 통합. </p> 
+             <div class="feature-grid"> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-hashtag"> </i> 정수 모드 </h3> 
+                     <p> 지정된 자릿수로 임의의 정수를 생성하고 매우 큰 정수(최대 100자리)를 지원하며 임의 ID, 인증 코드 등을 생성하는 데 적합합니다. </p> 
+                     <div class="tip"><span class="tip-text"> 팁: 인증 코드에 일반적으로 사용되는 6~8자리 임의의 정수, 고유 ID에 10자리 이상 </span> 
+                     </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-percentage"> </i> 소수점 모드 </h3> 
+                     <p> 지정된 정밀도로 임의의 소수점을 생성하고 소수점 1-15자리를 지원하며 시뮬레이션 데이터, 과학적 계산 등에 적합합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 공통 소수점 정밀도: 2자리(통화), 4자리(과학적), 6자리(고정밀 시뮬레이션) </span> 
+                     </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-sliders-h"> </i> 범위 모드 </h3> 
+                     <p> 사용자 정의 범위 내에서 난수를 생성하고 정수 및 소수 범위를 지원하며 복권, 무작위 선택 등에 적합합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 예: 복권 </span>에 대해 1-100 범위의 고유한 무작위 정수 10개 생성 
+                     </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-list-ol"> </i> 일괄 생성 </h3> 
+                     <p> 한 번에 최대 1000개의 난수 생성을 지원하여 작업 효율성을 향상시켜 대량의 난수 데이터가 필요한 시나리오에 적합합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 일괄 생성 시 데이터 중복을 피하기 위해 고유성 검사를 사용하는 것이 좋습니다 </span> 
+                     </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-seedling"> </i> 시드 기능 </h3> 
+                     <p> 시드 값 입력을 지원하고, 재현 가능한 무작위 시퀀스를 생성하여 동일한 조건에서 동일한 결과를 보장합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 테스트 및 교육에 매우 유용한 시드 기능은 재현 가능한 결과를 보장합니다 </span> 
+                     </div> 
+                 </div> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-history"> </i> 연혁 </h3> 
+                     <p> 최근 생성된 난수 시퀀스를 자동으로 저장하고 기록에서 빠른 보기, 복사 및 재생성을 지원합니다. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 기록은 최대 10개까지 저장되며 클릭 한 번으로 삭제 가능 </span> 
+                     </div> 
+                 </div> 
+             </div> 
+            
+             <!-- Random Number Technical Specifications --> 
+             <div class="technical-section"> 
+                 <h2> 난수 생성 기술 사양 </h2> 
+                 <p> 이 도구에서 사용되는 난수 알고리즘: Crypto.getRandomValues() </p> 기반의 강력한 난수 생성기 
+                 <ul class="tech-specs"><li> 암호화 보안 난수 표준을 준수합니다 </li> 
+                     <li> 매우 큰 정수 생성(최대 100자리) 지원 </li> 
+                     <li> 고정밀 소수점 생성 지원(소수점 최대 15자리) </li> 
+                     <li> 재현 가능한 무작위 시퀀스를 위한 시드 입력 지원 </li> 
+                     <li> 균일 분포 난수 생성 </li> 구현 
+                     <li> 일괄 생성 및 고유성 확인 지원 </li> 
+                 </ul> 
+                 <p class="tech-note"> <strong> 기술 노트: </strong> 이 도구는 브라우저에 내장된 암호화 API를 사용하여 Math.random()에 비해 무작위성과 보안이 더 높은 강력한 난수를 생성하며 비밀번호 생성, 보안 토큰 등에 적합합니다. </p> 
+             </div> 
+            
+             <div class="faq-section"> 
+                 <h2> 자주 묻는 질문(FAQ) </h2> 
+                 <div class="faq-item"> 
+                     <h3> 난수 생성기란 무엇인가요? </h3> 
+                     <p> 난수 생성기는 난수 시퀀스를 생성하는 데 사용되는 도구 또는 알고리즘입니다. 난수는 컴퓨터 과학, 통계, 암호화, 게임 개발 등에 폭넓게 응용됩니다. 생성 방법에 따라 TRNG(진정 난수 생성기)와 PRNG(의사 난수 생성기)로 분류할 수 있습니다. 이 도구는 암호화된 보안 의사 난수 생성기를 사용합니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 언제 시드를 설정해야 하나요? </h3> 
+                     <p> 시드 기능은 주로 다음 시나리오에 사용됩니다. <br> 
+                    1) 테스트 및 디버깅: 프로그램 동작을 검증하려면 재현 가능한 무작위 시퀀스가 필요합니다 <br> 
+                    2) 교육 시연: <br> 학생들에게 난수 생성 원리를 보여줍니다. 
+                    3) 과학 실험: 실험 조건이 반복 가능한지 확인하세요 <br> 
+                    4) 게임 개발: 동일한 게임 맵 또는 레벨 생성 <br> 
+                    재현성이 필요하지 않은 경우 시드 입력을 비워 두는 것이 좋습니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 안전한 무작위 비밀번호를 생성하는 방법은 무엇입니까? </h3> 
+                     <p> 안전한 무작위 비밀번호를 생성하려면 <br>을 권장합니다. 
+                    1) 정수 모드를 사용하여 비밀번호 기반 <br>으로 8~12자리 난수를 생성합니다. 
+                    2) 문자, 숫자, 특수문자를 조합하여 보안 강화 <br> 
+                    3) 흔한 숫자 배열(예: 123456, 생일 등)을 피하세요. <br> 
+                    4) 비밀번호를 정기적으로 변경하고 동일한 비밀번호를 재사용하지 마세요 <br> 
+                    5) 비밀번호 관리자를 사용하여 생성된 비밀번호를 저장하세요 </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 고유성 검사의 제한 사항은 무엇입니까? </h3> 
+                     <p> 고유성 검사 기능은 생성된 난수 시퀀스에 중복된 값이 없도록 보장합니다. 하지만 다음 제한 사항에 유의하세요. <br>1) 범위 모드에서 요청된 고유 개수가 범위 크기를 초과하는 경우 <br> 요구 사항을 충족할 수 없습니다. 
+                    2) 대량의 고유번호 <br> 생성 시 성능에 영향을 미칠 수 있습니다. 
+                    3) 고유성 확인은 특히 많은 난수를 생성할 때 계산 복잡성을 증가시킵니다 <br> 
+                    실제 필요에 따라 세대수와 범위를 합리적으로 설정하는 것이 좋습니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 생성된 난수를 내보내는 방법은 무엇입니까? </h3> 
+                     <p> 이 도구는 다양한 내보내기 방법을 제공합니다: <br> 
+                    1) 복사 기능: 생성된 난수를 클립보드 <br>에 복사합니다. 
+                    2) 내보내기 기능: 난수를 <br> 텍스트 파일로 내보냅니다. 
+                    3) 형식 기능: <br> 읽기 쉽도록 큰 숫자의 표시 형식을 조정합니다. 
+                    4) 이력 기록: 나중에 사용할 수 있도록 최근 생성 결과를 저장합니다 <br> 
+                    향후 버전에서는 JSON, CSV 등과 같은 더 많은 내보내기 형식을 지원할 예정입니다. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> 이 도구는 무료인가요? </h3> 
+                     <p> 예, CyberNum 난수 엔진은 완전 무료 온라인 도구이므로 등록이나 로그인이 필요하지 않습니다. 우리는 개발자와 일반 사용자에게 고품질의 무료 도구를 제공하여 업무 및 학습 효율성을 향상시키는 데 최선을 다하고 있습니다. 모든 기능은 숨겨진 비용이나 제한 없이 무료로 사용할 수 있습니다. </p> 
+                 </div> 
+             </div> 
+         </div> 
+     </div> 
+    
+     <!-- Page Footer --> 
+     <footer class="page-footer"> 
+         <div class="footer-content"> 
+             <p> © 2024 StarryRing - CyberNum 난수 엔진 </p> 
+             <p> 페이지 최종 업데이트: 2024년 2월 | 버전: v1.2.0 </p> 
+         </div> 
+         <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;"> 
+             <a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+             <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+             <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+             <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a> 
+             <a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+         </div> 
+     </footer> 
+    
+     <div id="toast"> 클립보드에 복사됨 </div> 
+    
+     <!-- Local Scripts --><script src="/static/js/utility-tools/math/random-number-generator/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

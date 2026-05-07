@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- Core SEO Meta Tags -->
+    <title>オンライン Web カメラ テスト ツール - プロフェッショナルなカメラ解像度と FPS テスター | StarryRing</title>
+<meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Canonical URL & Hreflang -->
+
+
+
+<!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/camera/og-image-en.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Preview of the online webcam test tool interface">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/camera/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/camera/og-image-en.jpg">
+    <meta name="twitter:creator" content="@starryring">
+    
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Webcam Test">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#121212">
+    <meta name="msapplication-TileColor" content="#121212">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="/sitemap-tools-en.xml">
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="/static/css/toolbox/camera/style.css" as="style">
+    <link rel="preload" href="/static/js/toolbox/camera/script-ja.js" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Critical CSS (Above the Fold) -->
+    <style>
+        /* Critical CSS - Above the fold styles */
+        :root { 
+            --bg-color: #121212; 
+            --card-bg: #1e1e1e; 
+            --text-main: #e0e0e0; 
+            --text-muted: #a0a0a0; 
+            --accent: #4a6bff; 
+            --accent-hover: #3a5bef; 
+            --border: #333; 
+            --success: #00d4aa; 
+            --danger: #ef4444; 
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        
+        h1 { 
+            margin-bottom: 20px; 
+            font-weight: 300; 
+            margin-top: 20px; 
+            text-align: center; 
+            font-size: clamp(1.5rem, 4vw, 2.2rem); 
+        }
+        
+        .badge { 
+            background: var(--success); 
+            color: white; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-size: 0.6rem; 
+            vertical-align: middle; 
+            margin-left: 8px; 
+            font-weight: 600; 
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+        }
+        
+        /* Mobile touch optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            button, select {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Reduced motion (accessibility) */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+    
+    <!-- Non-critical CSS async loading -->
+    <link rel="stylesheet" href="/static/css/toolbox/camera/style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/static/css/toolbox/camera/style.css"></noscript>
+    
+    <!-- Shared Stylesheets -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
+   
+    <!-- Structured Data Schema Markup (merged, English) -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "オンラインウェブカメラテストツール",
+      "description": "包括的なパフォーマンス分析を備えたプロフェッショナルなオンライン カメラ テスト ツール",
+      "url": "https://starryring.com/ja/toolbox/camera/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com"
+      },
+      "featureList": [
+        "リアルタイムビデオストリームテスト",
+        "解像度とFPSの測定",
+        "ハードウェア機能の分析",
+        "デバイスの切り替えと管理",
+        "ミラーフリップ機能",
+        "リアルタイムのパフォーマンス監視"
+      ],
+      "softwareVersion": "2.1.0",
+      "datePublished": "2026-01-01",
+      "dateModified": "2026-01-05"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "私のカメラが表示されないのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "これは、ブラウザの許可制限またはカメラのハードウェアの問題が原因である可能性があります。以下を確認してください: 1) ブラウザがカメラにアクセスすることを許可していること。 2) カメラが正しく接続されています。 3) 現在、他のアプリケーションがカメラを使用していません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "カメラのフレーム レート (FPS) をテストするにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ページの右上隅にあるリアルタイム FPS 値を確認してください。プロ仕様のカメラは通常 30fps 以上をサポートし、ハイエンドのカメラは 60fps 以上に達する場合があります。安定したフレームレートはスムーズなビデオの鍵です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "カメラの品質が低いかどうかはどうすればわかりますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "気づいた場合: 1) ビデオがぼやけています。 2) フレームレートが低いと途切れが発生します。 3) 色の歪み。 4) 暗い場所でのパフォーマンスの低下。これらはカメラの品質に問題があることを示している可能性があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "どのような種類のカメラがサポートされていますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ラップトップの内蔵カメラ、USB 外部カメラ、ウェブカメラ、会議用カメラ、ライブ ストリーミング カメラなど、あらゆる種類のカメラがサポートされています。Windows、macOS、Linux と互換性があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "カメラの解像度をテストするにはどうすればよいですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "このツールは現在の解像度を自動的に表示します。高品質カメラは通常 1080p (1920x1080) 以上をサポートしますが、標準カメラは 720p (1280x720) のみをサポートする場合があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "私のテストデータは保存されていますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "すべてのテスト データは、現在のブラウザ セッションにのみ保存されます。ページを更新するかタブを閉じると失われます。あなたのプライバシーを確​​保するため、当社はカメラデータを収集またはアップロードしません。"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ツールボックス",
+          "item": "https://starryring.com/ja/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ウェブカメラテストツール",
+          "item": "https://starryring.com/ja/toolbox/camera/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Webカメラテストツールの使い方",
+      "description": "カメラのパフォーマンス、解像度、フレーム レートをテストするためのステップバイステップ ガイド",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "カメラの許可を許可する",
+          "text": "プロンプトが表示されたら、ブラウザがカメラにアクセスできるようにします。これはテストが機能するために必要です。",
+          "image": "https://starryring.com/ja/toolbox/camera/step1-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "カメラデバイスの選択",
+          "text": "複数のカメラが接続されている場合は、デバイスのドロップダウン メニューからカメラを選択します。",
+          "image": "https://starryring.com/ja/toolbox/camera/step2-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "ビデオストリームを確認する",
+          "text": "リアルタイムのビデオを観察して、カメラが適切に動作していることを確認します。ぼやけ、途切れ、色の問題がないか確認してください。",
+          "image": "https://starryring.com/ja/toolbox/camera/step3-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "パフォーマンスデータを分析する",
+          "text": "統計パネルで解像度、FPS、ハードウェア機能を表示します。リアルタイムのパフォーマンス指標を監視します。",
+          "image": "https://starryring.com/ja/toolbox/camera/step4-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "高度な機能をテストする",
+          "text": "ミラーフリップ機能を試してみましょう。カメラがサポートしている場合は、さまざまな解像度モードを試してください。",
+          "image": "https://starryring.com/ja/toolbox/camera/step5-en.png"
+        }
+      ],
+      "totalTime": "PT2M"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://starryring.com/ja/toolbox/camera/#webpage",
+      "url": "https://starryring.com/ja/toolbox/camera/",
+      "name": "オンラインウェブカメラテストツール",
+      "description": "カメラのパフォーマンスと解像度をテストするための無料のオンライン カメラ テスト ツール",
+      "inLanguage": "jp",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://starryring.com/#website",
+        "url": "https://starryring.com",
+        "name": "StarryRing",
+        "description": "無料のオンラインツールとユーティリティ"
+      }
+    }
+  ]
+}
+</script>
+<meta name="description" content="無料のオンライン Web カメラ テスト ツール。リアルタイムのカメラ性能テスト、解像度チェック、FPS 測定、ハードウェア機能分析。ダウンロードは必要ありません。ノートパソコンのカメラ、USB カメラなどをサポートします。">
+    <link rel="canonical" href="https://starryring.com/ja/toolbox/camera/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/camera/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/camera/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/camera/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/camera/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/camera/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/camera/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/camera/">
+<meta property="og:url" content="https://starryring.com/ja/toolbox/camera/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="📷 オンラインウェブカメラテストツール - 無料のカメラチェックと解像度テスト">
+    <meta property="og:description" content="無料のオンライン Web カメラ テスト ツール。リアルタイムのカメラ性能テスト、解像度チェック、FPS 測定。ダウンロードは必要ありません。">
+    <meta name="twitter:title" content="📷 オンラインウェブカメラテストツール - 無料のカメラチェックと解像度テスト">
+    <meta name="twitter:description" content="無料のオンライン Web カメラ テスト ツール。リアルタイムのカメラ性能テスト、解像度チェック、FPS 測定。ダウンロードは必要ありません。">
+    <meta name="keywords" content="ウェブカメラ テスト、カメラ テスト、オンライン ウェブカメラ テスター、カメラ解像度テスト、FPS テスト、カメラ性能テスト、ラップトップ カメラ テスト、USB カメラ テスト、会議カメラ テスト、ウェブカメラ品質チェック">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/camera/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/camera/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/camera/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/toolbox/camera/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/toolbox/camera/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/camera/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language Switcher --> 
+ <!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/ja/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-home" aria-hidden="true"> </i>  
+                         <span itemprop="name"> ホーム </span> 
+                     </a> 
+                     <meta itemprop="position" content="1" /> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/ja/toolbox/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-box" aria-hidden="true"> </i> <span itemprop="name"> ツールボックス </span> 
+                     </a> 
+                     <meta itemprop="position" content="2" /> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <span class="breadcrumb-active" itemprop="name"> ウェブカメラ テスト ツール </span> 
+                     <meta itemprop="position" content="3" /> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+
+     <!-- Page Main Title --> 
+     <h1 id="title-text"> プロフェッショナルなウェブカメラ テスト ツール - リアルタイム カメラ検出、解像度/FPS 分析 <span class="badge"> 無料オンライン ツール </span> </h1> 
+
+     <!-- Introductory Content --> 
+     <div class="intro-section"> 
+         <p> 無料のオンライン Web カメラ テスト ツール。ソフトウェアのインストールは不要です。 WebRTC テクノロジーで開発され、<strong> ビデオ ストリーム品質テスト </strong> 、<strong> 解像度検出 </strong> 、<strong> フレーム レート (FPS) 分析 </strong> 、<strong> ハードウェア機能チェック </strong> などのカメラ パフォーマンス メトリクスをリアルタイムで測定します。さまざまなデバイスタイプをサポート: </p> 
+         <div class="keyboard-types"> 
+             <span class="keyboard-type-tag"> ノートパソコンのカメラ </span> 
+             <span class="keyboard-type-tag"> USB 外部カメラ </span> 
+             <span class="keyboard-type-tag"> ウェブカメラ </span> 
+             <span class="keyboard-type-tag"> HD カメラ </span><span class="keyboard-type-tag"> 会議用カメラ </span> 
+             <span class="keyboard-type-tag"> ライブ ストリーミング カメラ </span> 
+             <span class="keyboard-type-tag"> 携帯電話のカメラ (ブラウザのサポートが必要) </span> 
+         </div> 
+         <div class="compatibility-note"> 
+             <i class="fas fa-info-circle"> </i> <strong> 互換性に関する注意: </strong> このツールは、Chrome、Firefox、Edge、Safari などの最新のブラウザで動作し、HTTPS 環境またはローカルホスト アクセスが必要です。
+         </div> 
+     </div> 
+
+     <div class="container"> 
+         <section> 
+             <div class="card" style="margin-bottom: 20px;"> 
+                 <div class="controls-row"> 
+                     <div class="select-group"> 
+                         <label id="video-label" for="videoSource"> ビデオ ソース </label> 
+                         <select id="videoSource"> <option> デバイスを検出中... </option> </select> 
+                     </div> 
+                 </div> 
+                 <div class="controls-row" style="margin-bottom: 0;"> 
+                     <div class="btn-group"> 
+                         <button id="btn-mirror" class="secondary"> ミラーフリップ </button> 
+                     </div> 
+                 </div> 
+             </div> 
+
+             <div class="card" style="padding: 10px;"> 
+                 <div class="video-wrapper"> 
+                     <video id="video" autoplay playsinline aria-label="Camera live feed"> </video> 
+                     <div class="overlay-stats"> 
+                         <span id="live-res"> 0x0 </span> |  <span id="live-fps"> 0 </span> FPS
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <aside> 
+             <div class="card"> 
+                 <h3 id="status-header-text"> <span class="status-dot"> </span> デバイスステータス </h3> 
+                 <table class="info-table"> 
+                     <tr> <td id="run-status-label"> ステータス </td> <td id="status-text"> 許可を要求中... </td> </tr> 
+                     <tr> <td id="device-name-label"> デバイス名 </td> <td id="device-label"> - </td> </tr> 
+                     <tr> <td id="actual-res-label"> 実際の解像度 </td> <td id="info-res"> - </td> </tr> 
+                     <tr> <td id="aspect-ratio-label"> アスペクト比 </td> <td id="info-aspect"> - </td> </tr> 
+                 </table> 
+
+                 <h3 id="caps-header-text" style="margin-top: 20px;"> ハードウェア機能 </h3> 
+                 <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;"> * パラメータはブラウザ/ドライバから読み取られます </div> 
+                 <table class="info-table" id="capabilities-table"> 
+                     <tr> <td> - </td> <td> - </td> </tr> 
+                 </table> 
+             </div> 
+         </aside> 
+     </div> 
+
+     <!-- Core Advantages --> 
+     <div class="stats-section"> 
+         <h2> ウェブカメラ テスト ツールの主な利点 </h2> 
+         <div class="stats-grid"> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> 100% </div> 
+                 <div class="stat-title"> 無料 </div> 
+                 <p> 登録不要、無料 </p> 
+             </div> 
+             <div class="stat-item"><div class="stat-number"> リアルタイム </div> 
+                 <div class="stat-title"> インスタント テスト </div> 
+                 <p> カメラパラメータをすぐに確認できます </p> 
+             </div> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> プライバシー </div> 
+                 <div class="stat-title"> 安全な </div> 
+                 <p> データはローカルに残り、決してアップロードされません </p> 
+             </div> 
+             <div class="stat-item"> 
+                 <div class="stat-number"> マルチデバイス </div> 
+                 <div class="stat-title"> 幅広い互換性 </div> 
+                 <p> すべてのカメラ タイプをサポート </p> 
+             </div> 
+         </div> 
+     </div> 
+
+
+     <!-- Feature Description and FAQ Section --> 
+     <section class="instructions-section"> 
+         <div class="instructions-content" id="instructions-content"> 
+             <h2> プロフェッショナルなウェブカメラ テスト ツールの機能 </h2> 
+             <p> 📖 概要: プロフェッショナルなウェブカメラ テスト ツールは、基本的なビデオ ストリーミングから高度なパフォーマンス分析まで、包括的なカメラ テストを提供し、カメラのステータスを完全に理解するのに役立ちます。ラップトップの内蔵カメラ、USB 外部カメラ、Web カメラなど、すべてのタイプのカメラをサポートします。 </p> 
+            
+             <div class="feature-grid"> 
+                 <div class="feature-item"> 
+                     <h3> 🔍 リアルタイムビデオストリームチェック </h3> 
+                     <p> カメラのビデオ ストリームをリアルタイムで表示し、伝送が安定していてスムーズであるかどうか、途切れ、遅延、フレーム落ちがないかどうかを検出します。 </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> ヒント: ビデオ ストリームが途切れなくスムーズであるかどうかを観察してください </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 📊 解像度とフレームレートのテスト </h3> 
+                     <p> カメラのサポートされている最大解像度、最適解像度、さまざまなフレーム レート モードを検出し、リアルタイムの解像度と FPS データを表示します。 </p> 
+   
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> ⚙️ ハードウェア機能分析 </h3> 
+                     <p> サポートされている解像度範囲、フレーム レート範囲、フォーカス モード、ホワイト バランスなど、カメラの基本的なハードウェア パラメーターを表示します。 </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> カメラの真のパフォーマンスを理解するには、ハードウェアの機能に注意してください </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 🎯 デバイスの切り替えと管理 </h3> 
+                     <p> 複数のカメラ デバイス間の切り替えをサポートし、利用可能なすべてのカメラを自動的に検出してリストするため、さまざまなデバイスのテストが簡単になります。 </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> 比較テストのためにカメラを切り替えます </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"><h3> 🔄ミラー反転機能 </h3> 
+                     <p> セルフィー モードをシミュレートするミラー フリップ スイッチを提供し、カメラのミラー処理能力と表示効果をテストします。 </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> ビデオ会議や自撮りに便利なミラー機能 </span> 
+                     </div> 
+                 </div> 
+                
+                 <div class="feature-item"> 
+                     <h3> 📈 リアルタイムのパフォーマンス監視 </h3> 
+                     <p> FPS、解像度、ステータスなどの重要なパラメータをリアルタイムに表示し、カメラの性能を定量的に評価できます。 </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> データ監視は、カメラの状態を体系的に評価するのに役立ちます </span> 
+                     </div> 
+                 </div> 
+             </div> 
+            
+             <div class="faq-section"> 
+                 <h2> よくある質問 (FAQ) </h2> 
+                
+                 <div class="faq-item"> 
+                     <h3> カメラが表示されないのはなぜですか? </h3> 
+                     <p> これは、ブラウザの権限制限またはカメラのハードウェアの問題が原因である可能性があります。以下を確認してください: 1) ブラウザがカメラにアクセスすることを許可していること。 2) カメラが正しく接続されています。 3) 現在、他のアプリケーションがカメラを使用していません。 </p> 
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> カメラのフレームレートをテストするにはどうすればよいですか? </h3> 
+                     <p> ページの右上隅にあるリアルタイム FPS 値を確認してください。プロ仕様のカメラは通常 30fps 以上をサポートし、ハイエンドのカメラは 60fps 以上に達する場合があります。安定したフレームレートはスムーズなビデオの鍵です。 </p> 
+    
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> カメラの品質が低いかどうかはどうすればわかりますか? </h3> 
+                     <p> 気づいた場合: 1) ビデオがぼやけています。 2) フレームレートが低いと途切れが発生します。 3) 色の歪み。 4) 暗い場所でのパフォーマンスの低下。これらはカメラの品質に問題があることを示している可能性があります。 </p> 
+
+                 </div> 
+
+                 <div class="faq-item"> 
+                     <h3> どのような種類のカメラがサポートされていますか? </h3> 
+                     <p> ラップトップの内蔵カメラ、USB 外部カメラ、ウェブカメラ、会議用カメラ、ライブ ストリーミング カメラなど、あらゆる種類のカメラがサポートされています。Windows、macOS、Linux と互換性があります。 </p> 
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> カメラの解像度をテストするにはどうすればよいですか? </h3> 
+                     <p> ツールは現在の解像度を自動的に表示します。高品質カメラは通常 1080p (1920x1080) 以上をサポートしますが、標準カメラは 720p (1280x720) のみをサポートする場合があります。 </p> 
+
+                 </div> 
+                
+                 <div class="faq-item"> 
+                     <h3> テストデータは保存されていますか? </h3><p> すべてのテスト データは、現在のブラウザ セッションにのみ保存されます。ページを更新するかタブを閉じると失われます。あなたのプライバシーを確​​保するため、当社はカメラデータを収集またはアップロードしません。 </p> 
+                     <div class="faq-link-container"> 
+                         <span class="faq-tip-text"> データ セキュリティ: すべてのデータはローカルで処理されます </span> 
+                     </div> 
+                 </div> 
+             </div> 
+         </div> 
+     </section> 
+
+     <!-- Scripts (English version) --><script src="/static/js/toolbox/camera/script-ja.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script><footer style="width:100%;max-width:960px;margin:40px auto 0;padding:20px 10px;border-top:1px solid rgba(255,255,255,0.12);text-align:center;font-size:0.85rem;color:var(--text-muted);"> 
+         <div style="margin-bottom:8px;"> 
+            © 2026 スターリーリング
+         </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/ja/about-us/" style="color:#60a5fa;text-decoration:none;"> 私たちについて </a> 
+             <a href="/ja/contact-us/" style="color:#60a5fa;text-decoration:none;"> お問い合わせ </a> 
+             <a href="/ja/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 免責事項 </a> 
+             <a href="/ja/privacy/" style="color:#60a5fa;text-decoration:none;"> プライバシーポリシー </a> 
+             <a href="/ja/terms/" style="color:#60a5fa;text-decoration:none;"> 利用規約 </a> 
+         </div> 
+     </footer></body>
+</html>

@@ -75,7 +75,6 @@ Below is a complete list of public pages with brief descriptions:
 - **Utility Tools Overview** – Entry page for all utility tools (calculators, converters, network tools, etc.)  
   **Link:** https://starryring.com/en/utility-tools/
 - **Input Stress Test Hub** – Entry page for all mouse/keyboard stress test games  
-  **Link:** https://starryring.com/en/input-stress-test/
 - **About Us** – Learn about the HardwareTest project and team  
   **Link:** https://starryring.com/en/about-us/
 - **Contact Us** – How to reach us for support and feedback  
@@ -125,15 +124,11 @@ Below is a complete list of public pages with brief descriptions:
 
 #### E. Input Stress Test – Mouse
 - **Mouse Aiming Stress Test** – Mouse accuracy and tracking test with moving targets  
-  **Link:** https://starryring.com/en/input-stress-test/mouse/aiming/
 - **Mouse Shooting Stress Test** – Shooting-style mouse reaction and precision training  
-  **Link:** https://starryring.com/en/input-stress-test/mouse/shooting/
 
 #### F. Input Stress Test – Keyboard
 - **Typing Stress Test – Food Words** – High-intensity typing game using food-related words  
-  **Link:** https://starryring.com/en/input-stress-test/keyboard/typing/food-word/
 - **Typing Stress Test – Alphabet Raining** – Typing training game where letters fall like rain  
-  **Link:** https://starryring.com/en/input-stress-test/keyboard/typing/alphabet-raining/
 
 ---
 

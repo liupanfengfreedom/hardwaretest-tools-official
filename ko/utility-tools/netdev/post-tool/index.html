@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <!-- SEO Meta Tags -->
+  <title>온라인 POST 도구/API 테스터 - 순수 프런트엔드 HTTP 요청 디버깅 도구 | StarryRing</title>
+<!-- Canonical & Internationalization -->
+
+
+<!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <style>
+    /* Initial hide to prevent encoding issues */
+    html { visibility: hidden; opacity: 0; }
+  </style>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/css/utility-tools/netdev/post-tool/style.css" media="print" 
+  onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
+  <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+  <link rel="stylesheet" href="/static/css/shared/document.css">
+  
+  <!-- Robots -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Author -->
+  <meta name="author" content="StarryRing">
+  <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/utility-tools/netdev/post-tool/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Online POST Tool Interface Preview">
+  <meta property="og:site_name" content="StarryRing Toolbox">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://starryring.com/en/utility-tools/netdev/post-tool/">
+
+<meta name="twitter:image" content="https://starryring.com/en/utility-tools/netdev/post-tool/twitter-image-en.png">
+  <meta name="twitter:creator" content="@starryring">
+  
+  <!-- Mobile Optimization -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="POST Tool">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="msapplication-TileColor" content="#1a1a1a">
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preload" href="/static/css/netdev/style.css" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  
+  <!-- Structured Data Schema Markup -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "온라인 POST 도구/API 테스터",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "무료 온라인 POST 도구 및 API 테스터, 순수 프런트엔드 구현, HTTP 메서드, JSON/양식 데이터, 요청 헤더 구성, 인증 디버깅 지원, API 개발 및 디버깅 학습에 적합",
+      "url": "https://starryring.com/ko/utility-tools/netdev/post-tool/",
+      "image": "https://starryring.com/ko/utility-tools/netdev/post-tool/og-image-en.png",
+      "screenshot": "https://starryring.com/ko/utility-tools/netdev/post-tool/screenshot-en.png",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "HTTP 메소드 지원(POST/GET/PUT/DELETE/PATCH)",
+        "JSON 및 양식 데이터 형식",
+        "사용자 정의 요청 헤더 구성",
+        "URL 기록 기록",
+        "실시간 응답 미리보기"
+      ],
+      "softwareVersion": "1.0.0",
+      "datePublished": "2024-03-01",
+      "dateModified": "2024-12-20"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "이 POST 도구에는 서버 지원이 필요합니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "아니요. 이는 브라우저에서 완전히 실행되는 순수 프런트엔드 도구입니다. 모든 요청은 브라우저의 Fetch API를 통해 전송되며 백엔드 서버 지원이 필요하지 않습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "어떤 HTTP 메서드가 지원되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "POST, GET, PUT, DELETE, PATCH 5가지 HTTP 메서드를 지원하여 기본 RESTful API 개발 요구 사항을 충족합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "교차 출처 요청을 처리하는 방법은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "브라우저 동일 출처 정책 제한으로 인해 교차 출처 요청에서는 대상 서버가 CORS(Cross-Origin Resource Sharing) 헤더를 구성해야 합니다. 교차 출처 문제가 발생하는 경우 대상 API 서버가 Access-Control-Allow-Origin 및 기타 CORS 헤더를 올바르게 구성했는지 확인하십시오."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "파일 업로드를 지원하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "현재 버전은 주로 JSON 및 양식 데이터 형식을 지원합니다. 파일 업로드 기능은 개발 중입니다. multipart/form-data 형식에 대한 지원은 향후 버전에 추가될 예정입니다."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "유틸리티 도구",
+          "item": "https://starryring.com/ko/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "네트워크 테스트 도구",
+          "item": "https://starryring.com/ko/utility-tools/NetDev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "포스트 도구",
+          "item": "https://starryring.com/ko/utility-tools/netdev/post-tool/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "온라인 POST 도구를 사용하여 API 인터페이스를 테스트하는 방법",
+      "description": "API 인터페이스 테스트 및 디버깅을 위한 온라인 POST 도구 사용에 대한 단계별 가이드",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "요청 URL을 입력하세요",
+          "text": "URL 입력란에 테스트하려는 API 인터페이스 주소를 입력하세요. 기록에서 이전에 사용한 URL을 선택할 수 있습니다.",
+          "image": "https://starryring.com/ko/utility-tools/netdev/post-tool/step1-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "HTTP 방법 선택",
+          "text": "드롭다운 메뉴에서 적절한 HTTP 메서드(POST/GET/PUT/DELETE/PATCH)를 선택합니다.",
+          "image": "https://starryring.com/ko/utility-tools/netdev/post-tool/step2-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "요청 헤더 및 본문 구성",
+          "text": "필요에 따라 요청 헤더(예: Content-Type, Authorization) 및 요청 본문(JSON 또는 양식 데이터)을 구성합니다.",
+          "image": "https://starryring.com/ko/utility-tools/netdev/post-tool/step3-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "요청 보내기 및 응답 보기",
+          "text": "'요청 보내기' 버튼을 클릭하세요. 도구는 HTTP 요청을 보내고 응답 패널에 상태 코드, 응답 헤더 및 응답 본문을 표시합니다.",
+          "image": "https://starryring.com/ko/utility-tools/netdev/post-tool/step4-en.png"
+        }
+      ],
+      "totalTime": "PT2M"
+    }
+  ]
+}
+</script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="description" content="무료 온라인 POST 도구 및 API 테스터, 순수 프런트엔드 구현, 서버가 필요하지 않습니다. HTTP 메소드(POST/GET/PUT/DELETE), JSON/폼 데이터, 요청 헤더 구성, 인증 디버깅을 지원하며 API 개발 및 디버깅 학습에 적합합니다.">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/netdev/post-tool/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="🚀 온라인 POST 도구/API 테스터 - 순수 프런트엔드 HTTP 요청 디버깅 도구">
+    <meta property="og:description" content="무료 온라인 POST 도구 및 API 테스터, 순수 프런트엔드 구현, 서버가 필요하지 않습니다. HTTP 메서드, JSON/양식 데이터, 요청 헤더 구성, 인증 디버깅을 지원합니다.">
+    <meta name="twitter:title" content="🚀 온라인 POST 도구/API 테스터 - 순수 프런트엔드 HTTP 요청 디버깅 도구">
+    <meta name="twitter:description" content="무료 온라인 POST 도구 및 API 테스터, 순수 프런트엔드 구현, 서버가 필요하지 않습니다. HTTP 메서드, JSON/양식 데이터, 요청 헤더 구성, 인증 디버깅을 지원합니다.">
+    <meta name="keywords" content="POST 도구, API 테스터, HTTP 요청 디버깅, 인터페이스 테스트, 온라인 디버깅 도구, 프런트엔드 개발 도구, REST API 테스트, JSON 디버깅">
+</head>
+
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/netdev/post-tool/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/netdev/post-tool/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/netdev/post-tool/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/netdev/post-tool/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/netdev/post-tool/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/netdev/post-tool/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language switcher --> 
+ <!-- Breadcrumb navigation --> 
+   <nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+     <ol class="breadcrumb-modern"> 
+       <li class="breadcrumb-item"> 
+         <a href="/ko/" class="breadcrumb-link"> <i class="fas fa-home"> </i> 홈 </a> 
+       </li> 
+       <li class="breadcrumb-item"> 
+         <a href="/ko/utility-tools/" class="breadcrumb-link"> 
+             <i class="fas fa-toolbox"> </i> 유틸리티 도구
+         </a> 
+     </li> 
+       <li class="breadcrumb-item" aria-current="page"> 
+         <span class="breadcrumb-active"> <i class="fas fa-paper-plane"> </i> POST 도구 </span> 
+       </li> 
+     </ol> 
+   </nav> 
+  
+   <!-- Main content container --> 
+   <div class="main-container"> 
+     <header> 
+       <h1> 🚀 온라인 POST 도구/API 테스터 </h1> 
+       <p class="subtitle"> 순수 프런트엔드 HTTP 요청 디버깅 도구, 다양한 HTTP 방법 및 데이터 형식 지원 </p> 
+     </header> 
+
+     <!-- Tool panel container --> 
+     <div class="tool-panel-container"> 
+       <main> 
+         <!-- Request panel --> 
+         <section class="tool-section"> 
+           <h2> <i class="fas fa-paper-plane"> </i> 구성 요청 </h2> 
+          
+           <div class="form-group"> 
+             <label for="url"> <i class="fas fa-link"> </i> URL 요청 </label> 
+             <!-- Wrapper container and history dropdown --> 
+             <div class="url-wrapper"> 
+               <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" /> 
+               <div id="urlHistoryList" class="history-dropdown"> </div> 
+             </div> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="method"> <i class="fas fa-exchange-alt"> </i> 요청 방법 </label> 
+             <select id="method"> 
+               <option value="POST"> 게시 </option> 
+               <option value="GET"> </option> 받기 
+               <option value="PUT"> 넣어 </option> 
+               <option value="DELETE"> 삭제 </option> 
+               <option value="PATCH"> 패치 </option> 
+             </select> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="headers"> <i class="fas fa-heading"> </i> 요청 헤더(JSON) </label> 
+             <div class="body-container"> 
+               <div><textarea id="headers" placeholder='{ "Content-Type": "application/json", "Authorization": "Bearer token" }'> </textarea> 
+               </div> 
+               <div> 
+                 <div id="headersFields"> </div> 
+                 <button type="button" id="addHeadersFieldBtn" class="btn-secondary"> <i class="fas fa-plus"> </i> 필드 추가 </button> 
+               </div> 
+             </div> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="bodyType"> <i class="fas fa-code"> </i> 요청 본문 유형 </label> 
+             <select id="bodyType"> 
+               <option value="json"> JSON </option> 
+               <option value="form"> 양식(x-www-form-urlencoded) </option> 
+             </select> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="body"> <i class="fas fa-file-code"> </i> 요청 본문(JSON/양식) </label> 
+             <div class="body-container"> 
+               <div> 
+                 <textarea id="body" placeholder='{ "key": "value", "data": "example" }'> </textarea> 
+               </div> 
+               <div> 
+                 <div id="bodyFields"> </div> 
+                 <button type="button" id="addBodyFieldBtn" class="btn-secondary"> <i class="fas fa-plus"> </i> 필드 추가 </button> 
+               </div> 
+             </div> 
+           </div> 
+          
+           <button id="sendRequestBtn" class="btn-primary"> <i class="fas fa-play"> </i> 요청 보내기 </button> 
+         </section> 
+
+         <!-- Response panel --> 
+         <section class="tool-section"> 
+           <h2> <i class="fas fa-reply"> </i> 응답 결과 </h2> 
+          
+           <div class="form-group"> 
+             <label for="status"> <i class="fas fa-tachometer-alt"> </i> 상태 </label> 
+             <input id="status" readonly /> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="resHeaders"> <i class="fas fa-heading"> </i> 응답 헤더 </label> 
+             <pre id="resHeaders"> </pre> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="response"> <i class="fas fa-file-alt"> </i> 응답 본문 </label> 
+             <pre id="response"> </pre> 
+           </div> 
+         </section> 
+       </main> 
+     </div> 
+    
+     <!-- ===== Feature Introduction Area ===== --> 
+     <div class="instructions-section"> 
+       <div class="instructions-content"> 
+         <h2> <i class="fas fa-star"> </i> 도구 기능 </h2> 
+        
+         <div class="feature-grid"> 
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-laptop-code"> </i> 순수 프론트엔드 구현 </h3> 
+             <p> 브라우저에서 완전히 실행되며 서버가 필요하지 않습니다. 모든 HTTP 요청은 브라우저 Fetch API를 통해 전송되므로 데이터 개인 정보 보호 및 보안이 보장됩니다. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-exchange-alt"> </i> 다중 HTTP 방법 </h3> 
+             <p> POST, GET, PUT, DELETE, PATCH 5가지 HTTP 메서드를 지원하여 기본 RESTful API 개발 요구 사항을 충족합니다. </p> 
+           </div> 
+          
+           <div class="feature-item"><h3> <i class="fas fa-code"> </i> 다중 형식 데이터 지원 </h3> 
+             <p> JSON 및 양식 데이터 형식을 지원하므로 다양한 유형의 API 인터페이스를 테스트하는 데 편리합니다. JSON 편집기는 구문 강조 및 유효성 검사를 제공합니다. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-heading"> </i> 맞춤 요청 헤더 </h3> 
+             <p> 요청 헤더를 유연하게 구성하고 콘텐츠 유형, 권한 부여, 사용자 에이전트와 같은 공통 헤더를 지원하여 복잡한 API 테스트 요구 사항을 충족합니다. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-history"> </i> URL 기록 기록 </h3> 
+             <p> 최근 사용한 URL을 자동으로 저장하여 빠른 전환과 반복 테스트에 편리하며 디버깅 효율성을 향상시킵니다. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-eye"> </i> 실시간 응답 미리보기 </h3> 
+             <p> HTTP 상태 코드, 응답 헤더 및 응답 본문을 즉시 표시하고 JSON 형식 디스플레이를 지원하며 API 반환 결과를 쉽게 분석할 수 있습니다. </p> 
+           </div> 
+         </div> 
+        
+         <div class="faq-section"> 
+           <h2> <i class="fas fa-question-circle"> </i> 자주 묻는 질문 </h2> 
+          
+           <div class="faq-item"> 
+             <h3> 이 도구는 HTTPS를 지원합니까? </h3> 
+             <p> 예, HTTPS 프로토콜을 완벽하게 지원합니다. 테스트를 위해 유효한 HTTPS URL을 입력할 수 있습니다. 이 도구는 브라우저 보안 정책을 따릅니다. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> 교차 출처 요청을 처리하는 방법은 무엇입니까? </h3> 
+             <p> Cross-Origin 요청에서는 대상 서버가 CORS(Cross-Origin Resource Sharing) 헤더를 구성해야 합니다. 교차 출처 오류가 발생하는 경우 API 서버가 Access-Control-Allow-Origin 등과 같은 올바른 CORS 정책을 구성했는지 확인하세요. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> 파일 업로드를 지원하나요? </h3> 
+             <p> 현재 버전은 주로 JSON 및 양식 데이터 형식을 지원합니다. multipart/form-data 형식(파일 업로드용)은 향후 버전에서 지원될 예정입니다. 파일 업로드 테스트를 위해 이 도구와 함께 FormData API를 사용할 수 있습니다. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> 데이터가 서버에 저장되나요? </h3> 
+             <p> 아니요. 모든 데이터는 서버에 업로드되지 않고 브라우저의 로컬 저장소(localStorage)에 저장되므로 API 키와 민감한 데이터 보안이 보장됩니다. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> WebSocket 테스트를 지원합니까? </h3> 
+             <p> 현재 버전은 HTTP/HTTPS 요청 테스트에 중점을 두고 있습니다. WebSocket 테스트 도구는 개발 중이며 향후 버전에서 제공될 예정입니다. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> HTTP 프로토콜을 학습하는데 적합한가요? </h3> 
+             <p> 학습에 딱! 이 도구는 HTTP 요청 및 응답의 모든 구성 요소를 직관적으로 표시하며, HTTP 프로토콜, RESTful API 설계 및 디버깅 기술을 학습하는 데 이상적인 도구입니다. </p></div> 
+         </div> 
+        
+         <div class="usage-tips"> 
+           <h2> <i class="fas fa-lightbulb"> </i> 사용 팁 </h2> 
+           <ul> 
+             <li> 단축키 Ctrl+Enter(Windows) 또는 Cmd+Enter(Mac)를 사용하여 빠르게 요청 보내기 </li> 
+             <li> JSON 데이터는 쉽게 읽고 편집할 수 있도록 자동으로 형식이 지정됩니다 </li> 
+             <li> 추가 분석을 위해 응답 데이터를 클립보드에 복사할 수 있습니다 </li> 
+             <li> 로컬 개발의 경우 권장 URL 형식: http://localhost:port </li> 
+             <li> 빠른 반복 테스트를 위해 자주 사용하는 API 구성을 저장하세요 </li> 
+           </ul> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <footer> 
+     <p> © 2024-2026 StarryRing 도구 상자 · 순수 프런트엔드 POST 도구 · Fetch API </p> 
+     <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;"> 
+       <a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+       <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+       <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+       <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a> 
+       <a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+     </div> 
+   </footer><script src="/static/js/utility-tools/netdev/post-tool/script-ko.js"></script>
+  <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

@@ -1,0 +1,937 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>온라인 마우스 폴링률 테스트 - 이벤트 주파수 및 지터 분석</title>
+<!-- Canonical & Internationalization -->
+
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Author -->
+    <meta name="author" content="StarryRing">
+    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Mouse polling rate test tool interface preview">
+    <meta property="og:site_name" content="StarryRing Toolbox">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://starryring.com/en/toolbox/mouse/polling-rate/">
+
+<meta name="twitter:image" content="https://starryring.com/en/toolbox/mouse/polling-rate/twitter-image.png">
+    <meta name="twitter:creator" content="@starryring">
+
+    <!-- Mobile Optimization -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mouse Polling Rate Test">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <link rel="preload" href="/static/css/toolbox/mouse/polling-rate/style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Structured Data Schema Markup -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "마우스 이벤트 빈도 테스터",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "무료 온라인 마우스 이벤트 빈도 테스트 도구, 마우스 움직임 샘플링 속도의 실시간 감지, 지터 분석, 브라우저의 성능 모니터링",
+      "url": "https://starryring.com/ko/toolbox/mouse/polling-rate/",
+      "image": "https://starryring.com/ko/toolbox/mouse/polling-rate/og-image.png",
+      "screenshot": "https://starryring.com/ko/toolbox/mouse/polling-rate/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "실시간 주파수 모니터링",
+        "지터 분석",
+        "이벤트 샘플링 속도 감지",
+        "실시간 차트 표시",
+        "CSV 데이터 내보내기",
+        "브라우저 성능 비교"
+      ],
+      "softwareVersion": "2.1.0",
+      "datePublished": "2024-01-01",
+      "dateModified": "2024-12-20"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "웹 테스트에서 실제 USB 폴링 속도보다 마우스 이벤트 빈도가 낮은 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "브라우저 환경의 마우스 이벤트는 브라우저 이벤트 조절, 디스플레이 새로 고침 빈도 동기화, 운영 체제 예약 등 여러 계층에 의해 제한됩니다. 웹 페이지는 USB HID 계층의 원시 데이터에 직접 액세스할 수 없으며 브라우저에서 제공하는 마우스 이벤트 인터페이스를 통해서만 가능합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "보다 정확한 테스트 결과를 얻는 방법은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1. 브라우저 창이 전경에 있고 활성화되어 있는지 확인하십시오. 2. 불필요한 탭과 애플리케이션을 닫습니다. 3. 테스트 영역 내에서 마우스를 빠르고 연속적으로 움직입니다. 4. 손이 흔들리지 않도록 안정적인 테스트 자세를 유지하십시오."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "지터란 무엇입니까? 왜 중요합니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "지터는 마우스 이벤트 간격 시간의 안정성을 반영합니다. 지터가 낮다는 것은 이벤트 간격이 균일하다는 것을 의미하므로 마우스 움직임이 부드럽게 느껴집니다. 지터가 높으면 평균 빈도가 높더라도 마우스 움직임이 끊기거나 불안정하게 느껴질 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "브라우저마다 테스트 결과가 다른 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "다양한 브라우저(Chrome, Firefox, Edge, Safari)는 다양한 이벤트 처리 메커니즘, 제한 전략 및 성능 최적화를 사용합니다. Chrome은 일반적으로 더 높은 이벤트 빈도를 제공하지만 특정 성능은 운영 체제 및 하드웨어 구성에 따라 달라집니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "마우스 이벤트 성능이 정상인지 확인하는 방법은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "일반 상황: 60Hz 디스플레이: 이벤트 주파수 ≒ 60Hz. 120Hz 디스플레이: 이벤트 주파수 ≒ 120Hz. 144Hz 디스플레이: 이벤트 주파수 ≒ 120-144Hz. 240Hz 디스플레이: 이벤트 주파수 ≒ 200Hz. 빈도가 디스플레이 새로 고침 빈도보다 훨씬 낮으면 성능 문제가 있을 수 있습니다."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/toolbox/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "마우스 테스트 도구 상자",
+          "item": "https://starryring.com/ko/toolbox/mouse/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "마우스 폴링률 테스트",
+          "item": "https://starryring.com/ko/toolbox/mouse/polling-rate/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "마우스 폴링률 테스트 도구를 사용하는 방법",
+      "description": "마우스 이벤트 빈도 및 성능 테스트에 대한 단계별 가이드",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "시험지역에 들어가세요",
+          "text": "마우스 이벤트 모니터링을 시작하려면 페이지의 파란색 테스트 영역으로 마우스를 이동하세요.",
+          "image": "https://starryring.com/ko/toolbox/mouse/polling-rate/step1.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "빠른 움직임을 수행",
+          "text": "테스트 영역 내에서 마우스를 빠르고 지속적으로 움직여 이벤트 데이터를 생성합니다.",
+          "image": "https://starryring.com/ko/toolbox/mouse/polling-rate/step2.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "실시간 주파수 모니터링",
+          "text": "현재 주파수 디스플레이와 실시간 차트를 보고 마우스 이벤트 샘플링 속도를 확인하세요.",
+          "image": "https://starryring.com/ko/toolbox/mouse/polling-rate/step3.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "지터 값 확인",
+          "text": "마우스 이벤트 간격의 안정성을 평가하려면 지터 측정을 관찰하십시오.",
+          "image": "https://starryring.com/ko/toolbox/mouse/polling-rate/step4.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "분석을 위해 데이터 내보내기",
+          "text": "자세한 분석을 위해 CSV 내보내기 기능을 사용하여 테스트 데이터를 저장하세요.",
+          "image": "https://starryring.com/ko/toolbox/mouse/polling-rate/step5.png"
+        }
+      ],
+      "totalTime": "PT3M"
+    }
+  ]
+}
+</script>
+
+    <!-- External resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Project styles -->
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/toolbox/mouse/polling-rate/style.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="무료 온라인 마우스 이벤트 빈도 테스트 도구입니다. 브라우저에서 마우스 움직임 샘플링 속도, 지터 분석 및 성능 모니터링을 실시간으로 감지합니다. 다운로드가 필요하지 않습니다.">
+    <link rel="canonical" href="https://starryring.com/ko/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/mouse/polling-rate/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/mouse/polling-rate/">
+<meta property="og:url" content="https://starryring.com/ko/toolbox/mouse/polling-rate/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="🖱️ 온라인 마우스 폴링률 테스트 - 이벤트 빈도 및 지터 분석">
+    <meta property="og:description" content="무료 온라인 마우스 이벤트 빈도 테스트 도구입니다. 브라우저에서 마우스 움직임 샘플링 속도, 지터 분석 및 성능 모니터링을 실시간으로 감지합니다.">
+    <meta name="twitter:title" content="🖱️ 온라인 마우스 폴링률 테스트 - 이벤트 빈도 및 지터 분석">
+    <meta name="twitter:description" content="무료 온라인 마우스 이벤트 빈도 테스트 도구입니다. 브라우저에서 마우스 움직임 샘플링 속도, 지터 분석 및 성능 모니터링을 실시간으로 감지합니다.">
+</head>
+
+<body class="p-4 md:p-8">
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/toolbox/mouse/polling-rate/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/toolbox/mouse/polling-rate/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/toolbox/mouse/polling-rate/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/toolbox/mouse/polling-rate/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/toolbox/mouse/polling-rate/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/toolbox/mouse/polling-rate/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation --> 
+     <div class="breadcrumb-section"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ko/" class="breadcrumb-link"> 
+                         <i class="fas fa-home"> </i> 홈
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ko/toolbox/" class="breadcrumb-link"> 
+                        도구 상자
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item"> 
+                     <a href="/ko/toolbox/mouse/" class="breadcrumb-link"> 
+                        마우스 테스트 도구 상자
+                     </a> 
+                 </li> 
+                 <li class="breadcrumb-item">                    
+                     <span class="breadcrumb-active"> 폴링률 테스트 </span> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+    
+     <!-- Language Switcher --> 
+ <main class="max-w-6xl mx-auto space-y-6" itemscope itemtype="https://schema.org/SoftwareApplication"> 
+         <meta itemprop="applicationCategory" content="UtilitiesApplication"> 
+        
+         <!-- Header --> 
+         <header> 
+             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4"> 
+                 <div> 
+                     <h1 class="text-3xl font-bold tracking-tight text-white" itemprop="name"> 
+                        브라우저 마우스 이벤트 빈도 테스터(
+                         <a href="#desktop-tool-section" 
+                           class="text-blue-400 hover:text-blue-300 underline underline-offset-4 transition-colors"> 
+                            실제 USB 폴링 속도
+                         </a> 
+                        )
+                     </h1> 
+                     <p class="text-slate-400" itemprop="description"> 전문 마우스 샘플링 속도 모니터링 및 지터 분석 도구(자동으로 시작됨) </p> 
+                 </div> 
+                 <div class="flex gap-3"> 
+                     <div class="px-4 py-2 bg-slate-800 rounded-full flex items-center gap-2 border border-blue-500/50"> 
+                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"> </span><span class="text-sm font-semibold text-blue-400"> 모니터링 </span> 
+                     </div> 
+                     <button id="clearBtn" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-full font-semibold transition"> 
+                        데이터 지우기
+                     </button> 
+                 </div> 
+             </div> 
+         </header> 
+
+         <!-- Main Dashboard --> 
+         <section aria-label="Mouse frequency test main panel"> 
+             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"> 
+                
+                 <!-- Left: Statistics and test area --> 
+                 <div class="lg:col-span-2 space-y-6"> 
+                     <!-- Statistics grid --> 
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4"> 
+                         <div class="stat-card p-4 rounded-lg"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> 현재 주파수 </div> 
+                             <div id="currHz" class="text-3xl font-bold mono text-blue-400"> 0 <small class="text-sm ml-1 text-slate-500">Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-emerald-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> 최대 주파수 </div> 
+                             <div id="maxHz" class="text-3xl font-bold mono text-emerald-400"> 0 <small class="text-sm ml-1 text-slate-500">Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-purple-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> 평균 빈도 </div> 
+                             <div id="avgHz" class="text-3xl font-bold mono text-purple-400"> 0 <small class="text-sm ml-1 text-slate-500">Hz </small> </div> 
+                         </div> 
+                         <div class="stat-card p-4 rounded-lg border-orange-500"> 
+                             <div class="text-xs text-slate-400 uppercase font-bold"> 지터 </div> 
+                             <div id="jitter" class="text-3xl font-bold mono text-orange-400"> 0 <small class="text-sm ml-1 text-slate-500"> ms </small> </div> 
+                         </div> 
+                     </div> 
+
+                     <!-- Real-time chart --> 
+                     <div class="glass-panel p-6 h-80"> 
+                         <canvas id="pollingChart"> </canvas> 
+                     </div> 
+
+                     <!-- Test interaction area --> 
+                     <div id="testArea" class="test-area glass-panel h-64 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 pulse-border"> 
+                         <div class="text-center pointer-events-none"> 
+                             <div id="indicator" class="w-12 h-12 bg-blue-500/20 border-2 border-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-75"> 
+                                  <div class="w-2 h-2 bg-blue-500 rounded-full"> </div> 
+                             </div><p class="text-lg font-medium"> 이 영역에서 마우스를 빠르게 움직여 </p>을 테스트하세요. 
+                             <p class="text-sm text-slate-500"> 클릭할 필요 없이 이동만 하면 실시간으로 데이터 캡처 </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Right: Log --> 
+                 <div class="flex flex-col h-full"> 
+                     <div class="glass-panel flex flex-col h-full max-h-[740px]"> 
+                         <div class="p-4 border-b border-slate-700 flex justify-between items-center"> 
+                             <h3 class="font-bold"> 실시간 로그 </h3> 
+                             <span id="eventCount" class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400"> 이벤트 0개 </span> 
+                         </div> 
+                         <div id="log-container" class="flex-1 overflow-y-auto p-4 space-y-2 text-xs mono"> 
+                             <div class="text-slate-500 italic"> 데이터를 기다리는 중... </div> 
+                         </div> 
+                         <div class="p-4 border-t border-slate-700"> 
+                             <button id="downloadBtn" class="w-full py-2 text-sm bg-slate-800 hover:bg-slate-700 rounded transition border border-slate-600"> 
+                                CSV 로그 내보내기
+                             </button> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+        
+
+         <!-- Feature description and FAQ section --> 
+         <section aria-label="Feature introduction"> 
+             <div class="instructions-section"> 
+                 <div class="instructions-content"> 
+                     <h2> 전문 마우스 이벤트 주파수 테스터 기능 </h2> 
+                     <div class="feature-grid"> 
+                         <div class="feature-item"> 
+                             <h3> 실시간 주파수 모니터링 </h3> 
+                             <p> 현재 마우스 이벤트 빈도(Hz)를 실시간으로 표시하여 브라우저가 마우스 움직임 이벤트를 처리하는 실제 속도를 이해하는 데 도움이 됩니다. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> 참고: 웹 환경은 브라우저 및 디스플레이 새로 고침 빈도에 의해 제한됩니다 </span> 
+                             </div> 
+                         </div> 
+
+                         <div class="feature-item"> 
+                             <h3> 지터 분석 </h3> 
+                             <p> 마우스 이벤트의 시간 안정성을 반영하여 이벤트 간격의 표준 편차를 계산합니다. 지터 값이 낮을수록 이벤트가 더 안정적임을 나타냅니다. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> 높은 지터로 인해 마우스 움직임이 원활하지 않게 느껴질 수 있습니다 </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> 최대 주파수 녹음 </h3><p> 테스트 중에 달성된 최고 이벤트 빈도를 자동으로 기록하여 시스템의 최고 성능을 이해하는 데 도움을 줍니다. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> 웹 환경은 일반적으로 실제 USB 폴링 속도에 도달할 수 없습니다. </span> 
+                             </div> 
+                         </div> 
+                   
+                         <div class="feature-item"> 
+                             <h3> 평균 빈도 계산 </h3> 
+                             <p> 과거 데이터를 기반으로 평균 이벤트 빈도를 계산하여 보다 안정적인 성능 참조 지표를 제공합니다. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> 테스트 시간이 길어지면 평균이 더 정확해집니다 </span> 
+                             </div> 
+                         </div> 
+                        
+                         <div class="feature-item"> 
+                             <h3> 실시간 차트 표시 </h3> 
+                             <p> 동적 선 차트를 통해 빈도 변화 추세를 시각화하여 성능 변동 및 이상 현상을 쉽게 관찰할 수 있습니다. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> 차트는 최근 100개 데이터 포인트 </span>의 추세를 보여줍니다. 
+                             </div> 
+                         </div>        
+                        
+                         <div class="feature-item"> 
+                             <h3> CSV 데이터 내보내기 </h3> 
+                             <p> 심층 분석 및 데이터 보존을 위해 전체 테스트 로그를 CSV 형식으로 내보내기를 지원합니다. </p> 
+                             <div class="tip"> 
+                                 <span class="tip-text"> 내보낸 데이터는 Excel, Python 등을 통해 추가 분석에 사용할 수 있습니다. </span> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <div class="faq-section"> 
+                         <h2> 자주 묻는 질문(FAQ) </h2> 
+                        
+                         <div class="faq-item"> 
+                             <h3> 웹 테스트에서 실제 USB 폴링률보다 마우스 이벤트 빈도가 낮은 이유는 무엇입니까? </h3> 
+                             <p> 브라우저 환경의 마우스 이벤트는 브라우저 이벤트 조절, 디스플레이 새로 고침 빈도 동기화, 운영 체제 예약 등 여러 계층으로 제한됩니다. 웹 페이지는 브라우저에서 제공하는 마우스 이벤트 인터페이스를 통해서만 USB HID 계층의 원시 데이터에 직접 액세스할 수 없습니다. </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> 보다 정확한 테스트 결과를 얻으려면 어떻게 해야 합니까? </h3> 
+                             <p> 1. 브라우저 창이 전경에 있고 <br> 활성화되어 있는지 확인하세요. 
+                               2. 불필요한 탭과 애플리케이션을 닫습니다 <br> 
+                               3. <a href="#testArea" class="text-blue-400 hover:text-blue-300"> 테스트 영역 </a> <br> 내에서 빠르고 연속적인 마우스 움직임을 수행합니다.4. </p> 더 많은 팁을 보려면 <a href="/static/toolbox/mouse/polling-rate/" class="text-blue-400 hover:text-blue-300"> 자세한 사용자 가이드 </a>를 확인하세요. 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> 지터란? 왜 중요합니까? </h3> 
+                             <p> 지터는 마우스 이벤트 간격 시간의 안정성을 반영합니다. 지터가 낮다는 것은 이벤트 간격이 균일하다는 것을 의미하므로 마우스 움직임이 부드럽게 느껴집니다. 지터가 높으면 평균 빈도가 높더라도 마우스 움직임이 끊기거나 불안정하게 느껴질 수 있습니다. </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> 브라우저마다 테스트 결과가 다른 이유는 무엇입니까? </h3> 
+                             <p> 다양한 브라우저(Chrome, Firefox, Edge, Safari)는 다양한 이벤트 처리 메커니즘, 제한 전략 및 성능 최적화를 사용합니다. Chrome은 일반적으로 더 높은 이벤트 빈도를 제공하지만 특정 성능은 운영 체제 및 하드웨어 구성에 따라 달라집니다. </p> 
+                         </div> 
+
+                         <div class="faq-item"> 
+                             <h3> 마우스 이벤트 성능이 정상인지 어떻게 확인하나요? </h3> 
+                             <p> 일반적인 상황: <br> 
+                               - 60Hz 디스플레이: 이벤트 주파수 ≒ 60Hz <br> 
+                               - 120Hz 디스플레이: 이벤트 주파수 ≒ 120Hz <br> 
+                               - 144Hz 디스플레이: 이벤트 주파수 ≒ 120-144Hz <br> 
+                               - 240Hz 디스플레이: 이벤트 주파수 ≒ 200Hz <br> 
+                               빈도가 디스플레이 새로 고침 빈도보다 훨씬 낮으면 성능 문제가 있을 수 있습니다. </p> 
+                         </div> 
+                        
+                         <div class="faq-item"> 
+                             <h3> 마우스 이벤트 빈도를 언제 테스트해야 합니까? </h3> 
+                             <p> 권장 테스트 상황: <br> 
+                               - 마우스 움직임이 끊기거나 응답하지 않는 느낌 <br> 
+                               - 다양한 브라우저나 시스템 간의 입력 성능 비교 <br> 
+                               - 새로운 디스플레이나 그래픽 카드가 입력 지연 시간에 미치는 영향 평가 <br> 
+                               - 웹 애플리케이션 </p>의 마우스 반응 문제 진단 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Important note panel (Always expanded) --> 
+         <section aria-label="Important usage notes"> 
+             <div class="glass-panel mt-6"> 
+                 <!-- Panel title --> 
+                 <div class="w-full p-4 bg-slate-800/50"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> ⚠️ </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> 웹 폴링률 테스트에 대한 중요 참고사항 </h4><p class="text-sm text-slate-400 mt-1"> 테스트 결과를 정확하게 이해하려면 다음 주의사항을 주의 깊게 읽어보시기 바랍니다. </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                
+                 <!-- Content area (Always expanded) --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                    
+                     <div class="pt-4 border-t border-slate-700"> 
+                         <p class="mb-4"> <b> 이 페이지에 표시된 "폴링 속도(Hz)"는 마우스의 실제 USB 폴링 속도와 동일하지 않습니다. </b> </p> 
+                     </div> 
+                    
+                     <!-- Why web test results are usually only 60Hz / 120Hz? --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-blue-300 mb-2"> 🤔 웹 테스트 결과가 왜 보통 60Hz / 120Hz 밖에 안 나오나요? </h5> 
+                         <p class="mb-3"> 웹 브라우저 환경에서: </p> 
+                         <ul class="space-y-2 ml-4 list-disc list-outside"> 
+                             <li> 마우스 데이터는 <b> 브라우저 이벤트(mousemove/pointermove)를 통해 얻습니다. </b> </li> 
+                             <li> 브라우저 <b> 제한 및 </b> 이벤트 병합 </li> 
+                             <li> 이벤트 트리거 빈도는 일반적으로 <b> 화면 새로 고침 빈도 </b> </li>와 동기화됩니다. 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Display refresh rate comparison table --> 
+                     <div class="overflow-x-auto"> 
+                         <h5 class="font-bold text-white mb-3"> 🖥️ 디스플레이 재생률과 웹 관찰 가능 주파수 </h5> 
+                         <table class="w-full border-collapse bg-slate-800/50 rounded-lg overflow-hidden"> 
+                             <thead class="bg-slate-800"> 
+                                 <tr> 
+                                     <th class="p-3 text-left border-b border-slate-700"> 디스플레이 재생률 </th> 
+                                     <th class="p-3 text-left border-b border-slate-700"> 웹에서 관찰 가능한 이벤트 빈도 </th> 
+                                 </tr> 
+                             </thead> 
+                             <tbody> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 60Hz </td> 
+                                     <td class="p-3"> ≒ 60Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 120Hz </td> 
+                                     <td class="p-3"> ≒ 120Hz </td> 
+                                 </tr> 
+                                 <tr class="border-b border-slate-700/50"> 
+                                     <td class="p-3"> 144Hz </td> 
+                                     <td class="p-3"> ≒ 120-144Hz </td> 
+                                 </tr> 
+                                 <tr> 
+                                     <td class="p-3"> 240Hz </td><td class="p-3"> ≒ 200Hz </td> 
+                                 </tr> 
+                             </tbody> 
+                         </table> 
+                     </div> 
+                    
+                     <!-- Technical explanation --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <p class="mb-3"> 
+                             <b> 마우스 하드웨어가 1000Hz USB 폴링 속도로 설정되어 있어도 <br> 
+                            웹 환경은 USB HID 레이어의 실제 데이터에 직접 액세스할 수 없습니다. </b> 
+                         </p> 
+                         <p class="text-sm text-slate-400"> 실제 1000Hz는 어디에 반영되나요? </p> 
+                         <p class="mt-2"> 실제 USB 폴링 속도는 </p>에 존재합니다. 
+                         <ul class="space-y-1 ml-4 mt-1"> 
+                             <li> • 운영 체제 원시 입력/HID 레이어 </li> 
+                             <li> • 게임 엔진(Unreal Engine, Unity 등) </li> 
+                             <li> • 데스크톱 수준 테스트 도구(웹 기반 아님) </li> 
+                         </ul> 
+                     </div> 
+                    
+                     <!-- Applicable scenarios --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Suitable for --> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-emerald-400 text-lg"> ✅ </span> 
+                                 <h5 class="font-bold text-emerald-300"> 이 도구는 어떤 용도에 적합합니까? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> 브라우저에서 마우스 입력이 원활한지 감지하는 중 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> 다양한 브라우저/디스플레이의 이벤트 성능 비교 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> 끊김, 이벤트 손실 또는 비정상적인 조절 </span>을 확인하는 중입니다. 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Not suitable for --> 
+                         <div class="bg-rose-900/20 border border-rose-700/30 p-4 rounded-lg"> 
+                             <div class="flex items-center gap-2 mb-3"> 
+                                 <span class="text-rose-400 text-lg"> ❌ </span><h5 class="font-bold text-rose-300"> 이 도구는 어떤 용도에 적합하지 않나요? </h5> 
+                             </div> 
+                             <ul class="space-y-2 text-sm"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> 마우스가 500Hz / 1000Hz를 지원하는지 확인하는 중 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-rose-400 mt-1"> • </span> 
+                                     <span> 데스크톱 USB 폴링률 테스트 도구 교체 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Suggestions and tips --> 
+                     <div class="bg-blue-900/20 border border-blue-700/30 p-4 rounded-lg"> 
+                         <div class="flex items-center gap-2 mb-3"> 
+                             <span class="text-blue-400 text-lg"> 💡</span> 
+                             <h5 class="font-bold text-blue-300"> 제안 </h5> 
+                         </div> 
+                         <p class="mb-3"> 
+                            마우스의 실제 USB 폴링 속도를 확인해야 하는 경우 <br> 
+                            제조업체 드라이버 또는 <a href="#desktop-tool-section" class="text-blue-400 hover:text-blue-300 underline transition"> 데스크톱 원시 입력 테스트 소프트웨어 </a>을 사용하세요.
+                         </p> 
+                         <div class="flex items-start gap-2 bg-slate-800/50 p-3 rounded mt-3"> 
+                             <span class="text-blue-400 text-lg mt-0.5"> 학원 </span> 
+                             <div> 
+                                 <p class="font-medium text-blue-200"> 도움말: </p> 
+                                 <p class="text-sm mt-1"> 브라우저 창이 전경에 있고 탭이 활성화되어 있는지 확인하십시오. 그렇지 않으면 브라우저가 이벤트 빈도를 적극적으로 줄입니다. </p> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+
+         <!-- Python desktop tool introduction - Modified version --> 
+         <section aria-label="Desktop testing tool introduction"> 
+             <div id="desktop-tool-section" class="glass-panel mt-6"> 
+                 <!-- Panel title - Consistent structure with above --> 
+                 <div class="w-full p-4 bg-blue-900/20"> 
+                     <div class="flex items-center gap-3"> 
+                         <span class="text-2xl"> 🐍 </span> 
+                         <div class="text-left"> 
+                             <h4 class="font-bold text-white"> 데스크탑 마우스 실제 폴링률 테스트 도구 </h4> 
+                             <p class="text-sm text-slate-400 mt-1"> Python 전문 도구 - 브라우저 제한 극복 </p> 
+                         </div> 
+                     </div> 
+                 </div> 
+                         <!-- Optimized Image Display --><figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png"> 
+                         <img src="https://assets.starryring.com/mouse/en/pollingrate/MousePollingRateTool.png" 
+                            alt="Desktop testing tool interface screenshot"
+                            width="800" height="450"
+                            class="w-full h-auto"
+                            loading="lazy"
+                            itemprop="contentUrl"> 
+                         <figcaption class="image-caption" itemprop="caption"> 
+                            데스크탑 마우스 폴링률 테스트 도구 인터페이스
+                         </figcaption> 
+                     </figure>    
+                 <!-- Content area (Always expanded) - Consistent structure with above --> 
+                 <div class="px-4 pb-4 space-y-4 text-sm text-slate-300 leading-relaxed"> 
+                     <!-- Tool introduction --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <div class="flex items-start gap-3"> 
+                             <div class="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center"> 
+                                 <span class="text-2xl"> 🔧 </span> 
+                             </div> 
+                             <div> 
+                                 <h5 class="font-bold text-blue-300 mb-2"> 데스크탑 도구가 왜 필요한가요? </h5> 
+                                 <p class="mb-2"> 웹 테스트는 브라우저와 운영 체제에 의해 제한되며 USB HID 레이어의 실제 폴링 데이터에 액세스할 수 없습니다. 데스크탑 도구는 시스템 수준 API를 통해 직접 마우스 원시 입력을 캡처하여 실제 USB 폴링 속도 데이터를 제공합니다. </p> 
+                                 <div class="mt-3 p-3 bg-slate-900/50 rounded"> 
+                                     <p class="text-emerald-400 font-medium"> 🌐 브라우저 테스트 대 🐍 Python 데스크톱 도구 </p> 
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2"> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📊 자료출처 </p> 
+                                             <p> 브라우저 이벤트(마우스 이동) </p> 
+                                             <p class="text-xs text-red-400"> 한정 </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🔧 데이터 출처 </p> 
+                                             <p> 시스템 원시 입력(Raw Input) </p> 
+                                             <p class="text-xs text-emerald-400"> 무제한 </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 📈 최대 정밀도 </p> 
+                                             <p> ≒ 디스플레이 새로 고침 빈도 </p><p class="text-xs text-red-400"> ~200Hz </p> 
+                                         </div> 
+                                         <div class="space-y-1"> 
+                                             <p class="text-sm text-slate-400"> 🚀 최대 정밀도 </p> 
+                                             <p> USB 실제 폴링 속도 </p> 
+                                             <p class="text-xs text-emerald-400"> ~8000Hz </p> 
+                                         </div> 
+                                     </div> 
+                                 </div> 
+                             </div> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Feature highlights --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <!-- Core features --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-blue-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                                 <span> ✨ </span> 핵심 기능
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> 실제 폴링률 감지 </b> - USB HID 레이어 데이터 직접 측정 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> 자동 기어 인식 </b> - 125/250/500/1000/2000/4000/8000Hz </span> 스마트 인식 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> 전문적인 안정성 분석 </b> - 표준 편차, P95 값, 지터 평가 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> 실시간 파형 차트 </b> - 폴링률 변화 추세 시각화 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> <b> 다국어 지원 </b> - 영어/중국어 인터페이스 전환 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <!-- Technical advantages --> 
+                         <div class="bg-slate-800/30 p-4 rounded-lg border border-purple-700/30"> 
+                             <h5 class="font-bold text-white mb-3 flex items-center gap-2"><span> ⚡ </span> 기술적 장점
+                             </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> 시스템 수준 액세스 </b> - 브라우저 제한을 우회하고 하드웨어 </span>와 직접 통신합니다. 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> 나노초 정밀도 </b> - Python time.perf_counter_ns() 기반 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> 스마트 필터링 알고리즘 </b> - 보다 정확한 결과를 위해 비정상적인 데이터를 자동으로 필터링 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> 실시간 분석 엔진 </b> - 600개 데이터 포인트 샘플링 창, 150개 포인트 파형 디스플레이 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-purple-400 mt-1"> • </span> 
+                                     <span> <b> 전문 평가 시스템 </b> - 안정성 점수 및 등급 평가 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- Supported devices --> 
+                     <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                         <h5 class="font-bold text-white mb-3 flex items-center gap-2"> 
+                             <span> 🎮 </span> 지원 장치 및 폴링률 기어
+                         </h5> 
+                         <div class="overflow-x-auto"> 
+                             <table class="w-full border-collapse"> 
+                                 <thead class="bg-slate-800"> 
+                                     <tr> 
+                                         <th class="p-3 text-left border-b border-slate-700"> 투표율 </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> 적합한 장치 </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> 지연 </th> 
+                                         <th class="p-3 text-left border-b border-slate-700"> 기능 </th> 
+                                     </tr> 
+                                 </thead> 
+                                 <tbody> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 125Hz </td><td class="p-3"> 일반 사무실 쥐 </td> 
+                                         <td class="p-3 text-orange-400"> 8ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 기본 USB 속도 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 250Hz </td> 
+                                         <td class="p-3"> 보급형 게임용 마우스 </td> 
+                                         <td class="p-3 text-yellow-400"> 4ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 일반적인 게임 설정 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 500Hz </td> 
+                                         <td class="p-3"> 중급 게이밍 마우스 </td> 
+                                         <td class="p-3 text-blue-400"> 2ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 고성능 모드 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 1000Hz </td> 
+                                         <td class="p-3"> 최고급 e스포츠 마우스 </td> 
+                                         <td class="p-3 text-emerald-400"> 1ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> E-스포츠 저지연 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 2000Hz </td> 
+                                         <td class="p-3"> 고급 e스포츠 마우스 </td> 
+                                         <td class="p-3 text-emerald-300"> 0.5ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 매우 낮은 지연 시간 </td> 
+                                     </tr> 
+                                     <tr class="border-b border-slate-700/50"> 
+                                         <td class="p-3 font-mono"> 4000Hz </td> 
+                                         <td class="p-3"> 최고의 e스포츠 마우스 </td> 
+                                         <td class="p-3 text-emerald-200"> 0.25ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 전문가급 </td> 
+                                     </tr> 
+                                     <tr> 
+                                         <td class="p-3 font-mono"> 8000Hz </td> 
+                                         <td class="p-3"> 익스트림 e스포츠 마우스 </td> 
+                                         <td class="p-3 text-emerald-100"> 0.125ms </td> 
+                                         <td class="p-3 text-sm text-slate-400"> 플래그십 등급 </td> 
+                                     </tr> 
+                                 </tbody> 
+                             </table></div> 
+                     </div> 
+                    
+                     <!-- Usage scenario comparison --> 
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                         <div class="bg-emerald-900/20 border border-emerald-700/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-emerald-300 mb-3"> ✅ Python 도구를 사용해야 하는 경우 </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> 마우스 실제 USB 폴링 속도 설정 확인 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> 다양한 마우스 폴링률 성능 비교 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> 오버샘플링 속도 마우스 테스트(2000Hz+) </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-emerald-400 mt-1"> • </span> 
+                                     <span> 전문 e스포츠 장비 성능평가 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                        
+                         <div class="bg-slate-800/30 p-4 rounded-lg"> 
+                             <h5 class="font-bold text-white mb-3"> 🔄 웹 테스트를 사용하는 경우 </h5> 
+                             <ul class="space-y-2"> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> 브라우저 입력 원활함을 빠르게 확인하세요 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> 다양한 브라우저 성능 비교 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> 크로스 플랫폼 기본 마우스 테스트 </span> 
+                                 </li> 
+                                 <li class="flex items-start gap-2"> 
+                                     <span class="text-blue-400 mt-1"> • </span> 
+                                     <span> 설치 없이 빠른 테스트 </span> 
+                                 </li> 
+                             </ul> 
+                         </div> 
+                     </div> 
+                    
+                     <!-- GitHub link and download --><div class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-4 rounded-lg border border-blue-700/50"> 
+                         <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                             <div> 
+                                 <h5 class="font-bold text-white text-lg mb-2"> 🚀 Python 데스크톱 도구 받기 </h5> 
+                                 <p class="text-slate-300 mb-1"> 무료 오픈 소스 · 전문가 수준의 정확성 · 지속적으로 업데이트 </p> 
+                                 <p class="text-sm text-slate-400"> Windows/macOS/Linux 시스템 지원 </p> 
+                             </div> 
+                             <div class="flex gap-3"> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/tree/main" 
+                                   class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition flex items-center gap-2 border border-slate-600"> 
+                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"> 
+                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/> 
+                                     </svg> 
+                                    GitHub 저장소
+                                 </a> 
+                                 <a href="https://github.com/liupanfengstarrysky/Mouse-polling-rate-testing-tool/releases/tag/v1.0.0/" 
+                                   class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition flex items-center gap-2"> 
+                                     <span> 📦 최신 버전 다운로드 </span> 
+                                 </a> 
+                             </div> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+         </section> 
+        
+         <!-- Social sharing section --> 
+         <div class="glass-panel mt-6 p-4"> 
+             <div class="flex flex-col md:flex-row items-center justify-between gap-4"> 
+                 <div> 
+                     <h5 class="font-bold text-white"> 이 도구가 유용하다고 생각하시나요? </h5> 
+                     <p class="text-sm text-slate-400"> 필요할 수 있는 다른 사용자와 공유하세요 </p> 
+                 </div> 
+                 <div class="flex items-center gap-4"> 
+                     <span class="text-slate-400 hidden md:inline"> 공유 대상: </span><a href="https://twitter.com/share?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Professional mouse event frequency testing tool, real-time detection of mouse movement event sampling rate and jitter analysis" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-600 transition duration-300"
+                       aria-label="Share on Twitter"> 
+                         <i class="fab fa-twitter"> </i> 
+                     </a> 
+                     <a href="https://www.reddit.com/submit?url=https://starryring.com/en/toolbox/mouse/polling-rate/&title=Mouse Event Frequency Tester - Professional detection of browser mouse event sampling rate" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-orange-600 transition duration-300"
+                       aria-label="Share on Reddit"> 
+                         <i class="fab fa-reddit"> </i> 
+                     </a> 
+                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://starryring.com/en/toolbox/mouse/polling-rate/" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-700 transition duration-300"
+                       aria-label="Share on Facebook"> 
+                         <i class="fab fa-facebook"> </i> 
+                     </a> 
+                     <a href="https://t.me/share/url?url=https://starryring.com/en/toolbox/mouse/polling-rate/&text=Mouse event frequency testing tool" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="p-2 rounded-lg bg-slate-800 hover:bg-blue-500 transition duration-300"
+                       aria-label="Share on Telegram"> 
+                         <i class="fab fa-telegram"> </i> 
+                     </a> 
+                 </div> 
+             </div> 
+         </div> 
+     </main> 
+
+     <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2026 StarryRing · 마우스 이벤트 주파수 테스터 </div> 
+         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
+             <a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+             <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+             <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+             <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a> 
+             <a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+         </div> 
+     </footer> 
+    
+     <!-- Add language switcher JS --><script src="/static/js/shared/switchlanguage.js"></script>
+    <script src="/static/js/toolbox/mouse/polling-rate/script-ko.js" defer></script>
+</body>
+</html>

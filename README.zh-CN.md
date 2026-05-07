@@ -46,7 +46,6 @@
 - **实用工具总览（Utility Tools）** – 各类计算、转换、网络调试工具的入口  
   **链接：** https://starryring.com/zh/utility-tools/
 - **输入设备压测中心** – 鼠标 / 键盘相关压测小游戏与工具的入口  
-  **链接：** https://starryring.com/zh/input-stress-test/
 - **关于我们** – 了解 HardwareTest 项目背景与团队信息  
   **链接：** https://starryring.com/zh/about-us/
 - **联系我们** – 提交问题反馈、合作咨询与技术支持  
@@ -96,15 +95,11 @@
 
 ### E. 输入压测 – 鼠标相关
 - **鼠标瞄准压测小游戏** – 通过移动靶练习与测试鼠标精度与跟踪性能  
-  **链接：** https://starryring.com/zh/input-stress-test/mouse/aiming/
 - **鼠标射击压测小游戏** – 射击类场景测试鼠标点击反应与操作节奏  
-  **链接：** https://starryring.com/zh/input-stress-test/mouse/shooting/
 
 ### F. 输入压测 – 键盘相关
 - **键盘打字压测 – 食物单词** – 使用与“食物”相关的单词进行高强度打字练习与测试  
-  **链接：** https://starryring.com/zh/input-stress-test/keyboard/typing/food-word/
 - **键盘打字压测 – 字母雨** – 以“字母下落”的形式训练打字速度与准确率  
-  **链接：** https://starryring.com/zh/input-stress-test/keyboard/typing/alphabet-raining/
 
 ## 特色功能亮点：
 - ✅ **免费使用** - 所有工具完全免费，无需注册登录

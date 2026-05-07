@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-encrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/aes-encrypt/script-hi.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "घर",
+          "item": "https://starryring.com/hi/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "उपयोगिता उपकरण",
+          "item": "https://starryring.com/hi/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "एईएस एन्क्रिप्शन उपकरण",
+          "item": "https://starryring.com/hi/utility-tools/math/aes-encrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "एईएस एन्क्रिप्शन उपकरण",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/hi/utility-tools/math/aes-encrypt/",
+      "description": "सीबीसी, सीटीआर, जीसीएम मोड और ब्राउज़र-साइड प्रोसेसिंग के साथ मुफ्त ऑनलाइन एईएस एन्क्रिप्शन टूल।",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "एईएस-सीबीसी, एईएस-सीटीआर और एईएस-जीसीएम का समर्थन करें",
+        "यादृच्छिक कुंजियाँ और IV मान उत्पन्न करें",
+        "पाठ या अपलोड की गई फ़ाइलें एन्क्रिप्ट करें",
+        "आउटपुट बेस64 या हेक्स सिफरटेक्स्ट",
+        "JSON के रूप में मिलान डिक्रिप्शन कॉन्फ़िगरेशन निर्यात करें"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "एईएस एन्क्रिप्शन को गुप्त कुंजी की आवश्यकता क्यों है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "एईएस एक सममित एल्गोरिदम है, इसलिए एन्क्रिप्शन और डिक्रिप्शन दोनों के लिए एक ही कुंजी का उपयोग किया जाता है। एन्क्रिप्टेड डेटा को केवल सटीक मिलान कुंजी के साथ ही पुनर्प्राप्त किया जा सकता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "सीबीसी, सीटीआर और जीसीएम में क्या अंतर है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "सीबीसी एक क्लासिक ब्लॉक मोड है, सीटीआर समानांतर और स्ट्रीमिंग वर्कफ़्लो के लिए अच्छी तरह से काम करता है, और जीसीएम प्रमाणीकरण जोड़ता है इसलिए यह एक ही समय में गोपनीयता और अखंडता की रक्षा करता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IV या नॉन अद्वितीय क्यों होना चाहिए?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "IV या नॉन का पुन: उपयोग करने से एन्क्रिप्शन सुरक्षा कमजोर हो जाती है और CTR और GCM मोड में विनाशकारी हो सकता है, इसलिए प्रत्येक एन्क्रिप्शन रन को एक ताज़ा यादृच्छिक मान का उपयोग करना चाहिए।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "मुझे बेस64 या हेक्स आउटपुट कब चुनना चाहिए?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "बेस64 एपीआई या जेएसओएन के लिए अधिक कॉम्पैक्ट और बेहतर है, जबकि हेक्स बड़ा है लेकिन डिबगिंग के दौरान बाइट द्वारा बाइट का निरीक्षण करना आसान है।"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>एईएस एन्क्रिप्शन उपकरण और कॉन्फिग निर्यातक | StarryRing</title>
+<meta name="description" content="सीबीसी, सीटीआर और जीसीएम मोड, रैंडम कुंजी और IV जेनरेशन और ब्राउज़र-साइड एईएस एन्क्रिप्शन के साथ मुफ्त ऑनलाइन एईएस एन्क्रिप्शन टूल।">
+    <link rel="canonical" href="https://starryring.com/hi/utility-tools/math/aes-encrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-encrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-encrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/aes-encrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/aes-encrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/aes-encrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/aes-encrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-encrypt/">
+<meta property="og:url" content="https://starryring.com/hi/utility-tools/math/aes-encrypt/">
+    <meta property="og:locale" content="hi_IN">
+<meta property="og:title" content="एईएस एन्क्रिप्शन उपकरण और कॉन्फिग निर्यातक | StarryRing">
+    <meta property="og:description" content="AES कुंजियाँ और IV मान ऑनलाइन जेनरेट करें, CBC, CTR, या GCM के साथ टेक्स्ट या फ़ाइलों को एन्क्रिप्ट करें, और हर ऑपरेशन को अपने ब्राउज़र के अंदर रखें।">
+    <meta name="twitter:title" content="एईएस एन्क्रिप्शन उपकरण और कॉन्फिग निर्यातक | तारों वाली अंगूठी">
+    <meta name="twitter:description" content="AES कुंजियाँ और IV मान ऑनलाइन जेनरेट करें, CBC, CTR, या GCM के साथ टेक्स्ट या फ़ाइलों को एन्क्रिप्ट करें, और हर ऑपरेशन को अपने ब्राउज़र के अंदर रखें।">
+    <meta name="keywords" content="एईएस एन्क्रिप्शन उपकरण, एईएस जनरेटर, एईएस-सीबीसी, एईएस-सीटीआर, एईएस-जीसीएम, ऑनलाइन एईएस, बेस 64 एन्क्रिप्ट, हेक्स एन्क्रिप्ट, वेब क्रिप्टो">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/aes-encrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/aes-encrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/aes-encrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/aes-encrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/aes-encrypt/" data-lang="ko">한국어</a>
+            <a class="language-option selected" href="/hi/utility-tools/math/aes-encrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/hi/" class="breadcrumb-link"> <i class="fas fa-home"> </i> होम </a> </li> 
+             <li class="breadcrumb-item"> <a href="/hi/utility-tools/" class="breadcrumb-link"> उपयोगिता उपकरण </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> AES एन्क्रिप्शन टूल </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // क्रिप्टोग्राफ़िक टूल v2.0 </span> 
+       <h1 class="logo-title"> AES <span> सिफर </span> </h1> 
+     </div> 
+     <div class="header-badge"> 
+       <div class="badge"> केवल क्लाइंट-साइड </div> 
+       <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> वेब क्रिप्टो एपीआई </div> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒 </span> 
+     <span> <strong> केवल क्लाइंट-साइड </strong> - कुंजी और डेटा आपके ब्राउज़र के अंदर रहते हैं और कभी भी किसी सर्वर पर अपलोड नहीं किए जाते हैं। सभी क्रिप्टोग्राफ़िक कार्य मूल वेब क्रिप्टो एपीआई पर चलते हैं। </span> 
+   </div> 
+
+   <!-- Config Panel --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> एल्गोरिथम कॉन्फ़िगरेशन </span> 
+     </div> 
+     <div class="config-grid"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-mode" class="label-link"> मोड </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="mode"> 
+             <option value="CBC"> सीबीसी </option> 
+             <option value="CTR"> सीटीआर </option> 
+             <option value="GCM"> जीसीएम </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> कुंजी आकार </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="128"> 128-बिट </option> 
+             <option value="192"> 192-बिट </option> 
+             <option value="256" selected> 256-बिट </option></select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-padding" class="label-link"> पैडिंग </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="padding"> 
+             <option value="PKCS7"> PKCS#7 </option> 
+             <option value="ZERO"> जीरो पैड </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-encoding" class="label-link"> आउटपुट एन्कोडिंग </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="outputEncoding"> 
+             <option value="base64"> Base64 </option> 
+             <option value="hex"> हेक्स </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key Section --> 
+   <div class="key-section"> 
+     <div class="config-header"> 
+       <div class="config-header-icon" style="color:var(--accent2)"> 🔑 </div> 
+       <span class="config-title"> कुंजी एवं IV सामग्री </span> 
+     </div> 
+     <div class="key-fields"> 
+       <div class="field-group"> 
+         <div class="key-row key-row--4col"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-key" class="label-link"> गुप्त कुंजी </a> </label> 
+             <input type="password" class="field-input" id="secretKey" placeholder="Enter or generate a key..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide key"> 
+             <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/> <circle cx="12" cy="12" r="3"/> </svg> 
+             <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"> <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/> <line x1="1" y1="1" x2="23" y2="23"/> </svg> 
+           </button> 
+           <button class="gen-btn" onclick="generateKey()"> जनरेट करें </button> 
+           <button class="copy-field-btn" onclick="copyField('secretKey', this)" title="Copy key"> 
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint" id="keyHint"> आवश्यक है <span id="keyLengthHint"> 32 </span> हेक्स अक्षर (256-बिट) </div> 
+       </div> 
+       <div class="field-group"> 
+         <div class="key-row"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-iv" class="label-link"> IV / नॉन्स </a> </label><input type="text" class="field-input" id="iv" placeholder="Enter or generate an IV..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="gen-btn" onclick="generateIV()" style="color:var(--accent)"> जनरेट करें </button> 
+           <button class="copy-field-btn" onclick="copyField('iv', this)" title="Copy IV"> 
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint"> हेक्स IV को <span id="ivLengthHint"> 32 </span> वर्ण (CBC/CTR=32, GCM=24) </div> की आवश्यकता है 
+         <div class="nonce-warning" id="nonceWarning"> 
+           <span> ⚠ </span> 
+           <span> यह नॉन पहले से ही GCM मोड में उपयोग किया जा चुका है।  <strong> किसी नॉन का पुन: उपयोग करने से एन्क्रिप्शन सुरक्षा गंभीर रूप से टूट जाती है </strong>, इसलिए कृपया एक नया बनाएं। </span> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- IO Section --> 
+   <div class="io-section"> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> फ़ाइल लोड करने के लिए रिलीज़ करें </div> 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          प्लेनटेक्स्ट/इनपुट
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            फ़ाइल अपलोड करें
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Enter plaintext to encrypt here...&#10;&#10;Supports any UTF-8 text, or click ↑ to load a file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0 बाइट्स </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg><span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="format-tabs-wrap" id="formatTabsWrap"> 
+           <div class="custom-tooltip"> फ़ाइल मोड हमेशा TEXT </div> का उपयोग करता है 
+           <button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')"> पाठ </button> 
+           <button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')"> हेक्स </button> 
+           <button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')"> BASE64 </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          सिफरटेक्स्ट/आउटपुट
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+           <div class="dl-txt-wrap"> 
+             <button class="icon-btn" onclick="downloadOutputText()" aria-label="Download text"> 
+               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+             </button> 
+             <div class="dl-tooltip"> <strong> .txt के रूप में डाउनलोड करें </strong> <br> <span> Base64/Hex टेक्स्ट आउटपुट <br> पढ़ने या पेस्ट करने के लिए तैयार </span> </div> 
+           </div> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Encrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> एन्क्रिप्शन पूर्ण </span> 
+           <span style="color:var(--text3);font-size:10px"> - डिक्रिप्शन टूल के लिए रॉ बाइनरी बाइट्स तैयार </span> 
+         </div> 
+         <button class="enc-download-link" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          .enc डाउनलोड करें
+         </button> 
+       </div> 
+       <div class="copy-config-strip" id="copyConfigStrip"> 
+         <div class="copy-config-info"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">  <circle cx="18" cy="5" r="3"/>  <circle cx="6" cy="12" r="3"/>  <circle cx="18" cy="19" r="3"/>  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>  </svg> 
+          इस कॉन्फ़िगरेशन (मोड / कुंजी आकार / कुंजी / IV) को निर्यात करें ताकि इसे सीधे डिक्रिप्शन टूल में लोड किया जा सके
+         </div> 
+         <div style="display:flex;gap:8px"> 
+           <button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)"> 
+             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+            कॉन्फ़िग कॉपी करें
+           </button> 
+           <button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)"> 
+             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>  <polyline points="7 10 12 15 17 10"/>  <line x1="12" y1="15" x2="12" y2="3"/>  </svg> 
+            कॉन्फ़िगरेशन डाउनलोड करें
+           </button> 
+         </div> 
+       </div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0 बाइट्स </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn encrypt-btn" onclick="runEncrypt()"> ▶ एन्क्रिप्ट </button> 
+     <a href="/hi/utility-tools/math/aes-decrypt/" class="decrypt-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 10 0v4"/> </svg> 
+      डिक्रिप्शन की आवश्यकता है?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>  <polyline points="15 3 21 3 21 9"/>  <line x1="10" y1="14" x2="21" y2="3"/>  </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> Ready - configure the key and click Encrypt </span> 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> एल्गोरिथम </div> 
+       <div class="info-card-value" id="infoAlgo"> एईएस </div> 
+       <div class="info-card-sub" id="infoMode"> सीबीसी मोड </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> मुख्य ताकत </div> 
+       <div class="info-card-value" id="infoKeySize"> 256 </div> 
+       <div class="info-card-sub"> बिट्स </div> 
+     </div><div class="info-card"> 
+       <div class="info-card-label"> सुरक्षा स्तर </div> 
+       <div class="info-card-value" id="infoSecurity"> उच्च </div> 
+       <div class="info-card-sub" id="infoSecSub"> मिलिट्री ग्रेड </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> संसाधित </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub" id="infoBytesUnit"> इस सत्र में बाइट्स </div> 
+     </div> 
+   </div> 
+
+   <!-- Explanation Sections --> 
+   <div class="explain-section" id="explain-key"> 
+     <div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> आपको गुप्त कुंजी की आवश्यकता क्यों है? </div> 
+       <div class="explain-text"> AES एक सममित सिफर है, इसलिए एन्क्रिप्शन और डिक्रिप्शन दोनों के लिए एक ही गुप्त कुंजी का उपयोग किया जाता है। Key length defines the protection level: 128-bit covers most everyday use cases, 192-bit is chosen for higher assurance environments, and 256-bit is the strongest common option used in finance and other security-sensitive systems. <br> <br> गुप्त कुंजी गोपनीय रहनी चाहिए। Anyone who gets the key can decrypt the data, so avoid sharing it over unsafe channels and prefer randomly generated keys instead of manual input. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-iv"> 
+     <div class="explain-icon"> 🎲 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> IV/नॉनसे की आवश्यकता क्यों है? </div> 
+       <div class="explain-text"> The IV (Initialization Vector) or nonce makes sure that encrypting the same content with the same key still produces different ciphertext each time, which helps prevent pattern-based attacks. <br> <br> CBC और CTR 16-बाइट IV (32 हेक्स वर्ण) का उपयोग करते हैं, जबकि GCM 12-बाइट नॉन्स (24 हेक्स वर्ण) का उपयोग करते हैं। IV को गुप्त रहने की आवश्यकता नहीं है, लेकिन यह प्रत्येक एन्क्रिप्शन रन के लिए ताज़ा होना चाहिए और इसका पुन: उपयोग कभी नहीं किया जाना चाहिए। </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-mode"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> एन्क्रिप्शन मोड क्या करता है? </div> 
+       <div class="explain-text"> एईएस निश्चित 16-बाइट ब्लॉक पर काम करता है, और चयनित मोड नियंत्रित करता है कि किसी भी लंबाई के डेटा के लिए उन ब्लॉकों को एक साथ कैसे जोड़ा जाता है। <br> <br> <strong style="color:#c8e0f0"> CBC (सिफर ब्लॉक चेनिंग) </strong>: फ़ाइलों और संचार वर्कफ़्लो के लिए एक क्लासिक और व्यापक रूप से उपयोग किया जाने वाला मोड। <br>  <br>  <strong style="color:#c8e0f0"> CTR (Counter) </strong> : turns AES into a stream-like mode that can be processed in parallel, making it well suited for large files. <br>  <br>  <strong style="color:#c8e0f0"> GCM (Galois/Counter Mode) </strong> : adds authentication on top of CTR, so it protects both confidentiality and integrity and is usually the best modern default. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> आपको कुंजी का आकार कैसे चुनना चाहिए? </div><div class="explain-text"> लंबी कुंजियाँ क्रूर-बल के हमलों की लागत को नाटकीय रूप से बढ़ा देती हैं, हालाँकि वे एक छोटा प्रदर्शन ओवरहेड भी जोड़ते हैं। <br> <br> <strong style="color:#c8e0f0"> 128-बिट </strong> : अधिकांश कार्यभार के लिए पर्याप्त मजबूत और आमतौर पर सबसे तेज़ विकल्प। <br> <br> <strong style="color:#c8e0f0"> 192-बिट </strong> : जब उच्च सुरक्षा मार्जिन की आवश्यकता होती है तब चुना जाता है। <br>  <br>  <strong style="color:#c8e0f0"> 256-bit </strong> : the strongest standard option and a solid default when performance constraints are not critical. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-padding"> 
+     <div class="explain-icon"> 📦 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> पैडिंग का क्या मतलब है? </div> 
+       <div class="explain-text"> एईएस 16-बाइट ब्लॉक को एन्क्रिप्ट करता है। यदि इनपुट लंबाई 16 का गुणक नहीं है, तो एन्क्रिप्शन से पहले अंतिम ब्लॉक को पैड किया जाना चाहिए। <br>  <br>  <strong style="color:#c8e0f0"> PKCS#7 </strong> : fills the final block with bytes whose value equals the number of padding bytes, which makes removal precise during decryption. <br> <br> <strong style="color:#c8e0f0"> शून्य पैडिंग </strong> : शेष बाइट्स को <code style="color:var(--accent)"> 00 </code> से भरता है। यह सरल है, लेकिन अस्पष्ट है जब मूल डेटा स्वाभाविक रूप से शून्य बाइट्स के साथ समाप्त हो सकता है। </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> आउटपुट एन्कोडिंग क्या है? </div> 
+       <div class="explain-text"> रॉ एईएस सिफरटेक्स्ट बाइनरी डेटा है, इसलिए इसे अक्सर परिवहन या भंडारण से पहले प्रिंट करने योग्य टेक्स्ट प्रारूप में परिवर्तित किया जाता है। <br> <br> <strong style="color:#c8e0f0"> Base64 </strong> : कॉम्पैक्ट और एपीआई, JSON और कॉपी-पेस्ट वर्कफ़्लो के लिए उपयुक्त। <br> <br> <strong style="color:#c8e0f0"> हेक्स </strong> : आकार में बड़ा, लेकिन डिबगिंग और लॉगिंग के दौरान बाइट दर बाइट का निरीक्षण करना आसान है। </div> 
+     </div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/aes-encrypt/script-hi.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

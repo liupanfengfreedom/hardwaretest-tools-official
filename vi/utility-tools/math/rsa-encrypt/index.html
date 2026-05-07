@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/rsa-encrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/rsa-encrypt/script-vi.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://starryring.com/vi/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Công cụ tiện ích",
+          "item": "https://starryring.com/vi/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Công cụ mã hóa RSA",
+          "item": "https://starryring.com/vi/utility-tools/math/rsa-encrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Công cụ mã hóa RSA",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/vi/utility-tools/math/rsa-encrypt/",
+      "description": "Công cụ mã hóa RSA trực tuyến miễn phí với tính năng tạo cặp khóa, nhập khóa công khai PEM và mã hóa RSA-OAEP phía trình duyệt.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Tạo cặp khóa công khai/riêng tư RSA",
+        "Nhập khóa công khai PEM",
+        "Hỗ trợ RSA-OAEP với nhiều tùy chọn băm",
+        "Xuất đầu ra Base64 hoặc Hex",
+        "Tất cả các hoạt động mã hóa chạy cục bộ trong trình duyệt"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Tại sao mã hóa RSA sử dụng khóa chung?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RSA là một hệ thống mã hóa bất đối xứng. Khóa chung mã hóa dữ liệu, trong khi khóa riêng sẽ giải mã dữ liệu, vì vậy người gửi không cần chia sẻ bí mật trước."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Cài đặt RSA nào được hỗ trợ trên trang này?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Trang này hỗ trợ các kích thước khóa 2048, 3072 và 4096 bit, cùng với các tùy chọn băm OAEP bao gồm SHA-1, SHA-256, SHA-384 và SHA-512."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Định dạng PEM là gì?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PEM là định dạng văn bản phổ biến cho khóa và chứng chỉ. Nó bao bọc dữ liệu DER được mã hóa Base64 với các tiêu đề BEGIN và END để giúp nội dung dễ dàng sao chép và chuyển."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Tại sao RSA không phù hợp với các tệp lớn?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RSA chỉ có thể mã hóa một lượng văn bản gốc có giới hạn trong một thao tác duy nhất, vì vậy nó tốt nhất cho các tin nhắn ngắn hoặc khóa đối xứng. Tải trọng lớn hơn nên sử dụng mã hóa kết hợp."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>Công cụ mã hóa RSA & Trình tạo cặp khóa | StarryRing</title>
+<meta name="description" content="Công cụ mã hóa RSA trực tuyến miễn phí với tính năng tạo cặp khóa, nhập khóa công khai PEM, lựa chọn hàm băm OAEP và mã hóa RSA-OAEP phía trình duyệt.">
+    <link rel="canonical" href="https://starryring.com/vi/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
+<meta property="og:url" content="https://starryring.com/vi/utility-tools/math/rsa-encrypt/">
+    <meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Công cụ mã hóa RSA & Trình tạo cặp khóa | StarryRing">
+    <meta property="og:description" content="Tạo cặp khóa RSA trực tuyến, nhập khóa chung PEM và thực hiện mã hóa RSA-OAEP cục bộ trong trình duyệt của bạn.">
+    <meta name="twitter:title" content="Công cụ mã hóa RSA & Trình tạo cặp khóa">
+    <meta name="twitter:description" content="Công cụ mã hóa RSA trực tuyến miễn phí với tính năng nhập khóa công khai PEM, tạo cặp khóa và mã hóa RSA-OAEP phía trình duyệt.">
+    <meta name="keywords" content="công cụ mã hóa rsa, mã hóa rsa trực tuyến, trình tạo cặp khóa rsa, rsa oaep, khóa công khai pem, mật mã web, mã hóa khóa công khai rsa">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/rsa-encrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/rsa-encrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option selected" href="/vi/utility-tools/math/rsa-encrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/rsa-encrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/rsa-encrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/rsa-encrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/vi/" class="breadcrumb-link"> <i class="fas fa-home"> </i> Trang chủ </a> </li> 
+             <li class="breadcrumb-item"> <a href="/vi/utility-tools/" class="breadcrumb-link"> Công cụ tiện ích </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> Công cụ mã hóa RSA </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // // công cụ mật mã v2.0 </span> 
+       <h1 class="logo-title"> RSA <span> Mật mã </span> </h1> 
+     </div> 
+     <div class="header-badge"> 
+       <div class="badge"> CHỈ DÀNH CHO KHÁCH HÀNG </div> 
+       <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> API WEB CRYPTO </div> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒 </span> 
+     <span> <strong> Chỉ phía máy khách </strong> - khóa và dữ liệu được xử lý hoàn toàn bên trong trình duyệt của bạn và không bao giờ được tải lên bất kỳ máy chủ nào. Được xây dựng trên API Web Crypto gốc. </span> 
+   </div> 
+
+   <!-- Config Panel --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> Cấu hình thuật toán </span> 
+     </div> 
+     <div class="config-grid" style="grid-template-columns: repeat(3, 1fr)"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> Kích thước khóa </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="2048"> 2048-bit </option> 
+             <option value="3072"> 3072-bit </option> 
+             <option value="4096" selected> 4096-bit </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-hash" class="label-link"> Băm OAEP </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="hash"> 
+             <option value="SHA-1"> SHA-1 </option><option value="SHA-256" selected> SHA-256 </option> 
+             <option value="SHA-384"> SHA-384 </option> 
+             <option value="SHA-512"> SHA-512 </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-encoding" class="label-link"> Mã hóa đầu ra </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="outputEncoding"> 
+             <option value="base64"> Base64 </option> 
+             <option value="hex"> Hex </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key Section --> 
+   <div class="key-section"> 
+     <div class="config-header"> 
+       <div class="config-header-icon" style="color:var(--accent2)"> 🔑 </div> 
+       <span class="config-title"> Tài liệu chính </span> 
+     </div> 
+     <div style="display:flex;flex-direction:column;gap:20px"> 
+       <div class="field-group"> 
+         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"> 
+           <!-- PEM format reference --> 
+          <label class="field-label" style="margin-bottom:0"> 
+               <a href="#explain-key" class="label-link"> Khóa công khai </a>  
+              ( <a href="#explain-pem" class="label-link"> PEM </a> )
+           </label> 
+           <button class="gen-btn" onclick="generateKeyPair()" style="margin-left:auto"> TẠO CẶP KHÓA </button> 
+           <button class="copy-field-btn" onclick="copyField('publicKey', this)" title="Copy public key"> 
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+         <textarea class="field-input" id="publicKey" rows="5" placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----&#10;&#10;Paste an RSA public key, or click GENERATE KEY PAIR to create a new key pair" autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:105px;line-height:1.5"> </textarea> 
+         <div class="key-hint" id="keyHint"> Mã hóa RSA-OAEP sử dụng khóa chung - cần có khóa riêng phù hợp để giải mã ( <span id="keySizeHint"> 4096 </span> -bit / <span id="hashHint"> SHA-256 </span> ) </div> 
+       </div> 
+       <div class="field-group" id="privateKeyGroup" style="display:none"> 
+         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"> 
+           <label class="field-label" style="margin-bottom:0;color:var(--accent3)"> ⚠ Private key - lưu ngay. Nếu bị mất, việc giải mã sẽ không thể </label> 
+           <button class="copy-field-btn" onclick="copyField('privateKeyDisplay', this)" title="Copy private key" style="margin-left:auto"> 
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button><button class="gen-btn" onclick="downloadPrivateKey()" style="color:var(--accent3);border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.06)"> LƯU .PEM </button> 
+         </div> 
+         <textarea class="field-input" id="privateKeyDisplay" rows="8" readonly autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:140px;color:var(--accent3);opacity:0.9"> </textarea> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- IO Section --> 
+   <div class="io-section"> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> Thả ra để tải file </div> 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          VĂN BẢN / ĐẦU VÀO
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            Tải tệp lên
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Enter plaintext to encrypt here...&#10;&#10;Supports any UTF-8 text, or click ↑ to load a file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0 byte </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+             <span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="format-tabs-wrap" id="formatTabsWrap"> 
+           <div class="custom-tooltip"> Chế độ tệp khóa định dạng thành TEXT </div> 
+           <button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')"> VĂN BẢN </button> 
+           <button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')"> HEX </button><button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')"> BASE64 </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          MẬT BẢN/ĐẦU RA
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+           <div class="dl-txt-wrap"> 
+           <button class="icon-btn" onclick="downloadOutputText()" aria-label="Download text"> 
+               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+             </button> 
+             <div class="dl-tooltip"> Tải xuống dưới dạng <strong> .txt </strong> <br> <span> Định dạng văn bản Base64/Hex <br> Sẵn sàng để đọc hoặc sao chép/dán </span> </div> 
+           </div> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Encrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> Quá trình mã hóa hoàn tất </span> 
+           <span style="color:var(--text3);font-size:10px"> — Các byte nhị phân thô có thể được đưa vào công cụ giải mã </span> 
+         </div> 
+         <button class="enc-download-link" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          Tải xuống .enc
+         </button> 
+       </div> 
+       <div class="copy-config-strip" id="copyConfigStrip"> 
+         <div class="copy-config-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <circle cx="18" cy="5" r="3"/> <circle cx="6" cy="12" r="3"/> <circle cx="18" cy="19" r="3"/> <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/> <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/> </svg> 
+          Xuất cấu hình hiện tại (chế độ/kích thước khóa/khóa/IV) để sử dụng trực tiếp trong công cụ giải mã phù hợp
+         </div> 
+         <div style="display:flex;gap:8px"> 
+           <button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+            Sao chép cấu hình
+           </button> 
+           <button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)"> 
+             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+            Tải xuống cấu hình
+           </button> 
+         </div> 
+       </div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0 byte </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn encrypt-btn" onclick="runEncrypt()"> ▶ ENCRYPT </button> 
+     <a href="/vi/utility-tools/math/rsa-decrypt/" class="decrypt-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 10 0v4"/> </svg> 
+      Cần giải mã?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/> <polyline points="15 3 21 3 21 9"/> <line x1="10" y1="14" x2="21" y2="3"/> </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> Sẵn sàng - định cấu hình khóa, sau đó nhấp vào mã hóa hoặc giải mã </span> 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Thuật toán </div> 
+       <div class="info-card-value" id="infoAlgo"> RSA </div> 
+       <div class="info-card-sub" id="infoMode"> OAEP / SHA-256 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Độ mạnh chính </div> 
+       <div class="info-card-value" id="infoKeySize"> 4096 </div> 
+       <div class="info-card-sub"> bit </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Cấp độ bảo mật </div> 
+       <div class="info-card-value" id="infoSecurity"> CAO </div> 
+       <div class="info-card-sub" id="infoSecSub"> Bất đối xứng </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Đã xử lý </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub" id="infoBytesUnit"> byte phiên này </div> 
+     </div> 
+   </div> 
+
+   <!-- Explanation Sections --> 
+   <div class="explain-section" id="explain-key"><div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Tại sao mã hóa RSA sử dụng khóa chung? </div> 
+       <div class="explain-text"> RSA là thuật toán mã hóa bất đối xứng sử dụng cặp khóa: khóa công khai <strong style="color:#c8e0f0"> </strong> mã hóa dữ liệu, trong khi khóa riêng <strong style="color:#c8e0f0"> giải mã dữ liệu. Khóa chung có thể được chia sẻ công khai với bất kỳ ai muốn gửi cho bạn dữ liệu được mã hóa, nhưng khóa riêng tư phải được giữ bí mật. <br> <br> Ưu điểm chính là người gửi không cần chia sẻ bí mật trước. Bất kỳ ai cũng có thể mã hóa bằng khóa chung, nhưng chỉ người nắm giữ khóa riêng phù hợp mới có thể giải mã được kết quả. Nếu khóa riêng bị mất, dữ liệu đã mã hóa sẽ không thể phục hồi được. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Bạn nên chọn kích thước khóa như thế nào? </div> 
+       <div class="explain-text"> Khóa RSA dài hơn mang lại khả năng bảo mật mạnh mẽ hơn nhưng cũng làm chậm quá trình tạo khóa và mã hóa/giải mã. <br> <br> <strong style="color:#c8e0f0"> 2048-bit </strong> : được coi là an toàn rộng rãi hiện nay, phù hợp cho mục đích sử dụng thông thường và là tùy chọn nhanh nhất. <br> <br> <strong style="color:#c8e0f0"> 3072-bit </strong> : bổ sung biên độ bảo mật rộng hơn và được khuyến nghị để bảo mật lâu dài hơn. <br> <br> <strong style="color:#c8e0f0"> 4096-bit </strong> : mức bảo mật cao nhất trên trang này, tốt nhất cho các yêu cầu bảo mật rất cao nhưng tạo và sử dụng chậm hơn. <br> <br> Lưu ý: RSA chỉ có thể mã hóa văn bản gốc có kích thước giới hạn trong một thao tác duy nhất. Với 2048-bit/SHA-256, giới hạn là khoảng 190 byte; với 4096-bit thì khoảng 446 byte. Sử dụng mã hóa phân đoạn hoặc kết hợp cho tải trọng lớn hơn. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-hash"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Băm OAEP là gì? </div> 
+       <div class="explain-text"> RSA-OAEP (Khoảng đệm mã hóa bất đối xứng tối ưu) là sơ đồ đệm được đề xuất cho mã hóa RSA hiện nay. Nó sử dụng hàm băm để thêm tính ngẫu nhiên và bảo vệ chống lại các cuộc tấn công bằng văn bản gốc đã chọn. <br> <br> <strong style="color:#c8e0f0"> SHA-256 </strong> (được khuyến nghị): bảo mật mạnh mẽ, áp dụng rộng rãi và khả năng tương thích tốt. <br> <strong style="color:#c8e0f0"> SHA-384 / SHA-512 </strong> : biên độ bảo mật rộng hơn, nhưng chúng làm giảm một chút kích thước văn bản gốc tối đa. <br> <strong style="color:#c8e0f0"> SHA-1 </strong> : chỉ được giữ lại để tương thích với hệ thống cũ và không được khuyến nghị cho các hệ thống mới. <br> <br> Mã hóa và giải mã phải sử dụng cùng một thuật toán băm. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Mã hóa đầu ra là gì? </div><div class="explain-text"> Đầu ra thô của mã hóa RSA là dữ liệu nhị phân, không thuận tiện cho việc lưu trữ trực tiếp hoặc truyền văn bản. Mã hóa đầu ra chuyển đổi các byte thành định dạng có thể in được. <br> <br> <strong style="color:#c8e0f0"> Base64 </strong> : mã hóa cứ 3 byte thành 4 ký tự ASCII, tạo ra đầu ra có kích thước khoảng 1,33× kích thước ban đầu. Nhỏ gọn và được sử dụng rộng rãi trong các tải trọng API, email và JSON. <br> <br> <strong style="color:#c8e0f0"> Hex </strong> : biểu thị mỗi byte dưới dạng 2 ký tự thập lục phân, tăng gấp đôi kích thước đầu ra. Dễ dàng kiểm tra hơn và hữu ích cho việc gỡ lỗi từng byte. </div> 
+     </div> 
+   </div> 
+
+   <!-- PEM Format Guide --> 
+   <div class="explain-section" id="explain-pem"> 
+     <div class="explain-icon"> 📄 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Hướng dẫn định dạng PEM </div> 
+       <div class="explain-text"> 
+         <p> <strong> 1️⃣ Định dạng PEM là gì? </strong> <br> 
+        PEM (Thư nâng cao quyền riêng tư) là định dạng văn bản được sử dụng để lưu trữ và chuyển khóa và chứng chỉ. Nó mã hóa Base64 dữ liệu DER nhị phân và bao bọc nó bằng các đầu trang và chân trang như <code> -----BEGIN <LABEL>----- </code> và <code> -----END <LABEL>----- </code> . Các nhãn phổ biến bao gồm <code> PUBLIC KEY </code> , <code> PRIVATE KEY </code> và <code> CERTIFICATE </code> . Thật dễ dàng để sao chép, dán và truyền tải trong quy trình làm việc dựa trên văn bản, khiến nó trở thành một trong những định dạng trao đổi khóa phổ biến nhất. </p> 
+
+         <p> <strong> 2️⃣ Những định dạng nào khác phổ biến ngoài PEM? </strong> <br> 
+        - <strong> DER </strong> : một định dạng nhị phân thuần túy lưu trữ trực tiếp các cấu trúc ASN.1. Nó không thể đọc được bằng con người và phổ biến trong hệ sinh thái Java. <br> 
+        - <strong> HEX </strong> : biểu thị nội dung nhị phân DER dưới dạng chuỗi thập lục phân, hữu ích cho việc gỡ lỗi hoặc nhúng mã. <br> 
+        - <strong> Base64 (không có tiêu đề) </strong> : DER thô được mã hóa dưới dạng Base64 không có tiêu đề PEM, thường được sử dụng trong cấu hình nhỏ gọn hoặc tải trọng mã thông báo. <br> 
+        - <strong> PKCS#12 (PFX) </strong> : một định dạng vùng chứa nhị phân có thể gộp các khóa công khai và khóa riêng tư lại với nhau, thường được bảo vệ bằng mật khẩu và thường được trình duyệt hoặc hệ thống Windows sử dụng. </p> 
+
+         <p> <strong> 3️⃣ Khi nào bạn nên sử dụng từng định dạng? </strong> <br> 
+        - <strong> PEM </strong> : tùy chọn phổ biến nhất, phù hợp với OpenSSL, máy chủ web (Nginx/Apache) và trao đổi API. <br> 
+        - <strong> DER </strong> : thường được sử dụng trong môi trường Java hoặc nơi yêu cầu lưu trữ nhị phân nghiêm ngặt. <br> 
+        - <strong> HEX </strong> : hữu ích trong việc gỡ lỗi, hệ thống nhúng hoặc bất cứ khi nào cần kiểm tra byte chính xác. <br> 
+        - <strong> Base64 (không có tiêu đề) </strong> : hữu ích khi định dạng bị hạn chế hoặc cần có một biểu diễn nhỏ gọn. <br> 
+        - <strong> PKCS#12 </strong> : hữu ích khi cả khóa chung và khóa riêng phải được vận chuyển cùng nhau trong khi bảo vệ khóa riêng bằng mật khẩu. </p> 
+       </div> 
+     </div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/rsa-encrypt/script-vi.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

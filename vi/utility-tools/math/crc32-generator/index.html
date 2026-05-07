@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/crc32-generator/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/crc32-generator/script-vi.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://starryring.com/vi/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Công cụ tiện ích",
+          "item": "https://starryring.com/vi/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Công cụ kiểm tra tổng CRC32",
+          "item": "https://starryring.com/vi/utility-tools/math/crc32-generator/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Công cụ kiểm tra tổng CRC32",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/vi/utility-tools/math/crc32-generator/",
+      "description": "Công cụ tổng kiểm tra CRC32 trực tuyến miễn phí cho văn bản, tệp, đầu vào hex, Base64 và nhiều biến thể CRC32.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Hỗ trợ các biến thể ISO-HDLC, Castagnoli, MPEG-2 và BZIP2 CRC32",
+        "Hỗ trợ đầu vào văn bản, tệp, hex và Base64",
+        "Hỗ trợ đầu ra thập lục phân, thập phân, nhị phân và bát phân",
+        "Xác minh tổng kiểm tra so với các giá trị dự kiến",
+        "Tính toán theo thời gian thực với hỗ trợ tệp kéo và thả"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "CRC32 là gì?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CRC32 là thuật toán kiểm tra dự phòng theo chu kỳ 32 bit thường được sử dụng để phát hiện các lỗi vô tình trong tệp, dữ liệu nén và gói mạng trong quá trình lưu trữ hoặc truyền."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Công cụ CRC32 này hỗ trợ những định dạng đầu vào nào?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Công cụ này hỗ trợ văn bản UTF-8, luồng byte thập lục phân, đầu vào được mã hóa Base64 và tải tệp trực tiếp lên, tất cả đều được xử lý cục bộ trong trình duyệt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Những biến thể CRC32 nào có sẵn trên trang này?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Trang này hỗ trợ CRC-32/ISO-HDLC, CRC-32C (Castagnoli), CRC-32/MPEG-2 và CRC-32/BZIP2 cho các nhu cầu tương thích giao thức và định dạng tệp khác nhau."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "CRC32 có thể được sử dụng để băm hoặc lưu trữ mật khẩu an toàn không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Không. CRC32 chỉ nhằm mục đích kiểm tra tính toàn vẹn và phát hiện lỗi. Nó không phải là hàm băm an toàn bằng mật mã và không nên được sử dụng để lưu trữ mật khẩu."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>Công cụ xác minh và tạo tổng kiểm tra CRC32 | StarryRing</title>
+<meta name="description" content="Trình tạo tổng kiểm tra CRC32 trực tuyến miễn phí cho văn bản, tệp, đầu vào hex, Base64 và nhiều biến thể CRC32. Tuyệt vời để kiểm tra tính toàn vẹn của tập tin và xác minh dữ liệu.">
+    <link rel="canonical" href="https://starryring.com/vi/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+<meta property="og:url" content="https://starryring.com/vi/utility-tools/math/crc32-generator/">
+    <meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Công cụ xác minh và tạo tổng kiểm tra CRC32 | StarryRing">
+    <meta property="og:description" content="Tính toán tổng kiểm CRC32 cho văn bản, tệp, đầu vào hex và Base64. Hỗ trợ các biến thể ISO-HDLC, Castagnoli, MPEG-2 và BZIP2 CRC32.">
+    <meta name="twitter:title" content="Công cụ xác minh và tạo tổng kiểm tra CRC32">
+    <meta name="twitter:description" content="Công cụ tổng kiểm tra CRC32 trực tuyến miễn phí cho văn bản, tệp, đầu vào hex, Base64 và nhiều biến thể CRC32.">
+    <meta name="keywords" content="công cụ crc32, tổng kiểm tra crc32, trình tạo crc32, máy tính crc32, crc32 trực tuyến, tệp crc32, trình xác minh crc32, các biến thể crc32">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/crc32-generator/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/crc32-generator/" data-lang="zh">简体中文</a>
+            <a class="language-option selected" href="/vi/utility-tools/math/crc32-generator/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/crc32-generator/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/crc32-generator/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/crc32-generator/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/vi/" class="breadcrumb-link"> <i class="fas fa-home"> </i> Trang chủ </a> </li> 
+             <li class="breadcrumb-item"> <a href="/vi/utility-tools/" class="breadcrumb-link"> Công cụ tiện ích </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> Công cụ kiểm tra CRC32 </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="container"> 
+
+   <!-- Header --> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // tiện ích tổng kiểm tra </span> 
+       <div class="logo-title"> CRC <span> 32 </span> Công cụ kiểm tra tổng </div> 
+     </div> 
+     <div class="header-badge"> 
+       <div class="badge"> CHỈ DÀNH CHO KHÁCH HÀNG </div> 
+       <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.25);"> KHÔNG CÓ DỮ LIỆU ĐƯỢC TRUYỀN </div> 
+     </div> 
+   </header> 
+
+   <!-- Info banner --> 
+   <div class="info-banner"> 
+     <span> 🔵 </span> 
+    Tất cả các phép tính chạy <strong> cục bộ trong trình duyệt của bạn </strong> . Không có dữ liệu được tải lên bất kỳ máy chủ. Hỗ trợ các biến thể CRC-32/ISO-HDLC, CRC-32C, CRC-32/MPEG-2 và CRC-32/BZIP2.
+   </div> 
+
+   <!-- Config panel --> 
+   <div class="panel"> 
+     <div class="panel-header"> 
+       <div class="panel-icon"> ⚙ </div> 
+       <span class="panel-title"> Cài đặt tính toán </span> 
+     </div> 
+     <div class="config-grid"> 
+       <div class="field-group"> 
+         <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-variants', VARIANT_INDEX[document.getElementById('crcVariant').value])"> Biến thể CRC ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="crcVariant"> 
+             <option value="iso"> CRC-32/ISO-HDLC (Ethernet, ZIP, PNG) </option> 
+             <option value="castagnoli"> CRC-32C / Castagnoli (iSCSI, NVMe) </option> 
+             <option value="mpeg2"> CRC-32/MPEG-2 (Luồng truyền tải MPEG-2) </option> 
+             <option value="bzip2"> CRC-32/BZIP2 (Nén BZip2) </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"><a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-encoding', ENCODING_INDEX[document.getElementById('inputEncoding').value])"> Mã hóa đầu vào ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="inputEncoding"> 
+             <option value="utf8"> Văn bản UTF-8 </option> 
+             <option value="hex"> Hex (Luồng Byte) </option> 
+             <option value="base64"> Base64 </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-output', FORMAT_INDEX[document.getElementById('outputFormat').value])"> Định dạng đầu ra ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="outputFormat"> 
+             <option value="hex"> Hệ thập lục phân (0x...) </option> 
+             <option value="decimal"> Thập phân </option> 
+             <option value="binary"> Nhị phân </option> 
+             <option value="octal"> Bát phân </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Input area --> 
+   <div class="input-area" id="inputArea"> 
+     <div class="io-header"> 
+       <div class="io-title"> 
+         <div class="io-dot"> </div> 
+        Dữ liệu đầu vào
+       </div> 
+       <div class="io-actions"> 
+         <span id="fileBadge" style="display:none;" class="file-badge"> 
+           <span class="file-badge-name" id="fileNameLabel"> </span> 
+           <button class="file-badge-clear" onclick="clearFile()"> ✕ </button> 
+         </span> 
+         <label class="upload-btn" for="fileInput" title="Upload a file to calculate its checksum"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          Tải tệp lên
+         </label> 
+         <input type="file" id="fileInput" style="display:none" onchange="handleFileUpload(event)"> 
+         <button class="icon-btn" title="Paste" onclick="pasteInput()"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/> </svg> 
+         </button> 
+         <button class="icon-btn" title="Clear" onclick="clearInput()"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <polyline points="3 6 5 6 21 6"/> <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/> <path d="M10 11v6M14 11v6"/> </svg> 
+         </button> 
+       </div> 
+     </div> 
+     <textarea class="io-textarea" id="inputText" placeholder="Enter text here, or upload a file...&#10;&#10;Calculate CRC32 checksums in real time" spellcheck="false"> </textarea> 
+     <div class="drop-zone" id="dropZone"> 
+       <div style="font-size:28px;color:var(--accent);"> ⬇ </div><div class="drop-zone-text"> Thả tệp vào đây </div> 
+     </div> 
+     <div class="io-footer"> 
+       <span class="io-stat" id="inputStat"> 0 byte </span> 
+       <span id="previewTypeBadge" style="display:none;" class="preview-type-badge"> </span> 
+       <div class="format-tabs"> 
+         <button class="format-tab active" data-enc="utf8" onclick="setEncoding(this,'utf8')"> UTF-8 </button> 
+         <button class="format-tab" data-enc="hex" onclick="setEncoding(this,'hex')"> HEX </button> 
+         <button class="format-tab" data-enc="base64" onclick="setEncoding(this,'base64')"> BASE64 </button> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action row --> 
+   <div class="action-row"> 
+     <button class="primary-btn" id="calcBtn" onclick="runCalculate()"> 
+      ⟳   Tính CRC32
+     </button> 
+     <button class="clear-btn" onclick="clearAll()"> Đặt lại tất cả </button> 
+   </div> 
+
+   <!-- Status bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> Sẵn sàng - nhập dữ liệu và nhấp vào "Tính CRC32" </span> 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Results panel --> 
+   <div class="panel green-line"> 
+     <div class="panel-header"> 
+       <div class="panel-icon" style="color:var(--accent2);"> ◈ </div> 
+       <span class="panel-title"> Kết quả tính toán </span> 
+     </div> 
+
+     <!-- Primary result card --> 
+     <div class="result-primary" id="result-primary"> 
+       <div class="result-primary-header"> 
+         <div class="result-primary-meta"> 
+           <span class="result-primary-name" id="primary-name"> — </span> 
+           <span class="result-primary-desc" id="primary-desc"> </span> 
+         </div> 
+         <button class="result-copy-btn result-copy-primary" id="copy-primary" onclick="copyPrimary()"> SAO CHÉP </button> 
+       </div> 
+       <div class="result-primary-value" id="primary-value"> — </div> 
+       <div class="result-primary-fmts" id="primary-fmts"> </div> 
+     </div> 
+
+     <!-- Secondary results row --> 
+     <div class="result-secondary-row" id="result-secondary-row"> 
+       <div class="result-secondary" id="sec-iso" onclick="switchVariant('iso')"> 
+         <div class="result-secondary-label"> ISO-HDLC </div> 
+         <div class="result-secondary-val empty" id="secval-iso"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-castagnoli" onclick="switchVariant('castagnoli')"> 
+         <div class="result-secondary-label"> Castagnoli </div> 
+         <div class="result-secondary-val empty" id="secval-castagnoli"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-mpeg2" onclick="switchVariant('mpeg2')"> 
+         <div class="result-secondary-label"> MPEG-2 </div> 
+         <div class="result-secondary-val empty" id="secval-mpeg2"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-bzip2" onclick="switchVariant('bzip2')"> 
+         <div class="result-secondary-label"> BZIP2 </div> 
+         <div class="result-secondary-val empty" id="secval-bzip2"> — </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Verify panel --> 
+   <div class="panel purple-line"> 
+     <div class="panel-header"> 
+       <div class="panel-icon" style="color:var(--accent4);"> ✓ </div><span class="panel-title"> Xác minh tổng kiểm tra </span> 
+     </div> 
+     <div style="font-family:var(--mono);font-size:11px;color:#7a9dba;margin-bottom:14px;"> 
+      Dán giá trị CRC32 dự kiến để so sánh với phép tính hiện tại.
+     </div> 
+     <div class="verify-row"> 
+       <div class="field-group"> 
+         <label class="field-label"> Tổng kiểm tra dự kiến </label> 
+         <input class="field-input" id="expectedCRC" placeholder="e.g. 0xCBF43926 or 3421780262" autocomplete="off" spellcheck="false"> 
+       </div> 
+       <button class="verify-btn" onclick="runVerify()"> Xác minh </button> 
+     </div> 
+     <div class="verify-result" id="verifyResult" style="display:none;"> </div> 
+   </div> 
+
+   <!-- Info strip --> 
+   <div class="info-strip"> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> Số byte đầu vào </div> 
+       <div class="info-cell-value" id="infoBytes"> 0 </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> Tổng số phép tính </div> 
+       <div class="info-cell-value" id="infoCalcs"> 0 </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> Biến thể hiện tại </div> 
+       <div class="info-cell-value" id="infoVariant" style="font-size:12px;letter-spacing:0;"> ISO-HDLC </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> Đã trôi qua (ms) </div> 
+       <div class="info-cell-value" id="infoMs"> — </div> 
+     </div> 
+   </div> 
+
+   <!-- Knowledge Section 1 - CRC Variants --> 
+   <div class="explain-section-header" id="explain-variants"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // Hướng dẫn về biến thể CRC32 </div> 
+     <span class="explain-section-badge"> Các biến thể CRC </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-variants"> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / ISO-HDLC
+         <span class="etag"> PKZip · PNG · Ethernet </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Việc triển khai CRC-32 phổ biến nhất, còn được gọi là CRC-32b. Nó sử dụng dạng phản ánh của đa thức 0x04C11DB7, cụ thể là 0xEDB88320. Cả byte đầu vào và đầu ra đều được phản ánh bit (LSB đầu tiên), với giá trị ban đầu và XOR cuối cùng đều được đặt thành 0xFFFFFFFF.
+         <br> <br> Được sử dụng rộng rãi bởi hình ảnh ZIP, gzip, PNG, khung Ethernet (IEEE 802.3), PKCS#7 và nhiều hệ thống cũ. Trên thực tế đây là biến thể "CRC-32 mặc định".
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> Đa thức </td> <td> <code> 0x04C11DB7 </code> (bình thường) / <code> 0xEDB88320 </code> (phản ánh) </td> </tr> 
+         <tr> <td> Giá trị ban đầu </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> Phản xạ đầu vào </td> <td> Có (RefIn = true) </td> </tr> 
+         <tr> <td> Phản xạ đầu ra </td> <td> Có (RefOut = true) </td> </tr> 
+         <tr> <td> XOR cuối cùng </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> Kiểm tra giá trị </td> <td> <code> 0xCBF43926 </code> (dành cho "123456789") </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32C / Castagnoli
+         <span class="etag"> iSCSI · NVMe · SCTP </span> 
+       </div> 
+       <div class="explain-card-text">Được đề xuất bởi G. Castagnoli và các đồng nghiệp vào năm 1993, biến thể này sử dụng đa thức 0x1EDC6F41 (dạng phản ánh 0x82F63B78). Ở cùng khoảng cách Hamming, nó cung cấp khả năng phát hiện lỗi cụm mạnh hơn đa thức ISO-HDLC.
+         <br> <br> Khả năng tăng tốc phần cứng có sẵn thông qua hướng dẫn Intel SSE4.2 và ARM CRC32. Nó được sử dụng rộng rãi trong các giao thức lưu trữ và truyền tải hiện đại như iSCSI, NVMe, Btrfs và SCTP.
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> Đa thức </td> <td> <code> 0x1EDC6F41 </code> (bình thường) / <code> 0x82F63B78 </code> (phản ánh) </td> </tr> 
+         <tr> <td> Giá trị ban đầu </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> Phản xạ đầu vào </td> <td> Có (RefIn = true) </td> </tr> 
+         <tr> <td> Phản xạ đầu ra </td> <td> Có (RefOut = true) </td> </tr> 
+         <tr> <td> XOR cuối cùng </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> Kiểm tra giá trị </td> <td> <code> 0xE3069283 </code> (dành cho "123456789") </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / MPEG-2
+         <span class="etag"> MPEG-2 · DVB · ATSC </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Sử dụng đa thức 0x04C11DB7 giống như ISO-HDLC, nhưng cả đầu vào và đầu ra đều không <strong style="color:#dff0ff"> phản ánh bit </strong> (MSB đầu tiên, big-endian). Giá trị ban đầu là 0xFFFFFFFF và XOR cuối cùng bị tắt (XorOut = 0x00000000).
+         <br> <br> Chủ yếu được sử dụng cho các bảng PSI/SI trong luồng truyền tải MPEG-2 (PAT, PMT, NIT và các bảng liên quan), cùng với việc kiểm tra tính toàn vẹn trong hệ thống phát sóng DVB và ATSC.
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> Đa thức </td> <td> <code> 0x04C11DB7 </code> </td> </tr> 
+         <tr> <td> Giá trị ban đầu </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> Phản xạ đầu vào </td> <td> Không (RefIn = false) </td> </tr> 
+         <tr> <td> Phản xạ đầu ra </td> <td> Không (RefOut = false) </td> </tr> 
+         <tr> <td> XOR cuối cùng </td> <td> <code> 0x00000000 </code> (bị vô hiệu hóa) </td> </tr> 
+         <tr> <td> Kiểm tra giá trị </td> <td> <code> 0x0376E6E7 </code> (dành cho "123456789") </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / BZIP2
+         <span class="etag"> BZip2 · AAL5 · DECT </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Các tham số của nó gần giống với MPEG-2 (đa thức 0x04C11DB7, không phản chiếu, giá trị ban đầu 0xFFFFFFFF). Sự khác biệt duy nhất là XOR cuối cùng <strong style="color:#dff0ff"> với 0xFFFFFFFF </strong> , lật từng bit. Nó còn được gọi là CRC-32/AAL5 hoặc CRC-32/DECT-B.
+         <br> <br> Được sử dụng bởi định dạng tệp nén BZip2 và trường tổng kiểm tra đoạn giới thiệu của giao thức ATM AAL5.
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> Đa thức </td> <td> <code> 0x04C11DB7 </code> </td> </tr> 
+         <tr> <td> Giá trị ban đầu </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> Phản xạ đầu vào </td> <td> Không (RefIn = false) </td> </tr> 
+         <tr> <td> Phản xạ đầu ra </td> <td> Không (RefOut = false) </td> </tr> 
+         <tr> <td> XOR cuối cùng </td> <td> <code> 0xFFFFFFFF </code> </td> </tr><tr> <td> Kiểm tra giá trị </td> <td> <code> 0xFC891918 </code> (dành cho "123456789") </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+   <!-- ═══ Knowledge Section 2 — Input Encoding ═══ --> 
+   <div class="explain-section-header" id="explain-encoding"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // Hướng dẫn mã hóa đầu vào </div> 
+     <span class="explain-section-badge"> Mã hóa đầu vào </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-encoding" style="grid-template-columns:repeat(3,1fr);"> 
+     <div class="explain-card" style="--card-accent:var(--accent3);"> 
+       <div class="explain-card-title"> 
+        Văn bản UTF-8
+         <span class="etag"> Mặc định · Chung </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Xử lý đầu vào dưới dạng chuỗi <strong style="color:#dff0ff"> UTF-8 </strong>, chuyển đổi nó thành byte rồi tính toán CRC32. Đây là chế độ phổ biến nhất cho văn bản thuần túy, mã nguồn, JSON và nội dung tương tự.
+         <br> <br> Lưu ý: cùng một văn bản được mã hóa bằng bộ ký tự khác, chẳng hạn như GBK hoặc UTF-16 sẽ tạo ra luồng byte khác và do đó có giá trị CRC32 khác. Công cụ này luôn sử dụng UTF-8.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> Tốt nhất cho </td> <td> Văn bản thuần túy, mã nguồn, JSON, XML </td> </tr> 
+         <tr> <td> Ví dụ </td> <td> "Xin chào" → <code> 48 65 6C 6C 6F </code> (5 byte) </td> </tr> 
+         <tr> <td> Ký tự CJK </td> <td> Hầu hết các ký tự CJK sử dụng 3 byte trong UTF-8 </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        thập lục phân
+         <span class="etag"> Dữ liệu nhị phân · Khung giao thức </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Xử lý đầu vào dưới dạng thô <strong style="color:#dff0ff"> bằng chữ byte thập lục phân </strong> . Dấu cách và ngắt dòng được bỏ qua. Cứ hai ký tự hex sẽ trở thành một byte (00–FF).
+         <br> <br> Hữu ích khi bạn cần CRC kiểm tra dữ liệu nhị phân chính xác như khung mạng, đoạn hình ảnh chương trình cơ sở hoặc kết xuất bộ nhớ. Bạn có thể dán trực tiếp đầu ra kết xuất Wireshark hoặc hex.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> Định dạng </td> <td> Chỉ cho phép <code> 0-9 </code> và <code> a-f / A-F </code> được phép </td> </tr> 
+         <tr> <td> Số lượng ký tự </td> <td> Phải chẵn (2 ký tự mỗi byte) </td> </tr> 
+         <tr> <td> Ví dụ </td> <td> <code> 48656C6C6F </code> = "Xin chào" (5 byte) </td> </tr> 
+         <tr> <td> Khoảng trắng </td> <td> Tự động bị bỏ qua.  <code> 48 65 6C </code> giống với <code> 48656C </code> </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        cơ sở64
+         <span class="etag"> Nhị phân được mã hóa · Chứng chỉ · Hình ảnh </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Xử lý đầu vào dưới dạng chuỗi được mã hóa <strong style="color:#dff0ff"> Base64 </strong> , giải mã nó thành byte thô rồi tính toán CRC32. Hữu ích cho chứng chỉ PEM, tải trọng JWT, URI dữ liệu và nội dung Base64 khác.<br> <br> Hỗ trợ bảng chữ cái Base64 tiêu chuẩn (A-Z a-z 0-9 + /). Ký tự đệm <code> = </code> là tùy chọn. Base64 an toàn cho URL ( <code> - </code> <code> _ </code> ) không được hỗ trợ.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> Bảng chữ cái </td> <td> <code> A-Z a-z 0-9 + / = </code> </td> </tr> 
+         <tr> <td> Ví dụ </td> <td> <code> SGVsbG8= </code> → "Xin chào" (5 byte) </td> </tr> 
+         <tr> <td> URL an toàn </td> <td> Không được hỗ trợ. Thay thế <code> -→+ </code> và <code> _→/ </code> trước </td> </tr> 
+         <tr> <td style="color:#ff6464;border-color:rgba(255,100,100,0.2);"> ⚠ 1 Ký tự </td> <td style="color:#ff6464;border-color:rgba(255,100,100,0.2);"> Không hợp lệ — 6 bit không đủ để tạo thành 1 byte (yêu cầu 8 bit) </td> </tr> 
+         <tr> <td> 2 ký tự </td> <td> Giải mã thành <strong style="color:#dff0ff"> 1 byte </strong> (đầu vào hợp lệ tối thiểu) </td> </tr> 
+         <tr> <td> 3 ký tự </td> <td> Giải mã thành <strong style="color:#dff0ff"> 2 byte </strong> </td> </tr> 
+         <tr> <td> 4 ký tự </td> <td> Giải mã thành <strong style="color:#dff0ff"> 3 byte </strong> (mẫu lặp lại sau mỗi 4 ký tự) </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+   <!-- ═══ Knowledge Section 3 — Output Format ═══ --> 
+   <div class="explain-section-header" id="explain-output"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // Hướng dẫn định dạng đầu ra </div> 
+     <span class="explain-section-badge"> Định dạng đầu ra </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-output"> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        thập lục phân
+         <span class="etag"> Phổ biến nhất · Mặc định </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Hiển thị giá trị dưới dạng số thập lục phân viết hoa gồm 8 chữ số có tiền tố <strong style="color:#dff0ff"> 0x </strong> . Mỗi ký tự đại diện cho 4 bit, tổng cộng là 32 bit. Đây là định dạng chuẩn được sử dụng trong hầu hết các công cụ, mã nguồn và tài liệu.
+         <br> <br> So với đầu ra thập phân, hệ thập lục phân giúp kiểm tra ranh giới byte dễ dàng hơn và khớp với các kết xuất bộ nhớ cũng như các trường giao thức một cách tự nhiên hơn.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> Ví dụ </td> <td> <code> 0xCBF43926 </code> </td> </tr> 
+         <tr> <td> Độ dài </td> <td> 8 ký tự thập lục phân = 32 bit </td> </tr> 
+         <tr> <td> Căn cứ </td> <td> Căn cứ 16 (0-9, A-F) </td> </tr> 
+         <tr> <td> Tốt nhất cho </td> <td> Mã, tài liệu, Wireshark, trình soạn thảo hex </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        thập phân
+         <span class="etag"> Số nguyên 32-bit không dấu </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Hiển thị tổng kiểm tra dưới dạng số nguyên thập phân 32 bit không dấu </strong> trong phạm vi 0–4,294,967,295 (2³²−1). Một số ngôn ngữ và công cụ so sánh các giá trị CRC ở dạng thập phân và các trường cơ sở dữ liệu thường lưu trữ cách biểu diễn này.<br> <br> Lưu ý: Kết quả CRC32 phải được coi là số nguyên không dấu. Trong các kiểu int có dấu như Java hoặc C#, các giá trị trên 0x7FFFFFFF có thể xuất hiện âm và phải được chuyển đổi thành uint hoặc dạng biểu diễn không dấu rộng hơn.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> Ví dụ </td> <td> <code> 3421780262 </code> </td> </tr> 
+         <tr> <td> Phạm vi </td> <td> 0–4.294.967.295 </td> </tr> 
+         <tr> <td> Lưu ý </td> <td> Đối với Java int, hãy chuyển đổi bằng <code> & 0xFFFFFFFFL </code> </td> </tr> 
+         <tr> <td> Tốt nhất cho </td> <td> Cơ sở dữ liệu, giá trị cấu trúc Python, so sánh số </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        nhị phân
+         <span class="etag"> Phân tích cấp độ bit </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Hiển thị tổng kiểm tra dưới dạng chuỗi nhị phân 32 bit có tiền tố <strong style="color:#dff0ff"> 0b </strong> . Mỗi ký tự là 0 hoặc 1, được căn chỉnh bằng bit quan trọng nhất ở bên trái và được đệm bằng các số 0 đứng đầu khi cần thiết.
+         <br> <br> Chủ yếu hữu ích để hiểu thuật toán CRC nội bộ, nghiên cứu phép chia đa thức, giảng dạy và các kịch bản nhúng cần xử lý tổng kiểm tra ở cấp độ bit.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> Ví dụ </td> <td> <code> 0b11001011…00100110 </code> </td> </tr> 
+         <tr> <td> Độ dài </td> <td> Đã sửa ở 32 bit với phần đệm 0 bên trái </td> </tr> 
+         <tr> <td> Bit cao nhất </td> <td> Bit 31 (MSB) xuất hiện ở ngoài cùng bên trái </td> </tr> 
+         <tr> <td> Tốt nhất cho </td> <td> Phân tích thuật toán, giảng dạy, gỡ lỗi nhúng </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        bát phân
+         <span class="etag"> Unix · Hệ thống tệp </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        Hiển thị tổng kiểm tra dưới dạng số bát phân gồm 11 chữ số có tiền tố <strong style="color:#dff0ff"> 0o </strong> . Cần nhiều nhất 11 ký tự bát phân cho 32 bit vì 3×11 = 33 > 32. Mỗi chữ số bát phân đại diện cho 3 bit.
+         <br> <br> Đầu ra bát phân không phổ biến trong quy trình làm việc CRC hiện đại, nhưng nó vẫn xuất hiện trong một số công cụ Unix, chuỗi công cụ chương trình cơ sở nhúng và thông số kỹ thuật giao thức truyền thông cũ hơn.
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> Ví dụ </td> <td> <code> 0o31572031046 </code> </td> </tr> 
+         <tr> <td> Độ dài </td> <td> Tối đa 11 chữ số bát phân </td> </tr> 
+         <tr> <td> Mỗi chữ số </td> <td> Biểu thị 3 bit (0-7) </td> </tr> 
+         <tr> <td> Tốt nhất cho </td> <td> Các công cụ Unix, thông số giao thức cũ hơn </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+ </div> <!-- /container --> 
+
+ <!-- Toast --> 
+ <div class="toast" id="toast"> </div><script src="/static/js/utility-tools/math/crc32-generator/script-vi.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

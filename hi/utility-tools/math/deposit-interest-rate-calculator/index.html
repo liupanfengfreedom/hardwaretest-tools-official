@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO optimized for English keywords -->
+    <title>जमा ब्याज कैलकुलेटर: दैनिक चक्रवृद्धि बनाम साधारण ब्याज | StarryRing</title>
+<meta name="author" content="FinTool">
+    <meta name="robots" content="index, follow">
+    <!-- Canonical & Hreflang (English version) -->
+
+
+<!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <!-- Open Graph / Social Media (English) -->
+
+<meta property="og:type" content="website">
+    <meta property="og:image" content="https://starryring.com/static/images/og-deposit-calculator.jpg">
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/static/images/twitter-deposit-calculator.jpg">
+    <!-- Preconnect resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Local styles (same as Chinese version) -->
+    <link rel="stylesheet" href="/static/css/utility-tools/math/deposit-interest-rate-calculator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+
+    <!-- Structured Data (JSON-LD) - English FAQ -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "व्यावसायिक जमा ब्याज कैलकुलेटर - चक्रवृद्धि बनाम सरल",
+      "description": "360-दिवसीय वित्तीय परंपरा का उपयोग करते हुए जमा कैलकुलेटर। इंटरएक्टिव चार्ट और एपीवाई के साथ दैनिक चक्रवृद्धि (चालू खाता) और साधारण ब्याज (सावधि जमा) की तुलना करें। 100 मिलियन डॉलर जैसी बड़ी रकम का समर्थन करता है।",
+      "applicationCategory": "FinanceTool",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "$"
+      },
+      "featureList": [
+        "दैनिक यौगिक अनुकरण",
+        "साधारण ब्याज गणना",
+        "ग्रोथ चार्ट",
+        "वार्षिक प्रतिशत उपज (एपीवाई)",
+        "100 मिलियन डॉलर ब्याज का अनुमान"
+      ],
+      "screenshot": "https://yourdomain.com/static/images/screenshot-deposit-calculator.jpg",
+      "softwareVersion": "2.0"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "APY (वार्षिक प्रतिशत उपज) क्या है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "जब कंपाउंडिंग को ध्यान में रखा जाता है तो APY रिटर्न की वास्तविक दर को दर्शाता है। दैनिक चक्रवृद्धि मोड में, यह कैलकुलेटर स्वचालित रूप से नाममात्र वार्षिक दर को एपीवाई में परिवर्तित करता है, जिससे आप चक्रवृद्धि और साधारण ब्याज के बीच सही अंतर देख सकते हैं।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "365 के बजाय 360-दिवसीय वर्ष का उपयोग क्यों करें?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "अंतर्राष्ट्रीय वित्तीय बाज़ार (उदाहरण के लिए, इंटरबैंक दरें, कुछ जमा उत्पाद) अक्सर सादगी और स्थिरता के लिए 360-दिवसीय सम्मेलन का उपयोग करते हैं। यह उपकरण संस्थागत ब्याज दर उद्धरण के साथ संरेखित करने के लिए उस मानक का पालन करता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "मैं वर्तमान और सावधि जमा रिटर्न की तुरंत तुलना कैसे करूँ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "बस उत्पाद प्रकार के अंतर्गत 'दैनिक चक्रवृद्धि (वर्तमान)' और 'साधारण ब्याज (निश्चित)' के बीच स्विच करें। विशिष्ट दरें (वर्तमान के लिए 0.35%, निश्चित के लिए 2.75%) स्वतः भरी हुई हैं, लेकिन आप उन्हें मैन्युअल रूप से समायोजित कर सकते हैं। विकास पथ दिखाने के लिए चार्ट तुरंत अपडेट होता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "एक वर्ष के लिए जमा किये गए 100 मिलियन डॉलर पर कितना ब्याज मिलेगा?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "इस कैलकुलेटर का उपयोग करें: मूलधन के रूप में 100,000,000 दर्ज करें, 1 वर्ष चुनें, और वर्तमान या निश्चित का चयन करें। सामान्य दरों पर, वर्तमान (0.35%) की पैदावार लगभग 35,000 डॉलर होती है, स्थिर (2.75%) की पैदावार लगभग 2,750,000 डॉलर होती है। वास्तविक दरें आपके बैंक पर निर्भर करती हैं; यह टूल त्वरित तुलना देता है."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<meta name="description" content="दैनिक चक्रवृद्धि (चालू खाता) बनाम साधारण ब्याज (सावधि जमा) की तुलना करने के लिए व्यावसायिक जमा ब्याज कैलकुलेटर। 360-दिवसीय सम्मेलन, वास्तविक समय चार्ट, एपीवाई, और बड़े मूलधन के लिए समर्थन (उदाहरण के लिए, 100 मिलियन)। बचतकर्ताओं और बैंकरों के लिए आदर्श।">
+    <link rel="canonical" href="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
+<meta property="og:url" content="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/">
+    <meta property="og:locale" content="hi_IN">
+<meta property="og:title" content="जमा ब्याज कैलकुलेटर - चक्रवृद्धि बनाम सरल | StarryRing">
+    <meta property="og:description" content="चार्ट और एपीवाई के साथ सटीक दैनिक चक्रवृद्धि और साधारण ब्याज सिमुलेशन। 100 मिलियन जमा पर रिटर्न की गणना करें।">
+    <meta name="twitter:title" content="व्यावसायिक जमा ब्याज कैलकुलेटर | यौगिक बनाम सरल">
+    <meta name="twitter:description" content="विकास चार्ट के साथ दैनिक चक्रवृद्धि (वर्तमान) और साधारण ब्याज (निश्चित) की साथ-साथ तुलना। 100M+ प्रिंसिपल को संभालता है।">
+    <meta name="keywords" content="जमा ब्याज कैलकुलेटर, ब्याज दर कैलकुलेटर, बैंक ब्याज कैलकुलेटर, सावधि जमा कैलकुलेटर, चक्रवृद्धि ब्याज, साधारण ब्याज, 360 दिन के आधार पर, एपीवाई, 100 मिलियन $ ब्याज">
+</head>
+<body class="p-4 md:p-10 text-slate-700 antialiased">
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/deposit-interest-rate-calculator/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/deposit-interest-rate-calculator/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ko">한국어</a>
+            <a class="language-option selected" href="/hi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb Navigation (English) --> 
+     <nav aria-label="Breadcrumb" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> 
+                 <a href="/hi/" class="breadcrumb-link"> <i class="fas fa-home"> </i> होम </a> 
+             </li> 
+             <li class="breadcrumb-item"> 
+                 <a href="/hi/utility-tools/" class="breadcrumb-link"> 
+                     <i class="fas fa-toolbox"> </i> उपयोगिता उपकरण
+                 </a> 
+             </li> 
+             <li class="breadcrumb-item" aria-current="page"> 
+                 <span class="breadcrumb-active"> <i class="fas fa-calculator"> </i> जमा ब्याज कैलकुलेटर </span> 
+             </li> 
+         </ol> 
+     </nav> 
+
+     <!-- Language Switcher (English selected) --> 
+ <div class="max-w-7xl mx-auto relative"> 
+         <!-- decorative background elements --> 
+         <div class="absolute -top-10 -left-10 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl -z-10"> </div> 
+         <div class="absolute -bottom-10 -right-10 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10"> </div> 
+
+         <!-- Header (English) --> 
+         <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4"> 
+             <div class="space-y-1"> 
+                 <div class="flex items-center gap-2"> 
+                     <span class="w-1.5 h-8 bg-indigo-500 rounded-full"> </span> 
+                     <h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight"> जमा ब्याज कैलकुलेटर </h1> 
+                 </div> 
+                 <p class="text-slate-500 ml-3 text-base flex items-center gap-2 flex-wrap"> 
+                     <span class="inline-flex gap-1"> दैनिक यौगिक बनाम सरल · 360-दिवसीय आधार </span> 
+                     <span class="w-1 h-1 bg-slate-300 rounded-full"> </span> 
+                     <span class="text-indigo-500 text-sm font-medium bg-indigo-50 px-3 py-0.5 rounded-full"> 360 दिवसीय सम्मेलन </span> 
+                 </p> 
+             </div><div class="bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm px-5 py-3 rounded-2xl flex items-center gap-2"> 
+                 <span class="text-amber-500 text-lg"> 💎 </span> 
+                 <span class="text-sm font-semibold text-slate-700"> विधि: <span class="text-indigo-600"> अंतर्राष्ट्रीय 360-दिवसीय </span> </span> 
+             </div> 
+         </header> 
+
+         <!-- Main content: left controls / right results --> 
+         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8"> 
+             <!-- Left: Parameter panel --> 
+             <div class="lg:col-span-4 space-y-6" role="form" aria-label="Calculation parameters"> 
+                 <div class="card-glow rounded-3xl shadow-xl bg-white/90 p-7 border border-white/60"> 
+                     <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-7 flex items-center gap-2"> 
+                         <span class="w-1 h-4 bg-indigo-400 rounded-full"> </span> पैरामीटर
+                     </h2> 
+                     <div class="space-y-6"> 
+                         <!-- Principal --> 
+                         <div> 
+                             <label for="principal" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"> 
+                                 <span> 💰 </span> प्रिंसिपल <span class="text-xs text-slate-400 font-normal"> ($) </span> 
+                             </label> 
+                             <div class="relative"> 
+                                 <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xl"> $ </span> 
+                                 <input type="number" id="principal" value="100000" class="focus-ring w-full pl-12 pr-5 py-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl transition-all" min="0" step="1000" aria-describedby="principalHelp"> 
+                             </div> 
+                             <div id="principalHelp" class="text-xs text-slate-400 mt-2"> प्रिंसिपल दर्ज करें (0 अनुमत) </div> 
+                         </div> 
+                         <!-- Annual rate + dynamic tag --> 
+                         <div> 
+                             <div class="flex justify-between items-center mb-2"> 
+                                 <label for="rate" class="text-sm font-semibold text-slate-600 flex items-center gap-1.5"> <span> 📊 </span> वार्षिक दर (%) </label> 
+                                 <span id="rateTag" class="text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm"> वर्तमान विशिष्ट </span> 
+                             </div> 
+                             <input type="number" id="rate" value="0.35" step="0.01" min="0" max="20" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl text-indigo-600 transition-all" aria-describedby="rateHelp"> 
+                             <div id="rateHelp" class="text-xs text-slate-400 mt-2"> प्रतिशत (जैसे, 0.35 = 0.35%) </div> 
+                         </div> 
+                         <!-- Term (dual column) --> 
+                         <div class="grid grid-cols-2 gap-4"> 
+                             <div><label for="term" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"> <span> ⏳ </span> टर्म </label> 
+                                 <input type="number" id="term" value="1" min="0" step="1" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl" aria-label="Term quantity"> 
+                             </div> 
+                             <div> 
+                                 <label for="termUnit" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"> <span> 📅 </span> यूनिट </label> 
+                                 <select id="termUnit" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold cursor-pointer appearance-none" aria-label="Term unit"> 
+                                     <option value="year"> वर्ष </option> 
+                                     <option value="month"> महीने </option> 
+                                     <option value="day"> दिन </option> 
+                                 </select> 
+                             </div> 
+                         </div> 
+                         <!-- Product type (radio) --> 
+                         <div class="pt-2"> 
+                             <fieldset> 
+                                 <legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"> <span> 🧩 </span> उत्पाद प्रकार </legend> 
+                                 <div class="grid grid-cols-2 gap-3 p-1.5 bg-slate-100/80 rounded-2xl"> 
+                                     <label class="radio-option flex-1 text-center"> 
+                                         <input type="radio" name="calcMethod" value="compound" checked class="sr-only peer"> 
+                                         <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-indigo-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all"> 📈 दैनिक यौगिक (वर्तमान) </div> 
+                                     </label> 
+                                     <label class="radio-option flex-1 text-center"> 
+                                         <input type="radio" name="calcMethod" value="simple" class="sr-only peer"> 
+                                         <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all"> 📐 साधारण ब्याज (निश्चित) </div> 
+                                     </label> 
+                                 </div> 
+                                 <div class="sr-only" id="compoundDesc"> दैनिक कंपाउंडिंग के लिए चयन करें, चालू/बचत खाता अनुकरण करता है </div> 
+                                 <div class="sr-only" id="simpleDesc"> साधारण ब्याज के लिए चयन करें, सावधि जमा का अनुकरण करता है </div> 
+                             </fieldset> 
+                         </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Info card (dynamic tips) - content updated via JS --><div id="tipsCard" class="rounded-3xl p-7 bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl border border-slate-700/50 backdrop-blur-sm" aria-label="algorithm hint"> 
+                     <!-- filled by JavaScript --> 
+                 </div> 
+             </div> 
+
+             <!-- Right: Results + Chart --> 
+             <div class="lg:col-span-8 space-y-6"> 
+                 <!-- Three result cards (aria-live) --> 
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-center"> 
+                     <div class="group bg-gradient-to-br from-indigo-600 to-indigo-500 p-6 rounded-3xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"> 
+                         <p class="text-indigo-100 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"> <span> 💰 </span> परिपक्वता राशि </p> 
+                         <p id="resTotal" class="text-3xl font-bold font-mono tracking-tight" aria-live="polite"> $ 100,000.00 </p> 
+                         <div class="w-12 h-0.5 bg-white/30 mx-auto mt-3 rounded-full"> </div> 
+                     </div> 
+                     <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"> 
+                         <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"> <span> ✨ </span> अर्जित ब्याज </p> 
+                         <p id="resInterest" class="text-3xl font-bold text-emerald-500 font-mono" aria-live="polite"> $ 0.00 </p> 
+                         <div class="w-12 h-0.5 bg-emerald-200 mx-auto mt-3 rounded-full"> </div> 
+                     </div> 
+                     <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"> 
+                         <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"> <span> 📈 </span> APY (वास्तविक) </p> 
+                         <p id="resApy" class="text-3xl font-bold text-slate-800 font-mono" aria-live="polite"> 0.35% </p> 
+                         <div class="w-12 h-0.5 bg-indigo-200 mx-auto mt-3 rounded-full"> </div> 
+                     </div> 
+                 </div> 
+
+                 <!-- Chart card --> 
+                 <div class="bg-white/80 backdrop-blur-sm p-7 rounded-3xl border border-white/60 shadow-xl"> 
+                     <div class="flex items-center gap-2 mb-6"> 
+                         <span class="w-1 h-6 bg-indigo-400 rounded-full"> </span> 
+                         <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider"> 📊 विकास पथ (मासिक) </h2> 
+                     </div> 
+                     <div class="h-[320px] w-full relative"> 
+                         <canvas id="growthChart" role="img" aria-label="Interest growth chart" class="w-full h-full"> </canvas> 
+                     </div><p class="text-xs text-slate-400 mt-4 text-center border-t border-slate-100 pt-3"> * मासिक डेटा बिंदु। यौगिक = दैनिक यौगिक, सरल = रैखिक। अंतिम मूल्य अंकित. दृष्टिगत रूप से वर्तमान बनाम स्थिर की तुलना करें। </p> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <!-- Bottom description blocks (English) --> 
+         <div class="mt-16 text-sm bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 grid md:grid-cols-3 gap-8 shadow-inner"> 
+             <div class="flex gap-3"> 
+                 <span class="text-indigo-500 text-xl"> 🔹 </span> 
+                 <div> 
+                     <h3 class="font-bold text-slate-800 mb-1"> दैनिक यौगिक (वर्तमान) </h3> 
+                     <p class="text-slate-500 text-xs leading-relaxed"> 360-दिवसीय परंपरा का पालन करता है, ब्याज की गणना प्रतिदिन की जाती है और मूलधन में जोड़ा जाता है। चालू खातों, मुद्रा बाज़ार निधियों के लिए आदर्श। एपीवाई > नाममात्र दर। </p> 
+                 </div> 
+             </div> 
+             <div class="flex gap-3"> 
+                 <span class="text-emerald-500 text-xl"> 🔸 </span> 
+                 <div> 
+                     <h3 class="font-bold text-slate-800 mb-1"> साधारण ब्याज (निश्चित) </h3> 
+                     <p class="text-slate-500 text-xs leading-relaxed"> सावधि जमा के लिए मानक; ब्याज चक्रवृद्धि नहीं होता. सीधी-रेखा वृद्धि. सावधि जमा और सीडी गणना के लिए उपयुक्त। </p> 
+                 </div> 
+             </div> 
+             <div class="flex gap-3"> 
+                 <span class="text-amber-500 text-xl"> 📊 </span> 
+                 <div> 
+                     <h3 class="font-bold text-slate-800 mb-1"> स्मार्ट तुलना </h3> 
+                     <p class="text-slate-500 text-xs leading-relaxed"> उत्पाद प्रकार को स्विच करने से सामान्य दरें स्वत: भर जाती हैं (0.35% / 2.75%)। दो दशमलव तक परिणाम. 100 मिलियन डॉलर जैसे बड़े मूलधन का समर्थन करता है। </p> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <!-- FAQ section (English) --> 
+         <div class="mt-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 shadow-inner"> 
+             <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"> 
+                 <span class="w-1 h-6 bg-indigo-400 rounded-full"> </span> अक्सर पूछे जाने वाले प्रश्न (FAQ)
+             </h2> 
+             <div class="space-y-5"> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> APY (वार्षिक प्रतिशत उपज) क्या है? </h3> 
+                     <p class="text-sm text-slate-600 mt-1"> जब कंपाउंडिंग को ध्यान में रखा जाता है तो APY रिटर्न की वास्तविक दर को दर्शाता है। दैनिक चक्रवृद्धि मोड में, यह कैलकुलेटर स्वचालित रूप से नाममात्र वार्षिक दर को एपीवाई में परिवर्तित करता है, जिससे आप चक्रवृद्धि और साधारण ब्याज के बीच सही अंतर देख सकते हैं। </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> 365 के बजाय 360-दिवसीय वर्ष का उपयोग क्यों करें? </h3><p class="text-sm text-slate-600 mt-1"> अंतर्राष्ट्रीय वित्तीय बाज़ार (उदाहरण के लिए, इंटरबैंक दरें, कुछ जमा उत्पाद) अक्सर सादगी और स्थिरता के लिए 360-दिवसीय सम्मेलन का उपयोग करते हैं। यह उपकरण संस्थागत ब्याज दर उद्धरण के साथ संरेखित करने के लिए उस मानक का पालन करता है। </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> मैं वर्तमान और सावधि जमा रिटर्न की तुरंत तुलना कैसे करूं? </h3> 
+                     <p class="text-sm text-slate-600 mt-1"> उत्पाद प्रकार के अंतर्गत बस "दैनिक चक्रवृद्धि (वर्तमान)" और "साधारण ब्याज (निश्चित)" के बीच स्विच करें। विशिष्ट दरें (वर्तमान के लिए 0.35%, निश्चित के लिए 2.75%) स्वतः भरी हुई हैं, लेकिन आप उन्हें मैन्युअल रूप से समायोजित कर सकते हैं। विकास पथ दिखाने के लिए चार्ट तुरंत अपडेट होता है। </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3 class="font-semibold text-slate-800"> एक साल के लिए जमा किए गए 100 मिलियन डॉलर पर कितना ब्याज मिलेगा? </h3> 
+                     <p class="text-sm text-slate-600 mt-1"> इस कैलकुलेटर का उपयोग करें: मूलधन के रूप में 100,000,000 दर्ज करें, 1 वर्ष चुनें, और वर्तमान या निश्चित का चयन करें। सामान्य दरों पर, वर्तमान (0.35%) की पैदावार लगभग 35,000 डॉलर होती है, स्थिर (2.75%) की पैदावार लगभग 2,750,000 डॉलर होती है। वास्तविक दरें आपके बैंक पर निर्भर करती हैं; यह टूल त्वरित तुलना देता है. </p> 
+                 </div> 
+             </div> 
+         </div> 
+
+         <!-- Simple footer --> 
+         <footer class="text-center text-xs text-slate-400 mt-10 border-t border-slate-200/70 pt-6"> 
+             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2"> 
+                 <p> © व्यावसायिक जमा ब्याज कैलकुलेटर - 360-दिवसीय सम्मेलन | बैंक दर टूल </p> 
+                 <p class="flex gap-2 justify-center md:justify-end"> <span class="w-1.5 h-1.5 bg-indigo-300 rounded-full"> </span> केवल संदर्भ के लिए। वास्तविक बैंक दरें भिन्न हो सकती हैं. </p> 
+             </div> 
+             <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;"> 
+                 <a href="/hi/about-us/" style="color:#2563eb;text-decoration:none;"> हमारे बारे में </a> 
+                 <a href="/hi/contact-us/" style="color:#2563eb;text-decoration:none;"> हमसे संपर्क करें </a> 
+                 <a href="/hi/disclaimer/" style="color:#2563eb;text-decoration:none;"> अस्वीकरण </a> 
+                 <a href="/hi/privacy/" style="color:#2563eb;text-decoration:none;"> गोपनीयता नीति </a> 
+                 <a href="/hi/terms/" style="color:#2563eb;text-decoration:none;"> सेवा की शर्तें </a> 
+             </div> 
+         </footer> 
+     </div> 
+
+     <!-- Scripts (English version JS) --><script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="/static/js/utility-tools/math/deposit-interest-rate-calculator/script-hi.js" defer></script>
+    <script src="/static/js/shared/switchlanguage.js" defer></script>
+</body>
+</html>

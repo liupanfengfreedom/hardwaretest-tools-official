@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/rsa-encrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/rsa-encrypt/script-ko.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "유틸리티 도구",
+          "item": "https://starryring.com/ko/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "RSA 암호화 도구",
+          "item": "https://starryring.com/ko/utility-tools/math/rsa-encrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "RSA 암호화 도구",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/ko/utility-tools/math/rsa-encrypt/",
+      "description": "키 쌍 생성, PEM 공개 키 가져오기 및 브라우저 측 RSA-OAEP 암호화 기능을 갖춘 무료 온라인 RSA 암호화 도구입니다.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "RSA 공개/개인 키 쌍 생성",
+        "PEM 공개 키 가져오기",
+        "여러 해시 옵션으로 RSA-OAEP 지원",
+        "Base64 또는 Hex 출력 내보내기",
+        "모든 암호화 작업은 브라우저에서 로컬로 실행됩니다."
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "RSA 암호화가 공개 키를 사용하는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RSA는 비대칭 암호화 시스템입니다. 공개 키는 데이터를 암호화하고 개인 키는 이를 해독하므로 보낸 사람이 미리 비밀을 공유할 필요가 없습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "이 페이지에서는 어떤 RSA 설정이 지원됩니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "이 페이지는 SHA-1, SHA-256, SHA-384 및 SHA-512를 포함한 OAEP 해시 옵션과 함께 2048, 3072 및 4096비트 키 크기를 지원합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "PEM 형식이란 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PEM은 키와 인증서에 대한 일반적인 텍스트 형식입니다. 콘텐츠를 쉽게 복사하고 전송할 수 있도록 Base64로 인코딩된 DER 데이터를 BEGIN 및 END 헤더로 래핑합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "RSA가 대용량 파일에 적합하지 않은 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RSA는 단일 작업으로 제한된 양의 일반 텍스트만 암호화할 수 있으므로 짧은 메시지나 대칭 키에 가장 적합합니다. 더 큰 페이로드에는 하이브리드 암호화를 사용해야 합니다."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>RSA 암호화 도구 및 키 쌍 생성기 | StarryRing</title>
+<meta name="description" content="키 쌍 생성, PEM 공개 키 가져오기, OAEP 해시 선택 및 브라우저 측 RSA-OAEP 암호화 기능을 갖춘 무료 온라인 RSA 암호화 도구입니다.">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/math/rsa-encrypt/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="RSA 암호화 도구 및 키 쌍 생성기 | StarryRing">
+    <meta property="og:description" content="RSA 키 쌍을 온라인으로 생성하고, PEM 공개 키를 가져오고, 브라우저에서 로컬로 RSA-OAEP 암호화를 수행하십시오.">
+    <meta name="twitter:title" content="RSA 암호화 도구 및 키 쌍 생성기">
+    <meta name="twitter:description" content="PEM 공개 키 가져오기, 키 쌍 생성 및 브라우저 측 RSA-OAEP 암호화 기능을 갖춘 무료 온라인 RSA 암호화 도구입니다.">
+    <meta name="keywords" content="rsa 암호화 도구,rsa 온라인 암호화,rsa 키 쌍 생성기,rsa oaep,pem 공개 키,웹 암호화,rsa 공개 키 암호화">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/rsa-encrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/rsa-encrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/rsa-encrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/rsa-encrypt/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/math/rsa-encrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/rsa-encrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/ko/" class="breadcrumb-link"> <i class="fas fa-home"> </i> 홈 </a> </li> 
+             <li class="breadcrumb-item"> <a href="/ko/utility-tools/" class="breadcrumb-link"> 유틸리티 도구 </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> RSA 암호화 도구 </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // 암호화 도구 v2.0 </span> 
+       <h1 class="logo-title"> RSA <span> 암호 </span> </h1> 
+     </div> 
+     <div class="header-badge"> 
+       <div class="badge"> 클라이언트 측 전용 </div> 
+       <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> 웹 암호화 API </div> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒</span> 
+     <span> <strong> 클라이언트 측에서만 </strong> - 키와 데이터는 전적으로 브라우저 내에서 처리되며 어떤 서버에도 업로드되지 않습니다. 기본 Web Crypto API를 기반으로 구축되었습니다. </span> 
+   </div> 
+
+   <!-- Config Panel --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> 알고리즘 구성 </span> 
+     </div> 
+     <div class="config-grid" style="grid-template-columns: repeat(3, 1fr)"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> 키 크기 </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="2048"> 2048비트 </option> 
+             <option value="3072"> 3072비트 </option> 
+             <option value="4096" selected> 4096비트 </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-hash" class="label-link"> OAEP 해시 </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="hash"> 
+             <option value="SHA-1"> SHA-1 </option><option value="SHA-256" selected> SHA-256 </option> 
+             <option value="SHA-384"> SHA-384 </option> 
+             <option value="SHA-512"> SHA-512 </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-encoding" class="label-link"> 출력 인코딩 </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="outputEncoding"> 
+             <option value="base64"> Base64 </option> 
+             <option value="hex"> 16진수 </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key Section --> 
+   <div class="key-section"> 
+     <div class="config-header"> 
+       <div class="config-header-icon" style="color:var(--accent2)"> 🔑 </div> 
+       <span class="config-title"> 핵심자료 </span> 
+     </div> 
+     <div style="display:flex;flex-direction:column;gap:20px"> 
+       <div class="field-group"> 
+         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"> 
+           <!-- PEM format reference --> 
+          <label class="field-label" style="margin-bottom:0"> 
+               <a href="#explain-key" class="label-link"> 공개 키 </a>  
+              ( <a href="#explain-pem" class="label-link"> PEM </a> )
+           </label> 
+           <button class="gen-btn" onclick="generateKeyPair()" style="margin-left:auto"> 키 쌍 생성 </button> 
+           <button class="copy-field-btn" onclick="copyField('publicKey', this)" title="Copy public key"> 
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+         <textarea class="field-input" id="publicKey" rows="5" placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----&#10;&#10;Paste an RSA public key, or click GENERATE KEY PAIR to create a new key pair" autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:105px;line-height:1.5"> </textarea> 
+         <div class="key-hint" id="keyHint"> RSA-OAEP 암호화는 공개 키를 사용합니다. 해독하려면 일치하는 개인 키가 필요합니다. ( <span id="keySizeHint"> 4096 </span> -bit / <span id="hashHint"> SHA-256 </span> ) </div> 
+       </div> 
+       <div class="field-group" id="privateKeyGroup" style="display:none"> 
+         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"> 
+           <label class="field-label" style="margin-bottom:0;color:var(--accent3)"> ⚠ 개인키 - 즉시 저장하세요. 분실하시면 복호화가 불가능합니다 </label> 
+           <button class="copy-field-btn" onclick="copyField('privateKeyDisplay', this)" title="Copy private key" style="margin-left:auto"> 
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button><button class="gen-btn" onclick="downloadPrivateKey()" style="color:var(--accent3);border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.06)"> .PEM </button> 저장 
+         </div> 
+         <textarea class="field-input" id="privateKeyDisplay" rows="8" readonly autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:140px;color:var(--accent3);opacity:0.9"> </textarea> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- IO Section --> 
+   <div class="io-section"> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> </div> 파일을 로드하려면 손을 뗍니다. 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          평문/입력
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            파일 업로드
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Enter plaintext to encrypt here...&#10;&#10;Supports any UTF-8 text, or click ↑ to load a file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0바이트 </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+             <span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="format-tabs-wrap" id="formatTabsWrap"> 
+           <div class="custom-tooltip"> 파일 모드는 형식을 TEXT </div>으로 잠급니다. 
+           <button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')"> 텍스트 </button> 
+           <button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')"> HEX </button><button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')"> BASE64 </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          암호문/출력
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+           <div class="dl-txt-wrap"> 
+           <button class="icon-btn" onclick="downloadOutputText()" aria-label="Download text"> 
+               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+             </button> 
+             <div class="dl-tooltip"> <strong> .txt로 다운로드 </strong> <br> <span> Base64/Hex 텍스트 형식 <br> 읽기 또는 복사/붙여넣기 가능 </span> </div> 
+           </div> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Encrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> 암호화 완료 </span> 
+           <span style="color:var(--text3);font-size:10px"> — 암호 해독 도구에 입력할 수 있는 원시 이진 바이트 </span> 
+         </div> 
+         <button class="enc-download-link" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          .enc 다운로드
+         </button> 
+       </div> 
+       <div class="copy-config-strip" id="copyConfigStrip"> 
+         <div class="copy-config-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <circle cx="18" cy="5" r="3"/> <circle cx="6" cy="12" r="3"/> <circle cx="18" cy="19" r="3"/> <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/> <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/> </svg> 
+          일치하는 암호 해독 도구에서 직접 사용할 수 있도록 현재 구성(모드/키 크기/키/IV)을 내보냅니다.
+         </div> 
+         <div style="display:flex;gap:8px"> 
+           <button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+            구성 복사
+           </button> 
+           <button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)"> 
+             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+            구성 다운로드
+           </button> 
+         </div> 
+       </div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0바이트 </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn encrypt-btn" onclick="runEncrypt()"> ▶ 암호화 </button> 
+     <a href="/ko/utility-tools/math/rsa-decrypt/" class="decrypt-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 10 0v4"/> </svg> 
+      암호 해독이 필요합니까?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/> <polyline points="15 3 21 3 21 9"/> <line x1="10" y1="14" x2="21" y2="3"/> </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> 준비 - 키를 구성한 다음 </span> 암호화 또는 복호화를 클릭하세요. 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 알고리즘 </div> 
+       <div class="info-card-value" id="infoAlgo"> RSA </div> 
+       <div class="info-card-sub" id="infoMode"> OAEP / SHA-256 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 핵심강점 </div> 
+       <div class="info-card-value" id="infoKeySize"> 4096 </div> 
+       <div class="info-card-sub"> 비트 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 보안 수준 </div> 
+       <div class="info-card-value" id="infoSecurity"> 높음 </div> 
+       <div class="info-card-sub" id="infoSecSub"> 비대칭 </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 처리됨 </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub" id="infoBytesUnit"> 이 세션의 바이트 </div> 
+     </div> 
+   </div> 
+
+   <!-- Explanation Sections --> 
+   <div class="explain-section" id="explain-key"><div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> RSA 암호화가 공개 키를 사용하는 이유는 무엇입니까? </div> 
+       <div class="explain-text"> RSA는 키 쌍을 사용하는 비대칭 암호화 알고리즘입니다. <strong style="color:#c8e0f0"> 공개 키 </strong>은 데이터를 암호화하고 <strong style="color:#c8e0f0"> 개인 키 </strong>은 데이터를 해독합니다. 공개 키는 암호화된 데이터를 보내려는 모든 사람과 공개적으로 공유할 수 있지만 개인 키는 비밀로 유지되어야 합니다. <br> <br> 가장 큰 장점은 보낸 사람이 미리 비밀을 공유할 필요가 없다는 것입니다. 누구나 공개 키로 암호화할 수 있지만, 일치하는 개인 키를 보유한 사람만이 결과를 해독할 수 있습니다. 개인키를 분실하면 암호화된 데이터를 복구할 수 없습니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 키 크기를 어떻게 선택해야 하나요? </div> 
+       <div class="explain-text"> RSA 키가 길수록 보안이 강화되지만 키 생성 및 암호화/암호 해독 속도가 느려집니다. <br> <br> <strong style="color:#c8e0f0"> 2048비트 </strong> : 오늘날 안전하다고 널리 간주되며 일반적인 사용에 적합하며 가장 빠른 옵션입니다. <br> <br> <strong style="color:#c8e0f0"> 3072비트 </strong>: 더 넓은 보안 마진을 추가하고 장기적인 기밀 유지에 권장됩니다. <br> <br> <strong style="color:#c8e0f0"> 4096비트 </strong>: 이 페이지에서 가장 높은 보안 수준으로 매우 높은 보안 요구 사항에 가장 적합하지만 생성 및 사용 속도가 느립니다. <br> <br> 참고: RSA는 단일 작업으로 제한된 크기의 일반 텍스트만 암호화할 수 있습니다. 2048비트/SHA-256의 경우 제한은 약 190바이트입니다. 4096비트에서는 약 446바이트입니다. 더 큰 페이로드에는 청크 또는 하이브리드 암호화를 사용합니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-hash"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> OAEP 해시란 무엇입니까? </div> 
+       <div class="explain-text"> RSA-OAEP(Optimal Asymmetric Encryption Padding)는 오늘날 RSA 암호화에 권장되는 패딩 방식입니다. 해시 함수를 사용하여 무작위성을 추가하고 선택된 일반 텍스트 공격을 방어합니다. <br> <br> <strong style="color:#c8e0f0"> SHA-256 </strong> (권장): 강력한 보안, 광범위한 채택 및 우수한 호환성. <br> <strong style="color:#c8e0f0"> SHA-384 / SHA-512 </strong> : 보안 여유가 더 넓지만 최대 일반 텍스트 크기가 약간 줄어듭니다. <br> <strong style="color:#c8e0f0"> SHA-1 </strong> : 레거시 호환성을 위해서만 유지되며 새 시스템에는 권장되지 않습니다. <br> <br> 암호화와 복호화는 동일한 해시 알고리즘을 사용해야 합니다. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠</div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 출력 인코딩이란 무엇입니까? </div><div class="explain-text"> RSA 암호화의 원시 출력은 바이너리 데이터이므로 직접 저장하거나 텍스트 전송에 편리하지 않습니다. 출력 인코딩은 바이트를 인쇄 가능한 형식으로 변환합니다. <br> <br> <strong style="color:#c8e0f0"> Base64 </strong> : 3바이트마다 4개의 ASCII 문자로 인코딩하여 원래 크기의 약 1.33배에 해당하는 출력을 생성합니다. API, 이메일, JSON 페이로드에서 컴팩트하고 널리 사용됩니다. <br> <br> <strong style="color:#c8e0f0"> Hex </strong> : 모든 바이트를 2개의 16진수 문자로 표시하여 출력 크기를 두 배로 늘립니다. 검사가 더 쉽고 바이트 단위로 디버깅하는 데 유용합니다. </div> 
+     </div> 
+   </div> 
+
+   <!-- PEM Format Guide --> 
+   <div class="explain-section" id="explain-pem"> 
+     <div class="explain-icon"> 📄 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> PEM 형식 가이드 </div> 
+       <div class="explain-text"> 
+         <p> <strong> 1️⃣ PEM 형식이 무엇인가요? </strong> <br> 
+        PEM(Privacy-Enhanced Mail)은 키와 인증서를 저장하고 전송하는 데 사용되는 텍스트 형식입니다. 이진 DER 데이터를 Base64로 인코딩하고 <code> -----BEGIN <LABEL>------ </code> 및 <code> -----END <LABEL>----- </code> 과 같은 머리글과 바닥글로 래핑합니다. 일반적인 라벨에는 <code> PUBLIC KEY </code> , <code> PRIVATE KEY </code> 및 <code> CERTIFICATE </code> 가 포함됩니다. 텍스트 기반 작업 흐름에서 복사, 붙여넣기 및 전송이 쉽기 때문에 가장 일반적인 키 교환 형식 중 하나입니다. </p> 
+
+         <p> <strong> 2️⃣ PEM 외에 어떤 다른 형식이 일반적입니까? </strong> <br> 
+        - <strong> DER </strong> : ASN.1 구조를 직접 저장하는 순수 바이너리 형식입니다. 사람이 읽을 수 없으며 Java 생태계에서 일반적입니다. <br> 
+        - <strong> HEX </strong> : DER 바이너리 콘텐츠를 16진수 문자열로 표현하며, 코드 디버깅이나 삽입에 유용합니다. <br> 
+        - <strong> Base64(헤더 없음) </strong> : PEM 헤더 없이 Base64로 인코딩된 원시 DER, 압축 구성 또는 토큰 페이로드에 자주 사용됩니다. <br> 
+        - <strong> PKCS#12 (PFX) </strong>: 공개 키와 개인 키를 함께 묶을 수 있는 바이너리 컨테이너 형식으로, 일반적으로 비밀번호로 보호되며 브라우저나 Windows 시스템에서 자주 사용됩니다. </p> 
+
+         <p> <strong> 3️⃣ 각 형식은 언제 사용해야 하나요? </strong> <br> 
+        - <strong> PEM </strong> : OpenSSL, 웹 서버(Nginx/Apache) 및 API 교환에 적합한 가장 보편적인 옵션입니다. <br> 
+        - <strong> DER </strong> : Java 환경이나 엄격한 바이너리 저장이 필요한 경우에 일반적으로 사용됩니다. <br> 
+        - <strong> HEX </strong> : 디버깅, 임베디드 시스템 또는 정확한 바이트 검사가 필요할 때마다 유용합니다. <br> 
+        - <strong> Base64(헤더 없음) </strong>: 형식이 제한되거나 간결한 표현이 필요할 때 유용합니다. <br> 
+        - <strong> PKCS#12 </strong> : 개인 키를 비밀번호로 보호하면서 공개 키와 개인 키를 함께 전송해야 하는 경우에 유용합니다. </p> 
+       </div> 
+     </div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/rsa-encrypt/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

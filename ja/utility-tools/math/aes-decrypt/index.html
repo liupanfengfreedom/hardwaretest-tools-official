@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/aes-decrypt/script-ja.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "家",
+          "item": "https://starryring.com/ja/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ユーティリティツール",
+          "item": "https://starryring.com/ja/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "AES復号化ツール",
+          "item": "https://starryring.com/ja/utility-tools/math/aes-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "AES復号化ツール",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/ja/utility-tools/math/aes-decrypt/",
+      "description": "キーと IV インポートに加えてブラウザ側の復号化を備えた無料のオンライン AES 復号化ツール。",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "AES-CBC、AES-CTR、および AES-GCM をサポート",
+        "Base64、16 進数、および .enc 暗号文を受け入れる",
+        "暗号化構成を JSON としてインポートする",
+        "必要に応じてバイナリ出力をダウンロードする",
+        "完全にブラウザ内で実行"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "AES 復号化では暗号化と同じキーを使用する必要があるのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AES は対称暗号であるため、暗号化ステップで作成したまったく同じキーが再度使用された場合にのみ復号化が機能します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IV または nonce 値も一致する必要があるのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CBC、CTR、および GCM はすべて、暗号化状態の一部として IV または nonce に依存します。復号化中に別の値を使用すると、間違った結果が生じるか、完全に失敗します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "GCM が認証失敗を報告するのはなぜですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GCM は、整合性と機密性をチェックします。キー、ナンス、または暗号文が完全に一致しない場合、認証は失敗し、出力は拒否されます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": ".enc ファイルのアップロードと Base64 または Hex の貼り付けの違いは何ですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "アップロードされた .enc ファイルは、生のバイトとして直接処理されます。代わりにテキスト暗号文を貼り付ける場合は、最初に正しい Base64 または Hex エンコードを選択する必要があります。"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>AES 復号化ツールおよび構成インポーター | StarryRing</title>
+<meta name="description" content="Base64、Hex、または .enc 暗号文のサポートとブラウザ側の復号化を備えた、CBC、CTR、および GCM モード用の無料のオンライン AES 復号化ツール。">
+    <link rel="canonical" href="https://starryring.com/ja/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+<meta property="og:url" content="https://starryring.com/ja/utility-tools/math/aes-decrypt/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="AES 復号化ツールおよび構成インポーター | StarryRing">
+    <meta property="og:description" content="AES キーと IV をインポートし、Base64、Hex、または .enc 暗号文を復号化し、すべての操作をブラウザー内に保持します。">
+    <meta name="twitter:title" content="AES 復号化ツールおよび構成インポーター |スターリーリング">
+    <meta name="twitter:description" content="AES キーと IV をインポートし、Base64、Hex、または .enc 暗号文を復号化し、すべての操作をブラウザー内に保持します。">
+    <meta name="keywords" content="AES 復号化ツール、AES-CBC、AES-CTR、AES-GCM、オンライン AES 復号化、Base64 復号化、16 進数復号化、Web 暗号化、.enc 復号化">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/aes-decrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/aes-decrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/aes-decrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/utility-tools/math/aes-decrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/aes-decrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/aes-decrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/ja/" class="breadcrumb-link"> <i class="fas fa-home"> </i> ホーム </a> </li> 
+             <li class="breadcrumb-item"> <a href="/ja/utility-tools/" class="breadcrumb-link"> ユーティリティ ツール </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> AES 復号化ツール </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // 暗号化ツール v2.0 </span> 
+       <h1 class="logo-title"> AES <span> 解読 </span> </h1> 
+     </div> 
+     <div class="header-right"> 
+       <div class="badge"> クライアント側のみ </div> 
+       <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> ウェブ暗号化 API </div> 
+       <a href="/ja/utility-tools/math/aes-encrypt/" class="encrypt-link"> 
+         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+        暗号化ツールに切り替える
+       </a> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒 </span> 
+     <span> <strong> クライアント側のみ </strong> - キーとデータはブラウザ内に留まり、サーバーにアップロードされることはありません。すべての暗号化作業はネイティブ Web Crypto API 上で実行されます。 </span> 
+   </div> 
+
+   <!-- Config --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> アルゴリズム構成 </span> 
+     </div> 
+     <div class="config-grid"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-mode" class="label-link"> モード </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="mode"> 
+             <option value="CBC"> CBC </option> 
+             <option value="CTR"> クリック率 </option> 
+             <option value="GCM"> GCM </option> 
+           </select> 
+         </div> 
+       </div><div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> キーのサイズ </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="128"> 128 ビット </option> 
+             <option value="192"> 192 ビット </option> 
+             <option value="256" selected> 256 ビット </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-padding" class="label-link"> パディング </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="padding"> 
+             <option value="PKCS7"> PKCS#7 </option> 
+             <option value="ZERO"> ゼロパッド </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key & IV --> 
+   <div class="key-section"> 
+     <div class="config-header" style="justify-content:space-between"> 
+       <div style="display:flex;align-items:center;gap:10px"> 
+         <div class="config-header-icon" style="color:var(--accent3)"> 🔑 </div> 
+         <span class="config-title"> キーおよび IV マテリアル </span> 
+       </div> 
+       <div style="display:flex;gap:8px"> 
+         <button class="paste-json-btn" onclick="pasteJsonConfig()"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+          JSON 構成を貼り付けます
+         </button> 
+         <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          設定ファイルのアップロード
+         </button> 
+         <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)"> 
+       </div> 
+     </div> 
+     <div class="key-fields"> 
+       <div class="field-group"> 
+         <div class="key-row"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-key" class="label-link"> 秘密鍵 </a> </label> 
+             <input type="password" class="field-input" id="secretKey" placeholder="Enter the decryption key..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide key"> 
+             <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/> <circle cx="12" cy="12" r="3"/> </svg><svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"> <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/> <line x1="1" y1="1" x2="23" y2="23"/> </svg> 
+           </button> 
+           <button class="copy-field-btn" onclick="pasteField('secretKey')" title="Paste key"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint" id="keyHint"> 16 進キーには <span id="keyLengthHint"> 64 </span> 文字 (32 バイト) </div> が必要です 
+       </div> 
+       <div class="field-group"> 
+         <div class="key-row"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-iv" class="label-link"> IV / ノンス </a> </label> 
+             <input type="text" class="field-input" id="iv" placeholder="Enter the IV..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="copy-field-btn" onclick="pasteField('iv')" title="Paste IV"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint"> 16 進数 IV には <span id="ivLengthHint"> 32 </span> 文字 (CBC/CTR=32、GCM=24) </div> が必要です 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- IO --> 
+   <div class="io-section"> 
+     <!-- Ciphertext input --> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> リリースして .enc ファイルをロードします </div> 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          暗号文 / 入力
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            ファイルをアップロードする
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Paste ciphertext here in Base64 or Hex...&#10;&#10;Or upload a binary .enc file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0バイト </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+             <span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="encoding-tabs" id="encodingTabs"> 
+           <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')"> BASE64 </button> 
+           <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')"> 16 進数 </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <!-- Plaintext output --> 
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          プレーンテキスト / 出力
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Decrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> 復号化されたファイルをダウンロードする準備ができました </span> 
+         </div> 
+         <button class="download-file-btn" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          ファイルをダウンロードする
+         </button></div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0バイト </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn decrypt-btn" onclick="runDecrypt()"> ◀ 暗号化 </button> 
+     <a href="/ja/utility-tools/math/aes-encrypt/" class="encrypt-nav-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+      暗号化が必要ですか?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/> <polyline points="15 3 21 3 21 9"/> <line x1="10" y1="14" x2="21" y2="3"/> </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> 準備完了 - キー、IV、暗号文を入力し、[復号化] をクリックします </span> 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> アルゴリズム </div> 
+       <div class="info-card-value"> AES </div> 
+       <div class="info-card-sub" id="infoMode"> CBC モード </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 主要な強度 </div> 
+       <div class="info-card-value" id="infoKeySize"> 256 </div> 
+       <div class="info-card-sub"> ビット </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> セキュリティ レベル </div> 
+       <div class="info-card-value" id="infoSecurity"> 高 </div> 
+       <div class="info-card-sub" id="infoSecSub"> 軍用グレード </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> 復号化 </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub"> このセッションのバイト数 </div> 
+     </div> 
+   </div> 
+
+   <!-- Explain Sections --> 
+   <div class="explain-section" id="explain-key"> 
+     <div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 秘密鍵が必要なのはなぜですか? </div> 
+       <div class="explain-text"> AES は対称暗号であるため、暗号化と復号化の両方に同じキーが使用されます。復号化中、 <strong style="color:#f0fff6"> キーは暗号化キー </strong> と正確に一致する必要があります。たとえ 1 文字の違いでも、エラーが発生したり、出力が判読不能になったりすることがあります。 <br> <br> 秘密鍵は機密にしておく必要があります。キーを持っている人なら誰でもデータを復号化できますが、キーを紛失すると、暗号化されたコンテンツを回復できなくなる可能性があります。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-iv"> 
+     <div class="explain-icon"> 🎲 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> IV / nonce が必要なのはなぜですか? </div><div class="explain-text"> <strong style="color:#f0fff6"> IV または nonce は、暗号化中に使用される値 </strong> と正確に一致する必要があります。一致しない場合、復号化された結果は無効になります。 CBC と CTR は 16 バイトの IV (32 個の 16 進文字) を使用しますが、GCM は 12 バイトのノンス (24 個の 16 進文字) を使用します。 <br> <br> IV は通常、暗号文とともに送信されるため、秘密にしておく必要はありませんが、それが欠けている場合は、適切な復号化が不可能になります。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-mode"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 暗号化モードは </div> と正確に一致する必要があります 
+       <div class="explain-text"> ここで選択したモードは、暗号化中に使用したものと同じである必要があります。そうでない場合、復号化が失敗するか、読み取り不能な出力が生成されます。 <br> <br> <strong style="color:#c0e8d0"> CBC </strong> は、IV を必要とする共通ブロック モードです。  <strong style="color:#c0e8d0"> CTR </strong> はストリームに似た動作をし、大きなデータに対して高速です。  <strong style="color:#c0e8d0"> GCM </strong> は整合性チェックを追加するため、改ざんされた暗号文は即座に失敗します。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> キーのサイズは暗号化ステップと一致する必要があります </div> 
+       <div class="explain-text"> キー サイズによって AES ラウンド カウントが決まり、暗号化と復号化では同じキー長を使用する必要があります。 <br> <br> 間違った鍵サイズが選択されると、鍵の長さが選択した AES バリアントと一致しなくなるため、鍵のインポートはすぐに失敗します。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-padding"> 
+     <div class="explain-icon"> 📦 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> パディングは暗号化ステップと一致する必要があります </div> 
+       <div class="explain-text"> 復号化後、ツールは選択されたスキームに従ってパディングを削除します。パディング モードが間違っていると、出力がガベージ バイトで終了するか、完全に失敗する可能性があります。 <br> <br> <strong style="color:#c0e8d0"> PKCS#7 </strong> が最も一般的な選択であり、パディングを正確に削除します。  <strong style="color:#c0e8d0"> ゼロ パディング </strong> は、末尾の <code style="color:var(--accent)"> 00 </code> バイトをトリミングし、元の長さがわかっている場合にのみ安全です。 </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> 入力エンコーディング: 暗号文の形式は何ですか? </div> 
+       <div class="explain-text"> 暗号化ツールは、エンコードされたテキスト暗号文を出力します。正しく復号化するには、AES 復号化を実行する前にブラウザが元のバイトを再構築できるように、同じエンコーディングを選択します。 <br> <br> <strong style="color:#c0e8d0"> Base64 </strong> は文字、数字、 <code style="color:var(--accent)"> +/= </code> を使用し、多くの場合末尾にパディングが付きます。  <strong style="color:#c0e8d0"> 16 進数 </strong> は、<code style="color:var(--accent)"> 0-9 </code> および <code style="color:var(--accent)"> a-f </code> を 1 バイトあたり 2 文字で使用します。バイナリ .enc ファイルをアップロードする場合、エンコードの選択は自動的に無視されます。 </div></div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/aes-decrypt/script-ja.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

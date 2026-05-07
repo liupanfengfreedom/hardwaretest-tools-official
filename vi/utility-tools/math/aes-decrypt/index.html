@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/aes-decrypt/script-vi.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://starryring.com/vi/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Công cụ tiện ích",
+          "item": "https://starryring.com/vi/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Công cụ giải mã AES",
+          "item": "https://starryring.com/vi/utility-tools/math/aes-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Công cụ giải mã AES",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/vi/utility-tools/math/aes-decrypt/",
+      "description": "Công cụ giải mã AES trực tuyến miễn phí với tính năng nhập khóa và IV cộng với giải mã phía trình duyệt.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Hỗ trợ AES-CBC, AES-CTR và AES-GCM",
+        "Chấp nhận văn bản mã hóa Base64, Hex và .enc",
+        "Nhập cấu hình mã hóa dưới dạng JSON",
+        "Tải xuống đầu ra nhị phân khi cần",
+        "Chạy hoàn toàn trên trình duyệt"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Tại sao giải mã AES phải sử dụng cùng khóa với mã hóa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AES là một mật mã đối xứng, do đó quá trình giải mã chỉ hoạt động khi sử dụng lại cùng một khóa từ bước mã hóa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Tại sao các giá trị IV hoặc nonce cũng cần phải khớp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CBC, CTR và GCM đều phụ thuộc vào IV hoặc nonce như một phần của trạng thái mã hóa. Việc sử dụng một giá trị khác trong quá trình giải mã sẽ tạo ra kết quả sai hoặc lỗi hoàn toàn."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Tại sao GCM báo cáo lỗi xác thực?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GCM kiểm tra tính toàn vẹn cũng như tính bảo mật. Nếu khóa, số không hoặc văn bản mã hóa không khớp hoàn hảo thì quá trình xác thực không thành công và đầu ra bị từ chối."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Sự khác biệt giữa tải lên tệp .enc và dán Base64 hoặc Hex là gì?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tệp .enc đã tải lên được xử lý trực tiếp dưới dạng byte thô. Thay vào đó, khi bạn dán văn bản mã hóa, trước tiên bạn cần chọn mã hóa Base64 hoặc Hex chính xác."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>Công cụ giải mã AES & Trình nhập cấu hình | StarryRing</title>
+<meta name="description" content="Công cụ giải mã AES trực tuyến miễn phí cho các chế độ CBC, CTR và GCM, với hỗ trợ văn bản mã hóa Base64, Hex hoặc .enc và giải mã phía trình duyệt.">
+    <link rel="canonical" href="https://starryring.com/vi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+<meta property="og:url" content="https://starryring.com/vi/utility-tools/math/aes-decrypt/">
+    <meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Công cụ giải mã AES & Trình nhập cấu hình | StarryRing">
+    <meta property="og:description" content="Nhập khóa AES và IV, giải mã văn bản mật mã Base64, Hex hoặc .enc và giữ mọi thao tác bên trong trình duyệt của bạn.">
+    <meta name="twitter:title" content="Công cụ giải mã AES & Trình nhập cấu hình | đầy saoVòng">
+    <meta name="twitter:description" content="Nhập khóa AES và IV, giải mã văn bản mật mã Base64, Hex hoặc .enc và giữ mọi thao tác bên trong trình duyệt của bạn.">
+    <meta name="keywords" content="Công cụ giải mã AES,AES-CBC,AES-CTR,AES-GCM,giải mã AES trực tuyến,giải mã Base64,giải mã Hex,Web Crypto,giải mã .enc">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/aes-decrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/aes-decrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option selected" href="/vi/utility-tools/math/aes-decrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/aes-decrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/aes-decrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/aes-decrypt/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/vi/" class="breadcrumb-link"> <i class="fas fa-home"> </i> Trang chủ </a> </li> 
+             <li class="breadcrumb-item"> <a href="/vi/utility-tools/" class="breadcrumb-link"> Công cụ tiện ích </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> Công cụ giải mã AES </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="scan-effect"> </div> 
+
+ <div class="container"> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // // công cụ mật mã v2.0 </span> 
+       <h1 class="logo-title"> AES <span> Giải mã </span> </h1> 
+     </div> 
+     <div class="header-right"> 
+       <div class="badge"> CHỈ DÀNH CHO KHÁCH HÀNG </div> 
+       <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);"> API WEB CRYPTO </div> 
+       <a href="/vi/utility-tools/math/aes-encrypt/" class="encrypt-link"> 
+         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+        Chuyển sang Công cụ mã hóa
+       </a> 
+     </div> 
+   </header> 
+
+   <!-- Security Banner --> 
+   <div class="security-banner"> 
+     <span class="security-banner-icon"> 🔒 </span> 
+     <span> <strong> CHỈ DÀNH CHO KHÁCH HÀNG </strong> - Khóa và dữ liệu nằm trong trình duyệt của bạn và không bao giờ được tải lên bất kỳ máy chủ nào. Tất cả công việc mã hóa đều chạy trên API Web Crypto gốc. </span> 
+   </div> 
+
+   <!-- Config --> 
+   <div class="config-panel"> 
+     <div class="config-header"> 
+       <div class="config-header-icon"> ⚙ </div> 
+       <span class="config-title"> Cấu hình thuật toán </span> 
+     </div> 
+     <div class="config-grid"> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-mode" class="label-link"> Chế độ </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="mode"> 
+             <option value="CBC"> CBC </option> 
+             <option value="CTR"> TLB </option> 
+             <option value="GCM"> GCM </option> 
+           </select> 
+         </div> 
+       </div><div class="field-group"> 
+         <label class="field-label"> <a href="#explain-keysize" class="label-link"> Kích thước khóa </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="keySize"> 
+             <option value="128"> 128-bit </option> 
+             <option value="192"> 192-bit </option> 
+             <option value="256" selected> 256-bit </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <label class="field-label"> <a href="#explain-padding" class="label-link"> Đệm </a> </label> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="padding"> 
+             <option value="PKCS7"> PKCS#7 </option> 
+             <option value="ZERO"> Zero Pad </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Key & IV --> 
+   <div class="key-section"> 
+     <div class="config-header" style="justify-content:space-between"> 
+       <div style="display:flex;align-items:center;gap:10px"> 
+         <div class="config-header-icon" style="color:var(--accent3)"> 🔑 </div> 
+         <span class="config-title"> Chìa khóa & Vật liệu IV </span> 
+       </div> 
+       <div style="display:flex;gap:8px"> 
+         <button class="paste-json-btn" onclick="pasteJsonConfig()"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+          Dán cấu hình JSON
+         </button> 
+         <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          Tải lên tệp cấu hình
+         </button> 
+         <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)"> 
+       </div> 
+     </div> 
+     <div class="key-fields"> 
+       <div class="field-group"> 
+         <div class="key-row"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-key" class="label-link"> Khóa bí mật </a> </label> 
+             <input type="password" class="field-input" id="secretKey" placeholder="Enter the decryption key..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide key"> 
+             <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/> <circle cx="12" cy="12" r="3"/> </svg><svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"> <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/> <line x1="1" y1="1" x2="23" y2="23"/> </svg> 
+           </button> 
+           <button class="copy-field-btn" onclick="pasteField('secretKey')" title="Paste key"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint" id="keyHint"> Khóa hex cần <span id="keyLengthHint"> 64 </span> ký tự (32 byte) </div> 
+       </div> 
+       <div class="field-group"> 
+         <div class="key-row"> 
+           <div class="field-group" style="flex:1"> 
+             <label class="field-label"> <a href="#explain-iv" class="label-link"> IV / Nonce </a> </label> 
+             <input type="text" class="field-input" id="iv" placeholder="Enter the IV..." autocomplete="off" spellcheck="false"> 
+           </div> 
+           <button class="copy-field-btn" onclick="pasteField('iv')" title="Paste IV"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+         <div class="key-hint"> IV hex cần <span id="ivLengthHint"> 32 </span> ký tự (CBC/CTR=32, GCM=24) </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- IO --> 
+   <div class="io-section"> 
+     <!-- Ciphertext input --> 
+     <div class="io-panel input-panel" id="inputPanel"> 
+       <div class="drop-zone" id="dropZone"> 
+         <div class="drop-zone-icon"> ⬇ </div> 
+         <div class="drop-zone-text"> Thả ra để tải tệp .enc </div> 
+       </div> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          MẬT BẢN / ĐẦU VÀO
+         </div> 
+         <div class="io-actions"> 
+           <button class="upload-btn" onclick="triggerFileInput()"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+            Tải tệp lên
+           </button> 
+           <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear"> ✕ </button> 
+           <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt"> 
+       <textarea class="io-textarea" id="inputText" placeholder="Paste ciphertext here in Base64 or Hex...&#10;&#10;Or upload a binary .enc file"> </textarea> 
+       <div class="io-footer"> 
+         <div style="display:flex;align-items:center;gap:8px;"> 
+           <span class="io-stat" id="inputStat"> 0 byte </span> 
+           <div class="file-badge" id="inputFileBadge" style="display:none"> 
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+             <span class="file-badge-name" id="inputFileName"> </span> 
+             <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file"> ✕ </button> 
+           </div> 
+         </div> 
+         <div class="encoding-tabs" id="encodingTabs"> 
+           <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')"> BASE64 </button> 
+           <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')"> HEX </button> 
+         </div> 
+       </div> 
+     </div> 
+
+     <!-- Plaintext output --> 
+     <div class="io-panel output-panel"> 
+       <div class="io-header"> 
+         <div class="io-title"> 
+           <div class="io-dot"> </div> 
+          VĂN BẢN / ĐẦU RA
+         </div> 
+         <div class="io-actions"> 
+           <button class="icon-btn" onclick="copyOutput(this)" title="Copy output"> 
+             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="9" y="9" width="13" height="13" rx="2"/> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/> </svg> 
+           </button> 
+         </div> 
+       </div> 
+       <textarea class="io-textarea" id="outputText" placeholder="Decrypted output will appear here..." readonly> </textarea> 
+       <div class="output-file-strip" id="outputFileStrip"> 
+         <div class="output-file-info"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/> <polyline points="13 2 13 9 20 9"/> </svg> 
+           <span id="outputFileLabel"> Tệp đã giải mã đã sẵn sàng để tải xuống </span> 
+         </div> 
+         <button class="download-file-btn" onclick="downloadOutputFile()"> 
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="7 10 12 15 17 10"/> <line x1="12" y1="15" x2="12" y2="3"/> </svg> 
+          TẢI XUỐNG TẬP TIN
+         </button></div> 
+       <div class="io-footer"> 
+         <span class="io-stat" id="outputStat"> 0 byte </span> 
+         <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)"> — </span> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action Row --> 
+   <div class="action-row"> 
+     <button class="primary-btn decrypt-btn" onclick="runDecrypt()"> ◀ GIẢI QUYẾT </button> 
+     <a href="/vi/utility-tools/math/aes-encrypt/" class="encrypt-nav-link"> 
+       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <rect x="3" y="11" width="18" height="11" rx="2"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/> </svg> 
+      Cần mã hóa?
+       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/> <polyline points="15 3 21 3 21 9"/> <line x1="10" y1="14" x2="21" y2="3"/> </svg> 
+     </a> 
+   </div> 
+
+   <!-- Status Bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> Sẵn sàng - nhập khóa, IV và văn bản mã hóa, sau đó nhấp vào Giải mã </span> 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Info Strip --> 
+   <div class="info-strip"> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Thuật toán </div> 
+       <div class="info-card-value"> AES </div> 
+       <div class="info-card-sub" id="infoMode"> Chế độ CBC </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Độ mạnh chính </div> 
+       <div class="info-card-value" id="infoKeySize"> 256 </div> 
+       <div class="info-card-sub"> bit </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Cấp độ bảo mật </div> 
+       <div class="info-card-value" id="infoSecurity"> CAO </div> 
+       <div class="info-card-sub" id="infoSecSub"> Cấp quân sự </div> 
+     </div> 
+     <div class="info-card"> 
+       <div class="info-card-label"> Đã giải mã </div> 
+       <div class="info-card-value" id="infoBytes"> 0 </div> 
+       <div class="info-card-sub"> byte phiên này </div> 
+     </div> 
+   </div> 
+
+   <!-- Explain Sections --> 
+   <div class="explain-section" id="explain-key"> 
+     <div class="explain-icon"> 🔑 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Tại sao bạn cần khóa bí mật? </div> 
+       <div class="explain-text"> AES là mật mã đối xứng, do đó, cùng một khóa được sử dụng cho cả mã hóa và giải mã. Trong quá trình giải mã, <strong style="color:#f0fff6"> khóa phải khớp chính xác với khóa mã hóa </strong> ; ngay cả sự khác biệt một ký tự cũng sẽ gây ra lỗi hoặc đầu ra không thể đọc được. <br> <br> Khóa bí mật phải được giữ bí mật. Bất kỳ ai có khóa đều có thể giải mã dữ liệu và nếu mất khóa, nội dung được mã hóa có thể không thể khôi phục được. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-iv"> 
+     <div class="explain-icon"> 🎲 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Tại sao lại yêu cầu IV / nonce? </div><div class="explain-text"> <strong style="color:#f0fff6"> IV hoặc nonce phải khớp chính xác với giá trị được sử dụng trong quá trình mã hóa </strong> , nếu không kết quả được giải mã sẽ không hợp lệ. CBC và CTR sử dụng IV 16 byte (32 ký tự hex), trong khi GCM sử dụng nonce 12 byte (24 ký tự hex). <br> <br> IV thường di chuyển cùng với văn bản mã hóa và không cần phải giữ bí mật, nhưng nếu nó bị thiếu thì việc giải mã thích hợp sẽ không còn khả thi nữa. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-mode"> 
+     <div class="explain-icon"> ⚙️ </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Chế độ mã hóa phải khớp chính xác </div> 
+       <div class="explain-text"> Chế độ được chọn ở đây phải giống với chế độ được sử dụng trong quá trình mã hóa, nếu không quá trình giải mã sẽ không thành công hoặc tạo ra kết quả không thể đọc được. <br> <br> <strong style="color:#c0e8d0"> CBC </strong> là chế độ chặn phổ biến yêu cầu IV.  <strong style="color:#c0e8d0"> CTR </strong> hoạt động giống luồng hơn và nhanh đối với dữ liệu lớn.  <strong style="color:#c0e8d0"> GCM </strong> bổ sung tính năng kiểm tra tính toàn vẹn, do đó, văn bản mã hóa bị giả mạo sẽ không thành công ngay lập tức. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-keysize"> 
+     <div class="explain-icon"> 📏 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Kích thước khóa phải khớp với bước mã hóa </div> 
+       <div class="explain-text"> Kích thước khóa xác định số vòng AES và mã hóa cũng như giải mã phải sử dụng cùng độ dài khóa. <br> <br> Nếu chọn sai kích thước khóa, quá trình nhập khóa sẽ không thành công ngay lập tức do độ dài khóa không còn khớp với biến thể AES đã chọn. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-padding"> 
+     <div class="explain-icon"> 📦 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Phần đệm phải khớp với bước mã hóa </div> 
+       <div class="explain-text"> Sau khi giải mã, công cụ sẽ loại bỏ phần đệm theo sơ đồ đã chọn. Nếu chế độ đệm sai, đầu ra có thể kết thúc bằng byte rác hoặc không hoàn toàn. <br> <br> <strong style="color:#c0e8d0"> PKCS#7 </strong> là lựa chọn phổ biến nhất và loại bỏ phần đệm một cách chính xác.  <strong style="color:#c0e8d0"> Zero Padding </strong> cắt bớt <code style="color:var(--accent)"> 00 </code> byte và chỉ an toàn khi biết độ dài ban đầu. </div> 
+     </div> 
+   </div> 
+
+   <div class="explain-section" id="explain-encoding"> 
+     <div class="explain-icon"> 🔠 </div> 
+     <div class="explain-body"> 
+       <div class="explain-title"> Mã hóa đầu vào: văn bản mã hóa ở định dạng nào? </div> 
+       <div class="explain-text"> Công cụ mã hóa xuất ra văn bản mật mã được mã hóa. Để giải mã chính xác, hãy chọn cùng một kiểu mã hóa để trình duyệt có thể xây dựng lại các byte gốc trước khi chạy giải mã AES. <br> <br> <strong style="color:#c0e8d0"> Base64 </strong> sử dụng các chữ cái, số và <code style="color:var(--accent)"> +/= </code> , thường có phần đệm ở cuối.  <strong style="color:#c0e8d0"> Hex </strong> sử dụng <code style="color:var(--accent)"> 0-9 </code> và <code style="color:var(--accent)"> a-f </code> với hai ký tự trên mỗi byte. Nếu bạn tải lên tệp .enc nhị phân, lựa chọn mã hóa sẽ tự động bị bỏ qua. </div></div> 
+   </div> 
+ </div> 
+
+ <div class="toast" id="toast"> <span class="toast-icon" id="toastIcon"> </span> <span id="toastMsg"> </span> </div><script src="/static/js/utility-tools/math/aes-decrypt/script-vi.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

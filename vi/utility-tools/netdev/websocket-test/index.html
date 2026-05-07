@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta (English) -->
+    <title>Công cụ kiểm tra trực tuyến WebSocket - Máy khách WS/WSS miễn phí | StarryRing</title>
+<!-- Open Graph / Facebook -->
+
+<meta property="og:image" content="https://starryring.com/preview-websocket.png">
+<meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/preview-websocket.png">
+
+    <!-- Canonical & hreflang -->
+
+
+<!-- Favicon (same) -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Structured Data (JSON-LD) with English FAQ -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Công cụ kiểm tra WebSocket trực tuyến",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "Công cụ kiểm tra WebSocket trực tuyến miễn phí. Hỗ trợ kết nối WS/WSS, tiêu đề tùy chỉnh, số liệu thống kê tin nhắn, mẫu, tìm kiếm nhật ký. Không cần tải xuống, gỡ lỗi nhanh.",
+      "url": "https://starryring.com/vi/utility-tools/netdev/websocket-test/",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://starryring.com/preview-websocket.png",
+        "width": 1200,
+        "height": 630,
+        "caption": "Giao diện công cụ kiểm tra WebSocket"
+      },
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/static/image/vi/websocket-test-interface.png",
+          "width": 1280,
+          "height": 720,
+          "caption": "Giao diện kiểm tra kết nối WebSocket",
+          "description": "Cấu hình kết nối WebSocket và giao diện nhắn tin"
+        }
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Kết nối WebSocket / WebSocket Secure (WS/WSS)",
+        "Bổ sung tiêu đề tùy chỉnh",
+        "Thống kê tin nhắn đã gửi/nhận",
+        "Điền nhanh các điểm cuối phổ biến",
+        "Mẫu tin nhắn (Ping, Hello, Đăng ký, v.v.)",
+        "Nhật ký thời gian thực với tìm kiếm và bộ lọc",
+        "Nhiều định dạng tin nhắn: Văn bản, JSON, Hex",
+        "Đo độ trễ kết nối trực tiếp"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "WebSocket là gì?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WebSocket là một giao thức cung cấp giao tiếp song công hoàn toàn qua một kết nối TCP, cho phép máy chủ đẩy dữ liệu đến máy khách. Công cụ này giúp kiểm tra xem dịch vụ WebSocket của bạn có hoạt động chính xác hay không."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm cách nào để kiểm tra kết nối WebSocket?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nhập URL máy chủ WebSocket (ví dụ: wss://echo.websocket.org), nhấp vào 'Kết nối'. Sau khi kết nối, hãy nhập tin nhắn vào vùng nhập và nhấp vào 'Gửi'. Tin nhắn đã nhận xuất hiện trong nhật ký."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Tại sao kết nối thất bại?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Các lý do có thể: địa chỉ máy chủ sai, máy chủ không hỗ trợ WSS (thử WS), chặn tường lửa, máy chủ ngừng hoạt động hoặc hạn chế CORS. Kiểm tra URL và đảm bảo máy chủ cho phép kết nối WebSocket."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm cách nào để thêm tiêu đề tùy chỉnh?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Trong 'Cài đặt kết nối', nhấp vào '+ Thêm' để nhập tên và giá trị tiêu đề. Các tiêu đề này được gửi trong quá trình bắt tay WebSocket, hữu ích cho việc xác thực hoặc tham số tùy chỉnh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Những định dạng tin nhắn nào được hỗ trợ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Văn bản, JSON và Hex. Chọn định dạng, nhập nội dung của bạn và nó sẽ được chuyển đổi tự động. Chế độ JSON bao gồm các nút định dạng và thu nhỏ để dễ dàng chỉnh sửa."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+    <!-- Fonts & Styles (keep original) -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/netdev/websocket-test/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <meta name="description" content="Công cụ kiểm tra WebSocket trực tuyến miễn phí. Hỗ trợ kết nối WS/WSS, tiêu đề tùy chỉnh, số liệu thống kê tin nhắn, mẫu, tìm kiếm nhật ký. Không cần tải xuống, gỡ lỗi nhanh.">
+    <link rel="canonical" href="https://starryring.com/vi/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/websocket-test/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
+<meta property="og:url" content="https://starryring.com/vi/utility-tools/netdev/websocket-test/">
+    <meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Công cụ kiểm tra trực tuyến WebSocket">
+    <meta property="og:description" content="Công cụ kiểm tra WebSocket trực tuyến miễn phí. Hỗ trợ kết nối WS/WSS, tiêu đề tùy chỉnh, thống kê tin nhắn, mẫu, gỡ lỗi nhanh.">
+    <meta name="twitter:title" content="Công cụ kiểm tra trực tuyến WebSocket">
+    <meta name="twitter:description" content="Công cụ kiểm tra WebSocket trực tuyến miễn phí. Hỗ trợ kết nối WS/WSS, tiêu đề tùy chỉnh, thống kê tin nhắn, mẫu, gỡ lỗi nhanh.">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/netdev/websocket-test/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/netdev/websocket-test/" data-lang="zh">简体中文</a>
+            <a class="language-option selected" href="/vi/utility-tools/netdev/websocket-test/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/netdev/websocket-test/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/netdev/websocket-test/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/netdev/websocket-test/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb (English) --> 
+     <div class="breadcrumb-section" itemscope itemtype="https://schema.org/BreadcrumbList"> 
+         <nav aria-label="breadcrumb"> 
+             <ol class="breadcrumb-modern"> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/vi/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-home"> </i>  
+                         <span itemprop="name"> Trang chủ </span> 
+                     </a> 
+                     <meta itemprop="position" content="1"> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <a href="/vi/utility-tools/" class="breadcrumb-link" itemprop="item"> 
+                         <i class="fas fa-toolbox"> </i> 
+                         <span itemprop="name"> Tiện ích </span> 
+                     </a> 
+                     <meta itemprop="position" content="2"> 
+                 </li> 
+                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
+                     <span class="breadcrumb-active" itemprop="name"> Thiết bị đầu cuối WebSocket </span> 
+                     <meta itemprop="position" content="3"> 
+                 </li> 
+             </ol> 
+         </nav> 
+     </div> 
+
+     <!-- Language Switcher (English selected) --> 
+ <!-- Header --> 
+     <header> 
+         <h1 class="logo"> 
+             <div class="logo-icon"> <svg viewBox="0 0 16 16"> <polyline points="2,11 6,5 10,8 14,3"/> </svg> </div> 
+            WS <em> Thiết bị đầu cuối </em> 
+         </h1> 
+         <div class="htags"> <span class="tag"> v2.4 </span> <span class="tag"> WebSocket </span> <span class="tag"> Khách hàng </span> </div> 
+     </header> 
+
+     <!-- Short description --> 
+     <div style="max-width:1200px; margin:0 auto 16px auto; padding:0 20px; color:var(--text2); font-size:0.95rem;"> 
+         <p> ⚡ Công cụ kiểm tra WebSocket trực tuyến: nhập địa chỉ máy chủ, nhấp vào kết nối và bắt đầu nhắn tin. Hỗ trợ các tiêu đề, mẫu tùy chỉnh, số liệu thống kê thời gian thực và lọc nhật ký. Không cần tải xuống, gỡ lỗi nhanh. </p> 
+     </div> 
+
+     <div class="wrap"> 
+         <!-- Connection Settings --><div class="card"> 
+             <div class="ch"> 
+                 <h2 class="cl"> <div class="cdot" id="hd" style="background:var(--text3)"> </div> Cài đặt kết nối </h2> 
+                 <div class="strip"> 
+                     <div class="seg"> <div class="dot" id="sd"> </div> <span class="sl"> Trạng thái: </span> <span class="sv" id="ss"> NGẮT KẾT NỐI </span> </div> 
+                     <div class="seg"> <span class="sl"> ↑ </span> <span class="snu" id="scnt"> 0 </span> </div> 
+                     <div class="seg"> <span class="sl"> ↓ </span> <span class="snd2" id="rcnt"> 0 </span> </div> 
+                     <div class="seg"> <span class="sl"> Thời gian hoạt động: </span> <span class="sv" id="upd"> — </span> </div> 
+                     <span id="pb" class="pb"> —ms </span> 
+                 </div> 
+             </div> 
+             <div class="cbody"> 
+                 <div> 
+                     <span class="fl"> URL WebSocket </span> 
+                     <div class="urow"> 
+                         <div class="url-wrap"> 
+                             <div class="url-field" id="url-field"> 
+                                 <span class="url-prefix" id="proto-prefix"> wss:// </span> 
+                                 <input type="text" id="url" placeholder="echo.websocket.org" autocomplete="off"
+                                    onfocus="onUrlFocus()" oninput="onUrlInput()" onkeydown="onUrlKeydown(event)"> 
+                                 <button class="url-hist-btn" id="url-hist-btn" onclick="toggleHistDrop()" title="History" tabindex="-1"> 
+                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"> 
+                                         <polyline points="2,3 5,7 8,3"/> 
+                                     </svg> 
+                                 </button> 
+                             </div> 
+                             <div class="url-hist-drop" id="url-hist-drop"> 
+                                 <div class="url-hist-header"> 
+                                     <span class="url-hist-label"> 
+                                         <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"> <circle cx="6" cy="6" r="4.5"/> <polyline points="6,3.5 6,6 7.5,7.5"/> </svg> 
+                                        Lịch sử
+                                     </span> 
+                                     <button class="url-hist-clear" onclick="clearAllHist()"> Xóa tất cả </button> 
+                                 </div> 
+                                 <div class="url-hist-list" id="url-hist-list"> </div> 
+                             </div> 
+                         </div> 
+                         <button class="btn ba" id="cb2" onclick="doConn()"> 
+                             <svg width="10" height="10" viewBox="0 0 12 12" fill="none"> <circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/> <path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> </svg> Kết nối
+                         </button><button class="btn bd" id="db" onclick="doDisc()" style="display:none"> 
+                             <svg width="10" height="10" viewBox="0 0 12 12" fill="none"> <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> </svg> Ngắt kết nối
+                         </button> 
+                     </div> 
+                 </div> 
+                 <div class="prow"> 
+                     <span class="fl" style="margin:0"> Giao thức: </span> 
+                     <button class="prc" onclick="selProto(this,'ws')"> WS </button> 
+                     <button class="prc act" onclick="selProto(this,'wss')"> WSS </button> 
+                 </div> 
+                 <p class="feature-desc" style="margin-top:12px; color:var(--text2); font-size:0.9rem; border-top:1px dashed rgba(255,255,255,0.1); padding-top:8px;"> 
+                     <i class="fas fa-info-circle"> </i> Nhập địa chỉ máy chủ WebSocket, chọn ws/wss, thêm tiêu đề tùy chỉnh nếu cần. Sau khi kết nối thành công, đèn báo trạng thái sẽ chuyển sang màu xanh.
+                 </p> 
+             </div> 
+             <div class="hsec"> 
+                 <div class="htitle"> <span> Tiêu đề tùy chỉnh </span> <button class="btn bs" onclick="addH()"> + Thêm </button> </div> 
+                 <div id="hl"> </div> 
+             </div> 
+         </div> 
+
+         <!-- Message Statistics --> 
+         <div class="card"> 
+             <h2 class="ch" style="margin-top:0; padding-top:0;"> <div class="cl"> <div class="cdot" style="background:var(--text3)"> </div> Thống kê tin nhắn </h2> 
+             <div class="mgrid"> 
+                 <div class="met"> <div class="mv" id="mT"> 0 </div> <div class="mlb"> Tổng số </div> </div> 
+                 <div class="met"> <div class="mv mvb" id="mS"> 0 </div> <div class="mlb"> Đã gửi </div> </div> 
+                 <div class="met"> <div class="mv mvg" id="mR"> 0 </div> <div class="mlb"> Đã nhận được </div> </div> 
+                 <div class="met"> <div class="mv mva" id="mB"> 0 B </div> <div class="mlb"> Lưu lượng truy cập </div> </div> 
+                 <div class="met"> <div class="mv" id="mL"> — </div> <div class="mlb"> Độ trễ ms </div> <div class="lc" id="lc"> </div> </div> 
+             </div> 
+             <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                 <i class="fas fa-chart-line"> </i> Số liệu thống kê thời gian thực về tin nhắn đã gửi/nhận, tổng số byte và độ trễ hiện tại. Độ trễ được tính thông qua nhịp tim định kỳ.
+             </p> 
+         </div> 
+
+         <!-- Preset Endpoints & Message Templates (two columns) --> 
+         <div class="two"> 
+             <div class="card"> 
+                 <h2 class="ch"> <div class="cl"> <div class="cdot" style="background:var(--warn)"> </div> Điểm cuối đặt trước </h2> 
+                 <div class="pbody"> 
+                     <div class="pi act" onclick="selP(this,'echo.websocket.org')"> <div class="pd" style="background:var(--accent)"> </div> <div> <div class="pn"> Máy chủ Echo </div> <div class="pu"> echo.websocket.org </div> </div> </div><div class="pi" onclick="selP(this,'ws.postman-echo.com/raw')"> <div class="pd" style="background:var(--info)"> </div> <div> <div class="pn"> Người đưa thư Echo </div> <div class="pu"> ws.postman-echo.com/raw </div> </div> </div> 
+                     <div class="pi" onclick="selP(this,'localhost:8080/ws')"> <div class="pd" style="background:var(--warn)"> </div> <div> <div class="pn"> Nhà phát triển địa phương </div> <div class="pu"> localhost:8080/ws </div> </div> </div> 
+                     <div class="pi" onclick="selP(this,'localhost:3000/socket')"> <div class="pd" style="background:var(--text3)"> </div> <div> <div class="pn"> Local Socket.IO </div> <div class="pu"> localhost:3000/socket </div> </div> </div> 
+                 </div> 
+                 <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                     <i class="fas fa-database"> </i> Nhấp vào giá trị đặt trước để điền URL ngay lập tức, kết nối với máy chủ thử nghiệm công khai hoặc địa chỉ nhà phát triển địa phương.
+                 </p> 
+             </div> 
+             <div class="card"> 
+                 <h2 class="ch"> <div class="cl"> <div class="cdot" style="background:var(--send)"> </div> Mẫu tin nhắn </h2> 
+                 <div class="tbody"> 
+                     <div class="ti" onclick="insPing()"> <div class="tn"> Ping </div> <div class="tp"> {"type:"ping",...} </div> </div> 
+                     <div class="ti" onclick="insHello()"> <div class="tn"> Xin chào </div> <div class="tp"> {"type:"xin chào",...} </div> </div> 
+                     <div class="ti" onclick="insTpl('sub')"> <div class="tn"> Đăng ký </div> <div class="tp"> {"hành động:"đăng ký"...} </div> </div> 
+                     <div class="ti" onclick="insTpl('auth')"> <div class="tn"> Auth </div> <div class="tp"> {"type:auth","token":...} </div> </div> 
+                     <div class="ti" onclick="insTpl('hb')"> <div class="tn"> Nhịp tim </div> <div class="tp"> {"cmd:"nhịp tim",...} </div> </div> 
+                 </div> 
+                 <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                     <i class="fas fa-file-code"> </i> Nhấp vào mẫu để chèn các thông báo JSON phổ biến. Chỉnh sửa trước khi gửi.
+                 </p> 
+             </div> 
+         </div> 
+
+         <!-- Send Message --> 
+         <div class="card"> 
+             <div class="ch"> 
+                 <h2 class="cl"> <div class="cdot" style="background:var(--send)"> </div> Gửi tin nhắn </h2> 
+                 <select class="fs" id="fmtSel"> <option value="text"> Văn bản </option> <option value="json"> JSON </option> <option value="hex"> Hex </option> </select> 
+             </div> 
+             <div class="sbody"> 
+                 <div class="stb"> 
+                     <div class="sc"> 
+                         <button class="btn scb" onclick="fmtJ()"> Định dạng </button> 
+                         <button class="btn scb" onclick="minJ()"> Giảm thiểu </button> 
+                         <button class="btn scb" onclick="clrInp()"> Xóa </button> 
+                     </div> 
+                     <span class="hint"> Ctrl+Enter để gửi </span> 
+                 </div> 
+                 <div class="srow"><textarea class="mi" id="inp" placeholder="Enter message..." onkeydown="onK(event)"> </textarea> 
+                     <button class="btn ba ssendbtn" id="sendbtn" onclick="doSend()" disabled> 
+                         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"> <path d="M11 6.5L2 2l2 4.5-2 4.5 9-4.5z" fill="currentColor"/> </svg> Gửi
+                     </button> 
+                 </div> 
+             </div> 
+             <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                 <i class="fas fa-paper-plane"> </i> Hỗ trợ Văn bản, JSON, Hex. JSON có thể được định dạng/rút gọn. Phím tắt: Ctrl+Enter để gửi.
+             </p> 
+         </div> 
+
+         <!-- Message Log --> 
+         <div class="card"> 
+             <div class="lh"> 
+                 <h2 class="ftabs" style="display:inline-block; margin:0; font-size:1.1rem; font-weight:600;"> Nhật ký tin nhắn </h2> 
+                 <div style="display:flex; gap:4px;"> 
+                     <button class="ft act" onclick="setF('all',this)"> Tất cả </button> 
+                     <button class="ft" onclick="setF('recv',this)"> Đã nhận được </button> 
+                     <button class="ft" onclick="setF('send',this)"> Đã gửi </button> 
+                     <button class="ft" onclick="setF('sys',this)"> Hệ thống </button> 
+                 </div> 
+                 <div class="la"> 
+                     <div class="sw"> <span class="si"> ⚲ </span> <input type="text" id="srch" placeholder="Search..." oninput="rLog()"> </div> 
+                     <button class="btn asb on" id="asb" onclick="togAS()"> Tự động cuộn </button> 
+                     <button class="btn bs" onclick="clrLog()"> Xóa </button> 
+                     <button class="btn bs" onclick="expLog()"> Xuất </button> 
+                 </div> 
+             </div> 
+             <div class="ml" id="ml"> 
+                 <div class="empty"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"> <rect x="3" y="5" width="18" height="14" rx="2"/> <path d="M7 9h10M7 13h6"/> </svg> <span> Tin nhắn xuất hiện ở đây sau khi kết nối </span> </div> 
+             </div> 
+             <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;"> 
+                 <i class="fas fa-list"> </i> Tất cả tin nhắn đã gửi/nhận đều được hiển thị trong thời gian thực. Lọc theo loại, tìm kiếm theo từ khóa, hỗ trợ tự động cuộn và xuất.
+             </p> 
+         </div> 
+     </div> 
+
+     <!-- ========== 6 Core Features + FAQ (English) ========== --> 
+     <div class="instructions-section" style="max-width:1200px; margin:40px auto 0 auto; padding:0 20px;"> 
+         <div class="instructions-content"> 
+             <h2> Các tính năng của Công cụ kiểm tra WebSocket chuyên nghiệp </h2> 
+             <div class="feature-grid"> 
+                 <!-- 1. Multi-protocol --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-exchange-alt"> </i> Đa giao thức (WS/WSS) </h3> 
+                     <p> Chuyển đổi giữa ws và wss chỉ bằng một cú nhấp chuột. Tiền tố URL tự động hoàn thành, tương thích với các kết nối được mã hóa và đơn giản. </p> 
+                     <div class="tip"><span class="tip-text"> Giao thức tự động chọn dựa trên máy chủ </span> 
+                     </div> 
+                 </div> 
+                 <!-- 2. Custom headers --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-headers"> </i> Tiêu đề tùy chỉnh </h3> 
+                     <p> Thêm bất kỳ tiêu đề HTTP nào để xác thực, mã thông báo hoặc thông số tùy chỉnh. Gửi trong khi bắt tay. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Nhấp vào "+ Thêm" để nhập khóa/giá trị tiêu đề </span> 
+                     </div> 
+                 </div> 
+                 <!-- 3. Real‑time stats --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-chart-pie"> </i> Số liệu thống kê theo thời gian thực </h3> 
+                     <p> Theo dõi số lượng gửi/nhận, tổng lưu lượng truy cập và độ trễ hiện tại. Cập nhật từng giây. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Độ trễ được tính bằng ping nhịp tim </span> 
+                     </div> 
+                 </div> 
+                 <!-- 4. Presets & Templates --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-draw-polygon"> </i> Cài đặt sẵn & Mẫu </h3> 
+                     <p> Các máy chủ thử nghiệm công khai và mẫu tin nhắn tích hợp sẵn (Ping, Hello, Đăng ký, v.v.) để thử nghiệm ngay lập tức. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Nhấp vào thẻ để tự động điền URL hoặc tin nhắn </span> 
+                     </div> 
+                 </div> 
+                 <!-- 5. Powerful Logging --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-history"> </i> Ghi nhật ký mạnh mẽ </h3> 
+                     <p> Nhật ký thời gian thực với các bộ lọc loại, tìm kiếm từ khóa, tự động cuộn và xuất sang tệp văn bản. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Giữ 500 tin nhắn cuối cùng </span> 
+                     </div> 
+                 </div> 
+                 <!-- 6. Multi‑format Editor --> 
+                 <div class="feature-item"> 
+                     <h3> <i class="fas fa-edit"> </i> Trình chỉnh sửa đa định dạng </h3> 
+                     <p> Văn bản, JSON, Hex. Các nút định dạng/thu nhỏ JSON, phím tắt Ctrl+Enter để gửi nhanh. </p> 
+                     <div class="tip"> 
+                         <span class="tip-text"> Trường nhập thích ứng với định dạng đã chọn </span> 
+                     </div> 
+                 </div> 
+             </div> 
+
+             <h2> Câu hỏi thường gặp (FAQ) </h2> 
+             <div class="faq-section"> 
+                 <div class="faq-item"> 
+                     <h3> WebSocket là gì? </h3> 
+                     <p> WebSocket là giao thức cung cấp giao tiếp song công hoàn toàn qua một kết nối TCP, cho phép máy chủ đẩy dữ liệu đến máy khách. Công cụ này giúp kiểm tra xem dịch vụ WebSocket của bạn có hoạt động chính xác hay không. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> Làm cách nào để kiểm tra kết nối WebSocket? </h3><p> Nhập URL máy chủ WebSocket (ví dụ: wss://echo.websocket.org), nhấp vào 'Kết nối'. Sau khi kết nối, hãy nhập tin nhắn vào vùng nhập và nhấp vào 'Gửi'. Tin nhắn đã nhận xuất hiện trong nhật ký. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> Tại sao kết nối không thành công? </h3> 
+                     <p> Lý do có thể: địa chỉ máy chủ sai, máy chủ không hỗ trợ WSS (thử WS), chặn tường lửa, máy chủ ngừng hoạt động hoặc hạn chế CORS. Kiểm tra URL và đảm bảo máy chủ cho phép kết nối WebSocket. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> Làm cách nào để thêm tiêu đề tùy chỉnh? </h3> 
+                     <p> Trong 'Cài đặt kết nối', nhấp vào '+ Thêm' để nhập tên và giá trị tiêu đề. Các tiêu đề này được gửi trong quá trình bắt tay WebSocket, hữu ích cho việc xác thực hoặc tham số tùy chỉnh. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> Những định dạng tin nhắn nào được hỗ trợ? </h3> 
+                     <p> Văn bản, JSON và Hex. Chọn định dạng, nhập nội dung của bạn và nó sẽ được chuyển đổi tự động. Chế độ JSON bao gồm các nút định dạng và thu nhỏ để dễ dàng chỉnh sửa. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> Tôi có thể lưu nhật ký không? </h3> 
+                     <p> Có. Nhấp vào nút 'Xuất' trong khu vực nhật ký để tải xuống nhật ký hiện tại dưới dạng tệp văn bản. </p> 
+                 </div> 
+                 <div class="faq-item"> 
+                     <h3> Độ trễ được tính như thế nào? </h3> 
+                     <p> Sau khi kết nối, công cụ sẽ gửi tin nhắn ping tích hợp cứ sau 10 giây và đo thời gian cho đến khi nhận được bóng bàn, hiển thị độ trễ hiện tại. </p> 
+                 </div> 
+             </div> 
+         </div> 
+     </div> 
+
+     <!-- Internal Links: Related Tools (English) --> 
+     <div class="tools-navigation-section" style="max-width:1200px; margin:32px auto 0 auto; padding:0 20px;"> 
+         <h2 class="tools-navigation-title"> 
+             <i class="fas fa-tools"> </i> Bộ công cụ gỡ lỗi mạng
+         </h2> 
+         <p class="tools-navigation-subtitle"> Thêm nhiều tiện ích hỗ trợ phát triển và thử nghiệm mạng </p> 
+         <div class="tools-navigation-grid">   
+             <a href="/vi/utility-tools/netdev/ping/" class="tool-card"> 
+                 <div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-network-wired"> </i> </div> 
+                         <h3> Kiểm tra Ping trực tuyến </h3> 
+                     </div> 
+                     <p> Kiểm tra độ trễ và khả năng kết nối, hỗ trợ IPv4/IPv6 </p> 
+                 </div> 
+             </a> 
+             <a href="./" class="tool-card"> 
+                 <div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-search"> </i> </div> 
+                         <h3> Tra cứu DNS </h3> 
+                     </div> 
+                     <p> Giải quyết các bản ghi A, MX, TXT và hơn thế nữa </p> 
+                 </div> 
+             </a> 
+             <a href="./" class="tool-card"><div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-plug"> </i> </div> 
+                         <h3> Máy quét cổng </h3> 
+                     </div> 
+                     <p> Kiểm tra các cổng mở trên IP mục tiêu, chẩn đoán dịch vụ nhanh </p> 
+                 </div> 
+             </a> 
+             <a href="./" class="tool-card"> 
+                 <div class="tool-card-content"> 
+                     <div class="tool-card-header"> 
+                         <div class="tool-card-icon"> <i class="fas fa-heading"> </i> </div> 
+                         <h3> Tiêu đề HTTP </h3> 
+                     </div> 
+                     <p> Phân tích tiêu đề phản hồi và cài đặt bảo mật </p> 
+                 </div> 
+             </a> 
+         </div> 
+     </div> 
+
+     <!-- Footer (English links) --> 
+     <footer style="max-width:1200px; margin:32px auto 0 auto; padding:16px 20px; border-top:1px solid rgba(148,163,184,0.35); text-align:center; font-size:0.85rem; color:#9ca3af;"> 
+         <div style="margin-bottom:6px;"> © 2024 StarryRing · Công cụ kiểm tra WebSocket trực tuyến </div> 
+         <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;"> 
+             <a href="/vi/about-us/" style="color:#60a5fa; text-decoration:none;"> Giới thiệu về chúng tôi </a> 
+             <a href="/vi/contact-us/" style="color:#60a5fa; text-decoration:none;"> Liên hệ với chúng tôi </a> 
+             <a href="/vi/disclaimer/" style="color:#60a5fa; text-decoration:none;"> Tuyên bố miễn trừ trách nhiệm </a> 
+             <a href="/vi/privacy/" style="color:#60a5fa; text-decoration:none;"> Chính sách quyền riêng tư </a> 
+             <a href="/vi/terms/" style="color:#60a5fa; text-decoration:none;"> Điều khoản sử dụng </a> 
+         </div> 
+     </footer> 
+
+     <!-- Deferred JS (English version) --><script src="/static/js/utility-tools/netdev/websocket-test/script-vi.js" defer></script>
+    <script src="/static/js/shared/switchlanguage.js" defer></script><!-- No‑script fallback --> 
+     <noscript> 
+         <style> 
+            .container { display: block !important; }
+            .ngôn ngữ-chuyển đổi { hiển thị: không có; }
+         </style> 
+         <p style="text-align: center; padding: 20px; color: var(--warning);"> 
+            Lưu ý: Trang này yêu cầu JavaScript để có đầy đủ chức năng. Vui lòng kích hoạt JavaScript trong trình duyệt của bạn.
+         </p> 
+     </noscript></body>
+</html>

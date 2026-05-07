@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO core (description with CTA) -->
+<!-- Open Graph / Facebook -->
+
+<meta property="og:image" content="https://starryring.com/preview-network.png">
+<meta property="og:type" content="website">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:image" content="https://starryring.com/preview-network.png">
+
+    <!-- Multi‑language & canonical links -->
+
+
+<!-- Favicon & manifest (global) -->
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- External CDN libraries (unchanged) -->
+    <script src="/static/js/shared/cdn/tailwind.js"></script>
+    <script src="/static/js/shared/cdn/chart.js"></script>
+    <script src="/static/js/shared/cdn/lucide.js"></script>
+
+    <!-- Local styles (language switcher, nav cards etc.) -->
+    <link rel="stylesheet" href="/static/css/utility-tools/netdev/ping/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/shared/document.css">
+    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
+    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+    <!-- Structured data (SoftwareApplication + FAQPage + BreadcrumbList) English version -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Network Pulse - 온라인 네트워크 진단 도구",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "무료 온라인 네트워크 진단: 원격 프록시를 통한 ICMP Ping 및 브라우저에서 직접 HTTPS GET. 실시간 대기 시간, 패킷 손실, 라이브 차트 및 터미널 로그를 통한 지터.",
+      "url": "https://starryring.com/ko/utility-tools/netdev/ping/",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://starryring.com/static/image/ko/network-pulse-tool.png",
+        "width": 1200,
+        "height": 630
+      },
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/static/image/ko/network-ping-interface.png",
+          "width": 1280,
+          "height": 720,
+          "caption": "ICMP 핑 테스트 인터페이스",
+          "description": "원격 프록시는 ICMP Ping을 실행하고 대기 시간 및 손실을 측정합니다."
+        },
+        {
+          "@type": "ImageObject",
+          "url": "https://starryring.com/static/image/ko/network-https-interface.png",
+          "width": 1280,
+          "height": 720,
+          "caption": "HTTPS GET 테스트 인터페이스",
+          "description": "브라우저가 직접 HTTPS 요청을 보내고 응답 시간을 측정합니다."
+        }
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "원격 프록시를 통한 ICMP Ping",
+        "HTTPS 브라우저에서 직접 GET",
+        "실시간 대기 시간, 손실, 지터 계산",
+        "검색 기록 및 원클릭 삭제",
+        "지연 시간 변화의 실시간 차트",
+        "각 요청 세부정보가 포함된 터미널 로그",
+        "연속 테스트 모드"
+      ],
+      "softwareVersion": "1.2.0"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "ICMP Ping과 HTTPS GET의 차이점은 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ICMP Ping은 원격 프록시를 통해 ICMP 패킷을 보내 네트워크 계층 연결 및 대기 시간을 측정합니다. 이는 대상이 온라인인지 확인하는 데 이상적입니다. HTTPS GET은 브라우저에서 직접 전송되며 애플리케이션 계층 응답 시간을 측정하여 웹사이트나 API 방문의 실제 경험을 더 잘 반영합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "패킷 손실이 0이 아닌 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "패킷 손실은 네트워크 정체, 잘못된 라우터, 대상 측 제한 또는 불안정한 로컬 연결로 인해 발생할 수 있습니다. 지속적으로 0이 아닌 손실은 일반적으로 네트워크 품질 문제를 나타냅니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "높은 지터는 어떤 영향을 미치나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "지터는 대기 시간의 변화입니다. 높은 지터(>30ms)는 화상 통화나 온라인 게임과 같은 실시간 애플리케이션에서 끊김이나 비동기화를 일으킬 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "내 서버나 웹사이트를 어떻게 테스트하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "대상 필드에 도메인 또는 IP(예: example.com 또는 93.184.216.34)를 입력하고 테스트 모드(Ping 또는 HTTPS)를 선택한 후 시작을 클릭합니다. HTTPS 테스트의 경우 서버가 포트 443에서 수신 대기하는지 확인하세요."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ping과 HTTPS 대기 시간이 다른 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ICMP Ping은 네트워크 계층 왕복 시간을 측정하는 반면, HTTPS GET에는 TCP 핸드셰이크, TLS 협상 및 HTTP 요청/응답이 포함됩니다. 이는 일반적으로 예상되는 대로 수십 밀리초 더 오래 걸립니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "비정상적인 것으로 간주되는 패킷 손실률은 얼마입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "유선 네트워크의 경우 손실은 대부분 0%여야 합니다. Wi-Fi의 경우 최대 0.1%가 허용됩니다. 0.5%를 초과하는 지속적인 손실 또는 빈번한 시간 초과는 심각한 문제를 나타냅니다. 로컬 네트워크를 확인하거나 ISP에 문의하십시오."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ping에 원격 프록시를 사용하는 이유는 무엇입니까?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "브라우저는 보안 제한으로 인해 원시 ICMP 패킷을 보낼 수 없습니다. 이 도구는 백엔드 프록시(또는 공개 API)를 사용하여 Ping을 수행하고 결과를 반환하므로 모든 대상에 대한 ICMP 테스트가 가능합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "프록시 서버 위치가 Ping 결과에 영향을 미치나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "예 – ICMP Ping 대기 시간에는 사용자 위치가 아닌 프록시에서 대상까지의 시간이 포함됩니다. 그러나 손실과 지터는 여전히 대상의 네트워크 안정성을 반영합니다. HTTPS GET은 브라우저에서 직접 실행되므로 영향을 받지 않습니다."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "집",
+          "item": "https://starryring.com/ko/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "유용",
+          "item": "https://starryring.com/ko/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "네트워크 진단 도구",
+          "item": "https://starryring.com/ko/utility-tools/netdev/ping/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+    <title>Network Pulse - 온라인 핑 및 HTTPS 테스트 도구 | StarryRing</title>
+<meta name="description" content="원격 프록시를 통한 ICMP Ping 및 브라우저에서 직접 HTTPS GET을 지원하는 온라인 네트워크 진단 도구입니다. 실시간 대기 시간, 패킷 손실, 지터. 다운로드할 필요 없이 무료로 지금 네트워크 안정성을 테스트해보세요.">
+    <link rel="canonical" href="https://starryring.com/ko/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/ping/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/ping/">
+<meta property="og:url" content="https://starryring.com/ko/utility-tools/netdev/ping/">
+    <meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Network Pulse - 실시간 핑 및 HTTPS 테스트 도구">
+    <meta property="og:description" content="무료 온라인 네트워크 진단: 원격 프록시를 통한 ICMP Ping 또는 브라우저에서 HTTPS GET. 기록 및 라이브 차트를 통해 정확한 대기 시간, 손실, 지터를 확인할 수 있습니다.">
+    <meta name="twitter:title" content="Network Pulse - 실시간 핑 및 HTTPS 테스트 도구">
+    <meta name="twitter:description" content="무료 온라인 네트워크 진단: 실시간 차트 및 터미널 로그를 통해 대기 시간, 손실, 지터를 측정합니다.">
+    <meta name="keywords" content="핑 테스트, HTTPS 테스트, 네트워크 대기 시간, 네트워크 진단, 온라인 핑 도구, 패킷 손실, 지터 테스트, 네트워크 안정성">
+</head>
+<body class="p-4 md:p-8 bg-slate-950 text-white">
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/netdev/ping/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/netdev/ping/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/netdev/ping/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/netdev/ping/" data-lang="ja">日本語</a>
+            <a class="language-option selected" href="/ko/utility-tools/netdev/ping/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/netdev/ping/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Breadcrumb navigation (English) --> 
+     <nav aria-label="Breadcrumb" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/ko/" class="breadcrumb-link"> <i class="fas fa-home" aria-hidden="true"> </i> 홈 </a> </li> 
+             <li class="breadcrumb-item"> <a href="/ko/utility-tools/" class="breadcrumb-link"> <i class="fas fa-toolbox" aria-hidden="true"> </i> 유틸리티 </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> <i class="fas fa-paper-plane" aria-hidden="true"> </i> 네트워크 진단 도구 </span> </li> 
+         </ol> 
+     </nav> 
+
+     <!-- ========= Language Switcher (fully adapted from mouse tool) ========= --> 
+ <!-- Main content container --> 
+     <div class="max-w-6xl mx-auto space-y-6 mt-6"> 
+         <!-- Header area --> 
+         <header class="flex justify-between items-center border-b border-slate-800 pb-6"> 
+             <h1 class="text-3xl font-extrabold flex items-center gap-2"> 
+                 <i data-lucide="activity" class="text-blue-500" aria-label="Activity icon" aria-hidden="false"> </i> 
+                네트워크 <span class="text-blue-500"> 펄스 </span> - 진단 도구
+             </h1> 
+             <span id="status" class="text-xs text-slate-400"> 준비됨 </span> 
+         </header> 
+
+         <p class="text-slate-300 mb-6"> 전문 온라인 네트워크 진단. <b> ICMP Ping </b>(원격 프록시) 또는 <b> HTTPS GET </b>(브라우저에서 직접)을 통해 테스트하여 대기 시간과 안정성을 측정합니다. </p> 
+
+         <!-- Input configuration panel (fully preserved) --> 
+         <section class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800"> 
+             <div class="md:col-span-5 relative"> 
+                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider"> 대상 주소 </label> 
+                 <div class="relative mt-2"> 
+                    <입력 ID="대상"
+                        placeholder="google.com 또는 api.example.com"
+                        자동완성="꺼짐"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 모노 포커스:ring-2 포커스:ring-blue-500 개요-없음 전환-모두"
+                        onkeydown="if(event.key==='Enter') 토글핑()"onfocus="쇼히스토리()"
+                        onblur="setTimeout(hideHistory, 250)">
+                     <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden"> 
+                         <div id="history-list" class="max-h-60 overflow-y-auto"> </div> 
+                         <div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center"> 
+                             <span class="text-[10px] text-slate-500 uppercase font-bold px-2"> 최근 검색어 </span> 
+                             <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold"> 지우기 </button> 
+                         </div> 
+                     </div> 
+                 </div> 
+             </div> 
+             <div class="md:col-span-3"> 
+                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider"> 테스트 방법 </label> 
+                 <select id="method" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all"> 
+                     <option value="ping"> ICMP Ping(원격 프록시-일본) </option> 
+                     <option value="https"> HTTPS GET(브라우저에서 직접) </option> 
+                 </select> 
+             </div> 
+             <div class="md:col-span-2"> 
+                 <label class="text-xs text-slate-400 font-bold uppercase tracking-wider"> 카운트 </label> 
+                 <select id="count" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all"> 
+                     <option value="10"> 10회 </option> 
+                     <option value="50"> 50회 </option> 
+                     <option value="0"> 연속 </option> 
+                 </select> 
+             </div> 
+             <div class="md:col-span-2 flex items-end"> 
+                 <button id="btn" onclick="togglePing()"
+                    class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white"> 
+                     <i data-lucide="play" aria-label="Start test" aria-hidden="false"> </i> 테스트 시작
+                 </button> 
+             </div> 
+         </section> 
+
+         <!-- Stats cards --> 
+         <section class="grid md:grid-cols-4 gap-4"> 
+             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800"> 
+                 <p class="text-slate-400 text-sm"> 평균 지연 시간 </p> 
+                 <p class="text-2xl mono text-blue-400"> <span id="avg"> 0 </span> ms </p> 
+             </div> 
+             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800"> 
+                 <p class="text-slate-400 text-sm"> 패킷 손실/실패 </p> 
+                 <p class="text-2xl mono text-red-400" id="loss"> 0% </p> 
+             </div> 
+             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800"> 
+                 <p class="text-slate-400 text-sm"> 지터 </p><p class="text-2xl mono text-purple-400"> <span id="jitter"> 0 </span> ms </p> 
+             </div> 
+             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800"> 
+                 <p class="text-slate-400 text-sm"> 요청이 전송되었습니다 </p> 
+                 <p class="text-2xl mono text-slate-200" id="sent"> 0 </p> 
+             </div> 
+         </section> 
+
+         <!-- Chart & terminal --> 
+         <section class="grid lg:grid-cols-3 gap-6"> 
+             <div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80"> 
+                 <canvas id="chart"> </canvas> 
+             </div> 
+             <div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col"> 
+                 <div class="text-xs text-slate-400 p-2 border-b border-slate-800 flex justify-between"> 
+                     <span> 터미널 로그 </span> 
+                     <span id="method-indicator" class="text-blue-500 font-bold"> </span> 
+                 </div> 
+                 <div id="terminal" class="flex-1 p-3 mono text-sm overflow-y-auto"> </div> 
+             </div> 
+         </section> 
+     </div> <!-- end max-w-6xl --> 
+
+   
+
+     <!-- ========= Feature description & FAQ (expanded) ========= --> 
+     <div class="instructions-section max-w-6xl mx-auto mt-12"> 
+         <div class="instructions-content"> 
+             <h2 class="text-2xl font-bold text-white flex items-center gap-2"> <i class="fas fa-check-circle text-blue-500" aria-hidden="true"> </i> 전문 네트워크 진단 기능 </h2> 
+             <p class="text-slate-400 mt-2"> 📖 소개 : </p> 
+             <div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"> 
+                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800"> 
+                     <h3 class="text-lg font-semibold text-white flex items-center gap-2"> <i class="fas fa-satellite-dish text-blue-500" aria-hidden="true"> </i> 듀얼 모드 테스트 </h3> 
+                     <p class="text-slate-400 text-sm mt-2"> ICMP Ping(원격 프록시)과 HTTPS GET(브라우저 직접)이 나란히 있어 다양한 진단 요구 사항을 충족합니다. </p> 
+                     <div class="tip mt-3 text-xs text-slate-500"> <i class="fas fa-lightbulb" aria-hidden="true"> </i> 프록시 Ping은 브라우저 제한을 우회합니다. HTTPS 다이렉트는 실제 사용자 경험을 반영합니다. 네트워크 계층과 애플리케이션 계층 모두에서 네트워크를 분석합니다. DevOps, 웹사이트 모니터링, 게임 대기 시간 분석에 이상적입니다. </div> 
+                 </div> 
+                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800"> 
+                     <h3 class="text-lg font-semibold text-white flex items-center gap-2"> <i class="fas fa-chart-bar text-blue-500" aria-hidden="true"> </i> 실시간 시각화 </h3> 
+                     <p class="text-slate-400 text-sm mt-2"> 지연 시간 변화, 색상으로 구분된 성공/실패 요청의 동적 선 차트입니다. </p> 
+                     <div class="tip mt-3 text-xs text-slate-500"> 차트가 자동으로 조정되고 이상 항목이 강조 표시됩니다. 최대 지연 시간을 빠르게 파악하고 네트워크를 최적화하세요. </div> 
+                 </div><div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800"> 
+                     <h3 class="text-lg font-semibold text-white flex items-center gap-2"> <i class="fas fa-history text-blue-500" aria-hidden="true"> </i> 스마트 히스토리 </h3> 
+                     <p class="text-slate-400 text-sm mt-2"> 최근 테스트한 대상을 자동으로 저장합니다. 입력 필드를 클릭하여 하나를 선택하고 원클릭으로 지웁니다. </p> 
+                     <div class="tip mt-3 text-xs text-slate-500"> 기록은 로컬에 저장되며 업로드되지 않습니다. 자주 사용하는 대상을 재사용하여 생산성을 높이세요. </div> 
+                 </div> 
+                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800"> 
+                     <h3 class="text-lg font-semibold text-white flex items-center gap-2"> <i class="fas fa-terminal text-blue-500" aria-hidden="true"> </i> 터미널 로그 </h3> 
+                     <p class="text-slate-400 text-sm mt-2"> 각 요청의 순서, 응답 시간, 상태(HTTPS) 또는 손실 표시가 명확하게 인쇄됩니다. </p> 
+                     <div class="tip mt-3 text-xs text-slate-500"> 최대 30개 항목, 스크롤 가능. 간헐적인 문제를 진단하기 위해 모든 세부 사항을 추적합니다. </div> 
+                 </div> 
+                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800"> 
+                     <h3 class="text-lg font-semibold text-white flex items-center gap-2"> <i class="fas fa-tachometer-alt text-blue-500" aria-hidden="true"> </i> 지터 계산 </h3> 
+                     <p class="text-slate-400 text-sm mt-2"> 연속 지연 간의 평균 절대 차이를 자동으로 계산합니다(정확한 안정성 지표). </p> 
+                     <div class="tip mt-3 text-xs text-slate-500"> 지터 >30ms는 실시간 통신(VoIP, 비디오)에 영향을 줄 수 있습니다. 지터를 모니터링하여 네트워크 조정을 안내합니다. </div> 
+                 </div> 
+                 <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800"> 
+                     <h3 class="text-lg font-semibold text-white flex items-center gap-2"> <i class="fas fa-infinity text-blue-500" aria-hidden="true"> </i> 연속 모드 </h3> 
+                     <p class="text-slate-400 text-sm mt-2"> 수동으로 중지될 때까지 요청을 보내려면 "계속"을 선택하세요. 이는 장기적인 안정성 모니터링에 이상적입니다. </p> 
+                     <div class="tip mt-3 text-xs text-slate-500"> 중단하려면 "테스트 중지"(시작 후 빨간색으로 변함)를 클릭하세요. 변동 기간을 포착하는 데 적합합니다. </div> 
+                 </div> 
+             </div> 
+
+             <!-- FAQ section (synchronised with structured data) --> 
+             <div class="faq-section mt-12"> 
+                 <h2 class="text-2xl font-bold text-white flex items-center gap-2"> <i class="fas fa-question-circle text-blue-500" aria-hidden="true"> </i> 자주 묻는 질문(FAQ) </h2> 
+                 <div class="space-y-4 mt-6"> 
+                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800"> 
+                         <h3 class="text-lg font-medium text-white"> 내 서버나 웹사이트를 어떻게 테스트하나요? </h3><p class="text-slate-400 text-sm mt-1"> 대상 필드에 도메인 또는 IP(예: example.com 또는 93.184.216.34)를 입력하고 테스트 모드(Ping 또는 HTTPS)를 선택한 후 시작을 클릭합니다. HTTPS 테스트의 경우 서버가 포트 443에서 수신 대기하는지 확인하세요. </p> 
+                     </div> 
+                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800"> 
+                         <h3 class="text-lg font-medium text-white"> Ping 지연 시간과 HTTPS 지연 시간이 다른 이유는 무엇입니까? </h3> 
+                         <p class="text-slate-400 text-sm mt-1"> ICMP Ping은 네트워크 계층 왕복 시간을 측정하는 반면, HTTPS GET에는 TCP 핸드셰이크, TLS 협상 및 HTTP 요청/응답이 포함됩니다. 이는 일반적으로 예상되는 대로 수십 밀리초 더 오래 걸립니다. </p> 
+                         <div class="faq-link-container mt-2"> 
+                             <span class="text-xs text-slate-500"> </span> 
+                         </div> 
+                     </div> 
+                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800"> 
+                         <h3 class="text-lg font-medium text-white"> 비정상적인 것으로 간주되는 패킷 손실률은 얼마입니까? </h3> 
+                         <p class="text-slate-400 text-sm mt-1"> 유선 네트워크의 경우 손실은 대부분 0%여야 합니다. Wi-Fi의 경우 최대 0.1%가 허용됩니다. 0.5%를 초과하는 지속적인 손실 또는 빈번한 시간 초과는 심각한 문제를 나타냅니다. 로컬 네트워크를 확인하거나 ISP에 문의하십시오. </p> 
+                     </div> 
+                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800"> 
+                         <h3 class="text-lg font-medium text-white"> Ping에 원격 프록시를 사용하는 이유는 무엇입니까? </h3> 
+                         <p class="text-slate-400 text-sm mt-1"> 브라우저는 보안 제한으로 인해 원시 ICMP 패킷을 보낼 수 없습니다. 이 도구는 백엔드 프록시(또는 공개 API)를 사용하여 Ping을 수행하고 결과를 반환하므로 모든 대상에 대한 ICMP 테스트가 가능합니다. </p> 
+                     </div> 
+                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800"> 
+                         <h3 class="text-lg font-medium text-white"> 프록시 서버 위치가 Ping 결과에 영향을 미치나요? </h3> 
+                         <p class="text-slate-400 text-sm mt-1"> 예 – ICMP Ping 대기 시간에는 사용자 위치가 아닌 프록시에서 대상까지의 시간이 포함됩니다. 그러나 손실과 지터는 여전히 대상의 네트워크 안정성을 반영합니다. HTTPS GET은 브라우저에서 직접 실행되므로 영향을 받지 않습니다. </p> 
+                     </div> 
+                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800"> 
+                         <h3 class="text-lg font-medium text-white"> HTTPS에 가끔 '로컬 차단'이 표시되는 이유는 무엇인가요? </h3> 
+                         <p class="text-slate-400 text-sm mt-1"> 요청이 5ms 이내에 실패하면 일반적으로 브라우저 확장 프로그램(예: 광고 차단기)에 의해 차단됩니다. 도구는 이를 네트워크 장애가 아닌 "로컬 블록"으로 표시합니다. 확장 프로그램을 비활성화하고 다시 테스트해보세요. </p> 
+                     </div> 
+                     <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800"><h3 class="text-lg font-medium text-white"> 연속 모드는 데이터를 얼마나 사용하나요? </h3> 
+                         <p class="text-slate-400 text-sm mt-1"> 각 Ping 요청은 수십 바이트에 불과합니다. HTTPS 요청은 가볍습니다(HEAD/no-cors). 한 시간이 지난 후에도 총 트래픽은 일반적으로 10MB 미만이므로 사용하기에 안전합니다. </p> 
+                     </div> 
+                 </div> 
+             </div> 
+         </div> 
+     </div> 
+
+     <!-- Footer --> 
+     <footer class="page-footer max-w-6xl mx-auto mt-10 opacity-50"> 
+         <div class="footer-content text-center text-xs text-slate-500"> 
+             <p> © 2024 StarryRing - v1.2.0 | ICMP 및 HTTPS 듀얼 모드 진단 </p> 
+             <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;"> 
+                 <a href="/ko/about-us/" style="color:#60a5fa;text-decoration:none;"> 회사 소개 </a> 
+                 <a href="/ko/contact-us/" style="color:#60a5fa;text-decoration:none;"> 문의하기 </a> 
+                 <a href="/ko/disclaimer/" style="color:#60a5fa;text-decoration:none;"> 면책조항 </a> 
+                 <a href="/ko/privacy/" style="color:#60a5fa;text-decoration:none;"> 개인정보 보호정책 </a> 
+                 <a href="/ko/terms/" style="color:#60a5fa;text-decoration:none;"> 서비스 약관 </a> 
+             </div> 
+         </div> 
+     </footer> 
+
+     <!-- Scripts (English JS + shared switcher) --><script src="/static/js/utility-tools/netdev/ping/script-ko.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+    <script>lucide.createIcons();</script><!-- switchlanguage.js handles language switcher interaction --></body>
+</html>

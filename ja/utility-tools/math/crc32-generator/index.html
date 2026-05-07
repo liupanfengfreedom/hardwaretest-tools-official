@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/crc32-generator/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/crc32-generator/script-ja.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "家",
+          "item": "https://starryring.com/ja/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ユーティリティツール",
+          "item": "https://starryring.com/ja/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "CRC32チェックサムツール",
+          "item": "https://starryring.com/ja/utility-tools/math/crc32-generator/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "CRC32チェックサムツール",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/ja/utility-tools/math/crc32-generator/",
+      "description": "テキスト、ファイル、16 進数入力、Base64、および複数の CRC32 バリアント用の無料オンライン CRC32 チェックサム ツール。",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "ISO-HDLC、Castagnoli、MPEG-2、BZIP2 CRC32 バリアントをサポート",
+        "テキスト、ファイル、16 進数、および Base64 入力をサポート",
+        "16 進数、10 進数、2 進数、8 進数の出力をサポート",
+        "期待値に対するチェックサム検証",
+        "ファイルのドラッグ アンド ドロップによるリアルタイム計算のサポート"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "CRC32とは何ですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CRC32 は 32 ビットの巡回冗長検査アルゴリズムで、保存中または送信中にファイル、圧縮データ、およびネットワーク パケット内の偶発的なエラーを検出するために一般的に使用されます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "この CRC32 ツールはどの入力形式をサポートしていますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "このツールは、UTF-8 テキスト、16 進数のバイト ストリーム、Base64 でエンコードされた入力、ファイルの直接アップロードをサポートしており、すべてブラウザーでローカルに処理されます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "このページではどの CRC32 バリアントが利用可能ですか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "このページでは、さまざまなファイル形式やプロトコル互換性のニーズに対応するために、CRC-32/ISO-HDLC、CRC-32C (Castagnoli)、CRC-32/MPEG-2、および CRC-32/BZIP2 をサポートしています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "CRC32 は安全なハッシュやパスワードの保存に使用できますか?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "いいえ、CRC32 は整合性チェックとエラー検出のみを目的としています。これは暗号的に安全なハッシュではないため、パスワードの保存には使用しないでください。"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    <title>CRC32 チェックサム ジェネレータおよび検証ツール | StarryRing</title>
+<meta name="description" content="テキスト、ファイル、16 進数入力、Base64、および複数の CRC32 バリアント用の無料オンライン CRC32 チェックサム ジェネレーター。ファイルの整合性チェックやデータ検証に最適です。">
+    <link rel="canonical" href="https://starryring.com/ja/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/crc32-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
+<meta property="og:url" content="https://starryring.com/ja/utility-tools/math/crc32-generator/">
+    <meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="CRC32 チェックサム ジェネレータおよび検証ツール | StarryRing">
+    <meta property="og:description" content="テキスト、ファイル、16 進数入力、および Base64 の CRC32 チェックサムを計算します。 ISO-HDLC、Castagnoli、MPEG-2、および BZIP2 CRC32 バリアントをサポートします。">
+    <meta name="twitter:title" content="CRC32 チェックサム生成および検証ツール">
+    <meta name="twitter:description" content="テキスト、ファイル、16 進数入力、Base64、および複数の CRC32 バリアント用の無料オンライン CRC32 チェックサム ツール。">
+    <meta name="keywords" content="crc32 ツール、crc32 チェックサム、crc32 ジェネレーター、crc32 計算機、オンライン crc32、ファイル crc32、crc32 検証ツール、crc32 バリアント">
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/crc32-generator/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/crc32-generator/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/crc32-generator/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option selected" href="/ja/utility-tools/math/crc32-generator/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/crc32-generator/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/crc32-generator/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+         <ol class="breadcrumb-modern"> 
+             <li class="breadcrumb-item"> <a href="/ja/" class="breadcrumb-link"> <i class="fas fa-home"> </i> ホーム </a> </li> 
+             <li class="breadcrumb-item"> <a href="/ja/utility-tools/" class="breadcrumb-link"> ユーティリティ ツール </a> </li> 
+             <li class="breadcrumb-item" aria-current="page"> <span class="breadcrumb-active"> CRC32 チェックサム ツール </span> </li> 
+         </ol> 
+     </nav> 
+ <div class="container"> 
+
+   <!-- Header --> 
+   <header> 
+     <div class="logo-group"> 
+       <span class="logo-tag"> // チェックサム ユーティリティ </span> 
+       <div class="logo-title"> CRC <span> 32 </span> チェックサム ツール </div> 
+     </div> 
+     <div class="header-badge"> 
+       <div class="badge"> クライアント側のみ </div> 
+       <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.25);"> データは送信されません </div> 
+     </div> 
+   </header> 
+
+   <!-- Info banner --> 
+   <div class="info-banner"> 
+     <span> 🔵 </span> 
+    すべての計算は <strong> ブラウザ </strong> でローカルに実行されます。データはどのサーバーにもアップロードされません。 CRC-32/ISO-HDLC、CRC-32C、CRC-32/MPEG-2、および CRC-32/BZIP2 の各バリアントをサポートします。
+   </div> 
+
+   <!-- Config panel --> 
+   <div class="panel"> 
+     <div class="panel-header"> 
+       <div class="panel-icon"> ⚙ </div> 
+       <span class="panel-title"> 演算設定 </span> 
+     </div> 
+     <div class="config-grid"> 
+       <div class="field-group"> 
+         <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-variants', VARIANT_INDEX[document.getElementById('crcVariant').value])"> CRC バリアント ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="crcVariant"> 
+             <option value="iso"> CRC-32/ISO-HDLC (イーサネット、ZIP、PNG) </option> 
+             <option value="castagnoli"> CRC-32C / カスタニョーリ (iSCSI、NVMe) </option> 
+             <option value="mpeg2"> CRC-32/MPEG-2 (MPEG-2 トランスポート ストリーム) </option> 
+             <option value="bzip2"> CRC-32/BZIP2 (BZip2 圧縮) </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"><a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-encoding', ENCODING_INDEX[document.getElementById('inputEncoding').value])"> 入力エンコーディング ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="inputEncoding"> 
+             <option value="utf8"> UTF-8 テキスト </option> 
+             <option value="hex"> 16 進数 (バイト ストリーム) </option> 
+             <option value="base64"> Base64 </option> 
+           </select> 
+         </div> 
+       </div> 
+       <div class="field-group"> 
+         <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-output', FORMAT_INDEX[document.getElementById('outputFormat').value])"> 出力フォーマット ↗ </a> 
+         <div class="select-wrapper"> 
+           <select class="field-select" id="outputFormat"> 
+             <option value="hex"> 16 進数 (0x...) </option> 
+             <option value="decimal"> 10 進数 </option> 
+             <option value="binary"> バイナリ </option> 
+             <option value="octal"> 8 進数 </option> 
+           </select> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Input area --> 
+   <div class="input-area" id="inputArea"> 
+     <div class="io-header"> 
+       <div class="io-title"> 
+         <div class="io-dot"> </div> 
+        入力データ
+       </div> 
+       <div class="io-actions"> 
+         <span id="fileBadge" style="display:none;" class="file-badge"> 
+           <span class="file-badge-name" id="fileNameLabel"> </span> 
+           <button class="file-badge-clear" onclick="clearFile()"> ✕ </button> 
+         </span> 
+         <label class="upload-btn" for="fileInput" title="Upload a file to calculate its checksum"> 
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/> <polyline points="17 8 12 3 7 8"/> <line x1="12" y1="3" x2="12" y2="15"/> </svg> 
+          ファイルをアップロードする
+         </label> 
+         <input type="file" id="fileInput" style="display:none" onchange="handleFileUpload(event)"> 
+         <button class="icon-btn" title="Paste" onclick="pasteInput()"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/> <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/> </svg> 
+         </button> 
+         <button class="icon-btn" title="Clear" onclick="clearInput()"> 
+           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <polyline points="3 6 5 6 21 6"/> <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/> <path d="M10 11v6M14 11v6"/> </svg> 
+         </button> 
+       </div> 
+     </div> 
+     <textarea class="io-textarea" id="inputText" placeholder="Enter text here, or upload a file...&#10;&#10;Calculate CRC32 checksums in real time" spellcheck="false"> </textarea> 
+     <div class="drop-zone" id="dropZone"> 
+       <div style="font-size:28px;color:var(--accent);"> ⬇ </div><div class="drop-zone-text"> ここにファイルをドロップ </div> 
+     </div> 
+     <div class="io-footer"> 
+       <span class="io-stat" id="inputStat"> 0バイト </span> 
+       <span id="previewTypeBadge" style="display:none;" class="preview-type-badge"> </span> 
+       <div class="format-tabs"> 
+         <button class="format-tab active" data-enc="utf8" onclick="setEncoding(this,'utf8')"> UTF-8 </button> 
+         <button class="format-tab" data-enc="hex" onclick="setEncoding(this,'hex')"> 16進数 </button> 
+         <button class="format-tab" data-enc="base64" onclick="setEncoding(this,'base64')"> BASE64 </button> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Action row --> 
+   <div class="action-row"> 
+     <button class="primary-btn" id="calcBtn" onclick="runCalculate()"> 
+      ⟳ CRC32を計算する
+     </button> 
+     <button class="clear-btn" onclick="clearAll()"> すべてリセット </button> 
+   </div> 
+
+   <!-- Status bar --> 
+   <div class="status-bar" id="statusBar"> 
+     <div class="status-indicator"> </div> 
+     <span class="status-text" id="statusText"> 準備完了 - データを入力し、[CRC32 を計算] をクリックします </span> 
+     <span class="status-time" id="statusTime"> </span> 
+   </div> 
+
+   <!-- Results panel --> 
+   <div class="panel green-line"> 
+     <div class="panel-header"> 
+       <div class="panel-icon" style="color:var(--accent2);"> ◈ </div> 
+       <span class="panel-title"> 計算結果 </span> 
+     </div> 
+
+     <!-- Primary result card --> 
+     <div class="result-primary" id="result-primary"> 
+       <div class="result-primary-header"> 
+         <div class="result-primary-meta"> 
+           <span class="result-primary-name" id="primary-name"> — </span> 
+           <span class="result-primary-desc" id="primary-desc"> </span> 
+         </div> 
+         <button class="result-copy-btn result-copy-primary" id="copy-primary" onclick="copyPrimary()"> コピー </button> 
+       </div> 
+       <div class="result-primary-value" id="primary-value"> — </div> 
+       <div class="result-primary-fmts" id="primary-fmts"> </div> 
+     </div> 
+
+     <!-- Secondary results row --> 
+     <div class="result-secondary-row" id="result-secondary-row"> 
+       <div class="result-secondary" id="sec-iso" onclick="switchVariant('iso')"> 
+         <div class="result-secondary-label"> ISO-HDLC </div> 
+         <div class="result-secondary-val empty" id="secval-iso"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-castagnoli" onclick="switchVariant('castagnoli')"> 
+         <div class="result-secondary-label"> カスタニョーリ </div> 
+         <div class="result-secondary-val empty" id="secval-castagnoli"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-mpeg2" onclick="switchVariant('mpeg2')"> 
+         <div class="result-secondary-label"> MPEG-2 </div> 
+         <div class="result-secondary-val empty" id="secval-mpeg2"> — </div> 
+       </div> 
+       <div class="result-secondary" id="sec-bzip2" onclick="switchVariant('bzip2')"> 
+         <div class="result-secondary-label"> BZIP2 </div> 
+         <div class="result-secondary-val empty" id="secval-bzip2"> — </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <!-- Verify panel --> 
+   <div class="panel purple-line"> 
+     <div class="panel-header"> 
+       <div class="panel-icon" style="color:var(--accent4);"> ✓ </div><span class="panel-title"> チェックサム検証 </span> 
+     </div> 
+     <div style="font-family:var(--mono);font-size:11px;color:#7a9dba;margin-bottom:14px;"> 
+      予想される CRC32 値を貼り付けて、現在の計算と比較します。
+     </div> 
+     <div class="verify-row"> 
+       <div class="field-group"> 
+         <label class="field-label"> 予想されるチェックサム </label> 
+         <input class="field-input" id="expectedCRC" placeholder="e.g. 0xCBF43926 or 3421780262" autocomplete="off" spellcheck="false"> 
+       </div> 
+       <button class="verify-btn" onclick="runVerify()"> </button> を確認してください 
+     </div> 
+     <div class="verify-result" id="verifyResult" style="display:none;"> </div> 
+   </div> 
+
+   <!-- Info strip --> 
+   <div class="info-strip"> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 入力バイト </div> 
+       <div class="info-cell-value" id="infoBytes"> 0 </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 合計計算 </div> 
+       <div class="info-cell-value" id="infoCalcs"> 0 </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 現在のバリアント </div> 
+       <div class="info-cell-value" id="infoVariant" style="font-size:12px;letter-spacing:0;"> ISO-HDLC </div> 
+     </div> 
+     <div class="info-cell"> 
+       <div class="info-cell-label"> 経過時間 (ミリ秒) </div> 
+       <div class="info-cell-value" id="infoMs"> — </div> 
+     </div> 
+   </div> 
+
+   <!-- Knowledge Section 1 - CRC Variants --> 
+   <div class="explain-section-header" id="explain-variants"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // CRC32 バリアント ガイド </div> 
+     <span class="explain-section-badge"> CRC バリアント </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-variants"> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / ISO-HDLC
+         <span class="etag"> PKZip · PNG · イーサネット </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        最も一般的な CRC-32 実装。CRC-32b とも呼ばれます。多項式 0x04C11DB7 の反映形式、つまり 0xEDB88320 を使用します。入力バイトと出力は両方ともビット反映され (LSB ファースト)、初期値と最終 XOR は両方とも 0xFFFFFFFF に設定されます。
+         <br> <br> ZIP、gzip、PNG イメージ、イーサネット フレーム (IEEE 802.3)、PKCS#7、および多くのレガシー システムで広く使用されています。これは事実上の「デフォルト CRC-32」の亜種です。
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 多項式 </td> <td> <code> 0x04C11DB7 </code> (通常) / <code> 0xEDB88320 </code> (反射) </td> </tr> 
+         <tr> <td> 初期値 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 入力反射 </td> <td> はい (RefIn = true) </td> </tr> 
+         <tr> <td> 出力反射 </td> <td> はい (RefOut = true) </td> </tr> 
+         <tr> <td> 最終 XOR </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 値のチェック </td> <td> <code> 0xCBF43926 </code> (「123456789」の場合) </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32C / カスタニョーリ
+         <span class="etag"> iSCSI・NVMe・SCTP </span> 
+       </div> 
+       <div class="explain-card-text">1993 年に G. Castagnoli らによって提案されたこのバリアントは、多項式 0x1EDC6F41 (反映形式 0x82F63B78) を使用します。同じハミング距離では、ISO-HDLC 多項式よりも強力なバースト エラー検出が可能です。
+         <br> <br> ハードウェア アクセラレーションは、Intel SSE4.2 および ARM CRC32 命令を通じて利用できます。これは、iSCSI、NVMe、Btrfs、SCTP などの最新のストレージおよびトランスポート プロトコルで広く使用されています。
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 多項式 </td> <td> <code> 0x1EDC6F41 </code> (通常) / <code> 0x82F63B78 </code> (反射) </td> </tr> 
+         <tr> <td> 初期値 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 入力反射 </td> <td> はい (RefIn = true) </td> </tr> 
+         <tr> <td> 出力反射 </td> <td> はい (RefOut = true) </td> </tr> 
+         <tr> <td> 最終 XOR </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> チェック値 </td> <td> <code> 0xE3069283 </code> (「123456789」の場合) </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / MPEG-2
+         <span class="etag"> MPEG-2・DVB・ATSC </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        ISO-HDLC と同じ 0x04C11DB7 多項式を使用しますが、入力も出力も <strong style="color:#dff0ff"> ビット反映 </strong> (MSB ファースト、ビッグエンディアン) ではありません。初期値は 0xFFFFFFFF で、最終的な XOR は無効になります (XorOut = 0x00000000)。
+         <br> <br> 主に MPEG-2 トランスポート ストリームの PSI/SI テーブル (PAT、PMT、NIT、および関連テーブル) に加えて、DVB および ATSC ブロードキャスト システムの整合性チェックに使用されます。
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 多項式 </td> <td> <code> 0x04C11DB7 </code> </td> </tr> 
+         <tr> <td> 初期値 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 入力反射 </td> <td> いいえ (RefIn = false) </td> </tr> 
+         <tr> <td> 出力反射 </td> <td> いいえ (RefOut = false) </td> </tr> 
+         <tr> <td> 最終 XOR </td> <td> <code> 0x00000000 </code> (無効) </td> </tr> 
+         <tr> <td> チェック値 </td> <td> <code> 0x0376E6E7 </code> (「123456789」の場合) </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        CRC-32 / BZIP2
+         <span class="etag"> BZip2 · AAL5 · DECT </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        パラメータは MPEG-2 とほぼ同じです (多項式 0x04C11DB7、反射なし、初期値 0xFFFFFFFF)。唯一の違いは、 <strong style="color:#dff0ff"> と 0xFFFFFFFF </strong> との最終 XOR であり、すべてのビットが反転されます。 CRC-32/AAL5 または CRC-32/DECT-B とも呼ばれます。
+         <br> <br> BZip2 圧縮ファイル形式と ATM AAL5 プロトコルのトレーラー チェックサム フィールドで使用されます。
+       </div> 
+       <table class="param-table"> 
+         <tr> <td> 多項式 </td> <td> <code> 0x04C11DB7 </code> </td> </tr> 
+         <tr> <td> 初期値 </td> <td> <code> 0xFFFFFFFF </code> </td> </tr> 
+         <tr> <td> 入力反射 </td> <td> いいえ (RefIn = false) </td> </tr> 
+         <tr> <td> 出力反射 </td> <td> いいえ (RefOut = false) </td> </tr> 
+         <tr> <td> 最終 XOR </td> <td> <code> 0xFFFFFFFF </code> </td> </tr><tr> <td> 値の確認 </td> <td> <code> 0xFC891918 </code> (「123456789」の場合) </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+   <!-- ═══ Knowledge Section 2 — Input Encoding ═══ --> 
+   <div class="explain-section-header" id="explain-encoding"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // 入力エンコーディングガイド </div> 
+     <span class="explain-section-badge"> 入力エンコーディング </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-encoding" style="grid-template-columns:repeat(3,1fr);"> 
+     <div class="explain-card" style="--card-accent:var(--accent3);"> 
+       <div class="explain-card-title"> 
+        UTF-8 テキスト
+         <span class="etag"> デフォルト · 一般 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        入力を <strong style="color:#dff0ff"> UTF-8 </strong> 文字列として処理し、バイトに変換して、CRC32 を計算します。これは、プレーン テキスト、ソース コード、JSON、および同様のコンテンツに最も一般的なモードです。
+         <br> <br> 注: 同じテキストを GBK や UTF-16 などの異なる文字セットでエンコードすると、異なるバイト ストリームが生成されるため、異なる CRC32 値が生成されます。このツールは常に UTF-8 を使用します。
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> に最適 </td> <td> プレーン テキスト、ソース コード、JSON、XML </td> </tr> 
+         <tr> <td> 例 </td> <td> 「こんにちは」 → <code> 48 65 6C 6C 6F </code> (5バイト) </td> </tr> 
+         <tr> <td> CJK 文字 </td> <td> ほとんどの CJK 文字は UTF-8 で 3 バイトを使用します </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        16進数
+         <span class="etag"> バイナリデータ・プロトコルフレーム </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        入力を生の <strong style="color:#dff0ff"> 16 進バイト リテラル </strong> として扱います。スペースと改行は無視されます。 2 つの 16 進文字ごとに 1 バイト (00 ～ FF) になります。
+         <br> <br> ネットワーク フレーム、ファームウェア イメージ フラグメント、メモリ ダンプなどの正確なバイナリ データの CRC チェックが必要な場合に便利です。 Wireshark または 16 進ダンプ出力を直接貼り付けることができます。
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 形式 </td> <td> <code> 0-9 </code> および <code> a-f / A-F </code> のみが許可されます </td> </tr> 
+         <tr> <td> 文字数 </td> <td> 偶数である必要があります (1 バイトあたり 2 文字) </td> </tr> 
+         <tr> <td> 例 </td> <td> <code> 48656C6C6F </code> = "Hello" (5 バイト) </td> </tr> 
+         <tr> <td> 空白 </td> <td> 自動的に無視されます。  <code> 48 65 6C </code> は <code> 48656C と同じです </code> </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        Base64
+         <span class="etag"> エンコードされたバイナリ · 証明書 · 画像 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        入力を <strong style="color:#dff0ff"> Base64 でエンコードされた文字列 </strong> として処理し、生のバイトにデコードして、CRC32 を計算します。 PEM 証明書、JWT ペイロード、データ URI、およびその他の Base64 コンテンツに役立ちます。<br> <br> 標準の Base64 アルファベット (A-Z a-z 0-9 + /) をサポートします。パディング文字 <code> = </code> はオプションです。 URL セーフな Base64 ( <code> - </code> <code> _ </code> ) はサポートされていません。
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> アルファベット </td> <td> <code> A-Z a-z 0-9 + / = </code> </td> </tr> 
+         <tr> <td> 例 </td> <td> <code> SGVsbG8= </code> → "Hello" (5バイト) </td> </tr> 
+         <tr> <td> URL セーフ </td> <td> サポートされていません。 <code> -→+ </code> と <code> _→/ </code> を最初に </td> </tr> に置き換えます 
+         <tr> <td style="color:#ff6464;border-color:rgba(255,100,100,0.2);"> ⚠ 1 文字 </td> <td style="color:#ff6464;border-color:rgba(255,100,100,0.2);"> 無効 — 6 ビットでは 1 バイトを形成できません (8 ビットが必要) </td> </tr> 
+         <tr> <td> 2 文字 </td> <td> <strong style="color:#dff0ff"> にデコード 1 バイト </strong> (最小有効入力) </td> </tr> 
+         <tr> <td> 3 文字 </td> <td> <strong style="color:#dff0ff"> 2 バイトにデコード </strong> </td> </tr> 
+         <tr> <td> 4 文字 </td> <td> <strong style="color:#dff0ff"> 3 バイトにデコード </strong> (パターンは 4 文字ごとに繰り返されます) </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+   <!-- ═══ Knowledge Section 3 — Output Format ═══ --> 
+   <div class="explain-section-header" id="explain-output"> 
+     <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;"> // 出力フォーマットガイド </div> 
+     <span class="explain-section-badge"> 出力フォーマット </span> 
+   </div> 
+   <div class="explain-section-wrap explain-grid" id="wrap-output"> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        16進数
+         <span class="etag"> 最も一般的な · デフォルト </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        値を、先頭に <strong style="color:#dff0ff"> 0x </strong> を付けた 8 桁の大文字 16 進数として表示します。各文字は 4 ビット、合計 32 ビットを表します。これは、ほとんどのツール、ソース コード、ドキュメントで使用される標準形式です。
+         <br> <br> 10 進数の出力と比較して、16 進数ではバイト境界の検査が容易になり、メモリ ダンプとプロトコル フィールドがより自然に一致します。
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 例 </td> <td> <code> 0xCBF43926 </code> </td> </tr> 
+         <tr> <td> 長さ </td> <td> 8 16 進文字 = 32 ビット </td> </tr> 
+         <tr> <td> 基数 </td> <td> 基数 16 (0-9、A-F) </td> </tr> 
+         <tr> <td> </td> <td> コード、ドキュメント、Wireshark、16 進エディタ </td> </tr> に最適 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        10進数
+         <span class="etag"> 符号なし 32 ビット整数 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        チェックサムを <strong style="color:#dff0ff"> 符号なし 32 ビット 10 進整数 </strong> として、範囲 0 ～ 4,294,967,295 (2³²－1) で表示します。一部の言語やツールでは CRC 値を 10 進数形式で比較し、多くの場合、データベース フィールドにこの表現が保存されます。<br> <br> 注: CRC32 の結果は符号なし整数として扱われる必要があります。 Java や C# などの signed int 型では、0x7FFFFFFF を超える値は負に見える場合があるため、uint またはより広範な符号なし表現に変換する必要があります。
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 例 </td> <td> <code> 3421780262 </code> </td> </tr> 
+         <tr> <td> 範囲 </td> <td> 0–4,294,967,295 </td> </tr> 
+         <tr> <td> 注 </td> <td> Java int の場合、 <code> & 0xFFFFFFFFL で変換 </code> </td> </tr> 
+         <tr> <td> に最適 </td> <td> データベース、Python 構造体の値、数値比較 </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        バイナリ
+         <span class="etag"> ビットレベル解析 </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        チェックサムを <strong style="color:#dff0ff"> 0b </strong> という接頭辞が付いた 32 ビットのバイナリ文字列として表示します。各文字は 0 または 1 で、左側の最上位ビットに揃えられ、必要に応じて先頭にゼロが埋め込まれます。
+         <br> <br> 主に、内部 CRC アルゴリズムの理解、多項式除算、ティーチング、ビットレベルのチェックサム処理を必要とする組み込みシナリオの研究に役立ちます。
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 例 </td> <td> <code> 0b11001011…00100110 </code> </td> </tr> 
+         <tr> <td> 長さ </td> <td> 左ゼロパディング付きの 32 ビットに固定 </td> </tr> 
+         <tr> <td> 最上位ビット </td> <td> ビット 31 (MSB) は左端に表示されます </td> </tr> 
+         <tr> <td> 最適な用途 </td> <td> アルゴリズム解析、ティーチング、組み込みデバッグ </td> </tr> 
+       </table> 
+     </div> 
+     <div class="explain-card"> 
+       <div class="explain-card-title"> 
+        8進数
+         <span class="etag"> Unix · ファイル システム </span> 
+       </div> 
+       <div class="explain-card-text"> 
+        チェックサムを <strong style="color:#dff0ff"> 0o </strong> の接頭辞が付いた 11 桁の 8 進数として表示します。 3×11 = 33 > 32 であるため、32 ビットには最大 11 個の 8 進数文字が必要です。各 8 進数の数字は 3 ビットを表します。
+         <br> <br> 8 進出力は、最新の CRC ワークフローでは一般的ではありませんが、一部の Unix ツール、組み込みファームウェア ツールチェーン、および古い通信プロトコル仕様では依然として使用されています。
+       </div> 
+       <table class="param-table" style="margin-top:10px;"> 
+         <tr> <td> 例 </td> <td> <code> 0o31572031046 </code> </td> </tr> 
+         <tr> <td> 長さ </td> <td> 最大 11 桁の 8 進数 </td> </tr> 
+         <tr> <td> 1 桁あたり </td> <td> 3 ビット (0 ～ 7) を表します </td> </tr> 
+         <tr> <td> に最適 </td> <td> Unix ツール、古いプロトコル仕様 </td> </tr> 
+       </table> 
+     </div> 
+   </div> 
+
+ </div> <!-- /container --> 
+
+ <!-- Toast --> 
+ <div class="toast" id="toast"> </div><script src="/static/js/utility-tools/math/crc32-generator/script-ja.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

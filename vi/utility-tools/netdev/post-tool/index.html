@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <!-- SEO Meta Tags -->
+  <title>Công cụ POST / Trình kiểm tra API trực tuyến - Công cụ gỡ lỗi yêu cầu HTTP giao diện người dùng thuần túy | StarryRing</title>
+<!-- Canonical & Internationalization -->
+
+
+<!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <style>
+    /* Initial hide to prevent encoding issues */
+    html { visibility: hidden; opacity: 0; }
+  </style>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/css/utility-tools/netdev/post-tool/style.css" media="print" 
+  onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
+  <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+  <link rel="stylesheet" href="/static/css/shared/document.css">
+  
+  <!-- Robots -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Author -->
+  <meta name="author" content="StarryRing">
+  <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+
+
+<meta property="og:image" content="https://starryring.com/en/utility-tools/netdev/post-tool/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Online POST Tool Interface Preview">
+  <meta property="og:site_name" content="StarryRing Toolbox">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://starryring.com/en/utility-tools/netdev/post-tool/">
+
+<meta name="twitter:image" content="https://starryring.com/en/utility-tools/netdev/post-tool/twitter-image-en.png">
+  <meta name="twitter:creator" content="@starryring">
+  
+  <!-- Mobile Optimization -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="POST Tool">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="msapplication-TileColor" content="#1a1a1a">
+  
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preload" href="/static/css/netdev/style.css" as="style">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  
+  <!-- Structured Data Schema Markup -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Công cụ POST / Trình kiểm tra API trực tuyến",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": [
+        "Web",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Chrome OS"
+      ],
+      "description": "Công cụ POST và trình kiểm tra API trực tuyến miễn phí, triển khai giao diện người dùng thuần túy, hỗ trợ các phương thức HTTP, dữ liệu JSON/biểu mẫu, cấu hình tiêu đề yêu cầu, gỡ lỗi xác thực, hoàn hảo cho việc học gỡ lỗi và phát triển API",
+      "url": "https://starryring.com/vi/utility-tools/netdev/post-tool/",
+      "image": "https://starryring.com/vi/utility-tools/netdev/post-tool/og-image-en.png",
+      "screenshot": "https://starryring.com/vi/utility-tools/netdev/post-tool/screenshot-en.png",
+      "author": {
+        "@type": "Organization",
+        "name": "StarryRing",
+        "url": "https://starryring.com",
+        "logo": "https://starryring.com/logo.png"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Hỗ trợ các phương thức HTTP (POST/GET/PUT/DELETE/PATCH)",
+        "Định dạng dữ liệu JSON và biểu mẫu",
+        "Cấu hình tiêu đề yêu cầu tùy chỉnh",
+        "Bản ghi lịch sử URL",
+        "Xem trước phản hồi theo thời gian thực"
+      ],
+      "softwareVersion": "1.0.0",
+      "datePublished": "2024-03-01",
+      "dateModified": "2024-12-20"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Công cụ POST này có yêu cầu hỗ trợ máy chủ không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Không, đây là một công cụ giao diện người dùng thuần túy chạy hoàn toàn trên trình duyệt. Tất cả các yêu cầu được gửi qua API tìm nạp của trình duyệt, không cần hỗ trợ máy chủ phụ trợ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Những phương thức HTTP nào được hỗ trợ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hỗ trợ POST, GET, PUT, DELETE, PATCH năm phương thức HTTP, đáp ứng nhu cầu phát triển API RESTful cơ bản."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Làm cách nào để xử lý các yêu cầu có nguồn gốc chéo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Do các hạn chế về chính sách cùng nguồn gốc của trình duyệt, các yêu cầu nhiều nguồn gốc yêu cầu máy chủ mục tiêu định cấu hình tiêu đề CORS (Chia sẻ tài nguyên nguồn gốc chéo). Nếu bạn gặp phải sự cố về nguồn gốc chéo, hãy đảm bảo máy chủ API mục tiêu đã định cấu hình chính xác các tiêu đề Access-Control-Allow-Origin và các tiêu đề CORS khác."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Nó có hỗ trợ tải tập tin lên không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Phiên bản hiện tại chủ yếu hỗ trợ các định dạng dữ liệu JSON và biểu mẫu. Chức năng tải tập tin lên đang được phát triển. Hỗ trợ cho định dạng nhiều phần/biểu mẫu dữ liệu sẽ được thêm vào trong các phiên bản sau."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Trang chủ",
+          "item": "https://starryring.com/vi/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Công cụ tiện ích",
+          "item": "https://starryring.com/vi/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Công cụ kiểm tra mạng",
+          "item": "https://starryring.com/vi/utility-tools/NetDev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Công cụ đăng bài",
+          "item": "https://starryring.com/vi/utility-tools/netdev/post-tool/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Cách sử dụng Công cụ POST trực tuyến để kiểm tra giao diện API",
+      "description": "Hướng dẫn từng bước cách sử dụng công cụ POST trực tuyến để kiểm tra và gỡ lỗi giao diện API",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Nhập URL yêu cầu",
+          "text": "Nhập địa chỉ giao diện API bạn muốn kiểm tra vào hộp nhập URL. Bạn có thể chọn các URL đã sử dụng trước đó từ lịch sử.",
+          "image": "https://starryring.com/vi/utility-tools/netdev/post-tool/step1-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Chọn phương thức HTTP",
+          "text": "Chọn phương thức HTTP thích hợp (POST/GET/PUT/DELETE/PATCH) từ menu thả xuống.",
+          "image": "https://starryring.com/vi/utility-tools/netdev/post-tool/step2-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Định cấu hình tiêu đề và nội dung yêu cầu",
+          "text": "Định cấu hình tiêu đề yêu cầu (như Loại nội dung, Ủy quyền) và nội dung yêu cầu (JSON hoặc dữ liệu biểu mẫu) nếu cần.",
+          "image": "https://starryring.com/vi/utility-tools/netdev/post-tool/step3-en.png"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Gửi yêu cầu và xem phản hồi",
+          "text": "Nhấp vào nút 'Gửi yêu cầu'. Công cụ sẽ gửi yêu cầu HTTP và hiển thị mã trạng thái, tiêu đề phản hồi và nội dung phản hồi trong bảng phản hồi.",
+          "image": "https://starryring.com/vi/utility-tools/netdev/post-tool/step4-en.png"
+        }
+      ],
+      "totalTime": "PT2M"
+    }
+  ]
+}
+</script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="description" content="Công cụ POST và trình kiểm tra API trực tuyến miễn phí, triển khai giao diện người dùng thuần túy, không cần máy chủ. Hỗ trợ các phương thức HTTP (POST/GET/PUT/DELETE), dữ liệu JSON/biểu mẫu, cấu hình tiêu đề yêu cầu, gỡ lỗi xác thực, hoàn hảo cho việc phát triển API và học gỡ lỗi.">
+    <link rel="canonical" href="https://starryring.com/vi/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/post-tool/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
+<meta property="og:url" content="https://starryring.com/vi/utility-tools/netdev/post-tool/">
+    <meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="🚀 Công cụ POST / Trình kiểm tra API trực tuyến - Công cụ gỡ lỗi yêu cầu HTTP Frontend thuần túy">
+    <meta property="og:description" content="Công cụ POST và trình kiểm tra API trực tuyến miễn phí, triển khai giao diện người dùng thuần túy, không cần máy chủ. Hỗ trợ các phương thức HTTP, dữ liệu JSON/biểu mẫu, cấu hình tiêu đề yêu cầu, gỡ lỗi xác thực.">
+    <meta name="twitter:title" content="🚀 Công cụ POST / Trình kiểm tra API trực tuyến - Công cụ gỡ lỗi yêu cầu HTTP Frontend thuần túy">
+    <meta name="twitter:description" content="Công cụ POST và trình kiểm tra API trực tuyến miễn phí, triển khai giao diện người dùng thuần túy, không cần máy chủ. Hỗ trợ các phương thức HTTP, dữ liệu JSON/biểu mẫu, cấu hình tiêu đề yêu cầu, gỡ lỗi xác thực.">
+    <meta name="keywords" content="Công cụ POST, trình kiểm tra API, gỡ lỗi yêu cầu HTTP, kiểm tra giao diện, công cụ gỡ lỗi trực tuyến, công cụ phát triển giao diện người dùng, kiểm tra API REST, gỡ lỗi JSON">
+</head>
+
+<body>
+    <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/netdev/post-tool/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/netdev/post-tool/" data-lang="zh">简体中文</a>
+            <a class="language-option selected" href="/vi/utility-tools/netdev/post-tool/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/netdev/post-tool/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/netdev/post-tool/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/netdev/post-tool/" data-lang="hi">हिन्दी</a>
+        </div>
+    </div>
+
+<!-- Language switcher --> 
+ <!-- Breadcrumb navigation --> 
+   <nav aria-label="Breadcrumb navigation" class="breadcrumb-section"> 
+     <ol class="breadcrumb-modern"> 
+       <li class="breadcrumb-item"> 
+         <a href="/vi/" class="breadcrumb-link"> <i class="fas fa-home"> </i> Trang chủ </a> 
+       </li> 
+       <li class="breadcrumb-item"> 
+         <a href="/vi/utility-tools/" class="breadcrumb-link"> 
+             <i class="fas fa-toolbox"> </i> Công cụ tiện ích
+         </a> 
+     </li> 
+       <li class="breadcrumb-item" aria-current="page"> 
+         <span class="breadcrumb-active"> <i class="fas fa-paper-plane"> </i> Công cụ POST </span> 
+       </li> 
+     </ol> 
+   </nav> 
+  
+   <!-- Main content container --> 
+   <div class="main-container"> 
+     <header> 
+       <h1> 🚀 Công cụ POST trực tuyến / Trình kiểm tra API </h1> 
+       <p class="subtitle"> Công cụ gỡ lỗi yêu cầu HTTP giao diện người dùng thuần túy, hỗ trợ nhiều phương thức HTTP và định dạng dữ liệu </p> 
+     </header> 
+
+     <!-- Tool panel container --> 
+     <div class="tool-panel-container"> 
+       <main> 
+         <!-- Request panel --> 
+         <section class="tool-section"> 
+           <h2> <i class="fas fa-paper-plane"> </i> Yêu cầu cấu hình </h2> 
+          
+           <div class="form-group"> 
+             <label for="url"> <i class="fas fa-link"> </i> URL yêu cầu </label> 
+             <!-- Wrapper container and history dropdown --> 
+             <div class="url-wrapper"> 
+               <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" /> 
+               <div id="urlHistoryList" class="history-dropdown"> </div> 
+             </div> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="method"> <i class="fas fa-exchange-alt"> </i> Phương thức yêu cầu </label> 
+             <select id="method"> 
+               <option value="POST"> BÀI ĐĂNG </option> 
+               <option value="GET"> NHẬN </option> 
+               <option value="PUT"> PUT </option> 
+               <option value="DELETE"> XÓA </option> 
+               <option value="PATCH"> VÁ </option> 
+             </select> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="headers"> <i class="fas fa-heading"> </i> Tiêu đề yêu cầu (JSON) </label> 
+             <div class="body-container"> 
+               <div><textarea id="headers" placeholder='{ "Content-Type": "application/json", "Authorization": "Bearer token" }'> </textarea> 
+               </div> 
+               <div> 
+                 <div id="headersFields"> </div> 
+                 <button type="button" id="addHeadersFieldBtn" class="btn-secondary"> <i class="fas fa-plus"> </i> Thêm trường </button> 
+               </div> 
+             </div> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="bodyType"> <i class="fas fa-code"> </i> Loại cơ thể yêu cầu </label> 
+             <select id="bodyType"> 
+               <option value="json"> JSON </option> 
+               <option value="form"> Biểu mẫu (x-www-form-urlencoded) </option> 
+             </select> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="body"> <i class="fas fa-file-code"> </i> Nội dung yêu cầu (JSON / Form) </label> 
+             <div class="body-container"> 
+               <div> 
+                 <textarea id="body" placeholder='{ "key": "value", "data": "example" }'> </textarea> 
+               </div> 
+               <div> 
+                 <div id="bodyFields"> </div> 
+                 <button type="button" id="addBodyFieldBtn" class="btn-secondary"> <i class="fas fa-plus"> </i> Thêm trường </button> 
+               </div> 
+             </div> 
+           </div> 
+          
+           <button id="sendRequestBtn" class="btn-primary"> <i class="fas fa-play"> </i> Gửi yêu cầu </button> 
+         </section> 
+
+         <!-- Response panel --> 
+         <section class="tool-section"> 
+           <h2> <i class="fas fa-reply"> </i> Kết quả phản hồi </h2> 
+          
+           <div class="form-group"> 
+             <label for="status"> <i class="fas fa-tachometer-alt"> </i> Trạng thái </label> 
+             <input id="status" readonly /> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="resHeaders"> <i class="fas fa-heading"> </i> Tiêu đề phản hồi </label> 
+             <pre id="resHeaders"> </pre> 
+           </div> 
+          
+           <div class="form-group"> 
+             <label for="response"> <i class="fas fa-file-alt"> </i> Nội dung phản hồi </label> 
+             <pre id="response"> </pre> 
+           </div> 
+         </section> 
+       </main> 
+     </div> 
+    
+     <!-- ===== Feature Introduction Area ===== --> 
+     <div class="instructions-section"> 
+       <div class="instructions-content"> 
+         <h2> <i class="fas fa-star"> </i> Tính năng của công cụ </h2> 
+        
+         <div class="feature-grid"> 
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-laptop-code"> </i> Triển khai giao diện người dùng thuần túy </h3> 
+             <p> Chạy hoàn toàn trên trình duyệt, không cần máy chủ. Tất cả các yêu cầu HTTP được gửi qua API tìm nạp của trình duyệt, đảm bảo quyền riêng tư và bảo mật dữ liệu. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-exchange-alt"> </i> Nhiều phương thức HTTP </h3> 
+             <p> Hỗ trợ POST, GET, PUT, DELETE, PATCH năm phương thức HTTP, đáp ứng nhu cầu phát triển API RESTful cơ bản. </p> 
+           </div> 
+          
+           <div class="feature-item"><h3> <i class="fas fa-code"> </i> Hỗ trợ dữ liệu đa định dạng </h3> 
+             <p> Hỗ trợ các định dạng dữ liệu JSON và biểu mẫu, thuận tiện cho việc thử nghiệm các loại giao diện API khác nhau. Trình soạn thảo JSON cung cấp tính năng đánh dấu và xác thực cú pháp. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-heading"> </i> Tiêu đề yêu cầu tùy chỉnh </h3> 
+             <p> Cấu hình linh hoạt các tiêu đề yêu cầu, hỗ trợ các tiêu đề phổ biến như Content-Type, Authorization, User-Agent, đáp ứng các yêu cầu kiểm tra API phức tạp. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-history"> </i> Bản ghi lịch sử URL </h3> 
+             <p> Tự động lưu các URL được sử dụng gần đây, thuận tiện cho việc chuyển đổi nhanh và kiểm tra lặp lại, nâng cao hiệu quả gỡ lỗi. </p> 
+           </div> 
+          
+           <div class="feature-item"> 
+             <h3> <i class="fas fa-eye"> </i> Xem trước phản hồi theo thời gian thực </h3> 
+             <p> Hiển thị ngay lập tức mã trạng thái HTTP, tiêu đề phản hồi và nội dung phản hồi, hỗ trợ hiển thị định dạng JSON, dễ dàng phân tích kết quả trả về API. </p> 
+           </div> 
+         </div> 
+        
+         <div class="faq-section"> 
+           <h2> <i class="fas fa-question-circle"> </i> Các câu hỏi thường gặp </h2> 
+          
+           <div class="faq-item"> 
+             <h3> Công cụ này có hỗ trợ HTTPS không? </h3> 
+             <p> Có, hỗ trợ đầy đủ giao thức HTTPS. Bạn có thể nhập bất kỳ URL HTTPS hợp lệ nào để kiểm tra. Công cụ này tuân theo các chính sách bảo mật của trình duyệt. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> Làm cách nào để xử lý các yêu cầu có nguồn gốc chéo? </h3> 
+             <p> Các yêu cầu có nguồn gốc chéo yêu cầu máy chủ mục tiêu định cấu hình tiêu đề CORS (Chia sẻ tài nguyên nguồn gốc chéo). Nếu bạn gặp phải lỗi nhiều nguồn gốc, hãy đảm bảo máy chủ API đã định cấu hình chính sách CORS chính xác, chẳng hạn như Access-Control-Allow-Origin, v.v. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> Nó có hỗ trợ tải tập tin lên không? </h3> 
+             <p> Phiên bản hiện tại chủ yếu hỗ trợ các định dạng dữ liệu biểu mẫu và JSON. định dạng multipart/form-data (để tải lên tệp) sẽ được hỗ trợ trong các phiên bản sau. Bạn có thể sử dụng API FormData với công cụ này để kiểm tra việc tải tệp lên. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> Dữ liệu có được lưu vào máy chủ không? </h3> 
+             <p> Không. Tất cả dữ liệu được lưu trong bộ nhớ cục bộ của trình duyệt (localStorage), không được tải lên bất kỳ máy chủ nào, đảm bảo khóa API và bảo mật dữ liệu nhạy cảm của bạn. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> Nó có hỗ trợ thử nghiệm WebSocket không? </h3> 
+             <p> Phiên bản hiện tại tập trung vào thử nghiệm yêu cầu HTTP/HTTPS. Công cụ kiểm tra WebSocket đang được phát triển và sẽ được cung cấp trong các phiên bản sau. </p> 
+           </div> 
+          
+           <div class="faq-item"> 
+             <h3> Nó có phù hợp để học giao thức HTTP không? </h3> 
+             <p> Hoàn hảo cho việc học tập! Công cụ này hiển thị trực quan tất cả các thành phần của yêu cầu và phản hồi HTTP, một công cụ lý tưởng để tìm hiểu giao thức HTTP, thiết kế API RESTful và kỹ thuật gỡ lỗi. </p></div> 
+         </div> 
+        
+         <div class="usage-tips"> 
+           <h2> <i class="fas fa-lightbulb"> </i> Mẹo sử dụng </h2> 
+           <ul> 
+             <li> Sử dụng phím tắt Ctrl+Enter (Windows) hoặc Cmd+Enter (Mac) để gửi nhanh yêu cầu </li> 
+             <li> Dữ liệu JSON được định dạng tự động để dễ đọc và chỉnh sửa </li> 
+             <li> Dữ liệu phản hồi có thể được sao chép vào bảng nhớ tạm để phân tích thêm </li> 
+             <li> Để phát triển cục bộ, định dạng URL được đề xuất: http://localhost:port </li> 
+             <li> Lưu cấu hình API được sử dụng thường xuyên để thử nghiệm lặp lại nhanh chóng </li> 
+           </ul> 
+         </div> 
+       </div> 
+     </div> 
+   </div> 
+
+   <footer> 
+     <p> © 2024-2026 Hộp công cụ StarryRing · Công cụ POST giao diện người dùng thuần túy · Tìm nạp API </p> 
+     <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;"> 
+       <a href="/vi/about-us/" style="color:#60a5fa;text-decoration:none;"> Giới thiệu về chúng tôi </a> 
+       <a href="/vi/contact-us/" style="color:#60a5fa;text-decoration:none;"> Liên hệ với chúng tôi </a> 
+       <a href="/vi/disclaimer/" style="color:#60a5fa;text-decoration:none;"> Tuyên bố miễn trừ trách nhiệm </a> 
+       <a href="/vi/privacy/" style="color:#60a5fa;text-decoration:none;"> Chính sách quyền riêng tư </a> 
+       <a href="/vi/terms/" style="color:#60a5fa;text-decoration:none;"> Điều khoản dịch vụ </a> 
+     </div> 
+   </footer><script src="/static/js/utility-tools/netdev/post-tool/script-vi.js"></script>
+  <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
