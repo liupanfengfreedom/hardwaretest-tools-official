@@ -13,6 +13,7 @@
             locale: config.locale || document.documentElement.lang || undefined,
             messages: config.messages || {}
         };
+        const API_BASE = "https://api.frankfurter.dev/v1";
 
         function getEl(id) {
             return document.getElementById(id);
@@ -218,7 +219,7 @@
 
             try {
                 const data = await fetchJson(
-                    `https://api.frankfurter.app/${start}..${end}?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`
+                    `${API_BASE}/${start}..${end}?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`
                 );
                 const sampled = sampleHistory(data.rates || {}, to);
                 if (!sampled.labels.length) {
@@ -251,7 +252,7 @@
 
             try {
                 const data = await fetchJson(
-                    `https://api.frankfurter.app/latest?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`
+                    `${API_BASE}/latest?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`
                 );
                 const rate = extractRate(data, to);
                 state.latestPair = getPairKey(from, to);
