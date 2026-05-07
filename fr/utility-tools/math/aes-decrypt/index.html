@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-decrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/aes-decrypt/script-en.js" as="script">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://starryring.com/fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Outils utilitaires",
+          "item": "https://starryring.com/fr/utility-tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "AES Decryption Tool",
+          "item": "https://starryring.com/fr/utility-tools/math/aes-decrypt/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "AES Decryption Tool",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Web",
+      "url": "https://starryring.com/fr/utility-tools/math/aes-decrypt/",
+      "description": "Free online AES decryption tool with key and IV import plus browser-side decryption.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Support AES-CBC, AES-CTR, and AES-GCM",
+        "Accept Base64, Hex, and .enc ciphertext",
+        "Import encryption config as JSON",
+        "Download binary output when needed",
+        "Run entirely in the browser"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why must AES decryption use the same key as encryption?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AES is a symmetric cipher, so decryption only works when the exact same key from the encryption step is used again."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do the IV or nonce values also need to match?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CBC, CTR, and GCM all depend on the IV or nonce as part of the encryption state. Using a different value during decryption produces the wrong result or an outright failure."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does GCM report an authentication failure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GCM checks integrity as well as confidentiality. If the key, nonce, or ciphertext does not match perfectly, authentication fails and the output is rejected."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between uploading an .enc file and pasting Base64 or Hex?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An uploaded .enc file is processed as raw bytes directly. When you paste text ciphertext instead, you need to choose the correct Base64 or Hex encoding first."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+    <title>AES Decryption Tool & Config Importer | StarryRing</title>
+<meta name="description" content="Free online AES decryption tool for CBC, CTR, and GCM modes, with Base64, Hex, or .enc ciphertext support and browser-side decryption.">
+            <link rel="canonical" href="https://starryring.com/fr/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/aes-decrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-decrypt/">
+<meta property="og:url" content="https://starryring.com/fr/utility-tools/math/aes-decrypt/">
+    <meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="AES Decryption Tool & Config Importer | StarryRing">
+    <meta property="og:description" content="Import an AES key and IV, decrypt Base64, Hex, or .enc ciphertext, and keep every operation inside your browser.">
+    <meta name="twitter:title" content="AES Decryption Tool & Config Importer | StarryRing">
+    <meta name="twitter:description" content="Import an AES key and IV, decrypt Base64, Hex, or .enc ciphertext, and keep every operation inside your browser.">
+    <meta name="keywords" content="AES decryption tool,AES-CBC,AES-CTR,AES-GCM,online AES decrypt,Base64 decrypt,Hex decrypt,Web Crypto,.enc decrypt">
+</head>
+<body>
+            <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Sélectionner la langue" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/aes-decrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/aes-decrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/aes-decrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/aes-decrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/aes-decrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/aes-decrypt/" data-lang="hi">हिन्दी</a>
+            <a class="language-option" href="/es/utility-tools/math/aes-decrypt/" data-lang="es">Español</a>
+            <a class="language-option selected" href="/fr/utility-tools/math/aes-decrypt/" data-lang="fr">Français</a>
+            <a class="language-option" href="/ar/utility-tools/math/aes-decrypt/" data-lang="ar">العربية</a>
+            <a class="language-option" href="/bn/utility-tools/math/aes-decrypt/" data-lang="bn">বাংলা</a>
+            <a class="language-option" href="/pt/utility-tools/math/aes-decrypt/" data-lang="pt">Português</a>
+            <a class="language-option" href="/ru/utility-tools/math/aes-decrypt/" data-lang="ru">Русский</a>
+            <a class="language-option" href="/ur/utility-tools/math/aes-decrypt/" data-lang="ur">اردو</a>
+            <a class="language-option" href="/id/utility-tools/math/aes-decrypt/" data-lang="id">Bahasa Indonesia</a>
+            <a class="language-option" href="/de/utility-tools/math/aes-decrypt/" data-lang="de">Deutsch</a>
+            <a class="language-option" href="/pcm/utility-tools/math/aes-decrypt/" data-lang="pcm">Naijá</a>
+            <a class="language-option" href="/mr/utility-tools/math/aes-decrypt/" data-lang="mr">मराठी</a>
+            <a class="language-option" href="/te/utility-tools/math/aes-decrypt/" data-lang="te">తెలుగు</a>
+            <a class="language-option" href="/tr/utility-tools/math/aes-decrypt/" data-lang="tr">Türkçe</a>
+            <a class="language-option" href="/ta/utility-tools/math/aes-decrypt/" data-lang="ta">தமிழ்</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item"><a href="/fr/" class="breadcrumb-link"><i class="fas fa-home"></i> Accueil</a></li>
+            <li class="breadcrumb-item"><a href="/fr/utility-tools/" class="breadcrumb-link">Outils utilitaires</a></li>
+            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">AES Decryption Tool</span></li>
+        </ol>
+    </nav>
+<div class="scan-effect"></div>
+
+<div class="container">
+  <header>
+    <div class="logo-group">
+      <span class="logo-tag">// cryptographic tool v2.0</span>
+      <h1 class="logo-title">AES <span>Decipher</span></h1>
+    </div>
+    <div class="header-right">
+      <div class="badge">CLIENT-SIDE ONLY</div>
+      <div class="badge" style="color:var(--accent2);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
+      <a href="/fr/utility-tools/math/aes-encrypt/" class="encrypt-link">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        Switch to Encryption Tool
+      </a>
+    </div>
+  </header>
+
+  <!-- Security Banner -->
+  <div class="security-banner">
+    <span class="security-banner-icon">🔒</span>
+    <span><strong>CLIENT-SIDE ONLY</strong> - Keys and data stay inside your browser and are never uploaded to any server. All cryptographic work runs on the native Web Crypto API.</span>
+  </div>
+
+  <!-- Config -->
+  <div class="config-panel">
+    <div class="config-header">
+      <div class="config-header-icon">⚙</div>
+      <span class="config-title">Algorithm Configuration</span>
+    </div>
+    <div class="config-grid">
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-mode" class="label-link">Mode</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="mode">
+            <option value="CBC">CBC</option>
+            <option value="CTR">CTR</option>
+            <option value="GCM">GCM</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-keysize" class="label-link">Key Size</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="keySize">
+            <option value="128">128-bit</option>
+            <option value="192">192-bit</option>
+            <option value="256" selected>256-bit</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-padding" class="label-link">Padding</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="padding">
+            <option value="PKCS7">PKCS#7</option>
+            <option value="ZERO">Zero Pad</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key & IV -->
+  <div class="key-section">
+    <div class="config-header" style="justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="config-header-icon" style="color:var(--accent3)">🔑</div>
+        <span class="config-title">Key & IV Material</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="paste-json-btn" onclick="pasteJsonConfig()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          Paste JSON Config
+        </button>
+        <button class="paste-json-btn" onclick="triggerConfigUpload()" style="border-color:rgba(0,212,255,0.35);color:var(--accent2);background:rgba(0,212,255,0.06)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload Config File
+        </button>
+        <input type="file" id="configFileInput" accept=".json" style="display:none" onchange="loadConfigFile(this)">
+      </div>
+    </div>
+    <div class="key-fields">
+      <div class="field-group">
+        <div class="key-row">
+          <div class="field-group" style="flex:1">
+            <label class="field-label"><a href="#explain-key" class="label-link">Secret Key</a></label>
+            <input type="password" class="field-input" id="secretKey" placeholder="Enter the decryption key..." autocomplete="off" spellcheck="false">
+          </div>
+          <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide key">
+            <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+          <button class="copy-field-btn" onclick="pasteField('secretKey')" title="Paste key">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+        <div class="key-hint" id="keyHint">The hex key needs <span id="keyLengthHint">64</span> characters (32 bytes)</div>
+      </div>
+      <div class="field-group">
+        <div class="key-row">
+          <div class="field-group" style="flex:1">
+            <label class="field-label"><a href="#explain-iv" class="label-link">IV / Nonce</a></label>
+            <input type="text" class="field-input" id="iv" placeholder="Enter the IV..." autocomplete="off" spellcheck="false">
+          </div>
+          <button class="copy-field-btn" onclick="pasteField('iv')" title="Paste IV">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+        <div class="key-hint">The hex IV needs <span id="ivLengthHint">32</span> characters (CBC/CTR=32, GCM=24)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IO -->
+  <div class="io-section">
+    <!-- Ciphertext input -->
+    <div class="io-panel input-panel" id="inputPanel">
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-zone-icon">⬇</div>
+        <div class="drop-zone-text">Release to load the .enc file</div>
+      </div>
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          CIPHERTEXT / INPUT
+        </div>
+        <div class="io-actions">
+          <button class="upload-btn" onclick="triggerFileInput()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload File
+          </button>
+          <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear">✕</button>
+          <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+      </div>
+      <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)" accept=".enc,.bin,.dat,.txt">
+      <textarea class="io-textarea" id="inputText" placeholder="Paste ciphertext here in Base64 or Hex...&#10;&#10;Or upload a binary .enc file"></textarea>
+      <div class="io-footer">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="io-stat" id="inputStat">0 bytes</span>
+          <div class="file-badge" id="inputFileBadge" style="display:none">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <span class="file-badge-name" id="inputFileName"></span>
+            <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file">✕</button>
+          </div>
+        </div>
+        <div class="encoding-tabs" id="encodingTabs">
+          <button class="encoding-tab active" data-enc="base64" onclick="setEncoding(this, 'base64')">BASE64</button>
+          <button class="encoding-tab" data-enc="hex" onclick="setEncoding(this, 'hex')">HEX</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plaintext output -->
+    <div class="io-panel output-panel">
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          PLAINTEXT / OUTPUT
+        </div>
+        <div class="io-actions">
+          <button class="icon-btn" onclick="copyOutput(this)" title="Copy output">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+      <textarea class="io-textarea" id="outputText" placeholder="Decrypted output will appear here..." readonly></textarea>
+      <div class="output-file-strip" id="outputFileStrip">
+        <div class="output-file-info">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          <span id="outputFileLabel">Decrypted file ready to download</span>
+        </div>
+        <button class="download-file-btn" onclick="downloadOutputFile()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          DOWNLOAD FILE
+        </button>
+      </div>
+      <div class="io-footer">
+        <span class="io-stat" id="outputStat">0 bytes</span>
+        <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent3)">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Row -->
+  <div class="action-row">
+    <button class="primary-btn decrypt-btn" onclick="runDecrypt()">◀ DECRYPT</button>
+    <a href="/fr/utility-tools/math/aes-encrypt/" class="encrypt-nav-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+      Need encryption?
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-indicator"></div>
+    <span class="status-text" id="statusText">Ready - enter the key, IV, and ciphertext, then click Decrypt</span>
+    <span class="status-time" id="statusTime"></span>
+  </div>
+
+  <!-- Info Strip -->
+  <div class="info-strip">
+    <div class="info-card">
+      <div class="info-card-label">Algorithm</div>
+      <div class="info-card-value">AES</div>
+      <div class="info-card-sub" id="infoMode">CBC Mode</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Key Strength</div>
+      <div class="info-card-value" id="infoKeySize">256</div>
+      <div class="info-card-sub">bits</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Security Level</div>
+      <div class="info-card-value" id="infoSecurity">HIGH</div>
+      <div class="info-card-sub" id="infoSecSub">Military Grade</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Decrypted</div>
+      <div class="info-card-value" id="infoBytes">0</div>
+      <div class="info-card-sub">bytes this session</div>
+    </div>
+  </div>
+
+  <!-- Explain Sections -->
+  <div class="explain-section" id="explain-key">
+    <div class="explain-icon">🔑</div>
+    <div class="explain-body">
+      <div class="explain-title">Why do you need a secret key?</div>
+      <div class="explain-text">AES is a symmetric cipher, so the same key is used for both encryption and decryption. During decryption, <strong style="color:#f0fff6">the key must match the encryption key exactly</strong>; even a one-character difference will cause failure or unreadable output.<br><br>The secret key must remain confidential. Anyone who has the key can decrypt the data, and if the key is lost, the encrypted content may be impossible to recover.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-iv">
+    <div class="explain-icon">🎲</div>
+    <div class="explain-body">
+      <div class="explain-title">Why is an IV / nonce required?</div>
+      <div class="explain-text"><strong style="color:#f0fff6">The IV or nonce must match the value used during encryption exactly</strong>, otherwise the decrypted result will be invalid. CBC and CTR use a 16-byte IV (32 hex characters), while GCM uses a 12-byte nonce (24 hex characters).<br><br>The IV normally travels with the ciphertext and does not need to stay secret, but if it is missing, proper decryption is no longer possible.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-mode">
+    <div class="explain-icon">⚙️</div>
+    <div class="explain-body">
+      <div class="explain-title">The encryption mode must match exactly</div>
+      <div class="explain-text">The mode selected here must be identical to the one used during encryption, otherwise decryption will fail or produce unreadable output.<br><br><strong style="color:#c0e8d0">CBC</strong> is a common block mode that requires an IV. <strong style="color:#c0e8d0">CTR</strong> behaves more like a stream and is fast for large data. <strong style="color:#c0e8d0">GCM</strong> adds integrity checks, so tampered ciphertext fails immediately.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-keysize">
+    <div class="explain-icon">📏</div>
+    <div class="explain-body">
+      <div class="explain-title">The key size must match the encryption step</div>
+      <div class="explain-text">Key size determines the AES round count, and encryption and decryption must use the same key length.<br><br>If the wrong key size is selected, key import fails immediately because the key length no longer matches the chosen AES variant.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-padding">
+    <div class="explain-icon">📦</div>
+    <div class="explain-body">
+      <div class="explain-title">Padding must match the encryption step</div>
+      <div class="explain-text">After decryption, the tool removes padding according to the selected scheme. If the padding mode is wrong, the output may end with garbage bytes or fail entirely.<br><br><strong style="color:#c0e8d0">PKCS#7</strong> is the most common choice and removes padding precisely. <strong style="color:#c0e8d0">Zero Padding</strong> trims trailing <code style="color:var(--accent)">00</code> bytes and is only safe when the original length is known.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-encoding">
+    <div class="explain-icon">🔠</div>
+    <div class="explain-body">
+      <div class="explain-title">Input encoding: what format is the ciphertext in?</div>
+      <div class="explain-text">The encryption tool outputs encoded text ciphertext. To decrypt it correctly, choose the same encoding so the browser can rebuild the original bytes before running AES decryption.<br><br><strong style="color:#c0e8d0">Base64</strong> uses letters, numbers, and <code style="color:var(--accent)">+/=</code>, often with trailing padding. <strong style="color:#c0e8d0">Hex</strong> uses <code style="color:var(--accent)">0-9</code> and <code style="color:var(--accent)">a-f</code> with two characters per byte. If you upload a binary .enc file, the encoding choice is ignored automatically.</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
+    <script src="/static/js/utility-tools/math/aes-decrypt/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>

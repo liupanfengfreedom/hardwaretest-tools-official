@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a0e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/rsa-encrypt/style.css">
+    <link rel="preload" href="/static/js/utility-tools/math/rsa-encrypt/script-en.js" as="script">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://starryring.com/fr/"},
+            {"@type": "ListItem", "position": 2, "name": "Outils utilitaires", "item": "https://starryring.com/fr/utility-tools/"},
+            {"@type": "ListItem", "position": 3, "name": "RSA Encryption Tool", "item": "https://starryring.com/fr/utility-tools/math/rsa-encrypt/"}
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "RSA Encryption Tool",
+          "applicationCategory": "SecurityApplication",
+          "operatingSystem": "Web",
+          "url": "https://starryring.com/fr/utility-tools/math/rsa-encrypt/",
+          "description": "Free online RSA encryption tool with key pair generation, PEM public key import, and browser-side RSA-OAEP encryption.",
+          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+          "featureList": [
+            "Generate RSA public/private key pairs",
+            "Import PEM public keys",
+            "Support RSA-OAEP with multiple hash options",
+            "Export Base64 or Hex output",
+            "All cryptographic operations run locally in the browser"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type": "Question", "name": "Why does RSA encryption use a public key?", "acceptedAnswer": {"@type": "Answer", "text": "RSA is an asymmetric encryption system. The public key encrypts data, while the private key decrypts it, so senders do not need to share a secret in advance."}},
+            {"@type": "Question", "name": "Which RSA settings are supported on this page?", "acceptedAnswer": {"@type": "Answer", "text": "This page supports 2048, 3072, and 4096 bit key sizes, along with OAEP hash options including SHA-1, SHA-256, SHA-384, and SHA-512."}},
+            {"@type": "Question", "name": "What is PEM format?", "acceptedAnswer": {"@type": "Answer", "text": "PEM is a common text format for keys and certificates. It wraps Base64-encoded DER data with BEGIN and END headers to make the content easy to copy and transfer."}},
+            {"@type": "Question", "name": "Why is RSA unsuitable for large files?", "acceptedAnswer": {"@type": "Answer", "text": "RSA can only encrypt a limited amount of plaintext in a single operation, so it is best for short messages or symmetric keys. Larger payloads should use hybrid encryption."}}
+          ]
+        }
+      ]
+    }
+    </script>
+    <title>RSA Encryption Tool & Key Pair Generator | StarryRing</title>
+<meta name="description" content="Free online RSA encryption tool with key pair generation, PEM public key import, OAEP hash selection, and browser-side RSA-OAEP encryption.">
+            <link rel="canonical" href="https://starryring.com/fr/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/rsa-encrypt/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
+<meta property="og:url" content="https://starryring.com/fr/utility-tools/math/rsa-encrypt/">
+    <meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="RSA Encryption Tool & Key Pair Generator | StarryRing">
+    <meta property="og:description" content="Generate RSA key pairs online, import PEM public keys, and perform RSA-OAEP encryption locally in your browser.">
+    <meta name="twitter:title" content="RSA Encryption Tool & Key Pair Generator">
+    <meta name="twitter:description" content="Free online RSA encryption tool with PEM public key import, key pair generation, and browser-side RSA-OAEP encryption.">
+    <meta name="keywords" content="rsa encryption tool,rsa encrypt online,rsa key pair generator,rsa oaep,pem public key,web crypto,rsa public key encryption">
+</head>
+<body>
+            <div class="language-switcher">
+        <button class="language-trigger" id="languageTrigger" aria-label="Sélectionner la langue" aria-expanded="false">🌐</button>
+        <div class="language-dropdown" id="languageDropdown">
+            <a class="language-option" href="/en/utility-tools/math/rsa-encrypt/" data-lang="en">English</a>
+            <a class="language-option" href="/zh/utility-tools/math/rsa-encrypt/" data-lang="zh">简体中文</a>
+            <a class="language-option" href="/vi/utility-tools/math/rsa-encrypt/" data-lang="vi">Tiếng Việt</a>
+            <a class="language-option" href="/ja/utility-tools/math/rsa-encrypt/" data-lang="ja">日本語</a>
+            <a class="language-option" href="/ko/utility-tools/math/rsa-encrypt/" data-lang="ko">한국어</a>
+            <a class="language-option" href="/hi/utility-tools/math/rsa-encrypt/" data-lang="hi">हिन्दी</a>
+            <a class="language-option" href="/es/utility-tools/math/rsa-encrypt/" data-lang="es">Español</a>
+            <a class="language-option selected" href="/fr/utility-tools/math/rsa-encrypt/" data-lang="fr">Français</a>
+            <a class="language-option" href="/ar/utility-tools/math/rsa-encrypt/" data-lang="ar">العربية</a>
+            <a class="language-option" href="/bn/utility-tools/math/rsa-encrypt/" data-lang="bn">বাংলা</a>
+            <a class="language-option" href="/pt/utility-tools/math/rsa-encrypt/" data-lang="pt">Português</a>
+            <a class="language-option" href="/ru/utility-tools/math/rsa-encrypt/" data-lang="ru">Русский</a>
+            <a class="language-option" href="/ur/utility-tools/math/rsa-encrypt/" data-lang="ur">اردو</a>
+            <a class="language-option" href="/id/utility-tools/math/rsa-encrypt/" data-lang="id">Bahasa Indonesia</a>
+            <a class="language-option" href="/de/utility-tools/math/rsa-encrypt/" data-lang="de">Deutsch</a>
+            <a class="language-option" href="/pcm/utility-tools/math/rsa-encrypt/" data-lang="pcm">Naijá</a>
+            <a class="language-option" href="/mr/utility-tools/math/rsa-encrypt/" data-lang="mr">मराठी</a>
+            <a class="language-option" href="/te/utility-tools/math/rsa-encrypt/" data-lang="te">తెలుగు</a>
+            <a class="language-option" href="/tr/utility-tools/math/rsa-encrypt/" data-lang="tr">Türkçe</a>
+            <a class="language-option" href="/ta/utility-tools/math/rsa-encrypt/" data-lang="ta">தமிழ்</a>
+        </div>
+    </div>
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
+        <ol class="breadcrumb-modern">
+            <li class="breadcrumb-item"><a href="/fr/" class="breadcrumb-link"><i class="fas fa-home"></i> Accueil</a></li>
+            <li class="breadcrumb-item"><a href="/fr/utility-tools/" class="breadcrumb-link">Outils utilitaires</a></li>
+            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">RSA Encryption Tool</span></li>
+        </ol>
+    </nav>
+<div class="scan-effect"></div>
+
+<div class="container">
+  <header>
+    <div class="logo-group">
+      <span class="logo-tag">// cryptographic tool v2.0</span>
+      <h1 class="logo-title">RSA <span>Cipher</span></h1>
+    </div>
+    <div class="header-badge">
+      <div class="badge">CLIENT-SIDE ONLY</div>
+      <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
+    </div>
+  </header>
+
+  <!-- Security Banner -->
+  <div class="security-banner">
+    <span class="security-banner-icon">🔒</span>
+    <span><strong>Client-side only</strong> - keys and data are processed entirely inside your browser and are never uploaded to any server. Built on the native Web Crypto API.</span>
+  </div>
+
+  <!-- Config Panel -->
+  <div class="config-panel">
+    <div class="config-header">
+      <div class="config-header-icon">⚙</div>
+      <span class="config-title">Algorithm Configuration</span>
+    </div>
+    <div class="config-grid" style="grid-template-columns: repeat(3, 1fr)">
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-keysize" class="label-link">Key Size</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="keySize">
+            <option value="2048">2048-bit</option>
+            <option value="3072">3072-bit</option>
+            <option value="4096" selected>4096-bit</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-hash" class="label-link">OAEP Hash</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="hash">
+            <option value="SHA-1">SHA-1</option>
+            <option value="SHA-256" selected>SHA-256</option>
+            <option value="SHA-384">SHA-384</option>
+            <option value="SHA-512">SHA-512</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label"><a href="#explain-encoding" class="label-link">Output Encoding</a></label>
+        <div class="select-wrapper">
+          <select class="field-select" id="outputEncoding">
+            <option value="base64">Base64</option>
+            <option value="hex">Hex</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Section -->
+  <div class="key-section">
+    <div class="config-header">
+      <div class="config-header-icon" style="color:var(--accent2)">🔑</div>
+      <span class="config-title">Key Material</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="field-group">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <!-- PEM format reference -->
+         <label class="field-label" style="margin-bottom:0">
+              <a href="#explain-key" class="label-link">Public Key</a> 
+              (<a href="#explain-pem" class="label-link">PEM</a>)
+          </label>
+          <button class="gen-btn" onclick="generateKeyPair()" style="margin-left:auto">GENERATE KEY PAIR</button>
+          <button class="copy-field-btn" onclick="copyField('publicKey', this)" title="Copy public key">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+        <textarea class="field-input" id="publicKey" rows="5" placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----&#10;&#10;Paste an RSA public key, or click GENERATE KEY PAIR to create a new key pair" autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:105px;line-height:1.5"></textarea>
+        <div class="key-hint" id="keyHint">RSA-OAEP encryption uses the public key - the matching private key is required for decryption (<span id="keySizeHint">4096</span>-bit / <span id="hashHint">SHA-256</span>)</div>
+      </div>
+      <div class="field-group" id="privateKeyGroup" style="display:none">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <label class="field-label" style="margin-bottom:0;color:var(--accent3)">⚠ Private key - save it immediately. If it is lost, decryption will be impossible</label>
+          <button class="copy-field-btn" onclick="copyField('privateKeyDisplay', this)" title="Copy private key" style="margin-left:auto">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button class="gen-btn" onclick="downloadPrivateKey()" style="color:var(--accent3);border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.06)">SAVE .PEM</button>
+        </div>
+        <textarea class="field-input" id="privateKeyDisplay" rows="8" readonly autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:140px;color:var(--accent3);opacity:0.9"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- IO Section -->
+  <div class="io-section">
+    <div class="io-panel input-panel" id="inputPanel">
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-zone-icon">⬇</div>
+        <div class="drop-zone-text">Release to load the file</div>
+      </div>
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          PLAINTEXT / INPUT
+        </div>
+        <div class="io-actions">
+          <button class="upload-btn" onclick="triggerFileInput()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload File
+          </button>
+          <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear">✕</button>
+          <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </button>
+        </div>
+      </div>
+      <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)">
+      <textarea class="io-textarea" id="inputText" placeholder="Enter plaintext to encrypt here...&#10;&#10;Supports any UTF-8 text, or click ↑ to load a file"></textarea>
+      <div class="io-footer">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="io-stat" id="inputStat">0 bytes</span>
+          <div class="file-badge" id="inputFileBadge" style="display:none">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <span class="file-badge-name" id="inputFileName"></span>
+            <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file">✕</button>
+          </div>
+        </div>
+        <div class="format-tabs-wrap" id="formatTabsWrap">
+          <div class="custom-tooltip">File mode locks the format to TEXT</div>
+          <button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')">TEXT</button>
+          <button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')">HEX</button>
+          <button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')">BASE64</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="io-panel output-panel">
+      <div class="io-header">
+        <div class="io-title">
+          <div class="io-dot"></div>
+          CIPHERTEXT / OUTPUT
+        </div>
+        <div class="io-actions">
+          <button class="icon-btn" onclick="copyOutput(this)" title="Copy output">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <div class="dl-txt-wrap">
+          <button class="icon-btn" onclick="downloadOutputText()" aria-label="Download text">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+            <div class="dl-tooltip">Download as <strong>.txt</strong><br><span>Base64/Hex text format<br>Ready for reading or copy/paste</span></div>
+          </div>
+        </div>
+      </div>
+      <textarea class="io-textarea" id="outputText" placeholder="Encrypted output will appear here..." readonly></textarea>
+      <div class="output-file-strip" id="outputFileStrip">
+        <div class="output-file-info">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          <span id="outputFileLabel">Encryption complete</span>
+          <span style="color:var(--text3);font-size:10px">— Raw binary bytes that can be fed into a decryption tool</span>
+        </div>
+        <button class="enc-download-link" onclick="downloadOutputFile()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download .enc
+        </button>
+      </div>
+      <div class="copy-config-strip" id="copyConfigStrip">
+        <div class="copy-config-info">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Export the current configuration (mode / key size / key / IV) for direct use in the matching decryption tool
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy Config
+          </button>
+          <button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Config
+          </button>
+        </div>
+      </div>
+      <div class="io-footer">
+        <span class="io-stat" id="outputStat">0 bytes</span>
+        <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Row -->
+  <div class="action-row">
+    <button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ ENCRYPT</button>
+    <a href="/fr/utility-tools/math/rsa-decrypt/" class="decrypt-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Need decryption?
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-indicator"></div>
+    <span class="status-text" id="statusText">Ready - configure keys, then click encrypt or decrypt</span>
+    <span class="status-time" id="statusTime"></span>
+  </div>
+
+  <!-- Info Strip -->
+  <div class="info-strip">
+    <div class="info-card">
+      <div class="info-card-label">Algorithm</div>
+      <div class="info-card-value" id="infoAlgo">RSA</div>
+      <div class="info-card-sub" id="infoMode">OAEP / SHA-256</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Key Strength</div>
+      <div class="info-card-value" id="infoKeySize">4096</div>
+      <div class="info-card-sub">bits</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Security Level</div>
+      <div class="info-card-value" id="infoSecurity">HIGH</div>
+      <div class="info-card-sub" id="infoSecSub">Asymmetric</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Processed</div>
+      <div class="info-card-value" id="infoBytes">0</div>
+      <div class="info-card-sub" id="infoBytesUnit">bytes this session</div>
+    </div>
+  </div>
+
+  <!-- Explanation Sections -->
+  <div class="explain-section" id="explain-key">
+    <div class="explain-icon">🔑</div>
+    <div class="explain-body">
+      <div class="explain-title">Why does RSA encryption use a public key?</div>
+      <div class="explain-text">RSA is an asymmetric encryption algorithm that uses a key pair: the <strong style="color:#c8e0f0">public key</strong> encrypts data, while the <strong style="color:#c8e0f0">private key</strong> decrypts it. The public key can be shared openly with anyone who wants to send you encrypted data, but the private key must remain secret.<br><br>The main advantage is that the sender does not need to share a secret in advance. Anyone can encrypt with the public key, but only the holder of the matching private key can decrypt the result. If the private key is lost, the encrypted data cannot be recovered.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-keysize">
+    <div class="explain-icon">📏</div>
+    <div class="explain-body">
+      <div class="explain-title">How should you choose the key size?</div>
+      <div class="explain-text">Longer RSA keys provide stronger security, but they also slow down key generation and encryption/decryption.<br><br><strong style="color:#c8e0f0">2048-bit</strong>: widely considered secure today, suitable for general use, and the fastest option.<br><br><strong style="color:#c8e0f0">3072-bit</strong>: adds a wider security margin and is recommended for longer-term confidentiality.<br><br><strong style="color:#c8e0f0">4096-bit</strong>: the highest security level on this page, best for very high security requirements, but slower to generate and use.<br><br>Note: RSA can only encrypt limited-size plaintext in a single operation. With 2048-bit/SHA-256 the limit is about 190 bytes; with 4096-bit it is about 446 bytes. Use chunking or hybrid encryption for larger payloads.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-hash">
+    <div class="explain-icon">⚙️</div>
+    <div class="explain-body">
+      <div class="explain-title">What is OAEP hash?</div>
+      <div class="explain-text">RSA-OAEP (Optimal Asymmetric Encryption Padding) is the recommended padding scheme for RSA encryption today. It uses a hash function to add randomness and defend against chosen-plaintext attacks.<br><br><strong style="color:#c8e0f0">SHA-256</strong> (recommended): strong security, broad adoption, and good compatibility.<br><strong style="color:#c8e0f0">SHA-384 / SHA-512</strong>: a wider security margin, but they slightly reduce the maximum plaintext size.<br><strong style="color:#c8e0f0">SHA-1</strong>: kept only for legacy compatibility and not recommended for new systems.<br><br>Encryption and decryption must use the same hash algorithm.</div>
+    </div>
+  </div>
+
+  <div class="explain-section" id="explain-encoding">
+    <div class="explain-icon">🔠</div>
+    <div class="explain-body">
+      <div class="explain-title">What is output encoding?</div>
+      <div class="explain-text">The raw output of RSA encryption is binary data, which is not convenient for direct storage or text transmission. Output Encoding converts the bytes into a printable format.<br><br><strong style="color:#c8e0f0">Base64</strong>: encodes every 3 bytes into 4 ASCII characters, producing output about 1.33× the original size. Compact and widely used in APIs, email, and JSON payloads.<br><br><strong style="color:#c8e0f0">Hex</strong>: represents every byte as 2 hexadecimal characters, doubling the output size. Easier to inspect and useful for debugging byte by byte.</div>
+    </div>
+  </div>
+
+  <!-- PEM Format Guide -->
+  <div class="explain-section" id="explain-pem">
+    <div class="explain-icon">📄</div>
+    <div class="explain-body">
+      <div class="explain-title">PEM Format Guide</div>
+      <div class="explain-text">
+        <p><strong>1️⃣ What is PEM format?</strong><br>
+        PEM (Privacy-Enhanced Mail) is a text format used to store and transfer keys and certificates. It Base64-encodes binary DER data and wraps it with headers and footers like <code>-----BEGIN &lt;LABEL&gt;-----</code> and <code>-----END &lt;LABEL&gt;-----</code>. Common labels include <code>PUBLIC KEY</code>, <code>PRIVATE KEY</code>, and <code>CERTIFICATE</code>. It is easy to copy, paste, and transmit in text-based workflows, making it one of the most common key exchange formats.</p>
+
+        <p><strong>2️⃣ Which other formats are common besides PEM?</strong><br>
+        - <strong>DER</strong>: a pure binary format that stores ASN.1 structures directly. It is not human-readable and is common in Java ecosystems.<br>
+        - <strong>HEX</strong>: expresses DER binary content as a hexadecimal string, useful for debugging or embedding in code.<br>
+        - <strong>Base64 (without headers)</strong>: raw DER encoded as Base64 without PEM headers, often used in compact configurations or token payloads.<br>
+        - <strong>PKCS#12 (PFX)</strong>: a binary container format that can bundle public and private keys together, usually protected by a password and often used by browsers or Windows systems.</p>
+
+        <p><strong>3️⃣ When should you use each format?</strong><br>
+        - <strong>PEM</strong>: the most universal option, suitable for OpenSSL, web servers (Nginx/Apache), and API exchange.<br>
+        - <strong>DER</strong>: commonly used in Java environments or where strict binary storage is required.<br>
+        - <strong>HEX</strong>: useful in debugging, embedded systems, or whenever exact byte inspection is needed.<br>
+        - <strong>Base64 (without headers)</strong>: useful when formatting is constrained or a compact representation is required.<br>
+        - <strong>PKCS#12</strong>: useful when both public and private keys must be transported together while protecting the private key with a password.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
+    <script src="/static/js/utility-tools/math/rsa-encrypt/script-en.js"></script>
+    <script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
