@@ -1,560 +1,419 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta (English) -->
-    <title>WebSocket Online Test Tool - Free WS/WSS Client | StarryRing</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SEO Meta (English) -->
+<title>Ferramenta de teste on-line WebSocket - Cliente WS/WSS gratuito | StarryRing</title>
 <!-- Open Graph / Facebook -->
-
-<meta property="og:image" content="https://starryring.com/preview-websocket.png">
-<meta property="og:type" content="website">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/preview-websocket.png">
-
-    <!-- Canonical & hreflang -->
-
-
+<meta content="https://starryring.com/preview-websocket.png" property="og:image"/>
+<meta content="website" property="og:type"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/preview-websocket.png" name="twitter:image"/>
+<!-- Canonical & hreflang -->
 <!-- Favicon (same) -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <!-- Structured Data (JSON-LD) with English FAQ -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Online WebSocket Test Tool",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-                "description": "Free online WebSocket testing tool. Supports WS/WSS connections, custom headers, message stats, templates, log search. No download, fast debugging.",
-                "url": "https://starryring.com/pt/utility-tools/netdev/websocket-test/",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://starryring.com/preview-websocket.png",
-                    "width": 1200,
-                    "height": 630,
-                    "caption": "WebSocket test tool interface"
-                },
-                "screenshot": [
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/websocket-test-interface.png",
-                        "width": 1280,
-                        "height": 720,
-                        "caption": "WebSocket connection test interface",
-                        "description": "WebSocket connection config and messaging interface"
-                    }
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com",
-                    "logo": "https://starryring.com/logo.png"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "WebSocket / WebSocket Secure (WS/WSS) connections",
-                    "Custom headers addition",
-                    "Sent/received message statistics",
-                    "Common endpoints quick-fill",
-                    "Message templates (Ping, Hello, Subscribe, etc.)",
-                    "Real-time log with search and filter",
-                    "Multiple message formats: Text, JSON, Hex",
-                    "Live connection latency measurement"
-                ]
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What is WebSocket?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "WebSocket is a protocol providing full-duplex communication over a single TCP connection, allowing servers to push data to clients. This tool helps test if your WebSocket service works correctly."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I test a WebSocket connection?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Enter the WebSocket server URL (e.g. wss://echo.websocket.org), click 'Connect'. Once connected, type a message in the input area and click 'Send'. Received messages appear in the log."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why does the connection fail?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Possible reasons: wrong server address, server doesn't support WSS (try WS), firewall blocking, server down or CORS restrictions. Check the URL and ensure the server allows WebSocket connections."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I add custom headers?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Under 'Connection Settings', click '+ Add' to input header name and value. These headers are sent during the WebSocket handshake, useful for authentication or custom parameters."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What message formats are supported?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Text, JSON, and Hex. Select the format, enter your content, and it will be converted automatically. JSON mode includes format and minify buttons for easy editing."
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-
-    <!-- Fonts & Styles (keep original) -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/utility-tools/netdev/websocket-test/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    <meta name="description" content="Free online WebSocket testing tool. Supports WS/WSS connections, custom headers, message stats, templates, log search. No download, fast debugging.">
-            <link rel="canonical" href="https://starryring.com/pt/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/netdev/websocket-test/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/websocket-test/">
-<meta property="og:url" content="https://starryring.com/pt/utility-tools/netdev/websocket-test/">
-    <meta property="og:locale" content="pt_PT">
-<meta property="og:title" content="WebSocket Online Test Tool">
-    <meta property="og:description" content="Free online WebSocket testing tool. Supports WS/WSS connections, custom headers, message stats, templates, fast debugging.">
-    <meta name="twitter:title" content="WebSocket Online Test Tool">
-    <meta name="twitter:description" content="Free online WebSocket testing tool. Supports WS/WSS connections, custom headers, message stats, templates, fast debugging.">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- Structured Data (JSON-LD) with English FAQ -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "Ferramenta de teste WebSocket on-line", "applicationCategory": "UtilitiesApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "description": "Ferramenta de teste WebSocket online gratuita. Suporta conexões WS/WSS, cabeçalhos personalizados, estatísticas de mensagens, modelos, pesquisa de log. Sem download, depuração rápida.", "url": "https://starryring.com/pt/utility-tools/netdev/websocket-test/", "image": { "@type": "ImageObject", "url": "https://starryring.com/preview-websocket.png", "width": 1200, "height": 630, "caption": "Interface da ferramenta de teste WebSocket" }, "screenshot": [ { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/websocket-test-interface.png", "width": 1280, "height": 720, "caption": "Interface de teste de conexão WebSocket", "description": "Configuração de conexão WebSocket e interface de mensagens" } ], "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com", "logo": "https://starryring.com/logo.png" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "WebSocket / WebSocket Secure (WS/WSS) connections", "Custom headers addition", "Sent/received message statistics", "Common endpoints quick-fill", "Message templates (Ping, Hello, Subscribe, etc.)", "Real-time log with search and filter", "Multiple message formats: Text, JSON, Hex", "Live connection latency measurement" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "O que é WebSocket?", "acceptedAnswer": { "@type": "Answer", "text": "WebSocket é um protocolo que fornece comunicação full-duplex em uma única conexão TCP, permitindo que os servidores enviem dados aos clientes. Esta ferramenta ajuda a testar se o seu serviço WebSocket funciona corretamente." } }, { "@type": "Question", "name": "Como faço para testar uma conexão WebSocket?", "acceptedAnswer": { "@type": "Answer", "text": "Insira o URL do servidor WebSocket (por exemplo, wss://echo.websocket.org), clique em 'Conectar'. Uma vez conectado, digite uma mensagem na área de entrada e clique em ‘Enviar’. As mensagens recebidas aparecem no log." } }, { "@type": "Question", "name": "Por que a conexão falha?", "acceptedAnswer": { "@type": "Answer", "text": "Possíveis motivos: endereço de servidor errado, servidor não suporta WSS (tente WS), bloqueio de firewall, servidor inativo ou restrições de CORS. Verifique a URL e certifique-se de que o servidor permite conexões WebSocket." } }, { "@type": "Question", "name": "Como adiciono cabeçalhos personalizados?", "acceptedAnswer": { "@type": "Answer", "text": "Em 'Configurações de conexão', clique em '+ Adicionar' para inserir o nome e o valor do cabeçalho. Esses cabeçalhos são enviados durante o handshake do WebSocket, úteis para autenticação ou parâmetros personalizados." } }, { "@type": "Question", "name": "Quais formatos de mensagem são suportados?", "acceptedAnswer": { "@type": "Answer", "text": "Texto, JSON e hexadecimal. Selecione o formato, insira seu conteúdo e ele será convertido automaticamente. O modo JSON inclui botões de formatação e redução para fácil edição." } } ] } ]
+}</script>
+<!-- Fonts & Styles (keep original) -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&amp;family=Syne:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="/static/css/utility-tools/netdev/websocket-test/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<meta content="Ferramenta de teste WebSocket online gratuita. Suporta conex&otilde;es WS/WSS, cabe&ccedil;alhos personalizados, estat&iacute;sticas de mensagens, modelos, pesquisa de log. Sem download, depura&ccedil;&atilde;o r&aacute;pida." name="description"/>
+<link href="https://starryring.com/pt/utility-tools/netdev/websocket-test/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/netdev/websocket-test/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/netdev/websocket-test/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/netdev/websocket-test/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/netdev/websocket-test/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/netdev/websocket-test/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/netdev/websocket-test/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/netdev/websocket-test/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/netdev/websocket-test/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/netdev/websocket-test/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/netdev/websocket-test/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/netdev/websocket-test/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/netdev/websocket-test/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/netdev/websocket-test/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/netdev/websocket-test/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/netdev/websocket-test/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/netdev/websocket-test/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/netdev/websocket-test/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/netdev/websocket-test/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/netdev/websocket-test/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/netdev/websocket-test/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/pt/utility-tools/netdev/websocket-test/" property="og:url"/>
+<meta content="pt_PT" property="og:locale"/>
+<meta content="Ferramenta de teste on-line WebSocket" property="og:title"/>
+<meta content="Ferramenta de teste WebSocket online gratuita. Suporta conex&otilde;es WS/WSS, cabe&ccedil;alhos personalizados, estat&iacute;sticas de mensagens, modelos e depura&ccedil;&atilde;o r&aacute;pida." property="og:description"/>
+<meta content="Ferramenta de teste on-line WebSocket" name="twitter:title"/>
+<meta content="Ferramenta de teste WebSocket online gratuita. Suporta conex&otilde;es WS/WSS, cabe&ccedil;alhos personalizados, estat&iacute;sticas de mensagens, modelos e depura&ccedil;&atilde;o r&aacute;pida." name="twitter:description"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Selecionar idioma" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/netdev/websocket-test/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/netdev/websocket-test/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/netdev/websocket-test/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/netdev/websocket-test/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/netdev/websocket-test/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/netdev/websocket-test/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/netdev/websocket-test/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/netdev/websocket-test/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/netdev/websocket-test/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/netdev/websocket-test/" data-lang="bn">বাংলা</a>
-            <a class="language-option selected" href="/pt/utility-tools/netdev/websocket-test/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/netdev/websocket-test/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/netdev/websocket-test/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/netdev/websocket-test/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/netdev/websocket-test/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/netdev/websocket-test/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/netdev/websocket-test/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/netdev/websocket-test/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/netdev/websocket-test/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/netdev/websocket-test/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="Selecione o idioma" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/netdev/websocket-test/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/netdev/websocket-test/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/netdev/websocket-test/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/netdev/websocket-test/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/netdev/websocket-test/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/netdev/websocket-test/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/netdev/websocket-test/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/netdev/websocket-test/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/netdev/websocket-test/">বাংলা</a>
+<a class="language-option selected" data-lang="pt" href="/pt/utility-tools/netdev/websocket-test/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/netdev/websocket-test/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/netdev/websocket-test/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/netdev/websocket-test/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/netdev/websocket-test/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/netdev/websocket-test/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/netdev/websocket-test/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/netdev/websocket-test/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/netdev/websocket-test/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/netdev/websocket-test/">தமிழ்</a>
+</div>
+</div>
 <!-- Breadcrumb (English) -->
-    <div class="breadcrumb-section" itemscope itemtype="https://schema.org/BreadcrumbList">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/pt/" class="breadcrumb-link" itemprop="item">
-                        <i class="fas fa-home"></i> 
-                        <span itemprop="name">Início</span>
-                    </a>
-                    <meta itemprop="position" content="1">
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/pt/utility-tools/" class="breadcrumb-link" itemprop="item">
-                        <i class="fas fa-toolbox"></i>
-                        <span itemprop="name">Utilities</span>
-                    </a>
-                    <meta itemprop="position" content="2">
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <span class="breadcrumb-active" itemprop="name">WebSocket Terminal</span>
-                    <meta itemprop="position" content="3">
-                </li>
-            </ol>
-        </nav>
-    </div>
-
-    <!-- Language Switcher (English selected) -->
+<div class="breadcrumb-section" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<a class="breadcrumb-link" href="/pt/" itemprop="item">
+<i class="fas fa-home"></i>
+<span itemprop="name">Lar</span>
+</a>
+<meta content="1" itemprop="position"/>
+</li>
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<a class="breadcrumb-link" href="/pt/utility-tools/" itemprop="item">
+<i class="fas fa-toolbox"></i>
+<span itemprop="name">Utilit&aacute;rios</span>
+</a>
+<meta content="2" itemprop="position"/>
+</li>
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<span class="breadcrumb-active" itemprop="name">Terminal WebSocket</span>
+<meta content="3" itemprop="position"/>
+</li>
+</ol>
+</nav>
+</div>
+<!-- Language Switcher (English selected) -->
 <!-- Header -->
-    <header>
-        <h1 class="logo">
-            <div class="logo-icon"><svg viewBox="0 0 16 16"><polyline points="2,11 6,5 10,8 14,3"/></svg></div>
-            WS <em>Terminal</em>
-        </h1>
-        <div class="htags"><span class="tag">v2.4</span><span class="tag">WebSocket</span><span class="tag">Client</span></div>
-    </header>
-
-    <!-- Short description -->
-    <div style="max-width:1200px; margin:0 auto 16px auto; padding:0 20px; color:var(--text2); font-size:0.95rem;">
-        <p>⚡ Online WebSocket test tool: enter server address, click connect and start messaging. Supports custom headers, templates, real-time stats & log filtering. No download, fast debugging.</p>
-    </div>
-
-    <div class="wrap">
-        <!-- Connection Settings -->
-        <div class="card">
-            <div class="ch">
-                <h2 class="cl"><div class="cdot" id="hd" style="background:var(--text3)"></div>Connection Settings</h2>
-                <div class="strip">
-                    <div class="seg"><div class="dot" id="sd"></div><span class="sl">Status:</span><span class="sv" id="ss">DISCONNECTED</span></div>
-                    <div class="seg"><span class="sl">↑</span><span class="snu" id="scnt">0</span></div>
-                    <div class="seg"><span class="sl">↓</span><span class="snd2" id="rcnt">0</span></div>
-                    <div class="seg"><span class="sl">Uptime:</span><span class="sv" id="upd">—</span></div>
-                    <span id="pb" class="pb">—ms</span>
-                </div>
-            </div>
-            <div class="cbody">
-                <div>
-                    <span class="fl">WebSocket URL</span>
-                    <div class="urow">
-                        <div class="url-wrap">
-                            <div class="url-field" id="url-field">
-                                <span class="url-prefix" id="proto-prefix">wss://</span>
-                                <input type="text" id="url" placeholder="echo.websocket.org" autocomplete="off"
-                                    onfocus="onUrlFocus()" oninput="onUrlInput()" onkeydown="onUrlKeydown(event)">
-                                <button class="url-hist-btn" id="url-hist-btn" onclick="toggleHistDrop()" title="History" tabindex="-1">
-                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="2,3 5,7 8,3"/>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="url-hist-drop" id="url-hist-drop">
-                                <div class="url-hist-header">
-                                    <span class="url-hist-label">
-                                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6" cy="6" r="4.5"/><polyline points="6,3.5 6,6 7.5,7.5"/></svg>
-                                        History
-                                    </span>
-                                    <button class="url-hist-clear" onclick="clearAllHist()">Clear all</button>
-                                </div>
-                                <div class="url-hist-list" id="url-hist-list"></div>
-                            </div>
-                        </div>
-                        <button class="btn ba" id="cb2" onclick="doConn()">
-                            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Connect
-                        </button>
-                        <button class="btn bd" id="db" onclick="doDisc()" style="display:none">
-                            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Disconnect
-                        </button>
-                    </div>
-                </div>
-                <div class="prow">
-                    <span class="fl" style="margin:0">Protocol:</span>
-                    <button class="prc" onclick="selProto(this,'ws')">WS</button>
-                    <button class="prc act" onclick="selProto(this,'wss')">WSS</button>
-                </div>
-                <p class="feature-desc" style="margin-top:12px; color:var(--text2); font-size:0.9rem; border-top:1px dashed rgba(255,255,255,0.1); padding-top:8px;">
-                    <i class="fas fa-info-circle"></i> Enter WebSocket server address, choose ws/wss, add custom headers if needed. After successful connection, status indicator turns green.
-                </p>
-            </div>
-            <div class="hsec">
-                <div class="htitle"><span>Custom Headers</span><button class="btn bs" onclick="addH()">+ Add</button></div>
-                <div id="hl"></div>
-            </div>
-        </div>
-
-        <!-- Message Statistics -->
-        <div class="card">
-            <h2 class="ch" style="margin-top:0; padding-top:0;"><div class="cl"><div class="cdot" style="background:var(--text3)"></div>Message Statistics</h2>
-            <div class="mgrid">
-                <div class="met"><div class="mv" id="mT">0</div><div class="mlb">Total</div></div>
-                <div class="met"><div class="mv mvb" id="mS">0</div><div class="mlb">Sent</div></div>
-                <div class="met"><div class="mv mvg" id="mR">0</div><div class="mlb">Received</div></div>
-                <div class="met"><div class="mv mva" id="mB">0 B</div><div class="mlb">Traffic</div></div>
-                <div class="met"><div class="mv" id="mL">—</div><div class="mlb">Latency ms</div><div class="lc" id="lc"></div></div>
-            </div>
-            <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
-                <i class="fas fa-chart-line"></i> Real‑time stats of sent/received messages, total bytes and current latency. Latency is calculated via periodic heartbeat.
-            </p>
-        </div>
-
-        <!-- Preset Endpoints & Message Templates (two columns) -->
-        <div class="two">
-            <div class="card">
-                <h2 class="ch"><div class="cl"><div class="cdot" style="background:var(--warn)"></div>Preset Endpoints</h2>
-                <div class="pbody">
-                    <div class="pi act" onclick="selP(this,'echo.websocket.org')"><div class="pd" style="background:var(--accent)"></div><div><div class="pn">Echo Server</div><div class="pu">echo.websocket.org</div></div></div>
-                    <div class="pi" onclick="selP(this,'ws.postman-echo.com/raw')"><div class="pd" style="background:var(--info)"></div><div><div class="pn">Postman Echo</div><div class="pu">ws.postman-echo.com/raw</div></div></div>
-                    <div class="pi" onclick="selP(this,'localhost:8080/ws')"><div class="pd" style="background:var(--warn)"></div><div><div class="pn">Local Dev</div><div class="pu">localhost:8080/ws</div></div></div>
-                    <div class="pi" onclick="selP(this,'localhost:3000/socket')"><div class="pd" style="background:var(--text3)"></div><div><div class="pn">Local Socket.IO</div><div class="pu">localhost:3000/socket</div></div></div>
-                </div>
-                <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
-                    <i class="fas fa-database"></i> Click a preset to fill the URL instantly, connect to public test servers or local dev addresses.
-                </p>
-            </div>
-            <div class="card">
-                <h2 class="ch"><div class="cl"><div class="cdot" style="background:var(--send)"></div>Message Templates</h2>
-                <div class="tbody">
-                    <div class="ti" onclick="insPing()"><div class="tn">Ping</div><div class="tp">{"type":"ping",...}</div></div>
-                    <div class="ti" onclick="insHello()"><div class="tn">Hello</div><div class="tp">{"type":"hello",...}</div></div>
-                    <div class="ti" onclick="insTpl('sub')"><div class="tn">Subscribe</div><div class="tp">{"action":"subscribe",...}</div></div>
-                    <div class="ti" onclick="insTpl('auth')"><div class="tn">Auth</div><div class="tp">{"type":"auth","token":...}</div></div>
-                    <div class="ti" onclick="insTpl('hb')"><div class="tn">Heartbeat</div><div class="tp">{"cmd":"heartbeat",...}</div></div>
-                </div>
-                <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
-                    <i class="fas fa-file-code"></i> Click a template to insert common JSON messages. Edit before sending.
-                </p>
-            </div>
-        </div>
-
-        <!-- Send Message -->
-        <div class="card">
-            <div class="ch">
-                <h2 class="cl"><div class="cdot" style="background:var(--send)"></div>Send Message</h2>
-                <select class="fs" id="fmtSel"><option value="text">Text</option><option value="json">JSON</option><option value="hex">Hex</option></select>
-            </div>
-            <div class="sbody">
-                <div class="stb">
-                    <div class="sc">
-                        <button class="btn scb" onclick="fmtJ()">Format</button>
-                        <button class="btn scb" onclick="minJ()">Minify</button>
-                        <button class="btn scb" onclick="clrInp()">Clear</button>
-                    </div>
-                    <span class="hint">Ctrl+Enter to send</span>
-                </div>
-                <div class="srow">
-                    <textarea class="mi" id="inp" placeholder="Enter message..." onkeydown="onK(event)"></textarea>
-                    <button class="btn ba ssendbtn" id="sendbtn" onclick="doSend()" disabled>
-                        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M11 6.5L2 2l2 4.5-2 4.5 9-4.5z" fill="currentColor"/></svg>Send
-                    </button>
-                </div>
-            </div>
-            <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
-                <i class="fas fa-paper-plane"></i> Supports Text, JSON, Hex. JSON can be formatted/minified. Shortcut: Ctrl+Enter to send.
-            </p>
-        </div>
-
-        <!-- Message Log -->
-        <div class="card">
-            <div class="lh">
-                <h2 class="ftabs" style="display:inline-block; margin:0; font-size:1.1rem; font-weight:600;">Message Log</h2>
-                <div style="display:flex; gap:4px;">
-                    <button class="ft act" onclick="setF('all',this)">All</button>
-                    <button class="ft" onclick="setF('recv',this)">Received</button>
-                    <button class="ft" onclick="setF('send',this)">Sent</button>
-                    <button class="ft" onclick="setF('sys',this)">System</button>
-                </div>
-                <div class="la">
-                    <div class="sw"><span class="si">&#9906;</span><input type="text" id="srch" placeholder="Search..." oninput="rLog()"></div>
-                    <button class="btn asb on" id="asb" onclick="togAS()">Auto scroll</button>
-                    <button class="btn bs" onclick="clrLog()">Clear</button>
-                    <button class="btn bs" onclick="expLog()">Export</button>
-                </div>
-            </div>
-            <div class="ml" id="ml">
-                <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/></svg><span>Messages appear here after connection</span></div>
-            </div>
-            <p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
-                <i class="fas fa-list"></i> All sent/received messages are displayed in real time. Filter by type, search by keyword, auto‑scroll and export supported.
-            </p>
-        </div>
-    </div>
-
-    <!-- ========== 6 Core Features + FAQ (English) ========== -->
-    <div class="instructions-section" style="max-width:1200px; margin:40px auto 0 auto; padding:0 20px;">
-        <div class="instructions-content">
-            <h2>Professional WebSocket Test Tool Features</h2>
-            <div class="feature-grid">
-                <!-- 1. Multi-protocol -->
-                <div class="feature-item">
-                    <h3><i class="fas fa-exchange-alt"></i> Multi‑protocol (WS/WSS)</h3>
-                    <p>Switch between ws and wss with one click. Auto‑complete URL prefixes, compatible with encrypted and plain connections.</p>
-                    <div class="tip">
-                        <span class="tip-text">Auto‑select protocol based on server</span>
-                    </div>
-                </div>
-                <!-- 2. Custom headers -->
-                <div class="feature-item">
-                    <h3><i class="fas fa-headers"></i> Custom Headers</h3>
-                    <p>Add any HTTP headers for authentication, tokens, or custom parameters. Sent during handshake.</p>
-                    <div class="tip">
-                        <span class="tip-text">Click "+ Add" to enter header key/value</span>
-                    </div>
-                </div>
-                <!-- 3. Real‑time stats -->
-                <div class="feature-item">
-                    <h3><i class="fas fa-chart-pie"></i> Real‑time Stats</h3>
-                    <p>Monitor sent/received counts, total traffic, and current latency. Updated every second.</p>
-                    <div class="tip">
-                        <span class="tip-text">Latency calculated via heartbeat pings</span>
-                    </div>
-                </div>
-                <!-- 4. Presets & Templates -->
-                <div class="feature-item">
-                    <h3><i class="fas fa-draw-polygon"></i> Presets & Templates</h3>
-                    <p>Built‑in public test servers and message templates (Ping, Hello, Subscribe, etc.) for instant testing.</p>
-                    <div class="tip">
-                        <span class="tip-text">Click a card to auto‑fill URL or message</span>
-                    </div>
-                </div>
-                <!-- 5. Powerful Logging -->
-                <div class="feature-item">
-                    <h3><i class="fas fa-history"></i> Powerful Logging</h3>
-                    <p>Real‑time log with type filters, keyword search, auto‑scroll, and export to text file.</p>
-                    <div class="tip">
-                        <span class="tip-text">Keeps last 500 messages</span>
-                    </div>
-                </div>
-                <!-- 6. Multi‑format Editor -->
-                <div class="feature-item">
-                    <h3><i class="fas fa-edit"></i> Multi‑format Editor</h3>
-                    <p>Text, JSON, Hex. JSON format/minify buttons, Ctrl+Enter shortcut for fast sending.</p>
-                    <div class="tip">
-                        <span class="tip-text">Input field adapts to selected format</span>
-                    </div>
-                </div>
-            </div>
-
-            <h2>Frequently Asked Questions (FAQ)</h2>
-            <div class="faq-section">
-                <div class="faq-item">
-                    <h3>What is WebSocket?</h3>
-                    <p>WebSocket is a protocol providing full‑duplex communication over a single TCP connection, allowing servers to push data to clients. This tool helps test if your WebSocket service works correctly.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How do I test a WebSocket connection?</h3>
-                    <p>Enter the WebSocket server URL (e.g. wss://echo.websocket.org), click 'Connect'. Once connected, type a message in the input area and click 'Send'. Received messages appear in the log.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Why does the connection fail?</h3>
-                    <p>Possible reasons: wrong server address, server doesn't support WSS (try WS), firewall blocking, server down or CORS restrictions. Check the URL and ensure the server allows WebSocket connections.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How do I add custom headers?</h3>
-                    <p>Under 'Connection Settings', click '+ Add' to input header name and value. These headers are sent during the WebSocket handshake, useful for authentication or custom parameters.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>What message formats are supported?</h3>
-                    <p>Text, JSON, and Hex. Select the format, enter your content, and it will be converted automatically. JSON mode includes format and minify buttons for easy editing.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Can I save the log?</h3>
-                    <p>Yes. Click the 'Export' button in the log area to download the current log as a text file.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How is latency calculated?</h3>
-                    <p>After connection, the tool sends a built‑in ping message every 10 seconds and measures the time until the pong is received, displaying the current latency.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Internal Links: Related Tools (English) -->
-    <div class="tools-navigation-section" style="max-width:1200px; margin:32px auto 0 auto; padding:0 20px;">
-        <h2 class="tools-navigation-title">
-            <i class="fas fa-tools"></i> Network Debugging Toolkit
-        </h2>
-        <p class="tools-navigation-subtitle">More utilities to assist network development and testing</p>
-        <div class="tools-navigation-grid">  
-            <a href="/pt/utility-tools/netdev/ping/" class="tool-card">
-                <div class="tool-card-content">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon"><i class="fas fa-network-wired"></i></div>
-                        <h3>Online Ping Test</h3>
-                    </div>
-                    <p>Check latency and connectivity, supports IPv4/IPv6</p>
-                </div>
-            </a>
-            <a href="./" class="tool-card">
-                <div class="tool-card-content">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon"><i class="fas fa-search"></i></div>
-                        <h3>DNS Lookup</h3>
-                    </div>
-                    <p>Resolve A, MX, TXT records and more</p>
-                </div>
-            </a>
-            <a href="./" class="tool-card">
-                <div class="tool-card-content">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon"><i class="fas fa-plug"></i></div>
-                        <h3>Port Scanner</h3>
-                    </div>
-                    <p>Check open ports on a target IP, fast service diagnosis</p>
-                </div>
-            </a>
-            <a href="./" class="tool-card">
-                <div class="tool-card-content">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon"><i class="fas fa-heading"></i></div>
-                        <h3>HTTP Headers</h3>
-                    </div>
-                    <p>Analyze response headers and security settings</p>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- Footer (English links) -->
-    <footer style="max-width:1200px; margin:32px auto 0 auto; padding:16px 20px; border-top:1px solid rgba(148,163,184,0.35); text-align:center; font-size:0.85rem; color:#9ca3af;">
-        <div style="margin-bottom:6px;">© 2024 StarryRing · Online WebSocket Test Tool</div>
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
-            <a href="/pt/about-us/" style="color:#60a5fa; text-decoration:none;">Sobre nós</a>
-            <a href="/pt/contact-us/" style="color:#60a5fa; text-decoration:none;">Contate-nos</a>
-            <a href="/pt/disclaimer/" style="color:#60a5fa; text-decoration:none;">Aviso legal</a>
-            <a href="/pt/privacy/" style="color:#60a5fa; text-decoration:none;">Política de privacidade</a>
-            <a href="/pt/terms/" style="color:#60a5fa; text-decoration:none;">Terms of Use</a>
-        </div>
-    </footer>
-
-    <!-- Deferred JS (English version) -->
-    <script src="/static/js/utility-tools/netdev/websocket-test/script-en.js" defer></script>
-    <script src="/static/js/shared/switchlanguage.js" defer></script>
-
-    <!-- No‑script fallback -->
-    <noscript>
-        <style>
-            .container { display: block !important; }
-            .language-switcher { display: none; }
-        </style>
-        <p style="text-align: center; padding: 20px; color: var(--warning);">
-            Note: This page requires JavaScript for full functionality. Please enable JavaScript in your browser.
-        </p>
-    </noscript>
+<header>
+<h1 class="logo">
+<div class="logo-icon"><svg viewbox="0 0 16 16"><polyline points="2,11 6,5 10,8 14,3"></polyline></svg></div> WS <em>Terminal</em>
+</h1>
+<div class="htags"><span class="tag">v2.4</span><span class="tag">WebSocket</span><span class="tag">Cliente</span></div>
+</header>
+<!-- Short description -->
+<div style="max-width:1200px; margin:0 auto 16px auto; padding:0 20px; color:var(--text2); font-size:0.95rem;">
+<p>⚡ Ferramenta de teste WebSocket online: insira o endere&ccedil;o do servidor, clique em conectar e comece a enviar mensagens. Suporta cabe&ccedil;alhos personalizados, modelos, estat&iacute;sticas em tempo real e filtragem de log. Sem download, depura&ccedil;&atilde;o r&aacute;pida.</p>
+</div>
+<div class="wrap">
+<!-- Connection Settings -->
+<div class="card">
+<div class="ch">
+<h2 class="cl"><div class="cdot" id="hd" style="background:var(--text3)"></div>Configura&ccedil;&otilde;es de conex&atilde;o</h2>
+<div class="strip">
+<div class="seg"><div class="dot" id="sd"></div><span class="sl">Status:</span><span class="sv" id="ss">DESCONECTADO</span></div>
+<div class="seg"><span class="sl">&uarr;</span><span class="snu" id="scnt">0</span></div>
+<div class="seg"><span class="sl">&darr;</span><span class="snd2" id="rcnt">0</span></div>
+<div class="seg"><span class="sl">Tempo de atividade:</span><span class="sv" id="upd">&mdash;</span></div>
+<span class="pb" id="pb">&mdash;ms</span>
+</div>
+</div>
+<div class="cbody">
+<div>
+<span class="fl">URL do WebSocket</span>
+<div class="urow">
+<div class="url-wrap">
+<div class="url-field" id="url-field">
+<span class="url-prefix" id="proto-prefix">wss://</span>
+<input autocomplete="off" id="url" onfocus="onUrlFocus()" oninput="onUrlInput()" onkeydown="onUrlKeydown(event)" placeholder="echo.websocket.org" type="text"/>
+<button class="url-hist-btn" id="url-hist-btn" onclick="toggleHistDrop()" tabindex="-1" title="Hist&oacute;rico">
+<svg fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 10 10" width="10">
+<polyline points="2,3 5,7 8,3"></polyline>
+</svg>
+</button>
+</div>
+<div class="url-hist-drop" id="url-hist-drop">
+<div class="url-hist-header">
+<span class="url-hist-label">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" viewbox="0 0 12 12" width="11"><circle cx="6" cy="6" r="4.5"></circle><polyline points="6,3.5 6,6 7.5,7.5"></polyline></svg>Hist&oacute;rico</span>
+<button class="url-hist-clear" onclick="clearAllHist()">Limpar tudo</button>
+</div>
+<div class="url-hist-list" id="url-hist-list"></div>
+</div>
+</div>
+<button class="btn ba" id="cb2" onclick="doConn()">
+<svg fill="none" height="10" viewbox="0 0 12 12" width="10"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"></circle><path d="M6 3v3l2 2" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>Conectar</button>
+<button class="btn bd" id="db" onclick="doDisc()" style="display:none">
+<svg fill="none" height="10" viewbox="0 0 12 12" width="10"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg>Desconectar</button>
+</div>
+</div>
+<div class="prow">
+<span class="fl" style="margin:0">Protocolo:</span>
+<button class="prc" onclick="selProto(this,'ws')">WS</button>
+<button class="prc act" onclick="selProto(this,'wss')">WSS</button>
+</div>
+<p class="feature-desc" style="margin-top:12px; color:var(--text2); font-size:0.9rem; border-top:1px dashed rgba(255,255,255,0.1); padding-top:8px;">
+<i class="fas fa-info-circle"></i>Insira o endere&ccedil;o do servidor WebSocket, escolha ws/wss, adicione cabe&ccedil;alhos personalizados, se necess&aacute;rio. Ap&oacute;s a conex&atilde;o bem-sucedida, o indicador de status fica verde.</p>
+</div>
+<div class="hsec">
+<div class="htitle"><span>Cabe&ccedil;alhos personalizados</span><button class="btn bs" onclick="addH()">+ Adicionar</button></div>
+<div id="hl"></div>
+</div>
+</div>
+<!-- Message Statistics -->
+<div class="card">
+<h2 class="ch" style="margin-top:0; padding-top:0;"><div class="cl"><div class="cdot" style="background:var(--text3)"></div>Estat&iacute;sticas de mensagens</div></h2>
+<div class="mgrid">
+<div class="met"><div class="mv" id="mT">0</div><div class="mlb">Total</div></div>
+<div class="met"><div class="mv mvb" id="mS">0</div><div class="mlb">Enviado</div></div>
+<div class="met"><div class="mv mvg" id="mR">0</div><div class="mlb">Recebido</div></div>
+<div class="met"><div class="mv mva" id="mB">0 B</div><div class="mlb">Tr&aacute;fego</div></div>
+<div class="met"><div class="mv" id="mL">&mdash;</div><div class="mlb">Lat&ecirc;ncia ms</div><div class="lc" id="lc"></div></div>
+</div>
+<p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+<i class="fas fa-chart-line"></i>Estat&iacute;sticas em tempo real de mensagens enviadas/recebidas, total de bytes e lat&ecirc;ncia atual. A lat&ecirc;ncia &eacute; calculada por meio de batimentos card&iacute;acos peri&oacute;dicos.</p>
+</div>
+<!-- Preset Endpoints & Message Templates (two columns) -->
+<div class="two">
+<div class="card">
+<h2 class="ch"><div class="cl"><div class="cdot" style="background:var(--warn)"></div>Pontos finais predefinidos</div></h2>
+<div class="pbody">
+<div class="pi act" onclick="selP(this,'echo.websocket.org')"><div class="pd" style="background:var(--accent)"></div><div><div class="pn">Eco Servidor</div><div class="pu">echo.websocket.org</div></div></div>
+<div class="pi" onclick="selP(this,'ws.postman-echo.com/raw')"><div class="pd" style="background:var(--info)"></div><div><div class="pn">Eco do carteiro</div><div class="pu">ws.postman-echo.com/raw</div></div></div>
+<div class="pi" onclick="selP(this,'localhost:8080/ws')"><div class="pd" style="background:var(--warn)"></div><div><div class="pn">Desenvolvedor local</div><div class="pu">localhost:8080/ws</div></div></div>
+<div class="pi" onclick="selP(this,'localhost:3000/socket')"><div class="pd" style="background:var(--text3)"></div><div><div class="pn">Soquete local.IO</div><div class="pu">localhost:3000/soquete</div></div></div>
+</div>
+<p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+<i class="fas fa-database"></i>Clique em uma predefini&ccedil;&atilde;o para preencher o URL instantaneamente, conecte-se a servidores de teste p&uacute;blicos ou endere&ccedil;os de desenvolvimento locais.</p>
+</div>
+<div class="card">
+<h2 class="ch"><div class="cl"><div class="cdot" style="background:var(--send)"></div>Modelos de mensagem</div></h2>
+<div class="tbody">
+<div class="ti" onclick="insPing()"><div class="tn">Ping</div><div class="tp">{"tipo":"ping",...}</div></div>
+<div class="ti" onclick="insHello()"><div class="tn">Ol&aacute;</div><div class="tp">{"tipo":"ol&aacute;",...}</div></div>
+<div class="ti" onclick="insTpl('sub')"><div class="tn">Inscrever-se</div><div class="tp">{"a&ccedil;&atilde;o":"inscrever-se",...}</div></div>
+<div class="ti" onclick="insTpl('auth')"><div class="tn">Autentica&ccedil;&atilde;o</div><div class="tp">{"type":"auth","token":...}</div></div>
+<div class="ti" onclick="insTpl('hb')"><div class="tn">Batimento card&iacute;aco</div><div class="tp">{"cmd":"batimento card&iacute;aco",...}</div></div>
+</div>
+<p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+<i class="fas fa-file-code"></i>Clique em um modelo para inserir mensagens JSON comuns. Edite antes de enviar.</p>
+</div>
+</div>
+<!-- Send Message -->
+<div class="card">
+<div class="ch">
+<h2 class="cl"><div class="cdot" style="background:var(--send)"></div>Enviar mensagem</h2>
+<select class="fs" id="fmtSel"><option value="text">Texto</option><option value="json">JSON</option><option value="hex">Hex</option></select>
+</div>
+<div class="sbody">
+<div class="stb">
+<div class="sc">
+<button class="btn scb" onclick="fmtJ()">Formato</button>
+<button class="btn scb" onclick="minJ()">Minificar</button>
+<button class="btn scb" onclick="clrInp()">Limpar</button>
+</div>
+<span class="hint">Ctrl+Enter para enviar</span>
+</div>
+<div class="srow">
+<textarea class="mi" id="inp" onkeydown="onK(event)" placeholder="Insira a mensagem..."></textarea>
+<button class="btn ba ssendbtn" disabled="" id="sendbtn" onclick="doSend()">
+<svg fill="none" height="13" viewbox="0 0 13 13" width="13"><path d="M11 6.5L2 2l2 4.5-2 4.5 9-4.5z" fill="currentColor"></path></svg>Enviar</button>
+</div>
+</div>
+<p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+<i class="fas fa-paper-plane"></i>Suporta texto, JSON, hexadecimal. JSON pode ser formatado/minificado. Atalho: Ctrl+Enter para enviar.</p>
+</div>
+<!-- Message Log -->
+<div class="card">
+<div class="lh">
+<h2 class="ftabs" style="display:inline-block; margin:0; font-size:1.1rem; font-weight:600;">Registro de mensagens</h2>
+<div style="display:flex; gap:4px;">
+<button class="ft act" onclick="setF('all',this)">Todos</button>
+<button class="ft" onclick="setF('recv',this)">Recebido</button>
+<button class="ft" onclick="setF('send',this)">Enviado</button>
+<button class="ft" onclick="setF('sys',this)">Sistema</button>
+</div>
+<div class="la">
+<div class="sw"><span class="si">⚲</span><input id="srch" oninput="rLog()" placeholder="Pesquisar..." type="text"/></div>
+<button class="btn asb on" id="asb" onclick="togAS()">Rolagem autom&aacute;tica</button>
+<button class="btn bs" onclick="clrLog()">Limpar</button>
+<button class="btn bs" onclick="expLog()">Exportar</button>
+</div>
+</div>
+<div class="ml" id="ml">
+<div class="empty"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="M7 9h10M7 13h6"></path></svg><span>As mensagens aparecem aqui ap&oacute;s a conex&atilde;o</span></div>
+</div>
+<p class="feature-desc" style="margin-top:8px; color:var(--text2); font-size:0.9rem;">
+<i class="fas fa-list"></i>Todas as mensagens enviadas/recebidas s&atilde;o exibidas em tempo real. Filtre por tipo, pesquise por palavra-chave, rolagem autom&aacute;tica e exporta&ccedil;&atilde;o suportada.</p>
+</div>
+</div>
+<!-- ========== 6 Core Features + FAQ (English) ========== -->
+<div class="instructions-section" style="max-width:1200px; margin:40px auto 0 auto; padding:0 20px;">
+<div class="instructions-content">
+<h2>Recursos da ferramenta de teste WebSocket profissional</h2>
+<div class="feature-grid">
+<!-- 1. Multi-protocol -->
+<div class="feature-item">
+<h3><i class="fas fa-exchange-alt"></i>Multiprotocolo (WS/WSS)</h3>
+<p>Alterne entre ws e wss com um clique. Prefixos de URL de preenchimento autom&aacute;tico, compat&iacute;veis com conex&otilde;es simples e criptografadas.</p>
+<div class="tip">
+<span class="tip-text">Sele&ccedil;&atilde;o autom&aacute;tica de protocolo com base no servidor</span>
+</div>
+</div>
+<!-- 2. Custom headers -->
+<div class="feature-item">
+<h3><i class="fas fa-headers"></i>Cabe&ccedil;alhos personalizados</h3>
+<p>Adicione quaisquer cabe&ccedil;alhos HTTP para autentica&ccedil;&atilde;o, tokens ou par&acirc;metros personalizados. Enviado durante o aperto de m&atilde;o.</p>
+<div class="tip">
+<span class="tip-text">Clique em "+ Adicionar" para inserir a chave/valor do cabe&ccedil;alho</span>
+</div>
+</div>
+<!-- 3. Real‑time stats -->
+<div class="feature-item">
+<h3><i class="fas fa-chart-pie"></i>Estat&iacute;sticas em tempo real</h3>
+<p>Monitore contagens enviadas/recebidas, tr&aacute;fego total e lat&ecirc;ncia atual. Atualizado a cada segundo.</p>
+<div class="tip">
+<span class="tip-text">Lat&ecirc;ncia calculada por meio de pings de pulsa&ccedil;&atilde;o</span>
+</div>
+</div>
+<!-- 4. Presets & Templates -->
+<div class="feature-item">
+<h3><i class="fas fa-draw-polygon"></i>Predefini&ccedil;&otilde;es e modelos</h3>
+<p>Servidores de teste p&uacute;blicos integrados e modelos de mensagens (Ping, Hello, Subscribe etc.) para testes instant&acirc;neos.</p>
+<div class="tip">
+<span class="tip-text">Clique em um cart&atilde;o para preencher automaticamente o URL ou a mensagem</span>
+</div>
+</div>
+<!-- 5. Powerful Logging -->
+<div class="feature-item">
+<h3><i class="fas fa-history"></i>Registro poderoso</h3>
+<p>Registro em tempo real com filtros de tipo, pesquisa por palavra-chave, rolagem autom&aacute;tica e exporta&ccedil;&atilde;o para arquivo de texto.</p>
+<div class="tip">
+<span class="tip-text">Mant&eacute;m as &uacute;ltimas 500 mensagens</span>
+</div>
+</div>
+<!-- 6. Multi‑format Editor -->
+<div class="feature-item">
+<h3><i class="fas fa-edit"></i>Editor multiformato</h3>
+<p>Texto, JSON, Hex. Bot&otilde;es de formato/minifica&ccedil;&atilde;o JSON, atalho Ctrl + Enter para envio r&aacute;pido.</p>
+<div class="tip">
+<span class="tip-text">O campo de entrada se adapta ao formato selecionado</span>
+</div>
+</div>
+</div>
+<h2>Perguntas frequentes (FAQ)</h2>
+<div class="faq-section">
+<div class="faq-item">
+<h3>O que &eacute; WebSocket?</h3>
+<p>WebSocket &eacute; um protocolo que fornece comunica&ccedil;&atilde;o full-duplex em uma &uacute;nica conex&atilde;o TCP, permitindo que os servidores enviem dados aos clientes. Esta ferramenta ajuda a testar se o seu servi&ccedil;o WebSocket funciona corretamente.</p>
+</div>
+<div class="faq-item">
+<h3>Como fa&ccedil;o para testar uma conex&atilde;o WebSocket?</h3>
+<p>Insira o URL do servidor WebSocket (por exemplo, wss://echo.websocket.org), clique em 'Conectar'. Uma vez conectado, digite uma mensagem na &aacute;rea de entrada e clique em &lsquo;Enviar&rsquo;. As mensagens recebidas aparecem no log.</p>
+</div>
+<div class="faq-item">
+<h3>Por que a conex&atilde;o falha?</h3>
+<p>Poss&iacute;veis motivos: endere&ccedil;o de servidor errado, servidor n&atilde;o suporta WSS (tente WS), bloqueio de firewall, servidor inativo ou restri&ccedil;&otilde;es de CORS. Verifique a URL e certifique-se de que o servidor permite conex&otilde;es WebSocket.</p>
+</div>
+<div class="faq-item">
+<h3>Como adiciono cabe&ccedil;alhos personalizados?</h3>
+<p>Em 'Configura&ccedil;&otilde;es de conex&atilde;o', clique em '+ Adicionar' para inserir o nome e o valor do cabe&ccedil;alho. Esses cabe&ccedil;alhos s&atilde;o enviados durante o handshake do WebSocket, &uacute;teis para autentica&ccedil;&atilde;o ou par&acirc;metros personalizados.</p>
+</div>
+<div class="faq-item">
+<h3>Quais formatos de mensagem s&atilde;o suportados?</h3>
+<p>Texto, JSON e hexadecimal. Selecione o formato, insira seu conte&uacute;do e ele ser&aacute; convertido automaticamente. O modo JSON inclui bot&otilde;es de formata&ccedil;&atilde;o e redu&ccedil;&atilde;o para f&aacute;cil edi&ccedil;&atilde;o.</p>
+</div>
+<div class="faq-item">
+<h3>Posso salvar o log?</h3>
+<p>Sim. Clique no bot&atilde;o 'Exportar' na &aacute;rea de log para baixar o log atual como um arquivo de texto.</p>
+</div>
+<div class="faq-item">
+<h3>Como a lat&ecirc;ncia &eacute; calculada?</h3>
+<p>Ap&oacute;s a conex&atilde;o, a ferramenta envia uma mensagem de ping integrada a cada 10 segundos e mede o tempo at&eacute; o recebimento do pong, exibindo a lat&ecirc;ncia atual.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Internal Links: Related Tools (English) -->
+<div class="tools-navigation-section" style="max-width:1200px; margin:32px auto 0 auto; padding:0 20px;">
+<h2 class="tools-navigation-title">
+<i class="fas fa-tools"></i>Kit de ferramentas de depura&ccedil;&atilde;o de rede</h2>
+<p class="tools-navigation-subtitle">Mais utilit&aacute;rios para auxiliar no desenvolvimento e teste de rede</p>
+<div class="tools-navigation-grid">
+<a class="tool-card" href="/pt/utility-tools/netdev/ping/">
+<div class="tool-card-content">
+<div class="tool-card-header">
+<div class="tool-card-icon"><i class="fas fa-network-wired"></i></div>
+<h3>Teste de ping on-line</h3>
+</div>
+<p>Verifica lat&ecirc;ncia e conectividade, suporta IPv4/IPv6</p>
+</div>
+</a>
+<a class="tool-card" href="./">
+<div class="tool-card-content">
+<div class="tool-card-header">
+<div class="tool-card-icon"><i class="fas fa-search"></i></div>
+<h3>Pesquisa DNS</h3>
+</div>
+<p>Resolver registros A, MX, TXT e mais</p>
+</div>
+</a>
+<a class="tool-card" href="./">
+<div class="tool-card-content">
+<div class="tool-card-header">
+<div class="tool-card-icon"><i class="fas fa-plug"></i></div>
+<h3>Scanner de porta</h3>
+</div>
+<p>Verifique portas abertas em um IP de destino, diagn&oacute;stico r&aacute;pido de servi&ccedil;o</p>
+</div>
+</a>
+<a class="tool-card" href="./">
+<div class="tool-card-content">
+<div class="tool-card-header">
+<div class="tool-card-icon"><i class="fas fa-heading"></i></div>
+<h3>Cabe&ccedil;alhos HTTP</h3>
+</div>
+<p>Analise cabe&ccedil;alhos de resposta e configura&ccedil;&otilde;es de seguran&ccedil;a</p>
+</div>
+</a>
+</div>
+</div>
+<!-- Footer (English links) -->
+<footer style="max-width:1200px; margin:32px auto 0 auto; padding:16px 20px; border-top:1px solid rgba(148,163,184,0.35); text-align:center; font-size:0.85rem; color:#9ca3af;">
+<div style="margin-bottom:6px;">&copy; 2024 StarryRing &middot; Ferramenta de teste WebSocket online</div>
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+<a href="/pt/about-us/" style="color:#60a5fa; text-decoration:none;">Sobre n&oacute;s</a>
+<a href="/pt/contact-us/" style="color:#60a5fa; text-decoration:none;">Entre em contato conosco</a>
+<a href="/pt/disclaimer/" style="color:#60a5fa; text-decoration:none;">Isen&ccedil;&atilde;o de responsabilidade</a>
+<a href="/pt/privacy/" style="color:#60a5fa; text-decoration:none;">Pol&iacute;tica de Privacidade</a>
+<a href="/pt/terms/" style="color:#60a5fa; text-decoration:none;">Termos de Uso</a>
+</div>
+</footer>
+<!-- Deferred JS (Versão em inglês) -->
+<script defer="" src="/static/js/utility-tools/netdev/websocket-test/script-pt.js"></script>
+<script defer="" src="/static/js/shared/switchlanguage.js"></script>
+<!-- No‑script fallback -->
+<noscript>
+<style> .container { display: block !important; } .language-switcher { display: none; } </style>
+<p style="text-align: center; padding: 20px; color: var(--warning);">Nota: Esta p&aacute;gina requer JavaScript para funcionalidade completa. Ative o JavaScript no seu navegador.</p>
+</noscript>
 </body>
 </html>

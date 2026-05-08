@@ -1,483 +1,294 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  
-  <!-- SEO Meta Tags -->
-  <title>Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool | StarryRing Araç Kutusu</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" name="viewport"/>
+<!-- SEO Meta Tags -->
+<title>&Ccedil;evrimi&ccedil;i POST Arac&inodot; / API Test Cihaz&inodot; - Saf &Ouml;n U&ccedil; HTTP &Idot;ste&gbreve;i Hata Ay&inodot;klama Arac&inodot; | StarryRing Ara&ccedil; Kutusu</title>
 <!-- Canonical & Internationalization -->
-
-
 <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-  <link rel="manifest" href="/site.webmanifest">
-  
-  <style>
-    /* Initial hide to prevent encoding issues */
-    html { visibility: hidden; opacity: 0; }
-  </style>
-  
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="/static/css/utility-tools/netdev/post-tool/style.css" media="print" 
-  onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
-  <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-  <link rel="stylesheet" href="/static/css/shared/document.css">
-  
-  <!-- Robots -->
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  
-  <!-- Author -->
-  <meta name="author" content="StarryRing">
-  <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-
-
-<meta property="og:image" content="https://starryring.com/tr/utility-tools/netdev/post-tool/og-image-en.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Online POST Tool Interface Preview">
-  <meta property="og:site_name" content="StarryRing Araç Kutusu">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://starryring.com/tr/utility-tools/netdev/post-tool/">
-
-<meta name="twitter:image" content="https://starryring.com/tr/utility-tools/netdev/post-tool/twitter-image-en.png">
-  <meta name="twitter:creator" content="@starryring">
-  
-  <!-- Mobile Optimization -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="POST Tool">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#1a1a1a">
-  <meta name="msapplication-TileColor" content="#1a1a1a">
-  
-  <!-- Performance Optimization -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-  <link rel="preload" href="/static/css/netdev/style.css" as="style">
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-  
-  <!-- Structured Data Schema Markup -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "name": "Online POST Tool / API Tester",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-        "description": "Free online POST tool and API tester, pure frontend implementation, supports HTTP methods, JSON/form data, request headers configuration, authentication debugging, perfect for API development and debugging learning",
-        "url": "https://starryring.com/tr/utility-tools/netdev/post-tool/",
-        "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/og-image-en.png",
-        "screenshot": "https://starryring.com/tr/utility-tools/netdev/post-tool/screenshot-en.png",
-        "author": {
-          "@type": "Organization",
-          "name": "StarryRing",
-          "url": "https://starryring.com",
-          "logo": "https://starryring.com/logo.png"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "featureList": [
-          "HTTP methods support (POST/GET/PUT/DELETE/PATCH)",
-          "JSON and form data formats",
-          "Custom request headers configuration",
-          "URL history record",
-          "Real-time response preview"
-        ],
-        "softwareVersion": "1.0.0",
-        "datePublished": "2024-03-01",
-        "dateModified": "2024-12-20"
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Does this POST tool require server support?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No, this is a pure frontend tool that runs completely in the browser. All requests are sent through the browser's Fetch API, no backend server support required."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What HTTP methods are supported?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Supports POST, GET, PUT, DELETE, PATCH five HTTP methods, meeting basic RESTful API development needs."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How to handle cross-origin requests?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Due to browser same-origin policy restrictions, cross-origin requests require the target server to configure CORS (Cross-Origin Resource Sharing) headers. If you encounter cross-origin issues, ensure the target API server has correctly configured Access-Control-Allow-Origin and other CORS headers."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does it support file uploads?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Current version mainly supports JSON and form data formats. File upload functionality is under development. Support for multipart/form-data format will be added in future versions."
-            }
-          }
-        ]
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Ana Sayfa",
-              "item": "https://starryring.com/tr/"
-          },
-          {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Yardımcı Araçlar",
-              "item": "https://starryring.com/tr/utility-tools/"
-          },
-          {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "Network Testing Tools",
-              "item": "https://starryring.com/tr/utility-tools/NetDev/"
-          },
-          {
-              "@type": "ListItem",
-              "position": 4,
-              "name": "Post tool",
-              "item": "https://starryring.com/tr/utility-tools/netdev/post-tool/"
-          }
-        ]
-      },
-      {
-        "@type": "HowTo",
-        "name": "How to Use Online POST Tool to Test API Interfaces",
-        "description": "Step-by-step guide to using the online POST tool for API interface testing and debugging",
-        "step": [
-          {
-            "@type": "HowToStep",
-            "name": "Enter request URL",
-            "text": "Enter the API interface address you want to test in the URL input box. You can select previously used URLs from the history.",
-            "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step1-en.png"
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Select HTTP method",
-            "text": "Choose the appropriate HTTP method (POST/GET/PUT/DELETE/PATCH) from the dropdown menu.",
-            "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step2-en.png"
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Configure request headers and body",
-            "text": "Configure request headers (like Content-Type, Authorization) and request body (JSON or form data) as needed.",
-            "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step3-en.png"
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Send request and view response",
-            "text": "Click the 'Send Request' button. The tool will send the HTTP request and display status code, response headers, and response body in the response panel.",
-            "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step4-en.png"
-          }
-        ],
-        "totalTime": "PT2M"
-      }
-    ]
-  }
-  </script>
-  
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<meta name="description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods (POST/GET/PUT/DELETE), JSON/form data, request headers configuration, authentication debugging, perfect for API development and debugging learning.">
-            <link rel="canonical" href="https://starryring.com/tr/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
-<meta property="og:url" content="https://starryring.com/tr/utility-tools/netdev/post-tool/">
-    <meta property="og:locale" content="tr_TR">
-<meta property="og:title" content="🚀 Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool">
-    <meta property="og:description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods, JSON/form data, request headers configuration, authentication debugging.">
-    <meta name="twitter:title" content="🚀 Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool">
-    <meta name="twitter:description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods, JSON/form data, request headers configuration, authentication debugging.">
-    <meta name="keywords" content="POST tool, API tester, HTTP request debugging, interface testing, online debugging tool, frontend development tool, REST API testing, JSON debugging">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<style> /* Initial hide to prevent encoding issues */ html { visibility: hidden; opacity: 0; } </style>
+<!-- Stylesheets -->
+<link href="/static/css/utility-tools/netdev/post-tool/style.css" media="print" onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<!-- Robots -->
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<!-- Author -->
+<meta content="StarryRing" name="author"/>
+<meta content="Copyright &copy; 2026 StarryRing. All rights reserved." name="copyright"/>
+<!-- Open Graph / Facebook -->
+<meta content="website" property="og:type"/>
+<meta content="https://starryring.com/tr/utility-tools/netdev/post-tool/og-image-en.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="&Ccedil;evrimi&ccedil;i POST Arac&inodot; Aray&uuml;z &Ouml;nizlemesi" property="og:image:alt"/>
+<meta content="StarryRing Ara&ccedil; Kutusu" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/tr/utility-tools/netdev/post-tool/" name="twitter:url"/>
+<meta content="https://starryring.com/tr/utility-tools/netdev/post-tool/twitter-image-en.png" name="twitter:image"/>
+<meta content="@starryring" name="twitter:creator"/>
+<!-- Mobile Optimization -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="POST Tool" name="apple-mobile-web-app-title"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="#1a1a1a" name="theme-color"/>
+<meta content="#1a1a1a" name="msapplication-TileColor"/>
+<!-- Performance Optimization -->
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="dns-prefetch"/>
+<link as="style" href="/static/css/netdev/style.css" rel="preload"/>
+<link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="preload"/>
+<!-- Structured Data Schema Markup -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "Çevrimiçi POST Aracı / API Test Cihazı", "applicationCategory": "DeveloperApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "description": "Ücretsiz çevrimiçi POST aracı ve API test cihazı, saf ön uç uygulaması, HTTP yöntemlerini, JSON/form verilerini, istek başlıkları yapılandırmasını, kimlik doğrulama hata ayıklamasını destekler, API geliştirme ve hata ayıklama öğrenimi için mükemmel", "url": "https://starryring.com/tr/utility-tools/netdev/post-tool/", "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/og-image-en.png", "screenshot": "https://starryring.com/tr/utility-tools/netdev/post-tool/screenshot-en.png", "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com", "logo": "https://starryring.com/logo.png" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "HTTP methods support (POST/GET/PUT/DELETE/PATCH)", "JSON and form data formats", "Custom request headers configuration", "URL history record", "Real-time response preview" ], "softwareVersion": "1.0.0", "datePublished": "2024-03-01", "dateModified": "2024-12-20" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Bu POST aracı sunucu desteği gerektiriyor mu?", "acceptedAnswer": { "@type": "Answer", "text": "Hayır, bu tamamen tarayıcıda çalışan saf bir ön uç aracıdır. Tüm istekler tarayıcının Fetch API'si aracılığıyla gönderilir; arka uç sunucu desteği gerekmez." } }, { "@type": "Question", "name": "Hangi HTTP yöntemleri destekleniyor?", "acceptedAnswer": { "@type": "Answer", "text": "POST, GET, PUT, DELETE, PATCH beş HTTP yöntemini destekler ve temel RESTful API geliştirme ihtiyaçlarını karşılar." } }, { "@type": "Question", "name": "Çapraz köken istekleri nasıl ele alınır?", "acceptedAnswer": { "@type": "Answer", "text": "Tarayıcının aynı kaynak politikası kısıtlamaları nedeniyle, çapraz kaynak istekleri, hedef sunucunun CORS (Çapraz Köken Kaynak Paylaşımı) başlıklarını yapılandırmasını gerektirir. Kaynaklar arası sorunlarla karşılaşırsanız hedef API sunucusunun Access-Control-Allow-Origin ve diğer CORS üstbilgilerini doğru şekilde yapılandırdığından emin olun." } }, { "@type": "Question", "name": "Dosya yüklemeyi destekliyor mu?", "acceptedAnswer": { "@type": "Answer", "text": "Geçerli sürüm esas olarak JSON ve form veri formatlarını destekler. Dosya yükleme işlevi geliştirme aşamasındadır. Gelecek sürümlere çok parçalı/form-veri formatı desteği eklenecektir." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://starryring.com/tr/" }, { "@type": "ListItem", "position": 2, "name": "Yardımcı Araçlar", "item": "https://starryring.com/tr/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "Ağ Test Araçları", "item": "https://starryring.com/tr/utility-tools/NetDev/" }, { "@type": "ListItem", "position": 4, "name": "Yayın aracı", "item": "https://starryring.com/tr/utility-tools/netdev/post-tool/" } ] }, { "@type": "HowTo", "name": "API Arayüzlerini Test Etmek İçin Çevrimiçi POST Aracı Nasıl Kullanılır?", "description": "API arayüzü testi ve hata ayıklama için çevrimiçi POST aracını kullanma konusunda adım adım kılavuz", "step": [ { "@type": "HowToStep", "name": "İstek URL'sini girin", "text": "Test etmek istediğiniz API arayüzü adresini URL giriş kutusuna girin. Geçmişten daha önce kullanılmış URL'leri seçebilirsiniz.", "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step1-en.png" }, { "@type": "HowToStep", "name": "HTTP yöntemini seçin", "text": "Açılır menüden uygun HTTP yöntemini (POST/GET/PUT/DELETE/PATCH) seçin.", "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step2-en.png" }, { "@type": "HowToStep", "name": "İstek başlıklarını ve gövdesini yapılandırma", "text": "İstek başlıklarını (İçerik Türü, Yetkilendirme gibi) ve istek gövdesini (JSON veya form verileri) gerektiği gibi yapılandırın.", "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step3-en.png" }, { "@type": "HowToStep", "name": "İstek gönder ve yanıtı görüntüle", "text": "'İstek Gönder' düğmesini tıklayın. Araç, HTTP isteğini gönderecek ve yanıt panelinde durum kodunu, yanıt başlıklarını ve yanıt gövdesini görüntüleyecektir.", "image": "https://starryring.com/tr/utility-tools/netdev/post-tool/step4-en.png" } ], "totalTime": "PT2M" } ]
+}</script>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<meta content="&Uuml;cretsiz &ccedil;evrimi&ccedil;i POST arac&inodot; ve API test arac&inodot;, saf &ouml;n u&ccedil; uygulamas&inodot;, sunucu gerektirmez. HTTP y&ouml;ntemlerini (POST/GET/PUT/DELETE), JSON/form verilerini, istek ba&scedil;l&inodot;klar&inodot; yap&inodot;land&inodot;rmas&inodot;n&inodot;, kimlik do&gbreve;rulama hata ay&inodot;klamas&inodot;n&inodot; destekler; API geli&scedil;tirme ve hata ay&inodot;klama &ouml;&gbreve;renimi i&ccedil;in m&uuml;kemmeldir." name="description"/>
+<link href="https://starryring.com/tr/utility-tools/netdev/post-tool/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/netdev/post-tool/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/netdev/post-tool/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/netdev/post-tool/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/netdev/post-tool/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/netdev/post-tool/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/netdev/post-tool/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/netdev/post-tool/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/netdev/post-tool/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/netdev/post-tool/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/netdev/post-tool/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/netdev/post-tool/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/netdev/post-tool/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/netdev/post-tool/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/netdev/post-tool/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/netdev/post-tool/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/netdev/post-tool/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/netdev/post-tool/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/netdev/post-tool/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/netdev/post-tool/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/netdev/post-tool/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/tr/utility-tools/netdev/post-tool/" property="og:url"/>
+<meta content="tr_TR" property="og:locale"/>
+<meta content="🚀 &Ccedil;evrimi&ccedil;i POST Arac&inodot; / API Test Cihaz&inodot; - Saf &Ouml;n U&ccedil; HTTP &Idot;ste&gbreve;i Hata Ay&inodot;klama Arac&inodot;" property="og:title"/>
+<meta content="&Uuml;cretsiz &ccedil;evrimi&ccedil;i POST arac&inodot; ve API test arac&inodot;, saf &ouml;n u&ccedil; uygulamas&inodot;, sunucu gerektirmez. HTTP y&ouml;ntemlerini, JSON/form verilerini, istek ba&scedil;l&inodot;klar&inodot; yap&inodot;land&inodot;rmas&inodot;n&inodot;, kimlik do&gbreve;rulama hata ay&inodot;klamas&inodot;n&inodot; destekler." property="og:description"/>
+<meta content="🚀 &Ccedil;evrimi&ccedil;i POST Arac&inodot; / API Test Cihaz&inodot; - Saf &Ouml;n U&ccedil; HTTP &Idot;ste&gbreve;i Hata Ay&inodot;klama Arac&inodot;" name="twitter:title"/>
+<meta content="&Uuml;cretsiz &ccedil;evrimi&ccedil;i POST arac&inodot; ve API test arac&inodot;, saf &ouml;n u&ccedil; uygulamas&inodot;, sunucu gerektirmez. HTTP y&ouml;ntemlerini, JSON/form verilerini, istek ba&scedil;l&inodot;klar&inodot; yap&inodot;land&inodot;rmas&inodot;n&inodot;, kimlik do&gbreve;rulama hata ay&inodot;klamas&inodot;n&inodot; destekler." name="twitter:description"/>
+<meta content="POST arac&inodot;, API test cihaz&inodot;, HTTP iste&gbreve;inde hata ay&inodot;klama, aray&uuml;z testi, &ccedil;evrimi&ccedil;i hata ay&inodot;klama arac&inodot;, &ouml;n u&ccedil; geli&scedil;tirme arac&inodot;, REST API testi, JSON hata ay&inodot;klama" name="keywords"/>
 </head>
-
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Dil seçin" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/netdev/post-tool/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/netdev/post-tool/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/netdev/post-tool/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/netdev/post-tool/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/netdev/post-tool/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/netdev/post-tool/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/netdev/post-tool/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/netdev/post-tool/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/netdev/post-tool/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/netdev/post-tool/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/netdev/post-tool/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/netdev/post-tool/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/netdev/post-tool/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/netdev/post-tool/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/netdev/post-tool/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/netdev/post-tool/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/netdev/post-tool/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/netdev/post-tool/" data-lang="te">తెలుగు</a>
-            <a class="language-option selected" href="/tr/utility-tools/netdev/post-tool/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/netdev/post-tool/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="Dil se&ccedil;in" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/netdev/post-tool/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/netdev/post-tool/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/netdev/post-tool/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/netdev/post-tool/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/netdev/post-tool/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/netdev/post-tool/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/netdev/post-tool/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/netdev/post-tool/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/netdev/post-tool/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/netdev/post-tool/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/netdev/post-tool/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/netdev/post-tool/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/netdev/post-tool/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/netdev/post-tool/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/netdev/post-tool/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/netdev/post-tool/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/netdev/post-tool/">తెలుగు</a>
+<a class="language-option selected" data-lang="tr" href="/tr/utility-tools/netdev/post-tool/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/netdev/post-tool/">தமிழ்</a>
+</div>
+</div>
 <!-- Language switcher -->
 <!-- Breadcrumb navigation -->
-  <nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
-    <ol class="breadcrumb-modern">
-      <li class="breadcrumb-item">
-        <a href="/tr/" class="breadcrumb-link"><i class="fas fa-home"></i> Ana Sayfa</a>
-      </li>
-      <li class="breadcrumb-item">
-        <a href="/tr/utility-tools/" class="breadcrumb-link">
-            <i class="fas fa-toolbox"></i> Yardımcı Araçlar
-        </a>
-    </li>
-      <li class="breadcrumb-item" aria-current="page">
-        <span class="breadcrumb-active"><i class="fas fa-paper-plane"></i> POST Tool</span>
-      </li>
-    </ol>
-  </nav>
-  
-  <!-- Main content container -->
-  <div class="main-container">
-    <header>
-      <h1>🚀 Online POST Tool / API Tester</h1>
-      <p class="subtitle">Pure frontend HTTP request debugging tool, supports multiple HTTP methods and data formats</p>
-    </header>
-
-    <!-- Tool panel container -->
-    <div class="tool-panel-container">
-      <main>
-        <!-- Request panel -->
-        <section class="tool-section">
-          <h2><i class="fas fa-paper-plane"></i> Request Configuration</h2>
-          
-          <div class="form-group">
-            <label for="url"><i class="fas fa-link"></i> Request URL</label>
-            <!-- Wrapper container and history dropdown -->
-            <div class="url-wrapper">
-              <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" />
-              <div id="urlHistoryList" class="history-dropdown"></div>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="method"><i class="fas fa-exchange-alt"></i> Request Method</label>
-            <select id="method">
-              <option value="POST">POST</option>
-              <option value="GET">GET</option>
-              <option value="PUT">PUT</option>
-              <option value="DELETE">DELETE</option>
-              <option value="PATCH">PATCH</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="headers"><i class="fas fa-heading"></i> Request Headers (JSON)</label>
-            <div class="body-container">
-              <div>
-                <textarea id="headers" placeholder='{ "Content-Type": "application/json", "Authorization": "Bearer token" }'></textarea>
-              </div>
-              <div>
-                <div id="headersFields"></div>
-                <button type="button" id="addHeadersFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Field</button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="bodyType"><i class="fas fa-code"></i> Request Body Type</label>
-            <select id="bodyType">
-              <option value="json">JSON</option>
-              <option value="form">Form (x-www-form-urlencoded)</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="body"><i class="fas fa-file-code"></i> Request Body (JSON / Form)</label>
-            <div class="body-container">
-              <div>
-                <textarea id="body" placeholder='{ "key": "value", "data": "example" }'></textarea>
-              </div>
-              <div>
-                <div id="bodyFields"></div>
-                <button type="button" id="addBodyFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Field</button>
-              </div>
-            </div>
-          </div>
-          
-          <button id="sendRequestBtn" class="btn-primary"><i class="fas fa-play"></i> Send Request</button>
-        </section>
-
-        <!-- Response panel -->
-        <section class="tool-section">
-          <h2><i class="fas fa-reply"></i> Response Result</h2>
-          
-          <div class="form-group">
-            <label for="status"><i class="fas fa-tachometer-alt"></i> Status</label>
-            <input id="status" readonly />
-          </div>
-          
-          <div class="form-group">
-            <label for="resHeaders"><i class="fas fa-heading"></i> Response Headers</label>
-            <pre id="resHeaders"></pre>
-          </div>
-          
-          <div class="form-group">
-            <label for="response"><i class="fas fa-file-alt"></i> Response Body</label>
-            <pre id="response"></pre>
-          </div>
-        </section>
-      </main>
-    </div>
-    
-    <!-- ===== Feature Introduction Area ===== -->
-    <div class="instructions-section">
-      <div class="instructions-content">
-        <h2><i class="fas fa-star"></i> Tool Features</h2>
-        
-        <div class="feature-grid">
-          <div class="feature-item">
-            <h3><i class="fas fa-laptop-code"></i> Pure Frontend Implementation</h3>
-            <p>Runs completely in the browser, no server required. All HTTP requests are sent through the browser Fetch API, ensuring data privacy and security.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-exchange-alt"></i> Multiple HTTP Methods</h3>
-            <p>Supports POST, GET, PUT, DELETE, PATCH five HTTP methods, meeting basic RESTful API development needs.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-code"></i> Multi-format Data Support</h3>
-            <p>Supports JSON and form data formats, convenient for testing different types of API interfaces. JSON editor provides syntax highlighting and validation.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-heading"></i> Custom Request Headers</h3>
-            <p>Flexibly configure request headers, supports common headers like Content-Type, Authorization, User-Agent, meeting complex API testing requirements.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-history"></i> URL History Record</h3>
-            <p>Automatically saves recently used URLs, convenient for quick switching and repeated testing, improving debugging efficiency.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-eye"></i> Real-time Response Preview</h3>
-            <p>Instantly displays HTTP status code, response headers, and response body, supports JSON formatted display, easy to analyze API return results.</p>
-          </div>
-        </div>
-        
-        <div class="faq-section">
-          <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
-          
-          <div class="faq-item">
-            <h3>Does this tool support HTTPS?</h3>
-            <p>Yes, fully supports HTTPS protocol. You can enter any valid HTTPS URL for testing. The tool follows browser security policies.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>How to handle cross-origin requests?</h3>
-            <p>Cross-origin requests require the target server to configure CORS (Cross-Origin Resource Sharing) headers. If you encounter cross-origin errors, ensure the API server has configured correct CORS policies, such as Access-Control-Allow-Origin etc.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Does it support file uploads?</h3>
-            <p>Current version mainly supports JSON and form data formats. multipart/form-data format (for file uploads) will be supported in future versions. You can use FormData API with this tool for file upload testing.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Is data saved to the server?</h3>
-            <p>No. All data is saved in your browser's local storage (localStorage), not uploaded to any server, ensuring your API keys and sensitive data security.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Does it support WebSocket testing?</h3>
-            <p>Current version focuses on HTTP/HTTPS request testing. WebSocket testing tool is under development and will be provided in future versions.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Is it suitable for learning HTTP protocol?</h3>
-            <p>Perfect for learning! This tool intuitively displays all components of HTTP requests and responses, an ideal tool for learning HTTP protocol, RESTful API design, and debugging techniques.</p>
-          </div>
-        </div>
-        
-        <div class="usage-tips">
-          <h2><i class="fas fa-lightbulb"></i> Usage Tips</h2>
-          <ul>
-            <li>Use shortcut Ctrl+Enter (Windows) or Cmd+Enter (Mac) to quickly send requests</li>
-            <li>JSON data is automatically formatted for easy reading and editing</li>
-            <li>Response data can be copied to clipboard for further analysis</li>
-            <li>For local development, recommended URL format: http://localhost:port</li>
-            <li>Save frequently used API configurations for quick repeated testing</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>© 2024-2026 StarryRing Araç Kutusu · Pure Frontend POST Tool · Fetch API</p>
-    <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;">
-      <a href="/tr/about-us/" style="color:#60a5fa;text-decoration:none;">Hakkımızda</a>
-      <a href="/tr/contact-us/" style="color:#60a5fa;text-decoration:none;">Bize Ulaşın</a>
-      <a href="/tr/disclaimer/" style="color:#60a5fa;text-decoration:none;">Sorumluluk Reddi</a>
-      <a href="/tr/privacy/" style="color:#60a5fa;text-decoration:none;">Gizlilik Politikası</a>
-      <a href="/tr/terms/" style="color:#60a5fa;text-decoration:none;">Hizmet Şartları</a>
-    </div>
-  </footer>
-
-  <script src="/static/js/utility-tools/netdev/post-tool/script-en.js"></script>
-  <script src="/static/js/shared/switchlanguage.js"></script>
+<nav aria-label="&Idot;&ccedil;erik haritas&inodot; navigasyonu" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/tr/"><i class="fas fa-home"></i>Ana Sayfa</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/tr/utility-tools/">
+<i class="fas fa-toolbox"></i>Yard&inodot;mc&inodot; Ara&ccedil;lar</a>
+</li>
+<li aria-current="page" class="breadcrumb-item">
+<span class="breadcrumb-active"><i class="fas fa-paper-plane"></i>POST Arac&inodot;</span>
+</li>
+</ol>
+</nav>
+<!-- Main content container -->
+<div class="main-container">
+<header>
+<h1>🚀 &Ccedil;evrimi&ccedil;i POST Arac&inodot; / API Test Arac&inodot;</h1>
+<p class="subtitle">Pure &ouml;n u&ccedil; HTTP iste&gbreve;i hata ay&inodot;klama arac&inodot;, birden fazla HTTP y&ouml;ntemini ve veri format&inodot;n&inodot; destekler</p>
+</header>
+<!-- Tool panel container -->
+<div class="tool-panel-container">
+<main>
+<!-- Request panel -->
+<section class="tool-section">
+<h2><i class="fas fa-paper-plane"></i>Yap&inodot;land&inodot;rma &Idot;ste&gbreve;i</h2>
+<div class="form-group">
+<label for="url"><i class="fas fa-link"></i>&Idot;stek URL'si</label>
+<!-- Wrapper container and history dropdown -->
+<div class="url-wrapper">
+<input autocomplete="off" id="url" placeholder="http://127.0.0.1:8787?page=p1"/>
+<div class="history-dropdown" id="urlHistoryList"></div>
+</div>
+</div>
+<div class="form-group">
+<label for="method"><i class="fas fa-exchange-alt"></i>&Idot;stek Y&ouml;ntemi</label>
+<select id="method">
+<option value="POST">POST</option>
+<option value="GET">GET</option>
+<option value="PUT">PUT</option>
+<option value="DELETE">S&Idot;L</option>
+<option value="PATCH">YAMA</option>
+</select>
+</div>
+<div class="form-group">
+<label for="headers"><i class="fas fa-heading"></i>&Idot;stek Ba&scedil;l&inodot;klar&inodot; (JSON)</label>
+<div class="body-container">
+<div>
+<textarea id="headers" placeholder='{ "Content-Type": "application/json", "Yetkilendirme": "Ta&scedil;&inodot;y&inodot;c&inodot; belirteci" }'></textarea>
+</div>
+<div>
+<div id="headersFields"></div>
+<button class="btn-secondary" id="addHeadersFieldBtn" type="button"><i class="fas fa-plus"></i>Alan Ekle</button>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="bodyType"><i class="fas fa-code"></i>&Idot;stek G&ouml;vde T&uuml;r&uuml;</label>
+<select id="bodyType">
+<option value="json">JSON</option>
+<option value="form">Form (x-www-form-urlencoded)</option>
+</select>
+</div>
+<div class="form-group">
+<label for="body"><i class="fas fa-file-code"></i>&Idot;stek G&ouml;vdesi (JSON/Form)</label>
+<div class="body-container">
+<div>
+<textarea id="body" placeholder='{ "anahtar": "de&gbreve;er", "veri": "&ouml;rnek" }'></textarea>
+</div>
+<div>
+<div id="bodyFields"></div>
+<button class="btn-secondary" id="addBodyFieldBtn" type="button"><i class="fas fa-plus"></i>Alan Ekle</button>
+</div>
+</div>
+</div>
+<button class="btn-primary" id="sendRequestBtn"><i class="fas fa-play"></i>Talep G&ouml;nder</button>
+</section>
+<!-- Response panel -->
+<section class="tool-section">
+<h2><i class="fas fa-reply"></i>Yan&inodot;t Sonucu</h2>
+<div class="form-group">
+<label for="status"><i class="fas fa-tachometer-alt"></i>Durum</label>
+<input id="status" readonly=""/>
+</div>
+<div class="form-group">
+<label for="resHeaders"><i class="fas fa-heading"></i>Yan&inodot;t Ba&scedil;l&inodot;klar&inodot;</label>
+<pre id="resHeaders"></pre>
+</div>
+<div class="form-group">
+<label for="response"><i class="fas fa-file-alt"></i>Yan&inodot;t G&ouml;vdesi</label>
+<pre id="response"></pre>
+</div>
+</section>
+</main>
+</div>
+<!-- ===== Feature Introduction Area ===== -->
+<div class="instructions-section">
+<div class="instructions-content">
+<h2><i class="fas fa-star"></i>Ara&ccedil; &Ouml;zellikleri</h2>
+<div class="feature-grid">
+<div class="feature-item">
+<h3><i class="fas fa-laptop-code"></i>Pure &Ouml;n U&ccedil; Uygulamas&inodot;</h3>
+<p>Tamamen taray&inodot;c&inodot;da &ccedil;al&inodot;&scedil;&inodot;r, sunucu gerektirmez. T&uuml;m HTTP istekleri taray&inodot;c&inodot;n&inodot;n Fetch API'si arac&inodot;l&inodot;&gbreve;&inodot;yla g&ouml;nderilerek veri gizlili&gbreve;i ve g&uuml;venli&gbreve;i sa&gbreve;lan&inodot;r.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-exchange-alt"></i>Birden &Ccedil;ok HTTP Y&ouml;ntemi</h3>
+<p>POST, GET, PUT, DELETE, PATCH be&scedil; HTTP y&ouml;ntemini destekler ve temel RESTful API geli&scedil;tirme ihtiya&ccedil;lar&inodot;n&inodot; kar&scedil;&inodot;lar.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-code"></i>&Ccedil;ok Formatl&inodot; Veri Deste&gbreve;i</h3>
+<p>Farkl&inodot; t&uuml;rdeki API aray&uuml;zlerini test etmek i&ccedil;in uygun olan JSON ve form veri formatlar&inodot;n&inodot; destekler. JSON d&uuml;zenleyici s&ouml;zdizimi vurgulama ve do&gbreve;rulama sa&gbreve;lar.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-heading"></i>&Ouml;zel &Idot;stek Ba&scedil;l&inodot;klar&inodot;</h3>
+<p>&Idot;stek ba&scedil;l&inodot;klar&inodot;n&inodot; esnek bir &scedil;ekilde yap&inodot;land&inodot;r&inodot;n, &Idot;&ccedil;erik T&uuml;r&uuml;, Yetkilendirme, Kullan&inodot;c&inodot; Arac&inodot;s&inodot; gibi ortak ba&scedil;l&inodot;klar&inodot; destekler ve karma&scedil;&inodot;k API test gereksinimlerini kar&scedil;&inodot;lar.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-history"></i>URL Ge&ccedil;mi&scedil; Kayd&inodot;</h3>
+<p>Son kullan&inodot;lan URL'leri otomatik olarak kaydeder; h&inodot;zl&inodot; ge&ccedil;i&scedil; ve tekrarlanan testler i&ccedil;in uygundur, hata ay&inodot;klama verimlili&gbreve;ini art&inodot;r&inodot;r.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-eye"></i>Ger&ccedil;ek Zamanl&inodot; Yan&inodot;t &Ouml;nizlemesi</h3>
+<p>HTTP durum kodunu, yan&inodot;t ba&scedil;l&inodot;klar&inodot;n&inodot; ve yan&inodot;t g&ouml;vdesini an&inodot;nda g&ouml;r&uuml;nt&uuml;ler, JSON bi&ccedil;imli ekran&inodot; destekler, API d&ouml;n&uuml;&scedil; sonu&ccedil;lar&inodot;n&inodot; analiz etmek kolayd&inodot;r.</p>
+</div>
+</div>
+<div class="faq-section">
+<h2><i class="fas fa-question-circle"></i>S&inodot;k&ccedil;a Sorulan Sorular</h2>
+<div class="faq-item">
+<h3>Bu ara&ccedil; HTTPS'yi destekliyor mu?</h3>
+<p>Evet, HTTPS protokol&uuml;n&uuml; tam olarak destekler. Test i&ccedil;in herhangi bir ge&ccedil;erli HTTPS URL'si girebilirsiniz. Ara&ccedil;, taray&inodot;c&inodot; g&uuml;venlik politikalar&inodot;n&inodot; takip eder.</p>
+</div>
+<div class="faq-item">
+<h3>&Ccedil;apraz k&ouml;ken istekleri nas&inodot;l ele al&inodot;n&inodot;r?</h3>
+<p>&Ccedil;apraz K&ouml;ken istekleri, hedef sunucunun CORS (&Ccedil;apraz K&ouml;ken Kaynak Payla&scedil;&inodot;m&inodot;) ba&scedil;l&inodot;klar&inodot;n&inodot; yap&inodot;land&inodot;rmas&inodot;n&inodot; gerektirir. Kaynaklar aras&inodot; hatalarla kar&scedil;&inodot;la&scedil;&inodot;rsan&inodot;z API sunucusunun Eri&scedil;im-Kontrol-&Idot;zin Verme-Origin vb. gibi do&gbreve;ru CORS politikalar&inodot;n&inodot; yap&inodot;land&inodot;rd&inodot;&gbreve;&inodot;ndan emin olun.</p>
+</div>
+<div class="faq-item">
+<h3>Dosya y&uuml;klemeyi destekliyor mu?</h3>
+<p>Mevcut s&uuml;r&uuml;m esas olarak JSON ve form veri formatlar&inodot;n&inodot; destekler. multipart/form-data format&inodot; (dosya y&uuml;klemeleri i&ccedil;in) gelecek s&uuml;r&uuml;mlerde desteklenecektir. Dosya y&uuml;kleme testi i&ccedil;in FormData API'yi bu ara&ccedil;la birlikte kullanabilirsiniz.</p>
+</div>
+<div class="faq-item">
+<h3>Veriler sunucuya kaydediliyor mu?</h3>
+<p>Hay&inodot;r. T&uuml;m veriler herhangi bir sunucuya y&uuml;klenmeden taray&inodot;c&inodot;n&inodot;z&inodot;n yerel depolama alan&inodot;na (localStorage) kaydedilir, b&ouml;ylece API anahtarlar&inodot;n&inodot;z ve hassas veri g&uuml;venli&gbreve;iniz sa&gbreve;lan&inodot;r.</p>
+</div>
+<div class="faq-item">
+<h3>WebSocket testini destekliyor mu?</h3>
+<p>Mevcut s&uuml;r&uuml;m, HTTP/HTTPS istek testine odaklanmaktad&inodot;r. WebSocket test arac&inodot; geli&scedil;tirilme a&scedil;amas&inodot;ndad&inodot;r ve gelecek s&uuml;r&uuml;mlerde sa&gbreve;lanacakt&inodot;r.</p>
+</div>
+<div class="faq-item">
+<h3>HTTP protokol&uuml;n&uuml; &ouml;&gbreve;renmeye uygun mu?</h3>
+<p>&Ouml;&gbreve;renmek i&ccedil;in m&uuml;kemmel! Bu ara&ccedil;, HTTP isteklerinin ve yan&inodot;tlar&inodot;n&inodot;n t&uuml;m bile&scedil;enlerini sezgisel olarak g&ouml;r&uuml;nt&uuml;ler; HTTP protokol&uuml;n&uuml;, RESTful API tasar&inodot;m&inodot;n&inodot; ve hata ay&inodot;klama tekniklerini &ouml;&gbreve;renmek i&ccedil;in ideal bir ara&ccedil;t&inodot;r.</p>
+</div>
+</div>
+<div class="usage-tips">
+<h2><i class="fas fa-lightbulb"></i>Kullan&inodot;m &Idot;pu&ccedil;lar&inodot;</h2>
+<ul>
+<li>&Idot;stekleri h&inodot;zla g&ouml;ndermek i&ccedil;in Ctrl+Enter (Windows) veya Cmd+Enter (Mac) k&inodot;sayolunu kullan&inodot;n</li>
+<li>JSON verileri, kolay okuma ve d&uuml;zenleme i&ccedil;in otomatik olarak bi&ccedil;imlendirilir</li>
+<li>Yan&inodot;t verileri daha fazla analiz i&ccedil;in panoya kopyalanabilir</li>
+<li>Yerel geli&scedil;tirme i&ccedil;in &ouml;nerilen URL bi&ccedil;imi: http://localhost:port</li>
+<li>H&inodot;zl&inodot; tekrarlanan testler i&ccedil;in s&inodot;k kullan&inodot;lan API yap&inodot;land&inodot;rmalar&inodot;n&inodot; kaydedin</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<p>&copy; 2024-2026 StarryRing Ara&ccedil; Kutusu &middot; Saf &Ouml;n U&ccedil; POST Arac&inodot; &middot; API Getirme</p>
+<div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;">
+<a href="/tr/about-us/" style="color:#60a5fa;text-decoration:none;">Hakk&inodot;m&inodot;zda</a>
+<a href="/tr/contact-us/" style="color:#60a5fa;text-decoration:none;">Bize Ula&scedil;&inodot;n</a>
+<a href="/tr/disclaimer/" style="color:#60a5fa;text-decoration:none;">Sorumluluk reddi beyan&inodot;</a>
+<a href="/tr/privacy/" style="color:#60a5fa;text-decoration:none;">Gizlilik Politikas&inodot;</a>
+<a href="/tr/terms/" style="color:#60a5fa;text-decoration:none;">Hizmet &Scedil;artlar&inodot;</a>
+</div>
+</footer>
+<script src="/static/js/utility-tools/netdev/post-tool/script-tr.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

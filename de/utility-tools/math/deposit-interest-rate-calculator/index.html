@@ -1,386 +1,301 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO optimized for English keywords -->
-    <title>Deposit Interest Calculator : Daily Compound vs Simple Interest | Bank Rate Calculator</title>
-<meta name="author" content="FinTool">
-    <meta name="robots" content="index, follow">
-    <!-- Canonical & Hreflang (English version) -->
-
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SEO optimized for English keywords -->
+<title>Einlagenzinsrechner: T&auml;glicher Zinseszins vs. einfacher Zins | Bankzinsrechner</title>
+<meta content="FinTool" name="author"/>
+<meta content="index, follow" name="robots"/>
+<!-- Canonical & Hreflang (Englische Version) -->
 <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <!-- Open Graph / Social Media (English) -->
-
-<meta property="og:type" content="website">
-    <meta property="og:image" content="https://starryring.com/static/images/og-deposit-calculator.jpg">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon"/>
+<!-- Open Graph / Social Media (English) -->
+<meta content="website" property="og:type"/>
+<meta content="https://starryring.com/static/images/og-deposit-calculator.jpg" property="og:image"/>
 <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/static/images/twitter-deposit-calculator.jpg">
-    <!-- Preconnect resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Local styles (same as Chinese version) -->
-    <link rel="stylesheet" href="/static/css/utility-tools/math/deposit-interest-rate-calculator/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-
-    <!-- Structured Data (JSON-LD) - English FAQ -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Professional Deposit Interest Calculator - Compound vs Simple",
-                "description": "Deposit calculator using 360-day financial convention. Compare daily compound (current account) and simple interest (fixed deposit) with interactive chart and APY. Supports large amounts like 100 million $.",
-                "applicationCategory": "FinanceTool",
-                "operatingSystem": "All",
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "$"
-                },
-                "featureList": [
-                    "Daily compound simulation",
-                    "Simple interest calculation",
-                    "Growth chart",
-                    "Annual Percentage Yield (APY)",
-                    "100 million $ interest estimation"
-                ],
-                "screenshot": "https://yourdomain.com/static/images/screenshot-deposit-calculator.jpg",
-                "softwareVersion": "2.0"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What is APY (Annual Percentage Yield)?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "APY reflects the real rate of return when compounding is taken into account. In daily compound mode, this calculator automatically converts the nominal annual rate into APY, allowing you to see the true difference between compound and simple interest."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why use a 360-day year instead of 365?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "International financial markets (e.g., interbank rates, some deposit products) often use a 360-day convention for simplicity and consistency. This tool follows that standard to align with institutional interest rate quotes."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I quickly compare current and fixed deposit returns?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Simply switch between 'Daily compound (current)' and 'Simple interest (fixed)' under Product Type. Typical rates (0.35% for current, 2.75% for fixed) are auto-filled, but you can adjust them manually. The chart updates instantly to show the growth path."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What is the interest on 100 million $ deposited for one year?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Use this calculator: enter 100,000,000 as principal, choose 1 year, and select current or fixed. At typical rates, current (0.35%) yields about 35,000 $, fixed (2.75%) yields about 2,750,000 $. Actual rates depend on your bank; this tool gives a quick comparison."
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-<meta name="description" content="Professional deposit interest calculator to compare daily compound (current account) vs simple interest (fixed deposit). 360-day convention, real-time charts, APY, and support for large principal (e.g., 100 million). Ideal for savers and bankers.">
-            <link rel="canonical" href="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
-<meta property="og:url" content="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/">
-    <meta property="og:locale" content="de_DE">
-<meta property="og:title" content="Deposit Interest Calculator  – Compound vs Simple | Bank Rate Tool">
-    <meta property="og:description" content="Accurate daily compound & simple interest simulation with charts and APY. Calculate returns on 100 million deposit.">
-    <meta name="twitter:title" content="Professional Deposit Interest Calculator | Compound vs Simple">
-    <meta name="twitter:description" content="Side-by-side comparison of daily compound (current) and simple interest (fixed) with growth chart. Handles 100M+ principal.">
-    <meta name="keywords" content="deposit interest calculator, interest rate calculator, bank interest calculator, fixed deposit calculator, compound interest, simple interest, 360-day basis, APY, 100 million $ interest">
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/static/images/twitter-deposit-calculator.jpg" name="twitter:image"/>
+<!-- Preconnect resources -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Tailwind (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Local styles (same as Chinese version) -->
+<link href="/static/css/utility-tools/math/deposit-interest-rate-calculator/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<!-- Structured Data (JSON-LD) - English FAQ -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "Professioneller Einlagenzinsrechner – zusammengesetzt vs. einfach", "description": "Einzahlungsrechner mit 360-Tage-Finanzkonvention. Vergleichen Sie den täglichen Zinseszins (Girokonto) und den einfachen Zinssatz (Festgeld) mit interaktivem Diagramm und effektivem Jahreszins. Unterstützt große Beträge wie 100 Millionen US-Dollar.", "applicationCategory": "FinanceTool", "operatingSystem": "All", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "$" }, "featureList": [ "Daily compound simulation", "Simple interest calculation", "Growth chart", "Annual Percentage Yield (APY)", "100 million $ interest estimation" ], "screenshot": "https://yourdomain.com/static/images/screenshot-deposit-calculator.jpg", "softwareVersion": "2.0" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Was ist APY (Annual Percentage Yield)?", "acceptedAnswer": { "@type": "Answer", "text": "APY spiegelt die tatsächliche Rendite unter Berücksichtigung der Aufzinsung wider. Im täglichen Zinseszinsmodus rechnet dieser Rechner automatisch den nominalen Jahreszins in APY um, sodass Sie den wahren Unterschied zwischen Zinseszins und einfachen Zinsen erkennen können." } }, { "@type": "Question", "name": "Warum ein 360-Tage-Jahr statt 365 verwenden?", "acceptedAnswer": { "@type": "Answer", "text": "Internationale Finanzmärkte (z. B. Interbankzinsen, einige Einlagenprodukte) verwenden aus Gründen der Einfachheit und Konsistenz häufig eine 360-Tage-Konvention. Dieses Tool folgt diesem Standard, um sich an institutionellen Zinssätzen anzupassen." } }, { "@type": "Question", "name": "Wie vergleiche ich schnell aktuelle und Festgeldrenditen?", "acceptedAnswer": { "@type": "Answer", "text": "Wechseln Sie einfach unter Produkttyp zwischen „Täglicher Zinssatz (aktuell)“ und „Einfacher Zinssatz (fest)“. Typische Tarife (0,35 % für aktuelle, 2,75 % für feste Tarife) werden automatisch ausgefüllt, Sie können sie jedoch manuell anpassen. Das Diagramm wird sofort aktualisiert, um den Wachstumspfad anzuzeigen." } }, { "@type": "Question", "name": "Wie hoch sind die Zinsen für 100 Millionen US-Dollar, die für ein Jahr eingezahlt werden?", "acceptedAnswer": { "@type": "Answer", "text": "Verwenden Sie diesen Rechner: Geben Sie 100.000.000 als Kapital ein, wählen Sie 1 Jahr und wählen Sie „aktuell“ oder „fest“. Bei typischen Zinssätzen betragen die aktuellen (0,35 %) Renditen etwa 35.000 $, die festen (2,75 %) Renditen etwa 2.750.000 $. Die tatsächlichen Zinssätze hängen von Ihrer Bank ab; Dieses Tool ermöglicht einen schnellen Vergleich." } } ] } ]
+}</script>
+<meta content="Professioneller Einlagenzinsrechner zum Vergleich der t&auml;glichen Zinseszinsen (Girokonto) mit einfachen Zinsen (Festgeld). 360-Tage-Vereinbarung, Echtzeitdiagramme, APY und Unterst&uuml;tzung f&uuml;r gro&szlig;e Kapitalbetr&auml;ge (z. B. 100 Millionen). Ideal f&uuml;r Sparer und Banker." name="description"/>
+<link href="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/math/deposit-interest-rate-calculator/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/math/deposit-interest-rate-calculator/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/math/deposit-interest-rate-calculator/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/math/deposit-interest-rate-calculator/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/math/deposit-interest-rate-calculator/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/math/deposit-interest-rate-calculator/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/math/deposit-interest-rate-calculator/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/math/deposit-interest-rate-calculator/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/math/deposit-interest-rate-calculator/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/math/deposit-interest-rate-calculator/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/" property="og:url"/>
+<meta content="de_DE" property="og:locale"/>
+<meta content="Einlagenzinsrechner &ndash; zusammengesetzt vs. einfach | Bankzins-Tool" property="og:title"/>
+<meta content="Genaue t&auml;gliche Zinseszins- und einfache Zinssimulation mit Diagrammen und effektivem Jahreszins. Berechnen Sie die Rendite einer 100-Millionen-Einlage." property="og:description"/>
+<meta content="Professioneller Einlagenzinsrechner | Zusammengesetzt vs. einfach" name="twitter:title"/>
+<meta content="Direkter Vergleich von t&auml;glichem Zinseszins (aktuell) und einfachem Zinssatz (fest) mit Wachstumsdiagramm. Verwaltet mehr als 100 Mio. Auftraggeber." name="twitter:description"/>
+<meta content="Einlagenzinsrechner, Zinsrechner, Bankzinsrechner, Festgeldrechner, Zinseszins, einfacher Zins, 360-Tage-Basis, APY, 100 Millionen $ Zinsen" name="keywords"/>
 </head>
 <body class="p-4 md:p-10 text-slate-700 antialiased">
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Sprache auswählen" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/math/deposit-interest-rate-calculator/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/math/deposit-interest-rate-calculator/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/math/deposit-interest-rate-calculator/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/math/deposit-interest-rate-calculator/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/math/deposit-interest-rate-calculator/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/math/deposit-interest-rate-calculator/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/math/deposit-interest-rate-calculator/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option selected" href="/de/utility-tools/math/deposit-interest-rate-calculator/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/math/deposit-interest-rate-calculator/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/math/deposit-interest-rate-calculator/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/math/deposit-interest-rate-calculator/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/math/deposit-interest-rate-calculator/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="Sprache ausw&auml;hlen" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/math/deposit-interest-rate-calculator/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/math/deposit-interest-rate-calculator/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/math/deposit-interest-rate-calculator/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/math/deposit-interest-rate-calculator/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/math/deposit-interest-rate-calculator/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/math/deposit-interest-rate-calculator/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/math/deposit-interest-rate-calculator/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/math/deposit-interest-rate-calculator/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/math/deposit-interest-rate-calculator/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/math/deposit-interest-rate-calculator/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/math/deposit-interest-rate-calculator/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/math/deposit-interest-rate-calculator/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/math/deposit-interest-rate-calculator/">Bahasa Indonesia</a>
+<a class="language-option selected" data-lang="de" href="/de/utility-tools/math/deposit-interest-rate-calculator/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/math/deposit-interest-rate-calculator/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/math/deposit-interest-rate-calculator/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/math/deposit-interest-rate-calculator/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/math/deposit-interest-rate-calculator/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/math/deposit-interest-rate-calculator/">தமிழ்</a>
+</div>
+</div>
 <!-- Breadcrumb Navigation (English) -->
-    <nav aria-label="Breadcrumb" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item">
-                <a href="/de/" class="breadcrumb-link"><i class="fas fa-home"></i> Startseite</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/de/utility-tools/" class="breadcrumb-link">
-                    <i class="fas fa-toolbox"></i> Dienstprogramme
-                </a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <span class="breadcrumb-active"><i class="fas fa-calculator"></i> Deposit Interest Calculator</span>
-            </li>
-        </ol>
-    </nav>
-
-    <!-- Language Switcher (English selected) -->
+<nav aria-label="Breadcrumb" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/de/"><i class="fas fa-home"></i>Heim</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/de/utility-tools/">
+<i class="fas fa-toolbox"></i>Hilfsprogramme</a>
+</li>
+<li aria-current="page" class="breadcrumb-item">
+<span class="breadcrumb-active"><i class="fas fa-calculator"></i>Einlagenzinsrechner</span>
+</li>
+</ol>
+</nav>
+<!-- Language Switcher (English selected) -->
 <div class="max-w-7xl mx-auto relative">
-        <!-- decorative background elements -->
-        <div class="absolute -top-10 -left-10 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl -z-10"></div>
-        <div class="absolute -bottom-10 -right-10 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10"></div>
-
-        <!-- Header (English) -->
-        <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div class="space-y-1">
-                <div class="flex items-center gap-2">
-                    <span class="w-1.5 h-8 bg-indigo-500 rounded-full"></span>
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">Deposit Interest Calculator</h1>
-                </div>
-                <p class="text-slate-500 ml-3 text-base flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex gap-1">Daily compound vs simple · 360-day basis</span>
-                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                    <span class="text-indigo-500 text-sm font-medium bg-indigo-50 px-3 py-0.5 rounded-full">360-day convention</span>
-                </p>
-            </div>
-            <div class="bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm px-5 py-3 rounded-2xl flex items-center gap-2">
-                <span class="text-amber-500 text-lg">💎</span>
-                <span class="text-sm font-semibold text-slate-700">Method: <span class="text-indigo-600">International 360-day</span></span>
-            </div>
-        </header>
-
-        <!-- Main content: left controls / right results -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Left: Parameter panel -->
-            <div class="lg:col-span-4 space-y-6" role="form" aria-label="Calculation parameters">
-                <div class="card-glow rounded-3xl shadow-xl bg-white/90 p-7 border border-white/60">
-                    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-7 flex items-center gap-2">
-                        <span class="w-1 h-4 bg-indigo-400 rounded-full"></span> PARAMETERS
-                    </h2>
-                    <div class="space-y-6">
-                        <!-- Principal -->
-                        <div>
-                            <label for="principal" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5">
-                                <span>💰</span> Principal <span class="text-xs text-slate-400 font-normal">($)</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">$</span>
-                                <input type="number" id="principal" value="100000" class="focus-ring w-full pl-12 pr-5 py-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl transition-all" min="0" step="1000" aria-describedby="principalHelp">
-                            </div>
-                            <div id="principalHelp" class="text-xs text-slate-400 mt-2">Enter principal (0 allowed)</div>
-                        </div>
-                        <!-- Annual rate + dynamic tag -->
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label for="rate" class="text-sm font-semibold text-slate-600 flex items-center gap-1.5"><span>📊</span> Annual rate (%)</label>
-                                <span id="rateTag" class="text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm">Current typical</span>
-                            </div>
-                            <input type="number" id="rate" value="0.35" step="0.01" min="0" max="20" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl text-indigo-600 transition-all" aria-describedby="rateHelp">
-                            <div id="rateHelp" class="text-xs text-slate-400 mt-2">Percentage (e.g., 0.35 = 0.35%)</div>
-                        </div>
-                        <!-- Term (dual column) -->
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label for="term" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"><span>⏳</span> Term</label>
-                                <input type="number" id="term" value="1" min="0" step="1" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl" aria-label="Term quantity">
-                            </div>
-                            <div>
-                                <label for="termUnit" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"><span>📅</span> Unit</label>
-                                <select id="termUnit" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold cursor-pointer appearance-none" aria-label="Term unit">
-                                    <option value="year">Years</option>
-                                    <option value="month">Months</option>
-                                    <option value="day">Days</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- Product type (radio) -->
-                        <div class="pt-2">
-                            <fieldset>
-                                <legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"><span>🧩</span> Product Type</legend>
-                                <div class="grid grid-cols-2 gap-3 p-1.5 bg-slate-100/80 rounded-2xl">
-                                    <label class="radio-option flex-1 text-center">
-                                        <input type="radio" name="calcMethod" value="compound" checked class="sr-only peer">
-                                        <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-indigo-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📈 Daily compound (current)</div>
-                                    </label>
-                                    <label class="radio-option flex-1 text-center">
-                                        <input type="radio" name="calcMethod" value="simple" class="sr-only peer">
-                                        <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📐 Simple interest (fixed)</div>
-                                    </label>
-                                </div>
-                                <div class="sr-only" id="compoundDesc">Select for daily compounding, simulates current/savings account</div>
-                                <div class="sr-only" id="simpleDesc">Select for simple interest, simulates fixed deposit</div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Info card (dynamic tips) - content updated via JS -->
-                <div id="tipsCard" class="rounded-3xl p-7 bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl border border-slate-700/50 backdrop-blur-sm" aria-label="algorithm hint">
-                    <!-- filled by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Right: Results + Chart -->
-            <div class="lg:col-span-8 space-y-6">
-                <!-- Three result cards (aria-live) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-center">
-                    <div class="group bg-gradient-to-br from-indigo-600 to-indigo-500 p-6 rounded-3xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                        <p class="text-indigo-100 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>💰</span> Maturity Amount</p>
-                        <p id="resTotal" class="text-3xl font-bold font-mono tracking-tight" aria-live="polite">$ 100,000.00</p>
-                        <div class="w-12 h-0.5 bg-white/30 mx-auto mt-3 rounded-full"></div>
-                    </div>
-                    <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                        <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>✨</span> Interest Earned</p>
-                        <p id="resInterest" class="text-3xl font-bold text-emerald-500 font-mono" aria-live="polite">$ 0.00</p>
-                        <div class="w-12 h-0.5 bg-emerald-200 mx-auto mt-3 rounded-full"></div>
-                    </div>
-                    <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                        <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>📈</span> APY (actual)</p>
-                        <p id="resApy" class="text-3xl font-bold text-slate-800 font-mono" aria-live="polite">0.35%</p>
-                        <div class="w-12 h-0.5 bg-indigo-200 mx-auto mt-3 rounded-full"></div>
-                    </div>
-                </div>
-
-                <!-- Chart card -->
-                <div class="bg-white/80 backdrop-blur-sm p-7 rounded-3xl border border-white/60 shadow-xl">
-                    <div class="flex items-center gap-2 mb-6">
-                        <span class="w-1 h-6 bg-indigo-400 rounded-full"></span>
-                        <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider">📊 GROWTH PATH (MONTHLY)</h2>
-                    </div>
-                    <div class="h-[320px] w-full relative">
-                        <canvas id="growthChart" role="img" aria-label="Interest growth chart" class="w-full h-full"></canvas>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-4 text-center border-t border-slate-100 pt-3">* Monthly data points. Compound = daily compounding, Simple = linear. Final value marked. Compare current vs fixed visually.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom description blocks (English) -->
-        <div class="mt-16 text-sm bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 grid md:grid-cols-3 gap-8 shadow-inner">
-            <div class="flex gap-3">
-                <span class="text-indigo-500 text-xl">🔹</span>
-                <div>
-                    <h3 class="font-bold text-slate-800 mb-1">Daily compound (current)</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Follows 360‑day convention, interest calculated daily and added to principal. Ideal for current accounts, money market funds. APY > nominal rate.</p>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <span class="text-emerald-500 text-xl">🔸</span>
-                <div>
-                    <h3 class="font-bold text-slate-800 mb-1">Simple interest (fixed)</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Standard for time deposits; interest does not compound. Straight‑line growth. Suitable for fixed deposit & CD calculations.</p>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <span class="text-amber-500 text-xl">📊</span>
-                <div>
-                    <h3 class="font-bold text-slate-800 mb-1">Smart comparison</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Switching product type auto‑fills typical rates (0.35% / 2.75%). Results to two decimals. Supports large principal like 100 million $.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAQ section (English) -->
-        <div class="mt-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 shadow-inner">
-            <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                <span class="w-1 h-6 bg-indigo-400 rounded-full"></span> Frequently Asked Questions (FAQ)
-            </h2>
-            <div class="space-y-5">
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">What is APY (Annual Percentage Yield)?</h3>
-                    <p class="text-sm text-slate-600 mt-1">APY reflects the real rate of return when compounding is taken into account. In daily compound mode, this calculator automatically converts the nominal annual rate into APY, allowing you to see the true difference between compound and simple interest.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">Why use a 360-day year instead of 365?</h3>
-                    <p class="text-sm text-slate-600 mt-1">International financial markets (e.g., interbank rates, some deposit products) often use a 360-day convention for simplicity and consistency. This tool follows that standard to align with institutional interest rate quotes.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">How do I quickly compare current and fixed deposit returns?</h3>
-                    <p class="text-sm text-slate-600 mt-1">Simply switch between "Daily compound (current)" and "Simple interest (fixed)" under Product Type. Typical rates (0.35% for current, 2.75% for fixed) are auto-filled, but you can adjust them manually. The chart updates instantly to show the growth path.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">What is the interest on 100 million $ deposited for one year?</h3>
-                    <p class="text-sm text-slate-600 mt-1">Use this calculator: enter 100,000,000 as principal, choose 1 year, and select current or fixed. At typical rates, current (0.35%) yields about 35,000 $, fixed (2.75%) yields about 2,750,000 $. Actual rates depend on your bank; this tool gives a quick comparison.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Simple footer -->
-        <footer class="text-center text-xs text-slate-400 mt-10 border-t border-slate-200/70 pt-6">
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-                <p>©  Professional Deposit Interest Calculator — 360‑day convention | Bank Rate Tool</p>
-                <p class="flex gap-2 justify-center md:justify-end"><span class="w-1.5 h-1.5 bg-indigo-300 rounded-full"></span> For reference only. Actual bank rates may vary.</p>
-            </div>
-            <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
-                <a href="/de/about-us/" style="color:#2563eb;text-decoration:none;">Über uns</a>
-                <a href="/de/contact-us/" style="color:#2563eb;text-decoration:none;">Kontakt</a>
-                <a href="/de/disclaimer/" style="color:#2563eb;text-decoration:none;">Haftungsausschluss</a>
-                <a href="/de/privacy/" style="color:#2563eb;text-decoration:none;">Datenschutzrichtlinie</a>
-                <a href="/de/terms/" style="color:#2563eb;text-decoration:none;">Nutzungsbedingungen</a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Scripts (English version JS) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="/static/js/utility-tools/math/deposit-interest-rate-calculator/script-en.js" defer></script>
-    <script src="/static/js/shared/switchlanguage.js" defer></script>
+<!-- decorative background elements -->
+<div class="absolute -top-10 -left-10 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl -z-10"></div>
+<div class="absolute -bottom-10 -right-10 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10"></div>
+<!-- Header (English) -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-8 bg-indigo-500 rounded-full"></span>
+<h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">Einlagenzinsrechner</h1>
+</div>
+<p class="text-slate-500 ml-3 text-base flex items-center gap-2 flex-wrap">
+<span class="inline-flex gap-1">T&auml;gliche zusammengesetzte vs. einfache &middot; 360-Tage-Basis</span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span class="text-indigo-500 text-sm font-medium bg-indigo-50 px-3 py-0.5 rounded-full">360-Tage-Konferenz</span>
+</p>
+</div>
+<div class="bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm px-5 py-3 rounded-2xl flex items-center gap-2">
+<span class="text-amber-500 text-lg">💎</span>
+<span class="text-sm font-semibold text-slate-700">Methode:<span class="text-indigo-600">International 360 Tage</span></span>
+</div>
+</header>
+<!-- Main content: left controls / right results -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left: Parameter panel -->
+<div aria-label="Berechnungsparameter" class="lg:col-span-4 space-y-6" role="form">
+<div class="card-glow rounded-3xl shadow-xl bg-white/90 p-7 border border-white/60">
+<h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-7 flex items-center gap-2">
+<span class="w-1 h-4 bg-indigo-400 rounded-full"></span>PARAMETERS</h2>
+<div class="space-y-6">
+<!-- Principal -->
+<div>
+<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="principal">
+<span>💰</span>Principal<span class="text-xs text-slate-400 font-normal">($)</span>
+</label>
+<div class="relative">
+<span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">$</span>
+<input aria-describedby="principalHelp" class="focus-ring w-full pl-12 pr-5 py-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl transition-all" id="principal" min="0" step="1000" type="number" value="100000"/>
+</div>
+<div class="text-xs text-slate-400 mt-2" id="principalHelp">Prinzipal eingeben (0 zul&auml;ssig)</div>
+</div>
+<!-- Annual rate + dynamic tag -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-600 flex items-center gap-1.5" for="rate"><span>📊</span>Jahresrate (%)</label>
+<span class="text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm" id="rateTag">Aktueller typischer Wert</span>
+</div>
+<input aria-describedby="rateHelp" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl text-indigo-600 transition-all" id="rate" max="20" min="0" step="0.01" type="number" value="0.35"/>
+<div class="text-xs text-slate-400 mt-2" id="rateHelp">Percentage (z. B. 0,35 = 0,35 %)</div>
+</div>
+<!-- Term (dual column) -->
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="term"><span>⏳</span>Term</label>
+<input aria-label="Termmenge" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl" id="term" min="0" step="1" type="number" value="1"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="termUnit"><span>📅</span>Unit</label>
+<select aria-label="Term-Einheit" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold cursor-pointer appearance-none" id="termUnit">
+<option value="year">Jahre</option>
+<option value="month">Monate</option>
+<option value="day">Tage</option>
+</select>
+</div>
+</div>
+<!-- Product type (radio) -->
+<div class="pt-2">
+<fieldset>
+<legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"><span>🧩</span>Produkttyp</legend>
+<div class="grid grid-cols-2 gap-3 p-1.5 bg-slate-100/80 rounded-2xl">
+<label class="radio-option flex-1 text-center">
+<input checked="" class="sr-only peer" name="calcMethod" type="radio" value="compound"/>
+<div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-indigo-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📈 T&auml;gliche Verbindung (aktuell)</div>
+</label>
+<label class="radio-option flex-1 text-center">
+<input class="sr-only peer" name="calcMethod" type="radio" value="simple"/>
+<div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📐 Einfacher Zinssatz (fest)</div>
+</label>
+</div>
+<div class="sr-only" id="compoundDesc">Auswahl f&uuml;r t&auml;gliche Aufzinsung, simuliert Girokonto/Sparkonto</div>
+<div class="sr-only" id="simpleDesc">Auswahl f&uuml;r einfache Zinsen, simuliert Festgeld</div>
+</fieldset>
+</div>
+</div>
+</div>
+<!-- Info card (dynamic tips) - content updated via JS -->
+<div aria-label="Algorithmus-Hinweis" class="rounded-3xl p-7 bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl border border-slate-700/50 backdrop-blur-sm" id="tipsCard">
+<!-- filled by JavaScript -->
+</div>
+</div>
+<!-- Right: Results + Chart -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Three result cards (aria-live) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-center">
+<div class="group bg-gradient-to-br from-indigo-600 to-indigo-500 p-6 rounded-3xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+<p class="text-indigo-100 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>💰</span>Maturit&auml;tsbetrag</p>
+<p aria-live="polite" class="text-3xl font-bold font-mono tracking-tight" id="resTotal">$ 100,000.00</p>
+<div class="w-12 h-0.5 bg-white/30 mx-auto mt-3 rounded-full"></div>
+</div>
+<div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+<p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>✨</span>Erzielte Zinsen</p>
+<p aria-live="polite" class="text-3xl font-bold text-emerald-500 font-mono" id="resInterest">$ 0.00</p>
+<div class="w-12 h-0.5 bg-emerald-200 mx-auto mt-3 rounded-full"></div>
+</div>
+<div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+<p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>📈</span>APY (aktuell)</p>
+<p aria-live="polite" class="text-3xl font-bold text-slate-800 font-mono" id="resApy">0.35%</p>
+<div class="w-12 h-0.5 bg-indigo-200 mx-auto mt-3 rounded-full"></div>
+</div>
+</div>
+<!-- Chart card -->
+<div class="bg-white/80 backdrop-blur-sm p-7 rounded-3xl border border-white/60 shadow-xl">
+<div class="flex items-center gap-2 mb-6">
+<span class="w-1 h-6 bg-indigo-400 rounded-full"></span>
+<h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider">📊 WACHSTUMSPFAD (MONATLICH)</h2>
+</div>
+<div class="h-[320px] w-full relative">
+<canvas aria-label="Zinswachstumsdiagramm" class="w-full h-full" id="growthChart" role="img"></canvas>
+</div>
+<p class="text-xs text-slate-400 mt-4 text-center border-t border-slate-100 pt-3">* Monatliche Datenpunkte. Compound = t&auml;gliche Aufzinsung, Simple = linear. Endwert markiert. Vergleichen Sie aktuell und fest visuell.</p>
+</div>
+</div>
+</div>
+<!-- Bottom description blocks (English) -->
+<div class="mt-16 text-sm bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 grid md:grid-cols-3 gap-8 shadow-inner">
+<div class="flex gap-3">
+<span class="text-indigo-500 text-xl">🔹</span>
+<div>
+<h3 class="font-bold text-slate-800 mb-1">T&auml;gliche Verbindung (aktuell)</h3>
+<p class="text-slate-500 text-xs leading-relaxed">Folgt der 360-Tage-Konvention, die Zinsen werden t&auml;glich berechnet und dem Kapital hinzugef&uuml;gt. Ideal f&uuml;r Girokonten, Geldmarktfonds. APY &gt; Nominalzins.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<span class="text-emerald-500 text-xl">🔸</span>
+<div>
+<h3 class="font-bold text-slate-800 mb-1">Einfache Zinsen (fest)</h3>
+<p class="text-slate-500 text-xs leading-relaxed">Standard f&uuml;r Festgelder; Zinsen summieren sich nicht. Geradliniges Wachstum. Geeignet f&uuml;r Festgeld- und CD-Berechnungen.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<span class="text-amber-500 text-xl">📊</span>
+<div>
+<h3 class="font-bold text-slate-800 mb-1">Intelligenter Vergleich</h3>
+<p class="text-slate-500 text-xs leading-relaxed">Durch den Wechsel des Produkttyps werden die typischen Raten automatisch ausgef&uuml;llt (0,35 % / 2,75 %). Ergebnisse auf zwei Dezimalstellen genau. Unterst&uuml;tzt gro&szlig;e Kapitalbetr&auml;ge wie 100 Millionen US-Dollar.</p>
+</div>
+</div>
+</div>
+<!-- FAQ section (English) -->
+<div class="mt-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 shadow-inner">
+<h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+<span class="w-1 h-6 bg-indigo-400 rounded-full"></span>H&auml;ufig gestellte Fragen (FAQ)</h2>
+<div class="space-y-5">
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">Was ist APY (Annual Percentage Yield)?</h3>
+<p class="text-sm text-slate-600 mt-1">APY spiegelt die tats&auml;chliche Rendite unter Ber&uuml;cksichtigung der Aufzinsung wider. Im t&auml;glichen Zinseszinsmodus rechnet dieser Rechner automatisch den nominalen Jahreszins in APY um, sodass Sie den wahren Unterschied zwischen Zinseszins und einfachen Zinsen erkennen k&ouml;nnen.</p>
+</div>
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">Warum ein 360-Tage-Jahr statt 365 verwenden?</h3>
+<p class="text-sm text-slate-600 mt-1">Internationale Finanzm&auml;rkte (z. B. Interbankzinsen, einige Einlagenprodukte) verwenden aus Gr&uuml;nden der Einfachheit und Konsistenz h&auml;ufig eine 360-Tage-Konvention. Dieses Tool folgt diesem Standard, um sich an institutionellen Zinss&auml;tzen anzupassen.</p>
+</div>
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">Wie vergleiche ich schnell aktuelle und Festgeldrenditen?</h3>
+<p class="text-sm text-slate-600 mt-1">Einfach unter Produkttyp zwischen &bdquo;T&auml;glicher Zinssatz (aktuell)&ldquo; und &bdquo;Einfacher Zinssatz (fest)&ldquo; wechseln. Typische Tarife (0,35 % f&uuml;r aktuelle, 2,75 % f&uuml;r feste Tarife) werden automatisch ausgef&uuml;llt, Sie k&ouml;nnen sie jedoch manuell anpassen. Das Diagramm wird sofort aktualisiert, um den Wachstumspfad anzuzeigen.</p>
+</div>
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">Wie hoch sind die Zinsen f&uuml;r 100 Millionen US-Dollar, die f&uuml;r ein Jahr eingezahlt werden?</h3>
+<p class="text-sm text-slate-600 mt-1">Verwenden Sie diesen Rechner: Geben Sie 100.000.000 als Kapital ein, w&auml;hlen Sie 1 Jahr und w&auml;hlen Sie &bdquo;aktuell&ldquo; oder &bdquo;fest&ldquo;. Bei typischen Zinss&auml;tzen betragen die aktuellen (0,35 %) Renditen etwa 35.000 $, die festen (2,75 %) Renditen etwa 2.750.000 $. Die tats&auml;chlichen Zinss&auml;tze h&auml;ngen von Ihrer Bank ab; Dieses Tool erm&ouml;glicht einen schnellen Vergleich.</p>
+</div>
+</div>
+</div>
+<!-- Simple footer -->
+<footer class="text-center text-xs text-slate-400 mt-10 border-t border-slate-200/70 pt-6">
+<div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+<p>&copy; Professioneller Einlagenzinsrechner &ndash; 360-Tage-Konvention | Bankzins-Tool</p>
+<p class="flex gap-2 justify-center md:justify-end"><span class="w-1.5 h-1.5 bg-indigo-300 rounded-full"></span>Nur als Referenz. Die tats&auml;chlichen Bankzinsen k&ouml;nnen variieren.</p>
+</div>
+<div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
+<a href="/de/about-us/" style="color:#2563eb;text-decoration:none;">&Uuml;ber uns</a>
+<a href="/de/contact-us/" style="color:#2563eb;text-decoration:none;">Kontaktieren Sie uns</a>
+<a href="/de/disclaimer/" style="color:#2563eb;text-decoration:none;">Haftungsausschluss</a>
+<a href="/de/privacy/" style="color:#2563eb;text-decoration:none;">Datenschutzerkl&auml;rung</a>
+<a href="/de/terms/" style="color:#2563eb;text-decoration:none;">Nutzungsbedingungen</a>
+</div>
+</footer>
+</div>
+<!-- Scripts (Englische Version JS) -->
+<script defer="" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer="" src="/static/js/utility-tools/math/deposit-interest-rate-calculator/script-de.js"></script>
+<script defer="" src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

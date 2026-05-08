@@ -1,386 +1,301 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO optimized for English keywords -->
-    <title>Deposit Interest Calculator : Daily Compound vs Simple Interest | Bank Rate Calculator</title>
-<meta name="author" content="FinTool">
-    <meta name="robots" content="index, follow">
-    <!-- Canonical & Hreflang (English version) -->
-
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SEO optimized for English keywords -->
+<title>আমানতের সুদের ক্যালকুলেটর : দৈনিক চক্রবৃদ্ধি বনাম সরল সুদ | ব্যাঙ্ক রেট ক্যালকুলেটর</title>
+<meta content="FinTool" name="author"/>
+<meta content="index, follow" name="robots"/>
+<!-- Canonical & Hreflang (ইংরেজি সংস্করণ) -->
 <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <!-- Open Graph / Social Media (English) -->
-
-<meta property="og:type" content="website">
-    <meta property="og:image" content="https://starryring.com/static/images/og-deposit-calculator.jpg">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon"/>
+<!-- Open Graph / Social Media (English) -->
+<meta content="website" property="og:type"/>
+<meta content="https://starryring.com/static/images/og-deposit-calculator.jpg" property="og:image"/>
 <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/static/images/twitter-deposit-calculator.jpg">
-    <!-- Preconnect resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Local styles (same as Chinese version) -->
-    <link rel="stylesheet" href="/static/css/utility-tools/math/deposit-interest-rate-calculator/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-
-    <!-- Structured Data (JSON-LD) - English FAQ -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Professional Deposit Interest Calculator - Compound vs Simple",
-                "description": "Deposit calculator using 360-day financial convention. Compare daily compound (current account) and simple interest (fixed deposit) with interactive chart and APY. Supports large amounts like 100 million $.",
-                "applicationCategory": "FinanceTool",
-                "operatingSystem": "All",
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "$"
-                },
-                "featureList": [
-                    "Daily compound simulation",
-                    "Simple interest calculation",
-                    "Growth chart",
-                    "Annual Percentage Yield (APY)",
-                    "100 million $ interest estimation"
-                ],
-                "screenshot": "https://yourdomain.com/static/images/screenshot-deposit-calculator.jpg",
-                "softwareVersion": "2.0"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What is APY (Annual Percentage Yield)?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "APY reflects the real rate of return when compounding is taken into account. In daily compound mode, this calculator automatically converts the nominal annual rate into APY, allowing you to see the true difference between compound and simple interest."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why use a 360-day year instead of 365?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "International financial markets (e.g., interbank rates, some deposit products) often use a 360-day convention for simplicity and consistency. This tool follows that standard to align with institutional interest rate quotes."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I quickly compare current and fixed deposit returns?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Simply switch between 'Daily compound (current)' and 'Simple interest (fixed)' under Product Type. Typical rates (0.35% for current, 2.75% for fixed) are auto-filled, but you can adjust them manually. The chart updates instantly to show the growth path."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What is the interest on 100 million $ deposited for one year?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Use this calculator: enter 100,000,000 as principal, choose 1 year, and select current or fixed. At typical rates, current (0.35%) yields about 35,000 $, fixed (2.75%) yields about 2,750,000 $. Actual rates depend on your bank; this tool gives a quick comparison."
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-<meta name="description" content="Professional deposit interest calculator to compare daily compound (current account) vs simple interest (fixed deposit). 360-day convention, real-time charts, APY, and support for large principal (e.g., 100 million). Ideal for savers and bankers.">
-            <link rel="canonical" href="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/deposit-interest-rate-calculator/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/">
-<meta property="og:url" content="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/">
-    <meta property="og:locale" content="bn_BD">
-<meta property="og:title" content="Deposit Interest Calculator  – Compound vs Simple | Bank Rate Tool">
-    <meta property="og:description" content="Accurate daily compound & simple interest simulation with charts and APY. Calculate returns on 100 million deposit.">
-    <meta name="twitter:title" content="Professional Deposit Interest Calculator | Compound vs Simple">
-    <meta name="twitter:description" content="Side-by-side comparison of daily compound (current) and simple interest (fixed) with growth chart. Handles 100M+ principal.">
-    <meta name="keywords" content="deposit interest calculator, interest rate calculator, bank interest calculator, fixed deposit calculator, compound interest, simple interest, 360-day basis, APY, 100 million $ interest">
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/static/images/twitter-deposit-calculator.jpg" name="twitter:image"/>
+<!-- Preconnect resources -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Tailwind (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Local styles (same as Chinese version) -->
+<link href="/static/css/utility-tools/math/deposit-interest-rate-calculator/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<!-- Structured Data (JSON-LD) - English FAQ -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "প্রফেশনাল ডিপোজিট ইন্টারেস্ট ক্যালকুলেটর - যৌগিক বনাম সহজ", "description": "360-দিনের আর্থিক কনভেনশন ব্যবহার করে ডিপোজিট ক্যালকুলেটর। ইন্টারেক্টিভ চার্ট এবং APY-এর সাথে দৈনিক চক্রবৃদ্ধি (কারেন্ট অ্যাকাউন্ট) এবং সাধারণ সুদের (ফিক্সড ডিপোজিট) তুলনা করুন। 100 মিলিয়ন ডলারের মতো বড় পরিমাণে সমর্থন করে।", "applicationCategory": "FinanceTool", "operatingSystem": "All", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "$" }, "featureList": [ "Daily compound simulation", "Simple interest calculation", "Growth chart", "Annual Percentage Yield (APY)", "100 million $ interest estimation" ], "screenshot": "https://yourdomain.com/static/images/screenshot-deposit-calculator.jpg", "softwareVersion": "2.0" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "APY (বার্ষিক শতাংশ ফলন) কি?", "acceptedAnswer": { "@type": "Answer", "text": "APY রিটার্নের প্রকৃত হার প্রতিফলিত করে যখন চক্রবৃদ্ধি বিবেচনায় নেওয়া হয়। দৈনিক যৌগিক মোডে, এই ক্যালকুলেটর স্বয়ংক্রিয়ভাবে নামমাত্র বার্ষিক হারকে APY-তে রূপান্তর করে, আপনাকে যৌগিক এবং সাধারণ সুদের মধ্যে প্রকৃত পার্থক্য দেখতে দেয়।" } }, { "@type": "Question", "name": "কেন 365-এর পরিবর্তে 360-দিনের বছর ব্যবহার করবেন?", "acceptedAnswer": { "@type": "Answer", "text": "আন্তর্জাতিক আর্থিক বাজার (যেমন, আন্তঃব্যাংক রেট, কিছু আমানত পণ্য) প্রায়ই সরলতা এবং সামঞ্জস্যের জন্য একটি 360-দিনের কনভেনশন ব্যবহার করে। এই টুলটি প্রাতিষ্ঠানিক সুদের হারের উদ্ধৃতিগুলির সাথে সারিবদ্ধ করার জন্য সেই মানকে অনুসরণ করে।" } }, { "@type": "Question", "name": "আমি কিভাবে দ্রুত বর্তমান এবং স্থায়ী আমানতের রিটার্ন তুলনা করব?", "acceptedAnswer": { "@type": "Answer", "text": "পণ্যের প্রকারের অধীনে শুধু 'দৈনিক যৌগ (বর্তমান)' এবং 'সরল সুদ (স্থির)'-এর মধ্যে স্যুইচ করুন। সাধারণ হার (বর্তমানের জন্য 0.35%, স্থির জন্য 2.75%) স্বয়ংক্রিয়ভাবে পূরণ করা হয়, তবে আপনি সেগুলি ম্যানুয়ালি সামঞ্জস্য করতে পারেন। বৃদ্ধির পথ দেখাতে চার্ট অবিলম্বে আপডেট হয়।" } }, { "@type": "Question", "name": "এক বছরের জন্য জমা করা 100 মিলিয়ন ডলারের সুদ কি?", "acceptedAnswer": { "@type": "Answer", "text": "এই ক্যালকুলেটরটি ব্যবহার করুন: প্রধান হিসাবে 100,000,000 লিখুন, 1 বছর নির্বাচন করুন এবং বর্তমান বা স্থির নির্বাচন করুন। সাধারণ হারে, বর্তমান (0.35%) প্রায় 35,000 $, স্থির (2.75%) ফলন প্রায় 2,750,000 $। প্রকৃত হার আপনার ব্যাঙ্কের উপর নির্ভর করে; এই টুল একটি দ্রুত তুলনা দেয়." } } ] } ]
+}</script>
+<meta content="প্রফেশনাল ডিপোজিট ইন্টারেস্ট ক্যালকুলেটর দৈনিক চক্রবৃদ্ধি (কারেন্ট অ্যাকাউন্ট) বনাম সাধারণ সুদের (ফিক্সড ডিপোজিট) তুলনা করতে। 360-দিনের কনভেনশন, রিয়েল-টাইম চার্ট, APY, এবং বড় অধ্যক্ষের জন্য সমর্থন (যেমন, 100 মিলিয়ন)। সেভার এবং ব্যাংকারদের জন্য আদর্শ।" name="description"/>
+<link href="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/math/deposit-interest-rate-calculator/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/math/deposit-interest-rate-calculator/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/math/deposit-interest-rate-calculator/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/math/deposit-interest-rate-calculator/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/math/deposit-interest-rate-calculator/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/math/deposit-interest-rate-calculator/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/math/deposit-interest-rate-calculator/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/math/deposit-interest-rate-calculator/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/math/deposit-interest-rate-calculator/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/math/deposit-interest-rate-calculator/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/math/deposit-interest-rate-calculator/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/math/deposit-interest-rate-calculator/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/math/deposit-interest-rate-calculator/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/math/deposit-interest-rate-calculator/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/bn/utility-tools/math/deposit-interest-rate-calculator/" property="og:url"/>
+<meta content="bn_BD" property="og:locale"/>
+<meta content="আমানত সুদের ক্যালকুলেটর &ndash; যৌগিক বনাম সহজ | ব্যাঙ্ক রেট টুল" property="og:title"/>
+<meta content="সঠিক দৈনিক যৌগ এবং চার্ট এবং APY সহ সহজ আগ্রহের সিমুলেশন। 100 মিলিয়ন ডিপোজিটের উপর রিটার্ন গণনা করুন।" property="og:description"/>
+<meta content="পেশাদার আমানত সুদের ক্যালকুলেটর | যৌগ বনাম সরল" name="twitter:title"/>
+<meta content="প্রবৃদ্ধি চার্টের সাথে দৈনিক যৌগ (বর্তমান) এবং সাধারণ সুদ (স্থির) এর পাশাপাশি তুলনা। 100M+ প্রধান পরিচালনা করে।" name="twitter:description"/>
+<meta content="আমানত সুদের ক্যালকুলেটর, সুদের হার ক্যালকুলেটর, ব্যাঙ্কের সুদের ক্যালকুলেটর, ফিক্সড ডিপোজিট ক্যালকুলেটর, চক্রবৃদ্ধি সুদ, সরল সুদ, 360-দিনের ভিত্তিতে, APY, 100 মিলিয়ন ডলার সুদ" name="keywords"/>
 </head>
 <body class="p-4 md:p-10 text-slate-700 antialiased">
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="ভাষা নির্বাচন করুন" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/math/deposit-interest-rate-calculator/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/math/deposit-interest-rate-calculator/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/math/deposit-interest-rate-calculator/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/math/deposit-interest-rate-calculator/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/math/deposit-interest-rate-calculator/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ar">العربية</a>
-            <a class="language-option selected" href="/bn/utility-tools/math/deposit-interest-rate-calculator/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/math/deposit-interest-rate-calculator/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/math/deposit-interest-rate-calculator/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/math/deposit-interest-rate-calculator/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/math/deposit-interest-rate-calculator/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/math/deposit-interest-rate-calculator/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/math/deposit-interest-rate-calculator/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/math/deposit-interest-rate-calculator/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/math/deposit-interest-rate-calculator/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="ভাষা নির্বাচন করুন" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/math/deposit-interest-rate-calculator/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/math/deposit-interest-rate-calculator/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/math/deposit-interest-rate-calculator/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/math/deposit-interest-rate-calculator/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/math/deposit-interest-rate-calculator/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/math/deposit-interest-rate-calculator/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/math/deposit-interest-rate-calculator/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/math/deposit-interest-rate-calculator/">العربية</a>
+<a class="language-option selected" data-lang="bn" href="/bn/utility-tools/math/deposit-interest-rate-calculator/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/math/deposit-interest-rate-calculator/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/math/deposit-interest-rate-calculator/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/math/deposit-interest-rate-calculator/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/math/deposit-interest-rate-calculator/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/math/deposit-interest-rate-calculator/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/math/deposit-interest-rate-calculator/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/math/deposit-interest-rate-calculator/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/math/deposit-interest-rate-calculator/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/math/deposit-interest-rate-calculator/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/math/deposit-interest-rate-calculator/">தமிழ்</a>
+</div>
+</div>
 <!-- Breadcrumb Navigation (English) -->
-    <nav aria-label="Breadcrumb" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item">
-                <a href="/bn/" class="breadcrumb-link"><i class="fas fa-home"></i> হোম</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/bn/utility-tools/" class="breadcrumb-link">
-                    <i class="fas fa-toolbox"></i> ইউটিলিটি টুলস
-                </a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <span class="breadcrumb-active"><i class="fas fa-calculator"></i> Deposit Interest Calculator</span>
-            </li>
-        </ol>
-    </nav>
-
-    <!-- Language Switcher (English selected) -->
+<nav aria-label="ব্রেডক্রাম্ব" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/bn/"><i class="fas fa-home"></i>বাড়ি</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/bn/utility-tools/">
+<i class="fas fa-toolbox"></i>ইউটিলিটি টুলস</a>
+</li>
+<li aria-current="page" class="breadcrumb-item">
+<span class="breadcrumb-active"><i class="fas fa-calculator"></i>আমানতের সুদের ক্যালকুলেটর</span>
+</li>
+</ol>
+</nav>
+<!-- Language Switcher (English selected) -->
 <div class="max-w-7xl mx-auto relative">
-        <!-- decorative background elements -->
-        <div class="absolute -top-10 -left-10 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl -z-10"></div>
-        <div class="absolute -bottom-10 -right-10 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10"></div>
-
-        <!-- Header (English) -->
-        <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div class="space-y-1">
-                <div class="flex items-center gap-2">
-                    <span class="w-1.5 h-8 bg-indigo-500 rounded-full"></span>
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">Deposit Interest Calculator</h1>
-                </div>
-                <p class="text-slate-500 ml-3 text-base flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex gap-1">Daily compound vs simple · 360-day basis</span>
-                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                    <span class="text-indigo-500 text-sm font-medium bg-indigo-50 px-3 py-0.5 rounded-full">360-day convention</span>
-                </p>
-            </div>
-            <div class="bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm px-5 py-3 rounded-2xl flex items-center gap-2">
-                <span class="text-amber-500 text-lg">💎</span>
-                <span class="text-sm font-semibold text-slate-700">Method: <span class="text-indigo-600">International 360-day</span></span>
-            </div>
-        </header>
-
-        <!-- Main content: left controls / right results -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Left: Parameter panel -->
-            <div class="lg:col-span-4 space-y-6" role="form" aria-label="Calculation parameters">
-                <div class="card-glow rounded-3xl shadow-xl bg-white/90 p-7 border border-white/60">
-                    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-7 flex items-center gap-2">
-                        <span class="w-1 h-4 bg-indigo-400 rounded-full"></span> PARAMETERS
-                    </h2>
-                    <div class="space-y-6">
-                        <!-- Principal -->
-                        <div>
-                            <label for="principal" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5">
-                                <span>💰</span> Principal <span class="text-xs text-slate-400 font-normal">($)</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">$</span>
-                                <input type="number" id="principal" value="100000" class="focus-ring w-full pl-12 pr-5 py-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl transition-all" min="0" step="1000" aria-describedby="principalHelp">
-                            </div>
-                            <div id="principalHelp" class="text-xs text-slate-400 mt-2">Enter principal (0 allowed)</div>
-                        </div>
-                        <!-- Annual rate + dynamic tag -->
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label for="rate" class="text-sm font-semibold text-slate-600 flex items-center gap-1.5"><span>📊</span> Annual rate (%)</label>
-                                <span id="rateTag" class="text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm">Current typical</span>
-                            </div>
-                            <input type="number" id="rate" value="0.35" step="0.01" min="0" max="20" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl text-indigo-600 transition-all" aria-describedby="rateHelp">
-                            <div id="rateHelp" class="text-xs text-slate-400 mt-2">Percentage (e.g., 0.35 = 0.35%)</div>
-                        </div>
-                        <!-- Term (dual column) -->
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label for="term" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"><span>⏳</span> Term</label>
-                                <input type="number" id="term" value="1" min="0" step="1" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl" aria-label="Term quantity">
-                            </div>
-                            <div>
-                                <label for="termUnit" class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5"><span>📅</span> Unit</label>
-                                <select id="termUnit" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold cursor-pointer appearance-none" aria-label="Term unit">
-                                    <option value="year">Years</option>
-                                    <option value="month">Months</option>
-                                    <option value="day">Days</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- Product type (radio) -->
-                        <div class="pt-2">
-                            <fieldset>
-                                <legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"><span>🧩</span> Product Type</legend>
-                                <div class="grid grid-cols-2 gap-3 p-1.5 bg-slate-100/80 rounded-2xl">
-                                    <label class="radio-option flex-1 text-center">
-                                        <input type="radio" name="calcMethod" value="compound" checked class="sr-only peer">
-                                        <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-indigo-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📈 Daily compound (current)</div>
-                                    </label>
-                                    <label class="radio-option flex-1 text-center">
-                                        <input type="radio" name="calcMethod" value="simple" class="sr-only peer">
-                                        <div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📐 Simple interest (fixed)</div>
-                                    </label>
-                                </div>
-                                <div class="sr-only" id="compoundDesc">Select for daily compounding, simulates current/savings account</div>
-                                <div class="sr-only" id="simpleDesc">Select for simple interest, simulates fixed deposit</div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Info card (dynamic tips) - content updated via JS -->
-                <div id="tipsCard" class="rounded-3xl p-7 bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl border border-slate-700/50 backdrop-blur-sm" aria-label="algorithm hint">
-                    <!-- filled by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Right: Results + Chart -->
-            <div class="lg:col-span-8 space-y-6">
-                <!-- Three result cards (aria-live) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-center">
-                    <div class="group bg-gradient-to-br from-indigo-600 to-indigo-500 p-6 rounded-3xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                        <p class="text-indigo-100 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>💰</span> Maturity Amount</p>
-                        <p id="resTotal" class="text-3xl font-bold font-mono tracking-tight" aria-live="polite">$ 100,000.00</p>
-                        <div class="w-12 h-0.5 bg-white/30 mx-auto mt-3 rounded-full"></div>
-                    </div>
-                    <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                        <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>✨</span> Interest Earned</p>
-                        <p id="resInterest" class="text-3xl font-bold text-emerald-500 font-mono" aria-live="polite">$ 0.00</p>
-                        <div class="w-12 h-0.5 bg-emerald-200 mx-auto mt-3 rounded-full"></div>
-                    </div>
-                    <div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                        <p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>📈</span> APY (actual)</p>
-                        <p id="resApy" class="text-3xl font-bold text-slate-800 font-mono" aria-live="polite">0.35%</p>
-                        <div class="w-12 h-0.5 bg-indigo-200 mx-auto mt-3 rounded-full"></div>
-                    </div>
-                </div>
-
-                <!-- Chart card -->
-                <div class="bg-white/80 backdrop-blur-sm p-7 rounded-3xl border border-white/60 shadow-xl">
-                    <div class="flex items-center gap-2 mb-6">
-                        <span class="w-1 h-6 bg-indigo-400 rounded-full"></span>
-                        <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider">📊 GROWTH PATH (MONTHLY)</h2>
-                    </div>
-                    <div class="h-[320px] w-full relative">
-                        <canvas id="growthChart" role="img" aria-label="Interest growth chart" class="w-full h-full"></canvas>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-4 text-center border-t border-slate-100 pt-3">* Monthly data points. Compound = daily compounding, Simple = linear. Final value marked. Compare current vs fixed visually.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom description blocks (English) -->
-        <div class="mt-16 text-sm bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 grid md:grid-cols-3 gap-8 shadow-inner">
-            <div class="flex gap-3">
-                <span class="text-indigo-500 text-xl">🔹</span>
-                <div>
-                    <h3 class="font-bold text-slate-800 mb-1">Daily compound (current)</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Follows 360‑day convention, interest calculated daily and added to principal. Ideal for current accounts, money market funds. APY > nominal rate.</p>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <span class="text-emerald-500 text-xl">🔸</span>
-                <div>
-                    <h3 class="font-bold text-slate-800 mb-1">Simple interest (fixed)</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Standard for time deposits; interest does not compound. Straight‑line growth. Suitable for fixed deposit & CD calculations.</p>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <span class="text-amber-500 text-xl">📊</span>
-                <div>
-                    <h3 class="font-bold text-slate-800 mb-1">Smart comparison</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Switching product type auto‑fills typical rates (0.35% / 2.75%). Results to two decimals. Supports large principal like 100 million $.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAQ section (English) -->
-        <div class="mt-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 shadow-inner">
-            <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                <span class="w-1 h-6 bg-indigo-400 rounded-full"></span> Frequently Asked Questions (FAQ)
-            </h2>
-            <div class="space-y-5">
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">What is APY (Annual Percentage Yield)?</h3>
-                    <p class="text-sm text-slate-600 mt-1">APY reflects the real rate of return when compounding is taken into account. In daily compound mode, this calculator automatically converts the nominal annual rate into APY, allowing you to see the true difference between compound and simple interest.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">Why use a 360-day year instead of 365?</h3>
-                    <p class="text-sm text-slate-600 mt-1">International financial markets (e.g., interbank rates, some deposit products) often use a 360-day convention for simplicity and consistency. This tool follows that standard to align with institutional interest rate quotes.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">How do I quickly compare current and fixed deposit returns?</h3>
-                    <p class="text-sm text-slate-600 mt-1">Simply switch between "Daily compound (current)" and "Simple interest (fixed)" under Product Type. Typical rates (0.35% for current, 2.75% for fixed) are auto-filled, but you can adjust them manually. The chart updates instantly to show the growth path.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="font-semibold text-slate-800">What is the interest on 100 million $ deposited for one year?</h3>
-                    <p class="text-sm text-slate-600 mt-1">Use this calculator: enter 100,000,000 as principal, choose 1 year, and select current or fixed. At typical rates, current (0.35%) yields about 35,000 $, fixed (2.75%) yields about 2,750,000 $. Actual rates depend on your bank; this tool gives a quick comparison.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Simple footer -->
-        <footer class="text-center text-xs text-slate-400 mt-10 border-t border-slate-200/70 pt-6">
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-                <p>©  Professional Deposit Interest Calculator — 360‑day convention | Bank Rate Tool</p>
-                <p class="flex gap-2 justify-center md:justify-end"><span class="w-1.5 h-1.5 bg-indigo-300 rounded-full"></span> For reference only. Actual bank rates may vary.</p>
-            </div>
-            <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
-                <a href="/bn/about-us/" style="color:#2563eb;text-decoration:none;">আমাদের সম্পর্কে</a>
-                <a href="/bn/contact-us/" style="color:#2563eb;text-decoration:none;">যোগাযোগ করুন</a>
-                <a href="/bn/disclaimer/" style="color:#2563eb;text-decoration:none;">দায়স্বীকার</a>
-                <a href="/bn/privacy/" style="color:#2563eb;text-decoration:none;">গোপনীয়তা নীতি</a>
-                <a href="/bn/terms/" style="color:#2563eb;text-decoration:none;">সেবার শর্তাবলি</a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Scripts (English version JS) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="/static/js/utility-tools/math/deposit-interest-rate-calculator/script-en.js" defer></script>
-    <script src="/static/js/shared/switchlanguage.js" defer></script>
+<!-- decorative background elements -->
+<div class="absolute -top-10 -left-10 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl -z-10"></div>
+<div class="absolute -bottom-10 -right-10 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10"></div>
+<!-- Header (English) -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-8 bg-indigo-500 rounded-full"></span>
+<h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">আমানতের সুদের ক্যালকুলেটর</h1>
+</div>
+<p class="text-slate-500 ml-3 text-base flex items-center gap-2 flex-wrap">
+<span class="inline-flex gap-1">দৈনিক যৌগ বনাম সহজ &middot; 360-দিনের ভিত্তিতে</span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span class="text-indigo-500 text-sm font-medium bg-indigo-50 px-3 py-0.5 rounded-full">360-দিনের সম্মেলন</span>
+</p>
+</div>
+<div class="bg-white/70 backdrop-blur-sm border border-white/50 shadow-sm px-5 py-3 rounded-2xl flex items-center gap-2">
+<span class="text-amber-500 text-lg">💎</span>
+<span class="text-sm font-semibold text-slate-700">পদ্ধতি:<span class="text-indigo-600">আন্তর্জাতিক 360-দিন</span></span>
+</div>
+</header>
+<!-- Main content: left controls / right results -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left: Parameter panel -->
+<div aria-label="গণনার পরামিতি" class="lg:col-span-4 space-y-6" role="form">
+<div class="card-glow rounded-3xl shadow-xl bg-white/90 p-7 border border-white/60">
+<h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-7 flex items-center gap-2">
+<span class="w-1 h-4 bg-indigo-400 rounded-full"></span>প্যারামিটার</h2>
+<div class="space-y-6">
+<!-- Principal -->
+<div>
+<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="principal">
+<span>💰</span>প্রধান<span class="text-xs text-slate-400 font-normal">($)</span>
+</label>
+<div class="relative">
+<span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xl">$</span>
+<input aria-describedby="principalHelp" class="focus-ring w-full pl-12 pr-5 py-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl transition-all" id="principal" min="0" step="1000" type="number" value="100000"/>
+</div>
+<div class="text-xs text-slate-400 mt-2" id="principalHelp">প্রধান লিখুন (0 অনুমোদিত)</div>
+</div>
+<!-- Annual rate + dynamic tag -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-slate-600 flex items-center gap-1.5" for="rate"><span>📊</span>বার্ষিক হার (%)</label>
+<span class="text-[11px] px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium shadow-sm" id="rateTag">বর্তমান সাধারণ</span>
+</div>
+<input aria-describedby="rateHelp" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl text-indigo-600 transition-all" id="rate" max="20" min="0" step="0.01" type="number" value="0.35"/>
+<div class="text-xs text-slate-400 mt-2" id="rateHelp">শতাংশ (যেমন, 0.35 = 0.35%)</div>
+</div>
+<!-- Term (dual column) -->
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="term"><span>⏳</span>মেয়াদ</label>
+<input aria-label="মেয়াদী পরিমাণ" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold text-xl" id="term" min="0" step="1" type="number" value="1"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="termUnit"><span>📅</span>ইউনিট</label>
+<select aria-label="মেয়াদী ইউনিট" class="focus-ring w-full p-5 bg-slate-50/80 border border-slate-200 rounded-2xl font-bold cursor-pointer appearance-none" id="termUnit">
+<option value="year">বছর</option>
+<option value="month">মাস</option>
+<option value="day">দিন</option>
+</select>
+</div>
+</div>
+<!-- Product type (radio) -->
+<div class="pt-2">
+<fieldset>
+<legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"><span>🧩</span>পণ্যের ধরন</legend>
+<div class="grid grid-cols-2 gap-3 p-1.5 bg-slate-100/80 rounded-2xl">
+<label class="radio-option flex-1 text-center">
+<input checked="" class="sr-only peer" name="calcMethod" type="radio" value="compound"/>
+<div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-indigo-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📈 দৈনিক যৌগ (বর্তমান)</div>
+</label>
+<label class="radio-option flex-1 text-center">
+<input class="sr-only peer" name="calcMethod" type="radio" value="simple"/>
+<div class="py-4 rounded-xl cursor-pointer text-sm font-bold peer-checked:bg-white peer-checked:text-emerald-600 peer-checked:shadow-md bg-transparent text-slate-500 transition-all">📐 সরল সুদ (স্থির)</div>
+</label>
+</div>
+<div class="sr-only" id="compoundDesc">দৈনিক কম্পাউন্ডিংয়ের জন্য নির্বাচন করুন, বর্তমান/সঞ্চয় অ্যাকাউন্ট অনুকরণ করে</div>
+<div class="sr-only" id="simpleDesc">সাধারণ সুদের জন্য নির্বাচন করুন, ফিক্সড ডিপোজিট অনুকরণ করে</div>
+</fieldset>
+</div>
+</div>
+</div>
+<!-- Info card (dynamic tips) - content updated via JS -->
+<div aria-label="অ্যালগরিদম ইঙ্গিত" class="rounded-3xl p-7 bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl border border-slate-700/50 backdrop-blur-sm" id="tipsCard">
+<!-- filled by JavaScript -->
+</div>
+</div>
+<!-- Right: Results + Chart -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Three result cards (aria-live) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-center">
+<div class="group bg-gradient-to-br from-indigo-600 to-indigo-500 p-6 rounded-3xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+<p class="text-indigo-100 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>💰</span>পরিপক্কতার পরিমাণ</p>
+<p aria-live="polite" class="text-3xl font-bold font-mono tracking-tight" id="resTotal">$ 100,000.00</p>
+<div class="w-12 h-0.5 bg-white/30 mx-auto mt-3 rounded-full"></div>
+</div>
+<div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+<p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>✨</span>অর্জিত সুদ</p>
+<p aria-live="polite" class="text-3xl font-bold text-emerald-500 font-mono" id="resInterest">$ 0.00</p>
+<div class="w-12 h-0.5 bg-emerald-200 mx-auto mt-3 rounded-full"></div>
+</div>
+<div class="group bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+<p class="text-slate-400 text-xs mb-2 tracking-wider flex items-center justify-center gap-1"><span>📈</span>APY (প্রকৃত)</p>
+<p aria-live="polite" class="text-3xl font-bold text-slate-800 font-mono" id="resApy">0.35%</p>
+<div class="w-12 h-0.5 bg-indigo-200 mx-auto mt-3 rounded-full"></div>
+</div>
+</div>
+<!-- Chart card -->
+<div class="bg-white/80 backdrop-blur-sm p-7 rounded-3xl border border-white/60 shadow-xl">
+<div class="flex items-center gap-2 mb-6">
+<span class="w-1 h-6 bg-indigo-400 rounded-full"></span>
+<h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider">📊 বৃদ্ধির পথ (মাসিক)</h2>
+</div>
+<div class="h-[320px] w-full relative">
+<canvas aria-label="সুদের বৃদ্ধির চার্ট" class="w-full h-full" id="growthChart" role="img"></canvas>
+</div>
+<p class="text-xs text-slate-400 mt-4 text-center border-t border-slate-100 pt-3">_* মাসিক ডেটা পয়েন্ট। যৌগিক = দৈনিক যৌগিক, সরল = রৈখিক। চূড়ান্ত মান চিহ্নিত করা হয়েছে। চাক্ষুষরূপে বর্তমান বনাম স্থির তুলনা.</p>
+</div>
+</div>
+</div>
+<!-- Bottom description blocks (English) -->
+<div class="mt-16 text-sm bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 grid md:grid-cols-3 gap-8 shadow-inner">
+<div class="flex gap-3">
+<span class="text-indigo-500 text-xl">🔹</span>
+<div>
+<h3 class="font-bold text-slate-800 mb-1">দৈনিক যৌগ (বর্তমান)</h3>
+<p class="text-slate-500 text-xs leading-relaxed">360-দিনের কনভেনশন অনুসরণ করে, প্রতিদিন সুদ গণনা করা হয় এবং মূলে যোগ করা হয়। কারেন্ট অ্যাকাউন্ট, মানি মার্কেট ফান্ডের জন্য আদর্শ। APY &gt; নামমাত্র হার।</p>
+</div>
+</div>
+<div class="flex gap-3">
+<span class="text-emerald-500 text-xl">🔸</span>
+<div>
+<h3 class="font-bold text-slate-800 mb-1">সরল সুদ (স্থির)</h3>
+<p class="text-slate-500 text-xs leading-relaxed">টাইম ডিপোজিটের জন্য স্ট্যান্ডার্ড; সুদ যৌগিক হয় না। সরল-রেখা বৃদ্ধি। ফিক্সড ডিপোজিট এবং সিডি গণনার জন্য উপযুক্ত।</p>
+</div>
+</div>
+<div class="flex gap-3">
+<span class="text-amber-500 text-xl">📊</span>
+<div>
+<h3 class="font-bold text-slate-800 mb-1">স্মার্ট তুলনা</h3>
+<p class="text-slate-500 text-xs leading-relaxed">পণ্যের ধরন স্যুইচ করা স্বয়ংক্রিয়ভাবে সাধারণ হার (0.35% / 2.75%) পূরণ করে। দুই দশমিকের ফলাফল। 100 মিলিয়ন ডলারের মত বড় প্রিন্সিপাল সমর্থন করে।</p>
+</div>
+</div>
+</div>
+<!-- FAQ section (English) -->
+<div class="mt-12 bg-white/70 backdrop-blur-sm border border-white/60 rounded-3xl p-7 shadow-inner">
+<h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+<span class="w-1 h-6 bg-indigo-400 rounded-full"></span>প্রায়শই জিজ্ঞাসিত প্রশ্ন (FAQ)</h2>
+<div class="space-y-5">
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">APY (বার্ষিক শতাংশ ফলন) কি?</h3>
+<p class="text-sm text-slate-600 mt-1">APY রিটার্নের প্রকৃত হার প্রতিফলিত করে যখন চক্রবৃদ্ধি বিবেচনায় নেওয়া হয়। দৈনিক যৌগিক মোডে, এই ক্যালকুলেটর স্বয়ংক্রিয়ভাবে নামমাত্র বার্ষিক হারকে APY-তে রূপান্তর করে, আপনাকে যৌগিক এবং সাধারণ সুদের মধ্যে প্রকৃত পার্থক্য দেখতে দেয়।</p>
+</div>
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">কেন 365-এর পরিবর্তে 360-দিনের বছর ব্যবহার করবেন?</h3>
+<p class="text-sm text-slate-600 mt-1">আন্তর্জাতিক আর্থিক বাজার (যেমন, আন্তঃব্যাংক রেট, কিছু আমানত পণ্য) প্রায়ই সরলতা এবং সামঞ্জস্যের জন্য একটি 360-দিনের কনভেনশন ব্যবহার করে। এই টুলটি প্রাতিষ্ঠানিক সুদের হারের উদ্ধৃতিগুলির সাথে সারিবদ্ধ করার জন্য সেই মানকে অনুসরণ করে।</p>
+</div>
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">আমি কিভাবে দ্রুত বর্তমান এবং স্থায়ী আমানতের রিটার্ন তুলনা করব?</h3>
+<p class="text-sm text-slate-600 mt-1">পণ্যের প্রকারের অধীনে "দৈনিক যৌগ (বর্তমান)" এবং "সরল সুদ (স্থির)" এর মধ্যে কেবল পরিবর্তন করুন। সাধারণ হার (বর্তমানের জন্য 0.35%, স্থির জন্য 2.75%) স্বয়ংক্রিয়ভাবে পূরণ করা হয়, তবে আপনি সেগুলি ম্যানুয়ালি সামঞ্জস্য করতে পারেন। বৃদ্ধির পথ দেখাতে চার্ট অবিলম্বে আপডেট হয়।</p>
+</div>
+<div class="faq-item">
+<h3 class="font-semibold text-slate-800">এক বছরের জন্য জমা করা 100 মিলিয়ন ডলারের সুদ কি?</h3>
+<p class="text-sm text-slate-600 mt-1">এই ক্যালকুলেটরটি ব্যবহার করুন: প্রধান হিসাবে 100,000,000 লিখুন, 1 বছর নির্বাচন করুন এবং বর্তমান বা স্থির নির্বাচন করুন। সাধারণ হারে, বর্তমান (0.35%) প্রায় 35,000 $, স্থির (2.75%) ফলন প্রায় 2,750,000 $। প্রকৃত হার আপনার ব্যাঙ্কের উপর নির্ভর করে; এই টুল একটি দ্রুত তুলনা দেয়.</p>
+</div>
+</div>
+</div>
+<!-- Simple footer -->
+<footer class="text-center text-xs text-slate-400 mt-10 border-t border-slate-200/70 pt-6">
+<div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+<p>&copy; প্রফেশনাল ডিপোজিট ইন্টারেস্ট ক্যালকুলেটর &mdash; 360‑দিন কনভেনশন | ব্যাঙ্ক রেট টুল</p>
+<p class="flex gap-2 justify-center md:justify-end"><span class="w-1.5 h-1.5 bg-indigo-300 rounded-full"></span>শুধুমাত্র রেফারেন্সের জন্য। প্রকৃত ব্যাঙ্কের হার পরিবর্তিত হতে পারে।</p>
+</div>
+<div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
+<a href="/bn/about-us/" style="color:#2563eb;text-decoration:none;">আমাদের সম্পর্কে</a>
+<a href="/bn/contact-us/" style="color:#2563eb;text-decoration:none;">আমাদের সাথে যোগাযোগ করুন</a>
+<a href="/bn/disclaimer/" style="color:#2563eb;text-decoration:none;">অস্বীকৃতি</a>
+<a href="/bn/privacy/" style="color:#2563eb;text-decoration:none;">গোপনীয়তা নীতি</a>
+<a href="/bn/terms/" style="color:#2563eb;text-decoration:none;">পরিষেবার শর্তাবলী</a>
+</div>
+</footer>
+</div>
+<!-- Scripts (ইংরেজি সংস্করণ JS) -->
+<script defer="" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer="" src="/static/js/utility-tools/math/deposit-interest-rate-calculator/script-bn.js"></script>
+<script defer="" src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

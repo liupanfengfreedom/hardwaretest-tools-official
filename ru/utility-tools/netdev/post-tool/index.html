@@ -1,483 +1,297 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  
-  <!-- SEO Meta Tags -->
-  <title>Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool | StarryRing Набор инструментов</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" name="viewport"/>
+<!-- SEO Meta Tags -->
+<title>&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST/&tcy;&iecy;&scy;&tcy;&iecy;&rcy; API &mdash; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy; &chcy;&icy;&scy;&tcy;&ocy;&gcy;&ocy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy; | StarryRing &Ncy;&acy;&bcy;&ocy;&rcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ocy;&vcy;</title>
 <!-- Canonical & Internationalization -->
-
-
 <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-  <link rel="manifest" href="/site.webmanifest">
-  
-  <style>
-    /* Initial hide to prevent encoding issues */
-    html { visibility: hidden; opacity: 0; }
-  </style>
-  
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="/static/css/utility-tools/netdev/post-tool/style.css" media="print" 
-  onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
-  <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-  <link rel="stylesheet" href="/static/css/shared/document.css">
-  
-  <!-- Robots -->
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  
-  <!-- Author -->
-  <meta name="author" content="StarryRing">
-  <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-
-
-<meta property="og:image" content="https://starryring.com/ru/utility-tools/netdev/post-tool/og-image-en.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Online POST Tool Interface Preview">
-  <meta property="og:site_name" content="StarryRing Набор инструментов">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://starryring.com/ru/utility-tools/netdev/post-tool/">
-
-<meta name="twitter:image" content="https://starryring.com/ru/utility-tools/netdev/post-tool/twitter-image-en.png">
-  <meta name="twitter:creator" content="@starryring">
-  
-  <!-- Mobile Optimization -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="POST Tool">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#1a1a1a">
-  <meta name="msapplication-TileColor" content="#1a1a1a">
-  
-  <!-- Performance Optimization -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-  <link rel="preload" href="/static/css/netdev/style.css" as="style">
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-  
-  <!-- Structured Data Schema Markup -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "name": "Online POST Tool / API Tester",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-        "description": "Free online POST tool and API tester, pure frontend implementation, supports HTTP methods, JSON/form data, request headers configuration, authentication debugging, perfect for API development and debugging learning",
-        "url": "https://starryring.com/ru/utility-tools/netdev/post-tool/",
-        "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/og-image-en.png",
-        "screenshot": "https://starryring.com/ru/utility-tools/netdev/post-tool/screenshot-en.png",
-        "author": {
-          "@type": "Organization",
-          "name": "StarryRing",
-          "url": "https://starryring.com",
-          "logo": "https://starryring.com/logo.png"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "featureList": [
-          "HTTP methods support (POST/GET/PUT/DELETE/PATCH)",
-          "JSON and form data formats",
-          "Custom request headers configuration",
-          "URL history record",
-          "Real-time response preview"
-        ],
-        "softwareVersion": "1.0.0",
-        "datePublished": "2024-03-01",
-        "dateModified": "2024-12-20"
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Does this POST tool require server support?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No, this is a pure frontend tool that runs completely in the browser. All requests are sent through the browser's Fetch API, no backend server support required."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What HTTP methods are supported?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Supports POST, GET, PUT, DELETE, PATCH five HTTP methods, meeting basic RESTful API development needs."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How to handle cross-origin requests?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Due to browser same-origin policy restrictions, cross-origin requests require the target server to configure CORS (Cross-Origin Resource Sharing) headers. If you encounter cross-origin issues, ensure the target API server has correctly configured Access-Control-Allow-Origin and other CORS headers."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does it support file uploads?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Current version mainly supports JSON and form data formats. File upload functionality is under development. Support for multipart/form-data format will be added in future versions."
-            }
-          }
-        ]
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Главная",
-              "item": "https://starryring.com/ru/"
-          },
-          {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Полезные инструменты",
-              "item": "https://starryring.com/ru/utility-tools/"
-          },
-          {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "Network Testing Tools",
-              "item": "https://starryring.com/ru/utility-tools/NetDev/"
-          },
-          {
-              "@type": "ListItem",
-              "position": 4,
-              "name": "Post tool",
-              "item": "https://starryring.com/ru/utility-tools/netdev/post-tool/"
-          }
-        ]
-      },
-      {
-        "@type": "HowTo",
-        "name": "How to Use Online POST Tool to Test API Interfaces",
-        "description": "Step-by-step guide to using the online POST tool for API interface testing and debugging",
-        "step": [
-          {
-            "@type": "HowToStep",
-            "name": "Enter request URL",
-            "text": "Enter the API interface address you want to test in the URL input box. You can select previously used URLs from the history.",
-            "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step1-en.png"
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Select HTTP method",
-            "text": "Choose the appropriate HTTP method (POST/GET/PUT/DELETE/PATCH) from the dropdown menu.",
-            "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step2-en.png"
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Configure request headers and body",
-            "text": "Configure request headers (like Content-Type, Authorization) and request body (JSON or form data) as needed.",
-            "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step3-en.png"
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Send request and view response",
-            "text": "Click the 'Send Request' button. The tool will send the HTTP request and display status code, response headers, and response body in the response panel.",
-            "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step4-en.png"
-          }
-        ],
-        "totalTime": "PT2M"
-      }
-    ]
-  }
-  </script>
-  
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<meta name="description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods (POST/GET/PUT/DELETE), JSON/form data, request headers configuration, authentication debugging, perfect for API development and debugging learning.">
-            <link rel="canonical" href="https://starryring.com/ru/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/netdev/post-tool/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/post-tool/">
-<meta property="og:url" content="https://starryring.com/ru/utility-tools/netdev/post-tool/">
-    <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="🚀 Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool">
-    <meta property="og:description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods, JSON/form data, request headers configuration, authentication debugging.">
-    <meta name="twitter:title" content="🚀 Online POST Tool / API Tester - Pure Frontend HTTP Request Debugging Tool">
-    <meta name="twitter:description" content="Free online POST tool and API tester, pure frontend implementation, no server required. Supports HTTP methods, JSON/form data, request headers configuration, authentication debugging.">
-    <meta name="keywords" content="POST tool, API tester, HTTP request debugging, interface testing, online debugging tool, frontend development tool, REST API testing, JSON debugging">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<style> /* Initial hide to prevent encoding issues */ html { visibility: hidden; opacity: 0; } </style>
+<!-- Stylesheets -->
+<link href="/static/css/utility-tools/netdev/post-tool/style.css" media="print" onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<!-- Robots -->
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<!-- Author -->
+<meta content="StarryRing" name="author"/>
+<meta content="Copyright &copy; 2026 StarryRing. All rights reserved." name="copyright"/>
+<!-- Open Graph / Facebook -->
+<meta content="website" property="og:type"/>
+<meta content="https://starryring.com/ru/utility-tools/netdev/post-tool/og-image-en.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="&Pcy;&rcy;&iecy;&dcy;&vcy;&acy;&rcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&scy;&mcy;&ocy;&tcy;&rcy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&acy; POST" property="og:image:alt"/>
+<meta content="StarryRing &YAcy;&shchcy;&icy;&kcy; &dcy;&lcy;&yacy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ocy;&vcy;" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/ru/utility-tools/netdev/post-tool/" name="twitter:url"/>
+<meta content="https://starryring.com/ru/utility-tools/netdev/post-tool/twitter-image-en.png" name="twitter:image"/>
+<meta content="@starryring" name="twitter:creator"/>
+<!-- Mobile Optimization -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="POST Tool" name="apple-mobile-web-app-title"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="#1a1a1a" name="theme-color"/>
+<meta content="#1a1a1a" name="msapplication-TileColor"/>
+<!-- Performance Optimization -->
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="dns-prefetch"/>
+<link as="style" href="/static/css/netdev/style.css" rel="preload"/>
+<link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="preload"/>
+<!-- Structured Data Schema Markup -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "Интернет-инструмент POST/тестер API", "applicationCategory": "DeveloperApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "description": "Бесплатный онлайн-инструмент POST и тестер API, чистая реализация внешнего интерфейса, поддержка методов HTTP, данных JSON/форм, настройки заголовков запросов, отладки аутентификации, идеально подходит для разработки API и обучения отладке", "url": "https://starryring.com/ru/utility-tools/netdev/post-tool/", "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/og-image-en.png", "screenshot": "https://starryring.com/ru/utility-tools/netdev/post-tool/screenshot-en.png", "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com", "logo": "https://starryring.com/logo.png" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "HTTP methods support (POST/GET/PUT/DELETE/PATCH)", "JSON and form data formats", "Custom request headers configuration", "URL history record", "Real-time response preview" ], "softwareVersion": "1.0.0", "datePublished": "2024-03-01", "dateModified": "2024-12-20" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Требуется ли для этого инструмента POST поддержка сервера?", "acceptedAnswer": { "@type": "Answer", "text": "Нет, это чисто интерфейсный инструмент, который полностью работает в браузере. Все запросы отправляются через Fetch API браузера, поддержка внутреннего сервера не требуется." } }, { "@type": "Question", "name": "Какие методы HTTP поддерживаются?", "acceptedAnswer": { "@type": "Answer", "text": "Поддерживает пять методов HTTP POST, GET, PUT, DELETE, PATCH, удовлетворяя базовые потребности разработки API RESTful." } }, { "@type": "Question", "name": "Как обрабатывать запросы из разных источников?", "acceptedAnswer": { "@type": "Answer", "text": "Из-за ограничений политики браузера в отношении одного и того же источника запросы из разных источников требуют, чтобы целевой сервер настраивал заголовки CORS (совместное использование ресурсов перекрестного происхождения). Если вы столкнулись с проблемами перекрестного происхождения, убедитесь, что на целевом сервере API правильно настроены Access-Control-Allow-Origin и другие заголовки CORS." } }, { "@type": "Question", "name": "Поддерживает ли он загрузку файлов?", "acceptedAnswer": { "@type": "Answer", "text": "Текущая версия в основном поддерживает форматы данных JSON и формы. Функционал загрузки файлов находится в стадии разработки. Поддержка формата multipart/form-data будет добавлена ​​в будущих версиях." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://starryring.com/ru/" }, { "@type": "ListItem", "position": 2, "name": "Служебные инструменты", "item": "https://starryring.com/ru/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "Инструменты сетевого тестирования", "item": "https://starryring.com/ru/utility-tools/NetDev/" }, { "@type": "ListItem", "position": 4, "name": "Инструмент публикации", "item": "https://starryring.com/ru/utility-tools/netdev/post-tool/" } ] }, { "@type": "HowTo", "name": "Как использовать онлайн-инструмент POST для тестирования интерфейсов API", "description": "Пошаговое руководство по использованию онлайн-инструмента POST для тестирования и отладки интерфейса API.", "step": [ { "@type": "HowToStep", "name": "Введите URL запроса", "text": "Введите адрес интерфейса API, который вы хотите протестировать, в поле ввода URL-адреса. Вы можете выбрать ранее использованные URL-адреса из истории.", "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step1-en.png" }, { "@type": "HowToStep", "name": "Выберите метод HTTP", "text": "Выберите соответствующий метод HTTP (POST/GET/PUT/DELETE/PATCH) из раскрывающегося меню.", "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step2-en.png" }, { "@type": "HowToStep", "name": "Настройка заголовков и тела запроса", "text": "Настройте заголовки запроса (например, Content-Type, Authorization) и тело запроса (JSON или данные формы) по мере необходимости.", "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step3-en.png" }, { "@type": "HowToStep", "name": "Отправить запрос и просмотреть ответ", "text": "Нажмите кнопку «Отправить запрос». Инструмент отправит HTTP-запрос и отобразит код состояния, заголовки и текст ответа на панели ответов.", "image": "https://starryring.com/ru/utility-tools/netdev/post-tool/step4-en.png" } ], "totalTime": "PT2M" } ]
+}</script>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ycy;&jcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST &icy; &tcy;&iecy;&scy;&tcy;&iecy;&rcy; API, &chcy;&icy;&scy;&tcy;&acy;&yacy; &rcy;&iecy;&acy;&lcy;&icy;&zcy;&acy;&tscy;&icy;&yacy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;, &scy;&iecy;&rcy;&vcy;&iecy;&rcy; &ncy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy;. &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &mcy;&iecy;&tcy;&ocy;&dcy;&ycy; HTTP (POST/GET/PUT/DELETE), &dcy;&acy;&ncy;&ncy;&ycy;&iecy; JSON/&fcy;&ocy;&rcy;&mcy;&ycy;, &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yucy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy;, &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&ucy; &acy;&ucy;&tcy;&iecy;&ncy;&tcy;&icy;&fcy;&icy;&kcy;&acy;&tscy;&icy;&icy;, &icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &rcy;&acy;&zcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&icy; API &icy; &ocy;&bcy;&ucy;&chcy;&iecy;&ncy;&icy;&yacy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&iecy;." name="description"/>
+<link href="https://starryring.com/ru/utility-tools/netdev/post-tool/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/netdev/post-tool/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/netdev/post-tool/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/netdev/post-tool/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/netdev/post-tool/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/netdev/post-tool/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/netdev/post-tool/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/netdev/post-tool/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/netdev/post-tool/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/netdev/post-tool/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/netdev/post-tool/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/netdev/post-tool/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/netdev/post-tool/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/netdev/post-tool/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/netdev/post-tool/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/netdev/post-tool/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/netdev/post-tool/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/netdev/post-tool/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/netdev/post-tool/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/netdev/post-tool/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/netdev/post-tool/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ru/utility-tools/netdev/post-tool/" property="og:url"/>
+<meta content="ru_RU" property="og:locale"/>
+<meta content="🚀 &Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST / &tcy;&iecy;&scy;&tcy;&iecy;&rcy; API &mdash; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy; &chcy;&icy;&scy;&tcy;&ocy;&gcy;&ocy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;" property="og:title"/>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ycy;&jcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST &icy; &tcy;&iecy;&scy;&tcy;&iecy;&rcy; API, &chcy;&icy;&scy;&tcy;&acy;&yacy; &rcy;&iecy;&acy;&lcy;&icy;&zcy;&acy;&tscy;&icy;&yacy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;, &scy;&iecy;&rcy;&vcy;&iecy;&rcy; &ncy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy;. &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &mcy;&iecy;&tcy;&ocy;&dcy;&ycy; HTTP, &dcy;&acy;&ncy;&ncy;&ycy;&iecy; JSON/&fcy;&ocy;&rcy;&mcy;&ycy;, &ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&ucy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy;, &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&ucy; &acy;&ucy;&tcy;&iecy;&ncy;&tcy;&icy;&fcy;&icy;&kcy;&acy;&tscy;&icy;&icy;." property="og:description"/>
+<meta content="🚀 &Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST / &tcy;&iecy;&scy;&tcy;&iecy;&rcy; API &mdash; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy; &chcy;&icy;&scy;&tcy;&ocy;&gcy;&ocy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;" name="twitter:title"/>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ycy;&jcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST &icy; &tcy;&iecy;&scy;&tcy;&iecy;&rcy; API, &chcy;&icy;&scy;&tcy;&acy;&yacy; &rcy;&iecy;&acy;&lcy;&icy;&zcy;&acy;&tscy;&icy;&yacy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;, &scy;&iecy;&rcy;&vcy;&iecy;&rcy; &ncy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy;. &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &mcy;&iecy;&tcy;&ocy;&dcy;&ycy; HTTP, &dcy;&acy;&ncy;&ncy;&ycy;&iecy; JSON/&fcy;&ocy;&rcy;&mcy;&ycy;, &ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&ucy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy;, &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&ucy; &acy;&ucy;&tcy;&iecy;&ncy;&tcy;&icy;&fcy;&icy;&kcy;&acy;&tscy;&icy;&icy;." name="twitter:description"/>
+<meta content="POST &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;, &tcy;&iecy;&scy;&tcy;&iecy;&rcy; API, &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&acy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy;, &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;, &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy;, &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&jcy; &rcy;&acy;&zcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&icy;, &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; REST API, &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&acy; JSON" name="keywords"/>
 </head>
-
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Выбрать язык" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/netdev/post-tool/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/netdev/post-tool/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/netdev/post-tool/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/netdev/post-tool/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/netdev/post-tool/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/netdev/post-tool/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/netdev/post-tool/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/netdev/post-tool/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/netdev/post-tool/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/netdev/post-tool/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/netdev/post-tool/" data-lang="pt">Português</a>
-            <a class="language-option selected" href="/ru/utility-tools/netdev/post-tool/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/netdev/post-tool/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/netdev/post-tool/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/netdev/post-tool/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/netdev/post-tool/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/netdev/post-tool/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/netdev/post-tool/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/netdev/post-tool/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/netdev/post-tool/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &yacy;&zcy;&ycy;&kcy;" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/netdev/post-tool/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/netdev/post-tool/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/netdev/post-tool/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/netdev/post-tool/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/netdev/post-tool/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/netdev/post-tool/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/netdev/post-tool/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/netdev/post-tool/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/netdev/post-tool/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/netdev/post-tool/">Portugu&ecirc;s</a>
+<a class="language-option selected" data-lang="ru" href="/ru/utility-tools/netdev/post-tool/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/netdev/post-tool/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/netdev/post-tool/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/netdev/post-tool/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/netdev/post-tool/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/netdev/post-tool/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/netdev/post-tool/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/netdev/post-tool/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/netdev/post-tool/">தமிழ்</a>
+</div>
+</div>
 <!-- Language switcher -->
 <!-- Breadcrumb navigation -->
-  <nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
-    <ol class="breadcrumb-modern">
-      <li class="breadcrumb-item">
-        <a href="/ru/" class="breadcrumb-link"><i class="fas fa-home"></i> Главная</a>
-      </li>
-      <li class="breadcrumb-item">
-        <a href="/ru/utility-tools/" class="breadcrumb-link">
-            <i class="fas fa-toolbox"></i> Полезные инструменты
-        </a>
-    </li>
-      <li class="breadcrumb-item" aria-current="page">
-        <span class="breadcrumb-active"><i class="fas fa-paper-plane"></i> POST Tool</span>
-      </li>
-    </ol>
-  </nav>
-  
-  <!-- Main content container -->
-  <div class="main-container">
-    <header>
-      <h1>🚀 Online POST Tool / API Tester</h1>
-      <p class="subtitle">Pure frontend HTTP request debugging tool, supports multiple HTTP methods and data formats</p>
-    </header>
-
-    <!-- Tool panel container -->
-    <div class="tool-panel-container">
-      <main>
-        <!-- Request panel -->
-        <section class="tool-section">
-          <h2><i class="fas fa-paper-plane"></i> Request Configuration</h2>
-          
-          <div class="form-group">
-            <label for="url"><i class="fas fa-link"></i> Request URL</label>
-            <!-- Wrapper container and history dropdown -->
-            <div class="url-wrapper">
-              <input id="url" placeholder="http://127.0.0.1:8787?page=p1" autocomplete="off" />
-              <div id="urlHistoryList" class="history-dropdown"></div>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="method"><i class="fas fa-exchange-alt"></i> Request Method</label>
-            <select id="method">
-              <option value="POST">POST</option>
-              <option value="GET">GET</option>
-              <option value="PUT">PUT</option>
-              <option value="DELETE">DELETE</option>
-              <option value="PATCH">PATCH</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="headers"><i class="fas fa-heading"></i> Request Headers (JSON)</label>
-            <div class="body-container">
-              <div>
-                <textarea id="headers" placeholder='{ "Content-Type": "application/json", "Authorization": "Bearer token" }'></textarea>
-              </div>
-              <div>
-                <div id="headersFields"></div>
-                <button type="button" id="addHeadersFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Field</button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="bodyType"><i class="fas fa-code"></i> Request Body Type</label>
-            <select id="bodyType">
-              <option value="json">JSON</option>
-              <option value="form">Form (x-www-form-urlencoded)</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="body"><i class="fas fa-file-code"></i> Request Body (JSON / Form)</label>
-            <div class="body-container">
-              <div>
-                <textarea id="body" placeholder='{ "key": "value", "data": "example" }'></textarea>
-              </div>
-              <div>
-                <div id="bodyFields"></div>
-                <button type="button" id="addBodyFieldBtn" class="btn-secondary"><i class="fas fa-plus"></i> Add Field</button>
-              </div>
-            </div>
-          </div>
-          
-          <button id="sendRequestBtn" class="btn-primary"><i class="fas fa-play"></i> Send Request</button>
-        </section>
-
-        <!-- Response panel -->
-        <section class="tool-section">
-          <h2><i class="fas fa-reply"></i> Response Result</h2>
-          
-          <div class="form-group">
-            <label for="status"><i class="fas fa-tachometer-alt"></i> Status</label>
-            <input id="status" readonly />
-          </div>
-          
-          <div class="form-group">
-            <label for="resHeaders"><i class="fas fa-heading"></i> Response Headers</label>
-            <pre id="resHeaders"></pre>
-          </div>
-          
-          <div class="form-group">
-            <label for="response"><i class="fas fa-file-alt"></i> Response Body</label>
-            <pre id="response"></pre>
-          </div>
-        </section>
-      </main>
-    </div>
-    
-    <!-- ===== Feature Introduction Area ===== -->
-    <div class="instructions-section">
-      <div class="instructions-content">
-        <h2><i class="fas fa-star"></i> Tool Features</h2>
-        
-        <div class="feature-grid">
-          <div class="feature-item">
-            <h3><i class="fas fa-laptop-code"></i> Pure Frontend Implementation</h3>
-            <p>Runs completely in the browser, no server required. All HTTP requests are sent through the browser Fetch API, ensuring data privacy and security.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-exchange-alt"></i> Multiple HTTP Methods</h3>
-            <p>Supports POST, GET, PUT, DELETE, PATCH five HTTP methods, meeting basic RESTful API development needs.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-code"></i> Multi-format Data Support</h3>
-            <p>Supports JSON and form data formats, convenient for testing different types of API interfaces. JSON editor provides syntax highlighting and validation.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-heading"></i> Custom Request Headers</h3>
-            <p>Flexibly configure request headers, supports common headers like Content-Type, Authorization, User-Agent, meeting complex API testing requirements.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-history"></i> URL History Record</h3>
-            <p>Automatically saves recently used URLs, convenient for quick switching and repeated testing, improving debugging efficiency.</p>
-          </div>
-          
-          <div class="feature-item">
-            <h3><i class="fas fa-eye"></i> Real-time Response Preview</h3>
-            <p>Instantly displays HTTP status code, response headers, and response body, supports JSON formatted display, easy to analyze API return results.</p>
-          </div>
-        </div>
-        
-        <div class="faq-section">
-          <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
-          
-          <div class="faq-item">
-            <h3>Does this tool support HTTPS?</h3>
-            <p>Yes, fully supports HTTPS protocol. You can enter any valid HTTPS URL for testing. The tool follows browser security policies.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>How to handle cross-origin requests?</h3>
-            <p>Cross-origin requests require the target server to configure CORS (Cross-Origin Resource Sharing) headers. If you encounter cross-origin errors, ensure the API server has configured correct CORS policies, such as Access-Control-Allow-Origin etc.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Does it support file uploads?</h3>
-            <p>Current version mainly supports JSON and form data formats. multipart/form-data format (for file uploads) will be supported in future versions. You can use FormData API with this tool for file upload testing.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Is data saved to the server?</h3>
-            <p>No. All data is saved in your browser's local storage (localStorage), not uploaded to any server, ensuring your API keys and sensitive data security.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Does it support WebSocket testing?</h3>
-            <p>Current version focuses on HTTP/HTTPS request testing. WebSocket testing tool is under development and will be provided in future versions.</p>
-          </div>
-          
-          <div class="faq-item">
-            <h3>Is it suitable for learning HTTP protocol?</h3>
-            <p>Perfect for learning! This tool intuitively displays all components of HTTP requests and responses, an ideal tool for learning HTTP protocol, RESTful API design, and debugging techniques.</p>
-          </div>
-        </div>
-        
-        <div class="usage-tips">
-          <h2><i class="fas fa-lightbulb"></i> Usage Tips</h2>
-          <ul>
-            <li>Use shortcut Ctrl+Enter (Windows) or Cmd+Enter (Mac) to quickly send requests</li>
-            <li>JSON data is automatically formatted for easy reading and editing</li>
-            <li>Response data can be copied to clipboard for further analysis</li>
-            <li>For local development, recommended URL format: http://localhost:port</li>
-            <li>Save frequently used API configurations for quick repeated testing</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>© 2024-2026 StarryRing Набор инструментов · Pure Frontend POST Tool · Fetch API</p>
-    <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;">
-      <a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">О нас</a>
-      <a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">Связаться с нами</a>
-      <a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">Отказ от ответственности</a>
-      <a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">Политика конфиденциальности</a>
-      <a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">Условия использования</a>
-    </div>
-  </footer>
-
-  <script src="/static/js/utility-tools/netdev/post-tool/script-en.js"></script>
-  <script src="/static/js/shared/switchlanguage.js"></script>
+<nav aria-label="&Ncy;&acy;&vcy;&icy;&gcy;&acy;&tscy;&icy;&yacy; &pcy;&ocy; &kcy;&rcy;&ocy;&shcy;&kcy;&acy;&mcy;" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ru/"><i class="fas fa-home"></i>&Gcy;&lcy;&acy;&vcy;&ncy;&acy;&yacy;</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ru/utility-tools/">
+<i class="fas fa-toolbox"></i>&Scy;&lcy;&ucy;&zhcy;&iecy;&bcy;&ncy;&ycy;&iecy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ycy;</a>
+</li>
+<li aria-current="page" class="breadcrumb-item">
+<span class="breadcrumb-active"><i class="fas fa-paper-plane"></i>POST</span>
+</li>
+</ol>
+</nav>
+<!-- Main content container -->
+<div class="main-container">
+<header>
+<h1>🚀 &Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST/&tcy;&iecy;&scy;&tcy;&iecy;&rcy; API</h1>
+<p class="subtitle">&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy; &chcy;&icy;&scy;&tcy;&ocy;&gcy;&ocy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;, &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &mcy;&iecy;&tcy;&ocy;&dcy;&ocy;&vcy; HTTP &icy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy;.</p>
+</header>
+<!-- Tool panel container -->
+<div class="tool-panel-container">
+<main>
+<!-- Request panel -->
+<section class="tool-section">
+<h2><i class="fas fa-paper-plane"></i>&Zcy;&acy;&pcy;&rcy;&ocy;&scy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&icy;</h2>
+<div class="form-group">
+<label for="url"><i class="fas fa-link"></i>URL-&acy;&dcy;&rcy;&iecy;&scy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&acy;</label>
+<!-- Wrapper container and history dropdown -->
+<div class="url-wrapper">
+<input autocomplete="off" id="url" placeholder="http://127.0.0.1:8787?page=p1"/>
+<div class="history-dropdown" id="urlHistoryList"></div>
+</div>
+</div>
+<div class="form-group">
+<label for="method"><i class="fas fa-exchange-alt"></i>&Mcy;&iecy;&tcy;&ocy;&dcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&acy;</label>
+<select id="method">
+<option value="POST">POST</option>
+<option value="GET">GET</option>
+<option value="PUT">PUT</option>
+<option value="DELETE">DELETE</option>
+<option value="PATCH">&Pcy;&Acy;&Tcy;&CHcy;</option>
+</select>
+</div>
+<div class="form-group">
+<label for="headers"><i class="fas fa-heading"></i>&Zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&icy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy; (JSON)</label>
+<div class="body-container">
+<div>
+<textarea id="headers" placeholder='{ "&Tcy;&icy;&pcy; &kcy;&ocy;&ncy;&tcy;&iecy;&ncy;&tcy;&acy;": "application/json", "&Acy;&vcy;&tcy;&ocy;&rcy;&icy;&zcy;&acy;&tscy;&icy;&yacy;": "&Tcy;&ocy;&kcy;&iecy;&ncy; &ncy;&acy; &pcy;&rcy;&iecy;&dcy;&hardcy;&yacy;&vcy;&icy;&tcy;&iecy;&lcy;&yacy;" }'></textarea>
+</div>
+<div>
+<div id="headersFields"></div>
+<button class="btn-secondary" id="addHeadersFieldBtn" type="button"><i class="fas fa-plus"></i>&Dcy;&ocy;&bcy;&acy;&vcy;&icy;&tcy;&softcy; &pcy;&ocy;&lcy;&iecy;
+&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;</button>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="bodyType"><i class="fas fa-code"></i>&Tcy;&icy;&pcy; &tcy;&iecy;&lcy;&acy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&acy;</label>
+<select id="bodyType">
+<option value="json">JSON</option>
+<option value="form">&Fcy;&ocy;&rcy;&mcy;&acy; (x-www-form-urlencoded)</option>
+</select>
+</div>
+<div class="form-group">
+<label for="body"><i class="fas fa-file-code"></i>&Tcy;&iecy;&lcy;&ocy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&acy; (JSON/&fcy;&ocy;&rcy;&mcy;&acy;)</label>
+<div class="body-container">
+<div>
+<textarea id="body" placeholder='{ "&kcy;&lcy;&yucy;&chcy;": "&zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&iecy;", "&dcy;&acy;&ncy;&ncy;&ycy;&iecy;": "&pcy;&rcy;&icy;&mcy;&iecy;&rcy;" }'></textarea>
+</div>
+<div>
+<div id="bodyFields"></div>
+<button class="btn-secondary" id="addBodyFieldBtn" type="button"><i class="fas fa-plus"></i>&Dcy;&ocy;&bcy;&acy;&vcy;&icy;&tcy;&softcy; &pcy;&ocy;&lcy;&iecy;
+&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;</button>
+</div>
+</div>
+</div>
+<button class="btn-primary" id="sendRequestBtn"><i class="fas fa-play"></i>&Ocy;&tcy;&pcy;&rcy;&acy;&vcy;&icy;&tcy;&softcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;</button>
+</section>
+<!-- Response panel -->
+<section class="tool-section">
+<h2><i class="fas fa-reply"></i>&Rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy; &ocy;&tcy;&vcy;&iecy;&tcy;&acy;</h2>
+<div class="form-group">
+<label for="status"><i class="fas fa-tachometer-alt"></i>&Scy;&tcy;&acy;&tcy;&ucy;&scy;</label>
+<input id="status" readonly=""/>
+</div>
+<div class="form-group">
+<label for="resHeaders"><i class="fas fa-heading"></i>&Zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&icy; &ocy;&tcy;&vcy;&iecy;&tcy;&ocy;&vcy;</label>
+<pre id="resHeaders"></pre>
+</div>
+<div class="form-group">
+<label for="response"><i class="fas fa-file-alt"></i>&Tcy;&iecy;&lcy;&ocy; &ocy;&tcy;&vcy;&iecy;&tcy;&acy;</label>
+<pre id="response"></pre>
+</div>
+</section>
+</main>
+</div>
+<!-- ===== Feature Introduction Area ===== -->
+<div class="instructions-section">
+<div class="instructions-content">
+<h2><i class="fas fa-star"></i>&Fcy;&ucy;&ncy;&kcy;&tscy;&icy;&icy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&acy;</h2>
+<div class="feature-grid">
+<div class="feature-item">
+<h3><i class="fas fa-laptop-code"></i>&CHcy;&icy;&scy;&tcy;&acy;&yacy; &rcy;&iecy;&acy;&lcy;&icy;&zcy;&acy;&tscy;&icy;&yacy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy;</h3>
+<p>&Pcy;&ocy;&lcy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy; &rcy;&acy;&bcy;&ocy;&tcy;&acy;&iecy;&tcy; &vcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&iecy;, &scy;&iecy;&rcy;&vcy;&iecy;&rcy; &ncy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy;. &Vcy;&scy;&iecy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ycy; &ocy;&tcy;&pcy;&rcy;&acy;&vcy;&lcy;&yacy;&yucy;&tcy;&scy;&yacy; &chcy;&iecy;&rcy;&iecy;&zcy; API Fetch &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;, &ocy;&bcy;&iecy;&scy;&pcy;&iecy;&chcy;&icy;&vcy;&acy;&yacy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &icy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&softcy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy;.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-exchange-alt"></i>&Ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &mcy;&iecy;&tcy;&ocy;&dcy;&ocy;&vcy; HTTP</h3>
+<p>&Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &pcy;&yacy;&tcy;&softcy; &mcy;&iecy;&tcy;&ocy;&dcy;&ocy;&vcy; HTTP POST, GET, PUT, DELETE, PATCH, &ucy;&dcy;&ocy;&vcy;&lcy;&iecy;&tcy;&vcy;&ocy;&rcy;&yacy;&yacy; &bcy;&acy;&zcy;&ocy;&vcy;&ycy;&iecy; &pcy;&ocy;&tcy;&rcy;&iecy;&bcy;&ncy;&ocy;&scy;&tcy;&icy; &rcy;&acy;&zcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&icy; API RESTful.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-code"></i>&Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &mcy;&ncy;&ocy;&gcy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ncy;&ycy;&khcy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy;</h3>
+<p>&Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy; JSON &icy; &fcy;&ocy;&rcy;&mcy;&ycy;, &ucy;&dcy;&ocy;&bcy;&ncy;&ycy;&iecy; &dcy;&lcy;&yacy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &rcy;&acy;&zcy;&lcy;&icy;&chcy;&ncy;&ycy;&khcy; &tcy;&icy;&pcy;&ocy;&vcy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&ocy;&vcy; API. &Rcy;&iecy;&dcy;&acy;&kcy;&tcy;&ocy;&rcy; JSON &ocy;&bcy;&iecy;&scy;&pcy;&iecy;&chcy;&icy;&vcy;&acy;&iecy;&tcy; &pcy;&ocy;&dcy;&scy;&vcy;&iecy;&tcy;&kcy;&ucy; &icy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&kcy;&ucy; &scy;&icy;&ncy;&tcy;&acy;&kcy;&scy;&icy;&scy;&acy;.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-heading"></i>&Pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&softcy;&scy;&kcy;&icy;&iecy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&icy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy;</h3>
+<p>&Gcy;&icy;&bcy;&kcy;&acy;&yacy; &ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&acy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy;, &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &ocy;&bcy;&shchcy;&icy;&khcy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy;, &tcy;&acy;&kcy;&icy;&khcy; &kcy;&acy;&kcy; Content-Type, Authorization, User-Agent, &ocy;&tcy;&vcy;&iecy;&chcy;&acy;&yucy;&shchcy;&icy;&khcy; &scy;&lcy;&ocy;&zhcy;&ncy;&ycy;&mcy; &tcy;&rcy;&iecy;&bcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;&mcy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; API.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-history"></i>&Zcy;&acy;&pcy;&icy;&scy;&softcy; &icy;&scy;&tcy;&ocy;&rcy;&icy;&icy; URL-&acy;&dcy;&rcy;&iecy;&scy;&ocy;&vcy;</h3>
+<p>&Acy;&vcy;&tcy;&ocy;&mcy;&acy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&iecy;&tcy; &ncy;&iecy;&dcy;&acy;&vcy;&ncy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&iecy; URL-&acy;&dcy;&rcy;&iecy;&scy;&acy;, &chcy;&tcy;&ocy; &ucy;&dcy;&ocy;&bcy;&ncy;&ocy; &dcy;&lcy;&yacy; &bcy;&ycy;&scy;&tcy;&rcy;&ocy;&gcy;&ocy; &pcy;&iecy;&rcy;&iecy;&kcy;&lcy;&yucy;&chcy;&iecy;&ncy;&icy;&yacy; &icy; &pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&ncy;&ocy;&gcy;&ocy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;, &chcy;&tcy;&ocy; &pcy;&ocy;&vcy;&ycy;&shcy;&acy;&iecy;&tcy; &ecy;&fcy;&fcy;&iecy;&kcy;&tcy;&icy;&vcy;&ncy;&ocy;&scy;&tcy;&softcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy;.</p>
+</div>
+<div class="feature-item">
+<h3><i class="fas fa-eye"></i>&Pcy;&rcy;&iecy;&dcy;&vcy;&acy;&rcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&scy;&mcy;&ocy;&tcy;&rcy; &ocy;&tcy;&vcy;&iecy;&tcy;&acy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;</h3>
+<p>&Mcy;&gcy;&ncy;&ocy;&vcy;&iecy;&ncy;&ncy;&ocy; &ocy;&tcy;&ocy;&bcy;&rcy;&acy;&zhcy;&acy;&iecy;&tcy; &kcy;&ocy;&dcy; &scy;&ocy;&scy;&tcy;&ocy;&yacy;&ncy;&icy;&yacy; HTTP, &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&icy; &icy; &tcy;&iecy;&lcy;&ocy; &ocy;&tcy;&vcy;&iecy;&tcy;&acy;, &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &ocy;&tcy;&ocy;&bcy;&rcy;&acy;&zhcy;&iecy;&ncy;&icy;&iecy; &vcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&iecy; JSON, &pcy;&ocy;&zcy;&vcy;&ocy;&lcy;&yacy;&iecy;&tcy; &lcy;&iecy;&gcy;&kcy;&ocy; &acy;&ncy;&acy;&lcy;&icy;&zcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy;&ycy; &vcy;&ocy;&zcy;&vcy;&rcy;&acy;&tcy;&acy; API.</p>
+</div>
+</div>
+<div class="faq-section">
+<h2><i class="fas fa-question-circle"></i>&CHcy;&acy;&scy;&tcy;&ocy; &zcy;&acy;&dcy;&acy;&vcy;&acy;&iecy;&mcy;&ycy;&iecy; &vcy;&ocy;&pcy;&rcy;&ocy;&scy;&ycy;</h2>
+<div class="faq-item">
+<h3>&Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &lcy;&icy; &ecy;&tcy;&ocy;&tcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; HTTPS?</h3>
+<p>&Dcy;&acy;, &pcy;&ocy;&lcy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &pcy;&rcy;&ocy;&tcy;&ocy;&kcy;&ocy;&lcy; HTTPS. &Vcy;&ycy; &mcy;&ocy;&zhcy;&iecy;&tcy;&iecy; &vcy;&vcy;&iecy;&scy;&tcy;&icy; &lcy;&yucy;&bcy;&ocy;&jcy; &dcy;&iecy;&jcy;&scy;&tcy;&vcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ycy;&jcy; URL-&acy;&dcy;&rcy;&iecy;&scy; HTTPS &dcy;&lcy;&yacy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;. &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &scy;&lcy;&iecy;&dcy;&ucy;&iecy;&tcy; &pcy;&ocy;&lcy;&icy;&tcy;&icy;&kcy;&acy;&mcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Kcy;&acy;&kcy; &ocy;&bcy;&rcy;&acy;&bcy;&acy;&tcy;&ycy;&vcy;&acy;&tcy;&softcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ycy; &icy;&zcy; &rcy;&acy;&zcy;&ncy;&ycy;&khcy; &icy;&scy;&tcy;&ocy;&chcy;&ncy;&icy;&kcy;&ocy;&vcy;?</h3>
+<p>&Zcy;&acy;&pcy;&rcy;&ocy;&scy;&ycy; Cross-Origin &tcy;&rcy;&iecy;&bcy;&ucy;&yucy;&tcy;, &chcy;&tcy;&ocy;&bcy;&ycy; &tscy;&iecy;&lcy;&iecy;&vcy;&ocy;&jcy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy; &ncy;&acy;&scy;&tcy;&rcy;&ocy;&icy;&lcy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&icy; CORS (Cross-Origin Resource Sharing). &IEcy;&scy;&lcy;&icy; &vcy;&ycy; &scy;&tcy;&ocy;&lcy;&kcy;&ncy;&ucy;&lcy;&icy;&scy;&softcy; &scy; &ocy;&shcy;&icy;&bcy;&kcy;&acy;&mcy;&icy; &pcy;&iecy;&rcy;&iecy;&kcy;&rcy;&iecy;&scy;&tcy;&ncy;&ocy;&gcy;&ocy; &pcy;&rcy;&ocy;&icy;&scy;&khcy;&ocy;&zhcy;&dcy;&iecy;&ncy;&icy;&yacy;, &ucy;&bcy;&iecy;&dcy;&icy;&tcy;&iecy;&scy;&softcy;, &chcy;&tcy;&ocy; &ncy;&acy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy;&iecy; API &ncy;&acy;&scy;&tcy;&rcy;&ocy;&iecy;&ncy;&ycy; &pcy;&rcy;&acy;&vcy;&icy;&lcy;&softcy;&ncy;&ycy;&iecy; &pcy;&ocy;&lcy;&icy;&tcy;&icy;&kcy;&icy; CORS, &tcy;&acy;&kcy;&icy;&iecy; &kcy;&acy;&kcy; Access-Control-Allow-Origin &icy; &tcy;.&nbsp;&dcy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &lcy;&icy; &ocy;&ncy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&ucy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy;?</h3>
+<p>&Tcy;&iecy;&kcy;&ucy;&shchcy;&acy;&yacy; &vcy;&iecy;&rcy;&scy;&icy;&yacy; &vcy; &ocy;&scy;&ncy;&ocy;&vcy;&ncy;&ocy;&mcy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy; JSON &icy; &fcy;&ocy;&rcy;&mcy;. &Fcy;&ocy;&rcy;&mcy;&acy;&tcy; multipart/form-data (&dcy;&lcy;&yacy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&icy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy;) &bcy;&ucy;&dcy;&iecy;&tcy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &vcy; &bcy;&ucy;&dcy;&ucy;&shchcy;&icy;&khcy; &vcy;&iecy;&rcy;&scy;&icy;&yacy;&khcy;. &Vcy;&ycy; &mcy;&ocy;&zhcy;&iecy;&tcy;&iecy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy; API FormData &scy; &ecy;&tcy;&icy;&mcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ocy;&mcy; &dcy;&lcy;&yacy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&icy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&yucy;&tcy;&scy;&yacy; &lcy;&icy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy; &ncy;&acy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy;&iecy;?</h3>
+<p>&Ncy;&iecy;&tcy;. &Vcy;&scy;&iecy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&yucy;&tcy;&scy;&yacy; &vcy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &khcy;&rcy;&acy;&ncy;&icy;&lcy;&icy;&shchcy;&iecy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy; (localStorage), &acy; &ncy;&iecy; &zcy;&acy;&gcy;&rcy;&ucy;&zhcy;&acy;&yucy;&tcy;&scy;&yacy; &ncy;&acy; &kcy;&acy;&kcy;&ocy;&jcy;-&lcy;&icy;&bcy;&ocy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy;, &chcy;&tcy;&ocy; &ocy;&bcy;&iecy;&scy;&pcy;&iecy;&chcy;&icy;&vcy;&acy;&iecy;&tcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&softcy; &vcy;&acy;&shcy;&icy;&khcy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; API &icy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ycy;&khcy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &lcy;&icy; &ocy;&ncy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; WebSocket?</h3>
+<p>&Tcy;&iecy;&kcy;&ucy;&shchcy;&acy;&yacy; &vcy;&iecy;&rcy;&scy;&icy;&yacy; &ocy;&rcy;&icy;&iecy;&ncy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&acy; &ncy;&acy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy; HTTP/HTTPS. &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; WebSocket &ncy;&acy;&khcy;&ocy;&dcy;&icy;&tcy;&scy;&yacy; &vcy; &scy;&tcy;&acy;&dcy;&icy;&icy; &rcy;&acy;&zcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&icy; &icy; &bcy;&ucy;&dcy;&iecy;&tcy; &pcy;&rcy;&iecy;&dcy;&scy;&tcy;&acy;&vcy;&lcy;&iecy;&ncy; &vcy; &bcy;&ucy;&dcy;&ucy;&shchcy;&icy;&khcy; &vcy;&iecy;&rcy;&scy;&icy;&yacy;&khcy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &lcy;&icy; &ocy;&ncy; &dcy;&lcy;&yacy; &icy;&zcy;&ucy;&chcy;&iecy;&ncy;&icy;&yacy; &pcy;&rcy;&ocy;&tcy;&ocy;&kcy;&ocy;&lcy;&acy; HTTP?</h3>
+<p>&Icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy; &dcy;&lcy;&yacy; &ocy;&bcy;&ucy;&chcy;&iecy;&ncy;&icy;&yacy;! &Ecy;&tcy;&ocy;&tcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &icy;&ncy;&tcy;&ucy;&icy;&tcy;&icy;&vcy;&ncy;&ocy; &ocy;&tcy;&ocy;&bcy;&rcy;&acy;&zhcy;&acy;&iecy;&tcy; &vcy;&scy;&iecy; &kcy;&ocy;&mcy;&pcy;&ocy;&ncy;&iecy;&ncy;&tcy;&ycy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy; &icy; &ocy;&tcy;&vcy;&iecy;&tcy;&ocy;&vcy;. &Ecy;&tcy;&ocy; &icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ycy;&jcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &dcy;&lcy;&yacy; &icy;&zcy;&ucy;&chcy;&iecy;&ncy;&icy;&yacy; &pcy;&rcy;&ocy;&tcy;&ocy;&kcy;&ocy;&lcy;&acy; HTTP, &pcy;&rcy;&ocy;&iecy;&kcy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; RESTful API &icy; &mcy;&iecy;&tcy;&ocy;&dcy;&ocy;&vcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy;.</p>
+</div>
+</div>
+<div class="usage-tips">
+<h2><i class="fas fa-lightbulb"></i>&Scy;&ocy;&vcy;&iecy;&tcy;&ycy; &pcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yucy;</h2>
+<ul>
+<li>&Icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&jcy;&tcy;&iecy; &scy;&ocy;&chcy;&iecy;&tcy;&acy;&ncy;&icy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; Ctrl+Enter (Windows) &icy;&lcy;&icy; Cmd+Enter (Mac) &dcy;&lcy;&yacy; &bcy;&ycy;&scy;&tcy;&rcy;&ocy;&jcy; &ocy;&tcy;&pcy;&rcy;&acy;&vcy;&kcy;&icy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ocy;&vcy;.</li>
+<li>JSON &acy;&vcy;&tcy;&ocy;&mcy;&acy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&icy;&rcy;&ucy;&yucy;&tcy;&scy;&yacy; &dcy;&lcy;&yacy; &ucy;&dcy;&ocy;&bcy;&scy;&tcy;&vcy;&acy; &chcy;&tcy;&iecy;&ncy;&icy;&yacy; &icy; &rcy;&iecy;&dcy;&acy;&kcy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</li>
+<li>&Dcy;&acy;&ncy;&ncy;&ycy;&iecy; &ocy;&tcy;&vcy;&iecy;&tcy;&acy; &mcy;&ocy;&zhcy;&ncy;&ocy; &scy;&kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &vcy; &bcy;&ucy;&fcy;&iecy;&rcy; &ocy;&bcy;&mcy;&iecy;&ncy;&acy; &dcy;&lcy;&yacy; &dcy;&acy;&lcy;&softcy;&ncy;&iecy;&jcy;&shcy;&iecy;&gcy;&ocy; &acy;&ncy;&acy;&lcy;&icy;&zcy;&acy;.
+&Dcy;&acy;&ncy;&ncy;&ycy;&iecy;</li>
+<li>&Dcy;&lcy;&yacy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ocy;&jcy; &rcy;&acy;&zcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&icy; &rcy;&iecy;&kcy;&ocy;&mcy;&iecy;&ncy;&dcy;&ucy;&iecy;&mcy;&ycy;&jcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy; URL: http://localhost:port.</li>
+<li>&Scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&jcy;&tcy;&iecy; &chcy;&acy;&scy;&tcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&mcy;&ycy;&iecy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&icy; API &dcy;&lcy;&yacy; &bcy;&ycy;&scy;&tcy;&rcy;&ocy;&gcy;&ocy; &pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&ncy;&ocy;&gcy;&ocy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<p>&copy; 2024-2026 StarryRing &YAcy;&shchcy;&icy;&kcy; &dcy;&lcy;&yacy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ocy;&vcy; &middot; &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; POST &dcy;&lcy;&yacy; &vcy;&ncy;&iecy;&shcy;&ncy;&iecy;&gcy;&ocy; &icy;&ncy;&tcy;&iecy;&rcy;&fcy;&iecy;&jcy;&scy;&acy; &middot; Fetch API</p>
+<div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;">
+<a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">&Ocy; &ncy;&acy;&scy;</a>
+<a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">&Scy;&vcy;&yacy;&zhcy;&icy;&tcy;&iecy;&scy;&softcy; &scy; &ncy;&acy;&mcy;&icy;</a>
+<a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">&Ocy;&tcy;&kcy;&acy;&zcy; &ocy;&tcy; &ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">&Pcy;&ocy;&lcy;&icy;&tcy;&icy;&kcy;&acy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">&Ucy;&scy;&lcy;&ocy;&vcy;&icy;&yacy; &ocy;&bcy;&scy;&lcy;&ucy;&zhcy;&icy;&vcy;&acy;&ncy;&icy;&yacy;</a>
+</div>
+</footer>
+<script src="/static/js/utility-tools/netdev/post-tool/script-ru.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

@@ -1,594 +1,423 @@
 <!DOCTYPE html>
 <html lang="te">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#060a0e">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="StarryRing">
-<meta name="twitter:card" content="summary_large_image">
-
-<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/utility-tools/math/crc32-generator/style.css">
-    <link rel="preload" href="/static/js/utility-tools/math/crc32-generator/script-en.js" as="script">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "హోమ్",
-              "item": "https://starryring.com/te/"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "ఉపయోగకరమైన సాధనాలు",
-              "item": "https://starryring.com/te/utility-tools/"
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "CRC32 Checksum Tool",
-              "item": "https://starryring.com/te/utility-tools/math/crc32-generator/"
-            }
-          ]
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "CRC32 Checksum Tool",
-          "applicationCategory": "DeveloperApplication",
-          "operatingSystem": "Web",
-          "url": "https://starryring.com/te/utility-tools/math/crc32-generator/",
-          "description": "Free online CRC32 checksum tool for text, files, hex input, Base64, and multiple CRC32 variants.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          },
-          "featureList": [
-            "Supports ISO-HDLC, Castagnoli, MPEG-2, and BZIP2 CRC32 variants",
-            "Supports text, file, hex, and Base64 input",
-            "Supports hexadecimal, decimal, binary, and octal output",
-            "Checksum verification against expected values",
-            "Real-time calculation with drag-and-drop file support"
-          ]
-        },
-        {
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "What is CRC32?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "CRC32 is a 32-bit cyclic redundancy check algorithm commonly used to detect accidental errors in files, compressed data, and network packets during storage or transmission."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Which input formats does this CRC32 tool support?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "This tool supports UTF-8 text, hexadecimal byte streams, Base64-encoded input, and direct file uploads, all processed locally in the browser."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Which CRC32 variants are available on this page?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "The page supports CRC-32/ISO-HDLC, CRC-32C (Castagnoli), CRC-32/MPEG-2, and CRC-32/BZIP2 for different file formats and protocol compatibility needs."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Can CRC32 be used for secure hashing or password storage?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "No. CRC32 is intended for integrity checking and error detection only. It is not a cryptographically secure hash and should not be used for password storage."
-              }
-            }
-          ]
-        }
-      ]
-    }
-    </script>
-    <title>CRC32 Checksum Generator & Verification Tool | StarryRing</title>
-<meta name="description" content="Free online CRC32 checksum generator for text, files, hex input, Base64, and multiple CRC32 variants. Great for file integrity checks and data verification.">
-            <link rel="canonical" href="https://starryring.com/te/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/crc32-generator/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/crc32-generator/">
-<meta property="og:url" content="https://starryring.com/te/utility-tools/math/crc32-generator/">
-    <meta property="og:locale" content="te_IN">
-<meta property="og:title" content="CRC32 Checksum Generator & Verification Tool | StarryRing">
-    <meta property="og:description" content="Calculate CRC32 checksums for text, files, hex input, and Base64. Supports ISO-HDLC, Castagnoli, MPEG-2, and BZIP2 CRC32 variants.">
-    <meta name="twitter:title" content="CRC32 Checksum Generator & Verification Tool">
-    <meta name="twitter:description" content="Free online CRC32 checksum tool for text, files, hex input, Base64, and multiple CRC32 variants.">
-    <meta name="keywords" content="crc32 tool,crc32 checksum,crc32 generator,crc32 calculator,online crc32,file crc32,crc32 verifier,crc32 variants">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#060a0e" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="StarryRing" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Syne:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/utility-tools/math/crc32-generator/style.css" rel="stylesheet"/>
+<link as="script" href="/static/js/utility-tools/math/crc32-generator/script-te.js" rel="preload"/>
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "హోమ్", "item": "https://starryring.com/te/" }, { "@type": "ListItem", "position": 2, "name": "యుటిలిటీ టూల్స్", "item": "https://starryring.com/te/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "CRC32 చెక్‌సమ్ సాధనం", "item": "https://starryring.com/te/utility-tools/math/crc32-generator/" } ] }, { "@type": "SoftwareApplication", "name": "CRC32 చెక్‌సమ్ సాధనం", "applicationCategory": "DeveloperApplication", "operatingSystem": "Web", "url": "https://starryring.com/te/utility-tools/math/crc32-generator/", "description": "టెక్స్ట్, ఫైల్‌లు, హెక్స్ ఇన్‌పుట్, Base64 మరియు బహుళ CRC32 వేరియంట్‌ల కోసం ఉచిత ఆన్‌లైన్ CRC32 చెక్‌సమ్ సాధనం.", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "Supports ISO-HDLC, Castagnoli, MPEG-2, and BZIP2 CRC32 variants", "Supports text, file, hex, and Base64 input", "Supports hexadecimal, decimal, binary, and octal output", "Checksum verification against expected values", "Real-time calculation with drag-and-drop file support" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "CRC32 అంటే ఏమిటి?", "acceptedAnswer": { "@type": "Answer", "text": "CRC32 అనేది స్టోరేజ్ లేదా ట్రాన్స్‌మిషన్ సమయంలో ఫైల్‌లు, కంప్రెస్డ్ డేటా మరియు నెట్‌వర్క్ ప్యాకెట్‌లలో ప్రమాదవశాత్తు లోపాలను గుర్తించడానికి సాధారణంగా ఉపయోగించే 32-బిట్ సైక్లిక్ రిడెండెన్సీ చెక్ అల్గోరిథం." } }, { "@type": "Question", "name": "ఈ CRC32 సాధనం ఏ ఇన్‌పుట్ ఫార్మాట్‌లకు మద్దతు ఇస్తుంది?", "acceptedAnswer": { "@type": "Answer", "text": "ఈ సాధనం UTF-8 టెక్స్ట్, హెక్సాడెసిమల్ బైట్ స్ట్రీమ్‌లు, Base64-ఎన్‌కోడ్ చేసిన ఇన్‌పుట్ మరియు డైరెక్ట్ ఫైల్ అప్‌లోడ్‌లకు మద్దతు ఇస్తుంది, ఇవన్నీ బ్రౌజర్‌లో స్థానికంగా ప్రాసెస్ చేయబడతాయి." } }, { "@type": "Question", "name": "ఈ పేజీలో ఏ CRC32 వేరియంట్‌లు అందుబాటులో ఉన్నాయి?", "acceptedAnswer": { "@type": "Answer", "text": "వివిధ ఫైల్ ఫార్మాట్‌లు మరియు ప్రోటోకాల్ అనుకూలత అవసరాల కోసం పేజీ CRC-32/ISO-HDLC, CRC-32C (Castagnoli), CRC-32/MPEG-2 మరియు CRC-32/BZIP2కి మద్దతు ఇస్తుంది." } }, { "@type": "Question", "name": "సురక్షిత హ్యాషింగ్ లేదా పాస్‌వర్డ్ నిల్వ కోసం CRC32ని ఉపయోగించవచ్చా?", "acceptedAnswer": { "@type": "Answer", "text": "నం. CRC32 సమగ్రత తనిఖీ మరియు దోష గుర్తింపు కోసం మాత్రమే ఉద్దేశించబడింది. ఇది క్రిప్టోగ్రాఫికల్ సురక్షిత హాష్ కాదు మరియు పాస్‌వర్డ్ నిల్వ కోసం ఉపయోగించకూడదు." } } ] } ]
+}</script>
+<title>CRC32 చెక్&zwnj;సమ్ జనరేటర్ &amp; ధృవీకరణ సాధనం | StarryRing</title>
+<meta content="టెక్స్ట్, ఫైల్&zwnj;లు, హెక్స్ ఇన్&zwnj;పుట్, Base64 మరియు బహుళ CRC32 వేరియంట్&zwnj;ల కోసం ఉచిత ఆన్&zwnj;లైన్ CRC32 చెక్&zwnj;సమ్ జనరేటర్. ఫైల్ సమగ్రత తనిఖీలు మరియు డేటా ధృవీకరణ కోసం గొప్పది." name="description"/>
+<link href="https://starryring.com/te/utility-tools/math/crc32-generator/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/math/crc32-generator/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/math/crc32-generator/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/math/crc32-generator/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/math/crc32-generator/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/math/crc32-generator/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/math/crc32-generator/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/math/crc32-generator/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/math/crc32-generator/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/math/crc32-generator/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/math/crc32-generator/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/math/crc32-generator/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/math/crc32-generator/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/math/crc32-generator/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/math/crc32-generator/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/math/crc32-generator/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/math/crc32-generator/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/math/crc32-generator/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/math/crc32-generator/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/math/crc32-generator/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/math/crc32-generator/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/te/utility-tools/math/crc32-generator/" property="og:url"/>
+<meta content="te_IN" property="og:locale"/>
+<meta content="CRC32 చెక్&zwnj;సమ్ జనరేటర్ &amp; ధృవీకరణ సాధనం | StarryRing" property="og:title"/>
+<meta content="వచనం, ఫైల్&zwnj;లు, హెక్స్ ఇన్&zwnj;పుట్ మరియు Base64 కోసం CRC32 చెక్&zwnj;సమ్&zwnj;లను లెక్కించండి. ISO-HDLC, Castagnoli, MPEG-2 మరియు BZIP2 CRC32 వేరియంట్&zwnj;లకు మద్దతు ఇస్తుంది." property="og:description"/>
+<meta content="CRC32 చెక్&zwnj;సమ్ జనరేటర్ &amp; ధృవీకరణ సాధనం" name="twitter:title"/>
+<meta content="టెక్స్ట్, ఫైల్&zwnj;లు, హెక్స్ ఇన్&zwnj;పుట్, Base64 మరియు బహుళ CRC32 వేరియంట్&zwnj;ల కోసం ఉచిత ఆన్&zwnj;లైన్ CRC32 చెక్&zwnj;సమ్ సాధనం." name="twitter:description"/>
+<meta content="crc32 సాధనం, crc32 చెక్&zwnj;సమ్, crc32 జనరేటర్, crc32 కాలిక్యులేటర్, ఆన్&zwnj;లైన్ crc32, ఫైల్ crc32, crc32 వెరిఫైయర్, crc32 వేరియంట్&zwnj;లు" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="భాషను ఎంచుకోండి" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/math/crc32-generator/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/math/crc32-generator/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/math/crc32-generator/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/math/crc32-generator/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/math/crc32-generator/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/math/crc32-generator/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/math/crc32-generator/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/math/crc32-generator/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/math/crc32-generator/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/math/crc32-generator/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/math/crc32-generator/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/math/crc32-generator/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/math/crc32-generator/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/math/crc32-generator/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/math/crc32-generator/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/math/crc32-generator/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/math/crc32-generator/" data-lang="mr">मराठी</a>
-            <a class="language-option selected" href="/te/utility-tools/math/crc32-generator/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/math/crc32-generator/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/math/crc32-generator/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
-<nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item"><a href="/te/" class="breadcrumb-link"><i class="fas fa-home"></i> హోమ్</a></li>
-            <li class="breadcrumb-item"><a href="/te/utility-tools/" class="breadcrumb-link">ఉపయోగకరమైన సాధనాలు</a></li>
-            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">CRC32 Checksum Tool</span></li>
-        </ol>
-    </nav>
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="భాషను ఎంచుకోండి" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/math/crc32-generator/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/math/crc32-generator/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/math/crc32-generator/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/math/crc32-generator/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/math/crc32-generator/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/math/crc32-generator/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/math/crc32-generator/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/math/crc32-generator/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/math/crc32-generator/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/math/crc32-generator/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/math/crc32-generator/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/math/crc32-generator/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/math/crc32-generator/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/math/crc32-generator/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/math/crc32-generator/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/math/crc32-generator/">मराठी</a>
+<a class="language-option selected" data-lang="te" href="/te/utility-tools/math/crc32-generator/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/math/crc32-generator/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/math/crc32-generator/">தமிழ்</a>
+</div>
+</div>
+<nav aria-label="బ్రెడ్&zwnj;క్రంబ్ నావిగేషన్" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/te/"><i class="fas fa-home"></i>హోమ్</a></li>
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/te/utility-tools/">యుటిలిటీ టూల్స్</a></li>
+<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active">CRC32 చెక్&zwnj;సమ్ సాధనం</span></li>
+</ol>
+</nav>
 <div class="container">
-
-  <!-- Header -->
-  <header>
-    <div class="logo-group">
-      <span class="logo-tag">// checksum utility</span>
-      <div class="logo-title">CRC<span>32</span> Checksum Tool</div>
-    </div>
-    <div class="header-badge">
-      <div class="badge">CLIENT-SIDE ONLY</div>
-      <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.25);">NO DATA TRANSMITTED</div>
-    </div>
-  </header>
-
-  <!-- Info banner -->
-  <div class="info-banner">
-    <span>🔵</span>
-    All calculations run <strong>locally in your browser</strong>. No data is uploaded to any server. Supports CRC-32/ISO-HDLC, CRC-32C, CRC-32/MPEG-2, and CRC-32/BZIP2 variants.
-  </div>
-
-  <!-- Config panel -->
-  <div class="panel">
-    <div class="panel-header">
-      <div class="panel-icon">⚙</div>
-      <span class="panel-title">Calculation Settings</span>
-    </div>
-    <div class="config-grid">
-      <div class="field-group">
-        <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-variants', VARIANT_INDEX[document.getElementById('crcVariant').value])">CRC Variant ↗</a>
-        <div class="select-wrapper">
-          <select class="field-select" id="crcVariant">
-            <option value="iso">CRC-32/ISO-HDLC (Ethernet, ZIP, PNG)</option>
-            <option value="castagnoli">CRC-32C / Castagnoli (iSCSI, NVMe)</option>
-            <option value="mpeg2">CRC-32/MPEG-2 (MPEG-2 Transport Stream)</option>
-            <option value="bzip2">CRC-32/BZIP2 (BZip2 Compression)</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-encoding', ENCODING_INDEX[document.getElementById('inputEncoding').value])">Input Encoding ↗</a>
-        <div class="select-wrapper">
-          <select class="field-select" id="inputEncoding">
-            <option value="utf8">UTF-8 Text</option>
-            <option value="hex">Hex (Byte Stream)</option>
-            <option value="base64">Base64</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-output', FORMAT_INDEX[document.getElementById('outputFormat').value])">Output Format ↗</a>
-        <div class="select-wrapper">
-          <select class="field-select" id="outputFormat">
-            <option value="hex">Hexadecimal (0x...)</option>
-            <option value="decimal">Decimal</option>
-            <option value="binary">Binary</option>
-            <option value="octal">Octal</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Input area -->
-  <div class="input-area" id="inputArea">
-    <div class="io-header">
-      <div class="io-title">
-        <div class="io-dot"></div>
-        Input Data
-      </div>
-      <div class="io-actions">
-        <span id="fileBadge" style="display:none;" class="file-badge">
-          <span class="file-badge-name" id="fileNameLabel"></span>
-          <button class="file-badge-clear" onclick="clearFile()">✕</button>
-        </span>
-        <label class="upload-btn" for="fileInput" title="Upload a file to calculate its checksum">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload File
-        </label>
-        <input type="file" id="fileInput" style="display:none" onchange="handleFileUpload(event)">
-        <button class="icon-btn" title="Paste" onclick="pasteInput()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-        </button>
-        <button class="icon-btn" title="Clear" onclick="clearInput()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-        </button>
-      </div>
-    </div>
-    <textarea class="io-textarea" id="inputText" placeholder="Enter text here, or upload a file...&#10;&#10;Calculate CRC32 checksums in real time" spellcheck="false"></textarea>
-    <div class="drop-zone" id="dropZone">
-      <div style="font-size:28px;color:var(--accent);">⬇</div>
-      <div class="drop-zone-text">Drop a file here</div>
-    </div>
-    <div class="io-footer">
-      <span class="io-stat" id="inputStat">0 bytes</span>
-      <span id="previewTypeBadge" style="display:none;" class="preview-type-badge"></span>
-      <div class="format-tabs">
-        <button class="format-tab active" data-enc="utf8" onclick="setEncoding(this,'utf8')">UTF-8</button>
-        <button class="format-tab" data-enc="hex" onclick="setEncoding(this,'hex')">HEX</button>
-        <button class="format-tab" data-enc="base64" onclick="setEncoding(this,'base64')">BASE64</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Action row -->
-  <div class="action-row">
-    <button class="primary-btn" id="calcBtn" onclick="runCalculate()">
-      ⟳ &nbsp; Calculate CRC32
-    </button>
-    <button class="clear-btn" onclick="clearAll()">Reset All</button>
-  </div>
-
-  <!-- Status bar -->
-  <div class="status-bar" id="statusBar">
-    <div class="status-indicator"></div>
-    <span class="status-text" id="statusText">Ready - enter data and click "Calculate CRC32"</span>
-    <span class="status-time" id="statusTime"></span>
-  </div>
-
-  <!-- Results panel -->
-  <div class="panel green-line">
-    <div class="panel-header">
-      <div class="panel-icon" style="color:var(--accent2);">◈</div>
-      <span class="panel-title">Calculation Results</span>
-    </div>
-
-    <!-- Primary result card -->
-    <div class="result-primary" id="result-primary">
-      <div class="result-primary-header">
-        <div class="result-primary-meta">
-          <span class="result-primary-name" id="primary-name">—</span>
-          <span class="result-primary-desc" id="primary-desc"></span>
-        </div>
-        <button class="result-copy-btn result-copy-primary" id="copy-primary" onclick="copyPrimary()">COPY</button>
-      </div>
-      <div class="result-primary-value" id="primary-value">—</div>
-      <div class="result-primary-fmts" id="primary-fmts"></div>
-    </div>
-
-    <!-- Secondary results row -->
-    <div class="result-secondary-row" id="result-secondary-row">
-      <div class="result-secondary" id="sec-iso" onclick="switchVariant('iso')">
-        <div class="result-secondary-label">ISO-HDLC</div>
-        <div class="result-secondary-val empty" id="secval-iso">—</div>
-      </div>
-      <div class="result-secondary" id="sec-castagnoli" onclick="switchVariant('castagnoli')">
-        <div class="result-secondary-label">Castagnoli</div>
-        <div class="result-secondary-val empty" id="secval-castagnoli">—</div>
-      </div>
-      <div class="result-secondary" id="sec-mpeg2" onclick="switchVariant('mpeg2')">
-        <div class="result-secondary-label">MPEG-2</div>
-        <div class="result-secondary-val empty" id="secval-mpeg2">—</div>
-      </div>
-      <div class="result-secondary" id="sec-bzip2" onclick="switchVariant('bzip2')">
-        <div class="result-secondary-label">BZIP2</div>
-        <div class="result-secondary-val empty" id="secval-bzip2">—</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Verify panel -->
-  <div class="panel purple-line">
-    <div class="panel-header">
-      <div class="panel-icon" style="color:var(--accent4);">✓</div>
-      <span class="panel-title">Checksum Verification</span>
-    </div>
-    <div style="font-family:var(--mono);font-size:11px;color:#7a9dba;margin-bottom:14px;">
-      Paste an expected CRC32 value to compare it against the current calculation.
-    </div>
-    <div class="verify-row">
-      <div class="field-group">
-        <label class="field-label">Expected Checksum</label>
-        <input class="field-input" id="expectedCRC" placeholder="e.g. 0xCBF43926 or 3421780262" autocomplete="off" spellcheck="false">
-      </div>
-      <button class="verify-btn" onclick="runVerify()">Verify</button>
-    </div>
-    <div class="verify-result" id="verifyResult" style="display:none;"></div>
-  </div>
-
-  <!-- Info strip -->
-  <div class="info-strip">
-    <div class="info-cell">
-      <div class="info-cell-label">Input Bytes</div>
-      <div class="info-cell-value" id="infoBytes">0</div>
-    </div>
-    <div class="info-cell">
-      <div class="info-cell-label">Total Calculations</div>
-      <div class="info-cell-value" id="infoCalcs">0</div>
-    </div>
-    <div class="info-cell">
-      <div class="info-cell-label">Current Variant</div>
-      <div class="info-cell-value" id="infoVariant" style="font-size:12px;letter-spacing:0;">ISO-HDLC</div>
-    </div>
-    <div class="info-cell">
-      <div class="info-cell-label">Elapsed (ms)</div>
-      <div class="info-cell-value" id="infoMs">—</div>
-    </div>
-  </div>
-
-  <!-- Knowledge Section 1 - CRC Variants -->
-  <div class="explain-section-header" id="explain-variants">
-    <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// CRC32 Variant Guide</div>
-    <span class="explain-section-badge">CRC Variants</span>
-  </div>
-  <div class="explain-section-wrap explain-grid" id="wrap-variants">
-    <div class="explain-card">
-      <div class="explain-card-title">
-        CRC-32 / ISO-HDLC
-        <span class="etag">PKZip · PNG · Ethernet</span>
-      </div>
-      <div class="explain-card-text">
-        The most common CRC-32 implementation, also called CRC-32b. It uses the reflected form of polynomial 0x04C11DB7, namely 0xEDB88320. Both input bytes and output are bit-reflected (LSB first), with initial value and final XOR both set to 0xFFFFFFFF.
-        <br><br>Widely used by ZIP, gzip, PNG images, Ethernet frames (IEEE 802.3), PKCS#7, and many legacy systems. This is the de facto "default CRC-32" variant.
-      </div>
-      <table class="param-table">
-        <tr><td>Polynomial</td><td><code>0x04C11DB7</code> (normal) / <code>0xEDB88320</code> (reflected)</td></tr>
-        <tr><td>Initial Value</td><td><code>0xFFFFFFFF</code></td></tr>
-        <tr><td>Input Reflection</td><td>Yes (RefIn = true)</td></tr>
-        <tr><td>Output Reflection</td><td>Yes (RefOut = true)</td></tr>
-        <tr><td>Final XOR</td><td><code>0xFFFFFFFF</code></td></tr>
-        <tr><td>Check Value</td><td><code>0xCBF43926</code> (for "123456789")</td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        CRC-32C / Castagnoli
-        <span class="etag">iSCSI · NVMe · SCTP</span>
-      </div>
-      <div class="explain-card-text">
-        Proposed by G. Castagnoli and colleagues in 1993, this variant uses polynomial 0x1EDC6F41 (reflected form 0x82F63B78). At the same Hamming distance, it offers stronger burst-error detection than the ISO-HDLC polynomial.
-        <br><br>Hardware acceleration is available through Intel SSE4.2 and ARM CRC32 instructions. It is widely used in modern storage and transport protocols such as iSCSI, NVMe, Btrfs, and SCTP.
-      </div>
-      <table class="param-table">
-        <tr><td>Polynomial</td><td><code>0x1EDC6F41</code> (normal) / <code>0x82F63B78</code> (reflected)</td></tr>
-        <tr><td>Initial Value</td><td><code>0xFFFFFFFF</code></td></tr>
-        <tr><td>Input Reflection</td><td>Yes (RefIn = true)</td></tr>
-        <tr><td>Output Reflection</td><td>Yes (RefOut = true)</td></tr>
-        <tr><td>Final XOR</td><td><code>0xFFFFFFFF</code></td></tr>
-        <tr><td>Check Value</td><td><code>0xE3069283</code> (for "123456789")</td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        CRC-32 / MPEG-2
-        <span class="etag">MPEG-2 · DVB · ATSC</span>
-      </div>
-      <div class="explain-card-text">
-        Uses the same 0x04C11DB7 polynomial as ISO-HDLC, but neither input nor output is <strong style="color:#dff0ff">bit-reflected</strong> (MSB first, big-endian). The initial value is 0xFFFFFFFF and the final XOR is disabled (XorOut = 0x00000000).
-        <br><br>Mainly used for PSI/SI tables in MPEG-2 transport streams (PAT, PMT, NIT, and related tables), plus integrity checks in DVB and ATSC broadcast systems.
-      </div>
-      <table class="param-table">
-        <tr><td>Polynomial</td><td><code>0x04C11DB7</code></td></tr>
-        <tr><td>Initial Value</td><td><code>0xFFFFFFFF</code></td></tr>
-        <tr><td>Input Reflection</td><td>No (RefIn = false)</td></tr>
-        <tr><td>Output Reflection</td><td>No (RefOut = false)</td></tr>
-        <tr><td>Final XOR</td><td><code>0x00000000</code> (disabled)</td></tr>
-        <tr><td>Check Value</td><td><code>0x0376E6E7</code> (for "123456789")</td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        CRC-32 / BZIP2
-        <span class="etag">BZip2 · AAL5 · DECT</span>
-      </div>
-      <div class="explain-card-text">
-        Its parameters are almost identical to MPEG-2 (polynomial 0x04C11DB7, no reflection, initial value 0xFFFFFFFF). The only difference is a <strong style="color:#dff0ff">final XOR with 0xFFFFFFFF</strong>, which flips every bit. It is also known as CRC-32/AAL5 or CRC-32/DECT-B.
-        <br><br>Used by the BZip2 compressed file format and the trailer checksum field of the ATM AAL5 protocol.
-      </div>
-      <table class="param-table">
-        <tr><td>Polynomial</td><td><code>0x04C11DB7</code></td></tr>
-        <tr><td>Initial Value</td><td><code>0xFFFFFFFF</code></td></tr>
-        <tr><td>Input Reflection</td><td>No (RefIn = false)</td></tr>
-        <tr><td>Output Reflection</td><td>No (RefOut = false)</td></tr>
-        <tr><td>Final XOR</td><td><code>0xFFFFFFFF</code></td></tr>
-        <tr><td>Check Value</td><td><code>0xFC891918</code> (for "123456789")</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- ═══ Knowledge Section 2 — Input Encoding ═══ -->
-  <div class="explain-section-header" id="explain-encoding">
-    <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// Input Encoding Guide</div>
-    <span class="explain-section-badge">Input Encoding</span>
-  </div>
-  <div class="explain-section-wrap explain-grid" id="wrap-encoding" style="grid-template-columns:repeat(3,1fr);">
-    <div class="explain-card" style="--card-accent:var(--accent3);">
-      <div class="explain-card-title">
-        UTF-8 Text
-        <span class="etag">Default · General</span>
-      </div>
-      <div class="explain-card-text">
-        Treats the input as a <strong style="color:#dff0ff">UTF-8</strong> string, converts it to bytes, and then calculates CRC32. This is the most common mode for plain text, source code, JSON, and similar content.
-        <br><br>Note: the same text encoded with a different character set such as GBK or UTF-16 produces a different byte stream and therefore a different CRC32 value. This tool always uses UTF-8.
-      </div>
-      <table class="param-table" style="margin-top:10px;">
-        <tr><td>Best For</td><td>Plain text, source code, JSON, XML</td></tr>
-        <tr><td>Example</td><td>"Hello" → <code>48 65 6C 6C 6F</code> (5 bytes)</td></tr>
-        <tr><td>CJK Characters</td><td>Most CJK characters use 3 bytes in UTF-8</td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        Hexadecimal
-        <span class="etag">Binary Data · Protocol Frames</span>
-      </div>
-      <div class="explain-card-text">
-        Treats the input as raw <strong style="color:#dff0ff">hexadecimal byte literals</strong>. Spaces and line breaks are ignored. Every two hex characters become one byte (00–FF).
-        <br><br>Useful when you need CRC checks for exact binary data such as network frames, firmware image fragments, or memory dumps. You can paste Wireshark or hex dump output directly.
-      </div>
-      <table class="param-table" style="margin-top:10px;">
-        <tr><td>Format</td><td>Only <code>0-9</code> and <code>a-f / A-F</code> are allowed</td></tr>
-        <tr><td>Character Count</td><td>Must be even (2 characters per byte)</td></tr>
-        <tr><td>Example</td><td><code>48656C6C6F</code> = "Hello" (5 bytes)</td></tr>
-        <tr><td>Whitespace</td><td>Ignored automatically. <code>48 65 6C</code> is the same as <code>48656C</code></td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        Base64
-        <span class="etag">Encoded Binary · Certificates · Images</span>
-      </div>
-      <div class="explain-card-text">
-        Treats the input as a <strong style="color:#dff0ff">Base64-encoded string</strong>, decodes it into raw bytes, and then calculates CRC32. Useful for PEM certificates, JWT payloads, Data URIs, and other Base64 content.
-        <br><br>Supports the standard Base64 alphabet (A-Z a-z 0-9 + /). The padding character <code>=</code> is optional. URL-safe Base64 (<code>-</code> <code>_</code>) is not supported.
-      </div>
-      <table class="param-table" style="margin-top:10px;">
-        <tr><td>Alphabet</td><td><code>A-Z a-z 0-9 + / =</code></td></tr>
-        <tr><td>Example</td><td><code>SGVsbG8=</code> → "Hello" (5 bytes)</td></tr>
-        <tr><td>URL-safe</td><td>Not supported. Replace <code>-→+</code> and <code>_→/</code> first</td></tr>
-        <tr><td style="color:#ff6464;border-color:rgba(255,100,100,0.2);">⚠ 1 Character</td><td style="color:#ff6464;border-color:rgba(255,100,100,0.2);">Invalid — 6 bits are not enough to form 1 byte (8 bits required)</td></tr>
-        <tr><td>2 Characters</td><td>Decodes to <strong style="color:#dff0ff">1 byte</strong> (minimum valid input)</td></tr>
-        <tr><td>3 Characters</td><td>Decodes to <strong style="color:#dff0ff">2 bytes</strong></td></tr>
-        <tr><td>4 Characters</td><td>Decodes to <strong style="color:#dff0ff">3 bytes</strong> (the pattern repeats every 4 characters)</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- ═══ Knowledge Section 3 — Output Format ═══ -->
-  <div class="explain-section-header" id="explain-output">
-    <div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// Output Format Guide</div>
-    <span class="explain-section-badge">Output Format</span>
-  </div>
-  <div class="explain-section-wrap explain-grid" id="wrap-output">
-    <div class="explain-card">
-      <div class="explain-card-title">
-        Hexadecimal
-        <span class="etag">Most Common · Default</span>
-      </div>
-      <div class="explain-card-text">
-        Displays the value as an 8-digit uppercase hexadecimal number prefixed with <strong style="color:#dff0ff">0x</strong>. Each character represents 4 bits, for a total of 32 bits. This is the standard format used in most tools, source code, and documentation.
-        <br><br>Compared with decimal output, hexadecimal makes byte boundaries easier to inspect and matches memory dumps and protocol fields more naturally.
-      </div>
-      <table class="param-table" style="margin-top:10px;">
-        <tr><td>Example</td><td><code>0xCBF43926</code></td></tr>
-        <tr><td>Length</td><td>8 hexadecimal characters = 32 bits</td></tr>
-        <tr><td>Base</td><td>Base 16 (0-9, A-F)</td></tr>
-        <tr><td>Best For</td><td>Code, documentation, Wireshark, hex editors</td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        Decimal
-        <span class="etag">Unsigned 32-bit Integer</span>
-      </div>
-      <div class="explain-card-text">
-        Displays the checksum as an <strong style="color:#dff0ff">unsigned 32-bit decimal integer</strong> in the range 0–4,294,967,295 (2³²−1). Some languages and tools compare CRC values in decimal form, and database fields often store this representation.
-        <br><br>Note: CRC32 results should be treated as unsigned integers. In signed int types such as Java or C#, values above 0x7FFFFFFF may appear negative and should be converted to uint or a wider unsigned representation.
-      </div>
-      <table class="param-table" style="margin-top:10px;">
-        <tr><td>Example</td><td><code>3421780262</code></td></tr>
-        <tr><td>Range</td><td>0–4,294,967,295</td></tr>
-        <tr><td>Note</td><td>For Java int, convert with <code>& 0xFFFFFFFFL</code></td></tr>
-        <tr><td>Best For</td><td>Databases, Python struct values, numeric comparison</td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        Binary
-        <span class="etag">Bit-Level Analysis</span>
-      </div>
-      <div class="explain-card-text">
-        Displays the checksum as a 32-bit binary string prefixed with <strong style="color:#dff0ff">0b</strong>. Each character is 0 or 1, aligned with the most significant bit on the left, and padded with leading zeroes when necessary.
-        <br><br>Mainly useful for understanding the internal CRC algorithm, studying polynomial division, teaching, and embedded scenarios that need bit-level checksum processing.
-      </div>
-      <table class="param-table" style="margin-top:10px;">
-        <tr><td>Example</td><td><code>0b11001011…00100110</code></td></tr>
-        <tr><td>Length</td><td>Fixed at 32 bits with left zero padding</td></tr>
-        <tr><td>Highest Bit</td><td>Bit 31 (MSB) appears on the far left</td></tr>
-        <tr><td>Best For</td><td>Algorithm analysis, teaching, embedded debugging</td></tr>
-      </table>
-    </div>
-    <div class="explain-card">
-      <div class="explain-card-title">
-        Octal
-        <span class="etag">Unix · File Systems</span>
-      </div>
-      <div class="explain-card-text">
-        Displays the checksum as an 11-digit octal number prefixed with <strong style="color:#dff0ff">0o</strong>. At most 11 octal characters are needed for 32 bits because 3×11 = 33 &gt; 32. Each octal digit represents 3 bits.
-        <br><br>Octal output is uncommon in modern CRC workflows, but it still appears in some Unix tools, embedded firmware toolchains, and older communication protocol specifications.
-      </div>
-      <table class="param-table" style="margin-top:10px;">
-        <tr><td>Example</td><td><code>0o31572031046</code></td></tr>
-        <tr><td>Length</td><td>Up to 11 octal digits</td></tr>
-        <tr><td>Per Digit</td><td>Represents 3 bits (0-7)</td></tr>
-        <tr><td>Best For</td><td>Unix tools, older protocol specifications</td></tr>
-      </table>
-    </div>
-  </div>
-
+<!-- Header -->
+<header>
+<div class="logo-group">
+<span class="logo-tag">// checksum utility</span>
+<div class="logo-title">CRC<span>32</span>చెక్సమ్ సాధనం</div>
+</div>
+<div class="header-badge">
+<div class="badge">క్లయింట్-వైపు మాత్రమే</div>
+<div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.25);">డేటా ప్రసారం చేయబడలేదు</div>
+</div>
+</header>
+<!-- Info banner -->
+<div class="info-banner">
+<span>🔵</span>అన్ని లెక్కలు నడుస్తాయి<strong>మీ బ్రౌజర్&zwnj;లో స్థానికంగా</strong>. ఏ సర్వర్&zwnj;కు డేటా అప్&zwnj;లోడ్ చేయబడదు. CRC-32/ISO-HDLC, CRC-32C, CRC-32/MPEG-2 మరియు CRC-32/BZIP2 వేరియంట్&zwnj;లకు మద్దతు ఇస్తుంది.</div>
+<!-- Config panel -->
+<div class="panel">
+<div class="panel-header">
+<div class="panel-icon">⚙</div>
+<span class="panel-title">గణన సెట్టింగ్&zwnj;లు</span>
+</div>
+<div class="config-grid">
+<div class="field-group">
+<a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-variants', VARIANT_INDEX[document.getElementById('crcVariant').value])">CRC వేరియంట్ &nearrow;</a>
+<div class="select-wrapper">
+<select class="field-select" id="crcVariant">
+<option value="iso">CRC-32/ISO-HDLC (ఈథర్నెట్, జిప్, PNG)</option>
+<option value="castagnoli">CRC-32C / కాస్టాగ్నోలి (iSCSI, NVMe)</option>
+<option value="mpeg2">CRC-32/MPEG-2 (MPEG-2 ట్రాన్స్&zwnj;పోర్ట్ స్ట్రీమ్)</option>
+<option value="bzip2">CRC-32/BZIP2 (BZip2 కంప్రెషన్)</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-encoding', ENCODING_INDEX[document.getElementById('inputEncoding').value])">ఇన్&zwnj;పుట్ ఎన్&zwnj;కోడింగ్ &nearrow;</a>
+<div class="select-wrapper">
+<select class="field-select" id="inputEncoding">
+<option value="utf8">UTF-8 వచనం</option>
+<option value="hex">హెక్స్ (బైట్ స్ట్రీమ్)</option>
+<option value="base64">బేస్64</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<a class="field-label field-label-link" href="javascript:void(0)" onclick="scrollToCard('explain-output', FORMAT_INDEX[document.getElementById('outputFormat').value])">అవుట్&zwnj;పుట్ ఫార్మాట్ &nearrow;</a>
+<div class="select-wrapper">
+<select class="field-select" id="outputFormat">
+<option value="hex">హెక్సాడెసిమల్ (0x...)</option>
+<option value="decimal">దశాంశం</option>
+<option value="binary">బైనరీ</option>
+<option value="octal">అక్టల్</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Input area -->
+<div class="input-area" id="inputArea">
+<div class="io-header">
+<div class="io-title">
+<div class="io-dot"></div>ఇన్&zwnj;పుట్ డేటా</div>
+<div class="io-actions">
+<span class="file-badge" id="fileBadge" style="display:none;">
+<span class="file-badge-name" id="fileNameLabel"></span>
+<button class="file-badge-clear" onclick="clearFile()">✕</button>
+</span>
+<label class="upload-btn" for="fileInput" title="ఫైల్&zwnj;ను దాని చెక్&zwnj;సమ్&zwnj;ను లెక్కించడానికి అప్&zwnj;లోడ్ చేయండి">
+<svg fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="12"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>ఫైల్&zwnj;ను అప్&zwnj;లోడ్ చేయండి</label>
+<input id="fileInput" onchange="handleFileUpload(event)" style="display:none" type="file"/>
+<button class="icon-btn" onclick="pasteInput()" title="అతికించండి">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect height="4" rx="1" ry="1" width="8" x="8" y="2"></rect></svg>
+</button>
+<button class="icon-btn" onclick="clearInput()" title="క్లియర్">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path></svg>
+</button>
+</div>
+</div>
+<textarea class="io-textarea" id="inputText" placeholder="ఇక్కడ వచనాన్ని నమోదు చేయండి లేదా ఫైల్&zwnj;ను అప్&zwnj;లోడ్ చేయండి... నిజ సమయంలో CRC32 చెక్&zwnj;సమ్&zwnj;లను లెక్కించండి" spellcheck="false"></textarea>
+<div class="drop-zone" id="dropZone">
+<div style="font-size:28px;color:var(--accent);">⬇</div>
+<div class="drop-zone-text">ఒక ఫైల్&zwnj;ను ఇక్కడ వదలండి</div>
+</div>
+<div class="io-footer">
+<span class="io-stat" id="inputStat">0 బైట్లు</span>
+<span class="preview-type-badge" id="previewTypeBadge" style="display:none;"></span>
+<div class="format-tabs">
+<button class="format-tab active" data-enc="utf8" onclick="setEncoding(this,'utf8')">UTF-8</button>
+<button class="format-tab" data-enc="hex" onclick="setEncoding(this,'hex')">HEX</button>
+<button class="format-tab" data-enc="base64" onclick="setEncoding(this,'base64')">BASE64</button>
+</div>
+</div>
+</div>
+<!-- Action row -->
+<div class="action-row">
+<button class="primary-btn" id="calcBtn" onclick="runCalculate()">⟳ CRC32ని లెక్కించండి</button>
+<button class="clear-btn" onclick="clearAll()">అన్నింటినీ రీసెట్ చేయండి</button>
+</div>
+<!-- Status bar -->
+<div class="status-bar" id="statusBar">
+<div class="status-indicator"></div>
+<span class="status-text" id="statusText">సిద్ధంగా - డేటాను నమోదు చేసి, "CRC32ని లెక్కించు" క్లిక్ చేయండి</span>
+<span class="status-time" id="statusTime"></span>
+</div>
+<!-- Results panel -->
+<div class="panel green-line">
+<div class="panel-header">
+<div class="panel-icon" style="color:var(--accent2);">◈</div>
+<span class="panel-title">గణన ఫలితాలు</span>
+</div>
+<!-- Primary result card -->
+<div class="result-primary" id="result-primary">
+<div class="result-primary-header">
+<div class="result-primary-meta">
+<span class="result-primary-name" id="primary-name">&mdash;</span>
+<span class="result-primary-desc" id="primary-desc"></span>
+</div>
+<button class="result-copy-btn result-copy-primary" id="copy-primary" onclick="copyPrimary()">కాపీ</button>
+</div>
+<div class="result-primary-value" id="primary-value">&mdash;</div>
+<div class="result-primary-fmts" id="primary-fmts"></div>
+</div>
+<!-- Secondary results row -->
+<div class="result-secondary-row" id="result-secondary-row">
+<div class="result-secondary" id="sec-iso" onclick="switchVariant('iso')">
+<div class="result-secondary-label">ISO-HDLC</div>
+<div class="result-secondary-val empty" id="secval-iso">&mdash;</div>
+</div>
+<div class="result-secondary" id="sec-castagnoli" onclick="switchVariant('castagnoli')">
+<div class="result-secondary-label">కాస్టాగ్నోలి</div>
+<div class="result-secondary-val empty" id="secval-castagnoli">&mdash;</div>
+</div>
+<div class="result-secondary" id="sec-mpeg2" onclick="switchVariant('mpeg2')">
+<div class="result-secondary-label">MPEG-2</div>
+<div class="result-secondary-val empty" id="secval-mpeg2">&mdash;</div>
+</div>
+<div class="result-secondary" id="sec-bzip2" onclick="switchVariant('bzip2')">
+<div class="result-secondary-label">BZIP2</div>
+<div class="result-secondary-val empty" id="secval-bzip2">&mdash;</div>
+</div>
+</div>
+</div>
+<!-- Verify panel -->
+<div class="panel purple-line">
+<div class="panel-header">
+<div class="panel-icon" style="color:var(--accent4);">&checkmark;</div>
+<span class="panel-title">చెక్సమ్ ధృవీకరణ</span>
+</div>
+<div style="font-family:var(--mono);font-size:11px;color:#7a9dba;margin-bottom:14px;">ప్రస్తుత గణనతో పోల్చడానికి ఊహించిన CRC32 విలువను అతికించండి.</div>
+<div class="verify-row">
+<div class="field-group">
+<label class="field-label">అంచనా చెక్&zwnj;సమ్</label>
+<input autocomplete="off" class="field-input" id="expectedCRC" placeholder="ఉదా. 0xCBF43926 లేదా 3421780262" spellcheck="false"/>
+</div>
+<button class="verify-btn" onclick="runVerify()">ధృవీకరించండి</button>
+</div>
+<div class="verify-result" id="verifyResult" style="display:none;"></div>
+</div>
+<!-- Info strip -->
+<div class="info-strip">
+<div class="info-cell">
+<div class="info-cell-label">ఇన్&zwnj;పుట్ బైట్&zwnj;లు</div>
+<div class="info-cell-value" id="infoBytes">0</div>
+</div>
+<div class="info-cell">
+<div class="info-cell-label">మొత్తం లెక్కలు</div>
+<div class="info-cell-value" id="infoCalcs">0</div>
+</div>
+<div class="info-cell">
+<div class="info-cell-label">ప్రస్తుత వేరియంట్</div>
+<div class="info-cell-value" id="infoVariant" style="font-size:12px;letter-spacing:0;">ISO-HDLC</div>
+</div>
+<div class="info-cell">
+<div class="info-cell-label">Elapsed (ms)</div>
+<div class="info-cell-value" id="infoMs">&mdash;</div>
+</div>
+</div>
+<!-- Knowledge Section 1 - CRC Variants -->
+<div class="explain-section-header" id="explain-variants">
+<div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// CRC32 Variant Guide</div>
+<span class="explain-section-badge">CRC వేరియంట్లు</span>
+</div>
+<div class="explain-section-wrap explain-grid" id="wrap-variants">
+<div class="explain-card">
+<div class="explain-card-title">CRC-32 / ISO-HDLC<span class="etag">PKZip &middot; PNG &middot; ఈథర్నెట్</span>
+</div>
+<div class="explain-card-text">అత్యంత సాధారణ CRC-32 అమలు, దీనిని CRC-32b అని కూడా పిలుస్తారు. ఇది బహుపది 0x04C11DB7 యొక్క ప్రతిబింబ రూపాన్ని ఉపయోగిస్తుంది, అవి 0xEDB88320. ఇన్&zwnj;పుట్ బైట్&zwnj;లు మరియు అవుట్&zwnj;పుట్ రెండూ బిట్-రిఫ్లెక్టెడ్ (LSB ఫస్ట్), ప్రారంభ విలువ మరియు చివరి XOR రెండూ 0xFFFFFFFFకి సెట్ చేయబడ్డాయి.<br/><br/>జిప్, gzip, PNG చిత్రాలు, ఈథర్&zwnj;నెట్ ఫ్రేమ్&zwnj;లు (IEEE 802.3), PKCS#7 మరియు అనేక లెగసీ సిస్టమ్&zwnj;లచే విస్తృతంగా ఉపయోగించబడుతుంది. ఇది వాస్తవ "డిఫాల్ట్ CRC-32" వేరియంట్.</div>
+<table class="param-table">
+<tr><td>పాలినోమియల్</td><td><code>0x04C11DB7</code>(సాధారణ) /<code>0xEDB88320</code>(ప్రతిబింబించబడింది)</td></tr>
+<tr><td>ప్రారంభ విలువ</td><td><code>0xFFFFFFFF</code></td></tr>
+<tr><td>ఇన్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>అవును (RefIn = true)</td></tr>
+<tr><td>అవుట్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>అవును (RefOut = true)</td></tr>
+<tr><td>ఫైనల్ XOR</td><td><code>0xFFFFFFFF</code></td></tr>
+<tr><td>చెక్ విలువ</td><td><code>0xCBF43926</code>("123456789" కోసం)</td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">CRC-32C / కాస్టాగ్నోలి<span class="etag">iSCSI &middot; NVMe &middot; SCTP</span>
+</div>
+<div class="explain-card-text">1993లో G. కాస్టాగ్నోలి మరియు సహచరులు ప్రతిపాదించారు, ఈ రూపాంతరం బహుపది 0x1EDC6F41 (ప్రతిబింబించే రూపం 0x82F63B78)ని ఉపయోగిస్తుంది. అదే హామింగ్ దూరం వద్ద, ఇది ISO-HDLC బహుపది కంటే బలమైన బర్స్ట్-ఎర్రర్ డిటెక్షన్&zwnj;ను అందిస్తుంది.<br/><br/>హార్డ్&zwnj;వేర్ త్వరణం Intel SSE4.2 మరియు ARM CRC32 సూచనల ద్వారా అందుబాటులో ఉంది. ఇది iSCSI, NVMe, Btrfs మరియు SCTP వంటి ఆధునిక నిల్వ మరియు రవాణా ప్రోటోకాల్&zwnj;లలో విస్తృతంగా ఉపయోగించబడుతుంది.</div>
+<table class="param-table">
+<tr><td>పాలినోమియల్</td><td><code>0x1EDC6F41</code>(సాధారణ) /<code>0x82F63B78</code>(ప్రతిబింబించబడింది)</td></tr>
+<tr><td>ప్రారంభ విలువ</td><td><code>0xFFFFFFFF</code></td></tr>
+<tr><td>ఇన్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>అవును (RefIn = true)</td></tr>
+<tr><td>అవుట్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>అవును (RefOut = true)</td></tr>
+<tr><td>ఫైనల్ XOR</td><td><code>0xFFFFFFFF</code></td></tr>
+<tr><td>చెక్ విలువ</td><td><code>0xE3069283</code>("123456789" కోసం)</td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">CRC-32 / MPEG-2<span class="etag">MPEG-2 &middot; DVB &middot; ATSC</span>
+</div>
+<div class="explain-card-text">ISO-HDLC వలె అదే 0x04C11DB7 బహుపదిని ఉపయోగిస్తుంది, కానీ ఇన్&zwnj;పుట్ లేదా అవుట్&zwnj;పుట్ కాదు<strong style="color:#dff0ff">బిట్-ప్రతిబింబించబడింది</strong>(MSB మొదటిది, పెద్ద-ఎండియన్). ప్రారంభ విలువ 0xFFFFFFFF మరియు చివరి XOR నిలిపివేయబడింది (XorOut = 0x00000000).<br/><br/>ప్రధానంగా MPEG-2 రవాణా ప్రసారాలలో (PAT, PMT, NIT మరియు సంబంధిత పట్టికలు) PSI/SI పట్టికల కోసం ఉపయోగించబడుతుంది, అలాగే DVB మరియు ATSC ప్రసార వ్యవస్థల్లో సమగ్రత తనిఖీలు.</div>
+<table class="param-table">
+<tr><td>పాలినోమియల్</td><td><code>0x04C11DB7</code></td></tr>
+<tr><td>ప్రారంభ విలువ</td><td><code>0xFFFFFFFF</code></td></tr>
+<tr><td>ఇన్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>లేదు (RefIn = తప్పు)</td></tr>
+<tr><td>అవుట్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>లేదు (RefOut = తప్పు)</td></tr>
+<tr><td>ఫైనల్ XOR</td><td><code>0x00000000</code>(డిసేబుల్)</td></tr>
+<tr><td>చెక్ విలువ</td><td><code>0x0376E6E7</code>("123456789" కోసం)</td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">CRC-32 / BZIP2<span class="etag">BZip2 &middot; AAL5 &middot; DECT</span>
+</div>
+<div class="explain-card-text">దీని పారామితులు MPEG-2కి దాదాపు సమానంగా ఉంటాయి (పాలినోమియల్ 0x04C11DB7, ప్రతిబింబం లేదు, ప్రారంభ విలువ 0xFFFFFFFF). ఒకే తేడా ఏమిటంటే a<strong style="color:#dff0ff">ఫైనల్ XOR 0xFFFFFFFFతో</strong>, ఇది ప్రతి బిట్&zwnj;ను తిప్పుతుంది. దీనిని CRC-32/AAL5 లేదా CRC-32/DECT-B అని కూడా అంటారు.<br/><br/>BZip2 కంప్రెస్డ్ ఫైల్ ఫార్మాట్ మరియు ATM AAL5 ప్రోటోకాల్ యొక్క ట్రైలర్ చెక్&zwnj;సమ్ ఫీల్డ్ ద్వారా ఉపయోగించబడుతుంది.</div>
+<table class="param-table">
+<tr><td>పాలినోమియల్</td><td><code>0x04C11DB7</code></td></tr>
+<tr><td>ప్రారంభ విలువ</td><td><code>0xFFFFFFFF</code></td></tr>
+<tr><td>ఇన్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>లేదు (RefIn = తప్పు)</td></tr>
+<tr><td>అవుట్&zwnj;పుట్ రిఫ్లెక్షన్</td><td>లేదు (RefOut = తప్పు)</td></tr>
+<tr><td>ఫైనల్ XOR</td><td><code>0xFFFFFFFF</code></td></tr>
+<tr><td>చెక్ విలువ</td><td><code>0xFC891918</code>("123456789" కోసం)</td></tr>
+</table>
+</div>
+</div>
+<!-- ═══ Knowledge Section 2 — Input Encoding ═══ -->
+<div class="explain-section-header" id="explain-encoding">
+<div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// Input Encoding Guide</div>
+<span class="explain-section-badge">ఇన్&zwnj;పుట్ ఎన్&zwnj;కోడింగ్</span>
+</div>
+<div class="explain-section-wrap explain-grid" id="wrap-encoding" style="grid-template-columns:repeat(3,1fr);">
+<div class="explain-card" style="--card-accent:var(--accent3);">
+<div class="explain-card-title">UTF-8 వచనం<span class="etag">డిఫాల్ట్ &middot; సాధారణం</span>
+</div>
+<div class="explain-card-text">ఇన్&zwnj;పుట్&zwnj;ను a వలె పరిగణిస్తుంది<strong style="color:#dff0ff">UTF-8</strong>స్ట్రింగ్, దానిని బైట్&zwnj;లుగా మారుస్తుంది, ఆపై CRC32ని గణిస్తుంది. సాదా వచనం, సోర్స్ కోడ్, JSON మరియు సారూప్య కంటెంట్ కోసం ఇది అత్యంత సాధారణ మోడ్.<br/><br/>గమనిక: GBK లేదా UTF-16 వంటి విభిన్న అక్షరాల సెట్&zwnj;తో ఎన్&zwnj;కోడ్ చేయబడిన అదే వచనం వేరే బైట్ స్ట్రీమ్&zwnj;ను ఉత్పత్తి చేస్తుంది మరియు అందువల్ల వేరే CRC32 విలువ. ఈ సాధనం ఎల్లప్పుడూ UTF-8ని ఉపయోగిస్తుంది.</div>
+<table class="param-table" style="margin-top:10px;">
+<tr><td>ఉత్తమమైనది</td><td>సాదా వచనం, సోర్స్ కోడ్, JSON, XML</td></tr>
+<tr><td>ఉదాహరణ</td><td>"హలో" &rarr;<code>48 65 6C 6C 6F</code>(5 బైట్లు)</td></tr>
+<tr><td>CJK అక్షరాలు</td><td>చాలా CJK అక్షరాలు UTF-8లో 3 బైట్&zwnj;లను ఉపయోగిస్తాయి</td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">హెక్సాడెసిమల్<span class="etag">బైనరీ డేటా &middot; ప్రోటోకాల్ ఫ్రేమ్&zwnj;లు</span>
+</div>
+<div class="explain-card-text">ఇన్&zwnj;పుట్&zwnj;ను ముడిగా పరిగణిస్తుంది<strong style="color:#dff0ff">హెక్సాడెసిమల్ బైట్ అక్షరాలు</strong>. ఖాళీలు మరియు లైన్ బ్రేక్&zwnj;లు విస్మరించబడతాయి. ప్రతి రెండు హెక్స్ అక్షరాలు ఒక బైట్ (00&ndash;FF) అవుతుంది.<br/><br/>నెట్&zwnj;వర్క్ ఫ్రేమ్&zwnj;లు, ఫర్మ్&zwnj;వేర్ ఇమేజ్ శకలాలు లేదా మెమరీ డంప్&zwnj;ల వంటి ఖచ్చితమైన బైనరీ డేటా కోసం మీకు CRC తనిఖీలు అవసరమైనప్పుడు ఉపయోగకరంగా ఉంటుంది. మీరు నేరుగా వైర్&zwnj;షార్క్ లేదా హెక్స్ డంప్ అవుట్&zwnj;పుట్&zwnj;ను అతికించవచ్చు.</div>
+<table class="param-table" style="margin-top:10px;">
+<tr><td>ఫార్మాట్</td><td>మాత్రమే<code>0-9</code>మరియు<code>a-f / A-F</code>అనుమతించబడతాయి</td></tr>
+<tr><td>అక్షర గణన</td><td>తప్పక సమానంగా ఉండాలి (ఒక బైట్&zwnj;కు 2 అక్షరాలు)</td></tr>
+<tr><td>ఉదాహరణ</td><td><code>48656C6C6F</code>= "హలో" (5 బైట్లు)</td></tr>
+<tr><td>వైట్&zwnj;స్పేస్</td><td>స్వయంచాలకంగా విస్మరించబడింది.<code>48 65 6C</code>అదే<code>48656C</code></td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">బేస్64<span class="etag">ఎన్కోడ్ బైనరీ &middot; సర్టిఫికెట్లు &middot; చిత్రాలు</span>
+</div>
+<div class="explain-card-text">ఇన్&zwnj;పుట్&zwnj;ను a వలె పరిగణిస్తుంది<strong style="color:#dff0ff">Base64-ఎన్కోడ్ చేసిన స్ట్రింగ్</strong>, దానిని ముడి బైట్&zwnj;లుగా డీకోడ్ చేసి, ఆపై CRC32ని గణిస్తుంది. PEM సర్టిఫికేట్&zwnj;లు, JWT పేలోడ్&zwnj;లు, డేటా URIలు మరియు ఇతర Base64 కంటెంట్ కోసం ఉపయోగపడుతుంది.<br/><br/>ప్రామాణిక Base64 ఆల్ఫాబెట్&zwnj;కు మద్దతు ఇస్తుంది (A-Z a-z 0-9 + /). పాడింగ్ పాత్ర<code>=</code>ఐచ్ఛికం. URL-సురక్షిత బేస్64 (<code>-</code><code>_</code>) మద్దతు లేదు.</div>
+<table class="param-table" style="margin-top:10px;">
+<tr><td>వర్ణమాల</td><td><code>A-Z a-z 0-9 + / =</code></td></tr>
+<tr><td>ఉదాహరణ</td><td><code>SGVsbG8=</code>&rarr; "హలో" (5 బైట్లు)</td></tr>
+<tr><td>URL-సురక్షితమైనది</td><td>మద్దతు లేదు. భర్తీ చేయండి<code>-&rarr;+</code>మరియు<code>_&rarr;/</code>మొదటి</td></tr>
+<tr><td style="color:#ff6464;border-color:rgba(255,100,100,0.2);">⚠ 1 అక్షరం</td><td style="color:#ff6464;border-color:rgba(255,100,100,0.2);">చెల్లదు &mdash; 1 బైట్&zwnj;ను రూపొందించడానికి 6 బిట్&zwnj;లు సరిపోవు (8 బిట్&zwnj;లు అవసరం)</td></tr>
+<tr><td>2 అక్షరాలు</td><td>దీనికి డీకోడ్ చేస్తుంది<strong style="color:#dff0ff">1 బైట్</strong>(కనీస చెల్లుబాటు అయ్యే ఇన్&zwnj;పుట్)</td></tr>
+<tr><td>3 అక్షరాలు</td><td>దీనికి డీకోడ్ చేస్తుంది<strong style="color:#dff0ff">2 బైట్లు</strong></td></tr>
+<tr><td>4 అక్షరాలు</td><td>దీనికి డీకోడ్ చేస్తుంది<strong style="color:#dff0ff">3 బైట్లు</strong>(నమూనా ప్రతి 4 అక్షరాలను పునరావృతం చేస్తుంది)</td></tr>
+</table>
+</div>
+</div>
+<!-- ═══ Knowledge Section 3 — Output Format ═══ -->
+<div class="explain-section-header" id="explain-output">
+<div style="font-family:var(--mono);font-size:11px;color:#4a6e8a;letter-spacing:2px;text-transform:uppercase;">// Output Format Guide</div>
+<span class="explain-section-badge">అవుట్&zwnj;పుట్ ఫార్మాట్</span>
+</div>
+<div class="explain-section-wrap explain-grid" id="wrap-output">
+<div class="explain-card">
+<div class="explain-card-title">హెక్సాడెసిమల్<span class="etag">అత్యంత సాధారణం &middot; డిఫాల్ట్</span>
+</div>
+<div class="explain-card-text">విలువను 8-అంకెల అప్పర్&zwnj;కేస్ హెక్సాడెసిమల్ సంఖ్యతో ఉపసర్గతో ప్రదర్శిస్తుంది<strong style="color:#dff0ff">0x</strong>. ప్రతి అక్షరం 4 బిట్&zwnj;లను సూచిస్తుంది, మొత్తం 32 బిట్&zwnj;లకు. ఇది చాలా సాధనాలు, సోర్స్ కోడ్ మరియు డాక్యుమెంటేషన్&zwnj;లో ఉపయోగించే ప్రామాణిక ఆకృతి.<br/><br/>దశాంశ అవుట్&zwnj;పుట్&zwnj;తో పోలిస్తే, హెక్సాడెసిమల్ బైట్ సరిహద్దులను పరిశీలించడాన్ని సులభతరం చేస్తుంది మరియు మెమరీ డంప్&zwnj;లు మరియు ప్రోటోకాల్ ఫీల్డ్&zwnj;లను మరింత సహజంగా సరిపోల్చుతుంది.</div>
+<table class="param-table" style="margin-top:10px;">
+<tr><td>ఉదాహరణ</td><td><code>0xCBF43926</code></td></tr>
+<tr><td>పొడవు</td><td>8 హెక్సాడెసిమల్ అక్షరాలు = 32 బిట్&zwnj;లు</td></tr>
+<tr><td>బేస్</td><td>బేస్ 16 (0-9, A-F)</td></tr>
+<tr><td>ఉత్తమమైనది</td><td>కోడ్, డాక్యుమెంటేషన్, వైర్&zwnj;షార్క్, హెక్స్ ఎడిటర్&zwnj;లు</td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">దశాంశం<span class="etag">సంతకం చేయని 32-బిట్ పూర్ణాంకం</span>
+</div>
+<div class="explain-card-text">చెక్&zwnj;సమ్&zwnj;ని ఒక వలె ప్రదర్శిస్తుంది<strong style="color:#dff0ff">సంతకం చేయని 32-బిట్ దశాంశ పూర్ణాంకం</strong>పరిధిలో 0&ndash;4,294,967,295 (2&sup3;&sup2;&minus;1). కొన్ని భాషలు మరియు సాధనాలు CRC విలువలను దశాంశ రూపంలో సరిపోల్చుతాయి మరియు డేటాబేస్ ఫీల్డ్&zwnj;లు తరచుగా ఈ ప్రాతినిధ్యాన్ని నిల్వ చేస్తాయి.<br/><br/>గమనిక: CRC32 ఫలితాలను సంతకం చేయని పూర్ణాంకాలుగా పరిగణించాలి. Java లేదా C# వంటి సంతకం చేయబడిన Int రకాల్లో, 0x7FFFFFFF పైన ఉన్న విలువలు ప్రతికూలంగా కనిపించవచ్చు మరియు వాటిని uint లేదా విస్తృత సంతకం చేయని ప్రాతినిధ్యంగా మార్చాలి.</div>
+<table class="param-table" style="margin-top:10px;">
+<tr><td>ఉదాహరణ</td><td><code>3421780262</code></td></tr>
+<tr><td>రేంజ్</td><td>0&ndash;4,294,967,295</td></tr>
+<tr><td>గమనిక</td><td>జావా పూర్ణాంకానికి, దీనితో మార్చండి<code>&amp; 0xFFFFFFFFL</code></td></tr>
+<tr><td>ఉత్తమమైనది</td><td>డేటాబేస్&zwnj;లు, పైథాన్ నిర్మాణ విలువలు, సంఖ్యా పోలిక</td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">బైనరీ<span class="etag">బిట్-స్థాయి విశ్లేషణ</span>
+</div>
+<div class="explain-card-text">చెక్&zwnj;సమ్&zwnj;ని 32-బిట్ బైనరీ స్ట్రింగ్&zwnj;తో ప్రిఫిక్స్&zwnj;గా ప్రదర్శిస్తుంది<strong style="color:#dff0ff">0b</strong>. ప్రతి అక్షరం 0 లేదా 1, ఎడమవైపు అత్యంత ముఖ్యమైన బిట్&zwnj;తో సమలేఖనం చేయబడింది మరియు అవసరమైనప్పుడు లీడింగ్ సున్నాలతో ప్యాడ్ చేయబడుతుంది.<br/><br/>అంతర్గత CRC అల్గారిథమ్&zwnj;ను అర్థం చేసుకోవడానికి, బహుపది విభజన, బోధన మరియు బిట్-స్థాయి చెక్&zwnj;సమ్ ప్రాసెసింగ్ అవసరమయ్యే ఎంబెడెడ్ దృశ్యాలను అధ్యయనం చేయడానికి ప్రధానంగా ఉపయోగపడుతుంది.</div>
+<table class="param-table" style="margin-top:10px;">
+<tr><td>ఉదాహరణ</td><td><code>0b11001011&hellip;00100110</code></td></tr>
+<tr><td>పొడవు</td><td>ఎడమ సున్నా పాడింగ్&zwnj;తో 32 బిట్&zwnj;ల వద్ద పరిష్కరించబడింది</td></tr>
+<tr><td>అత్యధిక బిట్</td><td>Bit 31 (MSB) ఎడమవైపున కనిపిస్తుంది</td></tr>
+<tr><td>ఉత్తమమైనది</td><td>అల్గోరిథం విశ్లేషణ, బోధన, ఎంబెడెడ్ డీబగ్గింగ్</td></tr>
+</table>
+</div>
+<div class="explain-card">
+<div class="explain-card-title">అక్టల్<span class="etag">Unix &middot; ఫైల్ సిస్టమ్స్</span>
+</div>
+<div class="explain-card-text">చెక్&zwnj;సమ్&zwnj;ను 11-అంకెల అష్టాంశ సంఖ్యగా ప్రిఫిక్స్ చేసి ప్రదర్శిస్తుంది<strong style="color:#dff0ff">0o</strong>. 32 బిట్&zwnj;లకు గరిష్టంగా 11 ఆక్టల్ అక్షరాలు అవసరమవుతాయి ఎందుకంటే 3&times;11 = 33 &gt; 32. ప్రతి అష్ట అంకె 3 బిట్&zwnj;లను సూచిస్తుంది.<br/><br/>ఆధునిక CRC వర్క్&zwnj;ఫ్లోలలో ఆక్టల్ అవుట్&zwnj;పుట్ అసాధారణం, అయితే ఇది ఇప్పటికీ కొన్ని Unix టూల్స్, ఎంబెడెడ్ ఫర్మ్&zwnj;వేర్ టూల్&zwnj;చెయిన్&zwnj;లు మరియు పాత కమ్యూనికేషన్ ప్రోటోకాల్ స్పెసిఫికేషన్&zwnj;లలో కనిపిస్తుంది.</div>
+<table class="param-table" style="margin-top:10px;">
+<tr><td>ఉదాహరణ</td><td><code>0o31572031046</code></td></tr>
+<tr><td>పొడవు</td><td>11 అష్ట సంఖ్యల వరకు</td></tr>
+<tr><td>ప్రతి అంకె</td><td>3 బిట్&zwnj;లను సూచిస్తుంది (0-7)</td></tr>
+<tr><td>ఉత్తమమైనది</td><td>Unix సాధనాలు, పాత ప్రోటోకాల్ లక్షణాలు</td></tr>
+</table>
+</div>
+</div>
 </div><!-- /container -->
-
 <!-- Toast -->
 <div class="toast" id="toast"></div>
-    <script src="/static/js/utility-tools/math/crc32-generator/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
+<script src="/static/js/utility-tools/math/crc32-generator/script-te.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

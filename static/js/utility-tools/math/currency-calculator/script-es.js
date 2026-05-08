@@ -1,15 +1,16 @@
+
 (function () {
     const config = {
-        locale: "es-ES",
+        locale: "en-US",
         messages: {
-            syncingRate: "Sincronizando tipo de cambio...",
-            failedRate: "No se pudo recuperar el tipo de cambio",
-            loadingHistory: "Cargando datos de tendencias históricas...",
-            fetchError: "No se pudo recuperar el tipo de cambio",
+            syncingRate: "Sincronizando el tipo de cambio...",
+            failedRate: "No se pudo obtener el tipo de cambio",
+            loadingHistory: "Cargando datos históricos de tendencias...",
+            fetchError: "No se pudo obtener el tipo de cambio",
             chartError: "No se pudieron cargar los datos del gráfico",
-            swapLabel: "Intercambiar monedas de origen y de destino",
-            trendTitle: (from, to, years) => "{{from}}/{{to}} {{years}}-Tendencia anual".replace('{from}', from).replace('{to}', to).replace('{years}', years),
-            rateText: (from, rate, to) => "1 {{from}} = {{rate}} {{to}}".replace('{from}', from).replace('{rate}', rate.toFixed(4)).replace('{to}', to)
+            swapLabel: "Intercambiar monedas de origen y destino",
+            trendTitle: (from, to, years) => `Tendencia de ${years} años de ${from}/${to}`,
+            rateText: (from, rate, to) => `1 ${from} = ${rate.toFixed(4)} ${to}`
         }
     };
 

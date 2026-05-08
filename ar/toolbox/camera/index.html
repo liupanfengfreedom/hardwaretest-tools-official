@@ -1,607 +1,321 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
-    <!-- Basic Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    
-    <!-- Core SEO Meta Tags -->
-    <title>Online Webcam Test Tool - Professional Camera Resolution & FPS Tester | StarryRing</title>
-<meta name="author" content="StarryRing">
-    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
-    
-    <!-- Robots -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    
-    <!-- Canonical URL & Hreflang -->
-
-
-
+<!-- Basic Meta Tags -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" name="viewport"/>
+<!-- Core SEO Meta Tags -->
+<title>أداة اختبار كاميرا الويب عبر الإنترنت - دقة الكاميرا الاحترافية واختبار FPS | StarryRing</title>
+<meta content="StarryRing" name="author"/>
+<meta content="Copyright &copy; 2026 StarryRing. All rights reserved." name="copyright"/>
+<!-- Robots -->
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<!-- Canonical URL & Hreflang -->
 <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-
-
-<meta property="og:image" content="https://starryring.com/ar/toolbox/camera/og-image-en.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Preview of the online webcam test tool interface">
-    <meta property="og:site_name" content="StarryRing صندوق الأدوات">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://starryring.com/ar/toolbox/camera/">
-
-<meta name="twitter:image" content="https://starryring.com/ar/toolbox/camera/og-image-en.jpg">
-    <meta name="twitter:creator" content="@starryring">
-    
-    <!-- Mobile Optimization -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Webcam Test">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#121212">
-    <meta name="msapplication-TileColor" content="#121212">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- Sitemap -->
-    <link rel="sitemap" type="application/xml" href="/sitemap-tools-en.xml">
-    
-    <!-- Performance Optimizations -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="preload" href="/static/css/toolbox/camera/style.css" as="style">
-    <link rel="preload" href="/static/js/toolbox/camera/script-en.js" as="script">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    
-    <!-- Critical CSS (Above the Fold) -->
-    <style>
-        /* Critical CSS - Above the fold styles */
-        :root { 
-            --bg-color: #121212; 
-            --card-bg: #1e1e1e; 
-            --text-main: #e0e0e0; 
-            --text-muted: #a0a0a0; 
-            --accent: #4a6bff; 
-            --accent-hover: #3a5bef; 
-            --border: #333; 
-            --success: #00d4aa; 
-            --danger: #ef4444; 
-        }
-        
-        * { box-sizing: border-box; }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh; 
-        }
-        
-        h1 { 
-            margin-bottom: 20px; 
-            font-weight: 300; 
-            margin-top: 20px; 
-            text-align: center; 
-            font-size: clamp(1.5rem, 4vw, 2.2rem); 
-        }
-        
-        .badge { 
-            background: var(--success); 
-            color: white; 
-            padding: 3px 10px; 
-            border-radius: 20px; 
-            font-size: 0.6rem; 
-            vertical-align: middle; 
-            margin-left: 8px; 
-            font-weight: 600; 
-        }
-        
-        .card { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            padding: 20px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
-        }
-        
-        /* Mobile touch optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            button, select {
-                min-height: 44px;
-                min-width: 44px;
-            }
-        }
-        
-        /* Reduced motion (accessibility) */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
-    
-    <!-- Non-critical CSS async loading -->
-    <link rel="stylesheet" href="/static/css/toolbox/camera/style.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/static/css/toolbox/camera/style.css"></noscript>
-    
-    <!-- Shared Stylesheets -->
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-
-   
-    <!-- Structured Data Schema Markup (merged, English) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "WebApplication",
-                "name": "Online Webcam Test Tool",
-                "description": "Professional online camera testing tool with comprehensive performance analysis",
-                "url": "https://starryring.com/ar/toolbox/camera/",
-                "applicationCategory": "UtilityApplication",
-                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "CNY"
-                },
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com"
-                },
-                "featureList": [
-                    "Real-time video stream test",
-                    "Resolution & FPS measurement",
-                    "Hardware capability analysis",
-                    "Device switching & management",
-                    "Mirror flip function",
-                    "Real-time performance monitoring"
-                ],
-                "softwareVersion": "2.1.0",
-                "datePublished": "2026-01-01",
-                "dateModified": "2026-01-05"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "Why is my camera not displaying?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "This may be due to browser permission restrictions or camera hardware issues. Please ensure: 1) You allow the browser to access the camera; 2) The camera is properly connected; 3) No other application is currently using the camera."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I test camera frame rate (FPS)?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Look at the real-time FPS value in the top right corner of the page. Professional cameras typically support 30fps or higher, high-end cameras can reach 60fps or more. A stable frame rate is key to smooth video."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How can I tell if my camera quality is poor?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "If you notice: 1) Blurry video; 2) Low frame rate causing stuttering; 3) Color distortion; 4) Poor performance in low light, these may indicate camera quality issues."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What types of cameras are supported?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "All types of cameras are supported: laptop built-in cameras, USB external cameras, webcams, conference cameras, live streaming cameras, etc. Compatible with Windows, macOS, and Linux."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I test camera resolution?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "The tool automatically displays the current resolution. High-quality cameras usually support 1080p (1920x1080) or higher, while standard cameras may only support 720p (1280x720)."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Is my test data saved?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "All test data is stored only in your current browser session. It will be lost when you refresh the page or close the tab. We do not collect or upload any camera data, ensuring your privacy."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "صندوق الأدوات",
-                        "item": "https://starryring.com/ar/toolbox/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Webcam Test Tool",
-                        "item": "https://starryring.com/ar/toolbox/camera/"
-                    }
-                ]
-            },
-            {
-                "@type": "HowTo",
-                "name": "How to use the webcam test tool",
-                "description": "Step-by-step guide to test camera performance, resolution, and frame rate",
-                "step": [
-                    {
-                        "@type": "HowToStep",
-                        "name": "Allow camera permission",
-                        "text": "When prompted, allow the browser to access your camera. This is necessary for the test to work.",
-                        "image": "https://starryring.com/ar/toolbox/camera/step1-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Select camera device",
-                        "text": "If you have multiple cameras connected, choose your camera from the device dropdown menu.",
-                        "image": "https://starryring.com/ar/toolbox/camera/step2-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Check the video stream",
-                        "text": "Observe the real-time video to ensure the camera is working properly. Check for blurriness, stuttering, or color issues.",
-                        "image": "https://starryring.com/ar/toolbox/camera/step3-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Analyze performance data",
-                        "text": "View resolution, FPS, and hardware capabilities in the statistics panel. Monitor real-time performance indicators.",
-                        "image": "https://starryring.com/ar/toolbox/camera/step4-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Test advanced features",
-                        "text": "Try the mirror flip function. If your camera supports it, explore different resolution modes.",
-                        "image": "https://starryring.com/ar/toolbox/camera/step5-en.png"
-                    }
-                ],
-                "totalTime": "PT2M"
-            },
-            {
-                "@type": "WebPage",
-                "@id": "https://starryring.com/ar/toolbox/camera/#webpage",
-                "url": "https://starryring.com/ar/toolbox/camera/",
-                "name": "Online Webcam Test Tool",
-                "description": "Free online camera test tool for camera performance and resolution testing",
-                "inLanguage": "en",
-                "isPartOf": {
-                    "@type": "WebSite",
-                    "@id": "https://starryring.com/#website",
-                    "url": "https://starryring.com",
-                    "name": "StarryRing",
-                    "description": "Free online tools and utilities"
-                }
-            }
-        ]
-    }
-    </script>
-<meta name="description" content="Free online webcam test tool. Real-time camera performance testing, resolution check, FPS measurement, hardware capability analysis. No download required. Supports laptop cameras, USB cameras, and more.">
-            <link rel="canonical" href="https://starryring.com/ar/toolbox/camera/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/camera/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/camera/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/camera/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/camera/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/camera/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/camera/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/toolbox/camera/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/toolbox/camera/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/toolbox/camera/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/toolbox/camera/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/toolbox/camera/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/toolbox/camera/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/toolbox/camera/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/toolbox/camera/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/toolbox/camera/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/toolbox/camera/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/toolbox/camera/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/toolbox/camera/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/toolbox/camera/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/toolbox/camera/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/camera/">
-<meta property="og:url" content="https://starryring.com/ar/toolbox/camera/">
-    <meta property="og:locale" content="ar_SA">
-<meta property="og:title" content="📷 Online Webcam Test Tool - Free Camera Check & Resolution Test">
-    <meta property="og:description" content="Free online webcam test tool. Real-time camera performance testing, resolution check, FPS measurement. No download required.">
-    <meta name="twitter:title" content="📷 Online Webcam Test Tool - Free Camera Check & Resolution Test">
-    <meta name="twitter:description" content="Free online webcam test tool. Real-time camera performance testing, resolution check, FPS measurement. No download required.">
-    <meta name="keywords" content="webcam test, camera test, online webcam tester, camera resolution test, FPS test, camera performance test, laptop camera test, USB camera test, conference camera test, webcam quality check">
+<meta content="website" property="og:type"/>
+<meta content="https://starryring.com/ar/toolbox/camera/og-image-en.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="معاينة واجهة أداة اختبار كاميرا الويب عبر الإنترنت" property="og:image:alt"/>
+<meta content="StarryRing صندوق الأدوات" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/ar/toolbox/camera/" name="twitter:url"/>
+<meta content="https://starryring.com/ar/toolbox/camera/og-image-en.jpg" name="twitter:image"/>
+<meta content="@starryring" name="twitter:creator"/>
+<!-- Mobile Optimization -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Webcam Test" name="apple-mobile-web-app-title"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="#121212" name="theme-color"/>
+<meta content="#121212" name="msapplication-TileColor"/>
+<!-- Favicon -->
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- Sitemap -->
+<link href="/sitemap-tools-en.xml" rel="sitemap" type="application/xml"/>
+<!-- Performance Optimizations -->
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="dns-prefetch"/>
+<link as="style" href="/static/css/toolbox/camera/style.css" rel="preload"/>
+<link as="script" href="/static/js/toolbox/camera/script-ar.js" rel="preload"/>
+<link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="preload"/>
+<!-- Critical CSS (Above the Fold) -->
+<style> /* Critical CSS - Above the fold styles */ :root { --bg-color: #121212; --card-bg: #1e1e1e; --text-main: #e0e0e0; --text-muted: #a0a0a0; --accent: #4a6bff; --accent-hover: #3a5bef; --border: #333; --success: #00d4aa; --danger: #ef4444; } * { box-sizing: border-box; } body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; } h1 { margin-bottom: 20px; font-weight: 300; margin-top: 20px; text-align: center; font-size: clamp(1.5rem, 4vw, 2.2rem); } .badge { background: var(--success); color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.6rem; vertical-align: middle; margin-left: 8px; font-weight: 600; } .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); } /* Mobile touch optimizations */ @media (hover: none) and (pointer: coarse) { button, select { min-height: 44px; min-width: 44px; } } /* Reduced motion (accessibility) */ @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } } </style>
+<!-- Non-critical CSS async loading -->
+<link href="/static/css/toolbox/camera/style.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<noscript><link href="/static/css/toolbox/camera/style.css" rel="stylesheet"/></noscript>
+<!-- Shared Stylesheets -->
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Structured Data Schema Markup (merged, English) -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "WebApplication", "name": "أداة اختبار كاميرا الويب عبر الإنترنت", "description": "أداة احترافية لاختبار الكاميرا عبر الإنترنت مع تحليل شامل للأداء", "url": "https://starryring.com/ar/toolbox/camera/", "applicationCategory": "UtilityApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }, "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com" }, "featureList": [ "Real-time video stream test", "Resolution & FPS measurement", "Hardware capability analysis", "Device switching & management", "Mirror flip function", "Real-time performance monitoring" ], "softwareVersion": "2.1.0", "datePublished": "2026-01-01", "dateModified": "2026-01-05" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "لماذا لا يتم عرض الكاميرا الخاصة بي؟", "acceptedAnswer": { "@type": "Answer", "text": "قد يكون هذا بسبب قيود أذونات المتصفح أو مشكلات في أجهزة الكاميرا. يرجى التأكد مما يلي: 1) السماح للمتصفح بالوصول إلى الكاميرا؛ 2) توصيل الكاميرا بشكل صحيح؛ 3) لا يوجد تطبيق آخر يستخدم الكاميرا حاليًا." } }, { "@type": "Question", "name": "كيف يمكنني اختبار معدل إطارات الكاميرا (FPS)؟", "acceptedAnswer": { "@type": "Answer", "text": "انظر إلى قيمة FPS في الوقت الفعلي في الزاوية اليمنى العليا من الصفحة. تدعم الكاميرات الاحترافية عادةً 30 إطارًا في الثانية أو أعلى، ويمكن أن تصل الكاميرات المتطورة إلى 60 إطارًا في الثانية أو أكثر. يعد معدل الإطارات الثابت أمرًا أساسيًا لسلاسة الفيديو." } }, { "@type": "Question", "name": "كيف يمكنني معرفة ما إذا كانت جودة الكاميرا الخاصة بي رديئة؟", "acceptedAnswer": { "@type": "Answer", "text": "إذا لاحظت: 1) فيديو ضبابي؛ 2) انخفاض معدل الإطارات مما يسبب التأتأة؛ 3) تشويه اللون. 4) ضعف الأداء في الإضاءة المنخفضة، وهذا قد يشير إلى مشاكل في جودة الكاميرا." } }, { "@type": "Question", "name": "ما هي أنواع الكاميرات المدعومة؟", "acceptedAnswer": { "@type": "Answer", "text": "يتم دعم جميع أنواع الكاميرات: كاميرات الكمبيوتر المحمول المدمجة، وكاميرات USB الخارجية، وكاميرات الويب، وكاميرات المؤتمرات، وكاميرات البث المباشر، وما إلى ذلك. متوافق مع أنظمة التشغيل Windows، وmacOS، وLinux." } }, { "@type": "Question", "name": "كيف يمكنني اختبار دقة الكاميرا؟", "acceptedAnswer": { "@type": "Answer", "text": "تعرض الأداة الدقة الحالية تلقائيًا. تدعم الكاميرات عالية الجودة عادةً 1080 بكسل (1920 × 1080) أو أعلى، في حين أن الكاميرات القياسية قد تدعم فقط 720 بكسل (1280 × 720)." } }, { "@type": "Question", "name": "هل تم حفظ بيانات الاختبار الخاصة بي؟", "acceptedAnswer": { "@type": "Answer", "text": "يتم تخزين جميع بيانات الاختبار في جلسة المتصفح الحالية فقط. سيتم فقده عند تحديث الصفحة أو إغلاق علامة التبويب. نحن لا نجمع أو نحمل أي بيانات خاصة بالكاميرا، مما يضمن خصوصيتك." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "صندوق الأدوات", "item": "https://starryring.com/ar/toolbox/" }, { "@type": "ListItem", "position": 2, "name": "أداة اختبار كاميرا الويب", "item": "https://starryring.com/ar/toolbox/camera/" } ] }, { "@type": "HowTo", "name": "كيفية استخدام أداة اختبار كاميرا الويب", "description": "دليل خطوة بخطوة لاختبار أداء الكاميرا ودقتها ومعدل الإطارات", "step": [ { "@type": "HowToStep", "name": "السماح بإذن الكاميرا", "text": "عند المطالبة، اسمح للمتصفح بالوصول إلى الكاميرا الخاصة بك. وهذا ضروري لكي يعمل الاختبار.", "image": "https://starryring.com/ar/toolbox/camera/step1-en.png" }, { "@type": "HowToStep", "name": "اختر جهاز الكاميرا", "text": "إذا كانت لديك عدة كاميرات متصلة، فاختر الكاميرا من القائمة المنسدلة للجهاز.", "image": "https://starryring.com/ar/toolbox/camera/step2-en.png" }, { "@type": "HowToStep", "name": "تحقق من دفق الفيديو", "text": "راقب الفيديو في الوقت الفعلي للتأكد من أن الكاميرا تعمل بشكل صحيح. تحقق من وجود مشاكل في التشويش أو التأتأة أو اللون.", "image": "https://starryring.com/ar/toolbox/camera/step3-en.png" }, { "@type": "HowToStep", "name": "تحليل بيانات الأداء", "text": "عرض الدقة، وFPS، وقدرات الأجهزة في لوحة الإحصائيات. مراقبة مؤشرات الأداء في الوقت الحقيقي.", "image": "https://starryring.com/ar/toolbox/camera/step4-en.png" }, { "@type": "HowToStep", "name": "اختبر الميزات المتقدمة", "text": "جرب وظيفة قلب المرآة. إذا كانت الكاميرا الخاصة بك تدعم ذلك، فاستكشف أوضاع الدقة المختلفة.", "image": "https://starryring.com/ar/toolbox/camera/step5-en.png" } ], "totalTime": "PT2M" }, { "@type": "WebPage", "@id": "https://starryring.com/ar/toolbox/camera/#webpage", "url": "https://starryring.com/ar/toolbox/camera/", "name": "أداة اختبار كاميرا الويب عبر الإنترنت", "description": "أداة اختبار الكاميرا المجانية عبر الإنترنت لاختبار أداء الكاميرا ودقتها", "inLanguage": "ar", "isPartOf": { "@type": "WebSite", "@id": "https://starryring.com/#website", "url": "https://starryring.com", "name": "StarryRing", "description": "الأدوات والمرافق المجانية عبر الإنترنت" } } ]
+}</script>
+<meta content="أداة مجانية لاختبار كاميرا الويب عبر الإنترنت. اختبار أداء الكاميرا في الوقت الحقيقي، والتحقق من الدقة، وقياس FPS، وتحليل قدرة الأجهزة. لا يلزم التنزيل. يدعم كاميرات الكمبيوتر المحمول وكاميرات USB والمزيد." name="description"/>
+<link href="https://starryring.com/ar/toolbox/camera/" rel="canonical"/><link href="https://starryring.com/en/toolbox/camera/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ar/toolbox/camera/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/zh/toolbox/camera/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/toolbox/camera/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/toolbox/camera/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/toolbox/camera/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/toolbox/camera/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/toolbox/camera/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/toolbox/camera/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/bn/toolbox/camera/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/toolbox/camera/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/toolbox/camera/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/toolbox/camera/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/toolbox/camera/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/toolbox/camera/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/toolbox/camera/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/toolbox/camera/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/toolbox/camera/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/toolbox/camera/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/toolbox/camera/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ar/toolbox/camera/" property="og:url"/>
+<meta content="ar_AR" property="og:locale"/>
+<meta content="📷 أداة اختبار كاميرا الويب عبر الإنترنت - فحص الكاميرا واختبار الدقة مجانًا" property="og:title"/>
+<meta content="أداة مجانية لاختبار كاميرا الويب عبر الإنترنت. اختبار أداء الكاميرا في الوقت الحقيقي، والتحقق من الدقة، وقياس FPS. لا يلزم التنزيل." property="og:description"/>
+<meta content="📷 أداة اختبار كاميرا الويب عبر الإنترنت - فحص الكاميرا واختبار الدقة مجانًا" name="twitter:title"/>
+<meta content="أداة مجانية لاختبار كاميرا الويب عبر الإنترنت. اختبار أداء الكاميرا في الوقت الحقيقي، والتحقق من الدقة، وقياس FPS. لا يلزم التنزيل." name="twitter:description"/>
+<meta content="اختبار كاميرا الويب، اختبار الكاميرا، اختبار كاميرا الويب عبر الإنترنت، اختبار دقة الكاميرا، اختبار FPS، اختبار أداء الكاميرا، اختبار كاميرا الكمبيوتر المحمول، اختبار كاميرا USB، اختبار كاميرا المؤتمر، فحص جودة كاميرا الويب" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="اختيار اللغة" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/toolbox/camera/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/toolbox/camera/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/toolbox/camera/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/toolbox/camera/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/toolbox/camera/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/toolbox/camera/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/toolbox/camera/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/toolbox/camera/" data-lang="fr">Français</a>
-            <a class="language-option selected" href="/ar/toolbox/camera/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/toolbox/camera/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/toolbox/camera/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/toolbox/camera/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/toolbox/camera/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/toolbox/camera/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/toolbox/camera/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/toolbox/camera/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/toolbox/camera/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/toolbox/camera/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/toolbox/camera/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/toolbox/camera/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="اختر اللغة" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/toolbox/camera/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/toolbox/camera/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/toolbox/camera/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/toolbox/camera/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/toolbox/camera/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/toolbox/camera/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/toolbox/camera/">Fran&ccedil;ais</a>
+<a class="language-option selected" data-lang="ar" href="/ar/toolbox/camera/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/toolbox/camera/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/toolbox/camera/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/toolbox/camera/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/toolbox/camera/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/toolbox/camera/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/toolbox/camera/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/toolbox/camera/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/toolbox/camera/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/toolbox/camera/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/toolbox/camera/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/toolbox/camera/">தமிழ்</a>
+</div>
+</div>
 <!-- Language Switcher -->
 <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/ar/" class="breadcrumb-link" itemprop="item">
-                        <i class="fas fa-home" aria-hidden="true"></i> 
-                        <span itemprop="name">الرئيسية</span>
-                    </a>
-                    <meta itemprop="position" content="1" />
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/ar/toolbox/" class="breadcrumb-link" itemprop="item">
-                        <i class="fas fa-box" aria-hidden="true"></i> <span itemprop="name">صندوق الأدوات</span>
-                    </a>
-                    <meta itemprop="position" content="2" />
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <span class="breadcrumb-active" itemprop="name">Webcam Test Tool</span>
-                    <meta itemprop="position" content="3" />
-                </li>
-            </ol>
-        </nav>
-    </div>
-
-
-    <!-- Page Main Title -->
-    <h1 id="title-text">Professional Webcam Test Tool - Real-time Camera Detection, Resolution/FPS Analysis<span class="badge">Free Online Tool</span></h1>
-
-    <!-- Introductory Content -->
-    <div class="intro-section">
-        <p>Free online webcam test tool, no software installation required. Developed with WebRTC technology, it measures camera performance metrics in real time, including: <strong>video stream quality test</strong>, <strong>resolution detection</strong>, <strong>frame rate (FPS) analysis</strong>, <strong>hardware capability check</strong>. Supports various device types:</p>
-        <div class="keyboard-types">
-            <span class="keyboard-type-tag">Laptop cameras</span>
-            <span class="keyboard-type-tag">USB external cameras</span>
-            <span class="keyboard-type-tag">Webcams</span>
-            <span class="keyboard-type-tag">HD cameras</span>
-            <span class="keyboard-type-tag">Conference cameras</span>
-            <span class="keyboard-type-tag">Live streaming cameras</span>
-            <span class="keyboard-type-tag">Phone cameras (browser support required)</span>
-        </div>
-        <div class="compatibility-note">
-            <i class="fas fa-info-circle"></i> <strong>Compatibility note:</strong> This tool works with modern browsers like Chrome, Firefox, Edge, Safari, and requires HTTPS environment or localhost access.
-        </div>
-    </div>
-
-    <div class="container">
-        <section>
-            <div class="card" style="margin-bottom: 20px;">
-                <div class="controls-row">
-                    <div class="select-group">
-                        <label id="video-label" for="videoSource">Video Source</label>
-                        <select id="videoSource"><option>Detecting devices...</option></select>
-                    </div>
-                </div>
-                <div class="controls-row" style="margin-bottom: 0;">
-                    <div class="btn-group">
-                        <button id="btn-mirror" class="secondary">Mirror Flip</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" style="padding: 10px;">
-                <div class="video-wrapper">
-                    <video id="video" autoplay playsinline aria-label="Camera live feed"></video>
-                    <div class="overlay-stats">
-                        <span id="live-res">0x0</span> | <span id="live-fps">0</span> FPS
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <aside>
-            <div class="card">
-                <h3 id="status-header-text"><span class="status-dot"></span>Device Status</h3>
-                <table class="info-table">
-                    <tr><td id="run-status-label">Status</td><td id="status-text">Requesting permission...</td></tr>
-                    <tr><td id="device-name-label">Device Name</td><td id="device-label">-</td></tr>
-                    <tr><td id="actual-res-label">Actual Resolution</td><td id="info-res">-</td></tr>
-                    <tr><td id="aspect-ratio-label">Aspect Ratio</td><td id="info-aspect">-</td></tr>
-                </table>
-
-                <h3 id="caps-header-text" style="margin-top: 20px;">Hardware Capabilities</h3>
-                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">* Parameters read from browser/driver</div>
-                <table class="info-table" id="capabilities-table">
-                    <tr><td>-</td><td>-</td></tr>
-                </table>
-            </div>
-        </aside>
-    </div>
-
-    <!-- Core Advantages -->
-    <div class="stats-section">
-        <h2>Key Advantages of the Webcam Test Tool</h2>
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div class="stat-title">Free</div>
-                <p>No registration, no cost</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">Real-time</div>
-                <div class="stat-title">Instant Testing</div>
-                <p>See camera parameters immediately</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">Privacy</div>
-                <div class="stat-title">Secure</div>
-                <p>Data stays local, never uploaded</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">Multi-device</div>
-                <div class="stat-title">Wide Compatibility</div>
-                <p>Supports all camera types</p>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Feature Description and FAQ Section -->
-    <section class="instructions-section">
-        <div class="instructions-content" id="instructions-content">
-            <h2>Professional Webcam Test Tool Features</h2>
-            <p>📖 Overview: The professional webcam test tool offers comprehensive camera testing, from basic video streaming to advanced performance analysis, helping you fully understand your camera's status. Supports all camera types, including laptop built-in cameras, USB external cameras, webcams, and more.</p>
-            
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>🔍 Real-time Video Stream Check</h3>
-                    <p>Displays the camera video stream in real time, detecting whether transmission is stable, smooth, and free from stuttering, delay, or frame drops.</p>
-                    <div class="tip">
-                        <span class="tip-text">Tip: Observe if the video stream is smooth, without stuttering</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>📊 Resolution & Frame Rate Test</h3>
-                    <p>Detects the maximum supported resolution, optimal resolution, and various frame rate modes of the camera, showing real-time resolution and FPS data.</p>
-   
-                </div>
-                
-                <div class="feature-item">
-                    <h3>⚙️ Hardware Capability Analysis</h3>
-                    <p>Shows the camera's underlying hardware parameters, including supported resolution ranges, frame rate ranges, focus modes, white balance, etc.</p>
-                    <div class="tip">
-                        <span class="tip-text">Pay attention to hardware capabilities to understand the camera's true performance</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>🎯 Device Switching & Management</h3>
-                    <p>Supports switching between multiple camera devices, automatically detecting and listing all available cameras, making it easy to test different devices.</p>
-                    <div class="tip">
-                        <span class="tip-text">Switch between cameras for comparative testing</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>🔄 Mirror Flip Function</h3>
-                    <p>Provides a mirror flip switch to simulate selfie mode, testing the camera's mirror processing capability and display effect.</p>
-                    <div class="tip">
-                        <span class="tip-text">Mirror function is useful for video conferencing and selfies</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>📈 Real-time Performance Monitoring</h3>
-                    <p>Displays key parameters like FPS, resolution, and status in real time, allowing quantitative evaluation of camera performance.</p>
-                    <div class="tip">
-                        <span class="tip-text">Data monitoring helps systematically assess camera condition</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-section">
-                <h2>Frequently Asked Questions (FAQ)</h2>
-                
-                <div class="faq-item">
-                    <h3>Why is my camera not displaying?</h3>
-                    <p>This may be due to browser permission restrictions or camera hardware issues. Please ensure: 1) You allow the browser to access the camera; 2) The camera is properly connected; 3) No other application is currently using the camera.</p>
-                </div>
-                
-                <div class="faq-item">
-                    <h3>How do I test camera frame rate?</h3>
-                    <p>Look at the real-time FPS value in the top right corner of the page. Professional cameras typically support 30fps or higher, high-end cameras can reach 60fps or more. A stable frame rate is key to smooth video.</p>
-    
-                </div>
-                
-                <div class="faq-item">
-                    <h3>How can I tell if my camera quality is poor?</h3>
-                    <p>If you notice: 1) Blurry video; 2) Low frame rate causing stuttering; 3) Color distortion; 4) Poor performance in low light, these may indicate camera quality issues.</p>
-
-                </div>
-
-                <div class="faq-item">
-                    <h3>What types of cameras are supported?</h3>
-                    <p>All types of cameras are supported: laptop built-in cameras, USB external cameras, webcams, conference cameras, live streaming cameras, etc. Compatible with Windows, macOS, and Linux.</p>
-                </div>
-                
-                <div class="faq-item">
-                    <h3>How do I test camera resolution?</h3>
-                    <p>The tool automatically displays the current resolution. High-quality cameras usually support 1080p (1920x1080) or higher, while standard cameras may only support 720p (1280x720).</p>
-
-                </div>
-                
-                <div class="faq-item">
-                    <h3>Is my test data saved?</h3>
-                    <p>All test data is stored only in your current browser session. It will be lost when you refresh the page or close the tab. We do not collect or upload any camera data, ensuring your privacy.</p>
-                    <div class="faq-link-container">
-                        <span class="faq-tip-text">Data security: all data processed locally</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Scripts (English version) -->
-    <script src="/static/js/toolbox/camera/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
-
-    <footer style="width:100%;max-width:960px;margin:40px auto 0;padding:20px 10px;border-top:1px solid rgba(255,255,255,0.12);text-align:center;font-size:0.85rem;color:var(--text-muted);">
-        <div style="margin-bottom:8px;">
-            © 2026 StarryRing
-        </div>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
-            <a href="/ar/about-us/" style="color:#60a5fa;text-decoration:none;">من نحن</a>
-            <a href="/ar/contact-us/" style="color:#60a5fa;text-decoration:none;">اتصل بنا</a>
-            <a href="/ar/disclaimer/" style="color:#60a5fa;text-decoration:none;">إخلاء المسؤولية</a>
-            <a href="/ar/privacy/" style="color:#60a5fa;text-decoration:none;">سياسة الخصوصية</a>
-            <a href="/ar/terms/" style="color:#60a5fa;text-decoration:none;">شروط الخدمة</a>
-        </div>
-    </footer>
-
+<div class="breadcrumb-section">
+<nav aria-label="مسار التنقل" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<a class="breadcrumb-link" href="/ar/" itemprop="item">
+<i aria-hidden="true" class="fas fa-home"></i>
+<span itemprop="name">الصفحة الرئيسية</span>
+</a>
+<meta content="1" itemprop="position"/>
+</li>
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<a class="breadcrumb-link" href="/ar/toolbox/" itemprop="item">
+<i aria-hidden="true" class="fas fa-box"></i><span itemprop="name">صندوق الأدوات</span>
+</a>
+<meta content="2" itemprop="position"/>
+</li>
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<span class="breadcrumb-active" itemprop="name">أداة اختبار كاميرا الويب</span>
+<meta content="3" itemprop="position"/>
+</li>
+</ol>
+</nav>
+</div>
+<!-- Page Main Title -->
+<h1 id="title-text">أداة اختبار كاميرا الويب الاحترافية - اكتشاف الكاميرا في الوقت الفعلي، وتحليل الدقة/إطار في الثانية<span class="badge">أداة مجانية على الإنترنت</span></h1>
+<!-- Introductory Content -->
+<div class="intro-section">
+<p>أداة مجانية لاختبار كاميرا الويب عبر الإنترنت، لا يلزم تثبيت أي برنامج. تم تطويره باستخدام تقنية WebRTC، وهو يقيس مقاييس أداء الكاميرا في الوقت الفعلي، بما في ذلك:<strong>اختبار جودة دفق الفيديو</strong>, <strong>كشف الدقة</strong>, <strong>تحليل معدل الإطارات (FPS).</strong>, <strong>فحص قدرة الأجهزة</strong>. يدعم أنواع الأجهزة المختلفة:</p>
+<div class="keyboard-types">
+<span class="keyboard-type-tag">كاميرات الكمبيوتر المحمول</span>
+<span class="keyboard-type-tag">كاميرات خارجية USB</span>
+<span class="keyboard-type-tag">كاميرات الويب</span>
+<span class="keyboard-type-tag">كاميرات عالية الدقة</span>
+<span class="keyboard-type-tag">كاميرات المؤتمرات</span>
+<span class="keyboard-type-tag">كاميرات البث المباشر</span>
+<span class="keyboard-type-tag">كاميرات الهاتف (يتطلب دعم المتصفح)</span>
+</div>
+<div class="compatibility-note">
+<i class="fas fa-info-circle"></i><strong>ملاحظة التوافق:</strong>تعمل هذه الأداة مع المتصفحات الحديثة مثل Chrome وFirefox وEdge وSafari وتتطلب بيئة HTTPS أو الوصول إلى المضيف المحلي.</div>
+</div>
+<div class="container">
+<section>
+<div class="card" style="margin-bottom: 20px;">
+<div class="controls-row">
+<div class="select-group">
+<label for="videoSource" id="video-label">مصدر الفيديو</label>
+<select id="videoSource"><option>جاري الكشف عن الأجهزة...</option></select>
+</div>
+</div>
+<div class="controls-row" style="margin-bottom: 0;">
+<div class="btn-group">
+<button class="secondary" id="btn-mirror">مرآة قابلة للطي</button>
+</div>
+</div>
+</div>
+<div class="card" style="padding: 10px;">
+<div class="video-wrapper">
+<video aria-label="البث المباشر للكاميرا" autoplay="" id="video" playsinline=""></video>
+<div class="overlay-stats">
+<span id="live-res">0x0</span> | <span id="live-fps">0</span>FPS</div>
+</div>
+</div>
+</section>
+<aside>
+<div class="card">
+<h3 id="status-header-text"><span class="status-dot"></span>حالة الجهاز</h3>
+<table class="info-table">
+<tr><td id="run-status-label">الحالة</td><td id="status-text">جارٍ طلب الإذن...</td></tr>
+<tr><td id="device-name-label">اسم الجهاز</td><td id="device-label">-</td></tr>
+<tr><td id="actual-res-label">الحل الفعلي</td><td id="info-res">-</td></tr>
+<tr><td id="aspect-ratio-label">نسبة العرض إلى الارتفاع</td><td id="info-aspect">-</td></tr>
+</table>
+<h3 id="caps-header-text" style="margin-top: 20px;">قدرات الأجهزة</h3>
+<div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">* قراءة المعلمات من المتصفح/برنامج التشغيل</div>
+<table class="info-table" id="capabilities-table">
+<tr><td>-</td><td>-</td></tr>
+</table>
+</div>
+</aside>
+</div>
+<!-- Core Advantages -->
+<div class="stats-section">
+<h2>المزايا الرئيسية لأداة اختبار كاميرا الويب</h2>
+<div class="stats-grid">
+<div class="stat-item">
+<div class="stat-number">100%</div>
+<div class="stat-title">مجاني</div>
+<p>لا يوجد تسجيل، لا تكلفة</p>
+</div>
+<div class="stat-item">
+<div class="stat-number">في الوقت الحقيقي</div>
+<div class="stat-title">الاختبار الفوري</div>
+<p>راجع معلمات الكاميرا على الفور</p>
+</div>
+<div class="stat-item">
+<div class="stat-number">الخصوصية</div>
+<div class="stat-title">آمن</div>
+<p>تظل البيانات محلية، ولا يتم تحميلها أبدًا</p>
+</div>
+<div class="stat-item">
+<div class="stat-number">متعدد الأجهزة</div>
+<div class="stat-title">توافق واسع</div>
+<p>يدعم جميع أنواع الكاميرات</p>
+</div>
+</div>
+</div>
+<!-- Feature Description and FAQ Section -->
+<section class="instructions-section">
+<div class="instructions-content" id="instructions-content">
+<h2>ميزات أداة اختبار كاميرا الويب الاحترافية</h2>
+<p>📖 نظرة عامة: توفر أداة اختبار كاميرا الويب الاحترافية اختبارًا شاملاً للكاميرا، بدءًا من بث الفيديو الأساسي وحتى تحليل الأداء المتقدم، مما يساعدك على فهم حالة الكاميرا بشكل كامل. يدعم جميع أنواع الكاميرات، بما في ذلك الكاميرات المدمجة للكمبيوتر المحمول، والكاميرات الخارجية USB، وكاميرات الويب، والمزيد.</p>
+<div class="feature-grid">
+<div class="feature-item">
+<h3>🔍 التحقق من دفق الفيديو في الوقت الحقيقي</h3>
+<p>يعرض دفق فيديو الكاميرا في الوقت الفعلي، ويكتشف ما إذا كان النقل مستقرًا وسلسًا وخاليًا من التأتأة أو التأخير أو انخفاض الإطار.</p>
+<div class="tip">
+<span class="tip-text">Tip: لاحظ ما إذا كان دفق الفيديو سلسًا، دون تقطع</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>📊 اختبار الدقة ومعدل الإطارات</h3>
+<p>يكتشف الحد الأقصى للدقة المدعومة، والدقة المثالية، وأوضاع معدل الإطارات المختلفة للكاميرا، مما يعرض الدقة في الوقت الفعلي وبيانات FPS.</p>
+</div>
+<div class="feature-item">
+<h3>⚙️ تحليل قدرة الأجهزة</h3>
+<p>يعرض معلمات الأجهزة الأساسية للكاميرا، بما في ذلك نطاقات الدقة المدعومة، ونطاقات معدل الإطارات، وأوضاع التركيز، وتوازن اللون الأبيض، وما إلى ذلك.</p>
+<div class="tip">
+<span class="tip-text">انتبه إلى إمكانيات الأجهزة لفهم الأداء الحقيقي للكاميرا</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>🎯 تبديل الأجهزة وإدارتها</h3>
+<p>يدعم التبديل بين أجهزة الكاميرا المتعددة، ويكتشف جميع الكاميرات المتاحة ويدرجها تلقائيًا، مما يجعل من السهل اختبار الأجهزة المختلفة.</p>
+<div class="tip">
+<span class="tip-text">التبديل بين الكاميرات للاختبار المقارن</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>🔄 وظيفة قلب المرآة</h3>
+<p>يوفر مفتاح قلب المرآة لمحاكاة وضع السيلفي، واختبار قدرة معالجة مرآة الكاميرا وتأثير العرض.</p>
+<div class="tip">
+<span class="tip-text">وظيفة المرآة مفيدة لعقد مؤتمرات الفيديو والصور الشخصية</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>📈 مراقبة الأداء في الوقت الحقيقي</h3>
+<p>يعرض المعلمات الرئيسية مثل FPS، والدقة، والحالة في الوقت الفعلي، مما يسمح بالتقييم الكمي لأداء الكاميرا.</p>
+<div class="tip">
+<span class="tip-text">تساعد مراقبة البيانات على تقييم حالة الكاميرا بشكل منهجي</span>
+</div>
+</div>
+</div>
+<div class="faq-section">
+<h2>الأسئلة المتداولة (الأسئلة الشائعة)</h2>
+<div class="faq-item">
+<h3>لماذا لا يتم عرض الكاميرا الخاصة بي؟</h3>
+<p>قد يكون هذا بسبب قيود أذونات المتصفح أو مشكلات في أجهزة الكاميرا. يرجى التأكد مما يلي: 1) السماح للمتصفح بالوصول إلى الكاميرا؛ 2) توصيل الكاميرا بشكل صحيح؛ 3) لا يوجد تطبيق آخر يستخدم الكاميرا حاليًا.</p>
+</div>
+<div class="faq-item">
+<h3>كيف يمكنني اختبار معدل إطارات الكاميرا؟</h3>
+<p>انظر إلى قيمة FPS في الوقت الفعلي في الزاوية اليمنى العليا من الصفحة. تدعم الكاميرات الاحترافية عادةً 30 إطارًا في الثانية أو أعلى، ويمكن أن تصل الكاميرات المتطورة إلى 60 إطارًا في الثانية أو أكثر. يعد معدل الإطارات الثابت أمرًا أساسيًا لسلاسة الفيديو.</p>
+</div>
+<div class="faq-item">
+<h3>كيف يمكنني معرفة ما إذا كانت جودة الكاميرا الخاصة بي رديئة؟</h3>
+<p>إذا لاحظت: 1) فيديو ضبابي؛ 2) انخفاض معدل الإطارات مما يسبب التأتأة؛ 3) تشويه اللون. 4) ضعف الأداء في الإضاءة المنخفضة، وهذا قد يشير إلى مشاكل في جودة الكاميرا.</p>
+</div>
+<div class="faq-item">
+<h3>ما هي أنواع الكاميرات المدعومة؟</h3>
+<p>يتم دعم جميع أنواع الكاميرات: كاميرات الكمبيوتر المحمول المدمجة، وكاميرات USB الخارجية، وكاميرات الويب، وكاميرات المؤتمرات، وكاميرات البث المباشر، وما إلى ذلك. متوافق مع أنظمة التشغيل Windows، وmacOS، وLinux.</p>
+</div>
+<div class="faq-item">
+<h3>كيف يمكنني اختبار دقة الكاميرا؟</h3>
+<p>تعرض الأداة الدقة الحالية تلقائيًا. تدعم الكاميرات عالية الجودة عادةً 1080 بكسل (1920 &times; 1080) أو أعلى، في حين أن الكاميرات القياسية قد تدعم فقط 720 بكسل (1280 &times; 720).</p>
+</div>
+<div class="faq-item">
+<h3>هل تم حفظ بيانات الاختبار الخاصة بي؟</h3>
+<p>يتم تخزين جميع بيانات الاختبار في جلسة المتصفح الحالية فقط. سيتم فقده عند تحديث الصفحة أو إغلاق علامة التبويب. نحن لا نجمع أو نحمل أي بيانات خاصة بالكاميرا، مما يضمن خصوصيتك.</p>
+<div class="faq-link-container">
+<span class="faq-tip-text">أمان البيانات: تتم معالجة جميع البيانات محليًا</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Scripts (النسخة الانجليزية) -->
+<script src="/static/js/toolbox/camera/script-ar.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+<footer style="width:100%;max-width:960px;margin:40px auto 0;padding:20px 10px;border-top:1px solid rgba(255,255,255,0.12);text-align:center;font-size:0.85rem;color:var(--text-muted);">
+<div style="margin-bottom:8px;">&copy; 2026 StarryRing</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+<a href="/ar/about-us/" style="color:#60a5fa;text-decoration:none;">نبذة عنا</a>
+<a href="/ar/contact-us/" style="color:#60a5fa;text-decoration:none;">اتصل بنا</a>
+<a href="/ar/disclaimer/" style="color:#60a5fa;text-decoration:none;">إخلاء المسؤولية</a>
+<a href="/ar/privacy/" style="color:#60a5fa;text-decoration:none;">سياسة الخصوصية</a>
+<a href="/ar/terms/" style="color:#60a5fa;text-decoration:none;">شروط الخدمة</a>
+</div>
+</footer>
 </body>
 </html>

@@ -2,13 +2,13 @@
     const config = {
         locale: "en-NG",
         messages: {
-            syncingRate: "Syncing exchange rate...",
-            failedRate: "Failed to fetch exchange rate",
+            syncingRate: "Dey sync exchange rate...",
+            failedRate: "No fit fetch exchange rate",
             loadingHistory: "Dey load historical trend data...",
-            fetchError: "Failed to fetch exchange rate",
-            chartError: "Failed to load chart data",
-            swapLabel: "Swap source and target currencies",
-            trendTitle: (from, to, years) => "{{from}}/{{to}} {{years}}-Year Trend".replace('{from}', from).replace('{to}', to).replace('{years}', years),
+            fetchError: "No fit fetch exchange rate",
+            chartError: "No fit load chart data",
+            swapLabel: "Swap source currency and target currency",
+            trendTitle: (from, to, years) => "{{from}}/{{to}} trend for {{years}} years".replace('{from}', from).replace('{to}', to).replace('{years}', years),
             rateText: (from, rate, to) => "1 {{from}} = {{rate}} {{to}}".replace('{from}', from).replace('{rate}', rate.toFixed(4)).replace('{to}', to)
         }
     };

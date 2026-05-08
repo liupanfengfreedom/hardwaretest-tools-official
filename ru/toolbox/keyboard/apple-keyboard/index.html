@@ -1,468 +1,310 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:image" content="https://starryring.com/preview.png">
-<meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/preview.png">
-
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="https://starryring.com/preview.png" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/preview.png" name="twitter:image"/>
 <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <title>Apple Magic Keyboard Tester - Test Apple Keyboard Chatter/Malfunction Online | StarryRing</title>
-    
-    <!-- Shared Styles (original framework) -->
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    <link rel="stylesheet" href="/static/css/toolbox/keyboard/apple-keyboard/style.css">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Apple Magic Keyboard & Apple Keyboard Tester",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": ["Web", "AppleOS", "iOS"],
-                "description": "Online Apple Magic Keyboard tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis. Compatible with Magic Keyboard and other Apple keyboards.",
-                "url": "https://starryring.com/ru/toolbox/keyboard/Apple-keyboard/",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://starryring.com/static/image/en/Apple-keyboard-test-tool.png",
-                    "width": "1200",
-                    "height": "630",
-                    "caption": "Apple keyboard tester interface"
-                },
-                "screenshot": [
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/Apple-keyboard-layout-test.png",
-                        "width": "1280",
-                        "height": "720",
-                        "caption": "Apple keyboard layout test interface",
-                        "description": "Full Apple keyboard visualization, compatible with Apple Magic Keyboard"
-                    },
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/Apple-keyboard-log-panel.png",
-                        "width": "1280",
-                        "height": "720",
-                        "caption": "Diagnostic log panel",
-                        "description": "Real-time key events and chatter alerts"
-                    }
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com",
-                    "logo": "https://starryring.com/logo.png"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "Full keyboard key testing (including function keys, modifiers)",
-                    "Chatter detection (<80ms red alert)",
-                    "Modifier key combination test",
-                    "Real-time logging (press/release timestamps)",
-                    "KeyCode and which value display",
-                    "Maximum concurrent keys test (NKRO detection)",
-                    "Perfect compatibility with Apple Magic Keyboard and other Apple keyboards"
-                ]
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "How do I test the keys on my Apple Magic Keyboard?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Press any key on your Magic Keyboard while looking at the keyboard layout in the center of the page. The corresponding key will highlight, the status panel will show the key name, KeyCode, and which value, and the log area will record each press and release with timestamps. If a key does not respond, it may indicate a hardware issue or Bluetooth connection problem."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What is chatter detection? How can I tell if a Magic Keyboard key is chattering?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Chatter detection monitors the time interval between two presses of the same key. If the interval is less than 80 milliseconds (typically indicating abnormal rapid double-clicking), the log entry is highlighted in red and labeled as a chatter alert. This helps you identify potential switch bounce issues, common in some keyboard mechanisms."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why does my Apple Magic Keyboard show no response in the log when I press a key?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Make sure the test area is active (just press any key directly). If there's still no response, it could be a browser permission issue or a hardware problem. Try refreshing the page or using another browser (Chrome, Edge recommended). Also check if your OS recognizes the keyboard, especially for Bluetooth connections. Wired Magic Keyboards are also supported."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How can I test modifier keys (Command, Option, etc.)?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Simply press the modifier key (e.g., left Command, right Option). The corresponding key on the on-screen keyboard will light up, and the status panel will show the key name and code. You can press multiple modifiers simultaneously to test combination key recognition."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Which Apple keyboard layouts are supported? Is the Apple Magic Keyboard compatible?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "This tool uses a standard ISO Apple keyboard layout, covering all major keys including function keys (F1-F12), number keys, letters, punctuation, and the bottom row modifiers (Control, Option, Command) and arrow keys. It is fully compatible with Apple Magic Keyboard (including the numeric keypad version), Magic Keyboard, AppleBook built-in keyboards, and other third-party Apple keyboards."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Главная",
-                        "item": "https://starryring.com/ru/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Набор инструментов",
-                        "item": "https://starryring.com/ru/toolbox/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Keyboard Test",
-                        "item": "https://starryring.com/ru/toolbox/keyboard/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 4,
-                        "name": "Apple Keyboard Test",
-                        "item": "https://starryring.com/ru/toolbox/keyboard/Apple-keyboard/"
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-    <meta name="description" content="Online Apple Magic Keyboard Tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis, no download required. Compatible with Magic Keyboard and other Apple keyboards.">
-            <link rel="canonical" href="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/">
-<meta property="og:url" content="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/">
-    <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="Apple Magic Keyboard Tester - Detect Key Chatter/Malfunction Online">
-    <meta property="og:description" content="Online Apple Magic Keyboard Tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis. Compatible with Magic Keyboard and other Apple keyboards.">
-    <meta name="twitter:title" content="Apple Magic Keyboard Tester - Detect Key Chatter/Malfunction Online">
-    <meta name="twitter:description" content="Online Apple Magic Keyboard Tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis. Compatible with Magic Keyboard and other Apple keyboards.">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<title>&Tcy;&iecy;&scy;&tcy;&iecy;&rcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple Magic &mdash; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&kcy;&acy; &vcy;&icy;&bcy;&rcy;&acy;&tscy;&icy;&icy;/&ncy;&iecy;&icy;&scy;&pcy;&rcy;&acy;&vcy;&ncy;&ocy;&scy;&tcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple &ocy;&ncy;&lcy;&acy;&jcy;&ncy; | StarryRing</title>
+<!-- Shared Styles (original framework) -->
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<link href="/static/css/toolbox/keyboard/apple-keyboard/style.css" rel="stylesheet"/>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "Apple Magic Keyboard и тестер клавиатуры Apple", "applicationCategory": "UtilitiesApplication", "operatingSystem": [ "Web", "AppleOS", "iOS" ], "description": "Онлайн-тестер клавиатуры Apple Magic Keyboard: профессиональное тестирование клавиш клавиатуры Apple, обнаружение вибрации, поддержка всех клавиш, включая функциональные клавиши и модификаторы, анализ журналов в реальном времени. Совместима с Magic Keyboard и другими клавиатурами Apple.", "url": "https://starryring.com/ru/toolbox/keyboard/Apple-keyboard/", "image": { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/Apple-keyboard-test-tool.png", "width": "1200", "height": "630", "caption": "Интерфейс тестера клавиатуры Apple" }, "screenshot": [ { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/Apple-keyboard-layout-test.png", "width": "1280", "height": "720", "caption": "Интерфейс тестирования раскладки клавиатуры Apple", "description": "Полная визуализация клавиатуры Apple, совместимая с Apple Magic Keyboard" }, { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/Apple-keyboard-log-panel.png", "width": "1280", "height": "720", "caption": "Панель журнала диагностики", "description": "Основные события и оповещения в режиме реального времени" } ], "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com", "logo": "https://starryring.com/logo.png" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "Full keyboard key testing (including function keys, modifiers)", "Chatter detection (<80ms red alert)", "Modifier key combination test", "Real-time logging (press/release timestamps)", "KeyCode and which value display", "Maximum concurrent keys test (NKRO detection)", "Perfect compatibility with Apple Magic Keyboard and other Apple keyboards" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Как проверить клавиши на клавиатуре Apple Magic Keyboard?", "acceptedAnswer": { "@type": "Answer", "text": "Нажмите любую клавишу на клавиатуре Magic Keyboard, глядя на раскладку клавиатуры в центре страницы. Соответствующая клавиша будет подсвечена, на панели состояния будет показано имя клавиши, код клавиши и ее значение, а в области журнала будет записываться каждое нажатие и отпускание с временными метками. Если клавиша не отвечает, это может указывать на аппаратную проблему или проблему с соединением Bluetooth." } }, { "@type": "Question", "name": "Что такое обнаружение болтовни? Как узнать, дребезжит ли клавиша Magic Keyboard?", "acceptedAnswer": { "@type": "Answer", "text": "Обнаружение болтовни отслеживает временной интервал между двумя нажатиями одной и той же клавиши. Если интервал составляет менее 80 миллисекунд (обычно это указывает на ненормально быстрое двойное нажатие), запись журнала выделяется красным цветом и помечается как звуковое оповещение. Это поможет вам выявить потенциальные проблемы с дребезгом переключателей, часто встречающиеся в некоторых механизмах клавиатуры." } }, { "@type": "Question", "name": "Почему моя Apple Magic Keyboard не показывает в журнале реакции при нажатии клавиши?", "acceptedAnswer": { "@type": "Answer", "text": "Убедитесь, что тестовая область активна (просто нажмите любую клавишу). Если ответа по-прежнему нет, возможно, проблема связана с разрешением браузера или аппаратной проблемой. Попробуйте обновить страницу или использовать другой браузер (рекомендуется Chrome, Edge). Также проверьте, распознает ли ваша ОС клавиатуру, особенно для подключений Bluetooth. Также поддерживаются проводные клавиатуры Magic Keyboard." } }, { "@type": "Question", "name": "Как проверить клавиши-модификаторы (Command, Option и т. д.)?", "acceptedAnswer": { "@type": "Answer", "text": "Просто нажмите клавишу-модификатор (например, левую команду, правую опцию). Соответствующая клавиша на экранной клавиатуре загорится, а на панели состояния отобразятся название и код клавиши. Вы можете одновременно нажать несколько модификаторов, чтобы проверить распознавание комбинаций клавиш." } }, { "@type": "Question", "name": "Какие раскладки клавиатуры Apple поддерживаются? Совместима ли клавиатура Apple Magic Keyboard?", "acceptedAnswer": { "@type": "Answer", "text": "Этот инструмент использует стандартную раскладку клавиатуры Apple по стандарту ISO, охватывающую все основные клавиши, включая функциональные клавиши (F1–F12), цифровые клавиши, буквы, знаки препинания, а также модификаторы нижнего ряда (Control, Option, Command) и клавиши со стрелками. Она полностью совместима с Apple Magic Keyboard (включая версию с цифровой клавиатурой), Magic Keyboard, встроенными клавиатурами AppleBook и другими клавиатурами Apple сторонних производителей." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://starryring.com/ru/" }, { "@type": "ListItem", "position": 2, "name": "Панель инструментов", "item": "https://starryring.com/ru/toolbox/" }, { "@type": "ListItem", "position": 3, "name": "Тест клавиатуры", "item": "https://starryring.com/ru/toolbox/keyboard/" }, { "@type": "ListItem", "position": 4, "name": "Тест клавиатуры Apple", "item": "https://starryring.com/ru/toolbox/keyboard/Apple-keyboard/" } ] } ]
+}</script>
+<meta content="&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&tcy;&iecy;&scy;&tcy;&iecy;&rcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple Magic Keyboard: &pcy;&rcy;&ocy;&fcy;&iecy;&scy;&scy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ocy;&iecy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple, &ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &vcy;&icy;&bcy;&rcy;&acy;&tscy;&icy;&icy;, &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &vcy;&scy;&iecy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;, &vcy;&kcy;&lcy;&yucy;&chcy;&acy;&yacy; &fcy;&ucy;&ncy;&kcy;&tscy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &icy; &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ycy;, &acy;&ncy;&acy;&lcy;&icy;&zcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&ocy;&vcy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;, &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&acy; &ncy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy;. &Scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&acy; &scy; Magic Keyboard &icy; &dcy;&rcy;&ucy;&gcy;&icy;&mcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&acy;&mcy;&icy; Apple." name="description"/>
+<link href="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/" rel="canonical"/><link href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/zh/toolbox/keyboard/apple-keyboard/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/toolbox/keyboard/apple-keyboard/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/toolbox/keyboard/apple-keyboard/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/toolbox/keyboard/apple-keyboard/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/toolbox/keyboard/apple-keyboard/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/toolbox/keyboard/apple-keyboard/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/toolbox/keyboard/apple-keyboard/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/toolbox/keyboard/apple-keyboard/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/toolbox/keyboard/apple-keyboard/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ur/toolbox/keyboard/apple-keyboard/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/toolbox/keyboard/apple-keyboard/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/toolbox/keyboard/apple-keyboard/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/toolbox/keyboard/apple-keyboard/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/toolbox/keyboard/apple-keyboard/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/toolbox/keyboard/apple-keyboard/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/toolbox/keyboard/apple-keyboard/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/toolbox/keyboard/apple-keyboard/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/" property="og:url"/>
+<meta content="ru_RU" property="og:locale"/>
+<meta content="&Tcy;&iecy;&scy;&tcy;&iecy;&rcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple Magic &ndash; &ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &dcy;&rcy;&iecy;&bcy;&iecy;&zcy;&gcy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;/&ncy;&iecy;&icy;&scy;&pcy;&rcy;&acy;&vcy;&ncy;&ocy;&scy;&tcy;&iecy;&jcy; &vcy; &rcy;&iecy;&zhcy;&icy;&mcy;&iecy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;" property="og:title"/>
+<meta content="&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&tcy;&iecy;&scy;&tcy;&iecy;&rcy; Apple Magic Keyboard: &pcy;&rcy;&ocy;&fcy;&iecy;&scy;&scy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ocy;&iecy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple, &ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &vcy;&icy;&bcy;&rcy;&acy;&tscy;&icy;&icy;, &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &vcy;&scy;&iecy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;, &vcy;&kcy;&lcy;&yucy;&chcy;&acy;&yacy; &fcy;&ucy;&ncy;&kcy;&tscy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &icy; &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ycy;, &acy;&ncy;&acy;&lcy;&icy;&zcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&ocy;&vcy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;. &Scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&acy; &scy; Magic Keyboard &icy; &dcy;&rcy;&ucy;&gcy;&icy;&mcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&acy;&mcy;&icy; Apple." property="og:description"/>
+<meta content="&Tcy;&iecy;&scy;&tcy;&iecy;&rcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple Magic &ndash; &ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &dcy;&rcy;&iecy;&bcy;&iecy;&zcy;&gcy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;/&ncy;&iecy;&icy;&scy;&pcy;&rcy;&acy;&vcy;&ncy;&ocy;&scy;&tcy;&iecy;&jcy; &vcy; &rcy;&iecy;&zhcy;&icy;&mcy;&iecy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;" name="twitter:title"/>
+<meta content="&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&tcy;&iecy;&scy;&tcy;&iecy;&rcy; Apple Magic Keyboard: &pcy;&rcy;&ocy;&fcy;&iecy;&scy;&scy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ocy;&iecy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple, &ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &vcy;&icy;&bcy;&rcy;&acy;&tscy;&icy;&icy;, &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &vcy;&scy;&iecy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;, &vcy;&kcy;&lcy;&yucy;&chcy;&acy;&yacy; &fcy;&ucy;&ncy;&kcy;&tscy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &icy; &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ycy;, &acy;&ncy;&acy;&lcy;&icy;&zcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&ocy;&vcy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;. &Scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&acy; &scy; Magic Keyboard &icy; &dcy;&rcy;&ucy;&gcy;&icy;&mcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&acy;&mcy;&icy; Apple." name="twitter:description"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Выбрать язык" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/toolbox/keyboard/apple-keyboard/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/toolbox/keyboard/apple-keyboard/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/toolbox/keyboard/apple-keyboard/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/toolbox/keyboard/apple-keyboard/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/toolbox/keyboard/apple-keyboard/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/toolbox/keyboard/apple-keyboard/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/toolbox/keyboard/apple-keyboard/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/toolbox/keyboard/apple-keyboard/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/toolbox/keyboard/apple-keyboard/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/toolbox/keyboard/apple-keyboard/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/toolbox/keyboard/apple-keyboard/" data-lang="pt">Português</a>
-            <a class="language-option selected" href="/ru/toolbox/keyboard/apple-keyboard/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/toolbox/keyboard/apple-keyboard/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/toolbox/keyboard/apple-keyboard/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/toolbox/keyboard/apple-keyboard/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/toolbox/keyboard/apple-keyboard/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/toolbox/keyboard/apple-keyboard/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/toolbox/keyboard/apple-keyboard/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/toolbox/keyboard/apple-keyboard/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/toolbox/keyboard/apple-keyboard/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &yacy;&zcy;&ycy;&kcy;" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/toolbox/keyboard/apple-keyboard/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/toolbox/keyboard/apple-keyboard/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/toolbox/keyboard/apple-keyboard/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/toolbox/keyboard/apple-keyboard/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/toolbox/keyboard/apple-keyboard/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/toolbox/keyboard/apple-keyboard/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/toolbox/keyboard/apple-keyboard/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/toolbox/keyboard/apple-keyboard/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/toolbox/keyboard/apple-keyboard/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/toolbox/keyboard/apple-keyboard/">Portugu&ecirc;s</a>
+<a class="language-option selected" data-lang="ru" href="/ru/toolbox/keyboard/apple-keyboard/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/toolbox/keyboard/apple-keyboard/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/toolbox/keyboard/apple-keyboard/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/toolbox/keyboard/apple-keyboard/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/toolbox/keyboard/apple-keyboard/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/toolbox/keyboard/apple-keyboard/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/toolbox/keyboard/apple-keyboard/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/toolbox/keyboard/apple-keyboard/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/toolbox/keyboard/apple-keyboard/">தமிழ்</a>
+</div>
+</div>
 <!-- Language Switcher -->
 <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item">
-                    <a href="/ru/" class="breadcrumb-link">
-                        <i class="fas fa-home" aria-hidden="true"></i> 
-                        <span>Главная</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/ru/toolbox/" class="breadcrumb-link">
-                        <i class="fas fa-box" aria-hidden="true"></i> <span>Набор инструментов</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/ru/toolbox/keyboard/" class="breadcrumb-link">
-                        <i class="fas fa-keyboard" aria-hidden="true"></i> <span>Keyboard Test</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <span class="breadcrumb-active">Apple Keyboard Test</span>
-                </li>
-            </ol>
-        </nav>
-    </div>
-
-    <div class="tester-container">
-        <header>
-            <h1>⚡ Apple Keyboard Diagnostic</h1>
-            <div class="status-panel">
-                <div class="stat-item">Last Key: <span id="last-key">-</span></div>
-                <div class="stat-item">KeyCode: <span id="key-code">-</span></div>
-                <div class="concurrent-badge" id="concurrent-info">Now:0 Max:0</div>
-                <button id="reset-btn">⟲ Reset Test</button>
-            </div>
-        </header>
-
-        <div class="info-row">
-            <div class="key-detail">⌨️ Key: <span id="info-key">—</span></div>
-            <div class="key-detail">🆔 Code: <span id="info-code">—</span></div>
-            <div class="key-detail">🔢 Which: <span id="info-which">—</span></div>
-        </div>
-
-        <!-- Keyboard layout (IDs strictly match script) -->
-        <div class="keyboard-iso" id="keyboard">
-            <div class="row function-row">
-                <div class="key esc" id="Escape"><span>esc</span></div>
-                <div class="key" id="F1"><span>F1</span></div>
-                <div class="key" id="F2"><span>F2</span></div>
-                <div class="key" id="F3"><span>F3</span></div>
-                <div class="key" id="F4"><span>F4</span></div>
-                <div class="key" id="F5"><span>F5</span></div>
-                <div class="key" id="F6"><span>F6</span></div>
-                <div class="key" id="F7"><span>F7</span></div>
-                <div class="key" id="F8"><span>F8</span></div>
-                <div class="key" id="F9"><span>F9</span></div>
-                <div class="key" id="F10"><span>F10</span></div>
-                <div class="key" id="F11"><span>F11</span></div>
-                <div class="key" id="F12"><span>F12</span></div>
-                <div class="key power" id="Power"><span>⌽</span></div>
-            </div>
-            <div class="row">
-                <div class="key" id="Backquote"><span>~</span><span>`</span></div>
-                <div class="key" id="Digit1"><span>!</span><span>1</span></div>
-                <div class="key" id="Digit2"><span>@</span><span>2</span></div>
-                <div class="key" id="Digit3"><span>#</span><span>3</span></div>
-                <div class="key" id="Digit4"><span>$</span><span>4</span></div>
-                <div class="key" id="Digit5"><span>%</span><span>5</span></div>
-                <div class="key" id="Digit6"><span>^</span><span>6</span></div>
-                <div class="key" id="Digit7"><span>&</span><span>7</span></div>
-                <div class="key" id="Digit8"><span>*</span><span>8</span></div>
-                <div class="key" id="Digit9"><span>(</span><span>9</span></div>
-                <div class="key" id="Digit0"><span>)</span><span>0</span></div>
-                <div class="key" id="Minus"><span>_</span><span>-</span></div>
-                <div class="key" id="Equal"><span>+</span><span>=</span></div>
-                <div class="key delete" id="Backspace"><span>delete</span></div>
-            </div>
-            <div class="row">
-                <div class="key tab" id="Tab"><span>tab</span></div>
-                <div class="key" id="KeyQ"><span>Q</span></div>
-                <div class="key" id="KeyW"><span>W</span></div>
-                <div class="key" id="KeyE"><span>E</span></div>
-                <div class="key" id="KeyR"><span>R</span></div>
-                <div class="key" id="KeyT"><span>T</span></div>
-                <div class="key" id="KeyY"><span>Y</span></div>
-                <div class="key" id="KeyU"><span>U</span></div>
-                <div class="key" id="KeyI"><span>I</span></div>
-                <div class="key" id="KeyO"><span>O</span></div>
-                <div class="key" id="KeyP"><span>P</span></div>
-                <div class="key" id="BracketLeft"><span>{</span><span>[</span></div>
-                <div class="key" id="BracketRight"><span>}</span><span>]</span></div>
-                <div class="key enter-upper" id="Enter"><span>return</span></div>
-            </div>
-            <div class="row">
-                <div class="key capslock" id="CapsLock"><span>CapsLock</span></div>
-                <div class="key" id="KeyA"><span>A</span></div>
-                <div class="key" id="KeyS"><span>S</span></div>
-                <div class="key" id="KeyD"><span>D</span></div>
-                <div class="key" id="KeyF"><span>F</span></div>
-                <div class="key" id="KeyG"><span>G</span></div>
-                <div class="key" id="KeyH"><span>H</span></div>
-                <div class="key" id="KeyJ"><span>J</span></div>
-                <div class="key" id="KeyK"><span>K</span></div>
-                <div class="key" id="KeyL"><span>L</span></div>
-                <div class="key" id="Semicolon"><span>:</span><span>;</span></div>
-                <div class="key" id="Quote"><span>"</span><span>'</span></div>
-                <div class="key" id="Backslash"><span>|</span><span>\</span></div>
-            </div>
-            <div class="row">
-                <div class="key shift-left" id="ShiftLeft"><span>shift</span></div>
-                <div class="key" id="IntlBackslash"><span>~</span><span>`</span></div>
-                <div class="key" id="KeyZ"><span>Z</span></div>
-                <div class="key" id="KeyX"><span>X</span></div>
-                <div class="key" id="KeyC"><span>C</span></div>
-                <div class="key" id="KeyV"><span>V</span></div>
-                <div class="key" id="KeyB"><span>B</span></div>
-                <div class="key" id="KeyN"><span>N</span></div>
-                <div class="key" id="KeyM"><span>M</span></div>
-                <div class="key" id="Comma"><span><</span><span>,</span></div>
-                <div class="key" id="Period"><span>></span><span>.</span></div>
-                <div class="key" id="Slash"><span>?</span><span>/</span></div>
-                <div class="key shift-right" id="ShiftRight"><span>shift</span></div>
-            </div>
-            <div class="row">
-                <div class="key fn" id="Fn"><span>fn</span></div>
-                <div class="key control" id="ControlLeft"><span>control</span><span>⌃</span></div>
-                <div class="key option" id="OptionLeft"><span>option</span><span>⌥</span></div>
-                <div class="key command" id="MetaLeft"><span>command</span><span>⌘</span></div>
-                <div class="key space" id="Space"><span></span></div>
-                <div class="key command" id="MetaRight"><span>command</span><span>⌘</span></div>
-                <div class="key option" id="OptionRight"><span>option</span><span>⌥</span></div>
-                <div class="arrow-group">
-                    <div class="key arrow" id="ArrowLeft"><span>◀</span></div>
-                    <div class="arrow-vertical">
-                        <div class="key arrow" id="ArrowUp"><span>▲</span></div>
-                        <div class="key arrow" id="ArrowDown"><span>▼</span></div>
-                    </div>
-                    <div class="key arrow" id="ArrowRight"><span>▶</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="log-panel">
-            <div class="log-header">
-                <span>📋 Event Log (Chatter threshold <80ms in red · hold ignored)</span>
-                <button id="clear-log">Clear log</button>
-            </div>
-            <div id="log-entries" class="log-entries">
-                <div class="log-entry"><span class="timestamp">⏱️</span> Log started, press any key... (↓ down/↑ up)</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Features and FAQ Section (enhanced SEO & UX) -->
-    <div class="instructions-section">
-        <div class="instructions-content">
-            <h2>Apple Magic Keyboard & Apple Keyboard Tester Features</h2>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>Full Keyboard Visualization · Magic Keyboard Compatible</h3>
-                    <p>Complete Apple ISO keyboard layout. Whether you're using an Apple Magic Keyboard, Magic Keyboard, or AppleBook built-in keyboard, every key press instantly highlights the corresponding key. Supports function keys, modifiers, and international keys for intuitive feedback.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Precise Chatter Detection</h3>
-                    <p>Automatically timestamps each key press. When two presses occur within 80ms, the log entry is highlighted in red to help you quickly identify potential switch bounce issues in your Magic Keyboard.</p>
-                    <div class="tip">
-                        <span class="tip-text">Tip: Normal key intervals are typically >100ms. Abnormal rapid chattering is often caused by aging switches.</span>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <h3>Modifier & Combo Key Test</h3>
-                    <p>Individually test Control, Option, Command, Fn, and other modifiers. Simultaneously press multiple keys to test NKRO (max concurrent keys displayed). Perfect for evaluating Magic Keyboard's butterfly or scissor mechanisms.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Real-time Log & Key Code Analysis</h3>
-                    <p>Every press and release is logged with precise time, key, code, and which value – ideal for developers or advanced users analyzing input details or Bluetooth latency on Magic Keyboard.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Compatible with All Modern Browsers</h3>
-                    <p>Built with vanilla JavaScript, no plugins required. Runs smoothly on Chrome, Edge, Safari, Firefox. Works with Bluetooth-connected Magic Keyboard as well.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>One-click Reset, Repeat Testing</h3>
-                    <p>Click "Reset Test" to clear all counts and logs, making it easy to run multiple test rounds or compare different keyboards (e.g., Magic Keyboard vs. third-party).</p>
-                </div>
-            </div>
-
-            <div class="faq-section">
-                <h2>Frequently Asked Questions (FAQ)</h2>
-
-                <div class="faq-item">
-                    <h3>How do I test the keys on my Apple Magic Keyboard?</h3>
-                    <p>Press any key on your Magic Keyboard while looking at the keyboard layout in the center of the page. The corresponding key will highlight, the status panel will show the key name, KeyCode, and which value, and the log area will record each press and release with timestamps. If a key does not respond, it may indicate a hardware issue or Bluetooth connection problem.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>What is chatter detection? How can I tell if a Magic Keyboard key is chattering?</h3>
-                    <p>Chatter detection monitors the time interval between two presses of the same key. If the interval is less than 80 milliseconds (typically indicating abnormal rapid double-clicking), the log entry is highlighted in red and labeled as a chatter alert. This helps you identify potential switch bounce issues, common in some keyboard mechanisms.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Why does my Apple Magic Keyboard show no response in the log when I press a key?</h3>
-                    <p>Make sure the test area is active (just press any key directly). If there's still no response, it could be a browser permission issue or a hardware problem. Try refreshing the page or using another browser (Chrome, Edge recommended). Also check if your OS recognizes the keyboard, especially for Bluetooth connections. Wired Magic Keyboards are also supported.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>How can I test modifier keys (Command, Option, etc.)?</h3>
-                    <p>Simply press the modifier key (e.g., left Command, right Option). The corresponding key on the on-screen keyboard will light up, and the status panel will show the key name and code. You can press multiple modifiers simultaneously to test combination key recognition.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Which Apple keyboard layouts are supported? Is the Apple Magic Keyboard compatible?</h3>
-                    <p>This tool uses a standard ISO Apple keyboard layout, covering all major keys including function keys (F1-F12), number keys, letters, punctuation, and the bottom row modifiers (Control, Option, Command) and arrow keys. It is fully compatible with Apple Magic Keyboard (including the numeric keypad version), Magic Keyboard, AppleBook built-in keyboards, and other third-party Apple keyboards.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>What is the significance of maximum concurrent keys (NKRO) for Magic Keyboard?</h3>
-                    <p>Maximum concurrent keys indicate how many keys can be pressed simultaneously and still be correctly recognized. For gamers or users with complex shortcuts, a high NKRO value is important. Magic Keyboard typically supports 6-key rollover. This tool records the current number of keys held down and shows the historical maximum during the test, giving you insight into your keyboard's actual concurrency capability.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Local script (core logic in English) -->
-    <script src="/static/js/toolbox/keyboard/apple-keyboard/script-en.js"></script>
-    <!-- Shared scripts (optional dependencies) -->
-    <script src="/static/js/shared/switchlanguage.js"></script>
-
-    <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;">
-        <div style="margin-bottom:6px;">© 2026 StarryRing · Apple Keyboard Tester</div>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
-            <a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">О нас</a>
-            <a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">Связаться с нами</a>
-            <a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">Отказ от ответственности</a>
-            <a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">Политика конфиденциальности</a>
-            <a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">Условия использования</a>
-        </div>
-    </footer>
+<div class="breadcrumb-section">
+<nav aria-label="&khcy;&lcy;&iecy;&bcy;&ncy;&acy;&yacy; &kcy;&rcy;&ocy;&shcy;&kcy;&acy;">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ru/">
+<i aria-hidden="true" class="fas fa-home"></i>
+<span>&Gcy;&lcy;&acy;&vcy;&ncy;&acy;&yacy;</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ru/toolbox/">
+<i aria-hidden="true" class="fas fa-box"></i><span>&Pcy;&acy;&ncy;&iecy;&lcy;&softcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ocy;&vcy;</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ru/toolbox/keyboard/">
+<i aria-hidden="true" class="fas fa-keyboard"></i><span>&Tcy;&iecy;&scy;&tcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy;</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<span class="breadcrumb-active">&Tcy;&iecy;&scy;&tcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple</span>
+</li>
+</ol>
+</nav>
+</div>
+<div class="tester-container">
+<header>
+<h1>⚡ &Dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple</h1>
+<div class="status-panel">
+<div class="stat-item">&Pcy;&ocy;&scy;&lcy;&iecy;&dcy;&ncy;&icy;&jcy; &kcy;&lcy;&yucy;&chcy;:<span id="last-key">-</span></div>
+<div class="stat-item">&Kcy;&ocy;&dcy; &kcy;&lcy;&yucy;&chcy;&acy;:<span id="key-code">-</span></div>
+<div class="concurrent-badge" id="concurrent-info">&Scy;&iecy;&jcy;&chcy;&acy;&scy;:0 &Mcy;&acy;&kcy;&scy;:0</div>
+<button id="reset-btn">⟲ &Scy;&bcy;&rcy;&ocy;&scy; &tcy;&iecy;&scy;&tcy;&acy;</button>
+</div>
+</header>
+<div class="info-row">
+<div class="key-detail">⌨️ &Kcy;&lcy;&yucy;&chcy;:<span id="info-key">&mdash;</span></div>
+<div class="key-detail">🆔 &Kcy;&ocy;&dcy;:<span id="info-code">&mdash;</span></div>
+<div class="key-detail">🔢 &CHcy;&tcy;&ocy;:<span id="info-which">&mdash;</span></div>
+</div>
+<!-- Keyboard layout (IDs strictly match script) -->
+<div class="keyboard-iso" id="keyboard">
+<div class="row function-row">
+<div class="key esc" id="Escape"><span>esc</span></div>
+<div class="key" id="F1"><span>F1</span></div>
+<div class="key" id="F2"><span>F2</span></div>
+<div class="key" id="F3"><span>F3</span></div>
+<div class="key" id="F4"><span>F4</span></div>
+<div class="key" id="F5"><span>F5</span></div>
+<div class="key" id="F6"><span>F6</span></div>
+<div class="key" id="F7"><span>F7</span></div>
+<div class="key" id="F8"><span>F8</span></div>
+<div class="key" id="F9"><span>F9</span></div>
+<div class="key" id="F10"><span>F10</span></div>
+<div class="key" id="F11"><span>F11</span></div>
+<div class="key" id="F12"><span>F12</span></div>
+<div class="key power" id="Power"><span>&ovbar;</span></div>
+</div>
+<div class="row">
+<div class="key" id="Backquote"><span>~</span><span>`</span></div>
+<div class="key" id="Digit1"><span>!</span><span>1</span></div>
+<div class="key" id="Digit2"><span>@</span><span>2</span></div>
+<div class="key" id="Digit3"><span>#</span><span>3</span></div>
+<div class="key" id="Digit4"><span>$</span><span>4</span></div>
+<div class="key" id="Digit5"><span>%</span><span>5</span></div>
+<div class="key" id="Digit6"><span>^</span><span>6</span></div>
+<div class="key" id="Digit7"><span>&amp;</span><span>7</span></div>
+<div class="key" id="Digit8"><span>*</span><span>8</span></div>
+<div class="key" id="Digit9"><span>(</span><span>9</span></div>
+<div class="key" id="Digit0"><span>)</span><span>0</span></div>
+<div class="key" id="Minus"><span>_</span><span>-</span></div>
+<div class="key" id="Equal"><span>+</span><span>=</span></div>
+<div class="key delete" id="Backspace"><span>&ucy;&dcy;&acy;&lcy;&icy;&tcy;&softcy;</span></div>
+</div>
+<div class="row">
+<div class="key tab" id="Tab"><span>tab</span></div>
+<div class="key" id="KeyQ"><span>Q</span></div>
+<div class="key" id="KeyW"><span>W</span></div>
+<div class="key" id="KeyE"><span>E</span></div>
+<div class="key" id="KeyR"><span>R</span></div>
+<div class="key" id="KeyT"><span>T</span></div>
+<div class="key" id="KeyY"><span>Y</span></div>
+<div class="key" id="KeyU"><span>U</span></div>
+<div class="key" id="KeyI"><span>I</span></div>
+<div class="key" id="KeyO"><span>O</span></div>
+<div class="key" id="KeyP"><span>P</span></div>
+<div class="key" id="BracketLeft"><span>{</span><span>[</span></div>
+<div class="key" id="BracketRight"><span>}</span><span>]</span></div>
+<div class="key enter-upper" id="Enter"><span>&vcy;&ocy;&zcy;&vcy;&rcy;&acy;&tcy;</span></div>
+</div>
+<div class="row">
+<div class="key capslock" id="CapsLock"><span>CapsLock</span></div>
+<div class="key" id="KeyA"><span>A</span></div>
+<div class="key" id="KeyS"><span>S</span></div>
+<div class="key" id="KeyD"><span>D</span></div>
+<div class="key" id="KeyF"><span>F</span></div>
+<div class="key" id="KeyG"><span>G</span></div>
+<div class="key" id="KeyH"><span>H</span></div>
+<div class="key" id="KeyJ"><span>J</span></div>
+<div class="key" id="KeyK"><span>K</span></div>
+<div class="key" id="KeyL"><span>L</span></div>
+<div class="key" id="Semicolon"><span>:</span><span>;</span></div>
+<div class="key" id="Quote"><span>"</span><span>'</span></div>
+<div class="key" id="Backslash"><span>|</span><span>\</span></div>
+</div>
+<div class="row">
+<div class="key shift-left" id="ShiftLeft"><span>shift</span></div>
+<div class="key" id="IntlBackslash"><span>~</span><span>`</span></div>
+<div class="key" id="KeyZ"><span>Z</span></div>
+<div class="key" id="KeyX"><span>X</span></div>
+<div class="key" id="KeyC"><span>C</span></div>
+<div class="key" id="KeyV"><span>V</span></div>
+<div class="key" id="KeyB"><span>B</span></div>
+<div class="key" id="KeyN"><span>N</span></div>
+<div class="key" id="KeyM"><span>M</span></div>
+<div class="key" id="Comma"><span>&lt;</span><span>,</span></div>
+<div class="key" id="Period"><span>&gt;</span><span>.</span></div>
+<div class="key" id="Slash"><span>?</span><span>/</span></div>
+<div class="key shift-right" id="ShiftRight"><span>shift</span></div>
+</div>
+<div class="row">
+<div class="key fn" id="Fn"><span>fn</span></div>
+<div class="key control" id="ControlLeft"><span>&kcy;&ocy;&ncy;&tcy;&rcy;&ocy;&lcy;&softcy;</span><span>⌃</span></div>
+<div class="key option" id="OptionLeft"><span>&ocy;&pcy;&tscy;&icy;&yacy;</span><span>⌥</span></div>
+<div class="key command" id="MetaLeft"><span>&kcy;&ocy;&mcy;&acy;&ncy;&dcy;&acy;</span><span>⌘</span></div>
+<div class="key space" id="Space"><span></span></div>
+<div class="key command" id="MetaRight"><span>&kcy;&ocy;&mcy;&acy;&ncy;&dcy;&acy;</span><span>⌘</span></div>
+<div class="key option" id="OptionRight"><span>&ocy;&pcy;&tscy;&icy;&yacy;</span><span>⌥</span></div>
+<div class="arrow-group">
+<div class="key arrow" id="ArrowLeft"><span>◀</span></div>
+<div class="arrow-vertical">
+<div class="key arrow" id="ArrowUp"><span>▲</span></div>
+<div class="key arrow" id="ArrowDown"><span>▼</span></div>
+</div>
+<div class="key arrow" id="ArrowRight"><span>▶</span></div>
+</div>
+</div>
+</div>
+<div class="log-panel">
+<div class="log-header">
+<span>📋 &ZHcy;&ucy;&rcy;&ncy;&acy;&lcy; &scy;&ocy;&bcy;&ycy;&tcy;&icy;&jcy; (&pcy;&ocy;&rcy;&ocy;&gcy; &bcy;&ocy;&lcy;&tcy;&ocy;&vcy;&ncy;&icy; &lt;80&nbsp;&mcy;&scy;, &vcy;&ycy;&dcy;&iecy;&lcy;&iecy;&ncy; &kcy;&rcy;&acy;&scy;&ncy;&ycy;&mcy; &tscy;&vcy;&iecy;&tcy;&ocy;&mcy; &middot; &icy;&gcy;&ncy;&ocy;&rcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy;)</span>
+<button id="clear-log">&Ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&softcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;</button>
+</div>
+<div class="log-entries" id="log-entries">
+<div class="log-entry"><span class="timestamp">⏱️</span>&Zcy;&acy;&pcy;&ucy;&scy;&kcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&acy;, &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &lcy;&yucy;&bcy;&ucy;&yucy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&ucy;... (&darr; &vcy;&ncy;&icy;&zcy;/&uarr; &vcy;&vcy;&iecy;&rcy;&khcy;)</div>
+</div>
+</div>
+</div>
+<!-- Features and FAQ Section (enhanced SEO & UX) -->
+<div class="instructions-section">
+<div class="instructions-content">
+<h2>&Fcy;&ucy;&ncy;&kcy;&tscy;&icy;&icy; Apple Magic Keyboard &icy; &tcy;&iecy;&scy;&tcy;&iecy;&rcy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple</h2>
+<div class="feature-grid">
+<div class="feature-item">
+<h3>&Pcy;&ocy;&lcy;&ncy;&acy;&yacy; &vcy;&icy;&zcy;&ucy;&acy;&lcy;&icy;&zcy;&acy;&tscy;&icy;&yacy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; &middot; &Scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&ocy;&scy;&tcy;&softcy; &scy; Magic Keyboard</h3>
+<p>&Pcy;&ocy;&lcy;&ncy;&acy;&yacy; &rcy;&acy;&scy;&kcy;&lcy;&acy;&dcy;&kcy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple ISO. &Ncy;&iecy;&zcy;&acy;&vcy;&icy;&scy;&icy;&mcy;&ocy; &ocy;&tcy; &tcy;&ocy;&gcy;&ocy;, &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&iecy; &lcy;&icy; &vcy;&ycy; Apple Magic Keyboard, Magic Keyboard &icy;&lcy;&icy; &vcy;&scy;&tcy;&rcy;&ocy;&iecy;&ncy;&ncy;&ucy;&yucy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ucy; AppleBook, &kcy;&acy;&zhcy;&dcy;&ocy;&iecy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &mcy;&gcy;&ncy;&ocy;&vcy;&iecy;&ncy;&ncy;&ocy; &vcy;&ycy;&dcy;&iecy;&lcy;&yacy;&iecy;&tcy; &scy;&ocy;&ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&ucy;&yucy;&shchcy;&ucy;&yucy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&ucy;. &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &fcy;&ucy;&ncy;&kcy;&tscy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;, &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ycy; &icy; &mcy;&iecy;&zhcy;&dcy;&ucy;&ncy;&acy;&rcy;&ocy;&dcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &dcy;&lcy;&yacy; &icy;&ncy;&tcy;&ucy;&icy;&tcy;&icy;&vcy;&ncy;&ocy; &pcy;&ocy;&ncy;&yacy;&tcy;&ncy;&ocy;&jcy; &ocy;&bcy;&rcy;&acy;&tcy;&ncy;&ocy;&jcy; &scy;&vcy;&yacy;&zcy;&icy;.</p>
+</div>
+<div class="feature-item">
+<h3>&Tcy;&ocy;&chcy;&ncy;&ocy;&iecy; &ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &bcy;&ocy;&lcy;&tcy;&ocy;&vcy;&ncy;&icy;</h3>
+<p>&Acy;&vcy;&tcy;&ocy;&mcy;&acy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &ocy;&tcy;&mcy;&iecy;&chcy;&acy;&iecy;&tcy; &vcy;&rcy;&iecy;&mcy;&yacy; &kcy;&acy;&zhcy;&dcy;&ocy;&gcy;&ocy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&yacy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;. &Kcy;&ocy;&gcy;&dcy;&acy; &dcy;&vcy;&acy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&yacy; &pcy;&rcy;&ocy;&icy;&scy;&khcy;&ocy;&dcy;&yacy;&tcy; &vcy; &tcy;&iecy;&chcy;&iecy;&ncy;&icy;&iecy; 80 &mcy;&scy;, &zcy;&acy;&pcy;&icy;&scy;&softcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&acy; &vcy;&ycy;&dcy;&iecy;&lcy;&yacy;&iecy;&tcy;&scy;&yacy; &kcy;&rcy;&acy;&scy;&ncy;&ycy;&mcy;, &chcy;&tcy;&ocy;&bcy;&ycy; &pcy;&ocy;&mcy;&ocy;&chcy;&softcy; &vcy;&acy;&mcy; &bcy;&ycy;&scy;&tcy;&rcy;&ocy; &vcy;&ycy;&yacy;&vcy;&icy;&tcy;&softcy; &pcy;&ocy;&tcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ycy; &scy; &dcy;&rcy;&iecy;&bcy;&iecy;&zcy;&gcy;&ocy;&mcy; &pcy;&iecy;&rcy;&iecy;&kcy;&lcy;&yucy;&chcy;&acy;&tcy;&iecy;&lcy;&yacy; &ncy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&iecy; Magic Keyboard.</p>
+<div class="tip">
+<span class="tip-text">&Scy;&ocy;&vcy;&iecy;&tcy;. &Ocy;&bcy;&ycy;&chcy;&ncy;&ycy;&iecy; &icy;&ncy;&tcy;&iecy;&rcy;&vcy;&acy;&lcy;&ycy; &mcy;&iecy;&zhcy;&dcy;&ucy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&acy;&mcy;&icy; &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &scy;&ocy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&yucy;&tcy; &gt;100 &mcy;&scy;. &Acy;&ncy;&ocy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy; &bcy;&ycy;&scy;&tcy;&rcy;&ocy;&iecy; &vcy;&icy;&bcy;&rcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &chcy;&acy;&scy;&tcy;&ocy; &vcy;&ycy;&zcy;&vcy;&acy;&ncy;&ocy; &scy;&tcy;&acy;&rcy;&iecy;&ncy;&icy;&iecy;&mcy; &pcy;&iecy;&rcy;&iecy;&kcy;&lcy;&yucy;&chcy;&acy;&tcy;&iecy;&lcy;&iecy;&jcy;.</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>&Tcy;&iecy;&scy;&tcy; &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&acy; &icy; &kcy;&ocy;&mcy;&bcy;&icy;&ncy;&acy;&tscy;&icy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;</h3>
+<p>&Icy;&ncy;&dcy;&icy;&vcy;&icy;&dcy;&ucy;&acy;&lcy;&softcy;&ncy;&ocy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&softcy;&tcy;&iecy; Control, Option, Command, Fn &icy; &dcy;&rcy;&ucy;&gcy;&icy;&iecy; &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ycy;. &Ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;, &chcy;&tcy;&ocy;&bcy;&ycy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&icy;&tcy;&softcy; NKRO (&ocy;&tcy;&ocy;&bcy;&rcy;&acy;&zhcy;&acy;&iecy;&tcy;&scy;&yacy; &mcy;&acy;&kcy;&scy;&icy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy;&iecy; &kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ycy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;). &Icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &ocy;&tscy;&iecy;&ncy;&kcy;&icy; &mcy;&iecy;&khcy;&acy;&ncy;&icy;&zcy;&mcy;&ocy;&vcy; &laquo;&bcy;&acy;&bcy;&ocy;&chcy;&kcy;&acy;&raquo; &icy;&lcy;&icy; &laquo;&ncy;&ocy;&zhcy;&ncy;&icy;&tscy;&ycy;&raquo; Magic Keyboard.</p>
+</div>
+<div class="feature-item">
+<h3>&Acy;&ncy;&acy;&lcy;&icy;&zcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&acy; &icy; &kcy;&ocy;&dcy;&acy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;</h3>
+<p>&Kcy;&acy;&zhcy;&dcy;&ocy;&iecy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&iecy; &icy; &ocy;&tcy;&pcy;&ucy;&scy;&kcy;&acy;&ncy;&icy;&iecy; &rcy;&iecy;&gcy;&icy;&scy;&tcy;&rcy;&icy;&rcy;&ucy;&iecy;&tcy;&scy;&yacy; &scy; &ucy;&kcy;&acy;&zcy;&acy;&ncy;&icy;&iecy;&mcy; &tcy;&ocy;&chcy;&ncy;&ocy;&gcy;&ocy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;, &kcy;&lcy;&yucy;&chcy;&acy;, &kcy;&ocy;&dcy;&acy; &icy; &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&yacy; &mdash; &icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &rcy;&acy;&zcy;&rcy;&acy;&bcy;&ocy;&tcy;&chcy;&icy;&kcy;&ocy;&vcy; &icy;&lcy;&icy; &ocy;&pcy;&ycy;&tcy;&ncy;&ycy;&khcy; &pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&iecy;&jcy;, &acy;&ncy;&acy;&lcy;&icy;&zcy;&icy;&rcy;&ucy;&yucy;&shchcy;&icy;&khcy; &dcy;&iecy;&tcy;&acy;&lcy;&icy; &vcy;&vcy;&ocy;&dcy;&acy; &icy;&lcy;&icy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&ucy; Bluetooth &ncy;&acy; Magic Keyboard.</p>
+</div>
+<div class="feature-item">
+<h3>&Scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&ocy;&scy;&tcy;&softcy; &scy;&ocy; &vcy;&scy;&iecy;&mcy;&icy; &scy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ycy;&mcy;&icy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;&mcy;&icy;</h3>
+<p>&Pcy;&ocy;&scy;&tcy;&rcy;&ocy;&iecy;&ncy; &ncy;&acy; &scy;&tcy;&acy;&ncy;&dcy;&acy;&rcy;&tcy;&ncy;&ocy;&mcy; JavaScript, &pcy;&lcy;&acy;&gcy;&icy;&ncy;&ycy; &ncy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&yucy;&tcy;&scy;&yacy;. &Bcy;&iecy;&zcy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy; &rcy;&acy;&bcy;&ocy;&tcy;&acy;&iecy;&tcy; &vcy; Chrome, Edge, Safari, Firefox. &Tcy;&acy;&kcy;&zhcy;&iecy; &rcy;&acy;&bcy;&ocy;&tcy;&acy;&iecy;&tcy; &scy; Magic Keyboard, &pcy;&ocy;&dcy;&kcy;&lcy;&yucy;&chcy;&iecy;&ncy;&ncy;&ocy;&jcy; &pcy;&ocy; Bluetooth.</p>
+</div>
+<div class="feature-item">
+<h3>&Scy;&bcy;&rcy;&ocy;&scy; &vcy; &ocy;&dcy;&icy;&ncy; &kcy;&lcy;&icy;&kcy;, &pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&ncy;&ocy;&iecy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;</h3>
+<p>&Ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &laquo;&Scy;&bcy;&rcy;&ocy;&scy;&icy;&tcy;&softcy; &tcy;&iecy;&scy;&tcy;&raquo;, &chcy;&tcy;&ocy;&bcy;&ycy; &ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&softcy; &vcy;&scy;&iecy; &scy;&chcy;&iecy;&tcy;&chcy;&icy;&kcy;&icy; &icy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&ycy;, &chcy;&tcy;&ocy; &ucy;&pcy;&rcy;&ocy;&shchcy;&acy;&iecy;&tcy; &zcy;&acy;&pcy;&ucy;&scy;&kcy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&icy;&khcy; &rcy;&acy;&ucy;&ncy;&dcy;&ocy;&vcy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy;&lcy;&icy; &scy;&rcy;&acy;&vcy;&ncy;&iecy;&ncy;&icy;&iecy; &rcy;&acy;&zcy;&lcy;&icy;&chcy;&ncy;&ycy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy; (&ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, Magic Keyboard &icy; &scy;&tcy;&ocy;&rcy;&ocy;&ncy;&ncy;&icy;&khcy; &pcy;&rcy;&ocy;&icy;&zcy;&vcy;&ocy;&dcy;&icy;&tcy;&iecy;&lcy;&iecy;&jcy;).</p>
+</div>
+</div>
+<div class="faq-section">
+<h2>&CHcy;&acy;&scy;&tcy;&ocy; &zcy;&acy;&dcy;&acy;&vcy;&acy;&iecy;&mcy;&ycy;&iecy; &vcy;&ocy;&pcy;&rcy;&ocy;&scy;&ycy; (FAQ)</h2>
+<div class="faq-item">
+<h3>&Kcy;&acy;&kcy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&icy;&tcy;&softcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &ncy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&iecy; Apple Magic Keyboard?</h3>
+<p>&Ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &lcy;&yucy;&bcy;&ucy;&yucy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&ucy; &ncy;&acy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&iecy; Magic Keyboard, &gcy;&lcy;&yacy;&dcy;&yacy; &ncy;&acy; &rcy;&acy;&scy;&kcy;&lcy;&acy;&dcy;&kcy;&ucy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; &vcy; &tscy;&iecy;&ncy;&tcy;&rcy;&iecy; &scy;&tcy;&rcy;&acy;&ncy;&icy;&tscy;&ycy;. &Scy;&ocy;&ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&ucy;&yucy;&shchcy;&acy;&yacy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&acy; &bcy;&ucy;&dcy;&iecy;&tcy; &pcy;&ocy;&dcy;&scy;&vcy;&iecy;&chcy;&iecy;&ncy;&acy;, &ncy;&acy; &pcy;&acy;&ncy;&iecy;&lcy;&icy; &scy;&ocy;&scy;&tcy;&ocy;&yacy;&ncy;&icy;&yacy; &bcy;&ucy;&dcy;&iecy;&tcy; &pcy;&ocy;&kcy;&acy;&zcy;&acy;&ncy;&ocy; &icy;&mcy;&yacy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;, &kcy;&ocy;&dcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &icy; &iecy;&iecy; &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&iecy;, &acy; &vcy; &ocy;&bcy;&lcy;&acy;&scy;&tcy;&icy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&acy; &bcy;&ucy;&dcy;&iecy;&tcy; &zcy;&acy;&pcy;&icy;&scy;&ycy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &kcy;&acy;&zhcy;&dcy;&ocy;&iecy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&iecy; &icy; &ocy;&tcy;&pcy;&ucy;&scy;&kcy;&acy;&ncy;&icy;&iecy; &scy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ycy;&mcy;&icy; &mcy;&iecy;&tcy;&kcy;&acy;&mcy;&icy;. &IEcy;&scy;&lcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&acy; &ncy;&iecy; &ocy;&tcy;&vcy;&iecy;&chcy;&acy;&iecy;&tcy;, &ecy;&tcy;&ocy; &mcy;&ocy;&zhcy;&iecy;&tcy; &ucy;&kcy;&acy;&zcy;&ycy;&vcy;&acy;&tcy;&softcy; &ncy;&acy; &acy;&pcy;&pcy;&acy;&rcy;&acy;&tcy;&ncy;&ucy;&yucy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ucy; &icy;&lcy;&icy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ucy; &scy; &scy;&ocy;&iecy;&dcy;&icy;&ncy;&iecy;&ncy;&icy;&iecy;&mcy; Bluetooth.</p>
+</div>
+<div class="faq-item">
+<h3>&CHcy;&tcy;&ocy; &tcy;&acy;&kcy;&ocy;&iecy; &ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &bcy;&ocy;&lcy;&tcy;&ocy;&vcy;&ncy;&icy;? &Kcy;&acy;&kcy; &ucy;&zcy;&ncy;&acy;&tcy;&softcy;, &dcy;&rcy;&iecy;&bcy;&iecy;&zcy;&zhcy;&icy;&tcy; &lcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&acy; Magic Keyboard?</h3>
+<p>&Ocy;&bcy;&ncy;&acy;&rcy;&ucy;&zhcy;&iecy;&ncy;&icy;&iecy; &bcy;&ocy;&lcy;&tcy;&ocy;&vcy;&ncy;&icy; &ocy;&tcy;&scy;&lcy;&iecy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy;&jcy; &icy;&ncy;&tcy;&iecy;&rcy;&vcy;&acy;&lcy; &mcy;&iecy;&zhcy;&dcy;&ucy; &dcy;&vcy;&ucy;&mcy;&yacy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&yacy;&mcy;&icy; &ocy;&dcy;&ncy;&ocy;&jcy; &icy; &tcy;&ocy;&jcy; &zhcy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;. &IEcy;&scy;&lcy;&icy; &icy;&ncy;&tcy;&iecy;&rcy;&vcy;&acy;&lcy; &scy;&ocy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&iecy;&tcy; &mcy;&iecy;&ncy;&iecy;&iecy; 80 &mcy;&icy;&lcy;&lcy;&icy;&scy;&iecy;&kcy;&ucy;&ncy;&dcy; (&ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &ecy;&tcy;&ocy; &ucy;&kcy;&acy;&zcy;&ycy;&vcy;&acy;&iecy;&tcy; &ncy;&acy; &ncy;&iecy;&ncy;&ocy;&rcy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy; &bcy;&ycy;&scy;&tcy;&rcy;&ocy;&iecy; &dcy;&vcy;&ocy;&jcy;&ncy;&ocy;&iecy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&iecy;), &zcy;&acy;&pcy;&icy;&scy;&softcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&acy; &vcy;&ycy;&dcy;&iecy;&lcy;&yacy;&iecy;&tcy;&scy;&yacy; &kcy;&rcy;&acy;&scy;&ncy;&ycy;&mcy; &tscy;&vcy;&iecy;&tcy;&ocy;&mcy; &icy; &pcy;&ocy;&mcy;&iecy;&chcy;&acy;&iecy;&tcy;&scy;&yacy; &kcy;&acy;&kcy; &zcy;&vcy;&ucy;&kcy;&ocy;&vcy;&ocy;&iecy; &ocy;&pcy;&ocy;&vcy;&iecy;&shchcy;&iecy;&ncy;&icy;&iecy;. &Ecy;&tcy;&ocy; &pcy;&ocy;&mcy;&ocy;&zhcy;&iecy;&tcy; &vcy;&acy;&mcy; &vcy;&ycy;&yacy;&vcy;&icy;&tcy;&softcy; &pcy;&ocy;&tcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ycy; &scy; &dcy;&rcy;&iecy;&bcy;&iecy;&zcy;&gcy;&ocy;&mcy; &pcy;&iecy;&rcy;&iecy;&kcy;&lcy;&yucy;&chcy;&acy;&tcy;&iecy;&lcy;&iecy;&jcy;, &chcy;&acy;&scy;&tcy;&ocy; &vcy;&scy;&tcy;&rcy;&iecy;&chcy;&acy;&yucy;&shchcy;&icy;&iecy;&scy;&yacy; &vcy; &ncy;&iecy;&kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&khcy; &mcy;&iecy;&khcy;&acy;&ncy;&icy;&zcy;&mcy;&acy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Pcy;&ocy;&chcy;&iecy;&mcy;&ucy; &mcy;&ocy;&yacy; Apple Magic Keyboard &ncy;&iecy; &pcy;&ocy;&kcy;&acy;&zcy;&ycy;&vcy;&acy;&iecy;&tcy; &vcy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&iecy; &rcy;&iecy;&acy;&kcy;&tscy;&icy;&icy; &pcy;&rcy;&icy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;?</h3>
+<p>&Ucy;&bcy;&iecy;&dcy;&icy;&tcy;&iecy;&scy;&softcy;, &chcy;&tcy;&ocy; &tcy;&iecy;&scy;&tcy;&ocy;&vcy;&acy;&yacy; &ocy;&bcy;&lcy;&acy;&scy;&tcy;&softcy; &acy;&kcy;&tcy;&icy;&vcy;&ncy;&acy; (&pcy;&rcy;&ocy;&scy;&tcy;&ocy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &lcy;&yucy;&bcy;&ucy;&yucy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&ucy;). &IEcy;&scy;&lcy;&icy; &ocy;&tcy;&vcy;&iecy;&tcy;&acy; &pcy;&ocy;-&pcy;&rcy;&iecy;&zhcy;&ncy;&iecy;&mcy;&ucy; &ncy;&iecy;&tcy;, &vcy;&ocy;&zcy;&mcy;&ocy;&zhcy;&ncy;&ocy;, &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&acy; &scy;&vcy;&yacy;&zcy;&acy;&ncy;&acy; &scy; &rcy;&acy;&zcy;&rcy;&iecy;&shcy;&iecy;&ncy;&icy;&iecy;&mcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy; &icy;&lcy;&icy; &acy;&pcy;&pcy;&acy;&rcy;&acy;&tcy;&ncy;&ocy;&jcy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ocy;&jcy;. &Pcy;&ocy;&pcy;&rcy;&ocy;&bcy;&ucy;&jcy;&tcy;&iecy; &ocy;&bcy;&ncy;&ocy;&vcy;&icy;&tcy;&softcy; &scy;&tcy;&rcy;&acy;&ncy;&icy;&tscy;&ucy; &icy;&lcy;&icy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy; &dcy;&rcy;&ucy;&gcy;&ocy;&jcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy; (&rcy;&iecy;&kcy;&ocy;&mcy;&iecy;&ncy;&dcy;&ucy;&iecy;&tcy;&scy;&yacy; Chrome, Edge). &Tcy;&acy;&kcy;&zhcy;&iecy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&softcy;&tcy;&iecy;, &rcy;&acy;&scy;&pcy;&ocy;&zcy;&ncy;&acy;&iecy;&tcy; &lcy;&icy; &vcy;&acy;&shcy;&acy; &Ocy;&Scy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ucy;, &ocy;&scy;&ocy;&bcy;&iecy;&ncy;&ncy;&ocy; &dcy;&lcy;&yacy; &pcy;&ocy;&dcy;&kcy;&lcy;&yucy;&chcy;&iecy;&ncy;&icy;&jcy; Bluetooth. &Tcy;&acy;&kcy;&zhcy;&iecy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&yucy;&tcy;&scy;&yacy; &pcy;&rcy;&ocy;&vcy;&ocy;&dcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Magic Keyboard.</p>
+</div>
+<div class="faq-item">
+<h3>&Kcy;&acy;&kcy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&icy;&tcy;&softcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;-&mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ycy; (Command, Option &icy; &tcy;. &dcy;.)?</h3>
+<p>&Pcy;&rcy;&ocy;&scy;&tcy;&ocy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&ucy;-&mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy; (&ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, &lcy;&iecy;&vcy;&ucy;&yucy; &kcy;&ocy;&mcy;&acy;&ncy;&dcy;&ucy;, &pcy;&rcy;&acy;&vcy;&ucy;&yucy; &ocy;&pcy;&tscy;&icy;&yucy;). &Scy;&ocy;&ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&ucy;&yucy;&shchcy;&acy;&yacy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&acy; &ncy;&acy; &ecy;&kcy;&rcy;&acy;&ncy;&ncy;&ocy;&jcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&iecy; &zcy;&acy;&gcy;&ocy;&rcy;&icy;&tcy;&scy;&yacy;, &acy; &ncy;&acy; &pcy;&acy;&ncy;&iecy;&lcy;&icy; &scy;&ocy;&scy;&tcy;&ocy;&yacy;&ncy;&icy;&yacy; &ocy;&tcy;&ocy;&bcy;&rcy;&acy;&zcy;&yacy;&tcy;&scy;&yacy; &ncy;&acy;&zcy;&vcy;&acy;&ncy;&icy;&iecy; &icy; &kcy;&ocy;&dcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;. &Vcy;&ycy; &mcy;&ocy;&zhcy;&iecy;&tcy;&iecy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy; &ncy;&acy;&zhcy;&acy;&tcy;&softcy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ocy;&vcy;, &chcy;&tcy;&ocy;&bcy;&ycy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&icy;&tcy;&softcy; &rcy;&acy;&scy;&pcy;&ocy;&zcy;&ncy;&acy;&vcy;&acy;&ncy;&icy;&iecy; &kcy;&ocy;&mcy;&bcy;&icy;&ncy;&acy;&tscy;&icy;&jcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Kcy;&acy;&kcy;&icy;&iecy; &rcy;&acy;&scy;&kcy;&lcy;&acy;&dcy;&kcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&yucy;&tcy;&scy;&yacy;? &Scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&acy; &lcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&acy; Apple Magic Keyboard?</h3>
+<p>&Ecy;&tcy;&ocy;&tcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy; &scy;&tcy;&acy;&ncy;&dcy;&acy;&rcy;&tcy;&ncy;&ucy;&yucy; &rcy;&acy;&scy;&kcy;&lcy;&acy;&dcy;&kcy;&ucy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple &pcy;&ocy; &scy;&tcy;&acy;&ncy;&dcy;&acy;&rcy;&tcy;&ucy; ISO, &ocy;&khcy;&vcy;&acy;&tcy;&ycy;&vcy;&acy;&yucy;&shchcy;&ucy;&yucy; &vcy;&scy;&iecy; &ocy;&scy;&ncy;&ocy;&vcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;, &vcy;&kcy;&lcy;&yucy;&chcy;&acy;&yacy; &fcy;&ucy;&ncy;&kcy;&tscy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; (F1&ndash;F12), &tscy;&icy;&fcy;&rcy;&ocy;&vcy;&ycy;&iecy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy;, &bcy;&ucy;&kcy;&vcy;&ycy;, &zcy;&ncy;&acy;&kcy;&icy; &pcy;&rcy;&iecy;&pcy;&icy;&ncy;&acy;&ncy;&icy;&yacy;, &acy; &tcy;&acy;&kcy;&zhcy;&iecy; &mcy;&ocy;&dcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy;&ycy; &ncy;&icy;&zhcy;&ncy;&iecy;&gcy;&ocy; &rcy;&yacy;&dcy;&acy; (Control, Option, Command) &icy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;&icy; &scy;&ocy; &scy;&tcy;&rcy;&iecy;&lcy;&kcy;&acy;&mcy;&icy;. &Ocy;&ncy;&acy; &pcy;&ocy;&lcy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy; &scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&acy; &scy; Apple Magic Keyboard (&vcy;&kcy;&lcy;&yucy;&chcy;&acy;&yacy; &vcy;&iecy;&rcy;&scy;&icy;&yucy; &scy; &tscy;&icy;&fcy;&rcy;&ocy;&vcy;&ocy;&jcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ocy;&jcy;), Magic Keyboard, &vcy;&scy;&tcy;&rcy;&ocy;&iecy;&ncy;&ncy;&ycy;&mcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&acy;&mcy;&icy; AppleBook &icy; &dcy;&rcy;&ucy;&gcy;&icy;&mcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&acy;&mcy;&icy; Apple &scy;&tcy;&ocy;&rcy;&ocy;&ncy;&ncy;&icy;&khcy; &pcy;&rcy;&ocy;&icy;&zcy;&vcy;&ocy;&dcy;&icy;&tcy;&iecy;&lcy;&iecy;&jcy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Kcy;&acy;&kcy;&ocy;&vcy;&ocy; &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&iecy; &mcy;&acy;&kcy;&scy;&icy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy;&gcy;&ocy; &kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&acy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ycy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; (NKRO) &dcy;&lcy;&yacy; Magic Keyboard?</h3>
+<p>&Mcy;&acy;&kcy;&scy;&icy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy;&iecy; &kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ycy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; &ucy;&kcy;&acy;&zcy;&ycy;&vcy;&acy;&iecy;&tcy;, &scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; &mcy;&ocy;&zhcy;&ncy;&ocy; &ncy;&acy;&zhcy;&acy;&tcy;&softcy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy; &icy; &pcy;&rcy;&icy; &ecy;&tcy;&ocy;&mcy; &pcy;&rcy;&acy;&vcy;&icy;&lcy;&softcy;&ncy;&ocy; &rcy;&acy;&scy;&pcy;&ocy;&zcy;&ncy;&acy;&tcy;&softcy;. &Dcy;&lcy;&yacy; &gcy;&iecy;&jcy;&mcy;&iecy;&rcy;&ocy;&vcy; &icy;&lcy;&icy; &pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&iecy;&jcy; &scy;&ocy; &scy;&lcy;&ocy;&zhcy;&ncy;&ycy;&mcy;&icy; &yacy;&rcy;&lcy;&ycy;&kcy;&acy;&mcy;&icy; &vcy;&acy;&zhcy;&ncy;&ocy; &vcy;&ycy;&scy;&ocy;&kcy;&ocy;&iecy; &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&iecy; NKRO. Magic Keyboard &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy;&iecy; &ncy;&acy;&zhcy;&acy;&tcy;&icy;&iecy; &shcy;&iecy;&scy;&tcy;&icy; &kcy;&lcy;&acy;&vcy;&icy;&shcy;. &Ecy;&tcy;&ocy;&tcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &zcy;&acy;&pcy;&icy;&scy;&ycy;&vcy;&acy;&iecy;&tcy; &tcy;&iecy;&kcy;&ucy;&shchcy;&iecy;&iecy; &kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &ncy;&acy;&zhcy;&acy;&tcy;&ycy;&khcy; &kcy;&lcy;&acy;&vcy;&icy;&shcy; &icy; &pcy;&ocy;&kcy;&acy;&zcy;&ycy;&vcy;&acy;&iecy;&tcy; &icy;&scy;&tcy;&ocy;&rcy;&icy;&chcy;&iecy;&scy;&kcy;&icy;&jcy; &mcy;&acy;&kcy;&scy;&icy;&mcy;&ucy;&mcy; &vcy;&ocy; &vcy;&rcy;&iecy;&mcy;&yacy; &tcy;&iecy;&scy;&tcy;&acy;, &dcy;&acy;&vcy;&acy;&yacy; &vcy;&acy;&mcy; &pcy;&rcy;&iecy;&dcy;&scy;&tcy;&acy;&vcy;&lcy;&iecy;&ncy;&icy;&iecy; &ocy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ycy;&khcy; &vcy;&ocy;&zcy;&mcy;&ocy;&zhcy;&ncy;&ocy;&scy;&tcy;&yacy;&khcy; &vcy;&acy;&shcy;&iecy;&jcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; &pcy;&ocy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy;&mcy;&ucy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yucy;.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Local script (core logic in English) -->
+<script src="/static/js/toolbox/keyboard/apple-keyboard/script-ru.js"></script>
+<!-- Shared scripts (optional dependencies) -->
+<script src="/static/js/shared/switchlanguage.js"></script>
+<footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;">
+<div style="margin-bottom:6px;">&copy; 2026 StarryRing &middot; &Tcy;&iecy;&scy;&tcy;&iecy;&rcy; &kcy;&lcy;&acy;&vcy;&icy;&acy;&tcy;&ucy;&rcy;&ycy; Apple</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+<a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">&Ocy; &ncy;&acy;&scy;</a>
+<a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">&Scy;&vcy;&yacy;&zhcy;&icy;&tcy;&iecy;&scy;&softcy; &scy; &ncy;&acy;&mcy;&icy;</a>
+<a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">&Ocy;&tcy;&kcy;&acy;&zcy; &ocy;&tcy; &ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">&Pcy;&ocy;&lcy;&icy;&tcy;&icy;&kcy;&acy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">&Ucy;&scy;&lcy;&ocy;&vcy;&icy;&yacy; &ocy;&bcy;&scy;&lcy;&ucy;&zhcy;&icy;&vcy;&acy;&ncy;&icy;&yacy;</a>
+</div>
+</footer>
 </body>
 </html>

@@ -1,961 +1,803 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    
-    <!-- SEO Meta Tags -->
-    <title>Professional Online Keyboard Tester – NKRO, Chattering & Response Test | Starry Tool</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" name="viewport"/>
+<!-- SEO Meta Tags -->
+<title>Professioneller Online-Tastaturtester &ndash; NKRO, Chattering &amp; Response Test | Starry Tool</title>
 <!-- Canonical & Internationalization -->
-
-
-
 <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- Robots -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    
-    <!-- Author -->
-    <meta name="author" content="Starry Tool">
-    <meta name="copyright" content="© 2026 Starry Tool. All rights reserved.">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-
-
-<meta property="og:image" content="https://starryring.com/de/toolbox/keyboard/og-image-en.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Online keyboard tester interface preview">
-    <meta property="og:image:type" content="image/png">
-<meta property="og:site_name" content="Starry Werkzeugkasten">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://starryring.com/de/toolbox/keyboard/">
-
-<meta name="twitter:image" content="https://starryring.com/de/toolbox/keyboard/twitter-image-en.png">
-    <meta name="twitter:image:alt" content="Online keyboard tester interface preview">
-    <meta name="twitter:creator" content="@starryring">
-
-    <!-- Mobile Optimization -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Keyboard Tester">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#1a1a1a">
-    <meta name="msapplication-TileColor" content="#1a1a1a">
-    
-    <!-- Performance Optimization -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="preload" href="/static/css/toolbox/keyboard/style.css" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/static/css/toolbox/keyboard/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-   
-    <!-- Structured Data Schema Markup -->
-  <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@graph": [
-        {
-            "@type": "BreadcrumbList",
-            "description": "Breadcrumb navigation",
-            "itemListElement": [
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Startseite",
-                    "item": "https://starryring.com/de/"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Werkzeugkasten",
-                    "item": "https://starryring.com/de/toolbox/"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 3,
-                    "name": "Keyboard Tester",
-                    "item": "https://starryring.com/de/toolbox/keyboard/"
-                }
-            ]
-        },
-        {
-            "@type": "SoftwareApplication",
-            "name": "Online Keyboard Tester",
-            "applicationCategory": "UtilitiesApplication",
-            "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-            "description": "Free online keyboard tester. Detect chattering, double-click, response delay, NKRO (full key rollover) and get repair advice.",
-            "url": "https://starryring.com/de/toolbox/keyboard/",
-            "image": "https://starryring.com/de/toolbox/keyboard/og-image-en.png",
-            "author": {
-                "@type": "Organization",
-                "name": "Starry Tool"
-            },
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-            }
-        },
-        {
-            "@type": "FAQPage",
-            "mainEntity": [
-                {
-                    "@type": "Question",
-                    "name": "How do I detect keyboard chattering (double-click issue)?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Use the key press interval detection function of this tool. When the interval between two presses of the same key is less than 80ms, the system will mark it in red, indicating a possible non-human factor (such as switch failure, contact oxidation, etc.). Normal human operation interval is usually above 100ms."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "What is keyboard debounce technology?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Debounce technology prevents multiple electrical pulses from a mechanical switch when pressed. When a key is pressed, the mechanical contacts bounce, causing rapid on/off signals. Debounce circuits or software delay the signal confirmation (typically 5-20ms) to ensure one press is recognized only once."
-                    }
-                }
-            ]
-        }
-    ]
-}
-</script>
-<meta name="description" content="Free online keyboard tester. Professionally detect key chattering, double-click, response delay and NKRO (full key rollover). Real‑time feedback with diagnosis and repair advice. Start testing your keyboard now!">
-            <link rel="canonical" href="https://starryring.com/de/toolbox/keyboard/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/keyboard/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/keyboard/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/keyboard/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/keyboard/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/keyboard/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/keyboard/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/toolbox/keyboard/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/toolbox/keyboard/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/toolbox/keyboard/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/toolbox/keyboard/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/toolbox/keyboard/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/toolbox/keyboard/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/toolbox/keyboard/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/toolbox/keyboard/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/toolbox/keyboard/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/toolbox/keyboard/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/toolbox/keyboard/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/toolbox/keyboard/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/toolbox/keyboard/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/toolbox/keyboard/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/keyboard/">
-<meta property="og:url" content="https://starryring.com/de/toolbox/keyboard/">
-    <meta property="og:locale" content="de_DE">
-<meta property="og:title" content="Online Keyboard Tester – Detect Chattering, NKRO & Response">
-    <meta property="og:description" content="Free online keyboard tester. Detect chattering, double‑click, response delay and NKRO. Works with all keyboard types.">
-    <meta name="twitter:title" content="Online Keyboard Tester – Detect Chattering, NKRO & Response">
-    <meta name="twitter:description" content="Free online keyboard tester. Detect chattering, double‑click, response delay and NKRO.">
-    <meta name="keywords" content="keyboard tester, keyboard test, key chattering test, NKRO test, keyboard response test, mechanical keyboard test, keyboard diagnosis, online keyboard test, key press interval, anti-ghosting test">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- Robots -->
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<!-- Author -->
+<meta content="Starry Tool" name="author"/>
+<meta content="&copy; 2026 Starry Tool. All rights reserved." name="copyright"/>
+<!-- Open Graph / Facebook -->
+<meta content="website" property="og:type"/>
+<meta content="https://starryring.com/de/toolbox/keyboard/og-image-en.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Vorschau der Online-Tastaturtester-Schnittstelle" property="og:image:alt"/>
+<meta content="image/png" property="og:image:type"/>
+<meta content="Starry Werkzeugkasten" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/de/toolbox/keyboard/" name="twitter:url"/>
+<meta content="https://starryring.com/de/toolbox/keyboard/twitter-image-en.png" name="twitter:image"/>
+<meta content="Online keyboard tester interface preview" name="twitter:image:alt"/>
+<meta content="@starryring" name="twitter:creator"/>
+<!-- Mobile Optimization -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Tastaturtester" name="apple-mobile-web-app-title"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="#1a1a1a" name="theme-color"/>
+<meta content="#1a1a1a" name="msapplication-TileColor"/>
+<!-- Performance Optimization -->
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="dns-prefetch"/>
+<link as="style" href="/static/css/toolbox/keyboard/style.css" rel="preload"/>
+<link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="preload"/>
+<!-- Stylesheets -->
+<link href="/static/css/toolbox/keyboard/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Structured Data Schema Markup -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "BreadcrumbList", "description": "Breadcrumb-Navigation", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Heim", "item": "https://starryring.com/de/" }, { "@type": "ListItem", "position": 2, "name": "Werkzeugkasten", "item": "https://starryring.com/de/toolbox/" }, { "@type": "ListItem", "position": 3, "name": "Tastaturtester", "item": "https://starryring.com/de/toolbox/keyboard/" } ] }, { "@type": "SoftwareApplication", "name": "Online-Tastaturtester", "applicationCategory": "UtilitiesApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "description": "Kostenloser Online-Tastaturtester. Erkennen Sie Rattern, Doppelklick, Reaktionsverzögerung und NKRO (Full Key Rollover) und erhalten Sie Reparaturhinweise.", "url": "https://starryring.com/de/toolbox/keyboard/", "image": "https://starryring.com/de/toolbox/keyboard/og-image-en.png", "author": { "@type": "Organization", "name": "Starry Tool" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" } }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Wie erkenne ich Tastaturflattern (Doppelklick-Problem)?", "acceptedAnswer": { "@type": "Answer", "text": "Verwenden Sie die Tastendruckintervall-Erkennungsfunktion dieses Tools. Wenn der Abstand zwischen zwei Drücken derselben Taste weniger als 80 ms beträgt, markiert das System dies rot, was auf einen möglichen nichtmenschlichen Faktor hinweist (z. B. Schalterfehler, Kontaktoxidation usw.). Das normale menschliche Betriebsintervall liegt normalerweise über 100 ms." } }, { "@type": "Question", "name": "Was ist Tastatur-Entprellungstechnologie?", "acceptedAnswer": { "@type": "Answer", "text": "Debounce-Technologie verhindert mehrere elektrische Impulse von einem mechanischen Schalter, wenn dieser gedrückt wird. Wenn eine Taste gedrückt wird, springen die mechanischen Kontakte, was zu schnellen Ein-/Aus-Signalen führt. Entprellungsschaltungen oder Software verzögern die Signalbestätigung (normalerweise 5–20 ms), um sicherzustellen, dass ein Tastendruck nur einmal erkannt wird." } } ] } ]
+}</script>
+<meta content="Kostenloser Online-Tastaturtester. Tastenklappern, Doppelklick, Reaktionsverz&ouml;gerung und NKRO (Full Key Rollover) werden professionell erkannt. Echtzeit-Feedback mit Diagnose- und Reparaturhinweisen. Testen Sie jetzt Ihre Tastatur!" name="description"/>
+<link href="https://starryring.com/de/toolbox/keyboard/" rel="canonical"/><link href="https://starryring.com/en/toolbox/keyboard/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/de/toolbox/keyboard/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/zh/toolbox/keyboard/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/toolbox/keyboard/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/toolbox/keyboard/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/toolbox/keyboard/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/toolbox/keyboard/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/toolbox/keyboard/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/toolbox/keyboard/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/toolbox/keyboard/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/toolbox/keyboard/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/toolbox/keyboard/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/toolbox/keyboard/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/toolbox/keyboard/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/toolbox/keyboard/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/pcm/toolbox/keyboard/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/toolbox/keyboard/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/toolbox/keyboard/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/toolbox/keyboard/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/toolbox/keyboard/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/de/toolbox/keyboard/" property="og:url"/>
+<meta content="de_DE" property="og:locale"/>
+<meta content="Online-Tastaturtester &ndash; Erkennen Sie Chattering, NKRO und Reaktion" property="og:title"/>
+<meta content="Kostenloser Online-Tastaturtester. Erkennen Sie Chattering, Doppelklick, Reaktionsverz&ouml;gerung und NKRO. Funktioniert mit allen Tastaturtypen." property="og:description"/>
+<meta content="Online-Tastaturtester &ndash; Erkennen Sie Chattering, NKRO und Reaktion" name="twitter:title"/>
+<meta content="Kostenloser Online-Tastaturtester. Erkennen Sie Chattering, Doppelklick, Reaktionsverz&ouml;gerung und NKRO." name="twitter:description"/>
+<meta content="Tastaturtester, Tastaturtest, Tastenflattertest, NKRO-Test, Tastaturreaktionstest, mechanischer Tastaturtest, Tastaturdiagnose, Online-Tastaturtest, Tastendruckintervall, Anti-Ghosting-Test" name="keywords"/>
 </head>
-
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Sprache auswählen" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/toolbox/keyboard/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/toolbox/keyboard/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/toolbox/keyboard/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/toolbox/keyboard/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/toolbox/keyboard/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/toolbox/keyboard/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/toolbox/keyboard/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/toolbox/keyboard/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/toolbox/keyboard/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/toolbox/keyboard/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/toolbox/keyboard/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/toolbox/keyboard/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/toolbox/keyboard/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/toolbox/keyboard/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option selected" href="/de/toolbox/keyboard/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/toolbox/keyboard/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/toolbox/keyboard/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/toolbox/keyboard/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/toolbox/keyboard/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/toolbox/keyboard/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="Sprache ausw&auml;hlen" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/toolbox/keyboard/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/toolbox/keyboard/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/toolbox/keyboard/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/toolbox/keyboard/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/toolbox/keyboard/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/toolbox/keyboard/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/toolbox/keyboard/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/toolbox/keyboard/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/toolbox/keyboard/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/toolbox/keyboard/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/toolbox/keyboard/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/toolbox/keyboard/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/toolbox/keyboard/">Bahasa Indonesia</a>
+<a class="language-option selected" data-lang="de" href="/de/toolbox/keyboard/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/toolbox/keyboard/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/toolbox/keyboard/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/toolbox/keyboard/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/toolbox/keyboard/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/toolbox/keyboard/">தமிழ்</a>
+</div>
+</div>
 <!-- Language switcher -->
 <!-- Breadcrumb navigation -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item">
-                    <a href="/de/" class="breadcrumb-link">
-                        <i class="fas fa-home" aria-hidden="true"></i> 
-                        <span>Startseite</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/de/toolbox/" class="breadcrumb-link">
-                        <i class="fas fa-box" aria-hidden="true"></i> <span>Werkzeugkasten</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <span class="breadcrumb-active">Keyboard Tester</span>
-                </li>
-            </ol>
-        </nav>
-    </div>
-
-    <!-- Page main title and short description -->
-    <header role="banner" class="page-header">
-        <div class="header-content">
-            <h1 id="i18n-h1">Online Keyboard Tester</h1>
-            <p class="lead-text">Professional, free online keyboard tester. Quickly perform key detection, chattering test, response delay analysis, and NKRO (full key rollover) diagnosis. Get real‑time professional repair advice.</p>
-        </div>
-    </header>
-
-    <!-- Quick start hint -->
-    <div class="quick-start">
-        <div class="quick-tip">
-            <i class="fas fa-lightbulb"></i>
-            <span>Hint: Press any key on your keyboard to start testing – the key will highlight in real time. Click the "Diagnosis" button for a professional check.</span>
-        </div>
-    </div>
-
-    <!-- Statistics bar -->
-    <div class="stats-bar">
-        <div class="stat-items">
-            <div class="stat-item">
-                <span class="stat-label" id="i18n-tested-keys">Tested Keys</span>
-                <span class="stat-value" id="count-tested">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label" id="i18n-total-strokes">Total Presses</span>
-                <span class="stat-value" id="count-total">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label" id="i18n-active-keys">Concurrent (NKRO)</span>
-                <span class="stat-value" id="count-active">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Max Concurrent</span>
-                <span class="stat-value" id="count-max">0</span>
-            </div>
-        </div>
-        
-        <!-- Button group -->
-        <div class="button-group">
-            <button class="btn-tips" onclick="showKeyboardTips()">
-                <i class="fas fa-lightbulb"></i> Tips
-            </button>
-            <button class="btn-diagnosis" onclick="startDiagnosis()">
-                <i class="fas fa-stethoscope"></i> Diagnosis
-            </button>
-            <button class="btn-reset" id="i18n-reset-btn" onclick="resetTest()">
-                <i class="fas fa-redo"></i> Reset
-            </button>
-        </div>
-    </div>
-
-    <!-- Keyboard layout -->
-    <div class="keyboard-container">
-        <!-- Main section -->
-        <div class="main-section">
-            <div class="row" style="margin-bottom: 15px;">
-                <div class="key" data-code="Escape" id="i18n-key-esc">ESC</div>
-                <div style="width: 30px;"></div>
-                <div class="key" data-code="F1">F1</div>
-                <div class="key" data-code="F2">F2</div>
-                <div class="key" data-code="F3">F3</div>
-                <div class="key" data-code="F4">F4</div>
-                <div style="width: 15px;"></div>
-                <div class="key" data-code="F5">F5</div>
-                <div class="key" data-code="F6">F6</div>
-                <div class="key" data-code="F7">F7</div>
-                <div class="key" data-code="F8">F8</div>
-                <div style="width: 15px;"></div>
-                <div class="key" data-code="F9">F9</div>
-                <div class="key" data-code="F10">F10</div>
-                <div class="key" data-code="F11">F11</div>
-                <div class="key" data-code="F12">F12</div>
-            </div>
-
-            <div class="row">
-                <div class="key" data-code="Backquote">`</div>
-                <div class="key" data-code="Digit1">1</div>
-                <div class="key" data-code="Digit2">2</div>
-                <div class="key" data-code="Digit3">3</div>
-                <div class="key" data-code="Digit4">4</div>
-                <div class="key" data-code="Digit5">5</div>
-                <div class="key" data-code="Digit6">6</div>
-                <div class="key" data-code="Digit7">7</div>
-                <div class="key" data-code="Digit8">8</div>
-                <div class="key" data-code="Digit9">9</div>
-                <div class="key" data-code="Digit0">0</div>
-                <div class="key" data-code="Minus">-</div>
-                <div class="key" data-code="Equal">=</div>
-                <div class="key w-2" data-code="Backspace" id="i18n-key-backspace">Bksp</div>
-            </div>
-
-            <div class="row">
-                <div class="key w-1-5" data-code="Tab" id="i18n-key-tab">Tab</div>
-                <div class="key" data-code="KeyQ">Q</div>
-                <div class="key" data-code="KeyW">W</div>
-                <div class="key" data-code="KeyE">E</div>
-                <div class="key" data-code="KeyR">R</div>
-                <div class="key" data-code="KeyT">T</div>
-                <div class="key" data-code="KeyY">Y</div>
-                <div class="key" data-code="KeyU">U</div>
-                <div class="key" data-code="KeyI">I</div>
-                <div class="key" data-code="KeyO">O</div>
-                <div class="key" data-code="KeyP">P</div>
-                <div class="key" data-code="BracketLeft">[</div>
-                <div class="key" data-code="BracketRight">]</div>
-                <div class="key w-1-5" data-code="Backslash">\</div>
-            </div>
-
-            <div class="row">
-                <div class="key w-1-75" data-code="CapsLock" id="i18n-key-caps">Caps</div>
-                <div class="key" data-code="KeyA">A</div>
-                <div class="key" data-code="KeyS">S</div>
-                <div class="key" data-code="KeyD">D</div>
-                <div class="key" data-code="KeyF">F</div>
-                <div class="key" data-code="KeyG">G</div>
-                <div class="key" data-code="KeyH">H</div>
-                <div class="key" data-code="KeyJ">J</div>
-                <div class="key" data-code="KeyK">K</div>
-                <div class="key" data-code="KeyL">L</div>
-                <div class="key" data-code="Semicolon">;</div>
-                <div class="key" data-code="Quote">'</div>
-                <div class="key w-2-25" data-code="Enter" id="i18n-key-enter">Enter</div>
-            </div>
-
-            <div class="row">
-                <div class="key w-2-25" data-code="ShiftLeft" id="i18n-key-lshift">Shift</div>
-                <div class="key" data-code="KeyZ">Z</div>
-                <div class="key" data-code="KeyX">X</div>
-                <div class="key" data-code="KeyC">C</div>
-                <div class="key" data-code="KeyV">V</div>
-                <div class="key" data-code="KeyB">B</div>
-                <div class="key" data-code="KeyN">N</div>
-                <div class="key" data-code="KeyM">M</div>
-                <div class="key" data-code="Comma">,</div>
-                <div class="key" data-code="Period">.</div>
-                <div class="key" data-code="Slash">/</div>
-                <div class="key w-2-75" data-code="ShiftRight" id="i18n-key-rshift">Shift</div>
-            </div>
-
-            <div class="row">
-                <div class="key w-1-5" data-code="ControlLeft" id="i18n-key-lctrl">Ctrl</div>
-                <div class="key w-1-5" data-code="MetaLeft" id="i18n-key-lwin">Win</div>
-                <div class="key w-1-5" data-code="AltLeft" id="i18n-key-lalt">Alt</div>
-                <div class="key w-6-25" data-code="Space" id="i18n-key-space">Space</div>
-                <div class="key w-1-5" data-code="AltRight" id="i18n-key-ralt">Alt</div>
-                <div class="key w-1-5" data-code="MetaRight" id="i18n-key-rwin">Win</div>
-                <div class="key w-1-5" data-code="ContextMenu" id="i18n-key-menu">Menu</div>
-                <div class="key w-1-5" data-code="ControlRight" id="i18n-key-rctrl">Ctrl</div>
-            </div>
-        </div>
-
-        <!-- Control section -->
-        <div class="control-section">
-            <div class="control-group">
-                <div class="key" data-code="PrintScreen"><small id="i18n-key-prtscr">PrtSc</small></div>
-                <div class="key" data-code="ScrollLock"><small id="i18n-key-scrlk">ScrLk</small></div>
-                <div class="key" data-code="Pause"><small id="i18n-key-pause">Pause</small></div>
-            </div>
-            <div class="control-group">
-                <div class="key" data-code="Insert"><small id="i18n-key-ins">Ins</small></div>
-                <div class="key" data-code="Startseite"><small id="i18n-key-home">Startseite</small></div>
-                <div class="key" data-code="PageUp"><small id="i18n-key-pgup">PgUp</small></div>
-                <div class="key" data-code="Delete"><small id="i18n-key-del">Del</small></div>
-                <div class="key" data-code="End"><small id="i18n-key-end">End</small></div>
-                <div class="key" data-code="PageDown"><small id="i18n-key-pgdn">PgDn</small></div>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: auto;">
-                <div></div>
-                <div class="key" data-code="ArrowUp">↑</div>
-                <div></div>
-                <div class="key" data-code="ArrowLeft">←</div>
-                <div class="key" data-code="ArrowDown">↓</div>
-                <div class="key" data-code="ArrowRight">→</div>
-            </div>
-        </div>
-
-        <!-- Numpad section -->
-        <div class="numpad-section">
-            <div class="key" data-code="NumLock"><small id="i18n-key-numlk">Num</small></div>
-            <div class="key" data-code="NumpadDivide">/</div>
-            <div class="key" data-code="NumpadMultiply">*</div>
-            <div class="key" data-code="NumpadSubtract">-</div>
-            
-            <div class="key" data-code="Numpad7">7</div>
-            <div class="key" data-code="Numpad8">8</div>
-            <div class="key" data-code="Numpad9">9</div>
-            <div class="key h-2" data-code="NumpadAdd" id="i18n-key-numpadadd">+</div>
-            
-            <div class="key" data-code="Numpad4">4</div>
-            <div class="key" data-code="Numpad5">5</div>
-            <div class="key" data-code="Numpad6">6</div>
-            
-            <div class="key" data-code="Numpad1">1</div>
-            <div class="key" data-code="Numpad2">2</div>
-            <div class="key" data-code="Numpad3">3</div>
-            <div class="key h-2" data-code="NumpadEnter" id="i18n-key-numpadenter">Ent</div>
-            
-            <div class="key w-2" style="grid-column: span 2;" data-code="Numpad0">0</div>
-            <div class="key" data-code="NumpadDecimal">.</div>
-        </div>
-    </div>
-
-    <!-- Info panel -->
-    <div class="info-panel">
-        <div class="info-box">
-            <div id="i18n-event-key">Key Name</div>
-            <div id="info-key">-</div>
-        </div>
-        <div class="info-box">
-            <div id="i18n-event-code">Code</div>
-            <div id="info-code">-</div>
-        </div>
-        <div class="info-box">
-            <div id="i18n-event-which">Which Value</div>
-            <div id="info-which">-</div>
-        </div>
-        <div class="info-box">
-            <div id="i18n-time-delta">Interval</div>
-            <div id="info-time">- ms</div>
-        </div>
-    </div>
-
-    <!-- Key press interval log output -->
-    <div class="log-container">
-        <div class="log-header">
-            <h3><i class="fas fa-history"></i> Key Press Log</h3>
-            <div class="log-controls">
-                <button class="log-btn" onclick="toggleLog()" id="toggle-log">
-                    <i class="fas fa-eye"></i> Toggle
-                </button>
-                <button class="log-btn" onclick="clearLog()">
-                    <i class="fas fa-trash"></i> Clear
-                </button>
-                <button class="log-btn" onclick="toggleAutoScroll()" id="toggle-scroll">
-                    <i class="fas fa-scroll"></i> Auto‑scroll
-                </button>
-            </div>
-        </div>
-        <div class="log-content" id="log-content">
-            <div class="log-entry log-info">
-                <span class="log-time">[00:00:00]</span>
-                <span class="log-message">Log started. Detects interval between two presses of the same key. Intervals &lt;80ms are marked in red.</span>
-            </div>
-            <div class="log-entry log-info">
-                <span class="log-time">[00:00:00]</span>
-                <span class="log-message">Normal human operation is usually >100ms; &lt;80ms may indicate chattering.</span>
-            </div>
-        </div>
-        <div class="log-stats">
-            <div class="log-stat">
-                <span class="log-stat-label">Total Logs:</span>
-                <span class="log-stat-value" id="log-count">2</span>
-            </div>
-            <div class="log-stat">
-                <span class="log-stat-label">Warnings:</span>
-                <span class="log-stat-value" id="log-warning-count">0</span>
-            </div>
-            <div class="log-stat">
-                <span class="log-stat-label">Min Interval:</span>
-                <span class="log-stat-value" id="log-min-interval">- ms</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== Full text content below keyboard ========== -->
-
-    <!-- Tool features -->
-    <section class="intro-section enhanced" id="features">
-        <h2>Comprehensive Keyboard Test & Diagnosis</h2>
-        
-        <p>This online keyboard tester provides full keyboard diagnostic functions, specifically targeting common issues: key press interval detection, chattering, double‑click, wrong keys, response delay, and NKRO (full key rollover). Our professional detection algorithm helps you quickly locate problems and offers repair advice.</p>
-        
-        <div class="benefits-grid">
-            <div class="benefit-card">
-                <i class="fas fa-clock"></i>
-                <h3>Key Press Interval</h3>
-                <p>Measures the time between two presses of the same key. Automatically flags intervals below 80ms (red) as potential chattering, helping you diagnose debounce issues.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fas fa-redo-alt"></i>
-                <h3>Chattering / Double‑click</h3>
-                <p>Detects chattering caused by switch aging, contact oxidation, or dust. Counts press/release events and identifies sticky keys.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fas fa-tachometer-alt"></i>
-                <h3>Response Delay</h3>
-                <p>Real‑time measurement of key response time. Analyzes delays from Bluetooth interference, USB power issues, or system load – accurate to milliseconds.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fas fa-bolt"></i>
-                <h3>NKRO (Full Key Rollover)</h3>
-                <p>Tests your keyboard's NKRO capability – supports up to 36+ simultaneous keys. Real‑time display of concurrent key count.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- In‑depth SEO content: key press interval expertise -->
-    <section class="seo-content-section" itemscope itemtype="https://schema.org/Article">
-        <meta itemprop="datePublished" content="2024-01-01">
-        <meta itemprop="dateModified" content="2024-01-01">
-        <div class="article-image-container" style="text-align: center; margin: 20px 0;">
-            <img src="https://assets.starryring.com/keyboard/en/mechanical-switch-chattering.png" 
-                alt="Diagram of mechanical switch contact bounce (chattering) – abnormal multiple pulses from a single press" 
-                title="Keyboard chattering principle"
-                style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;">
-            <p style="font-size: 0.85rem; color: #888; margin-top: 8px;">Fig 1: Abnormal signal bounce caused by oxidized mechanical contacts (root cause of chattering)</p>
-        </div>
-        <h2 itemprop="headline">Key Press Interval Detection: Diagnosing Chattering & Debounce Technology</h2>
-        
-        <div itemprop="articleBody">
-            <p><strong>Keywords:</strong> key press interval detection, chattering diagnosis, double‑click repair, keyboard debounce, key response time, mechanical switch bounce, key repeat rate test</p>
-            
-            <h3>What is key press interval detection and why is it important?</h3>
-            
-            <p>Key press interval detection is the core technology for diagnosing keyboard chattering and double‑click issues. By precisely measuring the time between two presses of the same key, you can identify the following problems:</p>
-            
-            <div class="seo-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Interval</th>
-                            <th>Possible Cause</th>
-                            <th>Diagnosis</th>
-                            <th>Repair Suggestion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>&lt;20ms</strong></td>
-                            <td>Contact bounce, circuit failure, severe chattering</td>
-                            <td class="error-text">Severe fault – needs immediate repair</td>
-                            <td>Replace switch, check circuit, professional service</td>
-                        </tr>
-                        <tr>
-                            <td><strong>20-50ms</strong></td>
-                            <td>Moderate chattering, debounce failure, dust</td>
-                            <td class="warning-text">Moderate fault – affects user experience</td>
-                            <td>Clean switch, update firmware, adjust debounce</td>
-                        </tr>
-                        <tr>
-                            <td><strong>50-80ms</strong></td>
-                            <td>Mild chattering, early switch aging</td>
-                            <td class="warning-text">Mild fault – monitor</td>
-                            <td>Regular cleaning, avoid heavy typing, backup keyboard</td>
-                        </tr>
-                        <tr>
-                            <td><strong>80-200ms</strong></td>
-                            <td>Normal fast typing, gaming</td>
-                            <td class="success-text">Normal range – human operation</td>
-                            <td>No action needed</td>
-                        </tr>
-                        <tr>
-                            <td><strong>&gt;200ms</strong></td>
-                            <td>Normal typing speed, cautious operation</td>
-                            <td class="success-text">Normal range – safe</td>
-                            <td>No action needed</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <h3>Keyboard Debounce Technology Explained</h3>
-            <div class="article-image-container" style="text-align: center; margin: 20px 0;">
-                <img src="https://assets.starryring.com/keyboard/en/keyboard-debounce.png" 
-                    alt="Diagram of keyboard debounce algorithm – filtering invalid bounce signals under 20ms" 
-                    title="Keyboard debounce workflow"
-                    style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;">
-                <p style="font-size: 0.85rem; color: #888; margin-top: 8px;">Fig 2: Firmware debounce algorithm filtering invalid contact bounces</p>
-            </div>
-            <div class="comparison-grid">
-                <div class="comparison-card">
-                    <h4><i class="fas fa-microchip"></i> Hardware Debounce</h4>
-                    <ul>
-                        <li><strong>How it works:</strong> Uses RC circuits (resistor‑capacitor) to delay signal recognition and filter contact bounce</li>
-                        <li><strong>Response time:</strong> Typically 5‑20ms delay, ensuring stable detection</li>
-                        <li><strong>Advantages:</strong> Stable, no CPU usage</li>
-                        <li><strong>Disadvantages:</strong> Higher cost, limited response speed</li>
-                        <li><strong>Typical use:</strong> High‑end mechanical keyboards, gaming keyboards</li>
-                    </ul>
-                    <p><strong>How to test:</strong> Use this tool. If intervals shorter than the debounce time (e.g., 20ms) are still registered, hardware debounce may be failing.</p>
-                </div>
-                
-                <div class="comparison-card">
-                    <h4><i class="fas fa-code"></i> Software Debounce</h4>
-                    <ul>
-                        <li><strong>How it works:</strong> Driver or firmware delays key event processing</li>
-                        <li><strong>Response time:</strong> Widely adjustable, typically 10‑30ms</li>
-                        <li><strong>Advantages:</strong> Flexible, lower cost</li>
-                        <li><strong>Disadvantages:</strong> Uses system resources, may affect response speed</li>
-                        <li><strong>Typical use:</strong> Most membrane keyboards, mid‑range mechanical keyboards</li>
-                    </ul>
-                    <p><strong>How to test:</strong> Vary your typing speed and observe interval consistency. Large fluctuations may indicate poor debounce settings.</p>
-                </div>
-            </div>
-            
-            <h3>Common Causes & Fixes for Chattering</h3>
-            
-            <div class="maintenance-tips">
-                <div class="tip-card">
-                    <i class="fas fa-wrench"></i>
-                    <h4>Mechanical Keyboard Chattering</h4>
-                    <p><strong>Causes:</strong> Spring fatigue, oxidized contacts, dust accumulation, cracked solder joints</p>
-                    <p><strong>Repair steps:</strong></p>
-                    <ol>
-                        <li>Clean internal contacts with isopropyl alcohol</li>
-                        <li>Replace faulty switch (low cost)</li>
-                        <li>Re‑solder loose joints</li>
-                        <li>Adjust keyboard debounce settings</li>
-                    </ol>
-                    <p><strong>Prevention:</strong> Regular cleaning, avoid liquids, use keycap dust covers</p>
-                </div>
-                
-                <div class="tip-card">
-                    <i class="fas fa-tools"></i>
-                    <h4>Membrane Keyboard Chattering</h4>
-                    <p><strong>Causes:</strong> Worn conductive traces, deformed silicone domes, oxidized PCB, overall aging</p>
-                    <p><strong>Repair steps:</strong></p>
-                    <ol>
-                        <li>Clean conductive traces and PCB contacts</li>
-                        <li>Replace worn silicone domes (if spares available)</li>
-                        <li>Use conductive silver paint to repair broken traces</li>
-                        <li>If widespread, replace the keyboard</li>
-                    </ol>
-                    <p><strong>Prevention:</strong> Gentle use, keep clean, avoid high temperature/humidity</p>
-                </div>
-                
-                <div class="tip-card">
-                    <i class="fas fa-cogs"></i>
-                    <h4>Software/Driver Issues</h4>
-                    <p><strong>Causes:</strong> Driver conflicts, OS settings, firmware bugs, power management</p>
-                    <p><strong>Repair steps:</strong></p>
-                    <ol>
-                        <li>Update keyboard drivers and firmware</li>
-                        <li>Check OS power management settings</li>
-                        <li>Reset keyboard to factory defaults</li>
-                        <li>Test on another computer to isolate system issues</li>
-                    </ol>
-                    <p><strong>Prevention:</strong> Regular driver updates, backup settings, use stable OS versions</p>
-                </div>
-            </div>
-            
-            <h3>Reference Key Press Intervals</h3>
-            
-            <div class="data-chart">
-                <div class="chart-item">
-                    <span class="chart-label">Professional typist</span>
-                    <div class="chart-bar">
-                        <div class="chart-fill" style="width: 65%;" data-value="100-150ms"></div>
-                    </div>
-                    <span class="chart-value">100-150ms</span>
-                </div>
-                <div class="chart-item">
-                    <span class="chart-label">Average user</span>
-                    <div class="chart-bar">
-                        <div class="chart-fill" style="width: 45%;" data-value="150-300ms"></div>
-                    </div>
-                    <span class="chart-value">150-300ms</span>
-                </div>
-                <div class="chart-item">
-                    <span class="chart-label">Gamer (high APM)</span>
-                    <div class="chart-bar">
-                        <div class="chart-fill" style="width: 80%;" data-value="80-120ms"></div>
-                    </div>
-                    <span class="chart-value">80-120ms</span>
-                </div>
-                <div class="chart-item">
-                    <span class="chart-label">Chattering threshold</span>
-                    <div class="chart-bar">
-                        <div class="chart-fill threshold" style="width: 25%;" data-value="<80ms"></div>
-                    </div>
-                    <span class="chart-value">&lt;80ms</span>
-                </div>
-                <div class="chart-item">
-                    <span class="chart-label">Contact bounce range</span>
-                    <div class="chart-bar">
-                        <div class="chart-fill error" style="width: 10%;" data-value="1-20ms"></div>
-                    </div>
-                    <span class="chart-value">1-20ms</span>
-                </div>
-            </div>
-            
-            <div class="conclusion-box">
-                <h4><i class="fas fa-check-circle"></i> Best Practices for Key Press Interval Testing</h4>
-                <ol>
-                    <li><strong>Test regularly:</strong> Use this tool monthly, especially on frequently used keys (WASD, space, enter)</li>
-                    <li><strong>Watch warnings:</strong> Red‑marked logs (interval &lt;80ms) indicate potential issues – act early</li>
-                    <li><strong>Establish baseline:</strong> Test a new keyboard to create a reference for future comparisons</li>
-                    <li><strong>Track trends:</strong> Record interval changes over time to predict keyboard lifespan</li>
-                    <li><strong>Repair promptly:</strong> Address chattering early to prevent further damage</li>
-                </ol>
-                <p><strong>Pro tip:</strong> For e‑sports players and heavy typists, perform a full key interval test every quarter to keep your keyboard in top shape.</p>
-            </div>
-        </div>
-        
-        <div class="author-info" itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <meta itemprop="name" content="Starry Tool Technical Team">
-            <p><strong>Author:</strong> <span itemprop="name">Starry Tool Technical Team</span> | <strong>Updated:</strong> <span itemprop="dateModified">2024</span></p>
-            <p><strong>Expertise:</strong> Keyboard diagnosis, key press interval analysis, debounce technology, mechanical keyboard repair</p>
-        </div>
-    </section>
-
-    <!-- Usage guide -->
-    <section class="usage-guide" id="usage-guide">
-        <h2>How to Use the Keyboard Tester</h2>
-        
-        <p>This tool's key press interval function helps you diagnose chattering and double‑click issues. Follow these steps:</p>
-        
-        <div class="guide-steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3>Start Interval Test</h3>
-                    <p>Quickly press the same key repeatedly (recommended: W, space, or enter). Watch the log panel – it records timestamps and calculates intervals automatically.</p>
-                    <p><strong>Key points:</strong></p>
-                    <ul>
-                        <li>Normal human interval is usually >100ms</li>
-                        <li>Fast gamers may hit 80‑120ms</li>
-                        <li>Intervals <strong class="error-text">below 80ms are marked red</strong>, indicating possible hardware issue</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3>Interpret the Log</h3>
-                    <p>The log shows detailed interval information:</p>
-                    <ul>
-                        <li><span class="log-normal">White:</span> normal (≥80ms)</li>
-                        <li><span class="log-warning">Yellow:</span> short (50‑79ms) – pay attention</li>
-                        <li><span class="log-error">Red:</span> abnormal (&lt;50ms) – likely fault</li>
-                        <li><span class="log-critical">Dark red:</span> severe (&lt;20ms) – confirmed fault</li>
-                    </ul>
-                    <p><strong>Log format:</strong> [time] Key[key name] Interval:[time]ms [status]</p>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3>Analyze Results</h3>
-                    <p>Use the log to assess keyboard health:</p>
-                    <table class="problem-table">
-                        <tr>
-                            <th>Observation</th>
-                            <th>Possible Issue</th>
-                            <th>Severity</th>
-                        </tr>
-                        <tr>
-                            <td>Occasional red logs</td>
-                            <td>Mild chattering, early aging</td>
-                            <td class="warning-text">★☆☆☆☆ Mild</td>
-                        </tr>
-                        <tr>
-                            <td>Frequent red logs</td>
-                            <td>Moderate chattering – needs cleaning/repair</td>
-                            <td class="warning-text">★★★☆☆ Moderate</td>
-                        </tr>
-                        <tr>
-                            <td>Many &lt;20ms intervals</td>
-                            <td>Severe chattering, debounce failure</td>
-                            <td class="error-text">★★★★★ Severe</td>
-                        </tr>
-                        <tr>
-                            <td>Only specific keys</td>
-                            <td>Single switch/trace damaged</td>
-                            <td class="warning-text">★★☆☆☆ Localized</td>
-                        </tr>
-                        <tr>
-                            <td>All keys normal</td>
-                            <td>Keyboard is healthy</td>
-                            <td class="success-text">☆☆☆☆☆ Good</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <h3>Take Action</h3>
-                    <p>Based on results:</p>
-                    <ol>
-                        <li><strong>Mild:</strong> Clean regularly, monitor changes</li>
-                        <li><strong>Moderate:</strong> Deep clean, consider repair</li>
-                        <li><strong>Severe:</strong> Repair immediately or replace keyboard</li>
-                        <li><strong>Localized:</strong> Replace single switch (mechanical) or targeted fix</li>
-                    </ol>
-                    <p><strong>Repair advice:</strong> Mechanical keyboards are worth repairing (cheap switch replacement). For membrane keyboards with widespread issues, replacement is often more practical.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq-section" id="faq">
-        <h2>Keyboard Testing FAQ</h2>
-        
-        <div class="faq-container">
-            <div class="faq-item">
-                <h3>Why can key press interval detect keyboard faults?</h3>
-                <div class="faq-answer active">
-                    <p>Key press interval detection is based on these principles:</p>
-                    <ol>
-                        <li><strong>Human limitation:</strong> The fastest intentional repetition of a single key by one finger is usually above 80ms.</li>
-                        <li><strong>Mechanical constraint:</strong> Switches have physical rebound time – normal operation cannot bypass this.</li>
-                        <li><strong>Debounce design:</strong> Keyboards delay signal recognition (5‑30ms) to filter contact bounce.</li>
-                        <li><strong>Fault signature:</strong> Chattering produces abnormally fast, repeated signals due to oxidized contacts, spring fatigue, etc.</li>
-                    </ol>
-                    <p>Therefore, intervals &lt;80ms strongly suggest hardware failure rather than human operation.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <h3>When can sub‑80ms intervals be legitimate?</h3>
-                <div class="faq-answer active">
-                    <p>Rare cases where intervals below 80ms may be legitimate:</p>
-                    <ul>
-                        <li><strong>Alternating fingers:</strong> Using two fingers (e.g., index and middle) to rapidly press the same key can achieve 60‑80ms intervals</li>
-                        <li><strong>Special skill:</strong> Professional typists or pianists may have exceptional finger speed</li>
-                        <li><strong>Automated testing:</strong> Using macros or test tools</li>
-                        <li><strong>Accidental bump:</strong> Unintentional key touches</li>
-                    </ul>
-                    <p><strong>How to tell:</strong> Legitimate fast presses are usually rhythmic and controlled, while chattering is random and uncontrollable. Frequent &lt;50ms intervals almost certainly indicate a keyboard fault.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <h3>How does chattering differ between mechanical and membrane keyboards?</h3>
-                <div class="faq-answer active">
-                    <p>The failure mechanisms differ:</p>
-                    <div class="comparison-grid" style="grid-template-columns: 1fr 1fr; margin: 15px 0;">
-                        <div>
-                            <h4>Mechanical chattering</h4>
-                            <ul>
-                                <li><strong>Causes:</strong> Oxidized internal contacts, spring fatigue, dust</li>
-                                <li><strong>Characteristic:</strong> Usually affects a single switch, replaceable</li>
-                                <li><strong>Interval:</strong> Typically 10‑50ms, fairly consistent</li>
-                                <li><strong>Fix:</strong> Replace switch (low cost, ~$1‑2)</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4>Membrane chattering</h4>
-                            <ul>
-                                <li><strong>Causes:</strong> Worn conductive traces, deformed domes, PCB oxidation</li>
-                                <li><strong>Characteristic:</strong> Often affects a region, difficult to repair</li>
-                                <li><strong>Interval:</strong> Fluctuates widely, 20‑80ms possible</li>
-                                <li><strong>Fix:</strong> Thorough cleaning or replace keyboard</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <p><strong>Diagnostic difference:</strong> Mechanical chattering tends to be more consistent; membrane chattering more random. The log will show the pattern.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <h3>How to choose a repair based on interval measurements?</h3>
-                <div class="faq-answer active">
-                    <p>Select repair approach based on interval:</p>
-                    <table class="problem-table">
-                        <tr>
-                            <th>Interval range</th>
-                            <th>Severity</th>
-                            <th>Mechanical keyboard</th>
-                            <th>Membrane keyboard</th>
-                        </tr>
-                        <tr>
-                            <td>70‑79ms</td>
-                            <td>Mild, early aging</td>
-                            <td>Clean switch, monitor</td>
-                            <td>Clean traces, avoid humidity</td>
-                        </tr>
-                        <tr>
-                            <td>50‑69ms</td>
-                            <td>Moderate, needs attention</td>
-                            <td>Deep clean, consider switch replacement</td>
-                            <td>Professional cleaning, have spare keyboard ready</td>
-                        </tr>
-                        <tr>
-                            <td>30‑49ms</td>
-                            <td>Severe, affects use</td>
-                            <td>Replace faulty switch immediately</td>
-                            <td>Consider replacement</td>
-                        </tr>
-                        <tr>
-                            <td>&lt;30ms</td>
-                            <td>Critical failure</td>
-                            <td>Check circuit, full repair</td>
-                            <td>Replace keyboard immediately</td>
-                        </tr>
-                    </table>
-                    <p><strong>Cost consideration:</strong> Mechanical keyboards are worth repairing (cheap switch replacement). Membrane keyboards are often more economical to replace.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call-to-action -->
-    <div class="cta-section">
-        <div class="cta-content">
-            <h2>Start Your Keyboard Test Now</h2>
-            <p>Is your keyboard suffering from chattering? Don't wait until it affects your work or gaming. Use our professional tester to measure key intervals and spot potential problems early.</p>
-            <div class="cta-buttons">
-                <button onclick="startIntervalTest()" class="cta-primary">
-                    <i class="fas fa-play-circle"></i> Start Test
-                </button>
-                <a href="#usage-guide" class="cta-secondary">
-                    <i class="fas fa-book"></i> User Guide
-                </a>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Scripts -->
-    <script src="/static/js/toolbox/keyboard/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
-
-    <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;">
-        <div style="margin-bottom:6px;">© 2026 StarryRing · Online Keyboard Tester</div>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
-            <a href="/de/about-us/" style="color:#60a5fa;text-decoration:none;">Über uns</a>
-            <a href="/de/contact-us/" style="color:#60a5fa;text-decoration:none;">Kontakt</a>
-            <a href="/de/disclaimer/" style="color:#60a5fa;text-decoration:none;">Haftungsausschluss</a>
-            <a href="/de/privacy/" style="color:#60a5fa;text-decoration:none;">Datenschutzrichtlinie</a>
-            <a href="/de/terms/" style="color:#60a5fa;text-decoration:none;">Nutzungsbedingungen</a>
-        </div>
-    </footer>
+<div class="breadcrumb-section">
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/de/">
+<i aria-hidden="true" class="fas fa-home"></i>
+<span>Heim</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/de/toolbox/">
+<i aria-hidden="true" class="fas fa-box"></i><span>Werkzeugkasten</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<span class="breadcrumb-active">Tastaturtester</span>
+</li>
+</ol>
+</nav>
+</div>
+<!-- Page main title and short description -->
+<header class="page-header" role="banner">
+<div class="header-content">
+<h1 id="i18n-h1">Online-Tastaturtester</h1>
+<p class="lead-text">Professioneller, kostenloser Online-Tastaturtester. F&uuml;hren Sie schnell eine Schl&uuml;sselerkennung, einen Rattertest, eine Antwortverz&ouml;gerungsanalyse und eine NKRO-Diagnose (vollst&auml;ndiger Schl&uuml;ssel&uuml;berschlag) durch. Erhalten Sie professionelle Reparaturberatung in Echtzeit.</p>
+</div>
+</header>
+<!-- Quick start hint -->
+<div class="quick-start">
+<div class="quick-tip">
+<i class="fas fa-lightbulb"></i>
+<span>Hinweis: Dr&uuml;cken Sie eine beliebige Taste auf Ihrer Tastatur, um den Test zu starten &ndash; die Taste wird in Echtzeit hervorgehoben. Klicken Sie auf die Schaltfl&auml;che &bdquo;Diagnose&ldquo; f&uuml;r eine professionelle &Uuml;berpr&uuml;fung.</span>
+</div>
+</div>
+<!-- Statistics bar -->
+<div class="stats-bar">
+<div class="stat-items">
+<div class="stat-item">
+<span class="stat-label" id="i18n-tested-keys">Getestete Schl&uuml;ssel</span>
+<span class="stat-value" id="count-tested">0</span>
+</div>
+<div class="stat-item">
+<span class="stat-label" id="i18n-total-strokes">Gesamtpressungen</span>
+<span class="stat-value" id="count-total">0</span>
+</div>
+<div class="stat-item">
+<span class="stat-label" id="i18n-active-keys">Concurrent (NKRO)</span>
+<span class="stat-value" id="count-active">0</span>
+</div>
+<div class="stat-item">
+<span class="stat-label">Max gleichzeitig</span>
+<span class="stat-value" id="count-max">0</span>
+</div>
+</div>
+<!-- Button group -->
+<div class="button-group">
+<button class="btn-tips" onclick="showKeyboardTips()">
+<i class="fas fa-lightbulb"></i>Tipps</button>
+<button class="btn-diagnosis" onclick="startDiagnosis()">
+<i class="fas fa-stethoscope"></i>Diagnose</button>
+<button class="btn-reset" id="i18n-reset-btn" onclick="resetTest()">
+<i class="fas fa-redo"></i>Reset</button>
+</div>
+</div>
+<!-- Keyboard layout -->
+<div class="keyboard-container">
+<!-- Main section -->
+<div class="main-section">
+<div class="row" style="margin-bottom: 15px;">
+<div class="key" data-code="Escape" id="i18n-key-esc">ESC</div>
+<div style="width: 30px;"></div>
+<div class="key" data-code="F1">F1</div>
+<div class="key" data-code="F2">F2</div>
+<div class="key" data-code="F3">F3</div>
+<div class="key" data-code="F4">F4</div>
+<div style="width: 15px;"></div>
+<div class="key" data-code="F5">F5</div>
+<div class="key" data-code="F6">F6</div>
+<div class="key" data-code="F7">F7</div>
+<div class="key" data-code="F8">F8</div>
+<div style="width: 15px;"></div>
+<div class="key" data-code="F9">F9</div>
+<div class="key" data-code="F10">F10</div>
+<div class="key" data-code="F11">F11</div>
+<div class="key" data-code="F12">F12</div>
+</div>
+<div class="row">
+<div class="key" data-code="Backquote">`</div>
+<div class="key" data-code="Digit1">1</div>
+<div class="key" data-code="Digit2">2</div>
+<div class="key" data-code="Digit3">3</div>
+<div class="key" data-code="Digit4">4</div>
+<div class="key" data-code="Digit5">5</div>
+<div class="key" data-code="Digit6">6</div>
+<div class="key" data-code="Digit7">7</div>
+<div class="key" data-code="Digit8">8</div>
+<div class="key" data-code="Digit9">9</div>
+<div class="key" data-code="Digit0">0</div>
+<div class="key" data-code="Minus">-</div>
+<div class="key" data-code="Equal">=</div>
+<div class="key w-2" data-code="Backspace" id="i18n-key-backspace">Bksp</div>
+</div>
+<div class="row">
+<div class="key w-1-5" data-code="Tab" id="i18n-key-tab">Tab</div>
+<div class="key" data-code="KeyQ">Q</div>
+<div class="key" data-code="KeyW">W</div>
+<div class="key" data-code="KeyE">E</div>
+<div class="key" data-code="KeyR">R</div>
+<div class="key" data-code="KeyT">T</div>
+<div class="key" data-code="KeyY">Y</div>
+<div class="key" data-code="KeyU">U</div>
+<div class="key" data-code="KeyI">I</div>
+<div class="key" data-code="KeyO">O</div>
+<div class="key" data-code="KeyP">P</div>
+<div class="key" data-code="BracketLeft">[</div>
+<div class="key" data-code="BracketRight">]</div>
+<div class="key w-1-5" data-code="Backslash">\</div>
+</div>
+<div class="row">
+<div class="key w-1-75" data-code="CapsLock" id="i18n-key-caps">Caps</div>
+<div class="key" data-code="KeyA">A</div>
+<div class="key" data-code="KeyS">S</div>
+<div class="key" data-code="KeyD">D</div>
+<div class="key" data-code="KeyF">F</div>
+<div class="key" data-code="KeyG">G</div>
+<div class="key" data-code="KeyH">H</div>
+<div class="key" data-code="KeyJ">J</div>
+<div class="key" data-code="KeyK">K</div>
+<div class="key" data-code="KeyL">L</div>
+<div class="key" data-code="Semicolon">;</div>
+<div class="key" data-code="Quote">'</div>
+<div class="key w-2-25" data-code="Enter" id="i18n-key-enter">Enter</div>
+</div>
+<div class="row">
+<div class="key w-2-25" data-code="ShiftLeft" id="i18n-key-lshift">Shift</div>
+<div class="key" data-code="KeyZ">Z</div>
+<div class="key" data-code="KeyX">X</div>
+<div class="key" data-code="KeyC">C</div>
+<div class="key" data-code="KeyV">V</div>
+<div class="key" data-code="KeyB">B</div>
+<div class="key" data-code="KeyN">N</div>
+<div class="key" data-code="KeyM">M</div>
+<div class="key" data-code="Comma">,</div>
+<div class="key" data-code="Period">.</div>
+<div class="key" data-code="Slash">/</div>
+<div class="key w-2-75" data-code="ShiftRight" id="i18n-key-rshift">Shift</div>
+</div>
+<div class="row">
+<div class="key w-1-5" data-code="ControlLeft" id="i18n-key-lctrl">Strg</div>
+<div class="key w-1-5" data-code="MetaLeft" id="i18n-key-lwin">Win</div>
+<div class="key w-1-5" data-code="AltLeft" id="i18n-key-lalt">Alt</div>
+<div class="key w-6-25" data-code="Space" id="i18n-key-space">Space</div>
+<div class="key w-1-5" data-code="AltRight" id="i18n-key-ralt">Alt</div>
+<div class="key w-1-5" data-code="MetaRight" id="i18n-key-rwin">Win</div>
+<div class="key w-1-5" data-code="ContextMenu" id="i18n-key-menu">Menu</div>
+<div class="key w-1-5" data-code="ControlRight" id="i18n-key-rctrl">Strg</div>
+</div>
+</div>
+<!-- Control section -->
+<div class="control-section">
+<div class="control-group">
+<div class="key" data-code="PrintScreen"><small id="i18n-key-prtscr">PrtSc</small></div>
+<div class="key" data-code="ScrollLock"><small id="i18n-key-scrlk">ScrLk</small></div>
+<div class="key" data-code="Pause"><small id="i18n-key-pause">Pause</small></div>
+</div>
+<div class="control-group">
+<div class="key" data-code="Insert"><small id="i18n-key-ins">Ins</small></div>
+<div class="key" data-code="Heim"><small id="i18n-key-home">Heim</small></div>
+<div class="key" data-code="PageUp"><small id="i18n-key-pgup">PgUp</small></div>
+<div class="key" data-code="Delete"><small id="i18n-key-del">Del</small></div>
+<div class="key" data-code="End"><small id="i18n-key-end">End</small></div>
+<div class="key" data-code="PageDown"><small id="i18n-key-pgdn">PgDn</small></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: auto;">
+<div></div>
+<div class="key" data-code="ArrowUp">&uarr;</div>
+<div></div>
+<div class="key" data-code="ArrowLeft">&larr;</div>
+<div class="key" data-code="ArrowDown">&darr;</div>
+<div class="key" data-code="ArrowRight">&rarr;</div>
+</div>
+</div>
+<!-- Numpad section -->
+<div class="numpad-section">
+<div class="key" data-code="NumLock"><small id="i18n-key-numlk">Num</small></div>
+<div class="key" data-code="NumpadDivide">/</div>
+<div class="key" data-code="NumpadMultiply">*</div>
+<div class="key" data-code="NumpadSubtract">-</div>
+<div class="key" data-code="Numpad7">7</div>
+<div class="key" data-code="Numpad8">8</div>
+<div class="key" data-code="Numpad9">9</div>
+<div class="key h-2" data-code="NumpadAdd" id="i18n-key-numpadadd">+</div>
+<div class="key" data-code="Numpad4">4</div>
+<div class="key" data-code="Numpad5">5</div>
+<div class="key" data-code="Numpad6">6</div>
+<div class="key" data-code="Numpad1">1</div>
+<div class="key" data-code="Numpad2">2</div>
+<div class="key" data-code="Numpad3">3</div>
+<div class="key h-2" data-code="NumpadEnter" id="i18n-key-numpadenter">Ent</div>
+<div class="key w-2" data-code="Numpad0" style="grid-column: span 2;">0</div>
+<div class="key" data-code="NumpadDecimal">.</div>
+</div>
+</div>
+<!-- Info panel -->
+<div class="info-panel">
+<div class="info-box">
+<div id="i18n-event-key">Schl&uuml;sselname</div>
+<div id="info-key">-</div>
+</div>
+<div class="info-box">
+<div id="i18n-event-code">Code</div>
+<div id="info-code">-</div>
+</div>
+<div class="info-box">
+<div id="i18n-event-which">Welcher Wert</div>
+<div id="info-which">-</div>
+</div>
+<div class="info-box">
+<div id="i18n-time-delta">Interval</div>
+<div id="info-time">- ms</div>
+</div>
+</div>
+<!-- Key press interval log output -->
+<div class="log-container">
+<div class="log-header">
+<h3><i class="fas fa-history"></i>Tastendruckprotokoll</h3>
+<div class="log-controls">
+<button class="log-btn" id="toggle-log" onclick="toggleLog()">
+<i class="fas fa-eye"></i>Toggle</button>
+<button class="log-btn" onclick="clearLog()">
+<i class="fas fa-trash"></i>Klar</button>
+<button class="log-btn" id="toggle-scroll" onclick="toggleAutoScroll()">
+<i class="fas fa-scroll"></i>Automatischer Bildlauf</button>
+</div>
+</div>
+<div class="log-content" id="log-content">
+<div class="log-entry log-info">
+<span class="log-time">[00:00:00]</span>
+<span class="log-message">Log gestartet. Erkennt das Intervall zwischen zwei Dr&uuml;cken derselben Taste. Intervalle &lt;80ms sind rot markiert.</span>
+</div>
+<div class="log-entry log-info">
+<span class="log-time">[00:00:00]</span>
+<span class="log-message">Normale menschliche Bedienung dauert normalerweise &gt;100 ms; &lt;80 ms k&ouml;nnen auf Flattern hinweisen.</span>
+</div>
+</div>
+<div class="log-stats">
+<div class="log-stat">
+<span class="log-stat-label">Gesamtprotokolle:</span>
+<span class="log-stat-value" id="log-count">2</span>
+</div>
+<div class="log-stat">
+<span class="log-stat-label">Warnungen:</span>
+<span class="log-stat-value" id="log-warning-count">0</span>
+</div>
+<div class="log-stat">
+<span class="log-stat-label">Min. Intervall:</span>
+<span class="log-stat-value" id="log-min-interval">- ms</span>
+</div>
+</div>
+</div>
+<!-- ========== Full text content below keyboard ========== -->
+<!-- Tool features -->
+<section class="intro-section enhanced" id="features">
+<h2>Umfassender Tastaturtest und Diagnose</h2>
+<p>Dieser Online-Tastaturtester bietet umfassende Tastaturdiagnosefunktionen, die speziell auf h&auml;ufig auftretende Probleme abzielen: Erkennung von Tastendruckintervallen, Rattern, Doppelklick, falsche Tasten, Reaktionsverz&ouml;gerung und NKRO (vollst&auml;ndiger Tasten&uuml;berschlag). Unser professioneller Erkennungsalgorithmus hilft Ihnen, Probleme schnell zu lokalisieren und bietet Reparaturtipps.</p>
+<div class="benefits-grid">
+<div class="benefit-card">
+<i class="fas fa-clock"></i>
+<h3>Tastendruckintervall</h3>
+<p>Misst die Zeit zwischen zwei Dr&uuml;cken derselben Taste. Kennzeichnet Intervalle unter 80 ms (rot) automatisch als m&ouml;gliches Flattern und hilft Ihnen so bei der Diagnose von Entprellungsproblemen.</p>
+</div>
+<div class="benefit-card">
+<i class="fas fa-redo-alt"></i>
+<h3>Chattering / Doppelklick</h3>
+<p>Erkennt Rattern, die durch Schalteralterung, Kontaktoxidation oder Staub verursacht werden. Z&auml;hlt Dr&uuml;cken/Loslassen-Ereignisse und identifiziert klebrige Tasten.</p>
+</div>
+<div class="benefit-card">
+<i class="fas fa-tachometer-alt"></i>
+<h3>Antwortverz&ouml;gerung</h3>
+<p>Echtzeitmessung der Schl&uuml;sselreaktionszeit. Analysiert Verz&ouml;gerungen aufgrund von Bluetooth-St&ouml;rungen, USB-Stromversorgungsproblemen oder Systemlast &ndash; auf Millisekunden genau.</p>
+</div>
+<div class="benefit-card">
+<i class="fas fa-bolt"></i>
+<h3>NKRO (Vollst&auml;ndiger Schl&uuml;ssel-Rollover)</h3>
+<p>Testet die NKRO-F&auml;higkeit Ihrer Tastatur &ndash; unterst&uuml;tzt bis zu 36+ gleichzeitige Tasten. Echtzeitanzeige der Anzahl gleichzeitiger Schl&uuml;ssel.</p>
+</div>
+</div>
+</section>
+<!-- In‑depth SEO content: key press interval expertise -->
+<section class="seo-content-section" itemscope="" itemtype="https://schema.org/Article">
+<meta content="2024-01-01" itemprop="datePublished"/>
+<meta content="2024-01-01" itemprop="dateModified"/>
+<div class="article-image-container" style="text-align: center; margin: 20px 0;">
+<img alt="Diagramm des mechanischen Schaltkontaktprellens (Flattern) &ndash; ungew&ouml;hnliche Mehrfachimpulse bei einem einzigen Tastendruck" src="https://assets.starryring.com/keyboard/en/mechanical-switch-chattering.png" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;" title="Prinzip des Tastaturflatterns"/>
+<p style="font-size: 0.85rem; color: #888; margin-top: 8px;">Abb. 1: Abnormaler Signalsprung durch oxidierte mechanische Kontakte (Grundursache f&uuml;r Rattern)</p>
+</div>
+<h2 itemprop="headline">Erkennung von Tastendruckintervallen: Diagnose von Chattering und Debounce-Technologie</h2>
+<div itemprop="articleBody">
+<p><strong>Schl&uuml;sselw&ouml;rter:</strong>Erkennung des Tastendruckintervalls, Ratterdiagnose, Doppelklick-Reparatur, Tastaturentprellung, Tastenreaktionszeit, mechanisches Schalterprellen, Test der Tastenwiederholungsrate</p>
+<h3>Was ist die Erkennung von Tastendruckintervallen und warum ist sie wichtig?</h3>
+<p>Die Tastendruckintervallerkennung ist die Kerntechnologie zur Diagnose von Tastaturflattern und Doppelklickproblemen. Durch genaues Messen der Zeit zwischen zwei Dr&uuml;cken derselben Taste k&ouml;nnen Sie die folgenden Probleme identifizieren:</p>
+<div class="seo-table">
+<table>
+<thead>
+<tr>
+<th>Interval</th>
+<th>M&ouml;gliche Ursache</th>
+<th>Diagnose</th>
+<th>Reparaturvorschlag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt;20ms</strong></td>
+<td>Kontaktprellen, Stromkreisfehler, starkes Rattern</td>
+<td class="error-text">Schwerwiegender Fehler &ndash; sofortige Reparatur erforderlich</td>
+<td>Schalter austauschen, Stromkreis pr&uuml;fen, professioneller Service</td>
+</tr>
+<tr>
+<td><strong>20-50ms</strong></td>
+<td>M&auml;&szlig;iges Rattern, Entprellfehler, Staub</td>
+<td class="warning-text">Moderater Fehler &ndash; beeintr&auml;chtigt die Benutzererfahrung</td>
+<td>Schalter reinigen, Firmware aktualisieren, Entprellung anpassen</td>
+</tr>
+<tr>
+<td><strong>50-80ms</strong></td>
+<td>Leichtes Rattern, fr&uuml;he Schalteralterung</td>
+<td class="warning-text">Leichter Fehler &ndash; &uuml;berwachen</td>
+<td>Regelm&auml;&szlig;ige Reinigung, schweres Tippen vermeiden, Ersatztastatur</td>
+</tr>
+<tr>
+<td><strong>80-200ms</strong></td>
+<td>Normal schnelles Tippen, Spielen</td>
+<td class="success-text">Normaler Bereich &ndash; menschlicher Betrieb</td>
+<td>Keine Aktion erforderlich</td>
+</tr>
+<tr>
+<td><strong>&gt;200ms</strong></td>
+<td>Normale Schreibgeschwindigkeit, vorsichtige Bedienung</td>
+<td class="success-text">Normalbereich &ndash; sicher</td>
+<td>Keine Aktion erforderlich</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>Keyboard Debounce-Technologie erkl&auml;rt</h3>
+<div class="article-image-container" style="text-align: center; margin: 20px 0;">
+<img alt="Diagramm des Tastatur-Entprellalgorithmus &ndash; Filtern ung&uuml;ltiger Bounce-Signale unter 20 ms" src="https://assets.starryring.com/keyboard/en/keyboard-debounce.png" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #333;" title="Arbeitsablauf zum Entprellen der Tastatur"/>
+<p style="font-size: 0.85rem; color: #888; margin-top: 8px;">Abb. 2: Firmware-Entprellungsalgorithmus, der ung&uuml;ltige Kontakt-Bounces filtert</p>
+</div>
+<div class="comparison-grid">
+<div class="comparison-card">
+<h4><i class="fas fa-microchip"></i>Hardware-Entprellung</h4>
+<ul>
+<li><strong>Wie es funktioniert:</strong>Verwendet RC-Schaltkreise (Widerstandskondensator), um die Signalerkennung und das Prellen von Filterkontakten zu verz&ouml;gern</li>
+<li><strong>Antwortzeit:</strong>Typischerweise 5&ndash;20 ms Verz&ouml;gerung, um eine stabile Erkennung zu gew&auml;hrleisten</li>
+<li><strong>Vorteile:</strong>Stabil, keine CPU-Auslastung</li>
+<li><strong>Nachteile:</strong>H&ouml;here Kosten, begrenzte Reaktionsgeschwindigkeit</li>
+<li><strong>Typische Verwendung:</strong>High-End-Mechanische Tastaturen, Gaming-Tastaturen</li>
+</ul>
+<p><strong>So testen Sie:</strong>Verwenden Sie dieses Tool. Wenn immer noch k&uuml;rzere Intervalle als die Entprellzeit (z. B. 20 ms) registriert werden, kann es sein, dass die Hardware-Entprellung fehlschl&auml;gt.</p>
+</div>
+<div class="comparison-card">
+<h4><i class="fas fa-code"></i>Software-Deounce</h4>
+<ul>
+<li><strong>Wie es funktioniert:</strong>Treiber oder Firmware verz&ouml;gert die Verarbeitung wichtiger Ereignisse</li>
+<li><strong>Antwortzeit:</strong>Weitgehend einstellbar, typischerweise 10&ndash;30 ms</li>
+<li><strong>Vorteile:</strong>Flexibel, geringere Kosten</li>
+<li><strong>Nachteile:</strong>Beansprucht Systemressourcen, kann die Reaktionsgeschwindigkeit beeintr&auml;chtigen</li>
+<li><strong>Typische Verwendung:</strong>Die meisten Folientastaturen, mechanische Tastaturen der Mittelklasse</li>
+</ul>
+<p><strong>So testen Sie:</strong>Variieren Sie Ihre Tippgeschwindigkeit und achten Sie auf die Konsistenz der Intervalle. Gro&szlig;e Schwankungen k&ouml;nnen auf schlechte Entprellungseinstellungen hinweisen.</p>
+</div>
+</div>
+<h3>H&auml;ufige Ursachen und L&ouml;sungen f&uuml;r Chattering</h3>
+<div class="maintenance-tips">
+<div class="tip-card">
+<i class="fas fa-wrench"></i>
+<h4>Mechanisches Tastaturflattern</h4>
+<p><strong>Ursachen:</strong>Federm&uuml;digkeit, oxidierte Kontakte, Staubansammlung, rissige L&ouml;tstellen</p>
+<p><strong>Reparaturschritte:</strong></p>
+<ol>
+<li>Innenkontakte mit Isopropylalkohol reinigen</li>
+<li>Fehlerhaften Schalter ersetzen (kosteng&uuml;nstig)</li>
+<li>Lose Verbindungen nachl&ouml;ten</li>
+<li>Passen Sie die Tastatur-Entprellungseinstellungen an</li>
+</ol>
+<p><strong>Pr&auml;vention:</strong>Regelm&auml;&szlig;ige Reinigung, Fl&uuml;ssigkeiten vermeiden, Staubschutzh&uuml;llen f&uuml;r Tastenkappen verwenden</p>
+</div>
+<div class="tip-card">
+<i class="fas fa-tools"></i>
+<h4>Membrantastatur-Flattern</h4>
+<p><strong>Ursachen:</strong>Abgenutzte Leiterbahnen, verformte Silikonkuppeln, oxidierte Leiterplatte, allgemeine Alterung</p>
+<p><strong>Reparaturschritte:</strong></p>
+<ol>
+<li>Leiterbahnen und Leiterplattenkontakte reinigen</li>
+<li>Verschlissene Silikondome ersetzen (falls Ersatzteile verf&uuml;gbar)</li>
+<li>Verwenden Sie leitf&auml;hige Silberfarbe, um defekte Leiterbahnen zu reparieren</li>
+<li>Wenn es weit verbreitet ist, ersetzen Sie die Tastatur</li>
+</ol>
+<p><strong>Pr&auml;vention:</strong>Sanfter Gebrauch, sauber halten, hohe Temperaturen/Feuchtigkeit vermeiden</p>
+</div>
+<div class="tip-card">
+<i class="fas fa-cogs"></i>
+<h4>Software-/Treiberprobleme</h4>
+<p><strong>Ursachen:</strong>Treiberkonflikte, Betriebssystemeinstellungen, Firmware-Fehler, Energieverwaltung</p>
+<p><strong>Reparaturschritte:</strong></p>
+<ol>
+<li>Tastaturtreiber und Firmware aktualisieren</li>
+<li>&Uuml;berpr&uuml;fen Sie die Energieverwaltungseinstellungen des Betriebssystems</li>
+<li>Tastatur auf Werkseinstellungen zur&uuml;cksetzen</li>
+<li>Testen Sie auf einem anderen Computer, um Systemprobleme zu isolieren</li>
+</ol>
+<p><strong>Pr&auml;vention:</strong>Regelm&auml;&szlig;ige Treiberaktualisierungen, Sicherungseinstellungen, stabile Betriebssystemversionen verwenden</p>
+</div>
+</div>
+<h3>Referenztastendruckintervalle</h3>
+<div class="data-chart">
+<div class="chart-item">
+<span class="chart-label">Professionelle Schreibkraft</span>
+<div class="chart-bar">
+<div class="chart-fill" data-value="100-150ms" style="width: 65%;"></div>
+</div>
+<span class="chart-value">100-150ms</span>
+</div>
+<div class="chart-item">
+<span class="chart-label">Durchschnittlicher Benutzer</span>
+<div class="chart-bar">
+<div class="chart-fill" data-value="150-300ms" style="width: 45%;"></div>
+</div>
+<span class="chart-value">150-300ms</span>
+</div>
+<div class="chart-item">
+<span class="chart-label">Gamer (hoher APM)</span>
+<div class="chart-bar">
+<div class="chart-fill" data-value="80-120ms" style="width: 80%;"></div>
+</div>
+<span class="chart-value">80-120ms</span>
+</div>
+<div class="chart-item">
+<span class="chart-label">Chattering-Schwelle</span>
+<div class="chart-bar">
+<div class="chart-fill threshold" data-value="&lt;80ms" style="width: 25%;"></div>
+</div>
+<span class="chart-value">&lt;80ms</span>
+</div>
+<div class="chart-item">
+<span class="chart-label">Kontakt-Bounce-Bereich</span>
+<div class="chart-bar">
+<div class="chart-fill error" data-value="1-20ms" style="width: 10%;"></div>
+</div>
+<span class="chart-value">1-20ms</span>
+</div>
+</div>
+<div class="conclusion-box">
+<h4><i class="fas fa-check-circle"></i>Best Practices f&uuml;r das Testen von Tastendruckintervallen</h4>
+<ol>
+<li><strong>Regelm&auml;&szlig;ig testen:</strong>Verwenden Sie dieses Tool monatlich, insbesondere f&uuml;r h&auml;ufig verwendete Tasten (WASD, Leerzeichen, Eingabetaste).</li>
+<li><strong>Warnungen beobachten:</strong>Rot markierte Protokolle (Intervall &lt;80 ms) weisen auf potenzielle Probleme hin &ndash; handeln Sie fr&uuml;hzeitig</li>
+<li><strong>Grundlinie festlegen:</strong>Testen Sie eine neue Tastatur, um eine Referenz f&uuml;r zuk&uuml;nftige Vergleiche zu erstellen</li>
+<li><strong>Trends verfolgen:</strong>Zeichnen Sie Intervall&auml;nderungen im Laufe der Zeit auf, um die Lebensdauer der Tastatur vorherzusagen</li>
+<li><strong>Sofortige Reparatur:</strong>Behandeln Sie das Flattern fr&uuml;hzeitig, um weiteren Schaden zu verhindern</li>
+</ol>
+<p><strong>Profi-Tipp:</strong>F&uuml;r E-Sport-Spieler und Vielschreiber: F&uuml;hren Sie viertelj&auml;hrlich einen vollst&auml;ndigen Tastenintervalltest durch, um Ihre Tastatur in Topform zu halten.</p>
+</div>
+</div>
+<div class="author-info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+<meta content="Starry Tool Technical Team" itemprop="name"/>
+<p><strong>Autor:</strong><span itemprop="name">Starry Tool Technisches Team</span> | <strong>Aktualisiert:</strong><span itemprop="dateModified">2024</span></p>
+<p><strong>Expertise:</strong>Tastaturdiagnose, Analyse des Tastendruckintervalls, Entprellungstechnologie, Reparatur mechanischer Tastaturen</p>
+</div>
+</section>
+<!-- Usage guide -->
+<section class="usage-guide" id="usage-guide">
+<h2>So verwenden Sie den Tastaturtester</h2>
+<p>Die Tastendruckintervallfunktion dieses Tools hilft Ihnen bei der Diagnose von Flatter- und Doppelklickproblemen. Befolgen Sie diese Schritte:</p>
+<div class="guide-steps">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">
+<h3>Intervalltest starten</h3>
+<p>Dr&uuml;cken Sie schnell und wiederholt dieselbe Taste (empfohlen: W, Leertaste oder Eingabetaste). Beobachten Sie das Protokollfenster &ndash; es zeichnet Zeitstempel auf und berechnet Intervalle automatisch.</p>
+<p><strong>Wichtige Punkte:</strong></p>
+<ul>
+<li>Das normale menschliche Intervall betr&auml;gt normalerweise &gt;100 ms</li>
+<li>Schnelle Spieler k&ouml;nnen 80&ndash;120 ms erreichen</li>
+<li>Intervals<strong class="error-text">unter 80 ms werden rot markiert</strong>, was auf ein m&ouml;gliches Hardwareproblem hinweist</li>
+</ul>
+</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">
+<h3>Interpretieren Sie das Protokoll</h3>
+<p>Das Protokoll zeigt detaillierte Intervallinformationen:</p>
+<ul>
+<li><span class="log-normal">Wei&szlig;:</span>normal (&ge;80ms)</li>
+<li><span class="log-warning">Yellow:</span>short (50&ndash;79 ms) &ndash; aufgepasst</li>
+<li><span class="log-error">Red:</span>abnormal (&lt;50 ms) &ndash; wahrscheinlicher Fehler</li>
+<li><span class="log-critical">Dunkelrot:</span>schwerwiegend (&lt;20 ms) &ndash; best&auml;tigter Fehler</li>
+</ul>
+<p><strong>Log-Format:</strong>[Zeit] Schl&uuml;ssel[Schl&uuml;sselname] Intervall:[Zeit]ms [Status]</p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">
+<h3>Ergebnisse analysieren</h3>
+<p>Verwenden Sie das Protokoll, um den Zustand der Tastatur zu bewerten:</p>
+<table class="problem-table">
+<tr>
+<th>Beobachtung</th>
+<th>M&ouml;gliches Problem</th>
+<th>Schweregrad</th>
+</tr>
+<tr>
+<td>Gelegentlich rote Protokolle</td>
+<td>Leichtes Rattern, fr&uuml;he Alterung</td>
+<td class="warning-text">&starf;&star;&star;&star;&star; Mild</td>
+</tr>
+<tr>
+<td>H&auml;ufige rote Protokolle</td>
+<td>M&auml;&szlig;iges Rattern &ndash; muss gereinigt/repariert werden</td>
+<td class="warning-text">&starf;&starf;&starf;&star;&star; M&auml;&szlig;ig</td>
+</tr>
+<tr>
+<td>Viele &lt;20-ms-Intervalle</td>
+<td>Starkes Rattern, Entprellungsfehler</td>
+<td class="error-text">&starf;&starf;&starf;&starf;&starf; Schwerwiegend</td>
+</tr>
+<tr>
+<td>Nur bestimmte Schl&uuml;ssel</td>
+<td>Einzelner Schalter/Leitung besch&auml;digt</td>
+<td class="warning-text">&starf;&starf;&star;&star;&star; Lokalisiert</td>
+</tr>
+<tr>
+<td>Alle Tasten normal</td>
+<td>Tastatur ist fehlerfrei</td>
+<td class="success-text">&star;&star;&star;&star;&star; Gut</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="step">
+<div class="step-number">4</div>
+<div class="step-content">
+<h3>Ergreifen Sie Ma&szlig;nahmen</h3>
+<p>Basierend auf den Ergebnissen:</p>
+<ol>
+<li><strong>Mild:</strong>Regelm&auml;&szlig;ig reinigen, &Auml;nderungen &uuml;berwachen</li>
+<li><strong>Moderat:</strong>Gr&uuml;ndlich gereinigt, &uuml;ber eine Reparatur nachdenken</li>
+<li><strong>Schwerwiegend:</strong>Sofort reparieren oder Tastatur austauschen</li>
+<li><strong>Lokalisiert:</strong>Einzelschalter ersetzen (mechanisch) oder gezielte Reparatur</li>
+</ol>
+<p><strong>Reparaturhinweis:</strong>Mechanische Tastaturen sind eine Reparatur wert (g&uuml;nstiger Schalteraustausch). Bei Folientastaturen mit weit verbreiteten Problemen ist ein Austausch oft praktischer.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="faq-section" id="faq">
+<h2>FAQ zum Tastaturtest</h2>
+<div class="faq-container">
+<div class="faq-item">
+<h3>Warum kann das Tastendruckintervall Tastaturfehler erkennen?</h3>
+<div class="faq-answer active">
+<p>Die Erkennung des Tastendruckintervalls basiert auf diesen Prinzipien:</p>
+<ol>
+<li><strong>Menschliche Einschr&auml;nkung:</strong>Die schnellste absichtliche Wiederholung einer einzelnen Taste durch einen Finger liegt normalerweise &uuml;ber 80 ms.</li>
+<li><strong>Mechanische Einschr&auml;nkung:</strong>Switches haben eine physische Rebound-Zeit &ndash; der normale Betrieb kann diese nicht umgehen.</li>
+<li><strong>Debounce-Design:</strong>Tastaturen verz&ouml;gern die Signalerkennung (5&ndash;30 ms), um Kontaktprellen zu filtern.</li>
+<li><strong>Fehlersignatur:</strong>Chattering erzeugt aufgrund oxidierter Kontakte, Federerm&uuml;dung usw. ungew&ouml;hnlich schnelle, wiederholte Signale.</li>
+</ol>
+<p>Daher deuten Intervalle &lt;80 ms eher auf einen Hardwarefehler als auf einen menschlichen Eingriff hin.</p>
+</div>
+</div>
+<div class="faq-item">
+<h3>Wann k&ouml;nnen Intervalle unter 80&nbsp;ms legitim sein?</h3>
+<div class="faq-answer active">
+<p>Seltene F&auml;lle, in denen Intervalle unter 80 ms legitim sein k&ouml;nnen:</p>
+<ul>
+<li><strong>Abwechselnde Finger:</strong>Durch das schnelle Dr&uuml;cken derselben Taste mit zwei Fingern (z. B. Zeige- und Mittelfinger) k&ouml;nnen Intervalle von 60&ndash;80 ms erreicht werden</li>
+<li><strong>Besondere F&auml;higkeit:</strong>Professionelle Schreibkr&auml;fte oder Pianisten verf&uuml;gen m&ouml;glicherweise &uuml;ber eine au&szlig;ergew&ouml;hnliche Fingergeschwindigkeit</li>
+<li><strong>Automatisierte Tests:</strong>Makros oder Testtools verwenden</li>
+<li><strong>Unbedingter Sto&szlig;:</strong>Unbeabsichtigte Tastenber&uuml;hrungen</li>
+</ul>
+<p><strong>So erkennen Sie:</strong>Erlaubtes schnelles Dr&uuml;cken erfolgt normalerweise rhythmisch und kontrolliert, w&auml;hrend das Rattern zuf&auml;llig und unkontrollierbar ist. H&auml;ufige Intervalle von &lt;50 ms deuten mit ziemlicher Sicherheit auf einen Tastaturfehler hin.</p>
+</div>
+</div>
+<div class="faq-item">
+<h3>Wie unterscheidet sich das Rattern zwischen mechanischen und Folientastaturen?</h3>
+<div class="faq-answer active">
+<p>Die Fehlermechanismen unterscheiden sich:</p>
+<div class="comparison-grid" style="grid-template-columns: 1fr 1fr; margin: 15px 0;">
+<div>
+<h4>Mechanisches Rattern</h4>
+<ul>
+<li><strong>Ursachen:</strong>Oxidierte Innenkontakte, Federerm&uuml;dung, Staub</li>
+<li><strong>Charakteristik:</strong>Betrifft normalerweise einen einzelnen Schalter, austauschbar</li>
+<li><strong>Intervall:</strong>Typischerweise 10&ndash;50 ms, ziemlich konsistent</li>
+<li><strong>Fix:</strong>Schalter ersetzen (kosteng&uuml;nstig, ca. 1&ndash;2&nbsp;$)</li>
+</ul>
+</div>
+<div>
+<h4>Membran klappert</h4>
+<ul>
+<li><strong>Ursachen:</strong>Abgenutzte Leiterbahnen, verformte Kuppeln, PCB-Oxidation</li>
+<li><strong>Charakteristik:</strong>Betrifft h&auml;ufig eine Region, die schwer zu reparieren ist</li>
+<li><strong>Intervall:</strong>Schwankt stark, 20&ndash;80 ms m&ouml;glich</li>
+<li><strong>Fix:</strong>Gr&uuml;ndliche Reinigung oder Austausch der Tastatur</li>
+</ul>
+</div>
+</div>
+<p><strong>Diagnoseunterschied:</strong>Mechanisches Rattern ist tendenziell gleichm&auml;&szlig;iger; Membranklappern eher zuf&auml;llig. Das Protokoll zeigt das Muster.</p>
+</div>
+</div>
+<div class="faq-item">
+<h3>Wie w&auml;hlt man eine Reparatur basierend auf Intervallmessungen aus?</h3>
+<div class="faq-answer active">
+<p>Reparaturansatz basierend auf Intervall ausw&auml;hlen:</p>
+<table class="problem-table">
+<tr>
+<th>Intervallbereich</th>
+<th>Schweregrad</th>
+<th>Mechanische Tastatur</th>
+<th>Membrantastatur</th>
+</tr>
+<tr>
+<td>70‑79ms</td>
+<td>Milde, fr&uuml;he Alterung</td>
+<td>Schalter reinigen, &uuml;berwachen</td>
+<td>Spuren reinigen, Feuchtigkeit vermeiden</td>
+</tr>
+<tr>
+<td>50‑69ms</td>
+<td>Moderat, braucht Aufmerksamkeit</td>
+<td>Gr&uuml;ndlich reinigen, Schalteraustausch in Betracht ziehen</td>
+<td>Professionelle Reinigung, Ersatztastatur bereithalten</td>
+</tr>
+<tr>
+<td>30‑49ms</td>
+<td>Schwerwiegend, beeintr&auml;chtigt die Verwendung</td>
+<td>Fehlerhaften Schalter sofort ersetzen</td>
+<td>Erw&auml;gen Sie einen Austausch</td>
+</tr>
+<tr>
+<td>&lt;30ms</td>
+<td>Kritischer Fehler</td>
+<td>Schaltkreis pr&uuml;fen, vollst&auml;ndige Reparatur</td>
+<td>Tastatur sofort austauschen</td>
+</tr>
+</table>
+<p><strong>Kostenerw&auml;gung:</strong>Mechanische Tastaturen sind eine Reparatur wert (g&uuml;nstiger Schalteraustausch). Der Austausch von Folientastaturen ist oft wirtschaftlicher.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Call-to-action -->
+<div class="cta-section">
+<div class="cta-content">
+<h2>Starten Sie jetzt Ihren Tastaturtest</h2>
+<p>Leidet Ihre Tastatur unter Klappern? Warten Sie nicht, bis es Ihre Arbeit oder Ihr Spiel beeintr&auml;chtigt. Nutzen Sie unseren professionellen Tester, um wichtige Intervalle zu messen und potenzielle Probleme fr&uuml;hzeitig zu erkennen.</p>
+<div class="cta-buttons">
+<button class="cta-primary" onclick="startIntervalTest()">
+<i class="fas fa-play-circle"></i>Test starten</button>
+<a class="cta-secondary" href="#usage-guide">
+<i class="fas fa-book"></i>Benutzerhandbuch</a>
+</div>
+</div>
+</div>
+<!-- Scripts -->
+<script src="/static/js/toolbox/keyboard/script-de.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+<footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;">
+<div style="margin-bottom:6px;">&copy; 2026 StarryRing &middot; Online-Tastaturtester</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+<a href="/de/about-us/" style="color:#60a5fa;text-decoration:none;">&Uuml;ber uns</a>
+<a href="/de/contact-us/" style="color:#60a5fa;text-decoration:none;">Kontaktieren Sie uns</a>
+<a href="/de/disclaimer/" style="color:#60a5fa;text-decoration:none;">Haftungsausschluss</a>
+<a href="/de/privacy/" style="color:#60a5fa;text-decoration:none;">Datenschutzerkl&auml;rung</a>
+<a href="/de/terms/" style="color:#60a5fa;text-decoration:none;">Nutzungsbedingungen</a>
+</div>
+</footer>
 </body>
 </html>

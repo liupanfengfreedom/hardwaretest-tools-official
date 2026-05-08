@@ -1,705 +1,413 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html dir="rtl" lang="ur">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    
-    <!-- SEO Meta Tags -->
-    <title>How Double-Click Test Tools Work - Detailed Explanation of Faulty Double-Click Detection</title>
-<meta name="author" content="StarryRing Tools">
-    <meta name="copyright" content="Copyright © 2026 StarryRing Tools. All rights reserved.">
-    
-    <!-- Canonical & Internationalization -->
-
-
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" name="viewport"/>
+<!-- SEO Meta Tags -->
+<title>ڈبل کلک ٹیسٹ ٹولز کیسے کام کرتے ہیں - غلط ڈبل کلک کی کھوج کی تفصیلی وضاحت</title>
+<meta content="StarryRing Tools" name="author"/>
+<meta content="Copyright &copy; 2026 StarryRing Tools. All rights reserved." name="copyright"/>
+<!-- Canonical & Internationalization -->
 <!-- Favicon (unchanged, file paths are same) -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- Robots -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    
-    <!-- Referrer and Security -->
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta name="rating" content="general">
-    <meta name="geo.region" content="US">
-    <meta name="geo.placename" content="United States">
-
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="article">
-
-
-<meta property="og:image" content="https://assets.starryring.com/mouse/double-clicks-principle-og.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Schematic diagram of mouse double-click working principle">
-    <meta property="og:site_name" content="StarryRing ٹول باکس">
-<meta property="og:updated_time" content="2026-01-10T00:00:00+08:00">
-    <meta property="og:article:published_time" content="2026-01-05T00:00:00+08:00">
-    <meta property="og:article:modified_time" content="2026-01-10T00:00:00+08:00">
-    <meta property="og:article:author" content="StarryRing Tools">
-    <meta property="og:article:section" content="Hardware Testing">
-    <meta property="og:article:tag" content="Mouse Testing">
-    <meta property="og:article:tag" content="Hardware Diagnostics">
-    <meta property="og:article:tag" content="Fault Detection">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://starryring.com/ur/toolbox/mouse/double-click/principle/">
-
-<meta name="twitter:image" content="https://assets.starryring.com/mouse/double-clicks-principle-twitter.png">
-    <meta name="twitter:creator" content="@starryring">
-    <meta name="twitter:site" content="@starryring">
-    <meta name="twitter:label1" content="Estimated reading time">
-    <meta name="twitter:data1" content="5 minutes">
-    <meta name="twitter:label2" content="Technology Type">
-    <meta name="twitter:data2" content="Hardware Detection Principles">
-    
-    <!-- Mobile Optimization -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Double-Click Test Principle">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#1a1a1a">
-    <meta name="msapplication-TileColor" content="#1a1a1a">
-    
-    <!-- Performance Optimization (unchanged) -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="/fonts.googleapis.com">
-    <link rel="dns-prefetch" href="/fonts.gstatic.com">
-    <link rel="preload" href="/static/css/shared/article.css" as="style">
-    <link rel="preload" href="/static/css/shared/table.css" as="style">
-    <link rel="preload" href="https://assets.starryring.com/mouse/double-clickschematic.png" as="image">
-    
-    <!-- Stylesheets (unchanged) -->
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/image-modal.css">
-    <link rel="stylesheet" href="/static/css/shared/article.css">
-    <link rel="stylesheet" href="/static/css/shared/table.css">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-
-    
-    <!-- Structured Data Schema Markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Article",
-                "headline": "Detailed Explanation of How Double-Click Test Tools Work",
-                "description": "An in-depth explanation of how mouse double-clicks work and the detection mechanism for faulty double-clicks. Details on mouse microswitches, debouncing technology, hardware fault diagnosis principles, and solutions.",
-                "image": [
-                    "https://assets.starryring.com/mouse/double-clickschematic.png",
-                    "https://assets.starryring.com/mouse/zh/theprincipleofmouse.png"
-                ],
-                "datePublished": "2026-01-05T00:00:00+08:00",
-                "dateModified": "2026-01-10T00:00:00+08:00",
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing Tools",
-                    "url": "https://starryring.com"
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "StarryRing Tools",
-                    "logo": {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/logo.png",
-                        "width": 300,
-                        "height": 60
-                    }
-                },
-                "mainEntityOfPage": {
-                    "@type": "WebPage",
-                    "@id": "https://starryring.com/ur/toolbox/mouse/double-click/principle/"
-                },
-                "articleSection": "Hardware Testing",
-                "keywords": "mouse double-click test, faulty double-click detection, mouse microswitch, debouncing technology, mouse fault diagnosis, mouse click chattering detection",
-                "wordCount": 1800,
-                "timeRequired": "PT5M",
-                "inLanguage": "en",
-                "articleBody": "This article details the working principle of mouse double-clicks, the detection mechanism for faulty double-clicks, the structure and common issues of mouse microswitches, and the implementation principles of debouncing technology. Includes hardware-level fault analysis and software-level detection algorithms."
-            },
-            {
-                "@type": "HowTo",
-                "name": "How to Understand Mouse Double-Click Working Principles",
-                "description": "Step-by-step analysis of mouse double-click detection mechanisms and technical principles",
-                "step": [
-                    {
-                        "@type": "HowToStep",
-                        "name": "Understand Mouse Signal Transmission",
-                        "text": "A mouse only sends three types of information to the computer: button states, displacement changes, and scroll wheel direction. It does not send a double-click signal itself.",
-                        "image": "https://assets.starryring.com/mouse/en/step1-signals.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Understand the Definition of Double-Click",
-                        "text": "A double-click is a concept defined by the operating system: two consecutive button presses within 500ms. The time interval is determined by the OS.",
-                        "image": "https://assets.starryring.com/mouse/en/step2-double-click.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Identify Faulty Double-Clicks",
-                        "text": "A faulty double-click refers to unintended multiple clicks caused by hardware issues, typically with an interval less than 80ms.",
-                        "image": "https://assets.starryring.com/mouse/en/step3-fault-double.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Analyze the Causes of Faults",
-                        "text": "Common causes include microswitch aging, contact oxidation, dust/debris ingress, and mechanical wear.",
-                        "image": "https://assets.starryring.com/mouse/en/step4-causes.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Understand the Detection Principle",
-                        "text": "Uses high-precision timing and event listeners to analyze the time interval between two consecutive mousedown events.",
-                        "image": "https://assets.starryring.com/mouse/en/step5-detection.png"
-                    }
-                ],
-                "totalTime": "PT5M"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What information does a mouse send to the computer?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "A mouse only sends three types of information: button states (pressed/released), displacement changes (X/Y axis movement), and scroll wheel direction. The mouse itself does not send a double-click signal; a double-click is determined by the operating system based on time intervals."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What is a faulty double-click?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "A faulty double-click is when the user clicks only once, but due to mouse hardware issues (e.g., poor microswitch contact), the system receives multiple click signals, typically with an interval less than 80ms."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How does a faulty double-click occur?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Mainly caused by abnormal opening/closing of contacts inside the microswitch, including switch aging, contact oxidation, dust/debris ingress, and mechanical wear."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How to detect faulty double-clicks?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "By listening to mouse events, recording timestamps, and analyzing the time interval between two consecutive mousedown events. If the interval is less than 80ms, it is determined as a faulty double-click."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Which mice support debouncing features?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Some high-end mouse brands such as Rapoo VT series, VGN Dragonfly series, certain Razer models, Logitech G Pro series, etc., support adjusting debouncing parameters via driver software."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "toolbox",
-                        "item": "https://starryring.com/ur/toolbox/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Mouse Testing Tools",
-                        "item": "https://starryring.com/ur/toolbox/mouse/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Double-Click Test Principle",
-                        "item": "https://starryring.com/ur/toolbox/mouse/double-click/principle/"
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-<meta name="description" content="An in-depth explanation of how mouse double-clicks work and the detection mechanism for faulty double-clicks. Details on mouse microswitches, debouncing technology, hardware fault diagnosis principles, and solutions.">
-            <link rel="canonical" href="https://starryring.com/ur/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/toolbox/mouse/double-click/principle/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/mouse/double-click/principle/">
-<meta property="og:url" content="https://starryring.com/ur/toolbox/mouse/double-click/principle/">
-    <meta property="og:locale" content="ur_PK">
-<meta property="og:title" content="🖱️ Detailed Explanation of How Double-Click Test Tools Work - Mouse Fault Detection Technology">
-    <meta property="og:description" content="An in-depth explanation of how mouse double-clicks work and the detection mechanism for faulty double-clicks. Details on mouse microswitches, debouncing technology, hardware fault diagnosis principles, and solutions.">
-    <meta name="twitter:title" content="🖱️ Detailed Explanation of How Double-Click Test Tools Work - Mouse Fault Detection Technology">
-    <meta name="twitter:description" content="An in-depth explanation of how mouse double-clicks work and the detection mechanism for faulty double-clicks. Details on mouse microswitches, debouncing technology, hardware fault diagnosis principles, and solutions.">
-    <meta name="keywords" content="mouse double-click test, faulty double-click detection, mouse microswitch, debouncing technology, mouse fault diagnosis, mouse click chattering detection, hardware testing tool">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- Robots -->
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<!-- Referrer and Security -->
+<meta content="strict-origin-when-cross-origin" name="referrer"/>
+<meta content="general" name="rating"/>
+<meta content="US" name="geo.region"/>
+<meta content="United States" name="geo.placename"/>
+<!-- Open Graph / Facebook -->
+<meta content="article" property="og:type"/>
+<meta content="https://assets.starryring.com/mouse/double-clicks-principle-og.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="ماؤس کا اسکیمیٹک خاکہ ڈبل کلک کام کرنے کا اصول" property="og:image:alt"/>
+<meta content="StarryRing ٹول باکس" property="og:site_name"/>
+<meta content="2026-01-10T00:00:00+08:00" property="og:updated_time"/>
+<meta content="2026-01-05T00:00:00+08:00" property="og:article:published_time"/>
+<meta content="2026-01-10T00:00:00+08:00" property="og:article:modified_time"/>
+<meta content="StarryRing Tools" property="og:article:author"/>
+<meta content="Hardware Testing" property="og:article:section"/>
+<meta content="ماؤس ٹیسٹing" property="og:article:tag"/>
+<meta content="Hardware Diagnostics" property="og:article:tag"/>
+<meta content="Fault Detection" property="og:article:tag"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/ur/toolbox/mouse/double-click/principle/" name="twitter:url"/>
+<meta content="https://assets.starryring.com/mouse/double-clicks-principle-twitter.png" name="twitter:image"/>
+<meta content="@starryring" name="twitter:creator"/>
+<meta content="@starryring" name="twitter:site"/>
+<meta content="Estimated reading time" name="twitter:label1"/>
+<meta content="5 minutes" name="twitter:data1"/>
+<meta content="Technology Type" name="twitter:label2"/>
+<meta content="Hardware Detection Principles" name="twitter:data2"/>
+<!-- Mobile Optimization -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Double-Click Test Principle" name="apple-mobile-web-app-title"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="#1a1a1a" name="theme-color"/>
+<meta content="#1a1a1a" name="msapplication-TileColor"/>
+<!-- Performance Optimization (unchanged) -->
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="dns-prefetch"/>
+<link href="/fonts.googleapis.com" rel="dns-prefetch"/>
+<link href="/fonts.gstatic.com" rel="dns-prefetch"/>
+<link as="style" href="/static/css/shared/article.css" rel="preload"/>
+<link as="style" href="/static/css/shared/table.css" rel="preload"/>
+<link as="image" href="https://assets.starryring.com/mouse/double-clickschematic.png" rel="preload"/>
+<!-- Stylesheets (unchanged) -->
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/image-modal.css" rel="stylesheet"/>
+<link href="/static/css/shared/article.css" rel="stylesheet"/>
+<link href="/static/css/shared/table.css" rel="stylesheet"/>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Structured Data Schema Markup -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "Article", "headline": "اس کی تفصیلی وضاحت کہ ڈبل کلک ٹیسٹ ٹولز کیسے کام کرتے ہیں", "description": "ماؤس کے ڈبل کلکس کیسے کام کرتے ہیں اس کی گہرائی سے وضاحت اور غلط ڈبل کلکس کا پتہ لگانے کا طریقہ کار۔ ماؤس مائیکرو سوئچز، ڈیباؤنسنگ ٹیکنالوجی، ہارڈویئر فالٹ کی تشخیص کے اصول، اور حل کی تفصیلات۔", "image": [ "https://assets.starryring.com/mouse/double-clickschematic.png", "https://assets.starryring.com/mouse/zh/theprincipleofmouse.png" ], "datePublished": "2026-01-05T00:00:00+08:00", "dateModified": "2026-01-10T00:00:00+08:00", "author": { "@type": "Organization", "name": "StarryRing ٹولز", "url": "https://starryring.com" }, "publisher": { "@type": "Organization", "name": "StarryRing ٹولز", "logo": { "@type": "ImageObject", "url": "https://starryring.com/logo.png", "width": 300, "height": 60 } }, "mainEntityOfPage": { "@type": "WebPage", "@id": "https://starryring.com/ur/toolbox/mouse/double-click/principle/" }, "articleSection": "Hardware Testing", "keywords": "mouse double-click test, faulty double-click detection, mouse microswitch, debouncing technology, mouse fault diagnosis, mouse click chattering detection", "wordCount": 1800, "timeRequired": "PT5M", "inLanguage": "ur", "articleBody": "This article details the working principle of mouse double-clicks, the detection mechanism for faulty double-clicks, the structure and common issues of mouse microswitches, and the implementation principles of debouncing technology. Includes hardware-level fault analysis and software-level detection algorithms." }, { "@type": "HowTo", "name": "ماؤس کو کیسے سمجھیں کام کرنے کے اصولوں پر ڈبل کلک کریں", "description": "ماؤس ڈبل کلک کا پتہ لگانے کے طریقہ کار اور تکنیکی اصولوں کا مرحلہ وار تجزیہ", "step": [ { "@type": "HowToStep", "name": "ماؤس سگنل ٹرانسمیشن کو سمجھیں۔", "text": "A ماؤس کمپیوٹر کو صرف تین قسم کی معلومات بھیجتا ہے: بٹن کی حالت، نقل مکانی میں تبدیلی، اور اسکرول وہیل کی سمت۔ یہ خود ڈبل کلک سگنل نہیں بھیجتا ہے۔", "image": "https://assets.starryring.com/mouse/en/step1-signals.png" }, { "@type": "HowToStep", "name": "ڈبل کلک کی تعریف کو سمجھیں۔", "text": "A ڈبل کلک آپریٹنگ سسٹم کے ذریعہ بیان کردہ ایک تصور ہے: 500ms کے اندر دو لگاتار بٹن دبانا۔ وقت کا وقفہ OS کے ذریعہ طے کیا جاتا ہے۔", "image": "https://assets.starryring.com/mouse/en/step2-double-click.png" }, { "@type": "HowToStep", "name": "غلط ڈبل کلکس کی شناخت کریں۔", "text": "ایک ناقص ڈبل کلک سے مراد ہارڈ ویئر کے مسائل کی وجہ سے غیر ارادی متعدد کلکس ہیں، خاص طور پر 80ms سے کم وقفہ کے ساتھ۔\nکمپیوٹر پر", "image": "https://assets.starryring.com/mouse/en/step3-fault-double.png" }, { "@type": "HowToStep", "name": "خرابیوں کی وجوہات کا تجزیہ کریں۔", "text": "عام وجوہات میں مائیکرو سوئچ کی عمر بڑھنا، کانٹیکٹ آکسیڈیشن، دھول/ملبے کا داخل ہونا، اور مکینیکل لباس شامل ہیں۔", "image": "https://assets.starryring.com/mouse/en/step4-causes.png" }, { "@type": "HowToStep", "name": "پتہ لگانے کے اصول کو سمجھیں۔", "text": "مسلسل دو ماؤس ڈاون ایونٹس کے درمیان وقت کے وقفے کا تجزیہ کرنے کے لیے اعلی درستگی کے وقت اور ایونٹ کے سننے والوں کا استعمال کرتا ہے۔", "image": "https://assets.starryring.com/mouse/en/step5-detection.png" } ], "totalTime": "PT5M" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "ایک ماؤس کمپیوٹر کو کیا معلومات بھیجتا ہے؟", "acceptedAnswer": { "@type": "Answer", "text": "A ماؤس صرف تین قسم کی معلومات بھیجتا ہے: بٹن کی حالتیں (دبائی ہوئی/جاری ہوئی)، نقل مکانی کی تبدیلیاں (X/Y محور کی حرکت)، اور اسکرول وہیل کی سمت۔ ماؤس خود ڈبل کلک سگنل نہیں بھیجتا ہے۔ وقت کے وقفوں کی بنیاد پر آپریٹنگ سسٹم کے ذریعے ڈبل کلک کا تعین کیا جاتا ہے۔" } }, { "@type": "Question", "name": "غلط ڈبل کلک کیا ہے؟", "acceptedAnswer": { "@type": "Answer", "text": "ایک غلط ڈبل کلک اس وقت ہوتا ہے جب صارف صرف ایک بار کلک کرتا ہے، لیکن ماؤس ہارڈویئر کے مسائل (جیسے، مائیکرو سوئچ کا ناقص رابطہ) کی وجہ سے، سسٹم کو ایک سے زیادہ کلک سگنل موصول ہوتے ہیں، عام طور پر 80ms سے کم وقفہ کے ساتھ۔" } }, { "@type": "Question", "name": "غلط ڈبل کلک کیسے ہوتا ہے؟", "acceptedAnswer": { "@type": "Answer", "text": "بنیادی طور پر مائیکرو سوئچ کے اندر رابطوں کے غیر معمولی کھلنے/بند ہونے کی وجہ سے ہوتا ہے، بشمول سوئچ کی عمر بڑھنا، کانٹیکٹ آکسیڈیشن، دھول/ملبے کا داخل ہونا، اور مکینیکل لباس۔" } }, { "@type": "Question", "name": "غلط ڈبل کلکس کا پتہ کیسے لگائیں؟", "acceptedAnswer": { "@type": "Answer", "text": "ماؤس کے واقعات کو سن کر، ٹائم اسٹیمپ ریکارڈ کر کے، اور مسلسل دو ماؤس ڈاؤن واقعات کے درمیان وقت کے وقفے کا تجزیہ کر کے۔ اگر وقفہ 80ms سے کم ہے، تو اس کا تعین غلط ڈبل کلک کے طور پر کیا جاتا ہے۔" } }, { "@type": "Question", "name": "کون سے چوہے ڈیباؤنس کی خصوصیات کو سپورٹ کرتے ہیں؟", "acceptedAnswer": { "@type": "Answer", "text": "کچھ اعلیٰ درجے کے ماؤس برانڈز جیسے Rapoo VT سیریز، VGN Dragonfly سیریز، کچھ Razer ماڈلز، Logitech G Pro سیریز، وغیرہ، ڈرائیور سافٹ ویئر کے ذریعے ڈی باؤنسنگ پیرامیٹرز کو ایڈجسٹ کرنے کی حمایت کرتے ہیں۔" } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "ٹول باکس", "item": "https://starryring.com/ur/toolbox/" }, { "@type": "ListItem", "position": 2, "name": "ماؤس ٹیسٹنگ ٹولز", "item": "https://starryring.com/ur/toolbox/mouse/" }, { "@type": "ListItem", "position": 3, "name": "ٹیسٹ کے اصول پر ڈبل کلک کریں۔", "item": "https://starryring.com/ur/toolbox/mouse/double-click/principle/" } ] } ]
+}</script>
+<meta content="ماؤس کے ڈبل کلکس کیسے کام کرتے ہیں اس کی گہرائی سے وضاحت اور غلط ڈبل کلکس کا پتہ لگانے کا طریقہ کار۔ ماؤس مائیکرو سوئچز، ڈیباؤنسنگ ٹیکنالوجی، ہارڈویئر فالٹ کی تشخیص کے اصول، اور حل کی تفصیلات۔" name="description"/>
+<link href="https://starryring.com/ur/toolbox/mouse/double-click/principle/" rel="canonical"/><link href="https://starryring.com/en/toolbox/mouse/double-click/principle/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ur/toolbox/mouse/double-click/principle/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/zh/toolbox/mouse/double-click/principle/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/toolbox/mouse/double-click/principle/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/toolbox/mouse/double-click/principle/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/toolbox/mouse/double-click/principle/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/toolbox/mouse/double-click/principle/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/toolbox/mouse/double-click/principle/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/toolbox/mouse/double-click/principle/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/toolbox/mouse/double-click/principle/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/toolbox/mouse/double-click/principle/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/toolbox/mouse/double-click/principle/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/toolbox/mouse/double-click/principle/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/id/toolbox/mouse/double-click/principle/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/toolbox/mouse/double-click/principle/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/toolbox/mouse/double-click/principle/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/toolbox/mouse/double-click/principle/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/toolbox/mouse/double-click/principle/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/toolbox/mouse/double-click/principle/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/toolbox/mouse/double-click/principle/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ur/toolbox/mouse/double-click/principle/" property="og:url"/>
+<meta content="ur_PK" property="og:locale"/>
+<meta content="🖱️ اس کی تفصیلی وضاحت کہ ڈبل کلک ٹیسٹ ٹولز کیسے کام کرتے ہیں - ماؤس فالٹ ڈیٹیکشن ٹیکنالوجی" property="og:title"/>
+<meta content="ماؤس کے ڈبل کلکس کیسے کام کرتے ہیں اس کی گہرائی سے وضاحت اور غلط ڈبل کلکس کا پتہ لگانے کا طریقہ کار۔ ماؤس مائیکرو سوئچز، ڈیباؤنسنگ ٹیکنالوجی، ہارڈویئر فالٹ کی تشخیص کے اصول، اور حل کی تفصیلات۔" property="og:description"/>
+<meta content="🖱️ اس کی تفصیلی وضاحت کہ ڈبل کلک ٹیسٹ ٹولز کیسے کام کرتے ہیں - ماؤس فالٹ ڈیٹیکشن ٹیکنالوجی" name="twitter:title"/>
+<meta content="ماؤس کے ڈبل کلکس کیسے کام کرتے ہیں اس کی گہرائی سے وضاحت اور غلط ڈبل کلکس کا پتہ لگانے کا طریقہ کار۔ ماؤس مائیکرو سوئچز، ڈیباؤنسنگ ٹیکنالوجی، ہارڈویئر فالٹ کی تشخیص کے اصول، اور حل کی تفصیلات۔" name="twitter:description"/>
+<meta content="ماؤس ڈبل کلک ٹیسٹ، غلط ڈبل کلک کا پتہ لگانا، ماؤس مائیکرو سوئچ، ڈیباؤنسنگ ٹیکنالوجی، ماؤس فالٹ تشخیص، ماؤس کلک چیٹرنگ کا پتہ لگانا، ہارڈویئر ٹیسٹنگ ٹول" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="زبان منتخب کریں" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/toolbox/mouse/double-click/principle/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/toolbox/mouse/double-click/principle/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/toolbox/mouse/double-click/principle/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/toolbox/mouse/double-click/principle/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/toolbox/mouse/double-click/principle/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/toolbox/mouse/double-click/principle/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/toolbox/mouse/double-click/principle/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/toolbox/mouse/double-click/principle/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/toolbox/mouse/double-click/principle/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/toolbox/mouse/double-click/principle/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/toolbox/mouse/double-click/principle/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/toolbox/mouse/double-click/principle/" data-lang="ru">Русский</a>
-            <a class="language-option selected" href="/ur/toolbox/mouse/double-click/principle/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/toolbox/mouse/double-click/principle/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/toolbox/mouse/double-click/principle/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/toolbox/mouse/double-click/principle/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/toolbox/mouse/double-click/principle/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/toolbox/mouse/double-click/principle/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/toolbox/mouse/double-click/principle/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/toolbox/mouse/double-click/principle/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="زبان منتخب کریں۔" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/toolbox/mouse/double-click/principle/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/toolbox/mouse/double-click/principle/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/toolbox/mouse/double-click/principle/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/toolbox/mouse/double-click/principle/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/toolbox/mouse/double-click/principle/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/toolbox/mouse/double-click/principle/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/toolbox/mouse/double-click/principle/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/toolbox/mouse/double-click/principle/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/toolbox/mouse/double-click/principle/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/toolbox/mouse/double-click/principle/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/toolbox/mouse/double-click/principle/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option selected" data-lang="ur" href="/ur/toolbox/mouse/double-click/principle/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/toolbox/mouse/double-click/principle/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/toolbox/mouse/double-click/principle/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/toolbox/mouse/double-click/principle/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/toolbox/mouse/double-click/principle/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/toolbox/mouse/double-click/principle/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/toolbox/mouse/double-click/principle/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/toolbox/mouse/double-click/principle/">தமிழ்</a>
+</div>
+</div>
 <!-- Language Switcher -->
 <!-- Sidebar Table of Contents -->
-    <nav class="sidebar-nav">
-    <h2>Table of Contents</h2>
-    <a href="#t1">1. What Information Does a Mouse Send?</a>
-    <a href="#t2">2. What is a Double-Click?</a>
-    <a href="#t3">3. What is a Faulty Double-Click?</a>
-    <a href="#t4">4. How Do Faulty Double-Clicks Occur?</a>
-    <a href="#t5">5. How This Tool Detects Faulty Double-Clicks</a>
-    <a href="#t6">6. What Mice Can Do to Reduce Faulty Double-Clicks</a>
+<nav class="sidebar-nav">
+<h2>مندرجات کا جدول</h2>
+<a href="#t1">1. ماؤس کیا معلومات بھیجتا ہے؟</a>
+<a href="#t2">2. ڈبل کلک کیا ہے؟</a>
+<a href="#t3">3. غلط ڈبل کلک کیا ہے؟</a>
+<a href="#t4">4. غلط ڈبل کلکس کیسے ہوتے ہیں؟</a>
+<a href="#t5">5۔ یہ ٹول ناقص ڈبل کلکس کا کیسے پتہ لگاتا ہے۔</a>
+<a href="#t6">6۔ غلط ڈبل کلکس کو کم کرنے کے لیے چوہے کیا کر سکتے ہیں۔</a>
 </nav>
-
 <main>
-        <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb Navigation" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item">
-                <a href="/ur/" class="breadcrumb-link"><i class="fas fa-home"></i> ہوم</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/ur/toolbox/mouse/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> Mouse Testing Tools</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/ur/toolbox/mouse/double-click/" class="breadcrumb-link"><i class="fas fa-toolbox"></i> Double-Click Test</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <span class="breadcrumb-active"><i class="fas fa-mouse"></i> Double-Click Test Tool - Working Principle</span>
-            </li>
-        </ol>
-    </nav>
-    <h1>Double-Click Test Tool - Detailed Working Principle</h1>
-    <p>This article details how mouse double-clicks work and the mechanism this tool uses to detect faulty double-clicks.</p>
-
-    <section id="t1" class="section">
-        <h2>1. What Information Does a Mouse Send to the Computer?</h2>
-        <p>A mouse only sends three types of information to the computer:</p>
-        <ul>
-            <li><strong>Button State:</strong> Whether a button is pressed or released.</li>
-            <li><strong>Displacement Change:</strong> The amount of movement on the X and Y axes.</li>
-            <li><strong>Scroll Wheel Direction:</strong> Whether the wheel is scrolled up or down.</li>
-        </ul>
-        <p>That's correct—you read it right. A mouse does <strong>not</strong> send a <strong>double-click signal</strong> to the computer. It only sends time pulses generated by button presses and releases. To be precise, the mouse itself doesn't know <a href="#t2">what a double-click is</a>. So, how does the computer know when a double-click happens? Where does the computer get the double-click signal? Don't worry; the following section, <a href="#t2">What is a Double-Click?</a>, explains this.</p>
-    </section>
-
-    <section id="t2" class="section">
-        <h2>2. What is a Double-Click?</h2>
-        <p>A <strong>double-click</strong> occurs when any mouse button is pressed twice within a time threshold, typically 500ms (this threshold is adjustable in different systems/settings; you can see its specific configuration in the Windows/macOS control panel). Such a signal is recognized by the operating system as a double-click. That's right—the double-click signal is defined by the operating system itself. As long as the time pulse signal matches the definition, the OS unhesitatingly recognizes it as a double-click, as shown in the diagram below.</p>
-        
-        <div class="tip-box">
-        <h3>Note:</h3>
-           As long as the interval between two presses is less than 500ms, it counts as a double-click. That means even 50ms or 20ms intervals qualify. However, how can a human achieve that speed? They can't. But the operating system doesn't care whether humans can do it; it only cares if the interval is less than 500ms. This also explains why some mice experience <strong><a href="#t3">faulty double-click</a></strong> issues (double-clicks triggered by non-human behavior).
-        </div>
-        <div class="tip-box">
-        <h3>Note:</h3>
-           <strong>Left-button double-click</strong> is the default interaction logic for mainstream operating systems like Windows and macOS. Specialized software: In some CAD drawing software, 3D modeling tools (like certain Blender plugins), or Geographic Information Systems (GIS), <strong>right-button double-click</strong> is defined as "cancel current command" or "return to previous menu." In such software, right-button double-clicking can quickly undo the current operation or return to the previous view, improving workflow efficiency.
-        </div>
-       <!-- Image Modal -->
-            <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="Enlarged Image View" hidden>
-                <div class="modal-content" id="modalContent">
-                    <button class="modal-close" id="modalClose" aria-label="Close Image View">&times;</button>
-                    <img id="modalImage" src="" alt="" itemprop="image">
-                    <button class="modal-zoom" id="modalZoom" aria-label="Zoom In/Out Image">
-                        <i class="fas fa-search-plus" aria-hidden="true"></i>
-                    </button>
-                    <div class="modal-caption" id="modalCaption"></div>
-                </div>
-            </div>
-           <!-- Optimized Image Display -->
-                <figure class="principle-image" itemscope itemtype="https://schema.org/ImageObject" data-image="https://assets.starryring.com/mouse/zh/theprincipleofmouse.png">
-                    <img src="https://assets.starryring.com/mouse/double-click-schematic.png" 
-                         alt="Mouse Double-Click Timeline Schematic"
-                         loading="lazy"
-                         itemprop="contentUrl">
-                    <figcaption class="image-caption" itemprop="caption">
-                        Mouse Button State Timing Diagram - Shows how mouse button states change over time.
-                    </figcaption>
-                    <div class="image-hint" aria-hidden="true">Double-click the image to zoom in.</div>
-                </figure>   
-    </section>
-
-    <section id="t3" class="section">
-        <h2>3. What is a Faulty Double-Click?</h2>
-        <p>A <strong>faulty double-click</strong> is when the user clicks only once, but due to mouse hardware issues, the system receives multiple click signals, typically with an interval less than 80ms. Human clicking speed simply cannot be this fast, but this time pulse satisfies the operating system's <strong><a href="#t2">definition of a double-click</a></strong>.</p>
-        <p>Faulty double-clicks typically manifest as:</p>
-        <ul>
-            <li>Clicking once opens a file and immediately closes it (selects and deselects).</li>
-            <li>Dragging is suddenly interrupted.</li>
-            <li>Clicking once in text selects two words.</li>
-        </ul>
-        
-        <div class="tip-box">
-        <h3>Note:</h3>
-           <strong>Faulty double-click</strong> is also referred to as 'abnormal double-click,' 'chattering,' 'click bounce,' or hardware misjudgment double-click.
-        </div>
-    </section>
-
-    <section id="t4" class="section">
-        <h2>4. How Do Faulty Double-Clicks Occur?</h2>
-        <p>The root cause of faulty double-clicks lies in <strong>abnormal opening and closing of contacts inside the microswitch</strong>. Common causes include:</p>
-        <ul>
-            <li><strong>Microswitch Aging:</strong> Metal spring fatigue after long-term use, leading to poor rebound.</li>
-            <li><strong>Contact Oxidation:</strong> Sulfides in the air cause surface oxidation, increasing contact resistance.</li>
-            <li><strong>Dust or Debris:</strong> Enters the microswitch, causing unstable contact.</li>
-            <li><strong>Mechanical Wear:</strong> Surface wear on contacts leads to poor contact.</li>
-        </ul>
-        <p>These physical changes cause the circuit to open and close multiple times briefly during a single press, leading the system to mistakenly interpret it as multiple clicks.</p>
-    </section>
-
-    <section id="t5" class="section">
-        <h2>5. How This Tool Detects Faulty Double-Clicks</h2>
-        <p>This tool uses high-precision timing and event listeners, combined with intelligent algorithms, to accurately identify abnormal click signals that are not human-generated.</p>
-        
-        <h3>Detection Principle:</h3>
-        <ul>
-            <li><strong>Event Listening:</strong> Real-time capture of mouse <code>mousedown</code> and <code>mouseup</code> events.</li>
-            <li><strong>Timestamp Recording:</strong> Records precise timestamps (millisecond accuracy) for each event.</li>
-            <li><strong>Interval Analysis:</strong> Calculates the time interval between two consecutive <code>mousedown</code> events.</li>
-        </ul>
-
-        <h3>Judgment Logic:</h3>
-        <p>If the interval between two <code>mousedown</code> events is <strong>less than 80ms</strong>, it is judged as a faulty double-click. This is because the normal human double-click interval is typically greater than 100ms; consecutive clicks shorter than 80ms are extremely likely caused by hardware bounce.</p>
-
-        <div class="logic-box">
-            <strong>Judgment Formula:</strong><br>
-            if (timeBetweenPresses < 80ms) → Judged as Faulty Double-Click
-        </div>
-
-        <div class="log-demo">
-            <strong>Faulty Double-Click Log Example:</strong><br>
-            [10:00:01] Left Button Down<br>
-            [10:00:01] Left Button Up (Interval: 45ms) → <span style="color: #fb7185;">DETECTED CHATTERING</span>
-        </div>
-
-        <p>The tool also counts the number of faulty double-clicks.</p>
-    </section>
-    <section id="t6" class="section">
-        <h2>6. What Can Mice Do to Reduce Faulty Double-Clicks?</h2>
-        <p>Some high-end mouse brands and models provide debouncing features, allowing users to adjust debouncing parameters via driver software to reduce the occurrence of faulty double-clicks. Below is a state diagram of a mouse's operation after incorporating debouncing functionality.</p>
-
-        <div class="svg-container">
-            <svg width="1100" height="720" viewBox="0 0 1100 720"
-                xmlns="http:/www.w3.org/2000/svg"
-                font-family="Arial, sans-serif">
-
-            <!-- ========== Definitions ========== -->
-            <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10"
-                        refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="currentColor"/>
-                </marker>
-
-                <style>
-                .state { fill:#1e293b; }
-                .active { animation:pulse 1.4s infinite; }
-
-                @keyframes pulse {
-                    0%{filter:brightness(1)}
-                    50%{filter:brightness(1.6)}
-                    100%{filter:brightness(1)}
-                }
-
-                .flow {
-                    fill:none;
-                    stroke-width:3;
-                    stroke-dasharray:8 6;
-                    animation:flow 1.8s linear infinite;
-                }
-
-                @keyframes flow {
-                    to { stroke-dashoffset:-28; }
-                }
-
-                .ok { stroke:#22c55e; }
-                .fail { stroke:#818cf8; }
-                .bad { stroke:#ef4444; }
-                </style>
-            </defs>
-
-            <!-- ========== Background ========== -->
-            <rect width="1100" height="720" rx="20" fill="#020617"/>
-
-            <!-- ========== Title ========== -->
-            <text x="550" y="42" text-anchor="middle"
-                    font-size="22" fill="#e5e7eb" font-weight="bold">
-                Mouse Double-Click Complete State Machine
-            </text>
-
-            <!-- ========== States ========== -->
-            <!-- Idle -->
-            <rect x="470" y="80" width="160" height="60" rx="12"
-                    class="state active"/>
-            <text x="550" y="118" text-anchor="middle" fill="#e5e7eb">Idle</text>
-
-            <!-- First Press -->
-            <rect x="180" y="190" width="220" height="70" rx="12" class="state"/>
-            <text x="290" y="232" text-anchor="middle" fill="#e5e7eb">
-                First Press
-            </text>
-
-            <!-- First Release -->
-            <rect x="180" y="300" width="220" height="70" rx="12" class="state"/>
-            <text x="290" y="342" text-anchor="middle" fill="#e5e7eb">
-                First Release
-            </text>
-
-            <!-- Waiting for Second Click -->
-            <rect x="450" y="300" width="260" height="90" rx="14" class="state"/>
-            <text x="580" y="338" text-anchor="middle" fill="#e5e7eb">
-                Waiting for Second Click
-            </text>
-            <text x="580" y="360" text-anchor="middle" fill="#94a3b8" font-size="12">
-                Double-Click Timer Active
-            </text>
-
-            <!-- Second Press -->
-            <rect x="800" y="300" width="220" height="70" rx="12" class="state"/>
-            <text x="910" y="342" text-anchor="middle" fill="#e5e7eb">
-                Second Press
-            </text>
-
-            <!-- Success -->
-            <rect x="800" y="440" width="220" height="70" rx="12"
-                    fill="#052e16"/>
-            <text x="910" y="480" text-anchor="middle"
-                    fill="#22c55e" font-weight="bold">
-                Double-Click Confirmed
-            </text>
-
-            <!-- Timeout/Distance Failure -->
-            <rect x="450" y="440" width="260" height="70" rx="12"
-                    fill="#312e81"/>
-            <text x="580" y="480" text-anchor="middle"
-                    fill="#c7d2fe">
-                Timeout/Distance Failure
-            </text>
-
-            <!-- Hardware Bounce -->
-            <rect x="180" y="440" width="220" height="110" rx="12"
-                    fill="#3b1d1d"/>
-            <text x="290" y="472" text-anchor="middle"
-                    fill="#fecaca" font-weight="bold">
-                Hardware Bounce
-            </text>
-            <text x="290" y="494" text-anchor="middle"
-                    fill="#fecaca" font-size="12">
-                Contact Noise (3 times)
-            </text>
-
-            <!-- ========== Flows ========== -->
-            <path d="M550 140 L290 190" class="flow ok" marker-end="url(#arrow)"/>
-            <path d="M290 260 L290 300" class="flow ok" marker-end="url(#arrow)"/>
-            <path d="M400 335 L450 335" class="flow ok" marker-end="url(#arrow)"/>
-            <path d="M710 335 L800 335" class="flow ok" marker-end="url(#arrow)"/>
-            <path d="M910 370 L910 440" class="flow ok" marker-end="url(#arrow)"/>
-
-            <!-- Failure -->
-            <path d="M580 390 L580 440" class="flow fail" marker-end="url(#arrow)"/>
-
-            <!-- Three Bounces -->
-            <path d="M290 370 L290 420" class="flow bad" marker-end="url(#arrow)"/>
-            <circle cx="260" cy="400" r="6" fill="#ef4444"/>
-            <circle cx="290" cy="410" r="6" fill="#ef4444"/>
-            <circle cx="320" cy="400" r="6" fill="#ef4444"/>
-
-            <!-- Return -->
-            <path d="M290 550 C290 620 550 620 550 140"
-                    class="flow bad" marker-end="url(#arrow)"/>
-            <path d="M580 510 C580 620 550 620 550 140"
-                    class="flow fail" marker-end="url(#arrow)"/>
-            <path d="M910 510 C910 620 550 620 550 140"
-                    class="flow ok" marker-end="url(#arrow)"/>
-
-            <!-- ========== Metrics Panel ========== -->
-            <rect x="760" y="80" width="300" height="160" rx="14"
-                    fill="#020617" stroke="#334155"/>
-
-            <text x="910" y="108" text-anchor="middle"
-                    fill="#e5e7eb" font-weight="bold">
-                Real-time Metrics (Simulated)
-            </text>
-
-            <text x="790" y="140" fill="#94a3b8">Interval:</text>
-            <text x="950" y="140" fill="#e5e7eb" id="interval">87 ms</text>
-
-            <text x="790" y="168" fill="#94a3b8">Clicks:</text>
-            <text x="950" y="168" fill="#e5e7eb" id="clicks">2</text>
-
-            <text x="790" y="196" fill="#94a3b8">Bounce Count:</text>
-            <text x="950" y="196" fill="#ef4444" id="bounce">3</text>
-
-            <!-- Bottom Note -->
-            <text x="550" y="690" text-anchor="middle"
-                    fill="#64748b" font-size="13">
-                Red path: indicates hardware bounce detection. Blue path: indicates timeout or distance failure. Green path: indicates success.
-            </text>
-            </svg>
-        </div>
-
-        <h2>Below are some examples of mouse brands and models that support debouncing adjustment:</h2>
-
-         <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th><i class="fas fa-tag"></i> Brand</th>
-                        <th><i class="fas fa-list-alt"></i> Series/Model Examples</th>
-                        <th><i class="fas fa-desktop"></i> Driver Software Name</th>
-                        <th><i class="fas fa-sliders-h"></i> Debouncing Adjustment Range (Typical)</th>
-                        <th><i class="fas fa-sticky-note"></i> Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="brand">Rapoo</td>
-                        <td class="model">VT series (VT1 Pro Max, VT3s Max, VT3 Pro Max, VT1 Air Max, VT9, etc.)</td>
-                        <td class="software">A-Hub</td>
-                        <td class="range">Typically supported, adjustable 0~20ms</td>
-                        <td class="note"></td>
-                    </tr>
-                    <tr>
-                        <td class="brand">VGN</td>
-                        <td class="model">Dragonfly series (Dragonfly F1 Pro Max, etc.)</td>
-                        <td class="software">VGN VHUB</td>
-                        <td class="range">Supports custom debouncing</td>
-                        <td class="note"></td>
-                    </tr>
-                    <tr>
-                        <td class="brand">Keychron</td>
-                        <td class="model">Some gaming mice</td>
-                        <td class="software">Keychron Launcher</td>
-                        <td class="range">Draggable adjustment</td>
-                        <td class="note"></td>
-                    </tr>
-                    <tr>
-                        <td class="brand">Razer</td>
-                        <td class="model">Some high-end models (e.g., certain Viper/DeathAdder models after firmware update)</td>
-                        <td class="software">Razer Synapse</td>
-                        <td class="range">Some models support (not all)</td>
-                        <td class="note"></td>
-                    </tr>
-                    <tr>
-                        <td class="brand">Logitech</td>
-                        <td class="model">G Pro series (some models)</td>
-                        <td class="software">G HUB</td>
-                        <td class="range">Partial support (from 4ms)</td>
-                        <td class="note"></td>
-                    </tr>
-                    <tr>
-                        <td class="brand">MACHENIKE</td>
-                        <td class="model">L8Max model</td>
-                        <td class="software">L8 driver</td>
-                        <td class="range">Supports (2ms, 4ms, 8ms)</td>
-                        <td class="note"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="legend">
-            <div class="legend-item">
-                <div class="color-sample brand-color"></div>
-                <span>Brand Name</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-sample model-color"></div>
-                <span>Mouse Model</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-sample software-color"></div>
-                <span>Driver Software</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-sample range-color"></div>
-                <span>Debouncing Range</span>
-            </div>
-            <div class="legend-item">
-                <div class="color-sample note-color"></div>
-                <span>Notes</span>
-            </div>
-        </div>
-    </section>
+<!-- Breadcrumb Navigation -->
+<nav aria-label="بریڈکرمب نیویگیشن" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ur/"><i class="fas fa-home"></i>گھر</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ur/toolbox/mouse/"><i class="fas fa-toolbox"></i>ماؤس ٹیسٹنگ ٹولز</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ur/toolbox/mouse/double-click/"><i class="fas fa-toolbox"></i>ٹیسٹ پر ڈبل کلک کریں۔</a>
+</li>
+<li aria-current="page" class="breadcrumb-item">
+<span class="breadcrumb-active"><i class="fas fa-mouse"></i>ٹیسٹ ٹول پر ڈبل کلک کریں - کام کرنے کا اصول</span>
+</li>
+</ol>
+</nav>
+<h1>ٹیسٹ ٹول پر ڈبل کلک کریں - تفصیلی کام کرنے کا اصول</h1>
+<p>اس مضمون میں بتایا گیا ہے کہ ماؤس کے ڈبل کلکس کیسے کام کرتے ہیں اور یہ ٹول ناقص ڈبل کلکس کا پتہ لگانے کے لیے کس طریقہ کار کو استعمال کرتا ہے۔</p>
+<section class="section" id="t1">
+<h2>1۔ ماؤس کمپیوٹر کو کیا معلومات بھیجتا ہے؟</h2>
+<p>A ماؤس کمپیوٹر کو صرف تین قسم کی معلومات بھیجتا ہے۔</p>
+<ul>
+<li><strong>بٹن کی حالت:</strong>چاہے کوئی بٹن دبایا جائے یا جاری کیا جائے۔</li>
+<li><strong>نقل مکانی کی تبدیلی:</strong>X اور Y محور پر حرکت کی مقدار۔</li>
+<li><strong>اسکرول وہیل کی سمت:</strong>چاہے پہیے کو اوپر یا نیچے سکرول کیا گیا ہو۔</li>
+</ul>
+<p>یہ درست ہے&mdash;آپ نے اسے صحیح پڑھا۔ ایک چوہا کرتا ہے۔<strong>نہیں</strong>بھیجیں<strong>سگنل پر ڈبل کلک کریں۔</strong>یہ صرف بٹن دبانے اور ریلیز سے پیدا ہونے والی وقت کی دالیں بھیجتا ہے۔ عین مطابق ہونے کے لیے، ماؤس خود نہیں جانتا<a href="#t2">ایک ڈبل کلک کیا ہے</a>تو، کمپیوٹر کو کیسے معلوم ہوگا کہ جب ڈبل کلک ہوتا ہے؟ کمپیوٹر کو ڈبل کلک کا سگنل کہاں سے ملتا ہے؟ فکر مت کرو؛ مندرجہ ذیل سیکشن،<a href="#t2">ڈبل کلک کیا ہے؟</a>، اس کی وضاحت کرتا ہے۔</p>
+</section>
+<section class="section" id="t2">
+<h2>2. ڈبل کلک کیا ہے؟</h2>
+<p>A <strong>ڈبل کلک کریں</strong>اس وقت ہوتا ہے جب کوئی بھی ماؤس بٹن ایک وقت کی حد کے اندر دو بار دبایا جاتا ہے، عام طور پر 500ms (یہ حد مختلف سسٹمز/سیٹنگز میں ایڈجسٹ ہوتی ہے؛ آپ ونڈوز/macOS کنٹرول پینل میں اس کی مخصوص کنفیگریشن دیکھ سکتے ہیں)۔ اس طرح کے سگنل کو آپریٹنگ سسٹم ڈبل کلک کے طور پر تسلیم کرتا ہے۔ یہ ٹھیک ہے &mdash; ڈبل کلک سگنل کی وضاحت آپریٹنگ سسٹم خود کرتا ہے۔ جب تک ٹائم پلس سگنل تعریف سے میل کھاتا ہے، OS بغیر کسی ہچکچاہٹ کے اسے ڈبل کلک کے طور پر پہچانتا ہے، جیسا کہ نیچے دی گئی تصویر میں دکھایا گیا ہے۔</p>
+<div class="tip-box">
+<h3>نوٹ:</h3>جب تک دو پریس کے درمیان وقفہ 500ms سے کم ہے، یہ ڈبل کلک کے طور پر شمار ہوتا ہے۔ اس کا مطلب ہے کہ 50ms یا 20ms کے وقفے بھی اہل ہیں۔ تاہم، انسان اس رفتار کو کیسے حاصل کر سکتا ہے؟ وہ نہیں کر سکتے۔ لیکن آپریٹنگ سسٹم اس بات کی پرواہ نہیں کرتا کہ آیا انسان یہ کر سکتے ہیں۔ یہ صرف اس صورت میں پرواہ کرتا ہے جب وقفہ 500ms سے کم ہو۔ یہ یہ بھی بتاتا ہے کہ کچھ چوہوں کا تجربہ کیوں ہوتا ہے۔<strong><a href="#t3">غلط ڈبل کلک</a></strong>مسائل (غیر انسانی رویے سے شروع ہونے والے ڈبل کلکس)۔</div>
+<div class="tip-box">
+<h3>نوٹ:</h3>
+<strong>بائیں بٹن پر ڈبل کلک کریں۔</strong>مین اسٹریم آپریٹنگ سسٹم جیسے Windows اور macOS کے لیے پہلے سے طے شدہ تعامل کی منطق ہے۔ خصوصی سافٹ ویئر: کچھ CAD ڈرائنگ سافٹ ویئر میں، 3D ماڈلنگ ٹولز (جیسے کچھ بلینڈر پلگ ان)، یا جیوگرافک انفارمیشن سسٹمز (GIS)،<strong>دائیں بٹن پر ڈبل کلک کریں۔</strong>کی تعریف "موجودہ کمانڈ منسوخ کریں" یا "پچھلے مینو پر واپس جائیں۔" اس طرح کے سافٹ ویئر میں، دائیں بٹن پر ڈبل کلک کرنے سے موجودہ آپریشن کو فوری طور پر کالعدم کیا جا سکتا ہے یا ورک فلو کی کارکردگی کو بہتر کرتے ہوئے پچھلے منظر پر واپس آ سکتے ہیں۔</div>
+<!-- Image Modal -->
+<div aria-label="بڑھا ہوا تصویری منظر" aria-modal="true" class="image-modal" hidden="" id="imageModal" role="dialog">
+<div class="modal-content" id="modalContent">
+<button aria-label="تصویری منظر کو بند کریں۔" class="modal-close" id="modalClose">&times;</button>
+<img alt="" id="modalImage" itemprop="image" src=""/>
+<button aria-label="تصویر کو زوم ان/آؤٹ کریں۔" class="modal-zoom" id="modalZoom">
+<i aria-hidden="true" class="fas fa-search-plus"></i>
+</button>
+<div class="modal-caption" id="modalCaption"></div>
+</div>
+</div>
+<!-- Optimized Image Display -->
+<figure class="principle-image" data-image="https://assets.starryring.com/mouse/zh/theprincipleofmouse.png" itemscope="" itemtype="https://schema.org/ImageObject">
+<img alt="ماؤس ڈبل کلک ٹائم لائن اسکیمیٹک" itemprop="contentUrl" loading="lazy" src="https://assets.starryring.com/mouse/double-click-schematic.png"/>
+<figcaption class="image-caption" itemprop="caption">ماؤس بٹن اسٹیٹ ٹائمنگ ڈایاگرام - دکھاتا ہے کہ وقت کے ساتھ ساتھ ماؤس بٹن کی حالتیں کیسے بدلتی ہیں۔</figcaption>
+<div aria-hidden="true" class="image-hint">زوم ان کرنے کے لیے تصویر پر ڈبل کلک کریں۔</div>
+</figure>
+</section>
+<section class="section" id="t3">
+<h2>3. غلط ڈبل کلک کیا ہے؟</h2>
+<p>A <strong>غلط ڈبل کلک</strong>تب ہوتا ہے جب صارف صرف ایک بار کلک کرتا ہے، لیکن ماؤس ہارڈویئر کے مسائل کی وجہ سے، سسٹم کو متعدد کلک سگنل موصول ہوتے ہیں، عام طور پر 80ms سے کم وقفہ کے ساتھ۔ انسان کے کلک کرنے کی رفتار اتنی تیز نہیں ہو سکتی، لیکن اس بار نبض آپریٹنگ سسٹم کو مطمئن کرتی ہے۔<strong><a href="#t2">ڈبل کلک کی تعریف</a></strong>.</p>
+<p>غلط ڈبل کلکس عام طور پر اس طرح ظاہر ہوتے ہیں:</p>
+<ul>
+<li>ایک بار کلک کرنے سے فائل کھل جاتی ہے اور فوراً بند ہوجاتی ہے (منتخب اور غیر منتخب)۔</li>
+<li>گھسیٹنے میں اچانک خلل پڑتا ہے۔</li>
+<li>ٹیکسٹ میں ایک بار کلک کرنے سے دو الفاظ منتخب ہوتے ہیں۔</li>
+</ul>
+<div class="tip-box">
+<h3>نوٹ:</h3>
+<strong>غلط ڈبل کلک</strong>کو 'غیر معمولی ڈبل کلک،' 'چٹرنگ،' 'کلک باؤنس،' یا ہارڈویئر غلط فیصلہ ڈبل کلک بھی کہا جاتا ہے۔</div>
+</section>
+<section class="section" id="t4">
+<h2>4. غلط ڈبل کلکس کیسے ہوتے ہیں؟</h2>
+<p>غلط ڈبل کلکس کی اصل وجہ اس میں ہے۔<strong>مائیکرو سوئچ کے اندر رابطوں کا غیر معمولی کھلنا اور بند ہونا</strong>. عام وجوہات میں شامل ہیں:</p>
+<ul>
+<li><strong>مائیکرو سوئچ ایجنگ:</strong>طویل مدتی استعمال کے بعد دھاتی موسم بہار کی تھکاوٹ، خراب صحت مندی لوٹنے کا باعث بنتی ہے۔</li>
+<li><strong>رابطہ آکسیکرن:</strong>ہوا میں سلفائڈس سطح کے آکسیکرن کا سبب بنتے ہیں، جس سے رابطے کی مزاحمت بڑھتی ہے۔</li>
+<li><strong>دھول یا ملبہ:</strong>مائیکرو سوئچ میں داخل ہوتا ہے، غیر مستحکم رابطہ کا سبب بنتا ہے۔</li>
+<li><strong>مکینیکل پہننا:</strong>رابطوں پر سطح کا لباس خراب رابطہ کا باعث بنتا ہے۔</li>
+</ul>
+<p>یہ جسمانی تبدیلیاں ایک پریس کے دوران سرکٹ کو کئی بار مختصر طور پر کھولنے اور بند کرنے کا سبب بنتی ہیں، جس سے نظام غلطی سے اسے متعدد کلکس سے تعبیر کرتا ہے۔</p>
+</section>
+<section class="section" id="t5">
+<h2>5۔ یہ ٹول ناقص ڈبل کلکس کا کیسے پتہ لگاتا ہے۔</h2>
+<p>یہ ٹول غیر معمولی کلک سگنلز کو درست طریقے سے شناخت کرنے کے لیے، جو انسانی تخلیق نہیں کیے گئے ہیں، ذہین الگورتھم کے ساتھ مل کر، اعلی درستگی کے وقت اور ایونٹ سننے والوں کا استعمال کرتا ہے۔</p>
+<h3>پتہ لگانے کا اصول:</h3>
+<ul>
+<li><strong>واقعہ سننا:</strong>ماؤس کی اصل وقت کی گرفتاری<code>ماؤس ڈاؤن</code>اور<code>ماؤس اپ</code>واقعات</li>
+<li><strong>ٹائم اسٹیمپ ریکارڈنگ:</strong>ہر ایونٹ کے لیے درست ٹائم اسٹیمپ (ملی سیکنڈ کی درستگی) ریکارڈ کرتا ہے۔</li>
+<li><strong>وقفہ تجزیہ:</strong>لگاتار دو کے درمیان وقت کے وقفے کا حساب لگاتا ہے۔<code>ماؤس ڈاؤن</code>واقعات</li>
+</ul>
+<h3>فیصلے کی منطق:</h3>
+<p>اگر دو کے درمیان وقفہ<code>ماؤس ڈاؤن</code>واقعات ہے<strong>80ms سے کم</strong>، اسے غلط ڈبل کلک کے طور پر سمجھا جاتا ہے۔ اس کی وجہ یہ ہے کہ عام انسانی ڈبل کلک کا وقفہ عام طور پر 100ms سے زیادہ ہوتا ہے۔ 80ms سے چھوٹے لگاتار کلکس ہارڈ ویئر باؤنس کی وجہ سے ہونے کا امکان ہے۔</p>
+<div class="logic-box">
+<strong>فیصلے کا فارمولا:</strong><br/>if (Time BetweenPresses &lt; 80ms) &rarr; غلط ڈبل کلک کے طور پر سمجھا گیا</div>
+<div class="log-demo">
+<strong>غلط ڈبل کلک لاگ مثال:</strong><br/>[10:00:01] بائیں بٹن نیچے<br/>[10:00:01] بائیں بٹن اوپر (وقفہ: 45ms) &rarr;<span style="color: #fb7185;">چیٹرنگ کا پتہ چلا</span>
+</div>
+<p>یہ ٹول ناقص ڈبل کلکس کی تعداد کو بھی شمار کرتا ہے۔</p>
+</section>
+<section class="section" id="t6">
+<h2>6۔ غلط ڈبل کلکس کو کم کرنے کے لیے چوہے کیا کر سکتے ہیں؟</h2>
+<p>کچھ اعلیٰ درجے کے ماؤس برانڈز اور ماڈلز ڈی باؤنسنگ فیچرز فراہم کرتے ہیں، جس سے صارفین کو ڈرائیور سافٹ ویئر کے ذریعے ڈی باؤنسنگ پیرامیٹرز کو ایڈجسٹ کرنے کی اجازت ملتی ہے تاکہ غلط ڈبل کلکس کی موجودگی کو کم کیا جا سکے۔ ذیل میں ڈیباؤنسنگ فعالیت کو شامل کرنے کے بعد ماؤس کے آپریشن کا اسٹیٹ ڈایاگرام ہے۔</p>
+<div class="svg-container">
+<svg font-family="Arial, sans-serif" height="720" viewbox="0 0 1100 720" width="1100" xmlns="http:/www.w3.org/2000/svg">
+<!-- ========== Definitions ========== -->
+<defs>
+<marker id="arrow" markerheight="10" markerwidth="10" orient="auto" refx="8" refy="3">
+<path d="M0,0 L0,6 L9,3 z" fill="currentColor"></path>
+</marker>
+<style> .state { fill:#1e293b; } .active { animation:pulse 1.4s infinite; } @keyframes pulse { 0%{filter:brightness(1)} 50%{filter:brightness(1.6)} 100%{filter:brightness(1)} } .flow { fill:none; stroke-width:3; stroke-dasharray:8 6; animation:flow 1.8s linear infinite; } @keyframes flow { to { stroke-dashoffset:-28; } } .ok { stroke:#22c55e; } .fail { stroke:#818cf8; } .bad { stroke:#ef4444; } </style>
+</defs>
+<!-- ========== Background ========== -->
+<rect fill="#020617" height="720" rx="20" width="1100"></rect>
+<!-- ========== Title ========== -->
+<text fill="#e5e7eb" font-size="22" font-weight="bold" text-anchor="middle" x="550" y="42">ماؤس مکمل اسٹیٹ مشین پر ڈبل کلک کریں۔</text>
+<!-- ========== States ========== -->
+<!-- Idle -->
+<rect class="state active" height="60" rx="12" width="160" x="470" y="80"></rect>
+<text fill="#e5e7eb" text-anchor="middle" x="550" y="118">بیکار</text>
+<!-- First Press -->
+<rect class="state" height="70" rx="12" width="220" x="180" y="190"></rect>
+<text fill="#e5e7eb" text-anchor="middle" x="290" y="232">پہلا پریس</text>
+<!-- First Release -->
+<rect class="state" height="70" rx="12" width="220" x="180" y="300"></rect>
+<text fill="#e5e7eb" text-anchor="middle" x="290" y="342">پہلی ریلیز</text>
+<!-- Waiting for Second Click -->
+<rect class="state" height="90" rx="14" width="260" x="450" y="300"></rect>
+<text fill="#e5e7eb" text-anchor="middle" x="580" y="338">دوسرے کلک کا انتظار ہے۔</text>
+<text fill="#94a3b8" font-size="12" text-anchor="middle" x="580" y="360">ٹائمر ایکٹو پر ڈبل کلک کریں۔</text>
+<!-- Second Press -->
+<rect class="state" height="70" rx="12" width="220" x="800" y="300"></rect>
+<text fill="#e5e7eb" text-anchor="middle" x="910" y="342">دوسری پریس</text>
+<!-- Success -->
+<rect fill="#052e16" height="70" rx="12" width="220" x="800" y="440"></rect>
+<text fill="#22c55e" font-weight="bold" text-anchor="middle" x="910" y="480">تصدیق شدہ پر ڈبل کلک کریں۔</text>
+<!-- Timeout/Distance Failure -->
+<rect fill="#312e81" height="70" rx="12" width="260" x="450" y="440"></rect>
+<text fill="#c7d2fe" text-anchor="middle" x="580" y="480">ٹائم آؤٹ/فاصلے کی ناکامی۔</text>
+<!-- Hardware Bounce -->
+<rect fill="#3b1d1d" height="110" rx="12" width="220" x="180" y="440"></rect>
+<text fill="#fecaca" font-weight="bold" text-anchor="middle" x="290" y="472">ہارڈ ویئر باؤنس</text>
+<text fill="#fecaca" font-size="12" text-anchor="middle" x="290" y="494">رابطہ شور (3 بار)</text>
+<!-- ========== Flows ========== -->
+<path class="flow ok" d="M550 140 L290 190" marker-end="url(#arrow)"></path>
+<path class="flow ok" d="M290 260 L290 300" marker-end="url(#arrow)"></path>
+<path class="flow ok" d="M400 335 L450 335" marker-end="url(#arrow)"></path>
+<path class="flow ok" d="M710 335 L800 335" marker-end="url(#arrow)"></path>
+<path class="flow ok" d="M910 370 L910 440" marker-end="url(#arrow)"></path>
+<!-- Failure -->
+<path class="flow fail" d="M580 390 L580 440" marker-end="url(#arrow)"></path>
+<!-- Three Bounces -->
+<path class="flow bad" d="M290 370 L290 420" marker-end="url(#arrow)"></path>
+<circle cx="260" cy="400" fill="#ef4444" r="6"></circle>
+<circle cx="290" cy="410" fill="#ef4444" r="6"></circle>
+<circle cx="320" cy="400" fill="#ef4444" r="6"></circle>
+<!-- Return -->
+<path class="flow bad" d="M290 550 C290 620 550 620 550 140" marker-end="url(#arrow)"></path>
+<path class="flow fail" d="M580 510 C580 620 550 620 550 140" marker-end="url(#arrow)"></path>
+<path class="flow ok" d="M910 510 C910 620 550 620 550 140" marker-end="url(#arrow)"></path>
+<!-- ========== Metrics Panel ========== -->
+<rect fill="#020617" height="160" rx="14" stroke="#334155" width="300" x="760" y="80"></rect>
+<text fill="#e5e7eb" font-weight="bold" text-anchor="middle" x="910" y="108">ریئل ٹائم میٹرکس (نقلی)</text>
+<text fill="#94a3b8" x="790" y="140">وقفہ:</text>
+<text fill="#e5e7eb" id="interval" x="950" y="140">87 ms</text>
+<text fill="#94a3b8" x="790" y="168">کلکس:</text>
+<text fill="#e5e7eb" id="clicks" x="950" y="168">2</text>
+<text fill="#94a3b8" x="790" y="196">اچھال کی گنتی:</text>
+<text fill="#ef4444" id="bounce" x="950" y="196">3</text>
+<!-- Bottom Note -->
+<text fill="#64748b" font-size="13" text-anchor="middle" x="550" y="690">Red پاتھ: ہارڈ ویئر باؤنس کا پتہ لگاتا ہے۔ نیلا راستہ: ٹائم آؤٹ یا فاصلے کی ناکامی کی نشاندہی کرتا ہے۔ سبز راستہ: کامیابی کی نشاندہی کرتا ہے۔</text>
+</svg>
+</div>
+<h2>ذیل میں ماؤس برانڈز اور ماڈلز کی کچھ مثالیں ہیں جو ڈیباؤنسنگ ایڈجسٹمنٹ کی حمایت کرتے ہیں:</h2>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><i class="fas fa-tag"></i>برانڈ</th>
+<th><i class="fas fa-list-alt"></i>سیریز/ماڈل کی مثالیں۔</th>
+<th><i class="fas fa-desktop"></i>ڈرائیور سافٹ ویئر کا نام</th>
+<th><i class="fas fa-sliders-h"></i>ڈیباؤنسنگ ایڈجسٹمنٹ رینج (عام)</th>
+<th><i class="fas fa-sticky-note"></i>نوٹس</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="brand">رپو</td>
+<td class="model">VT سیریز (VT1 Pro Max, VT3s Max, VT3 Pro Max, VT1 Air Max, VT9, وغیرہ)</td>
+<td class="software">اے حب</td>
+<td class="range">عام طور پر تعاون یافتہ، ایڈجسٹ 0~20ms</td>
+<td class="note"></td>
+</tr>
+<tr>
+<td class="brand">وی جی این</td>
+<td class="model">Dragonfly سیریز (Dragonfly F1 Pro Max، وغیرہ)</td>
+<td class="software">VGN VHUB</td>
+<td class="range">کسٹم ڈیباؤنسنگ کی حمایت کرتا ہے۔</td>
+<td class="note"></td>
+</tr>
+<tr>
+<td class="brand">کیکرون</td>
+<td class="model">کچھ گیمنگ چوہے</td>
+<td class="software">کیکرون لانچر</td>
+<td class="range">گھسیٹنے کے قابل ایڈجسٹمنٹ</td>
+<td class="note"></td>
+</tr>
+<tr>
+<td class="brand">ریزر</td>
+<td class="model">کچھ اعلیٰ درجے کے ماڈلز (مثال کے طور پر، فرم ویئر اپ ڈیٹ کے بعد کچھ وائپر/ڈیتھ ایڈر ماڈل)</td>
+<td class="software">Razer Synapse</td>
+<td class="range">کچھ ماڈل سپورٹ کرتے ہیں (سبھی نہیں)</td>
+<td class="note"></td>
+</tr>
+<tr>
+<td class="brand">Logitech</td>
+<td class="model">جی پرو سیریز (کچھ ماڈل)</td>
+<td class="software">جی حب</td>
+<td class="range">جزوی تعاون (4ms سے)</td>
+<td class="note"></td>
+</tr>
+<tr>
+<td class="brand">مشینیکی</td>
+<td class="model">L8Max ماڈل</td>
+<td class="software">L8 ڈرائیور</td>
+<td class="range">سپورٹ کرتا ہے (2ms، 4ms، 8ms)</td>
+<td class="note"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="legend">
+<div class="legend-item">
+<div class="color-sample brand-color"></div>
+<span>برانڈ کا نام</span>
+</div>
+<div class="legend-item">
+<div class="color-sample model-color"></div>
+<span>ماؤس ماڈل</span>
+</div>
+<div class="legend-item">
+<div class="color-sample software-color"></div>
+<span>ڈرائیور سافٹ ویئر</span>
+</div>
+<div class="legend-item">
+<div class="color-sample range-color"></div>
+<span>ڈیبونسنگ رینج</span>
+</div>
+<div class="legend-item">
+<div class="color-sample note-color"></div>
+<span>نوٹس</span>
+</div>
+</div>
+</section>
 </main>
-
 <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;">
-    <div style="margin-bottom:6px;">© 2026 StarryRing · Mouse Double-Click Test Principle</div>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
-        <a href="/ur/about-us/" style="color:#60a5fa;text-decoration:none;">ہمارے بارے میں</a>
-        <a href="/ur/contact-us/" style="color:#60a5fa;text-decoration:none;">ہم سے رابطہ کریں</a>
-        <a href="/ur/disclaimer/" style="color:#60a5fa;text-decoration:none;">دستبرداری</a>
-        <a href="/ur/privacy/" style="color:#60a5fa;text-decoration:none;">رازداری کی پالیسی</a>
-        <a href="/ur/terms/" style="color:#60a5fa;text-decoration:none;">سروس کی شرائط</a>
-    </div>
+<div style="margin-bottom:6px;">&copy; 2026 StarryRing &middot; ماؤس پر ڈبل کلک ٹیسٹ کا اصول</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+<a href="/ur/about-us/" style="color:#60a5fa;text-decoration:none;">ہمارے بارے میں</a>
+<a href="/ur/contact-us/" style="color:#60a5fa;text-decoration:none;">ہم سے رابطہ کریں۔</a>
+<a href="/ur/disclaimer/" style="color:#60a5fa;text-decoration:none;">ڈس کلیمر</a>
+<a href="/ur/privacy/" style="color:#60a5fa;text-decoration:none;">رازداری کی پالیسی</a>
+<a href="/ur/terms/" style="color:#60a5fa;text-decoration:none;">سروس کی شرائط</a>
+</div>
 </footer>
-
 <script src="/static/js/shared/image-modal.js"></script>
 <script src="/static/js/shared/article.js"></script>
 <script src="/static/js/shared/table.js"></script>
 <script src="/static/js/shared/switchlanguage.js"></script>
-
 </body>
 </html>

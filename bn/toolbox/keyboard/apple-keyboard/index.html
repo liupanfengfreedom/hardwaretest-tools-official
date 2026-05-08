@@ -1,468 +1,310 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:image" content="https://starryring.com/preview.png">
-<meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/preview.png">
-
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="https://starryring.com/preview.png" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/preview.png" name="twitter:image"/>
 <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <title>Apple Magic Keyboard Tester - Test Apple Keyboard Chatter/Malfunction Online | StarryRing</title>
-    
-    <!-- Shared Styles (original framework) -->
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    <link rel="stylesheet" href="/static/css/toolbox/keyboard/apple-keyboard/style.css">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Apple Magic Keyboard & Apple Keyboard Tester",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": ["Web", "AppleOS", "iOS"],
-                "description": "Online Apple Magic Keyboard tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis. Compatible with Magic Keyboard and other Apple keyboards.",
-                "url": "https://starryring.com/bn/toolbox/keyboard/Apple-keyboard/",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://starryring.com/static/image/en/Apple-keyboard-test-tool.png",
-                    "width": "1200",
-                    "height": "630",
-                    "caption": "Apple keyboard tester interface"
-                },
-                "screenshot": [
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/Apple-keyboard-layout-test.png",
-                        "width": "1280",
-                        "height": "720",
-                        "caption": "Apple keyboard layout test interface",
-                        "description": "Full Apple keyboard visualization, compatible with Apple Magic Keyboard"
-                    },
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/Apple-keyboard-log-panel.png",
-                        "width": "1280",
-                        "height": "720",
-                        "caption": "Diagnostic log panel",
-                        "description": "Real-time key events and chatter alerts"
-                    }
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com",
-                    "logo": "https://starryring.com/logo.png"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "Full keyboard key testing (including function keys, modifiers)",
-                    "Chatter detection (<80ms red alert)",
-                    "Modifier key combination test",
-                    "Real-time logging (press/release timestamps)",
-                    "KeyCode and which value display",
-                    "Maximum concurrent keys test (NKRO detection)",
-                    "Perfect compatibility with Apple Magic Keyboard and other Apple keyboards"
-                ]
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "How do I test the keys on my Apple Magic Keyboard?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Press any key on your Magic Keyboard while looking at the keyboard layout in the center of the page. The corresponding key will highlight, the status panel will show the key name, KeyCode, and which value, and the log area will record each press and release with timestamps. If a key does not respond, it may indicate a hardware issue or Bluetooth connection problem."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What is chatter detection? How can I tell if a Magic Keyboard key is chattering?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Chatter detection monitors the time interval between two presses of the same key. If the interval is less than 80 milliseconds (typically indicating abnormal rapid double-clicking), the log entry is highlighted in red and labeled as a chatter alert. This helps you identify potential switch bounce issues, common in some keyboard mechanisms."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why does my Apple Magic Keyboard show no response in the log when I press a key?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Make sure the test area is active (just press any key directly). If there's still no response, it could be a browser permission issue or a hardware problem. Try refreshing the page or using another browser (Chrome, Edge recommended). Also check if your OS recognizes the keyboard, especially for Bluetooth connections. Wired Magic Keyboards are also supported."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How can I test modifier keys (Command, Option, etc.)?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Simply press the modifier key (e.g., left Command, right Option). The corresponding key on the on-screen keyboard will light up, and the status panel will show the key name and code. You can press multiple modifiers simultaneously to test combination key recognition."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Which Apple keyboard layouts are supported? Is the Apple Magic Keyboard compatible?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "This tool uses a standard ISO Apple keyboard layout, covering all major keys including function keys (F1-F12), number keys, letters, punctuation, and the bottom row modifiers (Control, Option, Command) and arrow keys. It is fully compatible with Apple Magic Keyboard (including the numeric keypad version), Magic Keyboard, AppleBook built-in keyboards, and other third-party Apple keyboards."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "হোম",
-                        "item": "https://starryring.com/bn/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "টুলবক্স",
-                        "item": "https://starryring.com/bn/toolbox/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Keyboard Test",
-                        "item": "https://starryring.com/bn/toolbox/keyboard/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 4,
-                        "name": "Apple Keyboard Test",
-                        "item": "https://starryring.com/bn/toolbox/keyboard/Apple-keyboard/"
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-    <meta name="description" content="Online Apple Magic Keyboard Tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis, no download required. Compatible with Magic Keyboard and other Apple keyboards.">
-            <link rel="canonical" href="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/toolbox/keyboard/apple-keyboard/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/">
-<meta property="og:url" content="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/">
-    <meta property="og:locale" content="bn_BD">
-<meta property="og:title" content="Apple Magic Keyboard Tester - Detect Key Chatter/Malfunction Online">
-    <meta property="og:description" content="Online Apple Magic Keyboard Tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis. Compatible with Magic Keyboard and other Apple keyboards.">
-    <meta name="twitter:title" content="Apple Magic Keyboard Tester - Detect Key Chatter/Malfunction Online">
-    <meta name="twitter:description" content="Online Apple Magic Keyboard Tester: professionally test Apple keyboard keys, chatter detection, supports all keys including function keys and modifiers, real-time log analysis. Compatible with Magic Keyboard and other Apple keyboards.">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<title>অ্যাপল ম্যাজিক কীবোর্ড টেস্টার - অ্যাপল কীবোর্ড চ্যাটার/ম্যালফাংশন অনলাইনে পরীক্ষা করুন | StarryRing</title>
+<!-- Shared Styles (original framework) -->
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<link href="/static/css/toolbox/keyboard/apple-keyboard/style.css" rel="stylesheet"/>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "অ্যাপল ম্যাজিক কীবোর্ড এবং অ্যাপল কীবোর্ড টেস্টার", "applicationCategory": "UtilitiesApplication", "operatingSystem": [ "Web", "AppleOS", "iOS" ], "description": "অনলাইন অ্যাপল ম্যাজিক কীবোর্ড পরীক্ষক: পেশাদারভাবে অ্যাপল কীবোর্ড কী, চ্যাটার সনাক্তকরণ, ফাংশন কী এবং মডিফায়ার, রিয়েল-টাইম লগ বিশ্লেষণ সহ সমস্ত কীগুলিকে সমর্থন করে। ম্যাজিক কীবোর্ড এবং অন্যান্য অ্যাপল কীবোর্ডের সাথে সামঞ্জস্যপূর্ণ।", "url": "https://starryring.com/bn/toolbox/keyboard/Apple-keyboard/", "image": { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/Apple-keyboard-test-tool.png", "width": "1200", "height": "630", "caption": "অ্যাপল কীবোর্ড পরীক্ষক ইন্টারফেস" }, "screenshot": [ { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/Apple-keyboard-layout-test.png", "width": "1280", "height": "720", "caption": "অ্যাপল কীবোর্ড লেআউট পরীক্ষা ইন্টারফেস", "description": "সম্পূর্ণ অ্যাপল কীবোর্ড ভিজ্যুয়ালাইজেশন, অ্যাপল ম্যাজিক কীবোর্ডের সাথে সামঞ্জস্যপূর্ণ" }, { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/Apple-keyboard-log-panel.png", "width": "1280", "height": "720", "caption": "ডায়াগনস্টিক লগ প্যানেল", "description": "রিয়েল-টাইম কী ইভেন্ট এবং চ্যাটার সতর্কতা" } ], "author": { "@type": "Organization", "name": "_StarryRing", "url": "https://starryring.com", "logo": "https://starryring.com/logo.png" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "Full keyboard key testing (including function keys, modifiers)", "Chatter detection (<80ms red alert)", "Modifier key combination test", "Real-time logging (press/release timestamps)", "KeyCode and which value display", "Maximum concurrent keys test (NKRO detection)", "Perfect compatibility with Apple Magic Keyboard and other Apple keyboards" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "আমি কীভাবে আমার অ্যাপল ম্যাজিক কীবোর্ডে কী পরীক্ষা করব?", "acceptedAnswer": { "@type": "Answer", "text": "পৃষ্ঠার কেন্দ্রে কীবোর্ড লেআউট দেখার সময় আপনার ম্যাজিক কীবোর্ডের যেকোনো কী টিপুন। সংশ্লিষ্ট কী হাইলাইট করবে, স্ট্যাটাস প্যানেল কী নাম, কীকোড এবং কোন মান দেখাবে এবং লগ এরিয়া প্রতিটি প্রেস রেকর্ড করবে এবং টাইমস্ট্যাম্প সহ প্রকাশ করবে। যদি একটি কী সাড়া না দেয় তবে এটি একটি হার্ডওয়্যার সমস্যা বা ব্লুটুথ সংযোগ সমস্যা নির্দেশ করতে পারে।" } }, { "@type": "Question", "name": "চ্যাটার ডিটেকশন কি? একটি ম্যাজিক কীবোর্ড কী বকবক করছে কিনা তা আমি কীভাবে বলতে পারি?", "acceptedAnswer": { "@type": "Answer", "text": "চ্যাটার সনাক্তকরণ একই কী দুটি চাপার মধ্যে সময়ের ব্যবধান নিরীক্ষণ করে। যদি ব্যবধান 80 মিলিসেকেন্ডের কম হয় (সাধারণত অস্বাভাবিক দ্রুত ডাবল-ক্লিকিং নির্দেশ করে), লগ এন্ট্রিটি লাল রঙে হাইলাইট করা হয় এবং একটি চ্যাটার সতর্কতা হিসাবে লেবেল করা হয়। এটি আপনাকে সম্ভাব্য সুইচ বাউন্স সমস্যা সনাক্ত করতে সাহায্য করে, যা কিছু কীবোর্ড পদ্ধতিতে সাধারণ।" } }, { "@type": "Question", "name": "আমি যখন একটি কী চাপি তখন আমার অ্যাপল ম্যাজিক কীবোর্ড লগে কোনো প্রতিক্রিয়া দেখায় না কেন?", "acceptedAnswer": { "@type": "Answer", "text": "পরীক্ষার এলাকাটি সক্রিয় আছে তা নিশ্চিত করুন (কেবল সরাসরি যেকোনো কী টিপুন)। যদি এখনও কোনও প্রতিক্রিয়া না থাকে তবে এটি একটি ব্রাউজার অনুমতি সমস্যা বা একটি হার্ডওয়্যার সমস্যা হতে পারে। পৃষ্ঠা রিফ্রেশ করার চেষ্টা করুন বা অন্য ব্রাউজার ব্যবহার করুন (Chrome, Edge প্রস্তাবিত)। আপনার OS কীবোর্ড চিনেছে কিনা তাও পরীক্ষা করুন, বিশেষ করে ব্লুটুথ সংযোগের জন্য। তারযুক্ত ম্যাজিক কীবোর্ডগুলিও সমর্থিত।" } }, { "@type": "Question", "name": "আমি কিভাবে পরিবর্তক কী পরীক্ষা করতে পারি (কমান্ড, বিকল্প, ইত্যাদি)?", "acceptedAnswer": { "@type": "Answer", "text": "শুধুমাত্র মডিফায়ার কী টিপুন (যেমন, বাম কমান্ড, ডান বিকল্প)। অন-স্ক্রীন কীবোর্ডের সংশ্লিষ্ট কীটি আলোকিত হবে এবং স্ট্যাটাস প্যানেল কী নাম এবং কোড দেখাবে। সংমিশ্রণ কী স্বীকৃতি পরীক্ষা করতে আপনি একসাথে একাধিক সংশোধক চাপতে পারেন।" } }, { "@type": "Question", "name": "কোন অ্যাপল কীবোর্ড লেআউট সমর্থিত? অ্যাপল ম্যাজিক কীবোর্ড কি সামঞ্জস্যপূর্ণ?", "acceptedAnswer": { "@type": "Answer", "text": "এই টুলটি একটি আদর্শ আইএসও অ্যাপল কীবোর্ড লেআউট ব্যবহার করে, ফাংশন কী (F1-F12), নম্বর কী, অক্ষর, বিরাম চিহ্ন এবং নীচের সারি মডিফায়ার (কন্ট্রোল, অপশন, কমান্ড) এবং তীর কী সহ সমস্ত প্রধান কীগুলিকে কভার করে। এটি অ্যাপল ম্যাজিক কীবোর্ড (সংখ্যাসূচক কীপ্যাড সংস্করণ সহ), ম্যাজিক কীবোর্ড, অ্যাপলবুক বিল্ট-ইন কীবোর্ড এবং অন্যান্য তৃতীয় পক্ষের অ্যাপল কীবোর্ডের সাথে সম্পূর্ণ সামঞ্জস্যপূর্ণ।" } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "বাড়ি", "item": "https://starryring.com/bn/" }, { "@type": "ListItem", "position": 2, "name": "টুলবক্স", "item": "https://starryring.com/bn/toolbox/" }, { "@type": "ListItem", "position": 3, "name": "কীবোর্ড পরীক্ষা", "item": "https://starryring.com/bn/toolbox/keyboard/" }, { "@type": "ListItem", "position": 4, "name": "অ্যাপল কীবোর্ড পরীক্ষা", "item": "https://starryring.com/bn/toolbox/keyboard/Apple-keyboard/" } ] } ]
+}</script>
+<meta content="অনলাইন অ্যাপল ম্যাজিক কীবোর্ড পরীক্ষক: পেশাদারভাবে অ্যাপল কীবোর্ড কী পরীক্ষা করুন, চ্যাটার সনাক্তকরণ, ফাংশন কী এবং মডিফায়ার সহ সমস্ত কী সমর্থন করে, রিয়েল-টাইম লগ বিশ্লেষণ, ডাউনলোডের প্রয়োজন নেই। ম্যাজিক কীবোর্ড এবং অন্যান্য অ্যাপল কীবোর্ডের সাথে সামঞ্জস্যপূর্ণ।" name="description"/>
+<link href="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/" rel="canonical"/><link href="https://starryring.com/en/toolbox/keyboard/apple-keyboard/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/zh/toolbox/keyboard/apple-keyboard/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/toolbox/keyboard/apple-keyboard/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/toolbox/keyboard/apple-keyboard/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/toolbox/keyboard/apple-keyboard/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/toolbox/keyboard/apple-keyboard/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/toolbox/keyboard/apple-keyboard/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/toolbox/keyboard/apple-keyboard/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/toolbox/keyboard/apple-keyboard/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/pt/toolbox/keyboard/apple-keyboard/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/toolbox/keyboard/apple-keyboard/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/toolbox/keyboard/apple-keyboard/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/toolbox/keyboard/apple-keyboard/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/toolbox/keyboard/apple-keyboard/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/toolbox/keyboard/apple-keyboard/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/toolbox/keyboard/apple-keyboard/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/toolbox/keyboard/apple-keyboard/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/toolbox/keyboard/apple-keyboard/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/toolbox/keyboard/apple-keyboard/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/bn/toolbox/keyboard/apple-keyboard/" property="og:url"/>
+<meta content="bn_BD" property="og:locale"/>
+<meta content="Apple ম্যাজিক কীবোর্ড পরীক্ষক - অনলাইনে কী চ্যাটার/ম্যালফাংশন সনাক্ত করুন" property="og:title"/>
+<meta content="অনলাইন অ্যাপল ম্যাজিক কীবোর্ড পরীক্ষক: পেশাদারভাবে অ্যাপল কীবোর্ড কী পরীক্ষা করুন, চ্যাটার সনাক্তকরণ, ফাংশন কী এবং মডিফায়ার, রিয়েল-টাইম লগ বিশ্লেষণ সহ সমস্ত কী সমর্থন করে। ম্যাজিক কীবোর্ড এবং অন্যান্য অ্যাপল কীবোর্ডের সাথে সামঞ্জস্যপূর্ণ।" property="og:description"/>
+<meta content="Apple ম্যাজিক কীবোর্ড পরীক্ষক - অনলাইনে কী চ্যাটার/ম্যালফাংশন সনাক্ত করুন" name="twitter:title"/>
+<meta content="অনলাইন অ্যাপল ম্যাজিক কীবোর্ড পরীক্ষক: পেশাদারভাবে অ্যাপল কীবোর্ড কী পরীক্ষা করুন, চ্যাটার সনাক্তকরণ, ফাংশন কী এবং মডিফায়ার, রিয়েল-টাইম লগ বিশ্লেষণ সহ সমস্ত কী সমর্থন করে। ম্যাজিক কীবোর্ড এবং অন্যান্য অ্যাপল কীবোর্ডের সাথে সামঞ্জস্যপূর্ণ।" name="twitter:description"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="ভাষা নির্বাচন করুন" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/toolbox/keyboard/apple-keyboard/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/toolbox/keyboard/apple-keyboard/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/toolbox/keyboard/apple-keyboard/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/toolbox/keyboard/apple-keyboard/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/toolbox/keyboard/apple-keyboard/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/toolbox/keyboard/apple-keyboard/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/toolbox/keyboard/apple-keyboard/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/toolbox/keyboard/apple-keyboard/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/toolbox/keyboard/apple-keyboard/" data-lang="ar">العربية</a>
-            <a class="language-option selected" href="/bn/toolbox/keyboard/apple-keyboard/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/toolbox/keyboard/apple-keyboard/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/toolbox/keyboard/apple-keyboard/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/toolbox/keyboard/apple-keyboard/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/toolbox/keyboard/apple-keyboard/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/toolbox/keyboard/apple-keyboard/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/toolbox/keyboard/apple-keyboard/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/toolbox/keyboard/apple-keyboard/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/toolbox/keyboard/apple-keyboard/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/toolbox/keyboard/apple-keyboard/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/toolbox/keyboard/apple-keyboard/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="ভাষা নির্বাচন করুন" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/toolbox/keyboard/apple-keyboard/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/toolbox/keyboard/apple-keyboard/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/toolbox/keyboard/apple-keyboard/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/toolbox/keyboard/apple-keyboard/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/toolbox/keyboard/apple-keyboard/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/toolbox/keyboard/apple-keyboard/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/toolbox/keyboard/apple-keyboard/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/toolbox/keyboard/apple-keyboard/">العربية</a>
+<a class="language-option selected" data-lang="bn" href="/bn/toolbox/keyboard/apple-keyboard/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/toolbox/keyboard/apple-keyboard/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/toolbox/keyboard/apple-keyboard/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/toolbox/keyboard/apple-keyboard/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/toolbox/keyboard/apple-keyboard/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/toolbox/keyboard/apple-keyboard/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/toolbox/keyboard/apple-keyboard/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/toolbox/keyboard/apple-keyboard/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/toolbox/keyboard/apple-keyboard/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/toolbox/keyboard/apple-keyboard/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/toolbox/keyboard/apple-keyboard/">தமிழ்</a>
+</div>
+</div>
 <!-- Language Switcher -->
 <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item">
-                    <a href="/bn/" class="breadcrumb-link">
-                        <i class="fas fa-home" aria-hidden="true"></i> 
-                        <span>হোম</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/bn/toolbox/" class="breadcrumb-link">
-                        <i class="fas fa-box" aria-hidden="true"></i> <span>টুলবক্স</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/bn/toolbox/keyboard/" class="breadcrumb-link">
-                        <i class="fas fa-keyboard" aria-hidden="true"></i> <span>Keyboard Test</span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <span class="breadcrumb-active">Apple Keyboard Test</span>
-                </li>
-            </ol>
-        </nav>
-    </div>
-
-    <div class="tester-container">
-        <header>
-            <h1>⚡ Apple Keyboard Diagnostic</h1>
-            <div class="status-panel">
-                <div class="stat-item">Last Key: <span id="last-key">-</span></div>
-                <div class="stat-item">KeyCode: <span id="key-code">-</span></div>
-                <div class="concurrent-badge" id="concurrent-info">Now:0 Max:0</div>
-                <button id="reset-btn">⟲ Reset Test</button>
-            </div>
-        </header>
-
-        <div class="info-row">
-            <div class="key-detail">⌨️ Key: <span id="info-key">—</span></div>
-            <div class="key-detail">🆔 Code: <span id="info-code">—</span></div>
-            <div class="key-detail">🔢 Which: <span id="info-which">—</span></div>
-        </div>
-
-        <!-- Keyboard layout (IDs strictly match script) -->
-        <div class="keyboard-iso" id="keyboard">
-            <div class="row function-row">
-                <div class="key esc" id="Escape"><span>esc</span></div>
-                <div class="key" id="F1"><span>F1</span></div>
-                <div class="key" id="F2"><span>F2</span></div>
-                <div class="key" id="F3"><span>F3</span></div>
-                <div class="key" id="F4"><span>F4</span></div>
-                <div class="key" id="F5"><span>F5</span></div>
-                <div class="key" id="F6"><span>F6</span></div>
-                <div class="key" id="F7"><span>F7</span></div>
-                <div class="key" id="F8"><span>F8</span></div>
-                <div class="key" id="F9"><span>F9</span></div>
-                <div class="key" id="F10"><span>F10</span></div>
-                <div class="key" id="F11"><span>F11</span></div>
-                <div class="key" id="F12"><span>F12</span></div>
-                <div class="key power" id="Power"><span>⌽</span></div>
-            </div>
-            <div class="row">
-                <div class="key" id="Backquote"><span>~</span><span>`</span></div>
-                <div class="key" id="Digit1"><span>!</span><span>1</span></div>
-                <div class="key" id="Digit2"><span>@</span><span>2</span></div>
-                <div class="key" id="Digit3"><span>#</span><span>3</span></div>
-                <div class="key" id="Digit4"><span>$</span><span>4</span></div>
-                <div class="key" id="Digit5"><span>%</span><span>5</span></div>
-                <div class="key" id="Digit6"><span>^</span><span>6</span></div>
-                <div class="key" id="Digit7"><span>&</span><span>7</span></div>
-                <div class="key" id="Digit8"><span>*</span><span>8</span></div>
-                <div class="key" id="Digit9"><span>(</span><span>9</span></div>
-                <div class="key" id="Digit0"><span>)</span><span>0</span></div>
-                <div class="key" id="Minus"><span>_</span><span>-</span></div>
-                <div class="key" id="Equal"><span>+</span><span>=</span></div>
-                <div class="key delete" id="Backspace"><span>delete</span></div>
-            </div>
-            <div class="row">
-                <div class="key tab" id="Tab"><span>tab</span></div>
-                <div class="key" id="KeyQ"><span>Q</span></div>
-                <div class="key" id="KeyW"><span>W</span></div>
-                <div class="key" id="KeyE"><span>E</span></div>
-                <div class="key" id="KeyR"><span>R</span></div>
-                <div class="key" id="KeyT"><span>T</span></div>
-                <div class="key" id="KeyY"><span>Y</span></div>
-                <div class="key" id="KeyU"><span>U</span></div>
-                <div class="key" id="KeyI"><span>I</span></div>
-                <div class="key" id="KeyO"><span>O</span></div>
-                <div class="key" id="KeyP"><span>P</span></div>
-                <div class="key" id="BracketLeft"><span>{</span><span>[</span></div>
-                <div class="key" id="BracketRight"><span>}</span><span>]</span></div>
-                <div class="key enter-upper" id="Enter"><span>return</span></div>
-            </div>
-            <div class="row">
-                <div class="key capslock" id="CapsLock"><span>CapsLock</span></div>
-                <div class="key" id="KeyA"><span>A</span></div>
-                <div class="key" id="KeyS"><span>S</span></div>
-                <div class="key" id="KeyD"><span>D</span></div>
-                <div class="key" id="KeyF"><span>F</span></div>
-                <div class="key" id="KeyG"><span>G</span></div>
-                <div class="key" id="KeyH"><span>H</span></div>
-                <div class="key" id="KeyJ"><span>J</span></div>
-                <div class="key" id="KeyK"><span>K</span></div>
-                <div class="key" id="KeyL"><span>L</span></div>
-                <div class="key" id="Semicolon"><span>:</span><span>;</span></div>
-                <div class="key" id="Quote"><span>"</span><span>'</span></div>
-                <div class="key" id="Backslash"><span>|</span><span>\</span></div>
-            </div>
-            <div class="row">
-                <div class="key shift-left" id="ShiftLeft"><span>shift</span></div>
-                <div class="key" id="IntlBackslash"><span>~</span><span>`</span></div>
-                <div class="key" id="KeyZ"><span>Z</span></div>
-                <div class="key" id="KeyX"><span>X</span></div>
-                <div class="key" id="KeyC"><span>C</span></div>
-                <div class="key" id="KeyV"><span>V</span></div>
-                <div class="key" id="KeyB"><span>B</span></div>
-                <div class="key" id="KeyN"><span>N</span></div>
-                <div class="key" id="KeyM"><span>M</span></div>
-                <div class="key" id="Comma"><span><</span><span>,</span></div>
-                <div class="key" id="Period"><span>></span><span>.</span></div>
-                <div class="key" id="Slash"><span>?</span><span>/</span></div>
-                <div class="key shift-right" id="ShiftRight"><span>shift</span></div>
-            </div>
-            <div class="row">
-                <div class="key fn" id="Fn"><span>fn</span></div>
-                <div class="key control" id="ControlLeft"><span>control</span><span>⌃</span></div>
-                <div class="key option" id="OptionLeft"><span>option</span><span>⌥</span></div>
-                <div class="key command" id="MetaLeft"><span>command</span><span>⌘</span></div>
-                <div class="key space" id="Space"><span></span></div>
-                <div class="key command" id="MetaRight"><span>command</span><span>⌘</span></div>
-                <div class="key option" id="OptionRight"><span>option</span><span>⌥</span></div>
-                <div class="arrow-group">
-                    <div class="key arrow" id="ArrowLeft"><span>◀</span></div>
-                    <div class="arrow-vertical">
-                        <div class="key arrow" id="ArrowUp"><span>▲</span></div>
-                        <div class="key arrow" id="ArrowDown"><span>▼</span></div>
-                    </div>
-                    <div class="key arrow" id="ArrowRight"><span>▶</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="log-panel">
-            <div class="log-header">
-                <span>📋 Event Log (Chatter threshold <80ms in red · hold ignored)</span>
-                <button id="clear-log">Clear log</button>
-            </div>
-            <div id="log-entries" class="log-entries">
-                <div class="log-entry"><span class="timestamp">⏱️</span> Log started, press any key... (↓ down/↑ up)</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Features and FAQ Section (enhanced SEO & UX) -->
-    <div class="instructions-section">
-        <div class="instructions-content">
-            <h2>Apple Magic Keyboard & Apple Keyboard Tester Features</h2>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>Full Keyboard Visualization · Magic Keyboard Compatible</h3>
-                    <p>Complete Apple ISO keyboard layout. Whether you're using an Apple Magic Keyboard, Magic Keyboard, or AppleBook built-in keyboard, every key press instantly highlights the corresponding key. Supports function keys, modifiers, and international keys for intuitive feedback.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Precise Chatter Detection</h3>
-                    <p>Automatically timestamps each key press. When two presses occur within 80ms, the log entry is highlighted in red to help you quickly identify potential switch bounce issues in your Magic Keyboard.</p>
-                    <div class="tip">
-                        <span class="tip-text">Tip: Normal key intervals are typically >100ms. Abnormal rapid chattering is often caused by aging switches.</span>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <h3>Modifier & Combo Key Test</h3>
-                    <p>Individually test Control, Option, Command, Fn, and other modifiers. Simultaneously press multiple keys to test NKRO (max concurrent keys displayed). Perfect for evaluating Magic Keyboard's butterfly or scissor mechanisms.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Real-time Log & Key Code Analysis</h3>
-                    <p>Every press and release is logged with precise time, key, code, and which value – ideal for developers or advanced users analyzing input details or Bluetooth latency on Magic Keyboard.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Compatible with All Modern Browsers</h3>
-                    <p>Built with vanilla JavaScript, no plugins required. Runs smoothly on Chrome, Edge, Safari, Firefox. Works with Bluetooth-connected Magic Keyboard as well.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>One-click Reset, Repeat Testing</h3>
-                    <p>Click "Reset Test" to clear all counts and logs, making it easy to run multiple test rounds or compare different keyboards (e.g., Magic Keyboard vs. third-party).</p>
-                </div>
-            </div>
-
-            <div class="faq-section">
-                <h2>Frequently Asked Questions (FAQ)</h2>
-
-                <div class="faq-item">
-                    <h3>How do I test the keys on my Apple Magic Keyboard?</h3>
-                    <p>Press any key on your Magic Keyboard while looking at the keyboard layout in the center of the page. The corresponding key will highlight, the status panel will show the key name, KeyCode, and which value, and the log area will record each press and release with timestamps. If a key does not respond, it may indicate a hardware issue or Bluetooth connection problem.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>What is chatter detection? How can I tell if a Magic Keyboard key is chattering?</h3>
-                    <p>Chatter detection monitors the time interval between two presses of the same key. If the interval is less than 80 milliseconds (typically indicating abnormal rapid double-clicking), the log entry is highlighted in red and labeled as a chatter alert. This helps you identify potential switch bounce issues, common in some keyboard mechanisms.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Why does my Apple Magic Keyboard show no response in the log when I press a key?</h3>
-                    <p>Make sure the test area is active (just press any key directly). If there's still no response, it could be a browser permission issue or a hardware problem. Try refreshing the page or using another browser (Chrome, Edge recommended). Also check if your OS recognizes the keyboard, especially for Bluetooth connections. Wired Magic Keyboards are also supported.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>How can I test modifier keys (Command, Option, etc.)?</h3>
-                    <p>Simply press the modifier key (e.g., left Command, right Option). The corresponding key on the on-screen keyboard will light up, and the status panel will show the key name and code. You can press multiple modifiers simultaneously to test combination key recognition.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Which Apple keyboard layouts are supported? Is the Apple Magic Keyboard compatible?</h3>
-                    <p>This tool uses a standard ISO Apple keyboard layout, covering all major keys including function keys (F1-F12), number keys, letters, punctuation, and the bottom row modifiers (Control, Option, Command) and arrow keys. It is fully compatible with Apple Magic Keyboard (including the numeric keypad version), Magic Keyboard, AppleBook built-in keyboards, and other third-party Apple keyboards.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>What is the significance of maximum concurrent keys (NKRO) for Magic Keyboard?</h3>
-                    <p>Maximum concurrent keys indicate how many keys can be pressed simultaneously and still be correctly recognized. For gamers or users with complex shortcuts, a high NKRO value is important. Magic Keyboard typically supports 6-key rollover. This tool records the current number of keys held down and shows the historical maximum during the test, giving you insight into your keyboard's actual concurrency capability.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Local script (core logic in English) -->
-    <script src="/static/js/toolbox/keyboard/apple-keyboard/script-en.js"></script>
-    <!-- Shared scripts (optional dependencies) -->
-    <script src="/static/js/shared/switchlanguage.js"></script>
-
-    <footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;">
-        <div style="margin-bottom:6px;">© 2026 StarryRing · Apple Keyboard Tester</div>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
-            <a href="/bn/about-us/" style="color:#60a5fa;text-decoration:none;">আমাদের সম্পর্কে</a>
-            <a href="/bn/contact-us/" style="color:#60a5fa;text-decoration:none;">যোগাযোগ করুন</a>
-            <a href="/bn/disclaimer/" style="color:#60a5fa;text-decoration:none;">দায়স্বীকার</a>
-            <a href="/bn/privacy/" style="color:#60a5fa;text-decoration:none;">গোপনীয়তা নীতি</a>
-            <a href="/bn/terms/" style="color:#60a5fa;text-decoration:none;">সেবার শর্তাবলি</a>
-        </div>
-    </footer>
+<div class="breadcrumb-section">
+<nav aria-label="ব্রেডক্রাম্ব">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/bn/">
+<i aria-hidden="true" class="fas fa-home"></i>
+<span>বাড়ি</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/bn/toolbox/">
+<i aria-hidden="true" class="fas fa-box"></i><span>টুলবক্স</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/bn/toolbox/keyboard/">
+<i aria-hidden="true" class="fas fa-keyboard"></i><span>কীবোর্ড পরীক্ষা</span>
+</a>
+</li>
+<li class="breadcrumb-item">
+<span class="breadcrumb-active">অ্যাপল কীবোর্ড পরীক্ষা</span>
+</li>
+</ol>
+</nav>
+</div>
+<div class="tester-container">
+<header>
+<h1>⚡ অ্যাপল কীবোর্ড ডায়াগনস্টিক</h1>
+<div class="status-panel">
+<div class="stat-item">শেষ কী:<span id="last-key">-</span></div>
+<div class="stat-item">কী কোড:<span id="key-code">-</span></div>
+<div class="concurrent-badge" id="concurrent-info">Now:0 সর্বোচ্চ:0</div>
+<button id="reset-btn">⟲ পরীক্ষা রিসেট করুন</button>
+</div>
+</header>
+<div class="info-row">
+<div class="key-detail">⌨️ কী:<span id="info-key">&mdash;</span></div>
+<div class="key-detail">🆔 কোড:<span id="info-code">&mdash;</span></div>
+<div class="key-detail">🔢 কোনটি:<span id="info-which">&mdash;</span></div>
+</div>
+<!-- Keyboard layout (IDs strictly match script) -->
+<div class="keyboard-iso" id="keyboard">
+<div class="row function-row">
+<div class="key esc" id="Escape"><span>esc</span></div>
+<div class="key" id="F1"><span>F1</span></div>
+<div class="key" id="F2"><span>F2</span></div>
+<div class="key" id="F3"><span>F3</span></div>
+<div class="key" id="F4"><span>F4</span></div>
+<div class="key" id="F5"><span>F5</span></div>
+<div class="key" id="F6"><span>F6</span></div>
+<div class="key" id="F7"><span>F7</span></div>
+<div class="key" id="F8"><span>F8</span></div>
+<div class="key" id="F9"><span>F9</span></div>
+<div class="key" id="F10"><span>F10</span></div>
+<div class="key" id="F11"><span>F11</span></div>
+<div class="key" id="F12"><span>F12</span></div>
+<div class="key power" id="Power"><span>&ovbar;</span></div>
+</div>
+<div class="row">
+<div class="key" id="Backquote"><span>~</span><span>`</span></div>
+<div class="key" id="Digit1"><span>!</span><span>1</span></div>
+<div class="key" id="Digit2"><span>@</span><span>2</span></div>
+<div class="key" id="Digit3"><span>#</span><span>3</span></div>
+<div class="key" id="Digit4"><span>$</span><span>4</span></div>
+<div class="key" id="Digit5"><span>%</span><span>5</span></div>
+<div class="key" id="Digit6"><span>^</span><span>6</span></div>
+<div class="key" id="Digit7"><span>&amp;</span><span>7</span></div>
+<div class="key" id="Digit8"><span>*</span><span>8</span></div>
+<div class="key" id="Digit9"><span>(</span><span>9</span></div>
+<div class="key" id="Digit0"><span>)</span><span>0</span></div>
+<div class="key" id="Minus"><span>_</span><span>-</span></div>
+<div class="key" id="Equal"><span>+</span><span>=</span></div>
+<div class="key delete" id="Backspace"><span>মুছুন</span></div>
+</div>
+<div class="row">
+<div class="key tab" id="Tab"><span>ট্যাব</span></div>
+<div class="key" id="KeyQ"><span>Q</span></div>
+<div class="key" id="KeyW"><span>W</span></div>
+<div class="key" id="KeyE"><span>E</span></div>
+<div class="key" id="KeyR"><span>R</span></div>
+<div class="key" id="KeyT"><span>T</span></div>
+<div class="key" id="KeyY"><span>Y</span></div>
+<div class="key" id="KeyU"><span>U</span></div>
+<div class="key" id="KeyI"><span>I</span></div>
+<div class="key" id="KeyO"><span>O</span></div>
+<div class="key" id="KeyP"><span>P</span></div>
+<div class="key" id="BracketLeft"><span>{</span><span>[</span></div>
+<div class="key" id="BracketRight"><span>}</span><span>]</span></div>
+<div class="key enter-upper" id="Enter"><span>রিটার্ন</span></div>
+</div>
+<div class="row">
+<div class="key capslock" id="CapsLock"><span>CapsLock</span></div>
+<div class="key" id="KeyA"><span>A</span></div>
+<div class="key" id="KeyS"><span>S</span></div>
+<div class="key" id="KeyD"><span>D</span></div>
+<div class="key" id="KeyF"><span>F</span></div>
+<div class="key" id="KeyG"><span>G</span></div>
+<div class="key" id="KeyH"><span>H</span></div>
+<div class="key" id="KeyJ"><span>J</span></div>
+<div class="key" id="KeyK"><span>K</span></div>
+<div class="key" id="KeyL"><span>L</span></div>
+<div class="key" id="Semicolon"><span>:</span><span>;</span></div>
+<div class="key" id="Quote"><span>"</span><span>'</span></div>
+<div class="key" id="Backslash"><span>|</span><span>\</span></div>
+</div>
+<div class="row">
+<div class="key shift-left" id="ShiftLeft"><span>শিফ্ট</span></div>
+<div class="key" id="IntlBackslash"><span>~</span><span>`</span></div>
+<div class="key" id="KeyZ"><span>Z</span></div>
+<div class="key" id="KeyX"><span>X</span></div>
+<div class="key" id="KeyC"><span>C</span></div>
+<div class="key" id="KeyV"><span>V</span></div>
+<div class="key" id="KeyB"><span>B</span></div>
+<div class="key" id="KeyN"><span>N</span></div>
+<div class="key" id="KeyM"><span>M</span></div>
+<div class="key" id="Comma"><span>&lt;</span><span>,</span></div>
+<div class="key" id="Period"><span>&gt;</span><span>.</span></div>
+<div class="key" id="Slash"><span>?</span><span>/</span></div>
+<div class="key shift-right" id="ShiftRight"><span>শিফ্ট</span></div>
+</div>
+<div class="row">
+<div class="key fn" id="Fn"><span>fn</span></div>
+<div class="key control" id="ControlLeft"><span>নিয়ন্ত্রণ</span><span>⌃</span></div>
+<div class="key option" id="OptionLeft"><span>বিকল্প</span><span>⌥</span></div>
+<div class="key command" id="MetaLeft"><span>কমান্ড</span><span>⌘</span></div>
+<div class="key space" id="Space"><span></span></div>
+<div class="key command" id="MetaRight"><span>কমান্ড</span><span>⌘</span></div>
+<div class="key option" id="OptionRight"><span>বিকল্প</span><span>⌥</span></div>
+<div class="arrow-group">
+<div class="key arrow" id="ArrowLeft"><span>◀</span></div>
+<div class="arrow-vertical">
+<div class="key arrow" id="ArrowUp"><span>▲</span></div>
+<div class="key arrow" id="ArrowDown"><span>▼</span></div>
+</div>
+<div class="key arrow" id="ArrowRight"><span>▶</span></div>
+</div>
+</div>
+</div>
+<div class="log-panel">
+<div class="log-header">
+<span>📋 ইভেন্ট লগ (চ্যাটার থ্রেশহোল্ড &lt;80ms লাল রঙে &middot; ধরে রাখা উপেক্ষা করা হয়েছে)</span>
+<button id="clear-log">লগ সাফ করুন</button>
+</div>
+<div class="log-entries" id="log-entries">
+<div class="log-entry"><span class="timestamp">⏱️</span>লগ শুরু হয়েছে, যেকোনো কী টিপুন... (&darr; নিচে/&uarr; উপরে)</div>
+</div>
+</div>
+</div>
+<!-- Features and FAQ Section (enhanced SEO & UX) -->
+<div class="instructions-section">
+<div class="instructions-content">
+<h2>অ্যাপল ম্যাজিক কীবোর্ড এবং অ্যাপল কীবোর্ড টেস্টার বৈশিষ্ট্য</h2>
+<div class="feature-grid">
+<div class="feature-item">
+<h3>সম্পূর্ণ কীবোর্ড ভিজ্যুয়ালাইজেশন &middot; ম্যাজিক কীবোর্ড সামঞ্জস্যপূর্ণ</h3>
+<p>সম্পূর্ণ Apple ISO কীবোর্ড লেআউট। আপনি অ্যাপল ম্যাজিক কীবোর্ড, ম্যাজিক কীবোর্ড, বা অ্যাপলবুক বিল্ট-ইন কীবোর্ড ব্যবহার করছেন না কেন, প্রতিটি কী প্রেস তাত্ক্ষণিকভাবে সংশ্লিষ্ট কী হাইলাইট করে। স্বজ্ঞাত প্রতিক্রিয়ার জন্য ফাংশন কী, মডিফায়ার এবং আন্তর্জাতিক কী সমর্থন করে।</p>
+</div>
+<div class="feature-item">
+<h3>সুনির্দিষ্ট চ্যাটার সনাক্তকরণ</h3>
+<p>স্বয়ংক্রিয়ভাবে প্রতিটি কী টিপে টাইমস্ট্যাম্প। যখন 80ms এর মধ্যে দুটি প্রেস করা হয়, তখন লগ এন্ট্রিটি লাল রঙে হাইলাইট করা হয় যাতে আপনি আপনার ম্যাজিক কীবোর্ডে সম্ভাব্য সুইচ বাউন্স সমস্যাগুলি দ্রুত শনাক্ত করতে পারেন৷</p>
+<div class="tip">
+<span class="tip-text">টিপ: সাধারণ কী ব্যবধান সাধারণত&gt;100ms হয়। অস্বাভাবিক দ্রুত বকবক প্রায়ই বার্ধক্যজনিত সুইচের কারণে হয়।</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>মোডিফায়ার এবং কম্বো কী পরীক্ষা</h3>
+<p>স্বতন্ত্রভাবে কন্ট্রোল, অপশন, কমান্ড, Fn, এবং অন্যান্য সংশোধক পরীক্ষা করুন। NKRO পরীক্ষা করতে একই সাথে একাধিক কী টিপুন (সর্বোচ্চ সমবর্তী কীগুলি প্রদর্শিত)। ম্যাজিক কীবোর্ডের প্রজাপতি বা কাঁচি প্রক্রিয়া মূল্যায়নের জন্য পারফেক্ট।</p>
+</div>
+<div class="feature-item">
+<h3>রিয়েল-টাইম লগ এবং কী কোড বিশ্লেষণ</h3>
+<p>প্রতিটি প্রেস এবং রিলিজ সুনির্দিষ্ট সময়, কী, কোড এবং কোন মান দিয়ে লগ করা হয় &ndash; ম্যাজিক কীবোর্ডে ইনপুট বিবরণ বা ব্লুটুথ লেটেন্সি বিশ্লেষণকারী বিকাশকারী বা উন্নত ব্যবহারকারীদের জন্য আদর্শ।</p>
+</div>
+<div class="feature-item">
+<h3>সমস্ত আধুনিক ব্রাউজারের সাথে সামঞ্জস্যপূর্ণ</h3>
+<p>ভ্যানিলা জাভাস্ক্রিপ্ট দিয়ে তৈরি, কোনো প্লাগইন প্রয়োজন নেই। Chrome, Edge, Safari, Firefox-এ মসৃণভাবে চলে। ব্লুটুথ-সংযুক্ত ম্যাজিক কীবোর্ডের সাথেও কাজ করে।</p>
+</div>
+<div class="feature-item">
+<h3>এক-ক্লিক রিসেট, রিপিট টেস্টিং</h3>
+<p>"রিসেট টেস্ট"-এ ক্লিক করে সমস্ত গণনা এবং লগ মুছে ফেলুন, একাধিক পরীক্ষার রাউন্ড চালানো বা বিভিন্ন কীবোর্ড তুলনা করা সহজ করে (যেমন, ম্যাজিক কীবোর্ড বনাম তৃতীয় পক্ষ)।</p>
+</div>
+</div>
+<div class="faq-section">
+<h2>প্রায়শই জিজ্ঞাসিত প্রশ্ন (FAQ)</h2>
+<div class="faq-item">
+<h3>আমি কীভাবে আমার অ্যাপল ম্যাজিক কীবোর্ডে কী পরীক্ষা করব?</h3>
+<p>পৃষ্ঠার কেন্দ্রে কীবোর্ড লেআউট দেখার সময় আপনার ম্যাজিক কীবোর্ডের যেকোনো কী টিপুন। সংশ্লিষ্ট কী হাইলাইট করবে, স্ট্যাটাস প্যানেল কী নাম, কীকোড এবং কোন মান দেখাবে এবং লগ এরিয়া প্রতিটি প্রেস রেকর্ড করবে এবং টাইমস্ট্যাম্প সহ প্রকাশ করবে। যদি একটি কী সাড়া না দেয় তবে এটি একটি হার্ডওয়্যার সমস্যা বা ব্লুটুথ সংযোগ সমস্যা নির্দেশ করতে পারে।</p>
+</div>
+<div class="faq-item">
+<h3>চ্যাটার ডিটেকশন কি? একটি ম্যাজিক কীবোর্ড কী বকবক করছে কিনা তা আমি কীভাবে বলতে পারি?</h3>
+<p>চ্যাটার সনাক্তকরণ একই কী দুটি চাপার মধ্যে সময়ের ব্যবধান নিরীক্ষণ করে। যদি ব্যবধান 80 মিলিসেকেন্ডের কম হয় (সাধারণত অস্বাভাবিক দ্রুত ডাবল-ক্লিকিং নির্দেশ করে), লগ এন্ট্রিটি লাল রঙে হাইলাইট করা হয় এবং একটি চ্যাটার সতর্কতা হিসাবে লেবেল করা হয়। এটি আপনাকে সম্ভাব্য সুইচ বাউন্স সমস্যা সনাক্ত করতে সাহায্য করে, যা কিছু কীবোর্ড পদ্ধতিতে সাধারণ।</p>
+</div>
+<div class="faq-item">
+<h3>আমি যখন একটি কী চাপি তখন আমার অ্যাপল ম্যাজিক কীবোর্ড লগে কোনো প্রতিক্রিয়া দেখায় না কেন?</h3>
+<p>পরীক্ষার এলাকাটি সক্রিয় আছে তা নিশ্চিত করুন (কেবল সরাসরি যেকোনো কী টিপুন)। যদি এখনও কোনও প্রতিক্রিয়া না থাকে তবে এটি একটি ব্রাউজার অনুমতি সমস্যা বা একটি হার্ডওয়্যার সমস্যা হতে পারে। পৃষ্ঠা রিফ্রেশ করার চেষ্টা করুন বা অন্য ব্রাউজার ব্যবহার করুন (Chrome, Edge প্রস্তাবিত)। আপনার OS কীবোর্ড চিনেছে কিনা তাও পরীক্ষা করুন, বিশেষ করে ব্লুটুথ সংযোগের জন্য। তারযুক্ত ম্যাজিক কীবোর্ডগুলিও সমর্থিত।</p>
+</div>
+<div class="faq-item">
+<h3>আমি কিভাবে পরিবর্তক কী পরীক্ষা করতে পারি (কমান্ড, বিকল্প, ইত্যাদি)?</h3>
+<p>শুধুমাত্র মডিফায়ার কী টিপুন (যেমন, বাম কমান্ড, ডান বিকল্প)। অন-স্ক্রীন কীবোর্ডের সংশ্লিষ্ট কীটি আলোকিত হবে এবং স্ট্যাটাস প্যানেল কী নাম এবং কোড দেখাবে। সংমিশ্রণ কী স্বীকৃতি পরীক্ষা করতে আপনি একসাথে একাধিক সংশোধক চাপতে পারেন।</p>
+</div>
+<div class="faq-item">
+<h3>কোন অ্যাপল কীবোর্ড লেআউট সমর্থিত? অ্যাপল ম্যাজিক কীবোর্ড কি সামঞ্জস্যপূর্ণ?</h3>
+<p>এই টুলটি একটি আদর্শ আইএসও অ্যাপল কীবোর্ড লেআউট ব্যবহার করে, ফাংশন কী (F1-F12), নম্বর কী, অক্ষর, বিরাম চিহ্ন এবং নীচের সারি মডিফায়ার (কন্ট্রোল, অপশন, কমান্ড) এবং তীর কী সহ সমস্ত প্রধান কীগুলিকে কভার করে। এটি অ্যাপল ম্যাজিক কীবোর্ড (সংখ্যাসূচক কীপ্যাড সংস্করণ সহ), ম্যাজিক কীবোর্ড, অ্যাপলবুক বিল্ট-ইন কীবোর্ড এবং অন্যান্য তৃতীয় পক্ষের অ্যাপল কীবোর্ডের সাথে সম্পূর্ণ সামঞ্জস্যপূর্ণ।</p>
+</div>
+<div class="faq-item">
+<h3>ম্যাজিক কীবোর্ডের জন্য সর্বাধিক সমবর্তী কী (NKRO) এর তাৎপর্য কী?</h3>
+<p>সর্বোচ্চ সমবর্তী কীগুলি নির্দেশ করে যে কতগুলি কী একসাথে চাপানো যেতে পারে এবং এখনও সঠিকভাবে স্বীকৃত হতে পারে। গেমার বা জটিল শর্টকাট সহ ব্যবহারকারীদের জন্য, একটি উচ্চ NKRO মান গুরুত্বপূর্ণ। ম্যাজিক কীবোর্ড সাধারণত 6-কী রোলওভার সমর্থন করে। এই টুলটি চেপে রাখা কীগুলির বর্তমান সংখ্যা রেকর্ড করে এবং পরীক্ষার সময় ঐতিহাসিক সর্বোচ্চ দেখায়, যা আপনাকে আপনার কীবোর্ডের প্রকৃত সমবর্তন ক্ষমতা সম্পর্কে অন্তর্দৃষ্টি দেয়।</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Local script (core logic in English) -->
+<script src="/static/js/toolbox/keyboard/apple-keyboard/script-bn.js"></script>
+<!-- Shared scripts (optional dependencies) -->
+<script src="/static/js/shared/switchlanguage.js"></script>
+<footer style="margin-top:32px;padding:16px 8px;border-top:1px solid rgba(148,163,184,0.35);text-align:center;font-size:0.85rem;color:#9ca3af;">
+<div style="margin-bottom:6px;">&copy; 2026 StarryRing &middot; Apple কীবোর্ড পরীক্ষক</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+<a href="/bn/about-us/" style="color:#60a5fa;text-decoration:none;">আমাদের সম্পর্কে</a>
+<a href="/bn/contact-us/" style="color:#60a5fa;text-decoration:none;">আমাদের সাথে যোগাযোগ করুন</a>
+<a href="/bn/disclaimer/" style="color:#60a5fa;text-decoration:none;">অস্বীকৃতি</a>
+<a href="/bn/privacy/" style="color:#60a5fa;text-decoration:none;">গোপনীয়তা নীতি</a>
+<a href="/bn/terms/" style="color:#60a5fa;text-decoration:none;">পরিষেবার শর্তাবলী</a>
+</div>
+</footer>
 </body>
 </html>

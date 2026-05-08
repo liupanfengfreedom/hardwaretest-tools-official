@@ -1,463 +1,275 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO core (description with CTA) -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SEO core (description with CTA) -->
 <!-- Open Graph / Facebook -->
-
-<meta property="og:image" content="https://starryring.com/preview-network.png">
-<meta property="og:type" content="website">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/preview-network.png">
-
-    <!-- Multi‑language & canonical links -->
-
-
+<meta content="https://starryring.com/preview-network.png" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/preview-network.png" name="twitter:image"/>
+<!-- Multi‑language & canonical links -->
 <!-- Favicon & manifest (global) -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <!-- External CDN libraries (unchanged) -->
-    <script src="/static/js/shared/cdn/tailwind.js"></script>
-    <script src="/static/js/shared/cdn/chart.js"></script>
-    <script src="/static/js/shared/cdn/lucide.js"></script>
-
-    <!-- Local styles (language switcher, nav cards etc.) -->
-    <link rel="stylesheet" href="/static/css/utility-tools/netdev/ping/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-
-    <!-- Structured data (SoftwareApplication + FAQPage + BreadcrumbList) English version -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Network Pulse - Online Network Diagnostics Tool",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-                "description": "Free online network diagnostics: ICMP Ping via remote proxy and HTTPS GET directly from browser. Real‑time latency, packet loss, jitter with live charts and terminal log.",
-                "url": "https://starryring.com/mr/utility-tools/netdev/ping/",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://starryring.com/static/image/en/network-pulse-tool.png",
-                    "width": 1200,
-                    "height": 630
-                },
-                "screenshot": [
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/network-ping-interface.png",
-                        "width": 1280,
-                        "height": 720,
-                        "caption": "ICMP Ping test interface",
-                        "description": "Remote proxy executes ICMP Ping, measures latency and loss"
-                    },
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/network-https-interface.png",
-                        "width": 1280,
-                        "height": 720,
-                        "caption": "HTTPS GET test interface",
-                        "description": "Browser directly sends HTTPS request, measures response time"
-                    }
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "ICMP Ping via remote proxy",
-                    "HTTPS GET directly from browser",
-                    "Real‑time latency, loss, jitter calculation",
-                    "Search history & one‑click clear",
-                    "Live chart of latency changes",
-                    "Terminal log with each request detail",
-                    "Continuous test mode"
-                ],
-                "softwareVersion": "1.2.0"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What's the difference between ICMP Ping and HTTPS GET?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "ICMP Ping sends ICMP packets through a remote proxy to measure network‑layer connectivity and latency – ideal to check if a target is online. HTTPS GET is sent directly from your browser and measures application‑layer response time, better reflecting the real experience of visiting a website or API."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why is packet loss not zero?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Packet loss can be caused by network congestion, faulty routers, target‑side throttling, or unstable local connection. Consistent non‑zero loss usually indicates a network quality issue."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What impact does high jitter have?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Jitter is the variation in latency. High jitter (>30ms) can cause stuttering or desynchronization in real‑time applications like video calls or online games."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I test my own server or website?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Enter your domain or IP (e.g., example.com or 93.184.216.34) in the target field, select the test mode (Ping or HTTPS), and click Start. For HTTPS tests, ensure your server listens on port 443."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why are Ping and HTTPS latencies different?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "ICMP Ping measures network‑layer round‑trip time, while HTTPS GET involves TCP handshake, TLS negotiation, and HTTP request/response – it normally takes tens of milliseconds longer, which is expected."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What packet loss rate is considered abnormal?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "For wired networks, loss should be 0% most of the time; for Wi‑Fi, up to 0.1% is acceptable. Consistent loss above 0.5% or frequent timeouts indicate a significant problem – check your local network or contact your ISP."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why do you use a remote proxy for Ping?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Browsers cannot send raw ICMP packets due to security restrictions. This tool uses a backend proxy (or public API) to perform the Ping and returns the results, enabling ICMP tests to any target."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Do proxy server locations affect Ping results?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Yes – ICMP Ping latency includes the time from the proxy to the target, not from your location. However, loss and jitter still reflect the target's network stability. HTTPS GET is not affected because it runs directly from your browser."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "मुख्यपृष्ठ",
-                        "item": "https://starryring.com/mr/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Utilities",
-                        "item": "https://starryring.com/mr/utility-tools/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Network Diagnostics Tool",
-                        "item": "https://starryring.com/mr/utility-tools/netdev/ping/"
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-
-    <title>Network Pulse - Online Ping & HTTPS Test Tool | StarryRing</title>
-<meta name="description" content="Online network diagnostics tool supporting ICMP Ping via remote proxy and HTTPS GET directly from browser. Real‑time latency, packet loss, jitter. Free, no download, test your network stability now.">
-            <link rel="canonical" href="https://starryring.com/mr/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/ping/">
-<meta property="og:url" content="https://starryring.com/mr/utility-tools/netdev/ping/">
-    <meta property="og:locale" content="mr_IN">
-<meta property="og:title" content="Network Pulse - Real‑time Ping & HTTPS Test Tool">
-    <meta property="og:description" content="Free online network diagnostics: ICMP Ping via remote proxy or HTTPS GET from your browser. Accurate latency, loss, jitter with history and live charts.">
-    <meta name="twitter:title" content="Network Pulse - Real‑time Ping & HTTPS Test Tool">
-    <meta name="twitter:description" content="Free online network diagnostics: measure latency, loss, jitter with live charts and terminal log.">
-    <meta name="keywords" content="Ping test, HTTPS test, network latency, network diagnostics, online ping tool, packet loss, jitter test, network stability">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- External CDN libraries (unchanged) -->
+<script src="/static/js/shared/cdn/tailwind.js"></script>
+<script src="/static/js/shared/cdn/chart.js"></script>
+<script src="/static/js/shared/cdn/lucide.js"></script>
+<!-- Local styles (language switcher, nav cards etc.) -->
+<link href="/static/css/utility-tools/netdev/ping/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Structured data (SoftwareApplication + FAQPage + BreadcrumbList) इंग्रजी आवृत्ती -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "नेटवर्क पल्स - ऑनलाइन नेटवर्क डायग्नोस्टिक्स टूल", "applicationCategory": "UtilitiesApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "description": "विनामूल्य ऑनलाइन नेटवर्क निदान: रिमोट प्रॉक्सी आणि HTTPS द्वारे ICMP पिंग थेट ब्राउझरवरून मिळवा. रिअल-टाइम लेटन्सी, पॅकेट लॉस, लाइव्ह चार्ट आणि टर्मिनल लॉगसह गोंधळ.", "url": "https://starryring.com/mr/utility-tools/netdev/ping/", "image": { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/network-pulse-tool.png", "width": 1200, "height": 630 }, "screenshot": [ { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/network-ping-interface.png", "width": 1280, "height": 720, "caption": "ICMP पिंग चाचणी इंटरफेस", "description": "रिमोट प्रॉक्सी ICMP पिंग कार्यान्वित करते, विलंब आणि नुकसान मोजते" }, { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/network-https-interface.png", "width": 1280, "height": 720, "caption": "HTTPS GET चाचणी इंटरफेस", "description": "ब्राउझर थेट HTTPS विनंती पाठवतो, प्रतिसाद वेळ मोजतो" } ], "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "ICMP Ping via remote proxy", "HTTPS GET directly from browser", "Real‑time latency, loss, jitter calculation", "Search history & one‑click clear", "Live chart of latency changes", "Terminal log with each request detail", "Continuous test mode" ], "softwareVersion": "1.2.0" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "ICMP पिंग आणि HTTPS GET मध्ये काय फरक आहे?", "acceptedAnswer": { "@type": "Answer", "text": "ICMP पिंग नेटवर्क-लेयर कनेक्टिव्हिटी आणि लेटन्सी मोजण्यासाठी रिमोट प्रॉक्सीद्वारे ICMP पॅकेट पाठवते - लक्ष्य ऑनलाइन आहे की नाही हे तपासण्यासाठी आदर्श. HTTPS GET थेट तुमच्या ब्राउझरवरून पाठवले जाते आणि ॲप्लिकेशन-लेयर प्रतिसाद वेळ मोजते, वेबसाइट किंवा API ला भेट देण्याचा वास्तविक अनुभव अधिक चांगल्या प्रकारे प्रतिबिंबित करते." } }, { "@type": "Question", "name": "पॅकेट लॉस शून्य का नाही?", "acceptedAnswer": { "@type": "Answer", "text": "नेटवर्क कंजेशन, सदोष राउटर, टार्गेट-साइड थ्रॉटलिंग किंवा अस्थिर स्थानिक कनेक्शनमुळे पॅकेटचे नुकसान होऊ शकते. सातत्यपूर्ण नॉन-शून्य तोटा सहसा नेटवर्क गुणवत्ता समस्या सूचित करते." } }, { "@type": "Question", "name": "उच्च जिटरचा काय परिणाम होतो?", "acceptedAnswer": { "@type": "Answer", "text": "Jitter हे विलंबतेमधील फरक आहे. हाय जिटर (>30ms) रीअल-टाइम ऍप्लिकेशन्स जसे की व्हिडिओ कॉल किंवा ऑनलाइन गेममध्ये तोतरेपणा किंवा डिसिंक्रोनाइझेशन होऊ शकते." } }, { "@type": "Question", "name": "मी माझ्या स्वतःच्या सर्व्हरची किंवा वेबसाइटची चाचणी कशी करू?", "acceptedAnswer": { "@type": "Answer", "text": "लक्ष्य फील्डमध्ये तुमचे डोमेन किंवा IP (उदा. example.com किंवा 93.184.216.34) प्रविष्ट करा, चाचणी मोड (पिंग किंवा HTTPS) निवडा आणि प्रारंभ क्लिक करा. HTTPS चाचण्यांसाठी, तुमचा सर्व्हर पोर्ट 443 वर ऐकत असल्याची खात्री करा." } }, { "@type": "Question", "name": "पिंग आणि HTTPS लेटेंसी भिन्न का आहेत?", "acceptedAnswer": { "@type": "Answer", "text": "ICMP पिंग नेटवर्क-लेयर राउंड-ट्रिप वेळ मोजते, तर HTTPS GET मध्ये TCP हँडशेक, TLS वाटाघाटी आणि HTTP विनंती/प्रतिसाद यांचा समावेश असतो – यास साधारणपणे दहापट मिलिसेकंद जास्त लागतात, जे अपेक्षित आहे." } }, { "@type": "Question", "name": "कोणते पॅकेट नुकसान दर असामान्य मानले जाते?", "acceptedAnswer": { "@type": "Answer", "text": "वायर्ड नेटवर्कसाठी, नुकसान बहुतेक वेळा 0% असावे; Wi‑Fi साठी, 0.1% पर्यंत स्वीकार्य आहे. 0.5% पेक्षा जास्त सतत नुकसान किंवा वारंवार कालबाह्य होणे ही एक महत्त्वपूर्ण समस्या दर्शवते - तुमचे स्थानिक नेटवर्क तपासा किंवा तुमच्या ISP शी संपर्क साधा." } }, { "@type": "Question", "name": "तुम्ही पिंगसाठी रिमोट प्रॉक्सी का वापरता?", "acceptedAnswer": { "@type": "Answer", "text": "सुरक्षा निर्बंधांमुळे ब्राउझर कच्चे ICMP पॅकेट पाठवू शकत नाहीत. हे साधन पिंग करण्यासाठी बॅकएंड प्रॉक्सी (किंवा सार्वजनिक API) वापरते आणि परिणाम परत करते, कोणत्याही लक्ष्यासाठी ICMP चाचण्या सक्षम करते." } }, { "@type": "Question", "name": "प्रॉक्सी सर्व्हर स्थाने पिंग परिणामांवर परिणाम करतात का?", "acceptedAnswer": { "@type": "Answer", "text": "होय – ICMP पिंग लेटन्सीमध्ये प्रॉक्सीपासून लक्ष्यापर्यंतचा वेळ समाविष्ट असतो, तुमच्या स्थानावरून नाही. तथापि, तोटा आणि गोंधळ अजूनही लक्ष्याच्या नेटवर्क स्थिरतेचे प्रतिबिंबित करतात. HTTPS GET प्रभावित होत नाही कारण ते थेट तुमच्या ब्राउझरवरून चालते." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "घर", "item": "https://starryring.com/mr/" }, { "@type": "ListItem", "position": 2, "name": "उपयोगिता", "item": "https://starryring.com/mr/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "नेटवर्क डायग्नोस्टिक्स टूल", "item": "https://starryring.com/mr/utility-tools/netdev/ping/" } ] } ]
+}</script>
+<title>नेटवर्क पल्स - ऑनलाइन पिंग आणि HTTPS चाचणी साधन | StarryRing</title>
+<meta content="रिमोट प्रॉक्सी आणि HTTPS GET द्वारे थेट ब्राउझरवरून ICMP Ping ला समर्थन देणारे ऑनलाइन नेटवर्क निदान साधन. रिअल-टाइम लेटन्सी, पॅकेट लॉस, जिटर. विनामूल्य, डाउनलोड नाही, आता तुमच्या नेटवर्क स्थिरतेची चाचणी घ्या." name="description"/>
+<link href="https://starryring.com/mr/utility-tools/netdev/ping/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/netdev/ping/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/netdev/ping/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/netdev/ping/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/netdev/ping/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/netdev/ping/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/netdev/ping/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/netdev/ping/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/netdev/ping/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/netdev/ping/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/netdev/ping/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/netdev/ping/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/netdev/ping/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/netdev/ping/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/netdev/ping/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/netdev/ping/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/netdev/ping/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/netdev/ping/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/netdev/ping/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/netdev/ping/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/netdev/ping/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/mr/utility-tools/netdev/ping/" property="og:url"/>
+<meta content="mr_IN" property="og:locale"/>
+<meta content="नेटवर्क पल्स - रिअल-टाइम पिंग आणि HTTPS चाचणी साधन" property="og:title"/>
+<meta content="विनामूल्य ऑनलाइन नेटवर्क डायग्नोस्टिक्स: रिमोट प्रॉक्सीद्वारे ICMP पिंग किंवा आपल्या ब्राउझरवरून HTTPS GET. अचूक विलंब, नुकसान, इतिहास आणि थेट चार्टसह गोंधळ." property="og:description"/>
+<meta content="नेटवर्क पल्स - रिअल-टाइम पिंग आणि HTTPS चाचणी साधन" name="twitter:title"/>
+<meta content="विनामूल्य ऑनलाइन नेटवर्क डायग्नोस्टिक्स: लाइव्ह चार्ट आणि टर्मिनल लॉगसह विलंब, तोटा, गोंधळ मोजा." name="twitter:description"/>
+<meta content="पिंग चाचणी, HTTPS चाचणी, नेटवर्क लेटन्सी, नेटवर्क डायग्नोस्टिक्स, ऑनलाइन पिंग टूल, पॅकेट लॉस, जिटर टेस्ट, नेटवर्क स्थिरता" name="keywords"/>
 </head>
 <body class="p-4 md:p-8 bg-slate-950 text-white">
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="भाषा निवडा" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/netdev/ping/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/netdev/ping/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/netdev/ping/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/netdev/ping/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/netdev/ping/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/netdev/ping/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/netdev/ping/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/netdev/ping/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/netdev/ping/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/netdev/ping/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/netdev/ping/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/netdev/ping/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/netdev/ping/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/netdev/ping/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/netdev/ping/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/netdev/ping/" data-lang="pcm">Naijá</a>
-            <a class="language-option selected" href="/mr/utility-tools/netdev/ping/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/netdev/ping/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/netdev/ping/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/netdev/ping/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="भाषा निवडा" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/netdev/ping/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/netdev/ping/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/netdev/ping/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/netdev/ping/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/netdev/ping/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/netdev/ping/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/netdev/ping/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/netdev/ping/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/netdev/ping/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/netdev/ping/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/netdev/ping/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/netdev/ping/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/netdev/ping/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/netdev/ping/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/netdev/ping/">Naij&aacute;</a>
+<a class="language-option selected" data-lang="mr" href="/mr/utility-tools/netdev/ping/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/netdev/ping/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/netdev/ping/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/netdev/ping/">தமிழ்</a>
+</div>
+</div>
 <!-- Breadcrumb navigation (English) -->
-    <nav aria-label="Breadcrumb" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item"><a href="/mr/" class="breadcrumb-link"><i class="fas fa-home" aria-hidden="true"></i> मुख्यपृष्ठ</a></li>
-            <li class="breadcrumb-item"><a href="/mr/utility-tools/" class="breadcrumb-link"><i class="fas fa-toolbox" aria-hidden="true"></i> Utilities</a></li>
-            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active"><i class="fas fa-paper-plane" aria-hidden="true"></i> Network Diagnostics Tool</span></li>
-        </ol>
-    </nav>
-
-    <!-- ========= Language Switcher (fully adapted from mouse tool) ========= -->
+<nav aria-label="ब्रेडक्रंब" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/mr/"><i aria-hidden="true" class="fas fa-home"></i>घर</a></li>
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/mr/utility-tools/"><i aria-hidden="true" class="fas fa-toolbox"></i>उपयोगिता</a></li>
+<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active"><i aria-hidden="true" class="fas fa-paper-plane"></i>नेटवर्क डायग्नोस्टिक्स टूल</span></li>
+</ol>
+</nav>
+<!-- ========= Language Switcher (fully adapted from mouse tool) ========= -->
 <!-- Main content container -->
-    <div class="max-w-6xl mx-auto space-y-6 mt-6">
-        <!-- Header area -->
-        <header class="flex justify-between items-center border-b border-slate-800 pb-6">
-            <h1 class="text-3xl font-extrabold flex items-center gap-2">
-                <i data-lucide="activity" class="text-blue-500" aria-label="Activity icon" aria-hidden="false"></i>
-                Network <span class="text-blue-500">Pulse</span> - Diagnostics Tool
-            </h1>
-            <span id="status" class="text-xs text-slate-400">Ready</span>
-        </header>
-
-        <p class="text-slate-300 mb-6">Professional online network diagnostics. Test via <b>ICMP Ping</b> (remote proxy) or <b>HTTPS GET</b> (direct from browser) to measure latency and stability.</p>
-
-        <!-- Input configuration panel (fully preserved) -->
-        <section class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
-            <div class="md:col-span-5 relative">
-                <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">Target Address</label>
-                <div class="relative mt-2">
-                    <input id="target"
-                        placeholder="google.com or api.example.com"
-                        autocomplete="off"
-                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                        onkeydown="if(event.key==='Enter') togglePing()"
-                        onfocus="showHistory()"
-                        onblur="setTimeout(hideHistory, 250)">
-                    <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden">
-                        <div id="history-list" class="max-h-60 overflow-y-auto"></div>
-                        <div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
-                            <span class="text-[10px] text-slate-500 uppercase font-bold px-2">Recent Searches</span>
-                            <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold">Clear</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="md:col-span-3">
-                <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">Test Method</label>
-                <select id="method" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                    <option value="ping">ICMP Ping (remote proxy-japan)</option>
-                    <option value="https">HTTPS GET (direct from browser)</option>
-                </select>
-            </div>
-            <div class="md:col-span-2">
-                <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">Count</label>
-                <select id="count" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                    <option value="10">10 times</option>
-                    <option value="50">50 times</option>
-                    <option value="0">Continuous</option>
-                </select>
-            </div>
-            <div class="md:col-span-2 flex items-end">
-                <button id="btn" onclick="togglePing()"
-                    class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white">
-                    <i data-lucide="play" aria-label="Start test" aria-hidden="false"></i> Start Test
-                </button>
-            </div>
-        </section>
-
-        <!-- Stats cards -->
-        <section class="grid md:grid-cols-4 gap-4">
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Average Latency</p>
-                <p class="text-2xl mono text-blue-400"><span id="avg">0</span> ms</p>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Packet Loss / Failure</p>
-                <p class="text-2xl mono text-red-400" id="loss">0%</p>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Jitter</p>
-                <p class="text-2xl mono text-purple-400"><span id="jitter">0</span> ms</p>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Requests Sent</p>
-                <p class="text-2xl mono text-slate-200" id="sent">0</p>
-            </div>
-        </section>
-
-        <!-- Chart & terminal -->
-        <section class="grid lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
-                <canvas id="chart"></canvas>
-            </div>
-            <div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col">
-                <div class="text-xs text-slate-400 p-2 border-b border-slate-800 flex justify-between">
-                    <span>Terminal Log</span>
-                    <span id="method-indicator" class="text-blue-500 font-bold"></span>
-                </div>
-                <div id="terminal" class="flex-1 p-3 mono text-sm overflow-y-auto"></div>
-            </div>
-        </section>
-    </div> <!-- end max-w-6xl -->
-
-   
-
-    <!-- ========= Feature description & FAQ (expanded) ========= -->
-    <div class="instructions-section max-w-6xl mx-auto mt-12">
-        <div class="instructions-content">
-            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-check-circle text-blue-500" aria-hidden="true"></i> Professional Network Diagnostics Features</h2>
-            <p class="text-slate-400 mt-2">📖 Introduction:</p>
-            <div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-satellite-dish text-blue-500" aria-hidden="true"></i> Dual‑Mode Test</h3>
-                    <p class="text-slate-400 text-sm mt-2">ICMP Ping (remote proxy) and HTTPS GET (browser direct) side by side, meeting various diagnostic needs.</p>
-                    <div class="tip mt-3 text-xs text-slate-500"><i class="fas fa-lightbulb" aria-hidden="true"></i> Proxy Ping bypasses browser restrictions; HTTPS direct reflects real user experience. Analyse network from both network layer and application layer – ideal for DevOps, website monitoring, gaming latency analysis.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-chart-bar text-blue-500" aria-hidden="true"></i> Real‑time Visualization</h3>
-                    <p class="text-slate-400 text-sm mt-2">Dynamic line chart of latency changes, colour‑coded success/failure requests.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Chart auto‑scales, highlights anomalies. Quickly spot peak latency periods and optimise your network.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-history text-blue-500" aria-hidden="true"></i> Smart History</h3>
-                    <p class="text-slate-400 text-sm mt-2">Automatically saves recently tested targets; click the input field to pick one, one‑click clear.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">History is stored locally, never uploaded. Reuse frequent targets, boost productivity.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-terminal text-blue-500" aria-hidden="true"></i> Terminal Log</h3>
-                    <p class="text-slate-400 text-sm mt-2">Each request’s sequence, response time, status (HTTPS), or loss indication clearly printed.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Up to 30 entries, scrollable. Trace every detail to diagnose intermittent issues.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-tachometer-alt text-blue-500" aria-hidden="true"></i> Jitter Calculation</h3>
-                    <p class="text-slate-400 text-sm mt-2">Automatically computes average absolute difference between consecutive delays – a precise stability metric.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Jitter >30ms can affect real‑time communication (VoIP, video). Monitor jitter to guide network tuning.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-infinity text-blue-500" aria-hidden="true"></i> Continuous Mode</h3>
-                    <p class="text-slate-400 text-sm mt-2">Select “Continuous” to send requests until manually stopped – ideal for long‑term stability monitoring.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Click “Stop Test” (turns red after start) to interrupt. Perfect for capturing fluctuation periods.</div>
-                </div>
-            </div>
-
-            <!-- FAQ section (synchronised with structured data) -->
-            <div class="faq-section mt-12">
-                <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-question-circle text-blue-500" aria-hidden="true"></i> Frequently Asked Questions (FAQ)</h2>
-                <div class="space-y-4 mt-6">
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">How do I test my own server or website?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Enter your domain or IP (e.g., example.com or 93.184.216.34) in the target field, select the test mode (Ping or HTTPS), and click Start. For HTTPS tests, ensure your server listens on port 443.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Why are Ping and HTTPS latencies different?</h3>
-                        <p class="text-slate-400 text-sm mt-1">ICMP Ping measures network‑layer round‑trip time, while HTTPS GET involves TCP handshake, TLS negotiation, and HTTP request/response – it normally takes tens of milliseconds longer, which is expected.</p>
-                        <div class="faq-link-container mt-2">
-                            <span class="text-xs text-slate-500"></span>
-                        </div>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">What packet loss rate is considered abnormal?</h3>
-                        <p class="text-slate-400 text-sm mt-1">For wired networks, loss should be 0% most of the time; for Wi‑Fi, up to 0.1% is acceptable. Consistent loss above 0.5% or frequent timeouts indicate a significant problem – check your local network or contact your ISP.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Why do you use a remote proxy for Ping?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Browsers cannot send raw ICMP packets due to security restrictions. This tool uses a backend proxy (or public API) to perform the Ping and returns the results, enabling ICMP tests to any target.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Do proxy server locations affect Ping results?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Yes – ICMP Ping latency includes the time from the proxy to the target, not from your location. However, loss and jitter still reflect the target's network stability. HTTPS GET is not affected because it runs directly from your browser.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Why does HTTPS sometimes show "local block"?</h3>
-                        <p class="text-slate-400 text-sm mt-1">If a request fails within 5 ms, it's usually blocked by a browser extension (e.g., ad blocker). The tool marks it as “Local Block” rather than a network failure. Try disabling extensions and retest.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">How much data does continuous mode use?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Each Ping request is just tens of bytes; HTTPS requests are lightweight (HEAD/no‑cors). Even after an hour, total traffic is usually below 10 MB – safe to use.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="page-footer max-w-6xl mx-auto mt-10 opacity-50">
-        <div class="footer-content text-center text-xs text-slate-500">
-            <p>© 2024 StarryRing - v1.2.0 | ICMP & HTTPS Dual‑Mode Diagnostics</p>
-            <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
-                <a href="/mr/about-us/" style="color:#60a5fa;text-decoration:none;">आमच्याबद्दल</a>
-                <a href="/mr/contact-us/" style="color:#60a5fa;text-decoration:none;">संपर्क करा</a>
-                <a href="/mr/disclaimer/" style="color:#60a5fa;text-decoration:none;">अस्वीकरण</a>
-                <a href="/mr/privacy/" style="color:#60a5fa;text-decoration:none;">गोपनीयता धोरण</a>
-                <a href="/mr/terms/" style="color:#60a5fa;text-decoration:none;">सेवा अटी</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts (English JS + shared switcher) -->
-    <script src="/static/js/utility-tools/netdev/ping/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
-    <script>lucide.createIcons();</script>
-
-    <!-- switchlanguage.js handles language switcher interaction -->
+<div class="max-w-6xl mx-auto space-y-6 mt-6">
+<!-- Header area -->
+<header class="flex justify-between items-center border-b border-slate-800 pb-6">
+<h1 class="text-3xl font-extrabold flex items-center gap-2">
+<i aria-hidden="false" aria-label="क्रियाकलाप चिन्ह" class="text-blue-500" data-lucide="activity"></i>नेटवर्क<span class="text-blue-500">पल्स</span>- निदान साधन</h1>
+<span class="text-xs text-slate-400" id="status">तयार</span>
+</header>
+<p class="text-slate-300 mb-6">व्यावसायिक ऑनलाइन नेटवर्क निदान. द्वारे चाचणी<b>ICMP पिंग</b>(रिमोट प्रॉक्सी) किंवा<b>HTTPS मिळवा</b>(ब्राउझरवरून थेट) विलंबता आणि स्थिरता मोजण्यासाठी.</p>
+<!-- Input configuration panel (fully preserved) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+<div class="md:col-span-5 relative">
+<label class="text-xs text-slate-400 font-bold uppercase tracking-wider">लक्ष्य पत्ता</label>
+<div class="relative mt-2">
+<input autocomplete="off" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all" id="target" onblur="setTimeout(hideHistory, 250)" onfocus="showHistory()" onkeydown="if(event.key==='Enter') togglePing()" placeholder="google.com किंवा api.example.com"/>
+<div class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden" id="history-panel">
+<div class="max-h-60 overflow-y-auto" id="history-list"></div>
+<div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
+<span class="text-[10px] text-slate-500 uppercase font-bold px-2">अलीकडील शोध</span>
+<button class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold" onclick="clearHistory()">स्पष्ट</button>
+</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-3">
+<label class="text-xs text-slate-400 font-bold uppercase tracking-wider">चाचणी पद्धत</label>
+<select class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all" id="method">
+<option value="ping">ICMP पिंग (रिमोट प्रॉक्सी-जपान)</option>
+<option value="https">HTTPS GET (थेट ब्राउझरवरून)</option>
+</select>
+</div>
+<div class="md:col-span-2">
+<label class="text-xs text-slate-400 font-bold uppercase tracking-wider">गणना</label>
+<select class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all" id="count">
+<option value="10">10 वेळा</option>
+<option value="50">50 वेळा</option>
+<option value="0">सतत</option>
+</select>
+</div>
+<div class="md:col-span-2 flex items-end">
+<button class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white" id="btn" onclick="togglePing()">
+<i aria-hidden="false" aria-label="चाचणी सुरू करा" data-lucide="play"></i>चाचणी सुरू करा</button>
+</div>
+</section>
+<!-- Stats cards -->
+<section class="grid md:grid-cols-4 gap-4">
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">सरासरी विलंब</p>
+<p class="text-2xl mono text-blue-400"><span id="avg">0</span> ms</p>
+</div>
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">पॅकेट लॉस / अयशस्वी</p>
+<p class="text-2xl mono text-red-400" id="loss">0%</p>
+</div>
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">जिटर</p>
+<p class="text-2xl mono text-purple-400"><span id="jitter">0</span> ms</p>
+</div>
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">विनंत्या पाठवल्या</p>
+<p class="text-2xl mono text-slate-200" id="sent">0</p>
+</div>
+</section>
+<!-- Chart & terminal -->
+<section class="grid lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
+<canvas id="chart"></canvas>
+</div>
+<div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col">
+<div class="text-xs text-slate-400 p-2 border-b border-slate-800 flex justify-between">
+<span>टर्मिनल लॉग</span>
+<span class="text-blue-500 font-bold" id="method-indicator"></span>
+</div>
+<div class="flex-1 p-3 mono text-sm overflow-y-auto" id="terminal"></div>
+</div>
+</section>
+</div><!-- end max-w-6xl -->
+<!-- ========= Feature description & FAQ (expanded) ========= -->
+<div class="instructions-section max-w-6xl mx-auto mt-12">
+<div class="instructions-content">
+<h2 class="text-2xl font-bold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-check-circle text-blue-500"></i>व्यावसायिक नेटवर्क डायग्नोस्टिक्स वैशिष्ट्ये</h2>
+<p class="text-slate-400 mt-2">📖 परिचय:</p>
+<div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-satellite-dish text-blue-500"></i>ड्युअल-मोड चाचणी</h3>
+<p class="text-slate-400 text-sm mt-2">ICMP पिंग (रिमोट प्रॉक्सी) आणि HTTPS GET (ब्राउझर डायरेक्ट) शेजारी शेजारी, विविध निदान गरजा पूर्ण करतात.</p>
+<div class="tip mt-3 text-xs text-slate-500"><i aria-hidden="true" class="fas fa-lightbulb"></i>प्रॉक्सी पिंग ब्राउझर निर्बंधांना बायपास करते; HTTPS डायरेक्ट वास्तविक वापरकर्ता अनुभव प्रतिबिंबित करते. नेटवर्क लेयर आणि ऍप्लिकेशन लेयर या दोन्हींमधून नेटवर्कचे विश्लेषण करा &ndash; DevOps, वेबसाइट मॉनिटरिंग, गेमिंग लेटन्सी विश्लेषणासाठी आदर्श.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-chart-bar text-blue-500"></i>रिअल-टाइम व्हिज्युअलायझेशन</h3>
+<p class="text-slate-400 text-sm mt-2">विलंबता बदलांचा डायनॅमिक लाइन चार्ट, रंग-कोडेड यश/अपयश विनंत्या.</p>
+<div class="tip mt-3 text-xs text-slate-500">चार्ट स्वयं-स्केल, विसंगती हायलाइट करते. पीक विलंब कालावधी पटकन शोधा आणि तुमचे नेटवर्क ऑप्टिमाइझ करा.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-history text-blue-500"></i>स्मार्ट इतिहास</h3>
+<p class="text-slate-400 text-sm mt-2">अलीकडे चाचणी केलेले लक्ष्य स्वयंचलितपणे जतन करते; एक निवडण्यासाठी इनपुट फील्डवर क्लिक करा, एक-क्लिक साफ करा.</p>
+<div class="tip mt-3 text-xs text-slate-500">इतिहास स्थानिकरित्या संग्रहित केला जातो, कधीही अपलोड केला जात नाही. वारंवार लक्ष्य पुन्हा वापरा, उत्पादकता वाढवा.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-terminal text-blue-500"></i>टर्मिनल लॉग</h3>
+<p class="text-slate-400 text-sm mt-2">प्रत्येक विनंतीचा क्रम, प्रतिसाद वेळ, स्थिती (HTTPS) किंवा तोटा संकेत स्पष्टपणे छापलेले.</p>
+<div class="tip mt-3 text-xs text-slate-500">30 पर्यंत नोंदी, स्क्रोल करण्यायोग्य. मधूनमधून येणाऱ्या समस्यांचे निदान करण्यासाठी प्रत्येक तपशीलाचा मागोवा घ्या.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-tachometer-alt text-blue-500"></i>जिटर गणना</h3>
+<p class="text-slate-400 text-sm mt-2">सलग विलंबांमधील सरासरी निरपेक्ष फरक स्वयंचलितपणे मोजतो &ndash; एक अचूक स्थिरता मेट्रिक.</p>
+<div class="tip mt-3 text-xs text-slate-500">Jitter &gt;30ms रिअल-टाइम संप्रेषण (VoIP, व्हिडिओ) प्रभावित करू शकतात. नेटवर्क ट्यूनिंगचे मार्गदर्शन करण्यासाठी जिटरचे निरीक्षण करा.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-infinity text-blue-500"></i>सतत मोड</h3>
+<p class="text-slate-400 text-sm mt-2">मॅन्युअली थांबेपर्यंत विनंत्या पाठवण्यासाठी &ldquo;सतत&rdquo; निवडा &ndash; दीर्घकालीन स्थिरता निरीक्षणासाठी आदर्श.</p>
+<div class="tip mt-3 text-xs text-slate-500">व्यत्यय आणण्यासाठी "स्टॉप टेस्ट" (प्रारंभ केल्यानंतर लाल होईल) क्लिक करा. चढउतार कालावधी कॅप्चर करण्यासाठी योग्य.</div>
+</div>
+</div>
+<!-- FAQ section (synchronised with structured data) -->
+<div class="faq-section mt-12">
+<h2 class="text-2xl font-bold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-question-circle text-blue-500"></i>वारंवार विचारले जाणारे प्रश्न (FAQ)</h2>
+<div class="space-y-4 mt-6">
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">मी माझ्या स्वतःच्या सर्व्हरची किंवा वेबसाइटची चाचणी कशी करू?</h3>
+<p class="text-slate-400 text-sm mt-1">लक्ष्य फील्डमध्ये तुमचे डोमेन किंवा IP (उदा. example.com किंवा 93.184.216.34) प्रविष्ट करा, चाचणी मोड (पिंग किंवा HTTPS) निवडा आणि प्रारंभ क्लिक करा. HTTPS चाचण्यांसाठी, तुमचा सर्व्हर पोर्ट 443 वर ऐकत असल्याची खात्री करा.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">पिंग आणि HTTPS लेटेंसी भिन्न का आहेत?</h3>
+<p class="text-slate-400 text-sm mt-1">ICMP पिंग नेटवर्क-लेयर राउंड-ट्रिप वेळ मोजते, तर HTTPS GET मध्ये TCP हँडशेक, TLS वाटाघाटी आणि HTTP विनंती/प्रतिसाद यांचा समावेश असतो &ndash; यास साधारणपणे दहापट मिलिसेकंद जास्त लागतात, जे अपेक्षित आहे.</p>
+<div class="faq-link-container mt-2">
+<span class="text-xs text-slate-500"></span>
+</div>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">कोणते पॅकेट नुकसान दर असामान्य मानले जाते?</h3>
+<p class="text-slate-400 text-sm mt-1">वायर्ड नेटवर्कसाठी, नुकसान बहुतेक वेळा 0% असावे; Wi‑Fi साठी, 0.1% पर्यंत स्वीकार्य आहे. 0.5% पेक्षा जास्त सतत नुकसान किंवा वारंवार कालबाह्य होणे ही एक महत्त्वपूर्ण समस्या दर्शवते - तुमचे स्थानिक नेटवर्क तपासा किंवा तुमच्या ISP शी संपर्क साधा.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">तुम्ही पिंगसाठी रिमोट प्रॉक्सी का वापरता?</h3>
+<p class="text-slate-400 text-sm mt-1">सुरक्षा निर्बंधांमुळे ब्राउझर कच्चे ICMP पॅकेट पाठवू शकत नाहीत. हे साधन पिंग करण्यासाठी बॅकएंड प्रॉक्सी (किंवा सार्वजनिक API) वापरते आणि परिणाम परत करते, कोणत्याही लक्ष्यासाठी ICMP चाचण्या सक्षम करते.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">प्रॉक्सी सर्व्हर स्थाने पिंग परिणामांवर परिणाम करतात का?</h3>
+<p class="text-slate-400 text-sm mt-1">होय &ndash; ICMP पिंग लेटन्सीमध्ये प्रॉक्सीपासून लक्ष्यापर्यंतचा वेळ समाविष्ट असतो, तुमच्या स्थानावरून नाही. तथापि, तोटा आणि गोंधळ अजूनही लक्ष्याच्या नेटवर्क स्थिरतेचे प्रतिबिंबित करतात. HTTPS GET प्रभावित होत नाही कारण ते थेट तुमच्या ब्राउझरवरून चालते.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">HTTPS कधीकधी "स्थानिक ब्लॉक" का दाखवते?</h3>
+<p class="text-slate-400 text-sm mt-1">विनंती 5 ms मध्ये अयशस्वी झाल्यास, ती सहसा ब्राउझर विस्ताराद्वारे अवरोधित केली जाते (उदा. जाहिरात ब्लॉकर). साधन नेटवर्क बिघाड होण्याऐवजी "स्थानिक ब्लॉक" म्हणून चिन्हांकित करते. विस्तार अक्षम करण्याचा प्रयत्न करा आणि पुन्हा चाचणी करा.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">सतत मोड किती डेटा वापरतो?</h3>
+<p class="text-slate-400 text-sm mt-1">प्रत्येक पिंग विनंती फक्त दहापट बाइट्सची असते; HTTPS विनंत्या हलक्या आहेत (HEAD/no-cors). एक तासानंतरही, एकूण रहदारी सामान्यतः 10 MB पेक्षा कमी असते &ndash; वापरण्यास सुरक्षित.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="page-footer max-w-6xl mx-auto mt-10 opacity-50">
+<div class="footer-content text-center text-xs text-slate-500">
+<p>&copy; 2024 StarryRing - v1.2.0 | ICMP आणि HTTPS ड्युअल-मोड डायग्नोस्टिक्स</p>
+<div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
+<a href="/mr/about-us/" style="color:#60a5fa;text-decoration:none;">आमच्याबद्दल</a>
+<a href="/mr/contact-us/" style="color:#60a5fa;text-decoration:none;">आमच्याशी संपर्क साधा</a>
+<a href="/mr/disclaimer/" style="color:#60a5fa;text-decoration:none;">अस्वीकरण</a>
+<a href="/mr/privacy/" style="color:#60a5fa;text-decoration:none;">गोपनीयता धोरण</a>
+<a href="/mr/terms/" style="color:#60a5fa;text-decoration:none;">सेवा अटी</a>
+</div>
+</div>
+</footer>
+<!-- Scripts (English JS + shared switcher) -->
+<script src="/static/js/utility-tools/netdev/ping/script-mr.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+<script>lucide.createIcons();</script>
+<!-- switchlanguage.js handles language switcher interaction -->
 </body>
 </html>

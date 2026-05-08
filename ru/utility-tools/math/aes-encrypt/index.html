@@ -1,482 +1,360 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#060a0e">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="StarryRing">
-<meta name="twitter:card" content="summary_large_image">
-
-<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-encrypt/style.css">
-    <link rel="preload" href="/static/js/utility-tools/math/aes-encrypt/script-en.js" as="script">
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Главная",
-          "item": "https://starryring.com/ru/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Полезные инструменты",
-          "item": "https://starryring.com/ru/utility-tools/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "AES Encryption Tool",
-          "item": "https://starryring.com/ru/utility-tools/math/aes-encrypt/"
-        }
-      ]
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "AES Encryption Tool",
-      "applicationCategory": "SecurityApplication",
-      "operatingSystem": "Web",
-      "url": "https://starryring.com/ru/utility-tools/math/aes-encrypt/",
-      "description": "Free online AES encryption tool with CBC, CTR, GCM modes and browser-side processing.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "featureList": [
-        "Support AES-CBC, AES-CTR, and AES-GCM",
-        "Generate random keys and IV values",
-        "Encrypt text or uploaded files",
-        "Output Base64 or Hex ciphertext",
-        "Export matching decryption config as JSON"
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Why does AES encryption need a secret key?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "AES is a symmetric algorithm, so the same key is used for both encryption and decryption. The encrypted data can only be recovered with the exact matching key."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the difference between CBC, CTR, and GCM?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "CBC is a classic block mode, CTR works well for parallel and streaming workflows, and GCM adds authentication so it protects confidentiality and integrity at the same time."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why must the IV or nonce be unique?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Reusing an IV or nonce weakens encryption security and can be catastrophic in CTR and GCM mode, so each encryption run should use a fresh random value."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "When should I choose Base64 or Hex output?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Base64 is more compact and better for APIs or JSON, while Hex is larger but easier to inspect byte by byte during debugging."
-          }
-        }
-      ]
-    }
-  ]
-}
-    </script>
-    <title>AES Encryption Tool & Config Exporter | StarryRing</title>
-<meta name="description" content="Free online AES encryption tool with CBC, CTR, and GCM modes, random key and IV generation, and browser-side AES encryption.">
-            <link rel="canonical" href="https://starryring.com/ru/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-encrypt/">
-<meta property="og:url" content="https://starryring.com/ru/utility-tools/math/aes-encrypt/">
-    <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="AES Encryption Tool & Config Exporter | StarryRing">
-    <meta property="og:description" content="Generate AES keys and IV values online, encrypt text or files with CBC, CTR, or GCM, and keep every operation inside your browser.">
-    <meta name="twitter:title" content="AES Encryption Tool & Config Exporter | StarryRing">
-    <meta name="twitter:description" content="Generate AES keys and IV values online, encrypt text or files with CBC, CTR, or GCM, and keep every operation inside your browser.">
-    <meta name="keywords" content="AES encryption tool,AES generator,AES-CBC,AES-CTR,AES-GCM,online AES,Base64 encrypt,Hex encrypt,Web Crypto">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#060a0e" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="StarryRing" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Syne:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/utility-tools/math/aes-encrypt/style.css" rel="stylesheet"/>
+<link as="script" href="/static/js/utility-tools/math/aes-encrypt/script-ru.js" rel="preload"/>
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://starryring.com/ru/" }, { "@type": "ListItem", "position": 2, "name": "Служебные инструменты", "item": "https://starryring.com/ru/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "Инструмент шифрования AES", "item": "https://starryring.com/ru/utility-tools/math/aes-encrypt/" } ] }, { "@type": "SoftwareApplication", "name": "Инструмент шифрования AES", "applicationCategory": "SecurityApplication", "operatingSystem": "Web", "url": "https://starryring.com/ru/utility-tools/math/aes-encrypt/", "description": "Бесплатный онлайн-инструмент шифрования AES с режимами CBC, CTR, GCM и обработкой на стороне браузера.", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "Support AES-CBC, AES-CTR, and AES-GCM", "Generate random keys and IV values", "Encrypt text or uploaded files", "Output Base64 or Hex ciphertext", "Export matching decryption config as JSON" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Почему шифрованию AES нужен секретный ключ?", "acceptedAnswer": { "@type": "Answer", "text": "AES — симметричный алгоритм, поэтому для шифрования и дешифрования используется один и тот же ключ. Зашифрованные данные можно восстановить только с помощью точно соответствующего ключа." } }, { "@type": "Question", "name": "В чем разница между CBC, CTR и GCM?", "acceptedAnswer": { "@type": "Answer", "text": "CBC — это классический блочный режим, CTR хорошо работает для параллельных и потоковых рабочих процессов, а GCM добавляет аутентификацию, чтобы одновременно защитить конфиденциальность и целостность." } }, { "@type": "Question", "name": "Почему IV или nonce должны быть уникальными?", "acceptedAnswer": { "@type": "Answer", "text": "Повторное использование IV или nonce ослабляет безопасность шифрования и может иметь катастрофические последствия в режимах CTR и GCM, поэтому при каждом запуске шифрования должно использоваться новое случайное значение." } }, { "@type": "Question", "name": "Когда мне следует выбирать вывод Base64 или Hex?", "acceptedAnswer": { "@type": "Answer", "text": "Base64 более компактен и лучше подходит для API или JSON, а Hex больше, но его легче проверять побайтно во время отладки." } } ] } ]
+}</script>
+<title>&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; AES &icy; &ecy;&kcy;&scy;&pcy;&ocy;&rcy;&tcy;&iecy;&rcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&jcy; | StarryRing</title>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ycy;&jcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; AES &scy; &rcy;&iecy;&zhcy;&icy;&mcy;&acy;&mcy;&icy; CBC, CTR &icy; GCM, &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tscy;&icy;&iecy;&jcy; &scy;&lcy;&ucy;&chcy;&acy;&jcy;&ncy;&ocy;&gcy;&ocy; &kcy;&lcy;&yucy;&chcy;&acy; &icy; IV, &acy; &tcy;&acy;&kcy;&zhcy;&iecy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&mcy; AES &ncy;&acy; &scy;&tcy;&ocy;&rcy;&ocy;&ncy;&iecy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;." name="description"/>
+<link href="https://starryring.com/ru/utility-tools/math/aes-encrypt/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/math/aes-encrypt/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/math/aes-encrypt/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/math/aes-encrypt/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/math/aes-encrypt/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/math/aes-encrypt/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/math/aes-encrypt/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/math/aes-encrypt/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/math/aes-encrypt/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/math/aes-encrypt/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/math/aes-encrypt/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/math/aes-encrypt/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/math/aes-encrypt/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/math/aes-encrypt/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/math/aes-encrypt/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/math/aes-encrypt/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/math/aes-encrypt/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/math/aes-encrypt/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/math/aes-encrypt/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/math/aes-encrypt/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/math/aes-encrypt/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ru/utility-tools/math/aes-encrypt/" property="og:url"/>
+<meta content="ru_RU" property="og:locale"/>
+<meta content="&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; AES &icy; &ecy;&kcy;&scy;&pcy;&ocy;&rcy;&tcy;&iecy;&rcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&jcy; | StarryRing" property="og:title"/>
+<meta content="&Scy;&ocy;&zcy;&dcy;&acy;&vcy;&acy;&jcy;&tcy;&iecy; &kcy;&lcy;&yucy;&chcy;&icy; AES &icy; &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&yacy; IV &ocy;&ncy;&lcy;&acy;&jcy;&ncy;, &shcy;&icy;&fcy;&rcy;&ucy;&jcy;&tcy;&iecy; &tcy;&iecy;&kcy;&scy;&tcy; &icy;&lcy;&icy; &fcy;&acy;&jcy;&lcy;&ycy; &scy; &pcy;&ocy;&mcy;&ocy;&shchcy;&softcy;&yucy; CBC, CTR &icy;&lcy;&icy; GCM &icy; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&jcy;&tcy;&iecy; &vcy;&scy;&iecy; &ocy;&pcy;&iecy;&rcy;&acy;&tscy;&icy;&icy; &vcy; &scy;&vcy;&ocy;&iecy;&mcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&iecy;." property="og:description"/>
+<meta content="&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; AES &icy; &ecy;&kcy;&scy;&pcy;&ocy;&rcy;&tcy;&iecy;&rcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&jcy; | StarryRing" name="twitter:title"/>
+<meta content="&Scy;&ocy;&zcy;&dcy;&acy;&vcy;&acy;&jcy;&tcy;&iecy; &kcy;&lcy;&yucy;&chcy;&icy; AES &icy; &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&yacy; IV &ocy;&ncy;&lcy;&acy;&jcy;&ncy;, &shcy;&icy;&fcy;&rcy;&ucy;&jcy;&tcy;&iecy; &tcy;&iecy;&kcy;&scy;&tcy; &icy;&lcy;&icy; &fcy;&acy;&jcy;&lcy;&ycy; &scy; &pcy;&ocy;&mcy;&ocy;&shchcy;&softcy;&yucy; CBC, CTR &icy;&lcy;&icy; GCM &icy; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&jcy;&tcy;&iecy; &vcy;&scy;&iecy; &ocy;&pcy;&iecy;&rcy;&acy;&tscy;&icy;&icy; &vcy; &scy;&vcy;&ocy;&iecy;&mcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&iecy;." name="twitter:description"/>
+<meta content="&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; AES, &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tcy;&ocy;&rcy; AES, AES-CBC, AES-CTR, AES-GCM, &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-AES, &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; Base64, &shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ocy;&iecy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;, &vcy;&iecy;&bcy;-&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Выбрать язык" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/math/aes-encrypt/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/math/aes-encrypt/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/math/aes-encrypt/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/math/aes-encrypt/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/math/aes-encrypt/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/math/aes-encrypt/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/math/aes-encrypt/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/math/aes-encrypt/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/math/aes-encrypt/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/math/aes-encrypt/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/math/aes-encrypt/" data-lang="pt">Português</a>
-            <a class="language-option selected" href="/ru/utility-tools/math/aes-encrypt/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/math/aes-encrypt/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/math/aes-encrypt/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/math/aes-encrypt/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/math/aes-encrypt/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/math/aes-encrypt/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/math/aes-encrypt/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/math/aes-encrypt/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/math/aes-encrypt/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
-<nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item"><a href="/ru/" class="breadcrumb-link"><i class="fas fa-home"></i> Главная</a></li>
-            <li class="breadcrumb-item"><a href="/ru/utility-tools/" class="breadcrumb-link">Полезные инструменты</a></li>
-            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">AES Encryption Tool</span></li>
-        </ol>
-    </nav>
-<div class="scan-effect"></div>
-
-<div class="container">
-  <header>
-    <div class="logo-group">
-      <span class="logo-tag">// cryptographic tool v2.0</span>
-      <h1 class="logo-title">AES <span>Cipher</span></h1>
-    </div>
-    <div class="header-badge">
-      <div class="badge">CLIENT-SIDE ONLY</div>
-      <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
-    </div>
-  </header>
-
-  <!-- Security Banner -->
-  <div class="security-banner">
-    <span class="security-banner-icon">🔒</span>
-    <span><strong>CLIENT-SIDE ONLY</strong> - Keys and data stay inside your browser and are never uploaded to any server. All cryptographic work runs on the native Web Crypto API.</span>
-  </div>
-
-  <!-- Config Panel -->
-  <div class="config-panel">
-    <div class="config-header">
-      <div class="config-header-icon">⚙</div>
-      <span class="config-title">Algorithm Configuration</span>
-    </div>
-    <div class="config-grid">
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-mode" class="label-link">Mode</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="mode">
-            <option value="CBC">CBC</option>
-            <option value="CTR">CTR</option>
-            <option value="GCM">GCM</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-keysize" class="label-link">Key Size</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="keySize">
-            <option value="128">128-bit</option>
-            <option value="192">192-bit</option>
-            <option value="256" selected>256-bit</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-padding" class="label-link">Padding</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="padding">
-            <option value="PKCS7">PKCS#7</option>
-            <option value="ZERO">Zero Pad</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-encoding" class="label-link">Output Encoding</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="outputEncoding">
-            <option value="base64">Base64</option>
-            <option value="hex">Hex</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Key Section -->
-  <div class="key-section">
-    <div class="config-header">
-      <div class="config-header-icon" style="color:var(--accent2)">🔑</div>
-      <span class="config-title">Key & IV Material</span>
-    </div>
-    <div class="key-fields">
-      <div class="field-group">
-        <div class="key-row key-row--4col">
-          <div class="field-group" style="flex:1">
-            <label class="field-label"><a href="#explain-key" class="label-link">Secret Key</a></label>
-            <input type="password" class="field-input" id="secretKey" placeholder="Enter or generate a key..." autocomplete="off" spellcheck="false">
-          </div>
-          <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide key">
-            <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          </button>
-          <button class="gen-btn" onclick="generateKey()">GENERATE</button>
-          <button class="copy-field-btn" onclick="copyField('secretKey', this)" title="Copy key">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-        </div>
-        <div class="key-hint" id="keyHint">Requires <span id="keyLengthHint">32</span> hex characters (256-bit)</div>
-      </div>
-      <div class="field-group">
-        <div class="key-row">
-          <div class="field-group" style="flex:1">
-            <label class="field-label"><a href="#explain-iv" class="label-link">IV / Nonce</a></label>
-            <input type="text" class="field-input" id="iv" placeholder="Enter or generate an IV..." autocomplete="off" spellcheck="false">
-          </div>
-          <button class="gen-btn" onclick="generateIV()" style="color:var(--accent)">GENERATE</button>
-          <button class="copy-field-btn" onclick="copyField('iv', this)" title="Copy IV">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-        </div>
-        <div class="key-hint">The hex IV needs <span id="ivLengthHint">32</span> characters (CBC/CTR=32, GCM=24)</div>
-        <div class="nonce-warning" id="nonceWarning">
-          <span>⚠</span>
-          <span>This nonce has already been used in GCM mode. <strong>Reusing a nonce severely breaks encryption security</strong>, so please generate a fresh one.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- IO Section -->
-  <div class="io-section">
-    <div class="io-panel input-panel" id="inputPanel">
-      <div class="drop-zone" id="dropZone">
-        <div class="drop-zone-icon">⬇</div>
-        <div class="drop-zone-text">Release to load the file</div>
-      </div>
-      <div class="io-header">
-        <div class="io-title">
-          <div class="io-dot"></div>
-          PLAINTEXT / INPUT
-        </div>
-        <div class="io-actions">
-          <button class="upload-btn" onclick="triggerFileInput()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload File
-          </button>
-          <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear">✕</button>
-          <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
-          </button>
-        </div>
-      </div>
-      <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)">
-      <textarea class="io-textarea" id="inputText" placeholder="Enter plaintext to encrypt here...&#10;&#10;Supports any UTF-8 text, or click ↑ to load a file"></textarea>
-      <div class="io-footer">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="io-stat" id="inputStat">0 bytes</span>
-          <div class="file-badge" id="inputFileBadge" style="display:none">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-            <span class="file-badge-name" id="inputFileName"></span>
-            <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file">✕</button>
-          </div>
-        </div>
-        <div class="format-tabs-wrap" id="formatTabsWrap">
-          <div class="custom-tooltip">File mode always uses TEXT</div>
-          <button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')">TEXT</button>
-          <button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')">HEX</button>
-          <button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')">BASE64</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="io-panel output-panel">
-      <div class="io-header">
-        <div class="io-title">
-          <div class="io-dot"></div>
-          CIPHERTEXT / OUTPUT
-        </div>
-        <div class="io-actions">
-          <button class="icon-btn" onclick="copyOutput(this)" title="Copy output">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-          <div class="dl-txt-wrap">
-            <button class="icon-btn" onclick="downloadOutputText()" aria-label="Download text">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </button>
-            <div class="dl-tooltip">Download as <strong>.txt</strong><br><span>Base64/Hex text output<br>ready to read or paste</span></div>
-          </div>
-        </div>
-      </div>
-      <textarea class="io-textarea" id="outputText" placeholder="Encrypted output will appear here..." readonly></textarea>
-      <div class="output-file-strip" id="outputFileStrip">
-        <div class="output-file-info">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-          <span id="outputFileLabel">Encryption complete</span>
-          <span style="color:var(--text3);font-size:10px">- Raw binary bytes ready for the decryption tool</span>
-        </div>
-        <button class="enc-download-link" onclick="downloadOutputFile()">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download .enc
-        </button>
-      </div>
-      <div class="copy-config-strip" id="copyConfigStrip">
-        <div class="copy-config-info">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Export this configuration (Mode / Key Size / Key / IV) so it can be loaded directly in the decryption tool
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy Config
-          </button>
-          <button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download Config
-          </button>
-        </div>
-      </div>
-      <div class="io-footer">
-        <span class="io-stat" id="outputStat">0 bytes</span>
-        <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)">—</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Action Row -->
-  <div class="action-row">
-    <button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ ENCRYPT</button>
-    <a href="/ru/utility-tools/math/aes-decrypt/" class="decrypt-link">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Need decryption?
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </a>
-  </div>
-
-  <!-- Status Bar -->
-  <div class="status-bar" id="statusBar">
-    <div class="status-indicator"></div>
-    <span class="status-text" id="statusText">Ready - configure the key and click Encrypt</span>
-    <span class="status-time" id="statusTime"></span>
-  </div>
-
-  <!-- Info Strip -->
-  <div class="info-strip">
-    <div class="info-card">
-      <div class="info-card-label">Algorithm</div>
-      <div class="info-card-value" id="infoAlgo">AES</div>
-      <div class="info-card-sub" id="infoMode">CBC Mode</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Key Strength</div>
-      <div class="info-card-value" id="infoKeySize">256</div>
-      <div class="info-card-sub">bits</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Security Level</div>
-      <div class="info-card-value" id="infoSecurity">HIGH</div>
-      <div class="info-card-sub" id="infoSecSub">Military Grade</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Processed</div>
-      <div class="info-card-value" id="infoBytes">0</div>
-      <div class="info-card-sub" id="infoBytesUnit">bytes this session</div>
-    </div>
-  </div>
-
-  <!-- Explanation Sections -->
-  <div class="explain-section" id="explain-key">
-    <div class="explain-icon">🔑</div>
-    <div class="explain-body">
-      <div class="explain-title">Why do you need a secret key?</div>
-      <div class="explain-text">AES is a symmetric cipher, so the same secret key is used for both encryption and decryption. Key length defines the protection level: 128-bit covers most everyday use cases, 192-bit is chosen for higher assurance environments, and 256-bit is the strongest common option used in finance and other security-sensitive systems.<br><br>The secret key must remain confidential. Anyone who gets the key can decrypt the data, so avoid sharing it over unsafe channels and prefer randomly generated keys instead of manual input.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-iv">
-    <div class="explain-icon">🎲</div>
-    <div class="explain-body">
-      <div class="explain-title">Why is an IV / nonce required?</div>
-      <div class="explain-text">The IV (Initialization Vector) or nonce makes sure that encrypting the same content with the same key still produces different ciphertext each time, which helps prevent pattern-based attacks.<br><br>CBC and CTR use a 16-byte IV (32 hex characters), while GCM uses a 12-byte nonce (24 hex characters). The IV does not need to stay secret, but it must be fresh for every encryption run and should never be reused.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-mode">
-    <div class="explain-icon">⚙️</div>
-    <div class="explain-body">
-      <div class="explain-title">What does the encryption mode do?</div>
-      <div class="explain-text">AES works on fixed 16-byte blocks, and the selected mode controls how those blocks are chained together for data of any length.<br><br><strong style="color:#c8e0f0">CBC (Cipher Block Chaining)</strong>: a classic and widely used mode for files and communication workflows.<br><br><strong style="color:#c8e0f0">CTR (Counter)</strong>: turns AES into a stream-like mode that can be processed in parallel, making it well suited for large files.<br><br><strong style="color:#c8e0f0">GCM (Galois/Counter Mode)</strong>: adds authentication on top of CTR, so it protects both confidentiality and integrity and is usually the best modern default.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-keysize">
-    <div class="explain-icon">📏</div>
-    <div class="explain-body">
-      <div class="explain-title">How should you choose the key size?</div>
-      <div class="explain-text">Longer keys raise the cost of brute-force attacks dramatically, although they also add a small performance overhead.<br><br><strong style="color:#c8e0f0">128-bit</strong>: strong enough for the vast majority of workloads and usually the fastest option.<br><br><strong style="color:#c8e0f0">192-bit</strong>: chosen when a higher security margin is required.<br><br><strong style="color:#c8e0f0">256-bit</strong>: the strongest standard option and a solid default when performance constraints are not critical.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-padding">
-    <div class="explain-icon">📦</div>
-    <div class="explain-body">
-      <div class="explain-title">What does padding mean?</div>
-      <div class="explain-text">AES encrypts 16-byte blocks. If the input length is not a multiple of 16, the last block must be padded before encryption.<br><br><strong style="color:#c8e0f0">PKCS#7</strong>: fills the final block with bytes whose value equals the number of padding bytes, which makes removal precise during decryption.<br><br><strong style="color:#c8e0f0">Zero Padding</strong>: fills the remaining bytes with <code style="color:var(--accent)">00</code>. It is simple, but ambiguous when the original data can naturally end with zero bytes.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-encoding">
-    <div class="explain-icon">🔠</div>
-    <div class="explain-body">
-      <div class="explain-title">What is output encoding?</div>
-      <div class="explain-text">Raw AES ciphertext is binary data, so it is often converted into a printable text format before transport or storage.<br><br><strong style="color:#c8e0f0">Base64</strong>: compact and well suited to APIs, JSON, and copy-paste workflows.<br><br><strong style="color:#c8e0f0">Hex</strong>: larger in size, but easier to inspect byte by byte during debugging and logging.</div>
-    </div>
-  </div>
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &yacy;&zcy;&ycy;&kcy;" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/math/aes-encrypt/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/math/aes-encrypt/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/math/aes-encrypt/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/math/aes-encrypt/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/math/aes-encrypt/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/math/aes-encrypt/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/math/aes-encrypt/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/math/aes-encrypt/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/math/aes-encrypt/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/math/aes-encrypt/">Portugu&ecirc;s</a>
+<a class="language-option selected" data-lang="ru" href="/ru/utility-tools/math/aes-encrypt/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/math/aes-encrypt/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/math/aes-encrypt/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/math/aes-encrypt/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/math/aes-encrypt/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/math/aes-encrypt/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/math/aes-encrypt/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/math/aes-encrypt/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/math/aes-encrypt/">தமிழ்</a>
 </div>
-
+</div>
+<nav aria-label="&Ncy;&acy;&vcy;&icy;&gcy;&acy;&tscy;&icy;&yacy; &pcy;&ocy; &kcy;&rcy;&ocy;&shcy;&kcy;&acy;&mcy;" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/ru/"><i class="fas fa-home"></i>&Gcy;&lcy;&acy;&vcy;&ncy;&acy;&yacy;</a></li>
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/ru/utility-tools/">&Scy;&lcy;&ucy;&zhcy;&iecy;&bcy;&ncy;&ycy;&iecy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ycy;</a></li>
+<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active">&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; AES</span></li>
+</ol>
+</nav>
+<div class="scan-effect"></div>
+<div class="container">
+<header>
+<div class="logo-group">
+<span class="logo-tag">// cryptographic tool v2.0</span>
+<h1 class="logo-title">AES<span>&SHcy;&icy;&fcy;&iecy;&rcy;</span></h1>
+</div>
+<div class="header-badge">
+<div class="badge">&Tcy;&Ocy;&Lcy;&SOFTcy;&Kcy;&Ocy; &Ncy;&Acy; &Scy;&Tcy;&Ocy;&Rcy;&Ocy;&Ncy;&IEcy; &Kcy;&Lcy;&Icy;&IEcy;&Ncy;&Tcy;&Acy;</div>
+<div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">&Vcy;&IEcy;&Bcy;-&Kcy;&Rcy;&Icy;&Pcy;&Tcy;&Ocy; API</div>
+</div>
+</header>
+<!-- Security Banner -->
+<div class="security-banner">
+<span class="security-banner-icon">🔒</span>
+<span><strong>&Tcy;&Ocy;&Lcy;&SOFTcy;&Kcy;&Ocy; &Ncy;&Acy; &Scy;&Tcy;&Ocy;&Rcy;&Ocy;&Ncy;&IEcy; &Kcy;&Lcy;&Icy;&IEcy;&Ncy;&Tcy;&Acy;</strong>- &Kcy;&lcy;&yucy;&chcy;&icy; &icy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy; &ocy;&scy;&tcy;&acy;&yucy;&tcy;&scy;&yacy; &vcy;&ncy;&ucy;&tcy;&rcy;&icy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy; &icy; &ncy;&icy;&kcy;&ocy;&gcy;&dcy;&acy; &ncy;&iecy; &zcy;&acy;&gcy;&rcy;&ucy;&zhcy;&acy;&yucy;&tcy;&scy;&yacy; &ncy;&acy; &kcy;&acy;&kcy;&ocy;&jcy;-&lcy;&icy;&bcy;&ocy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy;. &Vcy;&scy;&yacy; &kcy;&rcy;&icy;&pcy;&tcy;&ocy;&gcy;&rcy;&acy;&fcy;&icy;&chcy;&iecy;&scy;&kcy;&acy;&yacy; &rcy;&acy;&bcy;&ocy;&tcy;&acy; &vcy;&ycy;&pcy;&ocy;&lcy;&ncy;&yacy;&iecy;&tcy;&scy;&yacy; &scy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&mcy; &scy;&ocy;&bcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy;&gcy;&ocy; API Web Crypto.</span>
+</div>
+<!-- Config Panel -->
+<div class="config-panel">
+<div class="config-header">
+<div class="config-header-icon">⚙</div>
+<span class="config-title">&Kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yacy; &acy;&lcy;&gcy;&ocy;&rcy;&icy;&tcy;&mcy;&acy;</span>
+</div>
+<div class="config-grid">
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-mode">&Rcy;&iecy;&zhcy;&icy;&mcy;</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="mode">
+<option value="CBC">CBC</option>
+<option value="CTR">CTR</option>
+<option value="GCM">GCM</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-keysize">&Rcy;&acy;&zcy;&mcy;&iecy;&rcy; &kcy;&lcy;&yucy;&chcy;&acy;</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="keySize">
+<option value="128">128-&bcy;&icy;&tcy;</option>
+<option value="192">192-&bcy;&icy;&tcy;</option>
+<option selected="" value="256">256-&bcy;&icy;&tcy;&ncy;&ycy;&jcy;</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-padding">&Zcy;&acy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&iecy;</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="padding">
+<option value="PKCS7">PKCS#7</option>
+<option value="ZERO">&Ncy;&ucy;&lcy;&iecy;&vcy;&acy;&yacy; &pcy;&acy;&ncy;&iecy;&lcy;&softcy;</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-encoding">&Kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&kcy;&acy; &vcy;&ycy;&vcy;&ocy;&dcy;&acy;</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="outputEncoding">
+<option value="base64">Base64</option>
+<option value="hex">&SHcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy;</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Key Section -->
+<div class="key-section">
+<div class="config-header">
+<div class="config-header-icon" style="color:var(--accent2)">🔑</div>
+<span class="config-title">&Kcy;&lcy;&yucy;&chcy; &icy; &mcy;&acy;&tcy;&iecy;&rcy;&icy;&acy;&lcy; IV</span>
+</div>
+<div class="key-fields">
+<div class="field-group">
+<div class="key-row key-row--4col">
+<div class="field-group" style="flex:1">
+<label class="field-label"><a class="label-link" href="#explain-key">&Scy;&iecy;&kcy;&rcy;&iecy;&tcy;&ncy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;</a></label>
+<input autocomplete="off" class="field-input" id="secretKey" placeholder="&Vcy;&vcy;&iecy;&dcy;&icy;&tcy;&iecy; &icy;&lcy;&icy; &scy;&gcy;&iecy;&ncy;&iecy;&rcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &kcy;&lcy;&yucy;&chcy;..." spellcheck="false" type="password"/>
+</div>
+<button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="&Pcy;&ocy;&kcy;&acy;&zcy;&acy;&tcy;&softcy;/&scy;&kcy;&rcy;&ycy;&tcy;&softcy; &kcy;&lcy;&yucy;&chcy;">
+<svg fill="none" height="14" id="eyeIconShow" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<svg fill="none" height="14" id="eyeIconHide" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="display:none" viewbox="0 0 24 24" width="14"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" x2="23" y1="1" y2="23"></line></svg>
+</button>
+<button class="gen-btn" onclick="generateKey()">&Gcy;&IEcy;&Ncy;&IEcy;&Rcy;&Acy;&TScy;&Icy;&YAcy;</button>
+<button class="copy-field-btn" onclick="copyField('secretKey', this)" title="&Kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &kcy;&lcy;&yucy;&chcy;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+</div>
+<div class="key-hint" id="keyHint">&Tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy;<span id="keyLengthHint">32</span>&shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&iecy; &scy;&icy;&mcy;&vcy;&ocy;&lcy;&ycy; (256 &bcy;&icy;&tcy;)</div>
+</div>
+<div class="field-group">
+<div class="key-row">
+<div class="field-group" style="flex:1">
+<label class="field-label"><a class="label-link" href="#explain-iv">IV / &ocy;&dcy;&ncy;&ocy;&rcy;&acy;&zcy;&ocy;&vcy;&ycy;&jcy;</a></label>
+<input autocomplete="off" class="field-input" id="iv" placeholder="&Vcy;&vcy;&iecy;&dcy;&icy;&tcy;&iecy; &icy;&lcy;&icy; &scy;&gcy;&iecy;&ncy;&iecy;&rcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; IV..." spellcheck="false" type="text"/>
+</div>
+<button class="gen-btn" onclick="generateIV()" style="color:var(--accent)">&Gcy;&IEcy;&Ncy;&IEcy;&Rcy;&Acy;&TScy;&Icy;&YAcy;</button>
+<button class="copy-field-btn" onclick="copyField('iv', this)" title="&Kcy;&ocy;&pcy;&icy;&yacy; IV">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+</div>
+<div class="key-hint">&Ncy;&iecy;&ocy;&bcy;&khcy;&ocy;&dcy;&icy;&mcy; &shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy; IV<span id="ivLengthHint">32</span>&scy;&icy;&mcy;&vcy;&ocy;&lcy;&ocy;&vcy; (CBC/CTR=32, GCM=24)</div>
+<div class="nonce-warning" id="nonceWarning">
+<span>⚠</span>
+<span>&Ecy;&tcy;&ocy;&tcy; &ocy;&dcy;&ncy;&ocy;&rcy;&acy;&zcy;&ocy;&vcy;&ycy;&jcy; &ncy;&ocy;&mcy;&iecy;&rcy; &ucy;&zhcy;&iecy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&lcy;&scy;&yacy; &vcy; &rcy;&iecy;&zhcy;&icy;&mcy;&iecy; GCM.<strong>&Pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&ncy;&ocy;&iecy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; nonce &scy;&iecy;&rcy;&softcy;&iecy;&zcy;&ncy;&ocy; &ncy;&acy;&rcy;&ucy;&shcy;&acy;&iecy;&tcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&softcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</strong>, &pcy;&ocy;&ecy;&tcy;&ocy;&mcy;&ucy; &scy;&ocy;&zcy;&dcy;&acy;&jcy;&tcy;&iecy; &ncy;&ocy;&vcy;&ycy;&jcy;.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- IO Section -->
+<div class="io-section">
+<div class="io-panel input-panel" id="inputPanel">
+<div class="drop-zone" id="dropZone">
+<div class="drop-zone-icon">⬇</div>
+<div class="drop-zone-text">&Ocy;&tcy;&pcy;&ucy;&scy;&tcy;&icy;&tcy;&iecy;, &chcy;&tcy;&ocy;&bcy;&ycy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;</div>
+</div>
+<div class="io-header">
+<div class="io-title">
+<div class="io-dot"></div>PLAINTEXT/&Vcy;&Vcy;&Ocy;&Dcy;</div>
+<div class="io-actions">
+<button class="upload-btn" onclick="triggerFileInput()">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;</button>
+<button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="&Ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&softcy;">✕</button>
+<button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="&Vcy;&scy;&tcy;&acy;&vcy;&icy;&tcy;&softcy;">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect height="4" rx="1" width="8" x="8" y="2"></rect></svg>
+</button>
+</div>
+</div>
+<input id="fileInput" onchange="handleFileInput(this)" style="display:none" type="file"/>
+<textarea class="io-textarea" id="inputText" placeholder="&Vcy;&vcy;&iecy;&dcy;&icy;&tcy;&iecy; &zcy;&dcy;&iecy;&scy;&softcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy; &dcy;&lcy;&yacy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;... &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy;&scy;&yacy; &lcy;&yucy;&bcy;&ocy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy; UTF-8 &icy;&lcy;&icy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &uarr;, &chcy;&tcy;&ocy;&bcy;&ycy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;."></textarea>
+<div class="io-footer">
+<div style="display:flex;align-items:center;gap:8px;">
+<span class="io-stat" id="inputStat">0 &bcy;&acy;&jcy;&tcy;</span>
+<div class="file-badge" id="inputFileBadge" style="display:none">
+<svg fill="none" height="10" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+<span class="file-badge-name" id="inputFileName"></span>
+<button class="file-badge-clear" onclick="clearFileInput()" title="&Ucy;&dcy;&acy;&lcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;">✕</button>
+</div>
+</div>
+<div class="format-tabs-wrap" id="formatTabsWrap">
+<div class="custom-tooltip">&Fcy;&acy;&jcy;&lcy;&ocy;&vcy;&ycy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy; &vcy;&scy;&iecy;&gcy;&dcy;&acy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy; &Tcy;&IEcy;&Kcy;&Scy;&Tcy;.</div>
+<button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')">&Tcy;&IEcy;&Kcy;&Scy;&Tcy;</button>
+<button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')">HEX</button>
+<button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')">BASE64</button>
+</div>
+</div>
+</div>
+<div class="io-panel output-panel">
+<div class="io-header">
+<div class="io-title">
+<div class="io-dot"></div>&TScy;&Icy;&Fcy;&Rcy;&Ocy;&Vcy;&Ycy;&Jcy; &Tcy;&IEcy;&Kcy;&Scy;&Tcy;/&Vcy;&Ycy;&Vcy;&Ocy;&Dcy;</div>
+<div class="io-actions">
+<button class="icon-btn" onclick="copyOutput(this)" title="&Kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &vcy;&ycy;&vcy;&ocy;&dcy;">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+<div class="dl-txt-wrap">
+<button aria-label="&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &tcy;&iecy;&kcy;&scy;&tcy;" class="icon-btn" onclick="downloadOutputText()">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+</button>
+<div class="dl-tooltip">&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &kcy;&acy;&kcy;<strong>.txt</strong><br/><span>Base64/&Vcy;&ycy;&vcy;&ocy;&dcy; &shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ocy;&gcy;&ocy; &tcy;&iecy;&kcy;&scy;&tcy;&acy;<br/>&gcy;&ocy;&tcy;&ocy;&vcy;&ocy; &dcy;&lcy;&yacy; &chcy;&tcy;&iecy;&ncy;&icy;&yacy; &icy;&lcy;&icy; &vcy;&scy;&tcy;&acy;&vcy;&kcy;&icy;</span></div>
+</div>
+</div>
+</div>
+<textarea class="io-textarea" id="outputText" placeholder="&Zcy;&dcy;&iecy;&scy;&softcy; &pcy;&ocy;&yacy;&vcy;&icy;&tcy;&scy;&yacy; &zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&jcy; &vcy;&ycy;&vcy;&ocy;&dcy;..." readonly=""></textarea>
+<div class="output-file-strip" id="outputFileStrip">
+<div class="output-file-info">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="12"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+<span id="outputFileLabel">&SHcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &zcy;&acy;&vcy;&iecy;&rcy;&shcy;&iecy;&ncy;&ocy;</span>
+<span style="color:var(--text3);font-size:10px">- &Ncy;&iecy;&ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ncy;&ycy;&iecy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ycy;&iecy; &bcy;&acy;&jcy;&tcy;&ycy;, &gcy;&ocy;&tcy;&ocy;&vcy;&ycy;&iecy; &dcy;&lcy;&yacy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&acy; &dcy;&iecy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</span>
+</div>
+<button class="enc-download-link" onclick="downloadOutputFile()">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; .enc</button>
+</div>
+<div class="copy-config-strip" id="copyConfigStrip">
+<div class="copy-config-info">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="12"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg>&Ecy;&kcy;&scy;&pcy;&ocy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &ecy;&tcy;&ucy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yucy; (&Rcy;&iecy;&zhcy;&icy;&mcy;/&Rcy;&acy;&zcy;&mcy;&iecy;&rcy; &kcy;&lcy;&yucy;&chcy;&acy;/&Kcy;&lcy;&yucy;&chcy;/IV), &chcy;&tcy;&ocy;&bcy;&ycy; &iecy;&iecy; &mcy;&ocy;&zhcy;&ncy;&ocy; &bcy;&ycy;&lcy;&ocy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &ncy;&iecy;&pcy;&ocy;&scy;&rcy;&iecy;&dcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy; &vcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &dcy;&iecy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</div>
+<div style="display:flex;gap:8px">
+<button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>&Kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yucy;</button>
+<button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yucy;</button>
+</div>
+</div>
+<div class="io-footer">
+<span class="io-stat" id="outputStat">0 &bcy;&acy;&jcy;&tcy;</span>
+<span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)">&mdash;</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="action-row">
+<button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ &SHcy;&Icy;&Fcy;&Rcy;&Ocy;&Vcy;&Acy;&Ncy;&Icy;&IEcy;</button>
+<a class="decrypt-link" href="/ru/utility-tools/math/aes-decrypt/">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="11" rx="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>&Ncy;&ucy;&zhcy;&ncy;&acy; &rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&kcy;&acy;?<svg fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+</a>
+</div>
+<!-- Status Bar -->
+<div class="status-bar" id="statusBar">
+<div class="status-indicator"></div>
+<span class="status-text" id="statusText">&Gcy;&ocy;&tcy;&ocy;&vcy;&ocy; &mdash; &ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&tcy;&iecy; &kcy;&lcy;&yucy;&chcy; &icy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &laquo;&Zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy;&raquo;</span>
+<span class="status-time" id="statusTime"></span>
+</div>
+<!-- Info Strip -->
+<div class="info-strip">
+<div class="info-card">
+<div class="info-card-label">&Acy;&lcy;&gcy;&ocy;&rcy;&icy;&tcy;&mcy;</div>
+<div class="info-card-value" id="infoAlgo">AES</div>
+<div class="info-card-sub" id="infoMode">&Rcy;&iecy;&zhcy;&icy;&mcy; CBC</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">&Kcy;&lcy;&yucy;&chcy;&iecy;&vcy;&acy;&yacy; &scy;&icy;&lcy;&acy;</div>
+<div class="info-card-value" id="infoKeySize">256</div>
+<div class="info-card-sub">&bcy;&icy;&tcy;</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">&Ucy;&rcy;&ocy;&vcy;&iecy;&ncy;&softcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;</div>
+<div class="info-card-value" id="infoSecurity">&Vcy;&Ycy;&Scy;&Ocy;&Kcy;&Icy;&Jcy;</div>
+<div class="info-card-sub" id="infoSecSub">&Vcy;&ocy;&iecy;&ncy;&ncy;&ycy;&jcy; &kcy;&lcy;&acy;&scy;&scy;</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">&Ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ocy;</div>
+<div class="info-card-value" id="infoBytes">0</div>
+<div class="info-card-sub" id="infoBytesUnit">&bcy;&acy;&jcy;&tcy; &ecy;&tcy;&ocy;&gcy;&ocy; &scy;&iecy;&acy;&ncy;&scy;&acy;</div>
+</div>
+</div>
+<!-- Explanation Sections -->
+<div class="explain-section" id="explain-key">
+<div class="explain-icon">🔑</div>
+<div class="explain-body">
+<div class="explain-title">&Zcy;&acy;&chcy;&iecy;&mcy; &vcy;&acy;&mcy; &ncy;&ucy;&zhcy;&iecy;&ncy; &scy;&iecy;&kcy;&rcy;&iecy;&tcy;&ncy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;?</div>
+<div class="explain-text">AES &mdash; &scy;&icy;&mcy;&mcy;&iecy;&tcy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy; &shcy;&icy;&fcy;&rcy;, &pcy;&ocy;&ecy;&tcy;&ocy;&mcy;&ucy; &dcy;&lcy;&yacy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy; &dcy;&iecy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&scy;&yacy; &ocy;&dcy;&icy;&ncy; &icy; &tcy;&ocy;&tcy; &zhcy;&iecy; &scy;&iecy;&kcy;&rcy;&iecy;&tcy;&ncy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;. &Dcy;&lcy;&icy;&ncy;&acy; &kcy;&lcy;&yucy;&chcy;&acy; &ocy;&pcy;&rcy;&iecy;&dcy;&iecy;&lcy;&yacy;&iecy;&tcy; &ucy;&rcy;&ocy;&vcy;&iecy;&ncy;&softcy; &zcy;&acy;&shchcy;&icy;&tcy;&ycy;: 128-&bcy;&icy;&tcy;&ncy;&ycy;&jcy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&ncy;&scy;&tcy;&vcy;&acy; &pcy;&ocy;&vcy;&scy;&iecy;&dcy;&ncy;&iecy;&vcy;&ncy;&ycy;&khcy; &scy;&lcy;&ucy;&chcy;&acy;&iecy;&vcy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;, 192-&bcy;&icy;&tcy;&ncy;&ycy;&jcy; &vcy;&ycy;&bcy;&icy;&rcy;&acy;&iecy;&tcy;&scy;&yacy; &dcy;&lcy;&yacy; &scy;&rcy;&iecy;&dcy; &scy; &bcy;&ocy;&lcy;&iecy;&iecy; &vcy;&ycy;&scy;&ocy;&kcy;&icy;&mcy; &ucy;&rcy;&ocy;&vcy;&ncy;&iecy;&mcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;, &acy; 256-&bcy;&icy;&tcy;&ncy;&ycy;&jcy; &mdash; &scy;&acy;&mcy;&ycy;&jcy; &ncy;&acy;&dcy;&iecy;&zhcy;&ncy;&ycy;&jcy; &vcy;&acy;&rcy;&icy;&acy;&ncy;&tcy;, &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&mcy;&ycy;&jcy; &vcy; &fcy;&icy;&ncy;&acy;&ncy;&scy;&ocy;&vcy;&ycy;&khcy; &icy; &dcy;&rcy;&ucy;&gcy;&icy;&khcy; &chcy;&ucy;&vcy;&scy;&tcy;&vcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ycy;&khcy; &kcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy; &scy;&icy;&scy;&tcy;&iecy;&mcy;&acy;&khcy;.<br/><br/>&Scy;&iecy;&kcy;&rcy;&iecy;&tcy;&ncy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; &dcy;&ocy;&lcy;&zhcy;&iecy;&ncy; &ocy;&scy;&tcy;&acy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ycy;&mcy;. &Lcy;&yucy;&bcy;&ocy;&jcy;, &kcy;&tcy;&ocy; &pcy;&ocy;&lcy;&ucy;&chcy;&icy;&tcy; &kcy;&lcy;&yucy;&chcy;, &mcy;&ocy;&zhcy;&iecy;&tcy; &rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy;, &pcy;&ocy;&ecy;&tcy;&ocy;&mcy;&ucy; &icy;&zcy;&bcy;&iecy;&gcy;&acy;&jcy;&tcy;&iecy; &pcy;&iecy;&rcy;&iecy;&dcy;&acy;&chcy;&icy; &icy;&khcy; &pcy;&ocy; &ncy;&iecy;&bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ycy;&mcy; &kcy;&acy;&ncy;&acy;&lcy;&acy;&mcy; &icy; &pcy;&rcy;&iecy;&dcy;&pcy;&ocy;&chcy;&icy;&tcy;&acy;&jcy;&tcy;&iecy; &scy;&lcy;&ucy;&chcy;&acy;&jcy;&ncy;&ocy; &scy;&gcy;&iecy;&ncy;&iecy;&rcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&iecy; &kcy;&lcy;&yucy;&chcy;&icy; &vcy;&mcy;&iecy;&scy;&tcy;&ocy; &rcy;&ucy;&chcy;&ncy;&ocy;&gcy;&ocy; &vcy;&vcy;&ocy;&dcy;&acy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-iv">
+<div class="explain-icon">🎲</div>
+<div class="explain-body">
+<div class="explain-title">&Pcy;&ocy;&chcy;&iecy;&mcy;&ucy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy; IV/nonce?</div>
+<div class="explain-text">IV (&vcy;&iecy;&kcy;&tcy;&ocy;&rcy; &icy;&ncy;&icy;&tscy;&icy;&acy;&lcy;&icy;&zcy;&acy;&tscy;&icy;&icy;) &icy;&lcy;&icy; nonce &gcy;&acy;&rcy;&acy;&ncy;&tcy;&icy;&rcy;&ucy;&iecy;&tcy;, &chcy;&tcy;&ocy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &ocy;&dcy;&ncy;&ocy;&gcy;&ocy; &icy; &tcy;&ocy;&gcy;&ocy; &zhcy;&iecy; &scy;&ocy;&dcy;&iecy;&rcy;&zhcy;&icy;&mcy;&ocy;&gcy;&ocy; &scy; &pcy;&ocy;&mcy;&ocy;&shchcy;&softcy;&yucy; &ocy;&dcy;&ncy;&ocy;&gcy;&ocy; &icy; &tcy;&ocy;&gcy;&ocy; &zhcy;&iecy; &kcy;&lcy;&yucy;&chcy;&acy; &kcy;&acy;&zhcy;&dcy;&ycy;&jcy; &rcy;&acy;&zcy; &pcy;&ocy;-&pcy;&rcy;&iecy;&zhcy;&ncy;&iecy;&mcy;&ucy; &scy;&ocy;&zcy;&dcy;&acy;&iecy;&tcy; &rcy;&acy;&zcy;&ncy;&ycy;&jcy; &zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy;, &chcy;&tcy;&ocy; &pcy;&ocy;&mcy;&ocy;&gcy;&acy;&iecy;&tcy; &pcy;&rcy;&iecy;&dcy;&ocy;&tcy;&vcy;&rcy;&acy;&tcy;&icy;&tcy;&softcy; &acy;&tcy;&acy;&kcy;&icy; &ncy;&acy; &ocy;&scy;&ncy;&ocy;&vcy;&iecy; &shcy;&acy;&bcy;&lcy;&ocy;&ncy;&ocy;&vcy;.<br/><br/>CBC &icy; CTR &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&yucy;&tcy; 16-&bcy;&acy;&jcy;&tcy;&ocy;&vcy;&ycy;&jcy; &icy;&dcy;&iecy;&ncy;&tcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy; IV (32 &shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&khcy; &scy;&icy;&mcy;&vcy;&ocy;&lcy;&acy;), &acy; GCM &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy; 12-&bcy;&acy;&jcy;&tcy;&ocy;&vcy;&ycy;&jcy; &ocy;&dcy;&ncy;&ocy;&rcy;&acy;&zcy;&ocy;&vcy;&ycy;&jcy; &ncy;&ocy;&mcy;&iecy;&rcy; (24 &shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&khcy; &scy;&icy;&mcy;&vcy;&ocy;&lcy;&acy;). IV &ncy;&iecy; &ocy;&bcy;&yacy;&zcy;&acy;&tcy;&iecy;&lcy;&softcy;&ncy;&ocy; &dcy;&ocy;&lcy;&zhcy;&iecy;&ncy; &ocy;&scy;&tcy;&acy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &scy;&iecy;&kcy;&rcy;&iecy;&tcy;&ncy;&ycy;&mcy;, &ncy;&ocy; &ocy;&ncy; &dcy;&ocy;&lcy;&zhcy;&iecy;&ncy; &bcy;&ycy;&tcy;&softcy; &scy;&vcy;&iecy;&zhcy;&icy;&mcy; &pcy;&rcy;&icy; &kcy;&acy;&zhcy;&dcy;&ocy;&mcy; &zcy;&acy;&pcy;&ucy;&scy;&kcy;&iecy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy; &ncy;&icy;&kcy;&ocy;&gcy;&dcy;&acy; &ncy;&iecy; &dcy;&ocy;&lcy;&zhcy;&iecy;&ncy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&ncy;&ocy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-mode">
+<div class="explain-icon">⚙️</div>
+<div class="explain-body">
+<div class="explain-title">&CHcy;&tcy;&ocy; &dcy;&iecy;&lcy;&acy;&iecy;&tcy; &rcy;&iecy;&zhcy;&icy;&mcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;?</div>
+<div class="explain-text">AES &rcy;&acy;&bcy;&ocy;&tcy;&acy;&iecy;&tcy; &scy; &fcy;&icy;&kcy;&scy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&mcy;&icy; 16-&bcy;&acy;&jcy;&tcy;&ocy;&vcy;&ycy;&mcy;&icy; &bcy;&lcy;&ocy;&kcy;&acy;&mcy;&icy;, &icy; &vcy;&ycy;&bcy;&rcy;&acy;&ncy;&ncy;&ycy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy; &ocy;&pcy;&rcy;&iecy;&dcy;&iecy;&lcy;&yacy;&iecy;&tcy;, &kcy;&acy;&kcy; &ecy;&tcy;&icy; &bcy;&lcy;&ocy;&kcy;&icy; &ocy;&bcy;&hardcy;&iecy;&dcy;&icy;&ncy;&yacy;&yucy;&tcy;&scy;&yacy; &vcy; &tscy;&iecy;&pcy;&ocy;&chcy;&kcy;&ucy; &dcy;&lcy;&yacy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy; &lcy;&yucy;&bcy;&ocy;&jcy; &dcy;&lcy;&icy;&ncy;&ycy;.<br/><br/><strong style="color:#c8e0f0">CBC (&tscy;&iecy;&pcy;&ocy;&chcy;&kcy;&acy; &bcy;&lcy;&ocy;&kcy;&ocy;&vcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;)</strong>: &kcy;&lcy;&acy;&scy;&scy;&icy;&chcy;&iecy;&scy;&kcy;&icy;&jcy; &icy; &shcy;&icy;&rcy;&ocy;&kcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&mcy;&ycy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy; &dcy;&lcy;&yacy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy; &icy; &rcy;&acy;&bcy;&ocy;&chcy;&icy;&khcy; &pcy;&rcy;&ocy;&tscy;&iecy;&scy;&scy;&ocy;&vcy; &scy;&vcy;&yacy;&zcy;&icy;.<br/><br/><strong style="color:#c8e0f0">CTR (&Scy;&chcy;&iecy;&tcy;&chcy;&icy;&kcy;)</strong>: &pcy;&rcy;&iecy;&vcy;&rcy;&acy;&shchcy;&acy;&iecy;&tcy; AES &vcy; &pcy;&ocy;&tcy;&ocy;&kcy;&ocy;&vcy;&ycy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy;, &kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&jcy; &mcy;&ocy;&zhcy;&iecy;&tcy; &ocy;&bcy;&rcy;&acy;&bcy;&acy;&tcy;&ycy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &pcy;&acy;&rcy;&acy;&lcy;&lcy;&iecy;&lcy;&softcy;&ncy;&ocy;, &chcy;&tcy;&ocy; &dcy;&iecy;&lcy;&acy;&iecy;&tcy; &iecy;&gcy;&ocy; &khcy;&ocy;&rcy;&ocy;&shcy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&yacy;&shchcy;&icy;&mcy; &dcy;&lcy;&yacy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&khcy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy;.<br/><br/><strong style="color:#c8e0f0">GCM (&rcy;&iecy;&zhcy;&icy;&mcy; &Gcy;&acy;&lcy;&ucy;&acy;/&scy;&chcy;&iecy;&tcy;&chcy;&icy;&kcy;&acy;)</strong>: &dcy;&ocy;&bcy;&acy;&vcy;&lcy;&yacy;&iecy;&tcy; &acy;&ucy;&tcy;&iecy;&ncy;&tcy;&icy;&fcy;&icy;&kcy;&acy;&tscy;&icy;&yucy; &pcy;&ocy;&vcy;&iecy;&rcy;&khcy; CTR, &pcy;&ocy;&ecy;&tcy;&ocy;&mcy;&ucy; &ocy;&ncy; &zcy;&acy;&shchcy;&icy;&shchcy;&acy;&iecy;&tcy; &kcy;&acy;&kcy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy;, &tcy;&acy;&kcy; &icy; &tscy;&iecy;&lcy;&ocy;&scy;&tcy;&ncy;&ocy;&scy;&tcy;&softcy; &icy; &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &yacy;&vcy;&lcy;&yacy;&iecy;&tcy;&scy;&yacy; &lcy;&ucy;&chcy;&shcy;&icy;&mcy; &scy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ycy;&mcy; &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&iecy;&mcy; &pcy;&ocy; &ucy;&mcy;&ocy;&lcy;&chcy;&acy;&ncy;&icy;&yucy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-keysize">
+<div class="explain-icon">📏</div>
+<div class="explain-body">
+<div class="explain-title">&Kcy;&acy;&kcy; &vcy;&ycy;&bcy;&rcy;&acy;&tcy;&softcy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy; &kcy;&lcy;&yucy;&chcy;&acy;?</div>
+<div class="explain-text">&Bcy;&ocy;&lcy;&iecy;&iecy; &dcy;&lcy;&icy;&ncy;&ncy;&ycy;&iecy; &kcy;&lcy;&yucy;&chcy;&icy; &rcy;&iecy;&zcy;&kcy;&ocy; &pcy;&ocy;&vcy;&ycy;&shcy;&acy;&yucy;&tcy; &scy;&tcy;&ocy;&icy;&mcy;&ocy;&scy;&tcy;&softcy; &acy;&tcy;&acy;&kcy; &mcy;&iecy;&tcy;&ocy;&dcy;&ocy;&mcy; &pcy;&iecy;&rcy;&iecy;&bcy;&ocy;&rcy;&acy;, &khcy;&ocy;&tcy;&yacy; &ocy;&ncy;&icy; &tcy;&acy;&kcy;&zhcy;&iecy; &dcy;&ocy;&bcy;&acy;&vcy;&lcy;&yacy;&yucy;&tcy; &ncy;&iecy;&bcy;&ocy;&lcy;&softcy;&shcy;&ocy;&iecy; &scy;&ncy;&icy;&zhcy;&iecy;&ncy;&icy;&iecy; &pcy;&rcy;&ocy;&icy;&zcy;&vcy;&ocy;&dcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;.<br/><br/><strong style="color:#c8e0f0">128-&bcy;&icy;&tcy;</strong>: &dcy;&ocy;&scy;&tcy;&acy;&tcy;&ocy;&chcy;&ncy;&ocy; &mcy;&ocy;&shchcy;&ncy;&ycy;&jcy; &dcy;&lcy;&yacy; &pcy;&ocy;&dcy;&acy;&vcy;&lcy;&yacy;&yucy;&shchcy;&iecy;&gcy;&ocy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&ncy;&scy;&tcy;&vcy;&acy; &rcy;&acy;&bcy;&ocy;&chcy;&icy;&khcy; &ncy;&acy;&gcy;&rcy;&ucy;&zcy;&ocy;&kcy; &icy; &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &scy;&acy;&mcy;&ycy;&jcy; &bcy;&ycy;&scy;&tcy;&rcy;&ycy;&jcy; &vcy;&acy;&rcy;&icy;&acy;&ncy;&tcy;.<br/><br/><strong style="color:#c8e0f0">192-&bcy;&icy;&tcy;</strong>: &vcy;&ycy;&bcy;&icy;&rcy;&acy;&iecy;&tcy;&scy;&yacy;, &kcy;&ocy;&gcy;&dcy;&acy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy; &bcy;&ocy;&lcy;&iecy;&iecy; &vcy;&ycy;&scy;&ocy;&kcy;&icy;&jcy; &ucy;&rcy;&ocy;&vcy;&iecy;&ncy;&softcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;.<br/><br/><strong style="color:#c8e0f0">256-&bcy;&icy;&tcy;&ncy;&ycy;&jcy;</strong>: &scy;&acy;&mcy;&ycy;&jcy; &scy;&icy;&lcy;&softcy;&ncy;&ycy;&jcy; &scy;&tcy;&acy;&ncy;&dcy;&acy;&rcy;&tcy;&ncy;&ycy;&jcy; &vcy;&acy;&rcy;&icy;&acy;&ncy;&tcy; &icy; &ncy;&acy;&dcy;&iecy;&zhcy;&ncy;&ycy;&jcy; &vcy;&acy;&rcy;&icy;&acy;&ncy;&tcy; &pcy;&ocy; &ucy;&mcy;&ocy;&lcy;&chcy;&acy;&ncy;&icy;&yucy;, &kcy;&ocy;&gcy;&dcy;&acy; &ocy;&gcy;&rcy;&acy;&ncy;&icy;&chcy;&iecy;&ncy;&icy;&yacy; &pcy;&rcy;&ocy;&icy;&zcy;&vcy;&ocy;&dcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy; &ncy;&iecy; &yacy;&vcy;&lcy;&yacy;&yucy;&tcy;&scy;&yacy; &kcy;&rcy;&icy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy;&mcy;&icy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-padding">
+<div class="explain-icon">📦</div>
+<div class="explain-body">
+<div class="explain-title">&CHcy;&tcy;&ocy; &ocy;&zcy;&ncy;&acy;&chcy;&acy;&iecy;&tcy; &zcy;&acy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&iecy;?</div>
+<div class="explain-text">AES &shcy;&icy;&fcy;&rcy;&ucy;&iecy;&tcy; 16-&bcy;&acy;&jcy;&tcy;&ocy;&vcy;&ycy;&iecy; &bcy;&lcy;&ocy;&kcy;&icy;. &IEcy;&scy;&lcy;&icy; &vcy;&khcy;&ocy;&dcy;&ncy;&acy;&yacy; &dcy;&lcy;&icy;&ncy;&acy; &ncy;&iecy; &kcy;&rcy;&acy;&tcy;&ncy;&acy; 16, &pcy;&ocy;&scy;&lcy;&iecy;&dcy;&ncy;&icy;&jcy; &bcy;&lcy;&ocy;&kcy; &dcy;&ocy;&lcy;&zhcy;&iecy;&ncy; &bcy;&ycy;&tcy;&softcy; &dcy;&ocy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy; &pcy;&iecy;&rcy;&iecy;&dcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&mcy;.<br/><br/><strong style="color:#c8e0f0">PKCS#7</strong>: &zcy;&acy;&pcy;&ocy;&lcy;&ncy;&yacy;&iecy;&tcy; &pcy;&ocy;&scy;&lcy;&iecy;&dcy;&ncy;&icy;&jcy; &bcy;&lcy;&ocy;&kcy; &bcy;&acy;&jcy;&tcy;&acy;&mcy;&icy;, &zcy;&ncy;&acy;&chcy;&iecy;&ncy;&icy;&iecy; &kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&khcy; &rcy;&acy;&vcy;&ncy;&ocy; &kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&ucy; &bcy;&acy;&jcy;&tcy;&ocy;&vcy; &zcy;&acy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&yacy;, &chcy;&tcy;&ocy; &ocy;&bcy;&iecy;&scy;&pcy;&iecy;&chcy;&icy;&vcy;&acy;&iecy;&tcy; &tcy;&ocy;&chcy;&ncy;&ocy;&scy;&tcy;&softcy; &ucy;&dcy;&acy;&lcy;&iecy;&ncy;&icy;&yacy; &vcy;&ocy; &vcy;&rcy;&iecy;&mcy;&yacy; &rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&kcy;&icy;.<br/><br/><strong style="color:#c8e0f0">&Zcy;&acy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&iecy; &ncy;&ucy;&lcy;&yacy;&mcy;&icy;</strong>: &zcy;&acy;&pcy;&ocy;&lcy;&ncy;&yacy;&iecy;&tcy; &ocy;&scy;&tcy;&acy;&vcy;&shcy;&icy;&iecy;&scy;&yacy; &bcy;&acy;&jcy;&tcy;&ycy;<code style="color:var(--accent)">00</code>. &Ecy;&tcy;&ocy; &pcy;&rcy;&ocy;&scy;&tcy;&ocy;, &ncy;&ocy; &ncy;&iecy;&ocy;&dcy;&ncy;&ocy;&zcy;&ncy;&acy;&chcy;&ncy;&ocy;, &kcy;&ocy;&gcy;&dcy;&acy; &icy;&scy;&khcy;&ocy;&dcy;&ncy;&ycy;&iecy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy; &iecy;&scy;&tcy;&iecy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ycy;&mcy; &ocy;&bcy;&rcy;&acy;&zcy;&ocy;&mcy; &mcy;&ocy;&gcy;&ucy;&tcy; &zcy;&acy;&kcy;&acy;&ncy;&chcy;&icy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &ncy;&ucy;&lcy;&iecy;&vcy;&ycy;&mcy;&icy; &bcy;&acy;&jcy;&tcy;&acy;&mcy;&icy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-encoding">
+<div class="explain-icon">🔠</div>
+<div class="explain-body">
+<div class="explain-title">&CHcy;&tcy;&ocy; &tcy;&acy;&kcy;&ocy;&iecy; &kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&kcy;&acy; &vcy;&ycy;&vcy;&ocy;&dcy;&acy;?</div>
+<div class="explain-text">&Ncy;&iecy;&ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ncy;&ycy;&jcy; &zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy; AES &pcy;&rcy;&iecy;&dcy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&iecy;&tcy; &scy;&ocy;&bcy;&ocy;&jcy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ycy;&iecy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy;, &pcy;&ocy;&ecy;&tcy;&ocy;&mcy;&ucy; &pcy;&iecy;&rcy;&iecy;&dcy; &tcy;&rcy;&acy;&ncy;&scy;&pcy;&ocy;&rcy;&tcy;&icy;&rcy;&ocy;&vcy;&kcy;&ocy;&jcy; &icy;&lcy;&icy; &khcy;&rcy;&acy;&ncy;&iecy;&ncy;&icy;&iecy;&mcy; &iecy;&gcy;&ocy; &chcy;&acy;&scy;&tcy;&ocy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ucy;&yucy;&tcy; &vcy; &tcy;&iecy;&kcy;&scy;&tcy;&ocy;&vcy;&ycy;&jcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;, &pcy;&rcy;&icy;&gcy;&ocy;&dcy;&ncy;&ycy;&jcy; &dcy;&lcy;&yacy; &pcy;&iecy;&chcy;&acy;&tcy;&icy;.<br/><br/><strong style="color:#c8e0f0">Base64</strong>: &kcy;&ocy;&mcy;&pcy;&acy;&kcy;&tcy;&ncy;&ycy;&jcy; &icy; &khcy;&ocy;&rcy;&ocy;&shcy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &rcy;&acy;&bcy;&ocy;&chcy;&icy;&khcy; &pcy;&rcy;&ocy;&tscy;&iecy;&scy;&scy;&ocy;&vcy; API, JSON &icy; &kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.<br/><br/><strong style="color:#c8e0f0">&SHcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy;</strong>: &bcy;&ocy;&lcy;&softcy;&shcy;&iecy; &pcy;&ocy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy;&ucy;, &ncy;&ocy; &iecy;&gcy;&ocy; &lcy;&iecy;&gcy;&chcy;&iecy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&yacy;&tcy;&softcy; &pcy;&ocy;&bcy;&acy;&jcy;&tcy;&ocy;&vcy;&ocy; &vcy;&ocy; &vcy;&rcy;&iecy;&mcy;&yacy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy; &icy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</div>
+</div>
+</div>
+</div>
 <div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
-    <script src="/static/js/utility-tools/math/aes-encrypt/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
+<script src="/static/js/utility-tools/math/aes-encrypt/script-ru.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

@@ -1,463 +1,275 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO core (description with CTA) -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- SEO core (description with CTA) -->
 <!-- Open Graph / Facebook -->
-
-<meta property="og:image" content="https://starryring.com/preview-network.png">
-<meta property="og:type" content="website">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/preview-network.png">
-
-    <!-- Multi‑language & canonical links -->
-
-
+<meta content="https://starryring.com/preview-network.png" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/preview-network.png" name="twitter:image"/>
+<!-- Multi‑language & canonical links -->
 <!-- Favicon & manifest (global) -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <!-- External CDN libraries (unchanged) -->
-    <script src="/static/js/shared/cdn/tailwind.js"></script>
-    <script src="/static/js/shared/cdn/chart.js"></script>
-    <script src="/static/js/shared/cdn/lucide.js"></script>
-
-    <!-- Local styles (language switcher, nav cards etc.) -->
-    <link rel="stylesheet" href="/static/css/utility-tools/netdev/ping/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-
-    <!-- Structured data (SoftwareApplication + FAQPage + BreadcrumbList) English version -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Network Pulse - Online Network Diagnostics Tool",
-                "applicationCategory": "UtilitiesApplication",
-                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-                "description": "Free online network diagnostics: ICMP Ping via remote proxy and HTTPS GET directly from browser. Real‑time latency, packet loss, jitter with live charts and terminal log.",
-                "url": "https://starryring.com/ru/utility-tools/netdev/ping/",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://starryring.com/static/image/en/network-pulse-tool.png",
-                    "width": 1200,
-                    "height": 630
-                },
-                "screenshot": [
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/network-ping-interface.png",
-                        "width": 1280,
-                        "height": 720,
-                        "caption": "ICMP Ping test interface",
-                        "description": "Remote proxy executes ICMP Ping, measures latency and loss"
-                    },
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/en/network-https-interface.png",
-                        "width": 1280,
-                        "height": 720,
-                        "caption": "HTTPS GET test interface",
-                        "description": "Browser directly sends HTTPS request, measures response time"
-                    }
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "ICMP Ping via remote proxy",
-                    "HTTPS GET directly from browser",
-                    "Real‑time latency, loss, jitter calculation",
-                    "Search history & one‑click clear",
-                    "Live chart of latency changes",
-                    "Terminal log with each request detail",
-                    "Continuous test mode"
-                ],
-                "softwareVersion": "1.2.0"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What's the difference between ICMP Ping and HTTPS GET?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "ICMP Ping sends ICMP packets through a remote proxy to measure network‑layer connectivity and latency – ideal to check if a target is online. HTTPS GET is sent directly from your browser and measures application‑layer response time, better reflecting the real experience of visiting a website or API."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why is packet loss not zero?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Packet loss can be caused by network congestion, faulty routers, target‑side throttling, or unstable local connection. Consistent non‑zero loss usually indicates a network quality issue."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What impact does high jitter have?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Jitter is the variation in latency. High jitter (>30ms) can cause stuttering or desynchronization in real‑time applications like video calls or online games."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I test my own server or website?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Enter your domain or IP (e.g., example.com or 93.184.216.34) in the target field, select the test mode (Ping or HTTPS), and click Start. For HTTPS tests, ensure your server listens on port 443."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why are Ping and HTTPS latencies different?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "ICMP Ping measures network‑layer round‑trip time, while HTTPS GET involves TCP handshake, TLS negotiation, and HTTP request/response – it normally takes tens of milliseconds longer, which is expected."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What packet loss rate is considered abnormal?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "For wired networks, loss should be 0% most of the time; for Wi‑Fi, up to 0.1% is acceptable. Consistent loss above 0.5% or frequent timeouts indicate a significant problem – check your local network or contact your ISP."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why do you use a remote proxy for Ping?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Browsers cannot send raw ICMP packets due to security restrictions. This tool uses a backend proxy (or public API) to perform the Ping and returns the results, enabling ICMP tests to any target."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Do proxy server locations affect Ping results?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Yes – ICMP Ping latency includes the time from the proxy to the target, not from your location. However, loss and jitter still reflect the target's network stability. HTTPS GET is not affected because it runs directly from your browser."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Главная",
-                        "item": "https://starryring.com/ru/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Utilities",
-                        "item": "https://starryring.com/ru/utility-tools/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Network Diagnostics Tool",
-                        "item": "https://starryring.com/ru/utility-tools/netdev/ping/"
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-
-    <title>Network Pulse - Online Ping & HTTPS Test Tool | StarryRing</title>
-<meta name="description" content="Online network diagnostics tool supporting ICMP Ping via remote proxy and HTTPS GET directly from browser. Real‑time latency, packet loss, jitter. Free, no download, test your network stability now.">
-            <link rel="canonical" href="https://starryring.com/ru/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/netdev/ping/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/netdev/ping/">
-<meta property="og:url" content="https://starryring.com/ru/utility-tools/netdev/ping/">
-    <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="Network Pulse - Real‑time Ping & HTTPS Test Tool">
-    <meta property="og:description" content="Free online network diagnostics: ICMP Ping via remote proxy or HTTPS GET from your browser. Accurate latency, loss, jitter with history and live charts.">
-    <meta name="twitter:title" content="Network Pulse - Real‑time Ping & HTTPS Test Tool">
-    <meta name="twitter:description" content="Free online network diagnostics: measure latency, loss, jitter with live charts and terminal log.">
-    <meta name="keywords" content="Ping test, HTTPS test, network latency, network diagnostics, online ping tool, packet loss, jitter test, network stability">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- External CDN libraries (unchanged) -->
+<script src="/static/js/shared/cdn/tailwind.js"></script>
+<script src="/static/js/shared/cdn/chart.js"></script>
+<script src="/static/js/shared/cdn/lucide.js"></script>
+<!-- Local styles (language switcher, nav cards etc.) -->
+<link href="/static/css/utility-tools/netdev/ping/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Structured data (SoftwareApplication + FAQPage + BreadcrumbList) Английская версия -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "Network Pulse — инструмент онлайн-диагностики сети", "applicationCategory": "UtilitiesApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "description": "Бесплатная онлайн-диагностика сети: ICMP Ping через удаленный прокси-сервер и HTTPS GET прямо из браузера. Задержка в реальном времени, потеря пакетов, джиттер с графиками в реальном времени и журналом терминала.", "url": "https://starryring.com/ru/utility-tools/netdev/ping/", "image": { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/network-pulse-tool.png", "width": 1200, "height": 630 }, "screenshot": [ { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/network-ping-interface.png", "width": 1280, "height": 720, "caption": "ICMP Интерфейс проверки Ping", "description": "Удаленный прокси-сервер выполняет ICMP Ping, измеряет задержку и потери" }, { "@type": "ImageObject", "url": "https://starryring.com/static/image/en/network-https-interface.png", "width": 1280, "height": 720, "caption": "HTTPS GET тестовый интерфейс", "description": "Браузер напрямую отправляет HTTPS-запрос, измеряет время ответа" } ], "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "ICMP Ping via remote proxy", "HTTPS GET directly from browser", "Real‑time latency, loss, jitter calculation", "Search history & one‑click clear", "Live chart of latency changes", "Terminal log with each request detail", "Continuous test mode" ], "softwareVersion": "1.2.0" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "В чем разница между ICMP Ping и HTTPS GET?", "acceptedAnswer": { "@type": "Answer", "text": "ICMP Ping отправляет пакеты ICMP через удаленный прокси-сервер для измерения подключения и задержки на сетевом уровне — идеально подходит для проверки того, находится ли цель в сети. HTTPS GET отправляется непосредственно из вашего браузера и измеряет время ответа на уровне приложения, что лучше отражает реальный опыт посещения веб-сайта или API." } }, { "@type": "Question", "name": "Почему потеря пакетов не равна нулю?", "acceptedAnswer": { "@type": "Answer", "text": "Потеря пакетов может быть вызвана перегрузкой сети, неисправными маршрутизаторами, регулированием на целевой стороне или нестабильным локальным соединением. Постоянные ненулевые потери обычно указывают на проблему с качеством сети." } }, { "@type": "Question", "name": "Как влияет высокий уровень джиттера?", "acceptedAnswer": { "@type": "Answer", "text": "Джиттер — это изменение задержки. Высокий джиттер (>30 мс) может вызвать заикание или десинхронизацию в приложениях реального времени, таких как видеозвонки или онлайн-игры." } }, { "@type": "Question", "name": "Как протестировать свой сервер или веб-сайт?", "acceptedAnswer": { "@type": "Answer", "text": "Введите свой домен или IP-адрес (например, example.com или 93.184.216.34) в целевое поле, выберите тестовый режим (Ping или HTTPS) и нажмите «Пуск». Для тестов HTTPS убедитесь, что ваш сервер прослушивает порт 443." } }, { "@type": "Question", "name": "Почему задержки Ping и HTTPS различаются?", "acceptedAnswer": { "@type": "Answer", "text": "ICMP Ping измеряет время прохождения туда и обратно на сетевом уровне, тогда как HTTPS GET включает в себя TCP-квитирование, согласование TLS и HTTP-запрос/ответ – обычно это занимает на десятки миллисекунд больше, что и ожидалось." } }, { "@type": "Question", "name": "Какая скорость потери пакетов считается ненормальной?", "acceptedAnswer": { "@type": "Answer", "text": "Для проводных сетей потери в большинстве случаев должны составлять 0 %; для Wi‑Fi допустимо до 0,1 %. Постоянные потери выше 0,5% или частые тайм-ауты указывают на серьезную проблему — проверьте локальную сеть или обратитесь к своему интернет-провайдеру." } }, { "@type": "Question", "name": "Почему вы используете удаленный прокси-сервер для Ping?", "acceptedAnswer": { "@type": "Answer", "text": "Браузеры не могут отправлять необработанные пакеты ICMP из-за ограничений безопасности. Этот инструмент использует внутренний прокси-сервер (или общедоступный API) для выполнения Ping и возвращает результаты, позволяя проводить ICMP-тесты для любой цели." } }, { "@type": "Question", "name": "Влияет ли расположение прокси-серверов на результаты Ping?", "acceptedAnswer": { "@type": "Answer", "text": "Да — задержка ICMP Ping включает время от прокси-сервера до цели, а не от вашего местоположения. Однако потери и джиттер по-прежнему отражают стабильность целевой сети. HTTPS GET не затрагивается, поскольку он запускается непосредственно из вашего браузера." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://starryring.com/ru/" }, { "@type": "ListItem", "position": 2, "name": "Утилиты", "item": "https://starryring.com/ru/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "Инструмент сетевой диагностики", "item": "https://starryring.com/ru/utility-tools/netdev/ping/" } ] } ]
+}</script>
+<title>Network Pulse &mdash; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&kcy;&icy; Ping &icy; HTTPS | StarryRing</title>
+<meta content="&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&icy; &scy;&iecy;&tcy;&icy;, &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&yucy;&shchcy;&icy;&jcy; ICMP Ping &chcy;&iecy;&rcy;&iecy;&zcy; &ucy;&dcy;&acy;&lcy;&iecy;&ncy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy; &icy; HTTPS GET &ncy;&iecy;&pcy;&ocy;&scy;&rcy;&iecy;&dcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy; &icy;&zcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;. &Zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;, &pcy;&ocy;&tcy;&iecy;&rcy;&yacy; &pcy;&acy;&kcy;&iecy;&tcy;&ocy;&vcy;, &dcy;&zhcy;&icy;&tcy;&tcy;&iecy;&rcy;. &Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ocy;, &bcy;&iecy;&zcy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&icy;, &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&softcy;&tcy;&iecy; &scy;&tcy;&acy;&bcy;&icy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &vcy;&acy;&shcy;&iecy;&jcy; &scy;&iecy;&tcy;&icy; &pcy;&rcy;&yacy;&mcy;&ocy; &scy;&iecy;&jcy;&chcy;&acy;&scy;." name="description"/>
+<link href="https://starryring.com/ru/utility-tools/netdev/ping/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/netdev/ping/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/netdev/ping/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/netdev/ping/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/netdev/ping/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/netdev/ping/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/netdev/ping/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/netdev/ping/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/netdev/ping/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/netdev/ping/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/netdev/ping/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/netdev/ping/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/netdev/ping/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/netdev/ping/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/netdev/ping/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/netdev/ping/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/netdev/ping/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/netdev/ping/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/netdev/ping/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/netdev/ping/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/netdev/ping/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ru/utility-tools/netdev/ping/" property="og:url"/>
+<meta content="ru_RU" property="og:locale"/>
+<meta content="Network Pulse &mdash; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&kcy;&icy; Ping &icy; HTTPS &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;" property="og:title"/>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&acy;&yacy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&acy; &scy;&iecy;&tcy;&icy;: ICMP Ping &chcy;&iecy;&rcy;&iecy;&zcy; &ucy;&dcy;&acy;&lcy;&iecy;&ncy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy; &icy;&lcy;&icy; HTTPS GET &icy;&zcy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;. &Tcy;&ocy;&chcy;&ncy;&acy;&yacy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy;, &pcy;&ocy;&tcy;&iecy;&rcy;&icy;, &dcy;&rcy;&ocy;&zhcy;&acy;&ncy;&icy;&iecy; &scy; &icy;&scy;&tcy;&ocy;&rcy;&icy;&iecy;&jcy; &icy; &gcy;&rcy;&acy;&fcy;&icy;&kcy;&acy;&mcy;&icy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;." property="og:description"/>
+<meta content="Network Pulse &mdash; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&kcy;&icy; Ping &icy; HTTPS &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;" name="twitter:title"/>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&acy;&yacy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&acy; &scy;&iecy;&tcy;&icy;: &icy;&zcy;&mcy;&iecy;&rcy;&yacy;&jcy;&tcy;&iecy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&ucy;, &pcy;&ocy;&tcy;&iecy;&rcy;&icy;, &dcy;&zhcy;&icy;&tcy;&tcy;&iecy;&rcy; &scy; &pcy;&ocy;&mcy;&ocy;&shchcy;&softcy;&yucy; &gcy;&rcy;&acy;&fcy;&icy;&kcy;&ocy;&vcy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy; &icy; &zhcy;&ucy;&rcy;&ncy;&acy;&lcy;&acy; &tcy;&iecy;&rcy;&mcy;&icy;&ncy;&acy;&lcy;&acy;." name="twitter:description"/>
+<meta content="&Pcy;&icy;&ncy;&gcy;-&tcy;&iecy;&scy;&tcy;, &tcy;&iecy;&scy;&tcy; HTTPS, &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &scy;&iecy;&tcy;&icy;, &dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&acy; &scy;&iecy;&tcy;&icy;, &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; ping, &pcy;&ocy;&tcy;&iecy;&rcy;&yacy; &pcy;&acy;&kcy;&iecy;&tcy;&ocy;&vcy;, &tcy;&iecy;&scy;&tcy; &ncy;&acy; &dcy;&rcy;&ocy;&zhcy;&acy;&ncy;&icy;&iecy;, &scy;&tcy;&acy;&bcy;&icy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &scy;&iecy;&tcy;&icy;" name="keywords"/>
 </head>
 <body class="p-4 md:p-8 bg-slate-950 text-white">
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Выбрать язык" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/netdev/ping/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/netdev/ping/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/netdev/ping/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/netdev/ping/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/netdev/ping/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/netdev/ping/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/netdev/ping/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/netdev/ping/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/netdev/ping/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/netdev/ping/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/netdev/ping/" data-lang="pt">Português</a>
-            <a class="language-option selected" href="/ru/utility-tools/netdev/ping/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/netdev/ping/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/netdev/ping/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/netdev/ping/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/netdev/ping/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/netdev/ping/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/netdev/ping/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/netdev/ping/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/netdev/ping/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &yacy;&zcy;&ycy;&kcy;" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/netdev/ping/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/netdev/ping/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/netdev/ping/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/netdev/ping/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/netdev/ping/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/netdev/ping/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/netdev/ping/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/netdev/ping/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/netdev/ping/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/netdev/ping/">Portugu&ecirc;s</a>
+<a class="language-option selected" data-lang="ru" href="/ru/utility-tools/netdev/ping/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/netdev/ping/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/netdev/ping/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/netdev/ping/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/netdev/ping/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/netdev/ping/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/netdev/ping/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/netdev/ping/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/netdev/ping/">தமிழ்</a>
+</div>
+</div>
 <!-- Breadcrumb navigation (English) -->
-    <nav aria-label="Breadcrumb" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item"><a href="/ru/" class="breadcrumb-link"><i class="fas fa-home" aria-hidden="true"></i> Главная</a></li>
-            <li class="breadcrumb-item"><a href="/ru/utility-tools/" class="breadcrumb-link"><i class="fas fa-toolbox" aria-hidden="true"></i> Utilities</a></li>
-            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active"><i class="fas fa-paper-plane" aria-hidden="true"></i> Network Diagnostics Tool</span></li>
-        </ol>
-    </nav>
-
-    <!-- ========= Language Switcher (fully adapted from mouse tool) ========= -->
+<nav aria-label="&Ncy;&acy;&vcy;&icy;&gcy;&acy;&tscy;&icy;&ocy;&ncy;&ncy;&acy;&yacy; &tscy;&iecy;&pcy;&ocy;&chcy;&kcy;&acy;" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/ru/"><i aria-hidden="true" class="fas fa-home"></i>&Gcy;&lcy;&acy;&vcy;&ncy;&acy;&yacy;</a></li>
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/ru/utility-tools/"><i aria-hidden="true" class="fas fa-toolbox"></i>&Ucy;&tcy;&icy;&lcy;&icy;&tcy;&ycy;</a></li>
+<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active"><i aria-hidden="true" class="fas fa-paper-plane"></i>&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &scy;&iecy;&tcy;&iecy;&vcy;&ocy;&jcy; &dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&icy;</span></li>
+</ol>
+</nav>
+<!-- ========= Language Switcher (fully adapted from mouse tool) ========= -->
 <!-- Main content container -->
-    <div class="max-w-6xl mx-auto space-y-6 mt-6">
-        <!-- Header area -->
-        <header class="flex justify-between items-center border-b border-slate-800 pb-6">
-            <h1 class="text-3xl font-extrabold flex items-center gap-2">
-                <i data-lucide="activity" class="text-blue-500" aria-label="Activity icon" aria-hidden="false"></i>
-                Network <span class="text-blue-500">Pulse</span> - Diagnostics Tool
-            </h1>
-            <span id="status" class="text-xs text-slate-400">Ready</span>
-        </header>
-
-        <p class="text-slate-300 mb-6">Professional online network diagnostics. Test via <b>ICMP Ping</b> (remote proxy) or <b>HTTPS GET</b> (direct from browser) to measure latency and stability.</p>
-
-        <!-- Input configuration panel (fully preserved) -->
-        <section class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
-            <div class="md:col-span-5 relative">
-                <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">Target Address</label>
-                <div class="relative mt-2">
-                    <input id="target"
-                        placeholder="google.com or api.example.com"
-                        autocomplete="off"
-                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                        onkeydown="if(event.key==='Enter') togglePing()"
-                        onfocus="showHistory()"
-                        onblur="setTimeout(hideHistory, 250)">
-                    <div id="history-panel" class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden">
-                        <div id="history-list" class="max-h-60 overflow-y-auto"></div>
-                        <div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
-                            <span class="text-[10px] text-slate-500 uppercase font-bold px-2">Recent Searches</span>
-                            <button onclick="clearHistory()" class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold">Clear</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="md:col-span-3">
-                <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">Test Method</label>
-                <select id="method" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                    <option value="ping">ICMP Ping (remote proxy-japan)</option>
-                    <option value="https">HTTPS GET (direct from browser)</option>
-                </select>
-            </div>
-            <div class="md:col-span-2">
-                <label class="text-xs text-slate-400 font-bold uppercase tracking-wider">Count</label>
-                <select id="count" class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                    <option value="10">10 times</option>
-                    <option value="50">50 times</option>
-                    <option value="0">Continuous</option>
-                </select>
-            </div>
-            <div class="md:col-span-2 flex items-end">
-                <button id="btn" onclick="togglePing()"
-                    class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white">
-                    <i data-lucide="play" aria-label="Start test" aria-hidden="false"></i> Start Test
-                </button>
-            </div>
-        </section>
-
-        <!-- Stats cards -->
-        <section class="grid md:grid-cols-4 gap-4">
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Average Latency</p>
-                <p class="text-2xl mono text-blue-400"><span id="avg">0</span> ms</p>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Packet Loss / Failure</p>
-                <p class="text-2xl mono text-red-400" id="loss">0%</p>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Jitter</p>
-                <p class="text-2xl mono text-purple-400"><span id="jitter">0</span> ms</p>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
-                <p class="text-slate-400 text-sm">Requests Sent</p>
-                <p class="text-2xl mono text-slate-200" id="sent">0</p>
-            </div>
-        </section>
-
-        <!-- Chart & terminal -->
-        <section class="grid lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
-                <canvas id="chart"></canvas>
-            </div>
-            <div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col">
-                <div class="text-xs text-slate-400 p-2 border-b border-slate-800 flex justify-between">
-                    <span>Terminal Log</span>
-                    <span id="method-indicator" class="text-blue-500 font-bold"></span>
-                </div>
-                <div id="terminal" class="flex-1 p-3 mono text-sm overflow-y-auto"></div>
-            </div>
-        </section>
-    </div> <!-- end max-w-6xl -->
-
-   
-
-    <!-- ========= Feature description & FAQ (expanded) ========= -->
-    <div class="instructions-section max-w-6xl mx-auto mt-12">
-        <div class="instructions-content">
-            <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-check-circle text-blue-500" aria-hidden="true"></i> Professional Network Diagnostics Features</h2>
-            <p class="text-slate-400 mt-2">📖 Introduction:</p>
-            <div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-satellite-dish text-blue-500" aria-hidden="true"></i> Dual‑Mode Test</h3>
-                    <p class="text-slate-400 text-sm mt-2">ICMP Ping (remote proxy) and HTTPS GET (browser direct) side by side, meeting various diagnostic needs.</p>
-                    <div class="tip mt-3 text-xs text-slate-500"><i class="fas fa-lightbulb" aria-hidden="true"></i> Proxy Ping bypasses browser restrictions; HTTPS direct reflects real user experience. Analyse network from both network layer and application layer – ideal for DevOps, website monitoring, gaming latency analysis.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-chart-bar text-blue-500" aria-hidden="true"></i> Real‑time Visualization</h3>
-                    <p class="text-slate-400 text-sm mt-2">Dynamic line chart of latency changes, colour‑coded success/failure requests.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Chart auto‑scales, highlights anomalies. Quickly spot peak latency periods and optimise your network.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-history text-blue-500" aria-hidden="true"></i> Smart History</h3>
-                    <p class="text-slate-400 text-sm mt-2">Automatically saves recently tested targets; click the input field to pick one, one‑click clear.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">History is stored locally, never uploaded. Reuse frequent targets, boost productivity.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-terminal text-blue-500" aria-hidden="true"></i> Terminal Log</h3>
-                    <p class="text-slate-400 text-sm mt-2">Each request’s sequence, response time, status (HTTPS), or loss indication clearly printed.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Up to 30 entries, scrollable. Trace every detail to diagnose intermittent issues.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-tachometer-alt text-blue-500" aria-hidden="true"></i> Jitter Calculation</h3>
-                    <p class="text-slate-400 text-sm mt-2">Automatically computes average absolute difference between consecutive delays – a precise stability metric.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Jitter >30ms can affect real‑time communication (VoIP, video). Monitor jitter to guide network tuning.</div>
-                </div>
-                <div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
-                    <h3 class="text-lg font-semibold text-white flex items-center gap-2"><i class="fas fa-infinity text-blue-500" aria-hidden="true"></i> Continuous Mode</h3>
-                    <p class="text-slate-400 text-sm mt-2">Select “Continuous” to send requests until manually stopped – ideal for long‑term stability monitoring.</p>
-                    <div class="tip mt-3 text-xs text-slate-500">Click “Stop Test” (turns red after start) to interrupt. Perfect for capturing fluctuation periods.</div>
-                </div>
-            </div>
-
-            <!-- FAQ section (synchronised with structured data) -->
-            <div class="faq-section mt-12">
-                <h2 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-question-circle text-blue-500" aria-hidden="true"></i> Frequently Asked Questions (FAQ)</h2>
-                <div class="space-y-4 mt-6">
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">How do I test my own server or website?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Enter your domain or IP (e.g., example.com or 93.184.216.34) in the target field, select the test mode (Ping or HTTPS), and click Start. For HTTPS tests, ensure your server listens on port 443.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Why are Ping and HTTPS latencies different?</h3>
-                        <p class="text-slate-400 text-sm mt-1">ICMP Ping measures network‑layer round‑trip time, while HTTPS GET involves TCP handshake, TLS negotiation, and HTTP request/response – it normally takes tens of milliseconds longer, which is expected.</p>
-                        <div class="faq-link-container mt-2">
-                            <span class="text-xs text-slate-500"></span>
-                        </div>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">What packet loss rate is considered abnormal?</h3>
-                        <p class="text-slate-400 text-sm mt-1">For wired networks, loss should be 0% most of the time; for Wi‑Fi, up to 0.1% is acceptable. Consistent loss above 0.5% or frequent timeouts indicate a significant problem – check your local network or contact your ISP.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Why do you use a remote proxy for Ping?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Browsers cannot send raw ICMP packets due to security restrictions. This tool uses a backend proxy (or public API) to perform the Ping and returns the results, enabling ICMP tests to any target.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Do proxy server locations affect Ping results?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Yes – ICMP Ping latency includes the time from the proxy to the target, not from your location. However, loss and jitter still reflect the target's network stability. HTTPS GET is not affected because it runs directly from your browser.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">Why does HTTPS sometimes show "local block"?</h3>
-                        <p class="text-slate-400 text-sm mt-1">If a request fails within 5 ms, it's usually blocked by a browser extension (e.g., ad blocker). The tool marks it as “Local Block” rather than a network failure. Try disabling extensions and retest.</p>
-                    </div>
-                    <div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
-                        <h3 class="text-lg font-medium text-white">How much data does continuous mode use?</h3>
-                        <p class="text-slate-400 text-sm mt-1">Each Ping request is just tens of bytes; HTTPS requests are lightweight (HEAD/no‑cors). Even after an hour, total traffic is usually below 10 MB – safe to use.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="page-footer max-w-6xl mx-auto mt-10 opacity-50">
-        <div class="footer-content text-center text-xs text-slate-500">
-            <p>© 2024 StarryRing - v1.2.0 | ICMP & HTTPS Dual‑Mode Diagnostics</p>
-            <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
-                <a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">О нас</a>
-                <a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">Связаться с нами</a>
-                <a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">Отказ от ответственности</a>
-                <a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">Политика конфиденциальности</a>
-                <a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">Условия использования</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts (English JS + shared switcher) -->
-    <script src="/static/js/utility-tools/netdev/ping/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
-    <script>lucide.createIcons();</script>
-
-    <!-- switchlanguage.js handles language switcher interaction -->
+<div class="max-w-6xl mx-auto space-y-6 mt-6">
+<!-- Header area -->
+<header class="flex justify-between items-center border-b border-slate-800 pb-6">
+<h1 class="text-3xl font-extrabold flex items-center gap-2">
+<i aria-hidden="false" aria-label="&Zcy;&ncy;&acy;&chcy;&ocy;&kcy; &acy;&kcy;&tcy;&icy;&vcy;&ncy;&ocy;&scy;&tcy;&icy;" class="text-blue-500" data-lucide="activity"></i>&Scy;&iecy;&tcy;&softcy;<span class="text-blue-500">&Pcy;&ucy;&lcy;&softcy;&scy;</span>- &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&icy;</h1>
+<span class="text-xs text-slate-400" id="status">&Gcy;&ocy;&tcy;&ocy;&vcy;&ocy;</span>
+</header>
+<p class="text-slate-300 mb-6">&Pcy;&rcy;&ocy;&fcy;&iecy;&scy;&scy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&acy;&yacy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&acy; &scy;&iecy;&tcy;&icy;. &Tcy;&iecy;&scy;&tcy; &chcy;&iecy;&rcy;&iecy;&zcy;<b>ICMP-&pcy;&icy;&ncy;&gcy;</b>(&ucy;&dcy;&acy;&lcy;&iecy;&ncy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;) &icy;&lcy;&icy;<b>HTTPS &Pcy;&Ocy;&Lcy;&Ucy;&CHcy;&Icy;&Tcy;&SOFTcy;</b>(&pcy;&rcy;&yacy;&mcy;&ocy; &icy;&zcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;) &dcy;&lcy;&yacy; &icy;&zcy;&mcy;&iecy;&rcy;&iecy;&ncy;&icy;&yacy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&icy; &icy; &scy;&tcy;&acy;&bcy;&icy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;.</p>
+<!-- Input configuration panel (fully preserved) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+<div class="md:col-span-5 relative">
+<label class="text-xs text-slate-400 font-bold uppercase tracking-wider">&TScy;&iecy;&lcy;&iecy;&vcy;&ocy;&jcy; &acy;&dcy;&rcy;&iecy;&scy;</label>
+<div class="relative mt-2">
+<input autocomplete="off" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 mono focus:ring-2 focus:ring-blue-500 outline-none transition-all" id="target" onblur="setTimeout(hideHistory, 250)" onfocus="showHistory()" onkeydown="if(event.key==='Enter') togglePing()" placeholder="google.com &icy;&lcy;&icy; api.example.com"/>
+<div class="hidden absolute z-50 w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl overflow-hidden" id="history-panel">
+<div class="max-h-60 overflow-y-auto" id="history-list"></div>
+<div class="p-2 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
+<span class="text-[10px] text-slate-500 uppercase font-bold px-2">&Ncy;&iecy;&dcy;&acy;&vcy;&ncy;&icy;&iecy; &pcy;&ocy;&icy;&scy;&kcy;&icy;</span>
+<button class="text-[10px] text-red-400 hover:text-red-300 px-2 uppercase font-bold" onclick="clearHistory()">&Ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&softcy;</button>
+</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-3">
+<label class="text-xs text-slate-400 font-bold uppercase tracking-wider">&Mcy;&iecy;&tcy;&ocy;&dcy; &tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;</label>
+<select class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all" id="method">
+<option value="ping">ICMP Ping (&ucy;&dcy;&acy;&lcy;&iecy;&ncy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&yacy;&pcy;&ocy;&ncy;&icy;&yacy;)</option>
+<option value="https">HTTPS GET (&pcy;&rcy;&yacy;&mcy;&ocy; &icy;&zcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;)</option>
+</select>
+</div>
+<div class="md:col-span-2">
+<label class="text-xs text-slate-400 font-bold uppercase tracking-wider">&Kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy;</label>
+<select class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all" id="count">
+<option value="10">10 &rcy;&acy;&zcy;</option>
+<option value="50">50 &rcy;&acy;&zcy;</option>
+<option value="0">&Ncy;&iecy;&pcy;&rcy;&iecy;&rcy;&ycy;&vcy;&ncy;&ycy;&jcy;</option>
+</select>
+</div>
+<div class="md:col-span-2 flex items-end">
+<button class="w-full bg-blue-600 hover:bg-blue-500 transition-all rounded-lg py-3 font-bold flex justify-center items-center gap-2 text-white" id="btn" onclick="togglePing()">
+<i aria-hidden="false" aria-label="&Ncy;&acy;&chcy;&acy;&tcy;&softcy; &tcy;&iecy;&scy;&tcy;" data-lucide="play"></i>&Ncy;&acy;&chcy;&acy;&tcy;&softcy; &tcy;&iecy;&scy;&tcy;</button>
+</div>
+</section>
+<!-- Stats cards -->
+<section class="grid md:grid-cols-4 gap-4">
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">&Scy;&rcy;&iecy;&dcy;&ncy;&yacy;&yacy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy;</p>
+<p class="text-2xl mono text-blue-400"><span id="avg">0</span> ms</p>
+</div>
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">&Pcy;&ocy;&tcy;&iecy;&rcy;&yacy;/&scy;&bcy;&ocy;&jcy; &pcy;&acy;&kcy;&iecy;&tcy;&ocy;&vcy;</p>
+<p class="text-2xl mono text-red-400" id="loss">0%</p>
+</div>
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">&Dcy;&rcy;&ocy;&zhcy;&acy;&ncy;&icy;&iecy;</p>
+<p class="text-2xl mono text-purple-400"><span id="jitter">0</span> ms</p>
+</div>
+<div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+<p class="text-slate-400 text-sm">&Zcy;&acy;&pcy;&rcy;&ocy;&scy;&ycy; &ocy;&tcy;&pcy;&rcy;&acy;&vcy;&lcy;&iecy;&ncy;&ycy;</p>
+<p class="text-2xl mono text-slate-200" id="sent">0</p>
+</div>
+</section>
+<!-- Chart & terminal -->
+<section class="grid lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-slate-900 p-4 rounded-xl border border-slate-800 h-80">
+<canvas id="chart"></canvas>
+</div>
+<div class="bg-black rounded-xl border border-slate-800 h-80 flex flex-col">
+<div class="text-xs text-slate-400 p-2 border-b border-slate-800 flex justify-between">
+<span>&ZHcy;&ucy;&rcy;&ncy;&acy;&lcy; &tcy;&iecy;&rcy;&mcy;&icy;&ncy;&acy;&lcy;&acy;</span>
+<span class="text-blue-500 font-bold" id="method-indicator"></span>
+</div>
+<div class="flex-1 p-3 mono text-sm overflow-y-auto" id="terminal"></div>
+</div>
+</section>
+</div><!-- end max-w-6xl -->
+<!-- ========= Feature description & FAQ (expanded) ========= -->
+<div class="instructions-section max-w-6xl mx-auto mt-12">
+<div class="instructions-content">
+<h2 class="text-2xl font-bold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-check-circle text-blue-500"></i>&Fcy;&ucy;&ncy;&kcy;&tscy;&icy;&icy; &pcy;&rcy;&ocy;&fcy;&iecy;&scy;&scy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ocy;&jcy; &scy;&iecy;&tcy;&iecy;&vcy;&ocy;&jcy; &dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&icy;</h2>
+<p class="text-slate-400 mt-2">📖 &Vcy;&vcy;&iecy;&dcy;&iecy;&ncy;&icy;&iecy;:</p>
+<div class="feature-grid grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-satellite-dish text-blue-500"></i>&Dcy;&vcy;&ucy;&khcy;&rcy;&iecy;&zhcy;&icy;&mcy;&ncy;&ycy;&jcy; &tcy;&iecy;&scy;&tcy;</h3>
+<p class="text-slate-400 text-sm mt-2">ICMP Ping (&ucy;&dcy;&acy;&lcy;&iecy;&ncy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy;) &icy; HTTPS GET (&pcy;&rcy;&yacy;&mcy;&ocy;&jcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;) &bcy;&ocy;&kcy; &ocy; &bcy;&ocy;&kcy;, &ucy;&dcy;&ocy;&vcy;&lcy;&iecy;&tcy;&vcy;&ocy;&rcy;&yacy;&yacy; &rcy;&acy;&zcy;&lcy;&icy;&chcy;&ncy;&ycy;&iecy; &dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy;&iecy; &pcy;&ocy;&tcy;&rcy;&iecy;&bcy;&ncy;&ocy;&scy;&tcy;&icy;.</p>
+<div class="tip mt-3 text-xs text-slate-500"><i aria-hidden="true" class="fas fa-lightbulb"></i>Proxy Ping &ocy;&bcy;&khcy;&ocy;&dcy;&icy;&tcy; &ocy;&gcy;&rcy;&acy;&ncy;&icy;&chcy;&iecy;&ncy;&icy;&yacy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;; HTTPS Direct &ocy;&tcy;&rcy;&acy;&zhcy;&acy;&iecy;&tcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ycy;&jcy; &pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&softcy;&scy;&kcy;&icy;&jcy; &ocy;&pcy;&ycy;&tcy;. &Acy;&ncy;&acy;&lcy;&icy;&zcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &scy;&iecy;&tcy;&softcy; &kcy;&acy;&kcy; &ncy;&acy; &scy;&iecy;&tcy;&iecy;&vcy;&ocy;&mcy; &ucy;&rcy;&ocy;&vcy;&ncy;&iecy;, &tcy;&acy;&kcy; &icy; &ncy;&acy; &ucy;&rcy;&ocy;&vcy;&ncy;&iecy; &pcy;&rcy;&icy;&lcy;&ocy;&zhcy;&iecy;&ncy;&icy;&jcy; &mdash; &icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; DevOps, &mcy;&ocy;&ncy;&icy;&tcy;&ocy;&rcy;&icy;&ncy;&gcy;&acy; &vcy;&iecy;&bcy;-&scy;&acy;&jcy;&tcy;&ocy;&vcy; &icy; &acy;&ncy;&acy;&lcy;&icy;&zcy;&acy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&iecy;&kcy; &vcy; &icy;&gcy;&rcy;&acy;&khcy;.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-chart-bar text-blue-500"></i>&Vcy;&icy;&zcy;&ucy;&acy;&lcy;&icy;&zcy;&acy;&tscy;&icy;&yacy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;</h3>
+<p class="text-slate-400 text-sm mt-2">&Dcy;&icy;&ncy;&acy;&mcy;&icy;&chcy;&iecy;&scy;&kcy;&acy;&yacy; &lcy;&icy;&ncy;&iecy;&jcy;&ncy;&acy;&yacy; &dcy;&icy;&acy;&gcy;&rcy;&acy;&mcy;&mcy;&acy; &icy;&zcy;&mcy;&iecy;&ncy;&iecy;&ncy;&icy;&jcy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&icy;, &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ycy; &ucy;&scy;&pcy;&iecy;&khcy;&acy;/&ncy;&iecy;&ucy;&scy;&pcy;&iecy;&khcy;&acy; &scy; &tscy;&vcy;&iecy;&tcy;&ocy;&vcy;&ocy;&jcy; &mcy;&acy;&rcy;&kcy;&icy;&rcy;&ocy;&vcy;&kcy;&ocy;&jcy;.</p>
+<div class="tip mt-3 text-xs text-slate-500">&Dcy;&icy;&acy;&gcy;&rcy;&acy;&mcy;&mcy;&acy; &acy;&vcy;&tcy;&ocy;&mcy;&acy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &mcy;&acy;&scy;&shcy;&tcy;&acy;&bcy;&icy;&rcy;&ucy;&iecy;&tcy;&scy;&yacy;, &vcy;&ycy;&dcy;&iecy;&lcy;&yacy;&iecy;&tcy; &acy;&ncy;&ocy;&mcy;&acy;&lcy;&icy;&icy;. &Bcy;&ycy;&scy;&tcy;&rcy;&ocy; &ocy;&pcy;&rcy;&iecy;&dcy;&iecy;&lcy;&yacy;&jcy;&tcy;&iecy; &pcy;&icy;&kcy;&ocy;&vcy;&ycy;&iecy; &pcy;&iecy;&rcy;&icy;&ocy;&dcy;&ycy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&icy; &icy; &ocy;&pcy;&tcy;&icy;&mcy;&icy;&zcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &scy;&vcy;&ocy;&yucy; &scy;&iecy;&tcy;&softcy;.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-history text-blue-500"></i>&Ucy;&mcy;&ncy;&acy;&yacy; &icy;&scy;&tcy;&ocy;&rcy;&icy;&yacy;</h3>
+<p class="text-slate-400 text-sm mt-2">&Acy;&vcy;&tcy;&ocy;&mcy;&acy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&iecy;&tcy; &ncy;&iecy;&dcy;&acy;&vcy;&ncy;&ocy; &pcy;&rcy;&ocy;&tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&iecy; &tscy;&iecy;&lcy;&icy;; &shchcy;&iecy;&lcy;&kcy;&ncy;&icy;&tcy;&iecy; &pcy;&ocy;&lcy;&iecy; &vcy;&vcy;&ocy;&dcy;&acy;, &chcy;&tcy;&ocy;&bcy;&ycy; &vcy;&ycy;&bcy;&rcy;&acy;&tcy;&softcy; &ocy;&dcy;&ncy;&ocy;, &ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&iecy; &ocy;&dcy;&ncy;&icy;&mcy; &shchcy;&iecy;&lcy;&chcy;&kcy;&ocy;&mcy; &mcy;&ycy;&shcy;&icy;.</p>
+<div class="tip mt-3 text-xs text-slate-500">&Icy;&scy;&tcy;&ocy;&rcy;&icy;&yacy; &khcy;&rcy;&acy;&ncy;&icy;&tcy;&scy;&yacy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ocy; &icy; &ncy;&icy;&kcy;&ocy;&gcy;&dcy;&acy; &ncy;&iecy; &zcy;&acy;&gcy;&rcy;&ucy;&zhcy;&acy;&iecy;&tcy;&scy;&yacy;. &Pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&ncy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&jcy;&tcy;&iecy; &chcy;&acy;&scy;&tcy;&ocy; &vcy;&scy;&tcy;&rcy;&iecy;&chcy;&acy;&yucy;&shchcy;&icy;&iecy;&scy;&yacy; &tscy;&iecy;&lcy;&icy;, &pcy;&ocy;&vcy;&ycy;&shcy;&acy;&jcy;&tcy;&iecy; &pcy;&rcy;&ocy;&icy;&zcy;&vcy;&ocy;&dcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy;.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-terminal text-blue-500"></i>&ZHcy;&ucy;&rcy;&ncy;&acy;&lcy; &tcy;&iecy;&rcy;&mcy;&icy;&ncy;&acy;&lcy;&acy;</h3>
+<p class="text-slate-400 text-sm mt-2">&CHcy;&iecy;&tcy;&kcy;&ocy; &ncy;&acy;&pcy;&iecy;&chcy;&acy;&tcy;&acy;&ncy;&ycy; &pcy;&ocy;&scy;&lcy;&iecy;&dcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &kcy;&acy;&zhcy;&dcy;&ocy;&gcy;&ocy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&acy;, &vcy;&rcy;&iecy;&mcy;&yacy; &ocy;&tcy;&vcy;&iecy;&tcy;&acy;, &scy;&tcy;&acy;&tcy;&ucy;&scy; (HTTPS) &icy;&lcy;&icy; &icy;&ncy;&dcy;&icy;&kcy;&acy;&tscy;&icy;&yacy; &pcy;&ocy;&tcy;&iecy;&rcy;&icy;.</p>
+<div class="tip mt-3 text-xs text-slate-500">&Dcy;&ocy; 30 &zcy;&acy;&pcy;&icy;&scy;&iecy;&jcy; &scy; &vcy;&ocy;&zcy;&mcy;&ocy;&zhcy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy; &pcy;&rcy;&ocy;&kcy;&rcy;&ucy;&tcy;&kcy;&icy;. &Ocy;&tcy;&scy;&lcy;&iecy;&zhcy;&icy;&vcy;&acy;&jcy;&tcy;&iecy; &kcy;&acy;&zhcy;&dcy;&ucy;&yucy; &dcy;&iecy;&tcy;&acy;&lcy;&softcy;, &chcy;&tcy;&ocy;&bcy;&ycy; &dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &pcy;&iecy;&rcy;&icy;&ocy;&dcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &vcy;&ocy;&zcy;&ncy;&icy;&kcy;&acy;&yucy;&shchcy;&icy;&iecy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ycy;.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-tachometer-alt text-blue-500"></i>&Rcy;&acy;&scy;&chcy;&iecy;&tcy; &dcy;&zhcy;&icy;&tcy;&tcy;&iecy;&rcy;&acy;</h3>
+<p class="text-slate-400 text-sm mt-2">&Acy;&vcy;&tcy;&ocy;&mcy;&acy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &vcy;&ycy;&chcy;&icy;&scy;&lcy;&yacy;&iecy;&tcy; &scy;&rcy;&iecy;&dcy;&ncy;&yucy;&yucy; &acy;&bcy;&scy;&ocy;&lcy;&yucy;&tcy;&ncy;&ucy;&yucy; &rcy;&acy;&zcy;&ncy;&icy;&tscy;&ucy; &mcy;&iecy;&zhcy;&dcy;&ucy; &pcy;&ocy;&scy;&lcy;&iecy;&dcy;&ocy;&vcy;&acy;&tcy;&iecy;&lcy;&softcy;&ncy;&ycy;&mcy;&icy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy;&mcy;&icy; &ndash; &tcy;&ocy;&chcy;&ncy;&ycy;&jcy; &pcy;&ocy;&kcy;&acy;&zcy;&acy;&tcy;&iecy;&lcy;&softcy; &scy;&tcy;&acy;&bcy;&icy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;.</p>
+<div class="tip mt-3 text-xs text-slate-500">&Dcy;&zhcy;&icy;&tcy;&tcy;&iecy;&rcy; &gt;30 &mcy;&scy; &mcy;&ocy;&zhcy;&iecy;&tcy; &pcy;&ocy;&vcy;&lcy;&icy;&yacy;&tcy;&softcy; &ncy;&acy; &scy;&vcy;&yacy;&zcy;&softcy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy; (VoIP, &vcy;&icy;&dcy;&iecy;&ocy;). &Ocy;&tcy;&scy;&lcy;&iecy;&zhcy;&icy;&vcy;&acy;&jcy;&tcy;&iecy; &dcy;&zhcy;&icy;&tcy;&tcy;&iecy;&rcy; &dcy;&lcy;&yacy; &ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&icy; &scy;&iecy;&tcy;&icy;.</div>
+</div>
+<div class="feature-item bg-slate-900/80 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-semibold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-infinity text-blue-500"></i>&Ncy;&iecy;&pcy;&rcy;&iecy;&rcy;&ycy;&vcy;&ncy;&ycy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy;</h3>
+<p class="text-slate-400 text-sm mt-2">&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &laquo;&Ncy;&iecy;&pcy;&rcy;&iecy;&rcy;&ycy;&vcy;&ncy;&ocy;&raquo;, &chcy;&tcy;&ocy;&bcy;&ycy; &ocy;&tcy;&pcy;&rcy;&acy;&vcy;&lcy;&yacy;&tcy;&softcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy;&ycy; &dcy;&ocy; &tcy;&iecy;&khcy; &pcy;&ocy;&rcy;, &pcy;&ocy;&kcy;&acy; &ocy;&ncy;&icy; &ncy;&iecy; &bcy;&ucy;&dcy;&ucy;&tcy; &ocy;&scy;&tcy;&acy;&ncy;&ocy;&vcy;&lcy;&iecy;&ncy;&ycy; &vcy;&rcy;&ucy;&chcy;&ncy;&ucy;&yucy; &mdash; &icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&iecy; &rcy;&iecy;&shcy;&iecy;&ncy;&icy;&iecy; &dcy;&lcy;&yacy; &dcy;&ocy;&lcy;&gcy;&ocy;&scy;&rcy;&ocy;&chcy;&ncy;&ocy;&gcy;&ocy; &mcy;&ocy;&ncy;&icy;&tcy;&ocy;&rcy;&icy;&ncy;&gcy;&acy; &scy;&tcy;&acy;&bcy;&icy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;.</p>
+<div class="tip mt-3 text-xs text-slate-500">&Ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &laquo;&Ocy;&scy;&tcy;&acy;&ncy;&ocy;&vcy;&icy;&tcy;&softcy; &tcy;&iecy;&scy;&tcy;&raquo; (&pcy;&ocy;&scy;&lcy;&iecy; &zcy;&acy;&pcy;&ucy;&scy;&kcy;&acy; &ocy;&ncy; &scy;&tcy;&acy;&ncy;&iecy;&tcy; &kcy;&rcy;&acy;&scy;&ncy;&ycy;&mcy;), &chcy;&tcy;&ocy;&bcy;&ycy; &pcy;&rcy;&iecy;&rcy;&vcy;&acy;&tcy;&softcy; &iecy;&gcy;&ocy;. &Icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &rcy;&iecy;&gcy;&icy;&scy;&tcy;&rcy;&acy;&tscy;&icy;&icy; &pcy;&iecy;&rcy;&icy;&ocy;&dcy;&ocy;&vcy; &kcy;&ocy;&lcy;&iecy;&bcy;&acy;&ncy;&icy;&jcy;.</div>
+</div>
+</div>
+<!-- FAQ section (synchronised with structured data) -->
+<div class="faq-section mt-12">
+<h2 class="text-2xl font-bold text-white flex items-center gap-2"><i aria-hidden="true" class="fas fa-question-circle text-blue-500"></i>&CHcy;&acy;&scy;&tcy;&ocy; &zcy;&acy;&dcy;&acy;&vcy;&acy;&iecy;&mcy;&ycy;&iecy; &vcy;&ocy;&pcy;&rcy;&ocy;&scy;&ycy; (FAQ)</h2>
+<div class="space-y-4 mt-6">
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">&Kcy;&acy;&kcy; &pcy;&rcy;&ocy;&tcy;&iecy;&scy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &scy;&vcy;&ocy;&jcy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy; &icy;&lcy;&icy; &vcy;&iecy;&bcy;-&scy;&acy;&jcy;&tcy;?</h3>
+<p class="text-slate-400 text-sm mt-1">&Vcy;&vcy;&iecy;&dcy;&icy;&tcy;&iecy; &scy;&vcy;&ocy;&jcy; &dcy;&ocy;&mcy;&iecy;&ncy; &icy;&lcy;&icy; IP-&acy;&dcy;&rcy;&iecy;&scy; (&ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, example.com &icy;&lcy;&icy; 93.184.216.34) &vcy; &tscy;&iecy;&lcy;&iecy;&vcy;&ocy;&iecy; &pcy;&ocy;&lcy;&iecy;, &vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &tcy;&iecy;&scy;&tcy;&ocy;&vcy;&ycy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy; (Ping &icy;&lcy;&icy; HTTPS) &icy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &laquo;&Pcy;&ucy;&scy;&kcy;&raquo;. &Dcy;&lcy;&yacy; &tcy;&iecy;&scy;&tcy;&ocy;&vcy; HTTPS &ucy;&bcy;&iecy;&dcy;&icy;&tcy;&iecy;&scy;&softcy;, &chcy;&tcy;&ocy; &vcy;&acy;&shcy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy; &pcy;&rcy;&ocy;&scy;&lcy;&ucy;&shcy;&icy;&vcy;&acy;&iecy;&tcy; &pcy;&ocy;&rcy;&tcy; 443.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">&Pcy;&ocy;&chcy;&iecy;&mcy;&ucy; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&icy; Ping &icy; HTTPS &rcy;&acy;&zcy;&lcy;&icy;&chcy;&acy;&yucy;&tcy;&scy;&yacy;?</h3>
+<p class="text-slate-400 text-sm mt-1">ICMP Ping &icy;&zcy;&mcy;&iecy;&rcy;&yacy;&iecy;&tcy; &vcy;&rcy;&iecy;&mcy;&yacy; &pcy;&rcy;&ocy;&khcy;&ocy;&zhcy;&dcy;&iecy;&ncy;&icy;&yacy; &tcy;&ucy;&dcy;&acy; &icy; &ocy;&bcy;&rcy;&acy;&tcy;&ncy;&ocy; &ncy;&acy; &scy;&iecy;&tcy;&iecy;&vcy;&ocy;&mcy; &ucy;&rcy;&ocy;&vcy;&ncy;&iecy;, &tcy;&ocy;&gcy;&dcy;&acy; &kcy;&acy;&kcy; HTTPS GET &vcy;&kcy;&lcy;&yucy;&chcy;&acy;&iecy;&tcy; &vcy; &scy;&iecy;&bcy;&yacy; TCP-&kcy;&vcy;&icy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;, &scy;&ocy;&gcy;&lcy;&acy;&scy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; TLS &icy; HTTP-&zcy;&acy;&pcy;&rcy;&ocy;&scy;/&ocy;&tcy;&vcy;&iecy;&tcy; &ndash; &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &ecy;&tcy;&ocy; &zcy;&acy;&ncy;&icy;&mcy;&acy;&iecy;&tcy; &ncy;&acy; &dcy;&iecy;&scy;&yacy;&tcy;&kcy;&icy; &mcy;&icy;&lcy;&lcy;&icy;&scy;&iecy;&kcy;&ucy;&ncy;&dcy; &bcy;&ocy;&lcy;&softcy;&shcy;&iecy;, &chcy;&tcy;&ocy; &icy; &ocy;&zhcy;&icy;&dcy;&acy;&lcy;&ocy;&scy;&softcy;.</p>
+<div class="faq-link-container mt-2">
+<span class="text-xs text-slate-500"></span>
+</div>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">&Kcy;&acy;&kcy;&acy;&yacy; &scy;&kcy;&ocy;&rcy;&ocy;&scy;&tcy;&softcy; &pcy;&ocy;&tcy;&iecy;&rcy;&icy; &pcy;&acy;&kcy;&iecy;&tcy;&ocy;&vcy; &scy;&chcy;&icy;&tcy;&acy;&iecy;&tcy;&scy;&yacy; &ncy;&iecy;&ncy;&ocy;&rcy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy;&jcy;?</h3>
+<p class="text-slate-400 text-sm mt-1">&Dcy;&lcy;&yacy; &pcy;&rcy;&ocy;&vcy;&ocy;&dcy;&ncy;&ycy;&khcy; &scy;&iecy;&tcy;&iecy;&jcy; &pcy;&ocy;&tcy;&iecy;&rcy;&icy; &vcy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&ncy;&scy;&tcy;&vcy;&iecy; &scy;&lcy;&ucy;&chcy;&acy;&iecy;&vcy; &dcy;&ocy;&lcy;&zhcy;&ncy;&ycy; &scy;&ocy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&tcy;&softcy; 0 %; &dcy;&lcy;&yacy; Wi‑Fi &dcy;&ocy;&pcy;&ucy;&scy;&tcy;&icy;&mcy;&ocy; &dcy;&ocy; 0,1&nbsp;%. &Pcy;&ocy;&scy;&tcy;&ocy;&yacy;&ncy;&ncy;&ycy;&iecy; &pcy;&ocy;&tcy;&iecy;&rcy;&icy; &vcy;&ycy;&shcy;&iecy; 0,5% &icy;&lcy;&icy; &chcy;&acy;&scy;&tcy;&ycy;&iecy; &tcy;&acy;&jcy;&mcy;-&acy;&ucy;&tcy;&ycy; &ucy;&kcy;&acy;&zcy;&ycy;&vcy;&acy;&yucy;&tcy; &ncy;&acy; &scy;&iecy;&rcy;&softcy;&iecy;&zcy;&ncy;&ucy;&yucy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ucy; &mdash; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&softcy;&tcy;&iecy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ucy;&yucy; &scy;&iecy;&tcy;&softcy; &icy;&lcy;&icy; &ocy;&bcy;&rcy;&acy;&tcy;&icy;&tcy;&iecy;&scy;&softcy; &kcy; &scy;&vcy;&ocy;&iecy;&mcy;&ucy; &icy;&ncy;&tcy;&iecy;&rcy;&ncy;&iecy;&tcy;-&pcy;&rcy;&ocy;&vcy;&acy;&jcy;&dcy;&iecy;&rcy;&ucy;.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">&Pcy;&ocy;&chcy;&iecy;&mcy;&ucy; &vcy;&ycy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&iecy; &ucy;&dcy;&acy;&lcy;&iecy;&ncy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy; &dcy;&lcy;&yacy; Ping?</h3>
+<p class="text-slate-400 text-sm mt-1">&Bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&ycy; &ncy;&iecy; &mcy;&ocy;&gcy;&ucy;&tcy; &ocy;&tcy;&pcy;&rcy;&acy;&vcy;&lcy;&yacy;&tcy;&softcy; &ncy;&iecy;&ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ncy;&ycy;&iecy; &pcy;&acy;&kcy;&iecy;&tcy;&ycy; ICMP &icy;&zcy;-&zcy;&acy; &ocy;&gcy;&rcy;&acy;&ncy;&icy;&chcy;&iecy;&ncy;&icy;&jcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;. &Ecy;&tcy;&ocy;&tcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy; &vcy;&ncy;&ucy;&tcy;&rcy;&iecy;&ncy;&ncy;&icy;&jcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy; (&icy;&lcy;&icy; &ocy;&bcy;&shchcy;&iecy;&dcy;&ocy;&scy;&tcy;&ucy;&pcy;&ncy;&ycy;&jcy; API) &dcy;&lcy;&yacy; &vcy;&ycy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&yacy; Ping &icy; &vcy;&ocy;&zcy;&vcy;&rcy;&acy;&shchcy;&acy;&iecy;&tcy; &rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy;&ycy;, &pcy;&ocy;&zcy;&vcy;&ocy;&lcy;&yacy;&yacy; &pcy;&rcy;&ocy;&vcy;&ocy;&dcy;&icy;&tcy;&softcy; ICMP-&tcy;&iecy;&scy;&tcy;&ycy; &dcy;&lcy;&yacy; &lcy;&yucy;&bcy;&ocy;&jcy; &tscy;&iecy;&lcy;&icy;.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">&Vcy;&lcy;&icy;&yacy;&iecy;&tcy; &lcy;&icy; &rcy;&acy;&scy;&pcy;&ocy;&lcy;&ocy;&zhcy;&iecy;&ncy;&icy;&iecy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy;&ocy;&vcy; &ncy;&acy; &rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy;&ycy; Ping?</h3>
+<p class="text-slate-400 text-sm mt-1">&Dcy;&acy; &mdash; &zcy;&acy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; ICMP Ping &vcy;&kcy;&lcy;&yucy;&chcy;&acy;&iecy;&tcy; &vcy;&rcy;&iecy;&mcy;&yacy; &ocy;&tcy; &pcy;&rcy;&ocy;&kcy;&scy;&icy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy;&acy; &dcy;&ocy; &tscy;&iecy;&lcy;&icy;, &acy; &ncy;&iecy; &ocy;&tcy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &mcy;&iecy;&scy;&tcy;&ocy;&pcy;&ocy;&lcy;&ocy;&zhcy;&iecy;&ncy;&icy;&yacy;. &Ocy;&dcy;&ncy;&acy;&kcy;&ocy; &pcy;&ocy;&tcy;&iecy;&rcy;&icy; &icy; &dcy;&zhcy;&icy;&tcy;&tcy;&iecy;&rcy; &pcy;&ocy;-&pcy;&rcy;&iecy;&zhcy;&ncy;&iecy;&mcy;&ucy; &ocy;&tcy;&rcy;&acy;&zhcy;&acy;&yucy;&tcy; &scy;&tcy;&acy;&bcy;&icy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &tscy;&iecy;&lcy;&iecy;&vcy;&ocy;&jcy; &scy;&iecy;&tcy;&icy;. HTTPS GET &ncy;&iecy; &zcy;&acy;&tcy;&rcy;&acy;&gcy;&icy;&vcy;&acy;&iecy;&tcy;&scy;&yacy;, &pcy;&ocy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ucy; &ocy;&ncy; &zcy;&acy;&pcy;&ucy;&scy;&kcy;&acy;&iecy;&tcy;&scy;&yacy; &ncy;&iecy;&pcy;&ocy;&scy;&rcy;&iecy;&dcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy; &icy;&zcy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">&Pcy;&ocy;&chcy;&iecy;&mcy;&ucy; HTTPS &icy;&ncy;&ocy;&gcy;&dcy;&acy; &pcy;&ocy;&kcy;&acy;&zcy;&ycy;&vcy;&acy;&iecy;&tcy; &laquo;&lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ucy;&yucy; &bcy;&lcy;&ocy;&kcy;&icy;&rcy;&ocy;&vcy;&kcy;&ucy;&raquo;?</h3>
+<p class="text-slate-400 text-sm mt-1">&IEcy;&scy;&lcy;&icy; &zcy;&acy;&pcy;&rcy;&ocy;&scy; &zcy;&acy;&vcy;&iecy;&rcy;&shcy;&acy;&iecy;&tcy;&scy;&yacy; &ncy;&iecy;&ucy;&dcy;&acy;&chcy;&iecy;&jcy; &vcy; &tcy;&iecy;&chcy;&iecy;&ncy;&icy;&iecy; 5 &mcy;&scy;, &ocy;&ncy; &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &bcy;&lcy;&ocy;&kcy;&icy;&rcy;&ucy;&iecy;&tcy;&scy;&yacy; &rcy;&acy;&scy;&shcy;&icy;&rcy;&iecy;&ncy;&icy;&iecy;&mcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy; (&ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, &bcy;&lcy;&ocy;&kcy;&icy;&rcy;&ocy;&vcy;&shchcy;&icy;&kcy;&ocy;&mcy; &rcy;&iecy;&kcy;&lcy;&acy;&mcy;&ycy;). &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &pcy;&ocy;&mcy;&iecy;&chcy;&acy;&iecy;&tcy; &ecy;&tcy;&ocy; &kcy;&acy;&kcy; &laquo;&lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ucy;&yucy; &bcy;&lcy;&ocy;&kcy;&icy;&rcy;&ocy;&vcy;&kcy;&ucy;&raquo;, &acy; &ncy;&iecy; &kcy;&acy;&kcy; &scy;&bcy;&ocy;&jcy; &scy;&iecy;&tcy;&icy;. &Pcy;&ocy;&pcy;&rcy;&ocy;&bcy;&ucy;&jcy;&tcy;&iecy; &ocy;&tcy;&kcy;&lcy;&yucy;&chcy;&icy;&tcy;&softcy; &rcy;&acy;&scy;&shcy;&icy;&rcy;&iecy;&ncy;&icy;&yacy; &icy; &pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&icy;&tcy;&softcy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&kcy;&ucy;.</p>
+</div>
+<div class="faq-item bg-slate-900/40 p-5 rounded-lg border border-slate-800">
+<h3 class="text-lg font-medium text-white">&Scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&scy;&yacy; &vcy; &ncy;&iecy;&pcy;&rcy;&iecy;&rcy;&ycy;&vcy;&ncy;&ocy;&mcy; &rcy;&iecy;&zhcy;&icy;&mcy;&iecy;?</h3>
+<p class="text-slate-400 text-sm mt-1">&Kcy;&acy;&zhcy;&dcy;&ycy;&jcy; &zcy;&acy;&pcy;&rcy;&ocy;&scy; Ping &zcy;&acy;&ncy;&icy;&mcy;&acy;&iecy;&tcy; &vcy;&scy;&iecy;&gcy;&ocy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &dcy;&iecy;&scy;&yacy;&tcy;&kcy;&ocy;&vcy; &bcy;&acy;&jcy;&tcy;; HTTPS-&zcy;&acy;&pcy;&rcy;&ocy;&scy;&ycy; &yacy;&vcy;&lcy;&yacy;&yucy;&tcy;&scy;&yacy; &ocy;&bcy;&lcy;&iecy;&gcy;&chcy;&iecy;&ncy;&ncy;&ycy;&mcy;&icy; (HEAD/no‑cors). &Dcy;&acy;&zhcy;&iecy; &chcy;&iecy;&rcy;&iecy;&zcy; &chcy;&acy;&scy; &ocy;&bcy;&shchcy;&icy;&jcy; &tcy;&rcy;&acy;&fcy;&icy;&kcy; &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &scy;&ocy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&iecy;&tcy; &mcy;&iecy;&ncy;&iecy;&iecy; 10 &Mcy;&Bcy; &ndash; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="page-footer max-w-6xl mx-auto mt-10 opacity-50">
+<div class="footer-content text-center text-xs text-slate-500">
+<p>&copy; 2024 StarryRing - v1.2.0 | &Dcy;&vcy;&ucy;&khcy;&rcy;&iecy;&zhcy;&icy;&mcy;&ncy;&acy;&yacy; &dcy;&icy;&acy;&gcy;&ncy;&ocy;&scy;&tcy;&icy;&kcy;&acy; ICMP &icy; HTTPS</p>
+<div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
+<a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">&Ocy; &ncy;&acy;&scy;</a>
+<a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">&Scy;&vcy;&yacy;&zhcy;&icy;&tcy;&iecy;&scy;&softcy; &scy; &ncy;&acy;&mcy;&icy;</a>
+<a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">&Ocy;&tcy;&kcy;&acy;&zcy; &ocy;&tcy; &ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">&Pcy;&ocy;&lcy;&icy;&tcy;&icy;&kcy;&acy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">&Ucy;&scy;&lcy;&ocy;&vcy;&icy;&yacy; &ocy;&bcy;&scy;&lcy;&ucy;&zhcy;&icy;&vcy;&acy;&ncy;&icy;&yacy;</a>
+</div>
+</div>
+</footer>
+<!-- Scripts (English JS + shared switcher) -->
+<script src="/static/js/utility-tools/netdev/ping/script-ru.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+<script>lucide.createIcons();</script>
+<!-- switchlanguage.js handles language switcher interaction -->
 </body>
 </html>

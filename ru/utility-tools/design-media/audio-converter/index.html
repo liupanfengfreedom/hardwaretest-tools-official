@@ -1,581 +1,349 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Basic SEO -->
-    <title>Online Audio Format Converter - Free MP3/WAV/FLAC/AAC Conversion | WAVFORM</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Basic SEO -->
+<title>&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy; &mdash; &bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ocy;&iecy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; MP3/WAV/FLAC/AAC | &Vcy;&Acy;&Ncy;&Fcy;&Ocy;&Rcy;&Mcy;&Acy;</title>
 <!-- Open Graph / Facebook -->
-
-<meta property="og:image" content="https://starryring.com/static/image/og-audio-converter.png">
-<meta property="og:type" content="website">
-    <meta property="og:site_name" content="StarryRing">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/static/image/og-audio-converter.png">
-
-    <!-- Canonical and hreflang -->
-
-
+<meta content="https://starryring.com/static/image/og-audio-converter.png" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="StarryRing" property="og:site_name"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/static/image/og-audio-converter.png" name="twitter:image"/>
+<!-- Canonical and hreflang -->
 <!-- Favicon & Icons (same as main site) -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <!-- Structured Data (SoftwareApplication + FAQPage) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "WAVFORM Audio Converter",
-                "applicationCategory": "MultimediaApplication",
-                "operatingSystem": "Web",
-                "description": "Free online audio converter tool. Convert between MP3, WAV, FLAC, AAC, OGG, AIFF and more, or extract audio tracks from video files. All processing happens locally in your browser – no upload, privacy safe.",
-                "url": "https://starryring.com/ru/utility-tools/design-media/audio-converter/",
-                "image": "https://starryring.com/static/image/og-audio-converter.png",
-                "screenshot": [
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/static/image/screenshot-audio-converter-main.jpg",
-                        "caption": "Audio converter main interface"
-                    }
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "MP3 / WAV / FLAC / AAC / OGG / AIFF conversion",
-                    "Extract audio from MP4, MKV, MOV, AVI videos",
-                    "Custom sample rate, channels, bitrate",
-                    "Local browser processing, files never uploaded",
-                    "Batch conversion support"
-                ]
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "Which audio formats are supported?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "We support conversion between common audio formats: MP3, WAV, FLAC, AAC / M4A, OGG (Opus), AIFF / AIF, WMA, WebM (Opus). You can also extract audio tracks from video files like MP4, MKV, MOV, AVI, 3GP, TS."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How good is the converted audio quality?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Quality depends on your settings. Lossless formats (WAV, AIFF) preserve the original audio data perfectly. For lossy formats (MP3, OGG) you can set the bitrate (up to 320 kbps) and sample rate (up to 96 kHz) to achieve the best balance between quality and file size."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Are my files uploaded? Is it private?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "No upload at all! All conversion happens locally in your browser using Web Audio API, lamejs and other technologies. Your files never leave your device – perfect for sensitive recordings."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Why can't I convert some video files?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "The tool depends on your browser's video decoding capabilities. If your video uses a codec not supported by the browser (e.g., some HEVC/H.265 videos), audio extraction may fail. Try converting to a more common codec (like H.264) first, or use one of the supported video formats."
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    </script>
-
-    <!-- Preconnect & Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/static/css/utility-tools/design-media/audio-converter/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-
-
-
-    <!-- Minimal inline styles for H1 and instructions (keep consistent) -->
-    <style>
-        .page-main-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #fff;
-            margin: 20px 0 10px;
-            letter-spacing: -0.02em;
-        }
-        .page-main-title .title-badge {
-            font-size: 1rem;
-            background: rgba(245, 166, 35, 0.2);
-            color: #f5a623;
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            margin-left: 1rem;
-            font-weight: 500;
-            vertical-align: middle;
-            border: 1px solid rgba(245, 166, 35, 0.3);
-        }
-        @media (max-width: 600px) {
-            .page-main-title {
-                font-size: 1.8rem;
-            }
-            .page-main-title .title-badge {
-                display: block;
-                margin: 10px 0 0;
-                width: fit-content;
-            }
-        }
-        .instructions-section {
-            background: #121218;
-            border-radius: 24px;
-            padding: 2rem;
-            margin-top: 3rem;
-            border: 1px solid #2a2a35;
-        }
-        .instructions-section h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 0 0 1rem 0;
-            background: linear-gradient(135deg, #fff, #ccc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .feature-item {
-            background: #1a1a24;
-            border-radius: 18px;
-            padding: 1.5rem;
-            border: 1px solid #2a2a35;
-        }
-        .feature-item h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #f5a623;
-        }
-        .feature-item p {
-            color: #bbb;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-        .tip {
-            border-left: 3px solid #f5a623;
-            padding-left: 1rem;
-            font-size: 0.9rem;
-            color: #888;
-        }
-        .faq-section {
-            margin-top: 2rem;
-        }
-        .faq-item {
-            border-bottom: 1px solid #2a2a35;
-            padding: 1.5rem 0;
-        }
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-        .faq-item h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 0.8rem;
-        }
-        .faq-item p {
-            color: #bbb;
-            line-height: 1.6;
-        }
-        .faq-link-container {
-            margin-top: 0.8rem;
-        }
-        .faq-link {
-            color: #f5a623;
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-        .faq-link i {
-            font-size: 0.8rem;
-        }
-        .faq-link:hover {
-            text-decoration: underline;
-        }
-    </style>
-<meta name="description" content="Free online audio converter tool. Convert between MP3, WAV, FLAC, AAC, OGG, AIFF and more, or extract audio tracks from MP4/MKV/MOV videos. All processing happens locally in your browser – no upload, privacy safe.">
-            <link rel="canonical" href="https://starryring.com/ru/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/design-media/audio-converter/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/audio-converter/">
-<meta property="og:url" content="https://starryring.com/ru/utility-tools/design-media/audio-converter/">
-    <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="Online Audio Format Converter - Free Local Processing">
-    <meta property="og:description" content="Convert between MP3, WAV, FLAC, AAC and more, extract audio from videos. No upload, privacy safe.">
-    <meta name="twitter:title" content="Online Audio Format Converter - Free Local Processing">
-    <meta name="twitter:description" content="Convert between MP3, WAV, FLAC, AAC and more, extract audio from videos. No upload, privacy safe.">
-    <meta name="keywords" content="audio converter, online converter, MP3 converter, WAV converter, FLAC converter, video to audio, free, local processing">
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- Structured Data (SoftwareApplication + FAQPage) -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "WAVFORM Аудио конвертер", "applicationCategory": "MultimediaApplication", "operatingSystem": "Web", "description": "Бесплатный онлайн-инструмент для конвертации аудио. Конвертируйте между MP3, WAV, FLAC, AAC, OGG, AIFF и другими форматами или извлекайте аудиодорожки из видеофайлов. Вся обработка происходит локально в вашем браузере – никакой загрузки, конфиденциальность в безопасности.", "url": "https://starryring.com/ru/utility-tools/design-media/audio-converter/", "image": "https://starryring.com/static/image/og-audio-converter.png", "screenshot": [ { "@type": "ImageObject", "url": "https://starryring.com/static/image/screenshot-audio-converter-main.jpg", "caption": "Основной интерфейс аудиоконвертера" } ], "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "MP3 / WAV / FLAC / AAC / OGG / AIFF conversion", "Extract audio from MP4, MKV, MOV, AVI videos", "Custom sample rate, channels, bitrate", "Local browser processing, files never uploaded", "Batch conversion support" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Какие аудиоформаты поддерживаются?", "acceptedAnswer": { "@type": "Answer", "text": "Мы поддерживаем преобразование между распространенными аудиоформатами: MP3, WAV, FLAC, AAC/M4A, OGG (Opus), AIFF/AIF, WMA, WebM (Opus). Вы также можете извлекать аудиодорожки из видеофайлов, таких как MP4, MKV, MOV, AVI, 3GP, TS." } }, { "@type": "Question", "name": "Насколько хорошее качество преобразованного звука?", "acceptedAnswer": { "@type": "Answer", "text": "Качество зависит от ваших настроек. Форматы без потерь (WAV, AIFF) прекрасно сохраняют исходные аудиоданные. Для форматов с потерями (MP3, OGG) вы можете установить битрейт (до 320 кбит/с) и частоту дискретизации (до 96 кГц), чтобы добиться наилучшего баланса между качеством и размером файла." } }, { "@type": "Question", "name": "Мои файлы загружены? Это личное?", "acceptedAnswer": { "@type": "Answer", "text": "Нет загрузки вообще! Все преобразования происходят локально в вашем браузере с использованием API веб-аудио, lamejs и других технологий. Ваши файлы никогда не покидают ваше устройство — идеальное решение для конфиденциальных записей." } }, { "@type": "Question", "name": "Почему я не могу конвертировать некоторые видеофайлы?", "acceptedAnswer": { "@type": "Answer", "text": "Использование инструмента зависит от возможностей декодирования видео вашего браузера. Если в вашем видео используется кодек, не поддерживаемый браузером (например, некоторые видео HEVC/H.265), извлечение звука может не состояться. Попробуйте сначала преобразовать его в более распространенный кодек (например, H.264) или использовать один из поддерживаемых форматов видео." } } ] } ]
+}</script>
+<!-- Preconnect & Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Stylesheets -->
+<link href="/static/css/utility-tools/design-media/audio-converter/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<!-- Minimal inline styles for H1 and instructions (keep consistent) -->
+<style> .page-main-title { font-size: 2.5rem; font-weight: 700; color: #fff; margin: 20px 0 10px; letter-spacing: -0.02em; } .page-main-title .title-badge { font-size: 1rem; background: rgba(245, 166, 35, 0.2); color: #f5a623; padding: 0.3rem 1rem; border-radius: 30px; margin-left: 1rem; font-weight: 500; vertical-align: middle; border: 1px solid rgba(245, 166, 35, 0.3); } @media (max-width: 600px) { .page-main-title { font-size: 1.8rem; } .page-main-title .title-badge { display: block; margin: 10px 0 0; width: fit-content; } } .instructions-section { background: #121218; border-radius: 24px; padding: 2rem; margin-top: 3rem; border: 1px solid #2a2a35; } .instructions-section h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 1rem 0; background: linear-gradient(135deg, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; } .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; } .feature-item { background: #1a1a24; border-radius: 18px; padding: 1.5rem; border: 1px solid #2a2a35; } .feature-item h3 { font-size: 1.3rem; margin-bottom: 1rem; color: #f5a623; } .feature-item p { color: #bbb; line-height: 1.6; margin-bottom: 1rem; } .tip { border-left: 3px solid #f5a623; padding-left: 1rem; font-size: 0.9rem; color: #888; } .faq-section { margin-top: 2rem; } .faq-item { border-bottom: 1px solid #2a2a35; padding: 1.5rem 0; } .faq-item:last-child { border-bottom: none; } .faq-item h3 { font-size: 1.2rem; font-weight: 600; color: #fff; margin-bottom: 0.8rem; } .faq-item p { color: #bbb; line-height: 1.6; } .faq-link-container { margin-top: 0.8rem; } .faq-link { color: #f5a623; text-decoration: none; font-size: 0.95rem; } .faq-link i { font-size: 0.8rem; } .faq-link:hover { text-decoration: underline; } </style>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ycy;&jcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &dcy;&lcy;&yacy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&acy;&tscy;&icy;&icy; &acy;&ucy;&dcy;&icy;&ocy;. &Kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &mcy;&iecy;&zhcy;&dcy;&ucy; MP3, WAV, FLAC, AAC, OGG, AIFF &icy; &dcy;&rcy;&ucy;&gcy;&icy;&mcy;&icy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&acy;&mcy;&icy; &icy;&lcy;&icy; &icy;&zcy;&vcy;&lcy;&iecy;&kcy;&acy;&jcy;&tcy;&iecy; &acy;&ucy;&dcy;&icy;&ocy;&dcy;&ocy;&rcy;&ocy;&zhcy;&kcy;&icy; &icy;&zcy; &vcy;&icy;&dcy;&iecy;&ocy; MP4/MKV/MOV. &Vcy;&scy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy; &pcy;&rcy;&ocy;&icy;&scy;&khcy;&ocy;&dcy;&icy;&tcy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ocy; &vcy; &vcy;&acy;&shcy;&iecy;&mcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&iecy; &ndash; &ncy;&icy;&kcy;&acy;&kcy;&ocy;&jcy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&icy;, &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &vcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;." name="description"/>
+<link href="https://starryring.com/ru/utility-tools/design-media/audio-converter/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/design-media/audio-converter/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/design-media/audio-converter/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/design-media/audio-converter/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/design-media/audio-converter/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/design-media/audio-converter/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/design-media/audio-converter/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/design-media/audio-converter/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/design-media/audio-converter/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/design-media/audio-converter/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/design-media/audio-converter/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/design-media/audio-converter/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/design-media/audio-converter/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/design-media/audio-converter/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/design-media/audio-converter/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/design-media/audio-converter/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/design-media/audio-converter/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/design-media/audio-converter/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/design-media/audio-converter/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/design-media/audio-converter/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/design-media/audio-converter/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ru/utility-tools/design-media/audio-converter/" property="og:url"/>
+<meta content="ru_RU" property="og:locale"/>
+<meta content="&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy; &mdash; &bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&acy;&yacy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&acy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy;" property="og:title"/>
+<meta content="&Kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; MP3, WAV, FLAC, AAC &icy; &dcy;&rcy;&ucy;&gcy;&icy;&iecy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy;, &icy;&zcy;&vcy;&lcy;&iecy;&kcy;&acy;&jcy;&tcy;&iecy; &acy;&ucy;&dcy;&icy;&ocy; &icy;&zcy; &vcy;&icy;&dcy;&iecy;&ocy;. &Ncy;&icy;&kcy;&acy;&kcy;&ocy;&jcy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&icy;, &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &vcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;." property="og:description"/>
+<meta content="&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy; &mdash; &bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&acy;&yacy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&acy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy;" name="twitter:title"/>
+<meta content="&Kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; MP3, WAV, FLAC, AAC &icy; &dcy;&rcy;&ucy;&gcy;&icy;&iecy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy;, &icy;&zcy;&vcy;&lcy;&iecy;&kcy;&acy;&jcy;&tcy;&iecy; &acy;&ucy;&dcy;&icy;&ocy; &icy;&zcy; &vcy;&icy;&dcy;&iecy;&ocy;. &Ncy;&icy;&kcy;&acy;&kcy;&ocy;&jcy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&icy;, &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy; &vcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;." name="twitter:description"/>
+<meta content="&acy;&ucy;&dcy;&icy;&ocy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy;, &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy;, &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; MP3, &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; WAV, &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; FLAC, &vcy;&icy;&dcy;&iecy;&ocy; &vcy; &acy;&ucy;&dcy;&icy;&ocy;, &bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&acy;&yacy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&acy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy;" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Выбрать язык" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/design-media/audio-converter/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/design-media/audio-converter/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/design-media/audio-converter/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/design-media/audio-converter/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/design-media/audio-converter/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/design-media/audio-converter/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/design-media/audio-converter/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/design-media/audio-converter/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/design-media/audio-converter/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/design-media/audio-converter/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/design-media/audio-converter/" data-lang="pt">Português</a>
-            <a class="language-option selected" href="/ru/utility-tools/design-media/audio-converter/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/design-media/audio-converter/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/design-media/audio-converter/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/design-media/audio-converter/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/design-media/audio-converter/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/design-media/audio-converter/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/design-media/audio-converter/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/design-media/audio-converter/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/design-media/audio-converter/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &yacy;&zcy;&ycy;&kcy;" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/design-media/audio-converter/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/design-media/audio-converter/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/design-media/audio-converter/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/design-media/audio-converter/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/design-media/audio-converter/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/design-media/audio-converter/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/design-media/audio-converter/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/design-media/audio-converter/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/design-media/audio-converter/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/design-media/audio-converter/">Portugu&ecirc;s</a>
+<a class="language-option selected" data-lang="ru" href="/ru/utility-tools/design-media/audio-converter/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/design-media/audio-converter/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/design-media/audio-converter/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/design-media/audio-converter/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/design-media/audio-converter/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/design-media/audio-converter/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/design-media/audio-converter/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/design-media/audio-converter/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/design-media/audio-converter/">தமிழ்</a>
+</div>
+</div>
 <!-- Breadcrumb Navigation (last item fixed) -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item">
-                    <a href="/ru/" class="breadcrumb-link">
-                        <i class="fas fa-home"></i> Главная
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/ru/utility-tools/" class="breadcrumb-link">
-                        <i class="fas fa-toolbox"></i> Utilities
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <span class="breadcrumb-active">Audio Converter</span>
-                </li>
-            </ol>
-        </nav>
-    </div>
-
-    <!-- Language Switcher (links corrected) -->
+<div class="breadcrumb-section">
+<nav aria-label="&khcy;&lcy;&iecy;&bcy;&ncy;&acy;&yacy; &kcy;&rcy;&ocy;&shcy;&kcy;&acy;">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ru/">
+<i class="fas fa-home"></i>&Gcy;&lcy;&acy;&vcy;&ncy;&acy;&yacy;</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/ru/utility-tools/">
+<i class="fas fa-toolbox"></i>&Ucy;&tcy;&icy;&lcy;&icy;&tcy;&ycy;</a>
+</li>
+<li class="breadcrumb-item">
+<span class="breadcrumb-active">&Acy;&ucy;&dcy;&icy;&ocy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy;</span>
+</li>
+</ol>
+</nav>
+</div>
+<!-- Language Switcher (links corrected) -->
 <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-mark">WAV<span>FORM</span></div>
-                <div class="logo-sub">Audio Format Converter</div>
-            </div>
-            <div class="header-badge">
-                <div class="badge-dot"></div>
-                Local Processing · Privacy Safe
-            </div>
-        </header>
-
-        <!-- H1 main title (SEO) -->
-        <h1 class="page-main-title">
-            Online Audio Format Converter
-            <span class="title-badge">Free · Local</span>
-        </h1>
-
-        <!-- 01 — Upload Files -->
-        <div class="section-label">01 — Upload Files</div>
-        <div class="drop-zone" id="drop-zone">
-            <input type="file" id="file-input" multiple accept="audio/*,video/*,.mp3,.wav,.ogg,.flac,.aac,.m4a,.opus,.webm,.aiff,.aif,.wma,.mp4,.mov,.mkv,.avi,.m4v,.3gp,.ts">
-            <div class="drop-icon">
-                <svg viewBox="0 0 56 56" fill="none">
-                    <rect width="56" height="56" rx="12" fill="#18181f"/>
-                    <path d="M28 16v16m0-16l-6 6m6-6l6 6" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M18 36h20" stroke="#3d3d52" stroke-width="2" stroke-linecap="round"/>
-                    <circle cx="28" cy="28" r="14" stroke="#2a2a35" stroke-width="1.5" stroke-dasharray="3 3"/>
-                </svg>
-            </div>
-            <div class="drop-title">Drag & drop audio files here</div>
-            <div class="drop-subtitle">or click to select · Supports all audio formats and video-to-audio extraction</div>
-            <div class="drop-formats">
-                <span class="fmt-chip">MP3</span>
-                <span class="fmt-chip">WAV</span>
-                <span class="fmt-chip">FLAC</span>
-                <span class="fmt-chip">AAC / M4A</span>
-                <span class="fmt-chip">OGG / Opus</span>
-                <span class="fmt-chip">AIFF / AIF</span>
-                <span class="fmt-chip">WMA</span>
-                <span class="fmt-chip">WebM</span>
-                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MP4</span>
-                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MKV</span>
-                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MOV</span>
-                <span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 AVI</span>
-            </div>
-        </div>
-
-        <!-- 02 — File Queue -->
-        <div id="file-list-section" style="display:none">
-            <div class="file-list-header">
-                <div class="section-label" style="margin:0;flex:1">02 — File Queue</div>
-                <button class="clear-all-btn" onclick="clearAll()">Clear All</button>
-            </div>
-            <div id="file-list"></div>
-            <div class="waveform-deco" id="waveform-deco" style="display:none"></div>
-        </div>
-
-        <!-- 03 — Conversion Settings -->
-        <div class="section-label">03 — Conversion Settings</div>
-        <div class="controls-panel">
-            <div class="controls-grid">
-                <div class="control-group">
-                    <label>Output Format</label>
-                    <select class="control-select" id="format-select" onchange="onFormatChange()">
-                        <optgroup label="── Lossless">
-                            <option value="wav">WAV — PCM Lossless</option>
-                            <option value="aiff">AIFF — Apple Lossless</option>
-                        </optgroup>
-                        <optgroup label="── Lossy">
-                            <option value="mp3" selected>MP3 — MPEG Audio</option>
-                            <option value="ogg" id="opt-ogg">OGG — Opus (browser encoding)</option>
-                            <option value="webm" id="opt-webm">WebM — Opus (browser encoding)</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label>Sample Rate</label>
-                    <select class="control-select" id="samplerate-select">
-                        <option value="auto" selected>✦ Original (Auto)</option>
-                        <option value="44100">44,100 Hz — CD Quality</option>
-                        <option value="48000">48,000 Hz — Studio</option>
-                        <option value="96000">96,000 Hz — Hi-Res</option>
-                        <option value="22050">22,050 Hz — Compact</option>
-                        <option value="16000">16,000 Hz — Voice</option>
-                        <option value="8000">8,000 Hz — Telephone</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label>Channels</label>
-                    <select class="control-select" id="channels-select">
-                        <option value="auto" selected>✦ Original (Auto)</option>
-                        <option value="2">Stereo — Stereo</option>
-                        <option value="1">Mono — Mono</option>
-                    </select>
-                </div>
-            </div>
-            <div style="margin-top:20px" id="bitrate-row">
-                <div class="control-group">
-                    <label>MP3 Bitrate — <span id="bitrate-val">128</span> kbps</label>
-                    <input type="range" class="control-slider" id="bitrate-slider" min="64" max="320" step="32" value="128">
-                    <div class="slider-labels"><span>64k</span><span>128k</span><span>192k</span><span>256k</span><span>320k</span></div>
-                </div>
-            </div>
-            <div class="format-note" id="format-note"></div>
-        </div>
-
-        <!-- Convert Button -->
-        <button class="btn-convert" id="convert-btn" onclick="startConversion()">
-            <div class="btn-shimmer"></div>
-            ⚡ Start Conversion
-        </button>
-
-        <!-- Progress Card -->
-        <div id="conv-card">
-            <div class="conv-head">
-                <span class="conv-label-inline">Conversion Progress</span>
-                <div>
-                    <span class="conv-pct-inline" id="conv-pct">0</span><span class="conv-pct-unit-inline">%</span>
-                </div>
-            </div>
-            <div class="conv-bar-wrap">
-                <div class="conv-bar-track">
-                    <div class="conv-bar-fill" id="conv-bar-fill">
-                        <div class="conv-bar-head" id="conv-bar-head"></div>
-                    </div>
-                </div>
-                <div class="conv-seg-track" id="conv-seg-track"></div>
-            </div>
-            <div class="conv-footer-row">
-                <div class="conv-op" id="conv-op">Preparing...</div>
-                <div class="conv-steps" id="conv-steps"></div>
-            </div>
-        </div>
-
-        <!-- 04 — Download Results -->
-        <div id="download-area">
-            <div class="section-label">04 — Download Results</div>
-            <div id="download-list"></div>
-        </div>
-
-        <!-- Conversion Log -->
-        <div id="log-section">
-            <div class="section-label">— Conversion Log</div>
-            <div class="log-box" id="log-box"></div>
-        </div>
-
-        <!-- Added: Feature Description & FAQ (SEO boost) -->
-        <div class="instructions-section">
-            <h2>Professional Audio Converter Features</h2>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>🎯 Lossless & Lossy Support</h3>
-                    <p>Choose from WAV, AIFF lossless formats, or MP3, OGG, WebM lossy formats. Perfect for archiving, sharing, or mobile devices.</p>
-                    <div class="tip">MP3 bitrate up to 320kbps, near‑lossless quality.</div>
-                </div>
-                <div class="feature-item">
-                    <h3>🎬 Extract Audio from Video</h3>
-                    <p>Drag in MP4, MKV, MOV, AVI files and automatically extract the audio stream to your chosen format. No extra tools needed.</p>
-                    <div class="tip">Supports common video formats; if decoding fails, try re‑encoding the video first.</div>
-                </div>
-                <div class="feature-item">
-                    <h3>⚙️ Fine Parameter Control</h3>
-                    <p>Customize sample rate (8kHz to 96kHz), channel count (mono/stereo), and bitrate (MP3). Full control over output quality.</p>
-                    <div class="tip">Select “Auto” to keep the original file’s sample rate and channels.</div>
-                </div>
-                <div class="feature-item">
-                    <h3>🔒 Privacy Safe, Zero Upload</h3>
-                    <p>All processing happens inside your browser. Your files never leave your device. Convert sensitive recordings with confidence.</p>
-                    <div class="tip">No privacy worries – convert and delete.</div>
-                </div>
-                <div class="feature-item">
-                    <h3>📦 Batch Conversion & Queue</h3>
-                    <p>Select multiple files at once; they queue up and are processed one by one. Download individually or batch‑package later.</p>
-                    <div class="tip">Clear the list anytime and start over.</div>
-                </div>
-                <div class="feature-item">
-                    <h3>🎧 Built‑in Mini Player</h3>
-                    <p>Preview converted audio directly on the page before downloading. Saves time and avoids repeated downloads.</p>
-                    <div class="tip">Pause, seek – quick preview.</div>
-                </div>
-            </div>
-
-            <div class="faq-section">
-                <h2>Frequently Asked Questions (FAQ)</h2>
-
-                <div class="faq-item">
-                    <h3>Which audio formats are supported?</h3>
-                    <p>Currently we support conversion between: MP3, WAV, FLAC, AAC (M4A), OGG (Opus), AIFF, WMA, WebM (Opus). You can also extract audio from video files (MP4, MKV, MOV, AVI, 3GP, TS) and convert it to any of these formats. More formats will be added over time.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>How good is the converted audio quality?</h3>
-                    <p>Quality depends entirely on your settings:<br>
-                    - For WAV or AIFF: lossless PCM, identical to the original audio data.<br>
-                    - For MP3: use the slider to set bitrate (64 kbps to 320 kbps) – higher gives better quality and larger files.<br>
-                    - Sample rate options let you downsample to reduce file size (e.g., 48kHz → 44.1kHz or 22kHz).<br>
-                    We recommend keeping original sample rate and stereo for best results.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Are files really not uploaded?</h3>
-                    <p>Yes, 100% local processing. We use the Web Audio API to decode, lamejs to encode MP3, and MediaRecorder for Opus. Everything happens in your browser's memory – no network transfer. You can even use this tool offline (after the page has been loaded once).</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Why can't I convert some video files?</h3>
-                    <p>Browsers can only decode video codecs they support. For instance, some MKV files may contain HEVC (H.265) video, and Safari or Chrome might not support its audio track. Try using a more common codec (like H.264 + AAC). If problems persist, convert the video encoding first, then extract the audio.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Can I convert multiple files at once?</h3>
-                    <p>Yes. Select several files – they appear in the queue. Click “Start Conversion” and the tool processes them one by one. You can add or remove files during conversion, but files that are currently being processed cannot be modified.</p>
-                </div>
-
-                <div class="faq-item">
-                    <h3>Will the page freeze when converting large files?</h3>
-                    <p>Audio encoding is CPU‑intensive, especially for large files or high bitrates. Although we optimise as much as possible, the main thread may briefly block. For very large files (e.g., >100 MB), please be patient – the progress bar updates in real time. A future version may introduce Web Workers for smoother performance.</p>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <div style="display:flex;align-items:center;gap:6px">
-                <span style="color:var(--amber)">🔒</span>
-                All processing done locally in your browser – files never uploaded to any server
-            </div>
-            <div>Web Audio API · lamejs · AIFF · MediaRecorder</div>
-            <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
-                <a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">О нас</a>
-                <a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">Связаться с нами</a>
-                <a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">Отказ от ответственности</a>
-                <a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">Политика конфиденциальности</a>
-                <a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">Условия использования</a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Mini Player -->
-    <div id="mini-player">
-        <button id="mp-play-btn" onclick="mpToggle()">
-            <svg id="mp-play-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M4 2.5l8 4.5-8 4.5V2.5z" fill="currentColor"/>
-            </svg>
-            <svg id="mp-pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:none">
-                <rect x="2" y="2" width="4" height="10" rx="1" fill="currentColor"/>
-                <rect x="8" y="2" width="4" height="10" rx="1" fill="currentColor"/>
-            </svg>
-        </button>
-        <div id="mp-info">
-            <div id="mp-name">—</div>
-            <div id="mp-progress-wrap" onclick="mpSeek(event)">
-                <div id="mp-progress-fill"></div>
-            </div>
-        </div>
-        <div id="mp-time">0:00 / 0:00</div>
-        <button id="mp-close" onclick="mpClose()" title="Close">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-        </button>
-    </div>
-
-    <!-- Third-party libraries & local script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
-    <script src="/static/js/utility-tools/design-media/audio-converter/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
+<header>
+<div class="logo">
+<div class="logo-mark">WAV<span>&Fcy;&Ocy;&Rcy;&Mcy;</span></div>
+<div class="logo-sub">&Kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy;</div>
+</div>
+<div class="header-badge">
+<div class="badge-dot"></div>&Lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&acy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy; &middot; &Bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&softcy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;</div>
+</header>
+<!-- H1 main title (SEO) -->
+<h1 class="page-main-title">&Ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy;<span class="title-badge">&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ocy; &middot; &Mcy;&iecy;&scy;&tcy;&ncy;&ycy;&jcy;</span>
+</h1>
+<!-- 01 — Upload Files -->
+<div class="section-label">01 &mdash; &Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&acy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy;</div>
+<div class="drop-zone" id="drop-zone">
+<input accept="audio/*,video/*,.mp3,.wav,.ogg,.flac,.aac,.m4a,.opus,.webm,.aiff,.aif,.wma,.mp4,.mov,.mkv,.avi,.m4v,.3gp,.ts" id="file-input" multiple="" type="file"/>
+<div class="drop-icon">
+<svg fill="none" viewbox="0 0 56 56">
+<rect fill="#18181f" height="56" rx="12" width="56"></rect>
+<path d="M28 16v16m0-16l-6 6m6-6l6 6" stroke="#f5a623" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M18 36h20" stroke="#3d3d52" stroke-linecap="round" stroke-width="2"></path>
+<circle cx="28" cy="28" r="14" stroke="#2a2a35" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+</svg>
+</div>
+<div class="drop-title">&Pcy;&iecy;&rcy;&iecy;&tcy;&acy;&shchcy;&icy;&tcy;&iecy; &scy;&yucy;&dcy;&acy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&acy;&jcy;&lcy;&ycy;</div>
+<div class="drop-subtitle">&icy;&lcy;&icy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy;, &chcy;&tcy;&ocy;&bcy;&ycy; &vcy;&ycy;&bcy;&rcy;&acy;&tcy;&softcy; &middot; &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &vcy;&scy;&iecy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &icy; &icy;&zcy;&vcy;&lcy;&iecy;&chcy;&iecy;&ncy;&icy;&iecy; &vcy;&icy;&dcy;&iecy;&ocy; &vcy; &acy;&ucy;&dcy;&icy;&ocy;.</div>
+<div class="drop-formats">
+<span class="fmt-chip">MP3</span>
+<span class="fmt-chip">WAV</span>
+<span class="fmt-chip">FLAC</span>
+<span class="fmt-chip">AAC/M4A</span>
+<span class="fmt-chip">OGG / &Ocy;&pcy;&ucy;&scy;</span>
+<span class="fmt-chip">AIFF / AIF</span>
+<span class="fmt-chip">WMA</span>
+<span class="fmt-chip">WebM</span>
+<span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MP4</span>
+<span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 MKV</span>
+<span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 &Mcy;&Ocy;&Vcy;</span>
+<span class="fmt-chip" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;background:rgba(167,139,250,0.08)">🎬 AVI</span>
+</div>
+</div>
+<!-- 02 — File Queue -->
+<div id="file-list-section" style="display:none">
+<div class="file-list-header">
+<div class="section-label" style="margin:0;flex:1">02 &mdash; &Ocy;&chcy;&iecy;&rcy;&iecy;&dcy;&softcy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy;</div>
+<button class="clear-all-btn" onclick="clearAll()">&Ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&softcy; &vcy;&scy;&iecy;</button>
+</div>
+<div id="file-list"></div>
+<div class="waveform-deco" id="waveform-deco" style="display:none"></div>
+</div>
+<!-- 03 — Conversion Settings -->
+<div class="section-label">03 &mdash; &Ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&kcy;&icy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;</div>
+<div class="controls-panel">
+<div class="controls-grid">
+<div class="control-group">
+<label>&Fcy;&ocy;&rcy;&mcy;&acy;&tcy; &vcy;&ycy;&vcy;&ocy;&dcy;&acy;</label>
+<select class="control-select" id="format-select" onchange="onFormatChange()">
+<optgroup label="&boxh;&boxh; Lossless">
+<option value="wav">WAV &mdash; PCM &bcy;&iecy;&zcy; &pcy;&ocy;&tcy;&iecy;&rcy;&softcy;</option>
+<option value="aiff">AIFF &mdash; Apple &bcy;&iecy;&zcy; &pcy;&ocy;&tcy;&iecy;&rcy;&softcy;</option>
+</optgroup>
+<optgroup label="&boxh;&boxh; Lossy">
+<option selected="" value="mp3">MP3 &mdash; &acy;&ucy;&dcy;&icy;&ocy; MPEG</option>
+<option id="opt-ogg" value="ogg">OGG &mdash; Opus (&kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&kcy;&acy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;)</option>
+<option id="opt-webm" value="webm">WebM &mdash; Opus (&kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&kcy;&acy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;)</option>
+</optgroup>
+</select>
+</div>
+<div class="control-group">
+<label>&CHcy;&acy;&scy;&tcy;&ocy;&tcy;&acy; &vcy;&ycy;&bcy;&ocy;&rcy;&kcy;&icy;</label>
+<select class="control-select" id="samplerate-select">
+<option selected="" value="auto">✦ &Ocy;&rcy;&icy;&gcy;&icy;&ncy;&acy;&lcy; (&Acy;&vcy;&tcy;&ocy;)</option>
+<option value="44100">44,100 &Gcy;&tscy; &mdash; &kcy;&acy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &kcy;&ocy;&mcy;&pcy;&acy;&kcy;&tcy;-&dcy;&icy;&scy;&kcy;&acy;</option>
+<option value="48000">48,000 &Gcy;&tscy; &mdash; &Scy;&tcy;&ucy;&dcy;&icy;&yacy;</option>
+<option value="96000">96,000 &Gcy;&tscy; &mdash; &vcy;&ycy;&scy;&ocy;&kcy;&ocy;&iecy; &rcy;&acy;&zcy;&rcy;&iecy;&shcy;&iecy;&ncy;&icy;&iecy;</option>
+<option value="22050">22,050 &Gcy;&tscy; &mdash; &Kcy;&ocy;&mcy;&pcy;&acy;&kcy;&tcy;&ncy;&ycy;&jcy;</option>
+<option value="16000">16,000 &Gcy;&tscy; &mdash; &Gcy;&ocy;&lcy;&ocy;&scy;</option>
+<option value="8000">8,000 &Gcy;&tscy; &mdash; &Tcy;&iecy;&lcy;&iecy;&fcy;&ocy;&ncy;</option>
+</select>
+</div>
+<div class="control-group">
+<label>&Kcy;&acy;&ncy;&acy;&lcy;&ycy;</label>
+<select class="control-select" id="channels-select">
+<option selected="" value="auto">✦ &Ocy;&rcy;&icy;&gcy;&icy;&ncy;&acy;&lcy; (&Acy;&vcy;&tcy;&ocy;)</option>
+<option value="2">&Scy;&tcy;&iecy;&rcy;&iecy;&ocy; &mdash; &Scy;&tcy;&iecy;&rcy;&iecy;&ocy;</option>
+<option value="1">&Mcy;&ocy;&ncy;&ocy; &mdash; &Mcy;&ocy;&ncy;&ocy;</option>
+</select>
+</div>
+</div>
+<div id="bitrate-row" style="margin-top:20px">
+<div class="control-group">
+<label>&Bcy;&icy;&tcy;&rcy;&iecy;&jcy;&tcy; MP3 &mdash;<span id="bitrate-val">128</span>&kcy;&bcy;&icy;&tcy;/&scy;</label>
+<input class="control-slider" id="bitrate-slider" max="320" min="64" step="32" type="range" value="128"/>
+<div class="slider-labels"><span>64k</span><span>128k</span><span>192k</span><span>256k</span><span>320k</span></div>
+</div>
+</div>
+<div class="format-note" id="format-note"></div>
+</div>
+<!-- Convert Button -->
+<button class="btn-convert" id="convert-btn" onclick="startConversion()">
+<div class="btn-shimmer"></div>⚡ &Ncy;&acy;&chcy;&acy;&tcy;&softcy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;</button>
+<!-- Progress Card -->
+<div id="conv-card">
+<div class="conv-head">
+<span class="conv-label-inline">&Pcy;&rcy;&ocy;&gcy;&rcy;&iecy;&scy;&scy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;</span>
+<div>
+<span class="conv-pct-inline" id="conv-pct">0</span><span class="conv-pct-unit-inline">%</span>
+</div>
+</div>
+<div class="conv-bar-wrap">
+<div class="conv-bar-track">
+<div class="conv-bar-fill" id="conv-bar-fill">
+<div class="conv-bar-head" id="conv-bar-head"></div>
+</div>
+</div>
+<div class="conv-seg-track" id="conv-seg-track"></div>
+</div>
+<div class="conv-footer-row">
+<div class="conv-op" id="conv-op">&Pcy;&ocy;&dcy;&gcy;&ocy;&tcy;&ocy;&vcy;&kcy;&acy;...</div>
+<div class="conv-steps" id="conv-steps"></div>
+</div>
+</div>
+<!-- 04 — Download Results -->
+<div id="download-area">
+<div class="section-label">04 &mdash; &Rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy;&ycy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&icy;</div>
+<div id="download-list"></div>
+</div>
+<!-- Conversion Log -->
+<div id="log-section">
+<div class="section-label">&mdash; &ZHcy;&ucy;&rcy;&ncy;&acy;&lcy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&jcy;</div>
+<div class="log-box" id="log-box"></div>
+</div>
+<!-- Added: Feature Description & FAQ (SEO boost) -->
+<div class="instructions-section">
+<h2>&Fcy;&ucy;&ncy;&kcy;&tscy;&icy;&icy; &pcy;&rcy;&ocy;&fcy;&iecy;&scy;&scy;&icy;&ocy;&ncy;&acy;&lcy;&softcy;&ncy;&ocy;&gcy;&ocy; &acy;&ucy;&dcy;&icy;&ocy;&kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&iecy;&rcy;&acy;</h2>
+<div class="feature-grid">
+<div class="feature-item">
+<h3>🎯 &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&kcy;&acy; &bcy;&iecy;&zcy; &pcy;&ocy;&tcy;&iecy;&rcy;&softcy; &icy; &scy; &pcy;&ocy;&tcy;&iecy;&rcy;&yacy;&mcy;&icy;</h3>
+<p>&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &bcy;&iecy;&zcy; &pcy;&ocy;&tcy;&iecy;&rcy;&softcy; WAV, AIFF &icy;&lcy;&icy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &scy; &pcy;&ocy;&tcy;&iecy;&rcy;&yacy;&mcy;&icy; MP3, OGG, WebM. &Icy;&dcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &acy;&rcy;&khcy;&icy;&vcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;, &ocy;&bcy;&mcy;&iecy;&ncy;&acy; &icy;&lcy;&icy; &mcy;&ocy;&bcy;&icy;&lcy;&softcy;&ncy;&ycy;&khcy; &ucy;&scy;&tcy;&rcy;&ocy;&jcy;&scy;&tcy;&vcy;.</p>
+<div class="tip">&Bcy;&icy;&tcy;&rcy;&iecy;&jcy;&tcy; MP3 &dcy;&ocy; 320&nbsp;&kcy;&bcy;&icy;&tcy;/&scy;, &kcy;&acy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &pcy;&rcy;&acy;&kcy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &bcy;&iecy;&zcy; &pcy;&ocy;&tcy;&iecy;&rcy;&softcy;.</div>
+</div>
+<div class="feature-item">
+<h3>🎬 &Icy;&zcy;&vcy;&lcy;&iecy;&chcy;&iecy;&ncy;&icy;&iecy; &acy;&ucy;&dcy;&icy;&ocy; &icy;&zcy; &vcy;&icy;&dcy;&iecy;&ocy;</h3>
+<p>&Pcy;&iecy;&rcy;&iecy;&tcy;&acy;&shchcy;&icy;&tcy;&iecy; &fcy;&acy;&jcy;&lcy;&ycy; MP4, MKV, MOV, AVI &icy; &acy;&vcy;&tcy;&ocy;&mcy;&acy;&tcy;&icy;&chcy;&iecy;&scy;&kcy;&icy; &icy;&zcy;&vcy;&lcy;&iecy;&kcy;&icy;&tcy;&iecy; &acy;&ucy;&dcy;&icy;&ocy;&pcy;&ocy;&tcy;&ocy;&kcy; &vcy; &vcy;&ycy;&bcy;&rcy;&acy;&ncy;&ncy;&ycy;&jcy; &vcy;&acy;&mcy;&icy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;. &Ncy;&icy;&kcy;&acy;&kcy;&icy;&khcy; &dcy;&ocy;&pcy;&ocy;&lcy;&ncy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ycy;&khcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ocy;&vcy; &ncy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy;.</p>
+<div class="tip">&Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy; &rcy;&acy;&scy;&pcy;&rcy;&ocy;&scy;&tcy;&rcy;&acy;&ncy;&iecy;&ncy;&ncy;&ycy;&iecy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &vcy;&icy;&dcy;&iecy;&ocy;; &IEcy;&scy;&lcy;&icy; &dcy;&iecy;&kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &ncy;&iecy; &ucy;&dcy;&acy;&lcy;&ocy;&scy;&softcy;, &pcy;&ocy;&pcy;&rcy;&ocy;&bcy;&ucy;&jcy;&tcy;&iecy; &scy;&ncy;&acy;&chcy;&acy;&lcy;&acy; &pcy;&iecy;&rcy;&iecy;&kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &vcy;&icy;&dcy;&iecy;&ocy;.</div>
+</div>
+<div class="feature-item">
+<h3>⚙️ &Tcy;&ocy;&chcy;&ncy;&ycy;&jcy; &kcy;&ocy;&ncy;&tcy;&rcy;&ocy;&lcy;&softcy; &pcy;&acy;&rcy;&acy;&mcy;&iecy;&tcy;&rcy;&ocy;&vcy;</h3>
+<p>&Ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&tcy;&iecy; &chcy;&acy;&scy;&tcy;&ocy;&tcy;&ucy; &dcy;&icy;&scy;&kcy;&rcy;&iecy;&tcy;&icy;&zcy;&acy;&tscy;&icy;&icy; (&ocy;&tcy; 8 &dcy;&ocy; 96 &kcy;&Gcy;&tscy;), &kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &kcy;&acy;&ncy;&acy;&lcy;&ocy;&vcy; (&mcy;&ocy;&ncy;&ocy;/&scy;&tcy;&iecy;&rcy;&iecy;&ocy;) &icy; &bcy;&icy;&tcy;&rcy;&iecy;&jcy;&tcy; (MP3). &Pcy;&ocy;&lcy;&ncy;&ycy;&jcy; &kcy;&ocy;&ncy;&tcy;&rcy;&ocy;&lcy;&softcy; &ncy;&acy;&dcy; &kcy;&acy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy;&mcy; &vcy;&ycy;&vcy;&ocy;&dcy;&acy;.</p>
+<div class="tip">&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &laquo;&Acy;&vcy;&tcy;&ocy;&raquo;, &chcy;&tcy;&ocy;&bcy;&ycy; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&icy;&tcy;&softcy; &chcy;&acy;&scy;&tcy;&ocy;&tcy;&ucy; &dcy;&icy;&scy;&kcy;&rcy;&iecy;&tcy;&icy;&zcy;&acy;&tscy;&icy;&icy; &icy; &kcy;&acy;&ncy;&acy;&lcy;&ycy; &icy;&scy;&khcy;&ocy;&dcy;&ncy;&ocy;&gcy;&ocy; &fcy;&acy;&jcy;&lcy;&acy;.</div>
+</div>
+<div class="feature-item">
+<h3>🔒 &Bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&softcy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;, &ncy;&ucy;&lcy;&iecy;&vcy;&acy;&yacy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&acy;</h3>
+<p>&Vcy;&scy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy; &pcy;&rcy;&ocy;&icy;&scy;&khcy;&ocy;&dcy;&icy;&tcy; &vcy;&ncy;&ucy;&tcy;&rcy;&icy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;. &Vcy;&acy;&shcy;&icy; &fcy;&acy;&jcy;&lcy;&ycy; &ncy;&icy;&kcy;&ocy;&gcy;&dcy;&acy; &ncy;&iecy; &pcy;&ocy;&kcy;&icy;&dcy;&acy;&yucy;&tcy; &vcy;&acy;&shcy;&iecy; &ucy;&scy;&tcy;&rcy;&ocy;&jcy;&scy;&tcy;&vcy;&ocy;. &Kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ycy;&iecy; &zcy;&acy;&pcy;&icy;&scy;&icy; &scy; &ucy;&vcy;&iecy;&rcy;&iecy;&ncy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy;.</p>
+<div class="tip">&Ncy;&iecy; &bcy;&iecy;&scy;&pcy;&ocy;&kcy;&ocy;&jcy;&tcy;&iecy;&scy;&softcy; &ocy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy; &ndash; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &icy; &ucy;&dcy;&acy;&lcy;&yacy;&jcy;&tcy;&iecy;.</div>
+</div>
+<div class="feature-item">
+<h3>📦 &Pcy;&acy;&kcy;&iecy;&tcy;&ncy;&ocy;&iecy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &icy; &ocy;&chcy;&iecy;&rcy;&iecy;&dcy;&softcy;</h3>
+<p>&Vcy;&ycy;&bcy;&rcy;&acy;&tcy;&softcy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy;; &ocy;&ncy;&icy; &vcy;&ycy;&scy;&tcy;&rcy;&acy;&icy;&vcy;&acy;&yucy;&tcy;&scy;&yacy; &vcy; &ocy;&chcy;&iecy;&rcy;&iecy;&dcy;&softcy; &icy; &ocy;&bcy;&rcy;&acy;&bcy;&acy;&tcy;&ycy;&vcy;&acy;&yucy;&tcy;&scy;&yacy; &ocy;&dcy;&icy;&ncy; &zcy;&acy; &dcy;&rcy;&ucy;&gcy;&icy;&mcy;. &Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&iecy; &icy;&ncy;&dcy;&icy;&vcy;&icy;&dcy;&ucy;&acy;&lcy;&softcy;&ncy;&ocy; &icy;&lcy;&icy; &pcy;&acy;&kcy;&iecy;&tcy;&ncy;&ocy; &pcy;&ocy;&zcy;&zhcy;&iecy;.</p>
+<div class="tip">&Ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&iecy; &scy;&pcy;&icy;&scy;&ocy;&kcy; &vcy; &lcy;&yucy;&bcy;&ocy;&iecy; &vcy;&rcy;&iecy;&mcy;&yacy; &icy; &ncy;&acy;&chcy;&ncy;&icy;&tcy;&iecy; &zcy;&acy;&ncy;&ocy;&vcy;&ocy;.</div>
+</div>
+<div class="feature-item">
+<h3>🎧 &Vcy;&scy;&tcy;&rcy;&ocy;&iecy;&ncy;&ncy;&ycy;&jcy; &mcy;&icy;&ncy;&icy;-&pcy;&lcy;&iecy;&iecy;&rcy;</h3>
+<p>&Pcy;&rcy;&iecy;&dcy;&vcy;&acy;&rcy;&icy;&tcy;&iecy;&lcy;&softcy;&ncy;&ycy;&jcy; &pcy;&rcy;&ocy;&scy;&mcy;&ocy;&tcy;&rcy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ocy;&gcy;&ocy; &acy;&ucy;&dcy;&icy;&ocy; &pcy;&rcy;&yacy;&mcy;&ocy; &ncy;&acy; &scy;&tcy;&rcy;&acy;&ncy;&icy;&tscy;&iecy; &pcy;&iecy;&rcy;&iecy;&dcy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&ocy;&jcy;. &Ecy;&kcy;&ocy;&ncy;&ocy;&mcy;&icy;&tcy; &vcy;&rcy;&iecy;&mcy;&yacy; &icy; &pcy;&ocy;&zcy;&vcy;&ocy;&lcy;&yacy;&iecy;&tcy; &icy;&zcy;&bcy;&iecy;&zhcy;&acy;&tcy;&softcy; &pcy;&ocy;&vcy;&tcy;&ocy;&rcy;&ncy;&ycy;&khcy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&ocy;&kcy;.</p>
+<div class="tip">&Pcy;&acy;&ucy;&zcy;&acy;, &pcy;&ocy;&icy;&scy;&kcy; &ndash; &bcy;&ycy;&scy;&tcy;&rcy;&ycy;&jcy; &pcy;&rcy;&ocy;&scy;&mcy;&ocy;&tcy;&rcy;.</div>
+</div>
+</div>
+<div class="faq-section">
+<h2>&CHcy;&acy;&scy;&tcy;&ocy; &zcy;&acy;&dcy;&acy;&vcy;&acy;&iecy;&mcy;&ycy;&iecy; &vcy;&ocy;&pcy;&rcy;&ocy;&scy;&ycy; (FAQ)</h2>
+<div class="faq-item">
+<h3>&Kcy;&acy;&kcy;&icy;&iecy; &acy;&ucy;&dcy;&icy;&ocy;&fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&yucy;&tcy;&scy;&yacy;?</h3>
+<p>&Vcy; &ncy;&acy;&scy;&tcy;&ocy;&yacy;&shchcy;&iecy;&iecy; &vcy;&rcy;&iecy;&mcy;&yacy; &mcy;&ycy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&mcy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &mcy;&iecy;&zhcy;&dcy;&ucy;: MP3, WAV, FLAC, AAC (M4A), OGG (Opus), AIFF, WMA, WebM (Opus). &Vcy;&ycy; &tcy;&acy;&kcy;&zhcy;&iecy; &mcy;&ocy;&zhcy;&iecy;&tcy;&iecy; &icy;&zcy;&vcy;&lcy;&iecy;&kcy;&acy;&tcy;&softcy; &acy;&ucy;&dcy;&icy;&ocy; &icy;&zcy; &vcy;&icy;&dcy;&iecy;&ocy;&fcy;&acy;&jcy;&lcy;&ocy;&vcy; (MP4, MKV, MOV, AVI, 3GP, TS) &icy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &iecy;&gcy;&ocy; &vcy; &lcy;&yucy;&bcy;&ocy;&jcy; &icy;&zcy; &ecy;&tcy;&icy;&khcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy;. &Scy;&ocy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&iecy;&mcy; &bcy;&ucy;&dcy;&ucy;&tcy; &dcy;&ocy;&bcy;&acy;&vcy;&lcy;&iecy;&ncy;&ycy; &ncy;&ocy;&vcy;&ycy;&iecy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Ncy;&acy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &khcy;&ocy;&rcy;&ocy;&shcy;&iecy;&iecy; &kcy;&acy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&ncy;&ocy;&gcy;&ocy; &zcy;&vcy;&ucy;&kcy;&acy;?</h3>
+<p>&Kcy;&acy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy; &pcy;&ocy;&lcy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy; &zcy;&acy;&vcy;&icy;&scy;&icy;&tcy; &ocy;&tcy; &vcy;&acy;&shcy;&icy;&khcy; &ncy;&acy;&scy;&tcy;&rcy;&ocy;&iecy;&kcy;:<br/>- &Dcy;&lcy;&yacy; WAV &icy;&lcy;&icy; AIFF: PCM &bcy;&iecy;&zcy; &pcy;&ocy;&tcy;&iecy;&rcy;&softcy;, &icy;&dcy;&iecy;&ncy;&tcy;&icy;&chcy;&ncy;&ycy;&jcy; &icy;&scy;&khcy;&ocy;&dcy;&ncy;&ycy;&mcy; &acy;&ucy;&dcy;&icy;&ocy;&dcy;&acy;&ncy;&ncy;&ycy;&mcy;.<br/>- &Dcy;&lcy;&yacy; MP3: &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&jcy;&tcy;&iecy; &pcy;&ocy;&lcy;&zcy;&ucy;&ncy;&ocy;&kcy;, &chcy;&tcy;&ocy;&bcy;&ycy; &ucy;&scy;&tcy;&acy;&ncy;&ocy;&vcy;&icy;&tcy;&softcy; &bcy;&icy;&tcy;&rcy;&iecy;&jcy;&tcy; (&ocy;&tcy; 64 &kcy;&bcy;&icy;&tcy;/&scy; &dcy;&ocy; 320 &kcy;&bcy;&icy;&tcy;/&scy;). &CHcy;&iecy;&mcy; &vcy;&ycy;&shcy;&iecy; &kcy;&acy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy;, &tcy;&iecy;&mcy; &fcy;&acy;&jcy;&lcy;&ycy; &bcy;&ocy;&lcy;&softcy;&shcy;&iecy;.<br/>- &Pcy;&acy;&rcy;&acy;&mcy;&iecy;&tcy;&rcy;&ycy; &chcy;&acy;&scy;&tcy;&ocy;&tcy;&ycy; &dcy;&icy;&scy;&kcy;&rcy;&iecy;&tcy;&icy;&zcy;&acy;&tscy;&icy;&icy; &pcy;&ocy;&zcy;&vcy;&ocy;&lcy;&yacy;&yucy;&tcy; &ucy;&mcy;&iecy;&ncy;&softcy;&shcy;&icy;&tcy;&softcy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy; &fcy;&acy;&jcy;&lcy;&acy; (&ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, 48&nbsp;&kcy;&Gcy;&tscy; &rarr; 44,1&nbsp;&kcy;&Gcy;&tscy; &icy;&lcy;&icy; 22&nbsp;&kcy;&Gcy;&tscy;).<br/>&Dcy;&lcy;&yacy; &dcy;&ocy;&scy;&tcy;&icy;&zhcy;&iecy;&ncy;&icy;&yacy; &ncy;&acy;&icy;&lcy;&ucy;&chcy;&shcy;&icy;&khcy; &rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy;&ocy;&vcy; &mcy;&ycy; &rcy;&iecy;&kcy;&ocy;&mcy;&iecy;&ncy;&dcy;&ucy;&iecy;&mcy; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&tcy;&softcy; &icy;&scy;&khcy;&ocy;&dcy;&ncy;&ucy;&yucy; &chcy;&acy;&scy;&tcy;&ocy;&tcy;&ucy; &dcy;&icy;&scy;&kcy;&rcy;&iecy;&tcy;&icy;&zcy;&acy;&tscy;&icy;&icy; &icy; &scy;&tcy;&iecy;&rcy;&iecy;&ocy;&fcy;&ocy;&ncy;&icy;&chcy;&iecy;&scy;&kcy;&icy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Ncy;&iecy;&ucy;&zhcy;&iecy;&lcy;&icy; &fcy;&acy;&jcy;&lcy;&ycy; &ncy;&iecy; &zcy;&acy;&gcy;&rcy;&ucy;&zhcy;&acy;&yucy;&tcy;&scy;&yacy;?</h3>
+<p>&Dcy;&acy;, 100% &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&acy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy;. &Mcy;&ycy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&mcy; API &vcy;&iecy;&bcy;-&acy;&ucy;&dcy;&icy;&ocy; &dcy;&lcy;&yacy; &dcy;&iecy;&kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;, lamejs &dcy;&lcy;&yacy; &kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; MP3 &icy; MediaRecorder &dcy;&lcy;&yacy; Opus. &Vcy;&scy;&iecy; &pcy;&rcy;&ocy;&icy;&scy;&khcy;&ocy;&dcy;&icy;&tcy; &vcy; &pcy;&acy;&mcy;&yacy;&tcy;&icy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy; &ndash; &ncy;&icy;&kcy;&acy;&kcy;&ocy;&jcy; &pcy;&iecy;&rcy;&iecy;&dcy;&acy;&chcy;&icy; &pcy;&ocy; &scy;&iecy;&tcy;&icy;. &Vcy;&ycy; &dcy;&acy;&zhcy;&iecy; &mcy;&ocy;&zhcy;&iecy;&tcy;&iecy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy; &ecy;&tcy;&ocy;&tcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &vcy; &acy;&vcy;&tcy;&ocy;&ncy;&ocy;&mcy;&ncy;&ocy;&mcy; &rcy;&iecy;&zhcy;&icy;&mcy;&iecy; (&pcy;&ocy;&scy;&lcy;&iecy; &tcy;&ocy;&gcy;&ocy;, &kcy;&acy;&kcy; &scy;&tcy;&rcy;&acy;&ncy;&icy;&tscy;&acy; &bcy;&ycy;&lcy;&acy; &zcy;&acy;&gcy;&rcy;&ucy;&zhcy;&iecy;&ncy;&acy; &ocy;&dcy;&icy;&ncy; &rcy;&acy;&zcy;).</p>
+</div>
+<div class="faq-item">
+<h3>&Pcy;&ocy;&chcy;&iecy;&mcy;&ucy; &yacy; &ncy;&iecy; &mcy;&ocy;&gcy;&ucy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &ncy;&iecy;&kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&iecy; &vcy;&icy;&dcy;&iecy;&ocy;&fcy;&acy;&jcy;&lcy;&ycy;?</h3>
+<p>&Bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&ycy; &mcy;&ocy;&gcy;&ucy;&tcy; &dcy;&iecy;&kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &tcy;&ocy;&lcy;&softcy;&kcy;&ocy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&mcy;&ycy;&iecy; &icy;&mcy;&icy; &vcy;&icy;&dcy;&iecy;&ocy;&kcy;&ocy;&dcy;&iecy;&kcy;&icy;. &Ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, &ncy;&iecy;&kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&iecy; &fcy;&acy;&jcy;&lcy;&ycy; MKV &mcy;&ocy;&gcy;&ucy;&tcy; &scy;&ocy;&dcy;&iecy;&rcy;&zhcy;&acy;&tcy;&softcy; &vcy;&icy;&dcy;&iecy;&ocy; HEVC (H.265), &acy; Safari &icy;&lcy;&icy; Chrome &mcy;&ocy;&gcy;&ucy;&tcy; &ncy;&iecy; &pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&tcy;&softcy; &iecy;&gcy;&ocy; &zcy;&vcy;&ucy;&kcy;&ocy;&vcy;&ucy;&yucy; &dcy;&ocy;&rcy;&ocy;&zhcy;&kcy;&ucy;. &Pcy;&ocy;&pcy;&rcy;&ocy;&bcy;&ucy;&jcy;&tcy;&iecy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy; &bcy;&ocy;&lcy;&iecy;&iecy; &rcy;&acy;&scy;&pcy;&rcy;&ocy;&scy;&tcy;&rcy;&acy;&ncy;&iecy;&ncy;&ncy;&ycy;&jcy; &kcy;&ocy;&dcy;&iecy;&kcy; (&ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, H.264 + AAC). &IEcy;&scy;&lcy;&icy; &pcy;&rcy;&ocy;&bcy;&lcy;&iecy;&mcy;&ycy; &ncy;&iecy; &ucy;&scy;&tcy;&rcy;&acy;&ncy;&iecy;&ncy;&ycy;, &scy;&ncy;&acy;&chcy;&acy;&lcy;&acy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ucy;&jcy;&tcy;&iecy; &kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&kcy;&ucy; &vcy;&icy;&dcy;&iecy;&ocy;, &acy; &zcy;&acy;&tcy;&iecy;&mcy; &icy;&zcy;&vcy;&lcy;&iecy;&kcy;&acy;&jcy;&tcy;&iecy; &acy;&ucy;&dcy;&icy;&ocy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Mcy;&ocy;&gcy;&ucy; &lcy;&icy; &yacy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy; &ocy;&dcy;&ncy;&ocy;&vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&ncy;&ocy;?</h3>
+<p>&Dcy;&acy;. &Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &ncy;&iecy;&scy;&kcy;&ocy;&lcy;&softcy;&kcy;&ocy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy; &ndash; &ocy;&ncy;&icy; &pcy;&ocy;&yacy;&vcy;&yacy;&tcy;&scy;&yacy; &vcy; &ocy;&chcy;&iecy;&rcy;&iecy;&dcy;&icy;. &Ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &laquo;&Ncy;&acy;&chcy;&acy;&tcy;&softcy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&raquo;, &icy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&iecy;&tcy; &icy;&khcy; &ocy;&dcy;&icy;&ncy; &zcy;&acy; &dcy;&rcy;&ucy;&gcy;&icy;&mcy;. &Vcy;&ycy; &mcy;&ocy;&zhcy;&iecy;&tcy;&iecy; &dcy;&ocy;&bcy;&acy;&vcy;&lcy;&yacy;&tcy;&softcy; &icy;&lcy;&icy; &ucy;&dcy;&acy;&lcy;&yacy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;&ycy; &vcy;&ocy; &vcy;&rcy;&iecy;&mcy;&yacy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;, &ncy;&ocy; &fcy;&acy;&jcy;&lcy;&ycy;, &kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&iecy; &vcy; &dcy;&acy;&ncy;&ncy;&ycy;&jcy; &mcy;&ocy;&mcy;&iecy;&ncy;&tcy; &ocy;&bcy;&rcy;&acy;&bcy;&acy;&tcy;&ycy;&vcy;&acy;&yucy;&tcy;&scy;&yacy;, &icy;&zcy;&mcy;&iecy;&ncy;&icy;&tcy;&softcy; &ncy;&iecy;&lcy;&softcy;&zcy;&yacy;.</p>
+</div>
+<div class="faq-item">
+<h3>&Bcy;&ucy;&dcy;&iecy;&tcy; &lcy;&icy; &scy;&tcy;&rcy;&acy;&ncy;&icy;&tscy;&acy; &zcy;&acy;&vcy;&icy;&scy;&acy;&tcy;&softcy; &pcy;&rcy;&icy; &kcy;&ocy;&ncy;&vcy;&iecy;&rcy;&tcy;&acy;&tscy;&icy;&icy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&khcy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy;?</h3>
+<p>&Kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &acy;&ucy;&dcy;&icy;&ocy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy; &bcy;&ocy;&lcy;&softcy;&shcy;&ocy;&gcy;&ocy; &kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&acy; &rcy;&iecy;&scy;&ucy;&rcy;&scy;&ocy;&vcy; &TScy;&Pcy;, &ocy;&scy;&ocy;&bcy;&iecy;&ncy;&ncy;&ocy; &dcy;&lcy;&yacy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&khcy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy; &icy;&lcy;&icy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy; &scy; &vcy;&ycy;&scy;&ocy;&kcy;&icy;&mcy; &bcy;&icy;&tcy;&rcy;&iecy;&jcy;&tcy;&ocy;&mcy;. &KHcy;&ocy;&tcy;&yacy; &mcy;&ycy; &mcy;&acy;&kcy;&scy;&icy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy; &ocy;&pcy;&tcy;&icy;&mcy;&icy;&zcy;&icy;&rcy;&ucy;&iecy;&mcy;, &ocy;&scy;&ncy;&ocy;&vcy;&ncy;&ocy;&jcy; &pcy;&ocy;&tcy;&ocy;&kcy; &mcy;&ocy;&zhcy;&iecy;&tcy; &ncy;&iecy;&ncy;&acy;&dcy;&ocy;&lcy;&gcy;&ocy; &zcy;&acy;&bcy;&lcy;&ocy;&kcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy;&scy;&yacy;. &Dcy;&lcy;&yacy; &ocy;&chcy;&iecy;&ncy;&softcy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&khcy; &fcy;&acy;&jcy;&lcy;&ocy;&vcy; (&ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;, &gt;100 &Mcy;&Bcy;) &pcy;&rcy;&ocy;&yacy;&vcy;&icy;&tcy;&iecy; &tcy;&iecy;&rcy;&pcy;&iecy;&ncy;&icy;&iecy;: &icy;&ncy;&dcy;&icy;&kcy;&acy;&tcy;&ocy;&rcy; &vcy;&ycy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&yacy; &ocy;&bcy;&ncy;&ocy;&vcy;&lcy;&yacy;&iecy;&tcy;&scy;&yacy; &vcy; &rcy;&iecy;&acy;&lcy;&softcy;&ncy;&ocy;&mcy; &vcy;&rcy;&iecy;&mcy;&iecy;&ncy;&icy;. &Vcy; &bcy;&ucy;&dcy;&ucy;&shchcy;&iecy;&jcy; &vcy;&iecy;&rcy;&scy;&icy;&icy; &mcy;&ocy;&gcy;&ucy;&tcy; &pcy;&ocy;&yacy;&vcy;&icy;&tcy;&softcy;&scy;&yacy; Web Workers &dcy;&lcy;&yacy; &bcy;&ocy;&lcy;&iecy;&iecy; &pcy;&lcy;&acy;&vcy;&ncy;&ocy;&jcy; &rcy;&acy;&bcy;&ocy;&tcy;&ycy;.</p>
+</div>
+</div>
+</div>
+<footer>
+<div style="display:flex;align-items:center;gap:6px">
+<span style="color:var(--amber)">🔒</span>&Vcy;&scy;&yacy; &ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&kcy;&acy; &vcy;&ycy;&pcy;&ocy;&lcy;&ncy;&yacy;&iecy;&tcy;&scy;&yacy; &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ocy; &vcy; &vcy;&acy;&shcy;&iecy;&mcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&iecy; &mdash; &fcy;&acy;&jcy;&lcy;&ycy; &ncy;&icy;&kcy;&ocy;&gcy;&dcy;&acy; &ncy;&iecy; &zcy;&acy;&gcy;&rcy;&ucy;&zhcy;&acy;&yucy;&tcy;&scy;&yacy; &ncy;&acy; &kcy;&acy;&kcy;&ocy;&jcy;-&lcy;&icy;&bcy;&ocy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy;.</div>
+<div>API &vcy;&iecy;&bcy;-&acy;&ucy;&dcy;&icy;&ocy; &middot; lamejs &middot; AIFF &middot; MediaRecorder</div>
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.9rem;">
+<a href="/ru/about-us/" style="color:#60a5fa;text-decoration:none;">&Ocy; &ncy;&acy;&scy;</a>
+<a href="/ru/contact-us/" style="color:#60a5fa;text-decoration:none;">&Scy;&vcy;&yacy;&zhcy;&icy;&tcy;&iecy;&scy;&softcy; &scy; &ncy;&acy;&mcy;&icy;</a>
+<a href="/ru/disclaimer/" style="color:#60a5fa;text-decoration:none;">&Ocy;&tcy;&kcy;&acy;&zcy; &ocy;&tcy; &ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/privacy/" style="color:#60a5fa;text-decoration:none;">&Pcy;&ocy;&lcy;&icy;&tcy;&icy;&kcy;&acy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;</a>
+<a href="/ru/terms/" style="color:#60a5fa;text-decoration:none;">&Ucy;&scy;&lcy;&ocy;&vcy;&icy;&yacy; &ocy;&bcy;&scy;&lcy;&ucy;&zhcy;&icy;&vcy;&acy;&ncy;&icy;&yacy;</a>
+</div>
+</footer>
+</div>
+<!-- Mini Player -->
+<div id="mini-player">
+<button id="mp-play-btn" onclick="mpToggle()">
+<svg fill="none" height="14" id="mp-play-icon" viewbox="0 0 14 14" width="14">
+<path d="M4 2.5l8 4.5-8 4.5V2.5z" fill="currentColor"></path>
+</svg>
+<svg fill="none" height="14" id="mp-pause-icon" style="display:none" viewbox="0 0 14 14" width="14">
+<rect fill="currentColor" height="10" rx="1" width="4" x="2" y="2"></rect>
+<rect fill="currentColor" height="10" rx="1" width="4" x="8" y="2"></rect>
+</svg>
+</button>
+<div id="mp-info">
+<div id="mp-name">&mdash;</div>
+<div id="mp-progress-wrap" onclick="mpSeek(event)">
+<div id="mp-progress-fill"></div>
+</div>
+</div>
+<div id="mp-time">0:00 / 0:00</div>
+<button id="mp-close" onclick="mpClose()" title="&Zcy;&acy;&kcy;&rcy;&ycy;&tcy;&softcy;">
+<svg fill="none" height="12" viewbox="0 0 12 12" width="12">
+<path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+</button>
+</div>
+<!-- Third-party libraries & local script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+<script src="/static/js/utility-tools/design-media/audio-converter/script-ru.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

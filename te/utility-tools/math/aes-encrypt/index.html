@@ -1,482 +1,360 @@
 <!DOCTYPE html>
 <html lang="te">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#060a0e">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="StarryRing">
-<meta name="twitter:card" content="summary_large_image">
-
-<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/utility-tools/math/aes-encrypt/style.css">
-    <link rel="preload" href="/static/js/utility-tools/math/aes-encrypt/script-en.js" as="script">
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "హోమ్",
-          "item": "https://starryring.com/te/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "ఉపయోగకరమైన సాధనాలు",
-          "item": "https://starryring.com/te/utility-tools/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "AES Encryption Tool",
-          "item": "https://starryring.com/te/utility-tools/math/aes-encrypt/"
-        }
-      ]
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "AES Encryption Tool",
-      "applicationCategory": "SecurityApplication",
-      "operatingSystem": "Web",
-      "url": "https://starryring.com/te/utility-tools/math/aes-encrypt/",
-      "description": "Free online AES encryption tool with CBC, CTR, GCM modes and browser-side processing.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "featureList": [
-        "Support AES-CBC, AES-CTR, and AES-GCM",
-        "Generate random keys and IV values",
-        "Encrypt text or uploaded files",
-        "Output Base64 or Hex ciphertext",
-        "Export matching decryption config as JSON"
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Why does AES encryption need a secret key?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "AES is a symmetric algorithm, so the same key is used for both encryption and decryption. The encrypted data can only be recovered with the exact matching key."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the difference between CBC, CTR, and GCM?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "CBC is a classic block mode, CTR works well for parallel and streaming workflows, and GCM adds authentication so it protects confidentiality and integrity at the same time."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why must the IV or nonce be unique?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Reusing an IV or nonce weakens encryption security and can be catastrophic in CTR and GCM mode, so each encryption run should use a fresh random value."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "When should I choose Base64 or Hex output?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Base64 is more compact and better for APIs or JSON, while Hex is larger but easier to inspect byte by byte during debugging."
-          }
-        }
-      ]
-    }
-  ]
-}
-    </script>
-    <title>AES Encryption Tool & Config Exporter | StarryRing</title>
-<meta name="description" content="Free online AES encryption tool with CBC, CTR, and GCM modes, random key and IV generation, and browser-side AES encryption.">
-            <link rel="canonical" href="https://starryring.com/te/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/aes-encrypt/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/aes-encrypt/">
-<meta property="og:url" content="https://starryring.com/te/utility-tools/math/aes-encrypt/">
-    <meta property="og:locale" content="te_IN">
-<meta property="og:title" content="AES Encryption Tool & Config Exporter | StarryRing">
-    <meta property="og:description" content="Generate AES keys and IV values online, encrypt text or files with CBC, CTR, or GCM, and keep every operation inside your browser.">
-    <meta name="twitter:title" content="AES Encryption Tool & Config Exporter | StarryRing">
-    <meta name="twitter:description" content="Generate AES keys and IV values online, encrypt text or files with CBC, CTR, or GCM, and keep every operation inside your browser.">
-    <meta name="keywords" content="AES encryption tool,AES generator,AES-CBC,AES-CTR,AES-GCM,online AES,Base64 encrypt,Hex encrypt,Web Crypto">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#060a0e" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="StarryRing" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Syne:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/utility-tools/math/aes-encrypt/style.css" rel="stylesheet"/>
+<link as="script" href="/static/js/utility-tools/math/aes-encrypt/script-te.js" rel="preload"/>
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "హోమ్", "item": "https://starryring.com/te/" }, { "@type": "ListItem", "position": 2, "name": "యుటిలిటీ టూల్స్", "item": "https://starryring.com/te/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "AES ఎన్‌క్రిప్షన్ సాధనం", "item": "https://starryring.com/te/utility-tools/math/aes-encrypt/" } ] }, { "@type": "SoftwareApplication", "name": "AES ఎన్‌క్రిప్షన్ సాధనం", "applicationCategory": "SecurityApplication", "operatingSystem": "Web", "url": "https://starryring.com/te/utility-tools/math/aes-encrypt/", "description": "CBC, CTR, GCM మోడ్‌లు మరియు బ్రౌజర్-సైడ్ ప్రాసెసింగ్‌తో ఉచిత ఆన్‌లైన్ AES ఎన్‌క్రిప్షన్ సాధనం.", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "Support AES-CBC, AES-CTR, and AES-GCM", "Generate random keys and IV values", "Encrypt text or uploaded files", "Output Base64 or Hex ciphertext", "Export matching decryption config as JSON" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "AES ఎన్‌క్రిప్షన్‌కు రహస్య కీ ఎందుకు అవసరం?", "acceptedAnswer": { "@type": "Answer", "text": "AES ఒక సౌష్టవ అల్గోరిథం, కాబట్టి ఎన్క్రిప్షన్ మరియు డిక్రిప్షన్ రెండింటికీ ఒకే కీ ఉపయోగించబడుతుంది. గుప్తీకరించిన డేటా ఖచ్చితమైన మ్యాచింగ్ కీతో మాత్రమే పునరుద్ధరించబడుతుంది." } }, { "@type": "Question", "name": "CBC, CTR మరియు GCM మధ్య తేడా ఏమిటి?", "acceptedAnswer": { "@type": "Answer", "text": "CBC ఒక క్లాసిక్ బ్లాక్ మోడ్, సమాంతర మరియు స్ట్రీమింగ్ వర్క్‌ఫ్లోల కోసం CTR బాగా పనిచేస్తుంది మరియు GCM ప్రమాణీకరణను జోడిస్తుంది కాబట్టి ఇది అదే సమయంలో గోప్యత మరియు సమగ్రతను రక్షిస్తుంది." } }, { "@type": "Question", "name": "IV లేదా నాన్స్ ఎందుకు ప్రత్యేకంగా ఉండాలి?", "acceptedAnswer": { "@type": "Answer", "text": "ఒక IV లేదా నాన్స్‌ని మళ్లీ ఉపయోగించడం ఎన్‌క్రిప్షన్ భద్రతను బలహీనపరుస్తుంది మరియు CTR మరియు GCM మోడ్‌లో విపత్తుగా ఉంటుంది, కాబట్టి ప్రతి ఎన్‌క్రిప్షన్ రన్ తాజా యాదృచ్ఛిక విలువను ఉపయోగించాలి." } }, { "@type": "Question", "name": "నేను బేస్64 లేదా హెక్స్ అవుట్‌పుట్‌ను ఎప్పుడు ఎంచుకోవాలి?", "acceptedAnswer": { "@type": "Answer", "text": "Base64 మరింత కాంపాక్ట్ మరియు APIలు లేదా JSON కోసం ఉత్తమంగా ఉంటుంది, అయితే Hex పెద్దది అయితే డీబగ్గింగ్ సమయంలో బైట్ ద్వారా బైట్‌ని తనిఖీ చేయడం సులభం." } } ] } ]
+}</script>
+<title>AES ఎన్&zwnj;క్రిప్షన్ టూల్ &amp; కాన్ఫిగర్ ఎక్స్&zwnj;పోర్టర్ | StarryRing</title>
+<meta content="CBC, CTR మరియు GCM మోడ్&zwnj;లు, యాదృచ్ఛిక కీ మరియు IV జనరేషన్ మరియు బ్రౌజర్ వైపు AES ఎన్&zwnj;క్రిప్షన్&zwnj;తో ఉచిత ఆన్&zwnj;లైన్ AES ఎన్&zwnj;క్రిప్షన్ సాధనం." name="description"/>
+<link href="https://starryring.com/te/utility-tools/math/aes-encrypt/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/math/aes-encrypt/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/math/aes-encrypt/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/math/aes-encrypt/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/math/aes-encrypt/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/math/aes-encrypt/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/math/aes-encrypt/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/math/aes-encrypt/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/math/aes-encrypt/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/math/aes-encrypt/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/math/aes-encrypt/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/math/aes-encrypt/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/math/aes-encrypt/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/math/aes-encrypt/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/math/aes-encrypt/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/math/aes-encrypt/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/math/aes-encrypt/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/math/aes-encrypt/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/math/aes-encrypt/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/math/aes-encrypt/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/math/aes-encrypt/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/te/utility-tools/math/aes-encrypt/" property="og:url"/>
+<meta content="te_IN" property="og:locale"/>
+<meta content="AES ఎన్&zwnj;క్రిప్షన్ టూల్ &amp; కాన్ఫిగర్ ఎక్స్&zwnj;పోర్టర్ | StarryRing" property="og:title"/>
+<meta content="ఆన్&zwnj;లైన్&zwnj;లో AES కీలు మరియు IV విలువలను రూపొందించండి, CBC, CTR లేదా GCMతో టెక్స్ట్ లేదా ఫైల్&zwnj;లను గుప్తీకరించండి మరియు ప్రతి ఆపరేషన్&zwnj;ను మీ బ్రౌజర్&zwnj;లో ఉంచండి." property="og:description"/>
+<meta content="AES ఎన్&zwnj;క్రిప్షన్ టూల్ &amp; కాన్ఫిగర్ ఎక్స్&zwnj;పోర్టర్ | StarryRing" name="twitter:title"/>
+<meta content="ఆన్&zwnj;లైన్&zwnj;లో AES కీలు మరియు IV విలువలను రూపొందించండి, CBC, CTR లేదా GCMతో టెక్స్ట్ లేదా ఫైల్&zwnj;లను గుప్తీకరించండి మరియు ప్రతి ఆపరేషన్&zwnj;ను మీ బ్రౌజర్&zwnj;లో ఉంచండి." name="twitter:description"/>
+<meta content="AES గుప్తీకరణ సాధనం, AES జనరేటర్, AES-CBC, AES-CTR, AES-GCM, ఆన్&zwnj;లైన్ AES, బేస్64 ఎన్&zwnj;క్రిప్ట్, హెక్స్ ఎన్&zwnj;క్రిప్ట్, వెబ్ క్రిప్టో" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="భాషను ఎంచుకోండి" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/math/aes-encrypt/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/math/aes-encrypt/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/math/aes-encrypt/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/math/aes-encrypt/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/math/aes-encrypt/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/math/aes-encrypt/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/math/aes-encrypt/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/math/aes-encrypt/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/math/aes-encrypt/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/math/aes-encrypt/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/math/aes-encrypt/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/math/aes-encrypt/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/math/aes-encrypt/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/math/aes-encrypt/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/math/aes-encrypt/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/math/aes-encrypt/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/math/aes-encrypt/" data-lang="mr">मराठी</a>
-            <a class="language-option selected" href="/te/utility-tools/math/aes-encrypt/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/math/aes-encrypt/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/math/aes-encrypt/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
-<nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item"><a href="/te/" class="breadcrumb-link"><i class="fas fa-home"></i> హోమ్</a></li>
-            <li class="breadcrumb-item"><a href="/te/utility-tools/" class="breadcrumb-link">ఉపయోగకరమైన సాధనాలు</a></li>
-            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">AES Encryption Tool</span></li>
-        </ol>
-    </nav>
-<div class="scan-effect"></div>
-
-<div class="container">
-  <header>
-    <div class="logo-group">
-      <span class="logo-tag">// cryptographic tool v2.0</span>
-      <h1 class="logo-title">AES <span>Cipher</span></h1>
-    </div>
-    <div class="header-badge">
-      <div class="badge">CLIENT-SIDE ONLY</div>
-      <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
-    </div>
-  </header>
-
-  <!-- Security Banner -->
-  <div class="security-banner">
-    <span class="security-banner-icon">🔒</span>
-    <span><strong>CLIENT-SIDE ONLY</strong> - Keys and data stay inside your browser and are never uploaded to any server. All cryptographic work runs on the native Web Crypto API.</span>
-  </div>
-
-  <!-- Config Panel -->
-  <div class="config-panel">
-    <div class="config-header">
-      <div class="config-header-icon">⚙</div>
-      <span class="config-title">Algorithm Configuration</span>
-    </div>
-    <div class="config-grid">
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-mode" class="label-link">Mode</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="mode">
-            <option value="CBC">CBC</option>
-            <option value="CTR">CTR</option>
-            <option value="GCM">GCM</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-keysize" class="label-link">Key Size</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="keySize">
-            <option value="128">128-bit</option>
-            <option value="192">192-bit</option>
-            <option value="256" selected>256-bit</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-padding" class="label-link">Padding</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="padding">
-            <option value="PKCS7">PKCS#7</option>
-            <option value="ZERO">Zero Pad</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-encoding" class="label-link">Output Encoding</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="outputEncoding">
-            <option value="base64">Base64</option>
-            <option value="hex">Hex</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Key Section -->
-  <div class="key-section">
-    <div class="config-header">
-      <div class="config-header-icon" style="color:var(--accent2)">🔑</div>
-      <span class="config-title">Key & IV Material</span>
-    </div>
-    <div class="key-fields">
-      <div class="field-group">
-        <div class="key-row key-row--4col">
-          <div class="field-group" style="flex:1">
-            <label class="field-label"><a href="#explain-key" class="label-link">Secret Key</a></label>
-            <input type="password" class="field-input" id="secretKey" placeholder="Enter or generate a key..." autocomplete="off" spellcheck="false">
-          </div>
-          <button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="Show / hide key">
-            <svg id="eyeIconShow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            <svg id="eyeIconHide" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          </button>
-          <button class="gen-btn" onclick="generateKey()">GENERATE</button>
-          <button class="copy-field-btn" onclick="copyField('secretKey', this)" title="Copy key">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-        </div>
-        <div class="key-hint" id="keyHint">Requires <span id="keyLengthHint">32</span> hex characters (256-bit)</div>
-      </div>
-      <div class="field-group">
-        <div class="key-row">
-          <div class="field-group" style="flex:1">
-            <label class="field-label"><a href="#explain-iv" class="label-link">IV / Nonce</a></label>
-            <input type="text" class="field-input" id="iv" placeholder="Enter or generate an IV..." autocomplete="off" spellcheck="false">
-          </div>
-          <button class="gen-btn" onclick="generateIV()" style="color:var(--accent)">GENERATE</button>
-          <button class="copy-field-btn" onclick="copyField('iv', this)" title="Copy IV">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-        </div>
-        <div class="key-hint">The hex IV needs <span id="ivLengthHint">32</span> characters (CBC/CTR=32, GCM=24)</div>
-        <div class="nonce-warning" id="nonceWarning">
-          <span>⚠</span>
-          <span>This nonce has already been used in GCM mode. <strong>Reusing a nonce severely breaks encryption security</strong>, so please generate a fresh one.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- IO Section -->
-  <div class="io-section">
-    <div class="io-panel input-panel" id="inputPanel">
-      <div class="drop-zone" id="dropZone">
-        <div class="drop-zone-icon">⬇</div>
-        <div class="drop-zone-text">Release to load the file</div>
-      </div>
-      <div class="io-header">
-        <div class="io-title">
-          <div class="io-dot"></div>
-          PLAINTEXT / INPUT
-        </div>
-        <div class="io-actions">
-          <button class="upload-btn" onclick="triggerFileInput()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload File
-          </button>
-          <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear">✕</button>
-          <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
-          </button>
-        </div>
-      </div>
-      <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)">
-      <textarea class="io-textarea" id="inputText" placeholder="Enter plaintext to encrypt here...&#10;&#10;Supports any UTF-8 text, or click ↑ to load a file"></textarea>
-      <div class="io-footer">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="io-stat" id="inputStat">0 bytes</span>
-          <div class="file-badge" id="inputFileBadge" style="display:none">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-            <span class="file-badge-name" id="inputFileName"></span>
-            <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file">✕</button>
-          </div>
-        </div>
-        <div class="format-tabs-wrap" id="formatTabsWrap">
-          <div class="custom-tooltip">File mode always uses TEXT</div>
-          <button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')">TEXT</button>
-          <button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')">HEX</button>
-          <button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')">BASE64</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="io-panel output-panel">
-      <div class="io-header">
-        <div class="io-title">
-          <div class="io-dot"></div>
-          CIPHERTEXT / OUTPUT
-        </div>
-        <div class="io-actions">
-          <button class="icon-btn" onclick="copyOutput(this)" title="Copy output">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-          <div class="dl-txt-wrap">
-            <button class="icon-btn" onclick="downloadOutputText()" aria-label="Download text">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </button>
-            <div class="dl-tooltip">Download as <strong>.txt</strong><br><span>Base64/Hex text output<br>ready to read or paste</span></div>
-          </div>
-        </div>
-      </div>
-      <textarea class="io-textarea" id="outputText" placeholder="Encrypted output will appear here..." readonly></textarea>
-      <div class="output-file-strip" id="outputFileStrip">
-        <div class="output-file-info">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-          <span id="outputFileLabel">Encryption complete</span>
-          <span style="color:var(--text3);font-size:10px">- Raw binary bytes ready for the decryption tool</span>
-        </div>
-        <button class="enc-download-link" onclick="downloadOutputFile()">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download .enc
-        </button>
-      </div>
-      <div class="copy-config-strip" id="copyConfigStrip">
-        <div class="copy-config-info">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Export this configuration (Mode / Key Size / Key / IV) so it can be loaded directly in the decryption tool
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy Config
-          </button>
-          <button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download Config
-          </button>
-        </div>
-      </div>
-      <div class="io-footer">
-        <span class="io-stat" id="outputStat">0 bytes</span>
-        <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)">—</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Action Row -->
-  <div class="action-row">
-    <button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ ENCRYPT</button>
-    <a href="/te/utility-tools/math/aes-decrypt/" class="decrypt-link">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Need decryption?
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </a>
-  </div>
-
-  <!-- Status Bar -->
-  <div class="status-bar" id="statusBar">
-    <div class="status-indicator"></div>
-    <span class="status-text" id="statusText">Ready - configure the key and click Encrypt</span>
-    <span class="status-time" id="statusTime"></span>
-  </div>
-
-  <!-- Info Strip -->
-  <div class="info-strip">
-    <div class="info-card">
-      <div class="info-card-label">Algorithm</div>
-      <div class="info-card-value" id="infoAlgo">AES</div>
-      <div class="info-card-sub" id="infoMode">CBC Mode</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Key Strength</div>
-      <div class="info-card-value" id="infoKeySize">256</div>
-      <div class="info-card-sub">bits</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Security Level</div>
-      <div class="info-card-value" id="infoSecurity">HIGH</div>
-      <div class="info-card-sub" id="infoSecSub">Military Grade</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Processed</div>
-      <div class="info-card-value" id="infoBytes">0</div>
-      <div class="info-card-sub" id="infoBytesUnit">bytes this session</div>
-    </div>
-  </div>
-
-  <!-- Explanation Sections -->
-  <div class="explain-section" id="explain-key">
-    <div class="explain-icon">🔑</div>
-    <div class="explain-body">
-      <div class="explain-title">Why do you need a secret key?</div>
-      <div class="explain-text">AES is a symmetric cipher, so the same secret key is used for both encryption and decryption. Key length defines the protection level: 128-bit covers most everyday use cases, 192-bit is chosen for higher assurance environments, and 256-bit is the strongest common option used in finance and other security-sensitive systems.<br><br>The secret key must remain confidential. Anyone who gets the key can decrypt the data, so avoid sharing it over unsafe channels and prefer randomly generated keys instead of manual input.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-iv">
-    <div class="explain-icon">🎲</div>
-    <div class="explain-body">
-      <div class="explain-title">Why is an IV / nonce required?</div>
-      <div class="explain-text">The IV (Initialization Vector) or nonce makes sure that encrypting the same content with the same key still produces different ciphertext each time, which helps prevent pattern-based attacks.<br><br>CBC and CTR use a 16-byte IV (32 hex characters), while GCM uses a 12-byte nonce (24 hex characters). The IV does not need to stay secret, but it must be fresh for every encryption run and should never be reused.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-mode">
-    <div class="explain-icon">⚙️</div>
-    <div class="explain-body">
-      <div class="explain-title">What does the encryption mode do?</div>
-      <div class="explain-text">AES works on fixed 16-byte blocks, and the selected mode controls how those blocks are chained together for data of any length.<br><br><strong style="color:#c8e0f0">CBC (Cipher Block Chaining)</strong>: a classic and widely used mode for files and communication workflows.<br><br><strong style="color:#c8e0f0">CTR (Counter)</strong>: turns AES into a stream-like mode that can be processed in parallel, making it well suited for large files.<br><br><strong style="color:#c8e0f0">GCM (Galois/Counter Mode)</strong>: adds authentication on top of CTR, so it protects both confidentiality and integrity and is usually the best modern default.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-keysize">
-    <div class="explain-icon">📏</div>
-    <div class="explain-body">
-      <div class="explain-title">How should you choose the key size?</div>
-      <div class="explain-text">Longer keys raise the cost of brute-force attacks dramatically, although they also add a small performance overhead.<br><br><strong style="color:#c8e0f0">128-bit</strong>: strong enough for the vast majority of workloads and usually the fastest option.<br><br><strong style="color:#c8e0f0">192-bit</strong>: chosen when a higher security margin is required.<br><br><strong style="color:#c8e0f0">256-bit</strong>: the strongest standard option and a solid default when performance constraints are not critical.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-padding">
-    <div class="explain-icon">📦</div>
-    <div class="explain-body">
-      <div class="explain-title">What does padding mean?</div>
-      <div class="explain-text">AES encrypts 16-byte blocks. If the input length is not a multiple of 16, the last block must be padded before encryption.<br><br><strong style="color:#c8e0f0">PKCS#7</strong>: fills the final block with bytes whose value equals the number of padding bytes, which makes removal precise during decryption.<br><br><strong style="color:#c8e0f0">Zero Padding</strong>: fills the remaining bytes with <code style="color:var(--accent)">00</code>. It is simple, but ambiguous when the original data can naturally end with zero bytes.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-encoding">
-    <div class="explain-icon">🔠</div>
-    <div class="explain-body">
-      <div class="explain-title">What is output encoding?</div>
-      <div class="explain-text">Raw AES ciphertext is binary data, so it is often converted into a printable text format before transport or storage.<br><br><strong style="color:#c8e0f0">Base64</strong>: compact and well suited to APIs, JSON, and copy-paste workflows.<br><br><strong style="color:#c8e0f0">Hex</strong>: larger in size, but easier to inspect byte by byte during debugging and logging.</div>
-    </div>
-  </div>
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="భాషను ఎంచుకోండి" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/math/aes-encrypt/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/math/aes-encrypt/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/math/aes-encrypt/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/math/aes-encrypt/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/math/aes-encrypt/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/math/aes-encrypt/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/math/aes-encrypt/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/math/aes-encrypt/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/math/aes-encrypt/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/math/aes-encrypt/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/math/aes-encrypt/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/math/aes-encrypt/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/math/aes-encrypt/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/math/aes-encrypt/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/math/aes-encrypt/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/math/aes-encrypt/">मराठी</a>
+<a class="language-option selected" data-lang="te" href="/te/utility-tools/math/aes-encrypt/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/math/aes-encrypt/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/math/aes-encrypt/">தமிழ்</a>
 </div>
-
+</div>
+<nav aria-label="బ్రెడ్&zwnj;క్రంబ్ నావిగేషన్" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/te/"><i class="fas fa-home"></i>హోమ్</a></li>
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/te/utility-tools/">యుటిలిటీ టూల్స్</a></li>
+<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active">AES ఎన్&zwnj;క్రిప్షన్ సాధనం</span></li>
+</ol>
+</nav>
+<div class="scan-effect"></div>
+<div class="container">
+<header>
+<div class="logo-group">
+<span class="logo-tag">// cryptographic tool v2.0</span>
+<h1 class="logo-title">AES<span>సైఫర్</span></h1>
+</div>
+<div class="header-badge">
+<div class="badge">క్లయింట్-వైపు మాత్రమే</div>
+<div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">వెబ్ క్రిప్టో API</div>
+</div>
+</header>
+<!-- Security Banner -->
+<div class="security-banner">
+<span class="security-banner-icon">🔒</span>
+<span><strong>క్లయింట్-వైపు మాత్రమే</strong>- కీలు మరియు డేటా మీ బ్రౌజర్&zwnj;లోనే ఉంటాయి మరియు ఏ సర్వర్&zwnj;కి అప్&zwnj;లోడ్ చేయబడవు. అన్ని క్రిప్టోగ్రాఫిక్ పని స్థానిక వెబ్ క్రిప్టో APIలో నడుస్తుంది.</span>
+</div>
+<!-- Config Panel -->
+<div class="config-panel">
+<div class="config-header">
+<div class="config-header-icon">⚙</div>
+<span class="config-title">అల్గోరిథం కాన్ఫిగరేషన్</span>
+</div>
+<div class="config-grid">
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-mode">మోడ్</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="mode">
+<option value="CBC">CBC</option>
+<option value="CTR">CTR</option>
+<option value="GCM">GCM</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-keysize">కీ పరిమాణం</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="keySize">
+<option value="128">128-బిట్</option>
+<option value="192">192-బిట్</option>
+<option selected="" value="256">256-బిట్</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-padding">పాడింగ్</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="padding">
+<option value="PKCS7">PKCS#7</option>
+<option value="ZERO">జీరో ప్యాడ్</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-encoding">అవుట్&zwnj;పుట్ ఎన్&zwnj;కోడింగ్</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="outputEncoding">
+<option value="base64">బేస్64</option>
+<option value="hex">హెక్స్</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Key Section -->
+<div class="key-section">
+<div class="config-header">
+<div class="config-header-icon" style="color:var(--accent2)">🔑</div>
+<span class="config-title">కీ &amp; IV మెటీరియల్</span>
+</div>
+<div class="key-fields">
+<div class="field-group">
+<div class="key-row key-row--4col">
+<div class="field-group" style="flex:1">
+<label class="field-label"><a class="label-link" href="#explain-key">రహస్య కీ</a></label>
+<input autocomplete="off" class="field-input" id="secretKey" placeholder="ఒక కీని నమోదు చేయండి లేదా రూపొందించండి..." spellcheck="false" type="password"/>
+</div>
+<button class="copy-field-btn" id="toggleKeyBtn" onclick="toggleKeyVisibility()" title="కీ చూపించు / దాచు">
+<svg fill="none" height="14" id="eyeIconShow" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<svg fill="none" height="14" id="eyeIconHide" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="display:none" viewbox="0 0 24 24" width="14"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" x2="23" y1="1" y2="23"></line></svg>
+</button>
+<button class="gen-btn" onclick="generateKey()">GENERATE</button>
+<button class="copy-field-btn" onclick="copyField('secretKey', this)" title="కాపీ కీ">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+</div>
+<div class="key-hint" id="keyHint">అవసరం<span id="keyLengthHint">32</span>హెక్స్ అక్షరాలు (256-బిట్)</div>
+</div>
+<div class="field-group">
+<div class="key-row">
+<div class="field-group" style="flex:1">
+<label class="field-label"><a class="label-link" href="#explain-iv">IV / నాన్స్</a></label>
+<input autocomplete="off" class="field-input" id="iv" placeholder="ఒక IVని నమోదు చేయండి లేదా రూపొందించండి..." spellcheck="false" type="text"/>
+</div>
+<button class="gen-btn" onclick="generateIV()" style="color:var(--accent)">GENERATE</button>
+<button class="copy-field-btn" onclick="copyField('iv', this)" title="కాపీ IV">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+</div>
+<div class="key-hint">హెక్స్ IV అవసరం<span id="ivLengthHint">32</span>అక్షరాలు (CBC/CTR=32, GCM=24)</div>
+<div class="nonce-warning" id="nonceWarning">
+<span>⚠</span>
+<span>ఈ నాన్స్ ఇప్పటికే GCM మోడ్&zwnj;లో ఉపయోగించబడింది.<strong>ఒక నాన్స్&zwnj;ను తిరిగి ఉపయోగించడం వలన ఎన్&zwnj;క్రిప్షన్ భద్రత తీవ్రంగా దెబ్బతింటుంది</strong>, కాబట్టి దయచేసి తాజాదాన్ని రూపొందించండి.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- IO Section -->
+<div class="io-section">
+<div class="io-panel input-panel" id="inputPanel">
+<div class="drop-zone" id="dropZone">
+<div class="drop-zone-icon">⬇</div>
+<div class="drop-zone-text">ఫైల్&zwnj;ను లోడ్ చేయడానికి విడుదల చేయండి</div>
+</div>
+<div class="io-header">
+<div class="io-title">
+<div class="io-dot"></div>PLAINTEXT / INPUT</div>
+<div class="io-actions">
+<button class="upload-btn" onclick="triggerFileInput()">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>ఫైల్&zwnj;ను అప్&zwnj;లోడ్ చేయండి</button>
+<button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="క్లియర్">✕</button>
+<button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="అతికించండి">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect height="4" rx="1" width="8" x="8" y="2"></rect></svg>
+</button>
+</div>
+</div>
+<input id="fileInput" onchange="handleFileInput(this)" style="display:none" type="file"/>
+<textarea class="io-textarea" id="inputText" placeholder="ఇక్కడ గుప్తీకరించడానికి సాదా వచనాన్ని నమోదు చేయండి... ఏదైనా UTF-8 వచనానికి మద్దతు ఇస్తుంది లేదా ఫైల్&zwnj;ను లోడ్ చేయడానికి &uarr; క్లిక్ చేయండి"></textarea>
+<div class="io-footer">
+<div style="display:flex;align-items:center;gap:8px;">
+<span class="io-stat" id="inputStat">0 బైట్లు</span>
+<div class="file-badge" id="inputFileBadge" style="display:none">
+<svg fill="none" height="10" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+<span class="file-badge-name" id="inputFileName"></span>
+<button class="file-badge-clear" onclick="clearFileInput()" title="ఫైల్&zwnj;ని తీసివేయండి">✕</button>
+</div>
+</div>
+<div class="format-tabs-wrap" id="formatTabsWrap">
+<div class="custom-tooltip">ఫైల్ మోడ్ ఎల్లప్పుడూ TEXTని ఉపయోగిస్తుంది</div>
+<button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')">TEXT</button>
+<button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')">HEX</button>
+<button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')">BASE64</button>
+</div>
+</div>
+</div>
+<div class="io-panel output-panel">
+<div class="io-header">
+<div class="io-title">
+<div class="io-dot"></div>CIPHERTEXT / అవుట్&zwnj;పుట్</div>
+<div class="io-actions">
+<button class="icon-btn" onclick="copyOutput(this)" title="కాపీ అవుట్&zwnj;పుట్">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+<div class="dl-txt-wrap">
+<button aria-label="వచనాన్ని డౌన్&zwnj;లోడ్ చేయండి" class="icon-btn" onclick="downloadOutputText()">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+</button>
+<div class="dl-tooltip">ఇలా డౌన్&zwnj;లోడ్ చేయండి<strong>.txt</strong><br/><span>Base64/హెక్స్ టెక్స్ట్ అవుట్&zwnj;పుట్<br/>చదవడానికి లేదా అతికించడానికి సిద్ధంగా ఉంది</span></div>
+</div>
+</div>
+</div>
+<textarea class="io-textarea" id="outputText" placeholder="ఎన్&zwnj;క్రిప్టెడ్ అవుట్&zwnj;పుట్ ఇక్కడ కనిపిస్తుంది..." readonly=""></textarea>
+<div class="output-file-strip" id="outputFileStrip">
+<div class="output-file-info">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="12"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+<span id="outputFileLabel">ఎన్&zwnj;క్రిప్షన్ పూర్తయింది</span>
+<span style="color:var(--text3);font-size:10px">- డిక్రిప్షన్ సాధనం కోసం ముడి బైనరీ బైట్&zwnj;లు సిద్ధంగా ఉన్నాయి</span>
+</div>
+<button class="enc-download-link" onclick="downloadOutputFile()">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>డౌన్&zwnj;లోడ్ .enc</button>
+</div>
+<div class="copy-config-strip" id="copyConfigStrip">
+<div class="copy-config-info">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="12"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg>ఈ కాన్ఫిగరేషన్&zwnj;ను ఎగుమతి చేయండి (మోడ్ / కీ సైజు / కీ / IV) కాబట్టి ఇది నేరుగా డిక్రిప్షన్ టూల్&zwnj;లో లోడ్ చేయబడుతుంది</div>
+<div style="display:flex;gap:8px">
+<button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>కాపీ కాన్ఫిగర్</button>
+<button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>డౌన్&zwnj;లోడ్ కాన్ఫిగర్</button>
+</div>
+</div>
+<div class="io-footer">
+<span class="io-stat" id="outputStat">0 బైట్లు</span>
+<span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)">&mdash;</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="action-row">
+<button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ ఎన్&zwnj;క్రిప్ట్</button>
+<a class="decrypt-link" href="/te/utility-tools/math/aes-decrypt/">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="11" rx="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>డిక్రిప్షన్ కావాలా?<svg fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+</a>
+</div>
+<!-- Status Bar -->
+<div class="status-bar" id="statusBar">
+<div class="status-indicator"></div>
+<span class="status-text" id="statusText">సిద్ధంగా - కీని కాన్ఫిగర్ చేసి ఎన్క్రిప్ట్ క్లిక్ చేయండి</span>
+<span class="status-time" id="statusTime"></span>
+</div>
+<!-- Info Strip -->
+<div class="info-strip">
+<div class="info-card">
+<div class="info-card-label">అల్గోరిథం</div>
+<div class="info-card-value" id="infoAlgo">AES</div>
+<div class="info-card-sub" id="infoMode">CBC మోడ్</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">కీల బలం</div>
+<div class="info-card-value" id="infoKeySize">256</div>
+<div class="info-card-sub">బిట్స్</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">భద్రతా స్థాయి</div>
+<div class="info-card-value" id="infoSecurity">HIGH</div>
+<div class="info-card-sub" id="infoSecSub">మిలిటరీ గ్రేడ్</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">ప్రాసెస్ చేయబడింది</div>
+<div class="info-card-value" id="infoBytes">0</div>
+<div class="info-card-sub" id="infoBytesUnit">బైట్&zwnj;లు</div>
+</div>
+</div>
+<!-- Explanation Sections -->
+<div class="explain-section" id="explain-key">
+<div class="explain-icon">🔑</div>
+<div class="explain-body">
+<div class="explain-title">మీకు రహస్య కీ ఎందుకు అవసరం?</div>
+<div class="explain-text">AES ఒక సౌష్టవ సాంకేతికలిపి, కాబట్టి అదే రహస్య కీ ఎన్&zwnj;క్రిప్షన్ మరియు డిక్రిప్షన్ రెండింటికీ ఉపయోగించబడుతుంది. కీ పొడవు రక్షణ స్థాయిని నిర్వచిస్తుంది: 128-బిట్ చాలా రోజువారీ వినియోగ కేసులను కవర్ చేస్తుంది, 192-బిట్ అధిక హామీ వాతావరణాల కోసం ఎంపిక చేయబడింది మరియు ఫైనాన్స్ మరియు ఇతర సెక్యూరిటీ-సెన్సిటివ్ సిస్టమ్&zwnj;లలో ఉపయోగించే బలమైన సాధారణ ఎంపిక 256-బిట్.<br/><br/>రహస్య కీ తప్పనిసరిగా గోప్యంగా ఉండాలి. కీని పొందిన ఎవరైనా డేటాను డీక్రిప్ట్ చేయవచ్చు, కాబట్టి సురక్షితం కాని ఛానెల్&zwnj;లలో భాగస్వామ్యం చేయడాన్ని నివారించండి మరియు మాన్యువల్ ఇన్&zwnj;పుట్&zwnj;కు బదులుగా యాదృచ్ఛికంగా రూపొందించబడిన కీలను ఇష్టపడండి.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-iv">
+<div class="explain-icon">🎲</div>
+<div class="explain-body">
+<div class="explain-title">ఒక IV / నాన్సే ఎందుకు అవసరం?</div>
+<div class="explain-text">The IV (ఇనిషియలైజేషన్ వెక్టర్) లేదా నాన్సే అదే కీతో ఒకే కంటెంట్&zwnj;ను గుప్తీకరించడం వలన ప్రతిసారీ వేర్వేరు సాంకేతికలిపిని ఉత్పత్తి చేస్తుంది, ఇది నమూనా-ఆధారిత దాడులను నిరోధించడంలో సహాయపడుతుంది.<br/><br/>CBC మరియు CTR 16-బైట్ IV (32 హెక్స్ అక్షరాలు)ని ఉపయోగిస్తాయి, అయితే GCM 12-బైట్ నాన్స్ (24 హెక్స్ అక్షరాలు) ఉపయోగిస్తుంది. IV రహస్యంగా ఉండవలసిన అవసరం లేదు, కానీ ప్రతి ఎన్క్రిప్షన్ రన్ కోసం ఇది తప్పనిసరిగా తాజాగా ఉండాలి మరియు తిరిగి ఉపయోగించకూడదు.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-mode">
+<div class="explain-icon">⚙️</div>
+<div class="explain-body">
+<div class="explain-title">ఎన్క్రిప్షన్ మోడ్ ఏమి చేస్తుంది?</div>
+<div class="explain-text">AES స్థిరమైన 16-బైట్ బ్లాక్&zwnj;లపై పని చేస్తుంది మరియు ఎంచుకున్న మోడ్ ఆ బ్లాక్&zwnj;లు ఏ పొడవు యొక్క డేటా కోసం ఎలా బంధించబడిందో నియంత్రిస్తుంది.<br/><br/><strong style="color:#c8e0f0">CBC (సైఫర్ బ్లాక్ చైనింగ్)</strong>: ఫైల్&zwnj;లు మరియు కమ్యూనికేషన్ వర్క్&zwnj;ఫ్లోల కోసం క్లాసిక్ మరియు విస్తృతంగా ఉపయోగించే మోడ్.<br/><br/><strong style="color:#c8e0f0">CTR (కౌంటర్)</strong>: AESను సమాంతరంగా ప్రాసెస్ చేయగల స్ట్రీమ్ లాంటి మోడ్&zwnj;గా మారుస్తుంది, ఇది పెద్ద ఫైల్&zwnj;లకు బాగా సరిపోతుంది.<br/><br/><strong style="color:#c8e0f0">GCM (గాలోయిస్/కౌంటర్ మోడ్)</strong>: CTR పైన ప్రమాణీకరణను జోడిస్తుంది, కాబట్టి ఇది గోప్యత మరియు సమగ్రత రెండింటినీ రక్షిస్తుంది మరియు సాధారణంగా ఉత్తమ ఆధునిక డిఫాల్ట్.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-keysize">
+<div class="explain-icon">📏</div>
+<div class="explain-body">
+<div class="explain-title">మీరు కీ పరిమాణాన్ని ఎలా ఎంచుకోవాలి?</div>
+<div class="explain-text">పొడవైన కీలు బ్రూట్-ఫోర్స్ దాడుల ధరను నాటకీయంగా పెంచుతాయి, అయినప్పటికీ అవి ఓవర్&zwnj;హెడ్&zwnj;లో చిన్న పనితీరును కూడా జోడిస్తాయి.<br/><br/><strong style="color:#c8e0f0">128-బిట్</strong>: చాలా ఎక్కువ పనిభారానికి తగినంత బలం మరియు సాధారణంగా వేగవంతమైన ఎంపిక.<br/><br/><strong style="color:#c8e0f0">192-బిట్</strong>: అధిక భద్రతా మార్జిన్ అవసరమైనప్పుడు ఎంపిక చేయబడింది.<br/><br/><strong style="color:#c8e0f0">256-బిట్</strong>: పనితీరు పరిమితులు క్లిష్టమైనవి కానప్పుడు బలమైన ప్రామాణిక ఎంపిక మరియు ఘన డిఫాల్ట్.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-padding">
+<div class="explain-icon">📦</div>
+<div class="explain-body">
+<div class="explain-title">పాడింగ్ అంటే ఏమిటి?</div>
+<div class="explain-text">AES 16-బైట్ బ్లాక్&zwnj;లను గుప్తీకరిస్తుంది. ఇన్&zwnj;పుట్ పొడవు 16 యొక్క గుణకారం కాకపోతే, ఎన్&zwnj;క్రిప్షన్&zwnj;కు ముందు చివరి బ్లాక్ తప్పనిసరిగా ప్యాడ్ చేయబడాలి.<br/><br/><strong style="color:#c8e0f0">PKCS#7</strong>: తుది బ్లాక్&zwnj;ను బైట్&zwnj;లతో నింపుతుంది, దీని విలువ ప్యాడింగ్ బైట్&zwnj;ల సంఖ్యకు సమానం, ఇది డిక్రిప్షన్ సమయంలో తొలగింపును ఖచ్చితమైనదిగా చేస్తుంది.<br/><br/><strong style="color:#c8e0f0">జీరో పాడింగ్</strong>: మిగిలిన బైట్&zwnj;లను దీనితో నింపుతుంది<code style="color:var(--accent)">00</code>. ఇది చాలా సులభం, కానీ అసలైన డేటా సహజంగా సున్నా బైట్&zwnj;లతో ముగియగలిగినప్పుడు అస్పష్టంగా ఉంటుంది.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-encoding">
+<div class="explain-icon">🔠</div>
+<div class="explain-body">
+<div class="explain-title">అవుట్&zwnj;పుట్ ఎన్&zwnj;కోడింగ్ అంటే ఏమిటి?</div>
+<div class="explain-text">Raw AES సైఫర్&zwnj;టెక్స్ట్ బైనరీ డేటా, కాబట్టి ఇది తరచుగా రవాణా లేదా నిల్వకు ముందు ముద్రించదగిన టెక్స్ట్ ఫార్మాట్&zwnj;గా మార్చబడుతుంది.<br/><br/><strong style="color:#c8e0f0">బేస్64</strong>: కాంపాక్ట్ మరియు APIలు, JSON మరియు కాపీ-పేస్ట్ వర్క్&zwnj;ఫ్లోలకు బాగా సరిపోతుంది.<br/><br/><strong style="color:#c8e0f0">హెక్స్</strong>: పరిమాణంలో పెద్దది, కానీ డీబగ్గింగ్ మరియు లాగింగ్ సమయంలో బైట్ ద్వారా బైట్&zwnj;ని తనిఖీ చేయడం సులభం.</div>
+</div>
+</div>
+</div>
 <div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
-    <script src="/static/js/utility-tools/math/aes-encrypt/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
+<script src="/static/js/utility-tools/math/aes-encrypt/script-te.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

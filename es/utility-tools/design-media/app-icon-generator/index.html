@@ -1,798 +1,565 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- Primary Meta Description and Keywords -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#667eea" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<!-- Primary Meta Description and Keywords -->
 <!-- Open Graph Meta Tags -->
-
-<meta property="og:image" content="https://starryring.com/app-icon-preview.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="App Icon Studio Interface - Smart App Icon Generator">
-<meta property="og:type" content="website">
-    <meta property="og:site_name" content="StarryRing">
+<meta content="https://starryring.com/app-icon-preview.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Interfaz de App Icon Studio - Generador de iconos de aplicaciones inteligentes" property="og:image:alt"/>
+<meta content="website" property="og:type"/>
+<meta content="StarryRing" property="og:site_name"/>
 <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:image" content="https://starryring.com/app-icon-preview.png">
-    <meta name="twitter:site" content="@StarryRing">
-    
-    <!-- Internationalization Links -->
-
-
-
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/app-icon-preview.png" name="twitter:image"/>
+<meta content="@StarryRing" name="twitter:site"/>
+<!-- Internationalization Links -->
 <!-- Preload Critical Resources -->
-    <link rel="preload" href="/static/js/utility-tools/design-media/app-icon-generator/script-en.js" as="script">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <title>App Icon Studio - Smart Icon Generator | Free Online App Icon Maker | StarryRing</title>
-    
-    <!-- External Resources -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/static/css/utility-tools/design-media/app-icon-generator/style.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    
-
-    
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "App Icon Studio - Smart Icon Generator",
-                "applicationCategory": "DesignApplication",
-                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS"],
-                "description": "Free online app icon generator. Create full-size iOS & Android icons with real-time preview, smart cropping, and batch export.",
-                "url": "https://starryring.com/es/utility-tools/design-media/app-icon-generator/",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://starryring.com/app-icon-preview.png",
-                    "width": "1200",
-                    "height": "630",
-                    "caption": "App Icon Studio Interface"
-                },
-                "screenshot": [
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/app-icon-screenshot1.jpg",
-                        "width": "1280",
-                        "height": "720",
-                        "caption": "Icon Cropping Interface",
-                        "description": "Smart cropping and adjustment of icon area"
-                    },
-                    {
-                        "@type": "ImageObject",
-                        "url": "https://starryring.com/app-icon-screenshot2.jpg",
-                        "width": "1200",
-                        "height": "900",
-                        "caption": "Live Preview Interface",
-                        "description": "Real-time preview for iOS and Android platforms"
-                    }
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "Smart image cropping and adjustment",
-                    "iOS & Android dual-platform support",
-                    "13 standard icon sizes",
-                    "Real-time device simulation preview",
-                    "Batch export as ZIP archive",
-                    "Frontend processing – no upload to server",
-                    "Responsive design, mobile-friendly"
-                ],
-                "datePublished": "2023-03-10",
-                "dateModified": "2024-02-15",
-                "softwareVersion": "1.1.0"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What is App Icon Studio?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "App Icon Studio is an online app icon generator designed for mobile app developers. It helps you quickly generate various icon sizes for iOS and Android platforms with real-time preview to ensure perfect display across devices."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What icon sizes are supported?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "The tool supports 13 standard icon sizes for iOS and Android, including: iOS – 1024px (App Store), 180px (iPhone@3x), 120px (iPhone@2x), 167px (iPad Pro), 152px (iPad), 76px (iPad@1x); Android – 512px (Play Store), 192px (xxxhdpi), 144px (xxhdpi), 96px (xhdpi), 72px (hdpi), 48px (mdpi), 36px (ldpi)."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Is my image data secure?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Yes, all image processing happens locally in your browser. No files are uploaded to any server, ensuring complete privacy and security for your original images and generated icons."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What source image should I use?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "We recommend uploading a high-resolution PNG image at 1024×1024 pixels to ensure crisp icons at all sizes. JPG and SVG are also supported, but PNG offers the best transparency support."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I get the generated icons?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "After cropping, click the 'Generate Full Icon Set' button. The tool will generate all icon sizes and package them into a ZIP file for download. Unzip to find a complete icon set organized by platform and size."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Inicio",
-                        "item": "https://starryring.com/es/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Herramientas utilitarias",
-                        "item": "https://starryring.com/es/utility-tools/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": "Diseño y multimedia Tools",
-                        "item": "https://starryring.com/es/utility-tools/design-media/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 4,
-                        "name": "App Icon Studio",
-                        "item": "https://starryring.com/es/utility-tools/design-media/app-icon-generator/"
-                    }
-                ]
-            },
-            {
-                "@type": "HowTo",
-                "name": "How to Generate App Icons with App Icon Studio",
-                "description": "Step-by-step guide to quickly generate iOS and Android app icons",
-                "step": [
-                    {
-                        "@type": "HowToStep",
-                        "text": "Upload your source icon: Click the upload area or drag & drop an image (recommended: 1024×1024px PNG)"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "text": "Adjust the crop area: Drag and scale the crop box to keep important content in the center safe zone"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "text": "Check live preview: See how your icon looks on iOS and Android devices in the right panel"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "text": "Generate and download: Click 'Generate Full Icon Set' and download the ZIP file with all sizes"
-                    }
-                ],
-                "totalTime": "PT3M",
-                "tool": {
-                    "@type": "SoftwareApplication",
-                    "name": "App Icon Studio"
-                }
-            }
-        ]
-    }
-    </script>
-<meta name="description" content="App Icon Studio - Smart icon generator. All-in-one solution to preview and export full-size iOS & Android app icons. Free online icon maker with batch export.">
-            <link rel="canonical" href="https://starryring.com/es/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/design-media/app-icon-generator/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/app-icon-generator/">
-<meta property="og:url" content="https://starryring.com/es/utility-tools/design-media/app-icon-generator/">
-    <meta property="og:locale" content="es_ES">
-<meta property="og:title" content="App Icon Studio - Smart Icon Generator | Free Online App Icon Maker | StarryRing">
-    <meta property="og:description" content="All-in-one app icon generation solution. Preview and export full-size iOS & Android icons in real-time. 13 sizes, 2 platforms, no design software required.">
-    <meta name="twitter:title" content="App Icon Studio - Free Online App Icon Generator">
-    <meta name="twitter:description" content="All-in-one app icon generation solution. Preview and export full-size iOS & Android icons in real-time">
-    <meta name="keywords" content="app icon generator, iOS icon generator, Android icon maker, app icon design, icon size generator, batch icon export, online icon tool, icon crop tool">
+<link as="script" href="/static/js/utility-tools/design-media/app-icon-generator/script-es.js" rel="preload"/>
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://cdn.tailwindcss.com" rel="preconnect"/>
+<!-- Favicon -->
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<title>App Icon Studio - Generador de iconos inteligente | Creador gratuito de iconos de aplicaciones en l&iacute;nea | StarryRing</title>
+<!-- External Resources -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Stylesheets -->
+<link href="/static/css/utility-tools/design-media/app-icon-generator/style.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<!-- Structured Data JSON-LD -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "SoftwareApplication", "name": "App Icon Studio - Generador de iconos inteligente", "applicationCategory": "DesignApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS", "Android", "iOS" ], "description": "Generador gratuito de iconos de aplicaciones en línea. Cree íconos de tamaño completo para iOS y Android con vista previa en tiempo real, recorte inteligente y exportación por lotes.", "url": "https://starryring.com/es/utility-tools/design-media/app-icon-generator/", "image": { "@type": "ImageObject", "url": "https://starryring.com/app-icon-preview.png", "width": "1200", "height": "630", "caption": "Interfaz de App Icon Studio" }, "screenshot": [ { "@type": "ImageObject", "url": "https://starryring.com/app-icon-screenshot1.jpg", "width": "1280", "height": "720", "caption": "Interfaz de recorte de iconos", "description": "Recorte inteligente y ajuste del área de iconos" }, { "@type": "ImageObject", "url": "https://starryring.com/app-icon-screenshot2.jpg", "width": "1200", "height": "900", "caption": "Interfaz de vista previa en vivo", "description": "Vista previa en tiempo real para plataformas iOS y Android" } ], "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com" }, "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "Smart image cropping and adjustment", "iOS & Android dual-platform support", "13 standard icon sizes", "Real-time device simulation preview", "Batch export as ZIP archive", "Frontend processing – no upload to server", "Responsive design, mobile-friendly" ], "datePublished": "2023-03-10", "dateModified": "2024-02-15", "softwareVersion": "1.1.0" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "¿Qué es App Icon Studio?", "acceptedAnswer": { "@type": "Answer", "text": "App Icon Studio es un generador de iconos de aplicaciones en línea diseñado para desarrolladores de aplicaciones móviles. Le ayuda a generar rápidamente varios tamaños de íconos para plataformas iOS y Android con vista previa en tiempo real para garantizar una visualización perfecta en todos los dispositivos." } }, { "@type": "Question", "name": "¿Qué tamaños de iconos se admiten?", "acceptedAnswer": { "@type": "Answer", "text": "La herramienta admite 13 tamaños de íconos estándar para iOS y Android, que incluyen: iOS: 1024 px (App Store), 180 px (iPhone@3x), 120 px (iPhone@2x), 167 px (iPad Pro), 152 px (iPad), 76 px (iPad@1x); Android: 512 px (Play Store), 192 px (xxxhdpi), 144 px (xxhdpi), 96 px (xhdpi), 72 px (hdpi), 48 px (mdpi), 36 px (ldpi)." } }, { "@type": "Question", "name": "¿Están seguros mis datos de imagen?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, todo el procesamiento de imágenes se realiza localmente en su navegador. No se cargan archivos en ningún servidor, lo que garantiza total privacidad y seguridad para sus imágenes originales e íconos generados." } }, { "@type": "Question", "name": "¿Qué imagen fuente debo usar?", "acceptedAnswer": { "@type": "Answer", "text": "Recomendamos cargar una imagen PNG de alta resolución a 1024×1024 píxeles para garantizar íconos nítidos en todos los tamaños. También se admiten JPG y SVG, pero PNG ofrece la mejor compatibilidad con transparencia." } }, { "@type": "Question", "name": "¿Cómo obtengo los íconos generados?", "acceptedAnswer": { "@type": "Answer", "text": "Después de recortar, haga clic en el botón 'Generar conjunto de iconos completo'. La herramienta generará todos los tamaños de íconos y los empaquetará en un archivo ZIP para descargar. Descomprima para encontrar un conjunto completo de iconos organizados por plataforma y tamaño." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://starryring.com/es/" }, { "@type": "ListItem", "position": 2, "name": "Herramientas de utilidad", "item": "https://starryring.com/es/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "Herramientas de diseño y medios", "item": "https://starryring.com/es/utility-tools/design-media/" }, { "@type": "ListItem", "position": 4, "name": "Estudio de iconos de aplicaciones", "item": "https://starryring.com/es/utility-tools/design-media/app-icon-generator/" } ] }, { "@type": "HowTo", "name": "Cómo generar íconos de aplicaciones con App Icon Studio", "description": "Guía paso a paso para generar rápidamente íconos de aplicaciones para iOS y Android", "step": [ { "@type": "HowToStep", "text": "Sube tu ícono de fuente: haz clic en el área de carga o arrastra y suelta una imagen (recomendado: 1024×1024px PNG)" }, { "@type": "HowToStep", "text": "Ajustar el área de recorte: arrastre y escale el cuadro de recorte para mantener el contenido importante en la zona central segura" }, { "@type": "HowToStep", "text": "Verifique la vista previa en vivo: vea cómo se ve su ícono en dispositivos iOS y Android en el panel derecho" }, { "@type": "HowToStep", "text": "Generar y descargar: haga clic en 'Generar conjunto de iconos completo' y descargue el archivo ZIP con todos los tamaños" } ], "totalTime": "PT3M", "tool": { "@type": "SoftwareApplication", "name": "Estudio de iconos de aplicaciones" } } ]
+}</script>
+<meta content="App Icon Studio: generador de iconos inteligente. Soluci&oacute;n todo en uno para obtener una vista previa y exportar &iacute;conos de aplicaciones de iOS y Android en tama&ntilde;o completo. Creador de iconos en l&iacute;nea gratuito con exportaci&oacute;n por lotes." name="description"/>
+<link href="https://starryring.com/es/utility-tools/design-media/app-icon-generator/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/design-media/app-icon-generator/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/design-media/app-icon-generator/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/design-media/app-icon-generator/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/design-media/app-icon-generator/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/design-media/app-icon-generator/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/design-media/app-icon-generator/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/design-media/app-icon-generator/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/design-media/app-icon-generator/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/design-media/app-icon-generator/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/design-media/app-icon-generator/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/design-media/app-icon-generator/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/design-media/app-icon-generator/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/design-media/app-icon-generator/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/design-media/app-icon-generator/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/design-media/app-icon-generator/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/design-media/app-icon-generator/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/design-media/app-icon-generator/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/design-media/app-icon-generator/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/design-media/app-icon-generator/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/design-media/app-icon-generator/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/es/utility-tools/design-media/app-icon-generator/" property="og:url"/>
+<meta content="es_ES" property="og:locale"/>
+<meta content="App Icon Studio - Generador de iconos inteligente | Creador gratuito de iconos de aplicaciones en l&iacute;nea | StarryRing" property="og:title"/>
+<meta content="Soluci&oacute;n de generaci&oacute;n de &iacute;conos de aplicaciones todo en uno. Obtenga una vista previa y exporte &iacute;conos de iOS y Android de tama&ntilde;o completo en tiempo real. 13 tama&ntilde;os, 2 plataformas, no se requiere software de dise&ntilde;o." property="og:description"/>
+<meta content="App Icon Studio - Generador gratuito de iconos de aplicaciones en l&iacute;nea" name="twitter:title"/>
+<meta content="Soluci&oacute;n de generaci&oacute;n de &iacute;conos de aplicaciones todo en uno. Obtenga una vista previa y exporte &iacute;conos de iOS y Android de tama&ntilde;o completo en tiempo real" name="twitter:description"/>
+<meta content="generador de &iacute;conos de aplicaciones, generador de &iacute;conos de iOS, creador de &iacute;conos de Android, dise&ntilde;o de &iacute;conos de aplicaciones, generador de tama&ntilde;o de &iacute;conos, exportaci&oacute;n de &iacute;conos por lotes, herramienta de &iacute;conos en l&iacute;nea, herramienta de recorte de &iacute;conos" name="keywords"/>
 </head>
 <body class="min-h-screen py-8 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Seleccionar idioma" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/design-media/app-icon-generator/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/design-media/app-icon-generator/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/design-media/app-icon-generator/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/design-media/app-icon-generator/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/design-media/app-icon-generator/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/design-media/app-icon-generator/" data-lang="hi">हिन्दी</a>
-            <a class="language-option selected" href="/es/utility-tools/design-media/app-icon-generator/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/design-media/app-icon-generator/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/design-media/app-icon-generator/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/design-media/app-icon-generator/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/design-media/app-icon-generator/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/utility-tools/design-media/app-icon-generator/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/design-media/app-icon-generator/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/design-media/app-icon-generator/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/design-media/app-icon-generator/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/design-media/app-icon-generator/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/design-media/app-icon-generator/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/design-media/app-icon-generator/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/design-media/app-icon-generator/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/design-media/app-icon-generator/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="Seleccionar idioma" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/design-media/app-icon-generator/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/design-media/app-icon-generator/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/design-media/app-icon-generator/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/design-media/app-icon-generator/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/design-media/app-icon-generator/">हिन्दी</a>
+<a class="language-option selected" data-lang="es" href="/es/utility-tools/design-media/app-icon-generator/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/design-media/app-icon-generator/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/design-media/app-icon-generator/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/design-media/app-icon-generator/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/design-media/app-icon-generator/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/utility-tools/design-media/app-icon-generator/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/design-media/app-icon-generator/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/design-media/app-icon-generator/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/design-media/app-icon-generator/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/design-media/app-icon-generator/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/design-media/app-icon-generator/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/design-media/app-icon-generator/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/design-media/app-icon-generator/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/design-media/app-icon-generator/">தமிழ்</a>
+</div>
+</div>
 <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item">
-                    <a href="/es/" class="breadcrumb-link">
-                        <i class="fas fa-home"></i> Inicio
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="/es/utility-tools/" class="breadcrumb-link">
-                        <i class="fas fa-toolbox"></i> Herramientas utilitarias
-                    </a>
-                </li>
-
-                <li class="breadcrumb-item">
-                    <span class="breadcrumb-active">App Icon Studio</span>
-                </li>
-            </ol>
-        </nav>
-    </div>
-    
-    <!-- Language Switcher -->
+<div class="breadcrumb-section">
+<nav aria-label="miga de pan">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/es/">
+<i class="fas fa-home"></i>Inicio</a>
+</li>
+<li class="breadcrumb-item">
+<a class="breadcrumb-link" href="/es/utility-tools/">
+<i class="fas fa-toolbox"></i>Herramientas de utilidad</a>
+</li>
+<li class="breadcrumb-item">
+<span class="breadcrumb-active">Estudio de iconos de aplicaciones</span>
+</li>
+</ol>
+</nav>
+</div>
+<!-- Language Switcher -->
 <!-- Main Header -->
-    <div class="text-center mb-12 fade-in">
-        <div class="inline-flex items-center justify-center gap-3 mb-4">
-            <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center">
-                <i class="fas fa-palette text-white text-xl"></i>
-            </div>
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">App Icon Studio</h1>
-        </div>
-        <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-4">All-in-one app icon generation solution. Preview and export full-size iOS & Android icons in real-time. Professional <strong>icon generator</strong>, <strong>app icon design</strong>, and <strong>multi-platform icon creation</strong> tools integrated.</p>
-        <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-check-circle text-green-500"></i>
-                <span class="text-sm text-gray-600">Live Preview</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fas fa-check-circle text-green-500"></i>
-                <span class="text-sm text-gray-600">Smart Crop</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fas fa-check-circle text-green-500"></i>
-                <span class="text-sm text-gray-600">Batch Export</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fas fa-check-circle text-green-500"></i>
-                <span class="text-sm text-gray-600">Multi‑Platform</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fas fa-check-circle text-green-500"></i>
-                <span class="text-sm text-gray-600">Privacy Safe</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fas fa-check-circle text-green-500"></i>
-                <span class="text-sm text-gray-600">Completely Free</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Tool Container -->
-    <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Left: Crop Editor -->
-            <div class="lg:col-span-8 space-y-8">
-                <div class="glass-card p-8 rounded-2xl fade-in">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-bold text-gray-800">Icon Editor</h2>
-                        <div class="flex gap-2">
-                            <span class="icon-count">13 Icon Sizes</span>
-                            <span class="icon-count" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">2 Platforms</span>
-                        </div>
-                    </div>
-                    
-                    <div id="upload-area" class="upload-area rounded-2xl p-16 text-center cursor-pointer transition-all duration-300">
-                        <div class="mx-auto w-20 h-20 rounded-full gradient-bg flex items-center justify-center mb-6">
-                            <i class="fas fa-cloud-upload-alt text-white text-3xl"></i>
-                        </div>
-                        <p class="text-gray-700 font-medium text-lg mb-2">Drag & drop or click to upload icon</p>
-                        <p class="text-gray-500 text-sm mb-4">Supports PNG, JPG, SVG (recommended size 1024×1024)</p>
-                        <div class="flex items-center justify-center gap-2 text-gray-500 text-sm">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Drag the crop box to adjust the icon area after upload</span>
-                        </div>
-                        <input type="file" id="file-input" class="hidden" accept="image/*">
-                    </div>
-
-                    <div id="editor-area" class="hidden fade-in">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-semibold text-gray-700">Adjust Crop Area</h3>
-                            <div class="flex items-center gap-2 text-sm text-gray-500">
-                                <i class="fas fa-arrows-alt"></i>
-                                <span>Drag to adjust | Scroll to zoom</span>
-                            </div>
-                        </div>
-                        
-                        <div class="relative max-h-[500px] bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden shadow-xl">
-                            <img id="image-to-crop" class="max-w-full">
-                            <div class="absolute bottom-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
-                                <i class="fas fa-crop-alt mr-1"></i> 1:1 Square Crop
-                            </div>
-                        </div>
-                        
-                        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-                            <button id="generate-btn" class="btn-primary px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-3">
-                                <i class="fas fa-download"></i>
-                                <span>Generate Full Icon Set (.zip)</span>
-                            </button>
-                            <button onclick="location.reload()" class="btn-secondary px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-3">
-                                <i class="fas fa-redo"></i>
-                                <span>Upload Again</span>
-                            </button>
-                        </div>
-                        
-                        <!-- Progress Indicator -->
-                        <div id="progress-indicator" class="hidden mt-6">
-                            <div class="flex items-center justify-center gap-3 mb-2">
-                                <div class="loading-spinner"></div>
-                                <span class="text-gray-700 font-medium">Generating icon pack...</span>
-                            </div>
-                            <div class="progress-bar"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Icon Size Info -->
-                <div class="glass-card p-6 rounded-2xl fade-in">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Supported Icon Sizes</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
-                            <div class="text-blue-600 font-bold text-lg">1024px</div>
-                            <div class="text-gray-600 text-sm">App Store</div>
-                        </div>
-                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
-                            <div class="text-green-600 font-bold text-lg">512px</div>
-                            <div class="text-gray-600 text-sm">Play Store</div>
-                        </div>
-                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
-                            <div class="text-purple-600 font-bold text-lg">180px</div>
-                            <div class="text-gray-600 text-sm">iPhone @3x</div>
-                        </div>
-                        <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl">
-                            <div class="text-amber-600 font-bold text-lg">48px</div>
-                            <div class="text-gray-600 text-sm">Android MDPI</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right: Live Preview -->
-            <div class="lg:col-span-4 space-y-8">
-                <div class="glass-card p-8 rounded-2xl fade-in">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6">Live Preview</h2>
-                    
-                    <div class="grid grid-cols-2 gap-6 mb-8">
-                        <!-- iOS Preview -->
-                        <div class="flex flex-col items-center">
-                            <div class="platform-badge mb-4" style="background: linear-gradient(135deg, #000000 0%, #333333 100%);">
-                                <i class="fab fa-apple"></i>
-                                <span>iOS</span>
-                            </div>
-                            <div class="phone-screen">
-                                <div class="flex flex-col items-center">
-                                    <div class="w-20 mb-2">
-                                        <img class="preview-img ios-mask w-full aspect-square bg-white">
-                                    </div>
-                                    <div class="app-label">My App</div>
-                                    <div class="absolute bottom-8 left-4 right-4 grid grid-cols-4 gap-2">
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-4 text-center">
-                                <div class="text-sm font-medium text-gray-700">Continuous Curvature Corners</div>
-                                <div class="text-xs text-gray-500">Applied automatically by iOS</div>
-                            </div>
-                        </div>
-
-                        <!-- Android Preview -->
-                        <div class="flex flex-col items-center">
-                            <div class="platform-badge mb-4" style="background: linear-gradient(135deg, #3ddc84 0%, #0bbd5a 100%);">
-                                <i class="fab fa-android"></i>
-                                <span>Android</span>
-                            </div>
-                            <div class="phone-screen" style="background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);">
-                                <div class="flex flex-col items-center">
-                                    <div class="w-20 mb-2">
-                                        <img class="preview-img android-circle w-full aspect-square bg-white">
-                                    </div>
-                                    <div class="app-label">My App</div>
-                                    <div class="absolute bottom-8 left-4 right-4 grid grid-cols-4 gap-2">
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                        <div class="w-8 h-8 bg-white/20 rounded-lg"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-4 text-center">
-                                <div class="text-sm font-medium text-gray-700">Adaptive Shape</div>
-                                <div class="text-xs text-gray-500">Circle or square</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-5 rounded-xl" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #3b82f6;">
-                        <div class="flex items-start gap-3">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-lightbulb text-blue-600"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-blue-800 mb-2">Design Tips</h3>
-                                <ul class="text-xs text-blue-700 space-y-2">
-                                    <li class="flex items-start gap-2">
-                                        <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span>Keep key elements inside the central <b>safe zone</b></span>
-                                    </li>
-                                    <li class="flex items-start gap-2">
-                                        <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span><b>iOS</b> automatically applies a continuous corner mask</span>
-                                    </li>
-                                    <li class="flex items-start gap-2">
-                                        <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span><b>Android</b> applies shapes based on device theme</span>
-                                    </li>
-                                    <li class="flex items-start gap-2">
-                                        <i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
-                                        <span>Use simple, high‑contrast designs</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Instructions -->
-                <div class="glass-card p-6 rounded-2xl fade-in">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">How to Use</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center flex-shrink-0">
-                                <span class="text-blue-700 font-bold">1</span>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">Upload Icon</h4>
-                                <p class="text-sm text-gray-600">Upload high‑resolution icon (recommended 1024×1024)</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center flex-shrink-0">
-                                <span class="text-green-700 font-bold">2</span>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">Adjust Crop</h4>
-                                <p class="text-sm text-gray-600">Drag to adjust crop area, keep key content visible</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center flex-shrink-0">
-                                <span class="text-purple-700 font-bold">3</span>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">Preview & Generate</h4>
-                                <p class="text-sm text-gray-600">Check live preview, click generate to download ZIP</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Features & FAQ Section -->
-        <div class="glass-card p-8 rounded-2xl mt-12 fade-in">
-            <div class="instructions-content">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">App Icon Studio Features</h2>
-                <p class="text-gray-600 mb-8">🎨 Professional all‑in‑one app icon generation solution with real‑time preview, smart cropping, batch export, and more. The perfect tool for <strong>iOS icon generation</strong>, <strong>Android icon creation</strong>, and <strong>app icon design</strong>.</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                    <div class="feature-item-card p-5 rounded-xl">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-4">
-                            <i class="fas fa-crop-alt text-blue-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Smart Cropping</h3>
-                        <p class="text-gray-600 text-sm mb-3">1:1 square crop with drag‑and‑adjust and zoom to keep icon content perfectly centered.</p>
-                        <div class="tip">
-                            <span class="tip-text text-xs text-blue-600">Tip: Use mouse wheel to zoom, drag to adjust crop area</span>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item-card p-5 rounded-xl">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center mb-4">
-                            <i class="fas fa-mobile-alt text-green-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Dual‑Platform Support</h3>
-                        <p class="text-gray-600 text-sm mb-3">Support for both iOS and Android with real‑time simulation preview on different devices.</p>
-                        <div class="tip">
-                            <span class="tip-text text-xs text-green-600">iOS uses continuous curvature corners, Android uses circle or square</span>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item-card p-5 rounded-xl">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center mb-4">
-                            <i class="fas fa-ruler-combined text-purple-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Full Size Coverage</h3>
-                        <p class="text-gray-600 text-sm mb-3">13 standard icon sizes from 1024px for App Store to 36px for Android, all in one place.</p>
-                        <div class="tip">
-                            <span class="tip-text text-xs text-purple-600">Includes iOS@1x/@2x/@3x and Android multiple DPI sizes</span>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item-card p-5 rounded-xl">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center mb-4">
-                            <i class="fas fa-eye text-amber-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Real‑Time Preview</h3>
-                        <p class="text-gray-600 text-sm mb-3">See how your icon looks on iOS and Android devices as you edit, in real time.</p>
-                        <div class="tip">
-                            <span class="tip-text text-xs text-amber-600">Edit on the left, see preview immediately on the right</span>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item-card p-5 rounded-xl">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center mb-4">
-                            <i class="fas fa-file-archive text-red-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Batch Export</h3>
-                        <p class="text-gray-600 text-sm mb-3">Generate all icon sizes with one click and download as a ZIP file, organized by platform and size.</p>
-                        <div class="tip">
-                            <span class="tip-text text-xs text-red-600">ZIP contains separate iOS and Android folders</span>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item-card p-5 rounded-xl">
-                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-100 to-indigo-200 flex items-center justify-center mb-4">
-                            <i class="fas fa-user-shield text-indigo-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Privacy & Security</h3>
-                        <p class="text-gray-600 text-sm mb-3">Pure frontend processing – your image data never leaves your device, protecting your design privacy.</p>
-                        <div class="tip">
-                            <span class="tip-text text-xs text-indigo-600">All processing happens in your browser, no server upload</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Platform Specifications -->
-                <div class="technical-section p-6 rounded-xl mb-8" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Supported Platforms & Technical Specifications</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="font-semibold text-gray-700 mb-2">iOS Platform Icon Specifications</h3>
-                            <ul class="text-sm text-gray-600 space-y-1">
-                                <li>• App Store: 1024×1024px (PNG, no transparency)</li>
-                                <li>• iPhone @3x: 180×180px (Retina HD)</li>
-                                <li>• iPhone @2x: 120×120px (Retina)</li>
-                                <li>• iPad Pro: 167×167px</li>
-                                <li>• iPad @2x: 152×152px</li>
-                                <li>• iPad @1x: 76×76px</li>
-                                <li>• Continuous curvature corner mask applied automatically by system</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-700 mb-2">Android Platform Icon Specifications</h3>
-                            <ul class="text-sm text-gray-600 space-y-1">
-                                <li>• Play Store: 512×512px (PNG, 32‑bit)</li>
-                                <li>• xxxhdpi: 192×192px (Extra‑extra‑extra‑high density)</li>
-                                <li>• xxhdpi: 144×144px (Extra‑extra‑high density)</li>
-                                <li>• xhdpi: 96×96px (Extra‑high density)</li>
-                                <li>• hdpi: 72×72px (High density)</li>
-                                <li>• mdpi: 48×48px (Medium density)</li>
-                                <li>• ldpi: 36×36px (Low density)</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-4"><strong>Technical note:</strong> This tool uses HTML5 Canvas technology to generate icons, compatible with all modern browsers (Chrome 60+, Firefox 55+, Safari 11+, Edge 79+).</p>
-                </div>
-                
-                <!-- Detailed FAQ Section -->
-                <div class="faq-section">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Frequently Asked Questions (FAQ)</h2>
-                    
-                    <div class="faq-item mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-                            Why is my icon blurry at certain sizes?
-                        </h3>
-                        <div class="faq-answer pl-6">
-                            <p class="text-gray-600">Blurry icons are usually due to insufficient source image resolution. We recommend:</p>
-                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
-                                <li>• Use a source image of at least 1024×1024 pixels</li>
-                                <li>• Prefer vector (SVG) or high‑resolution PNG</li>
-                                <li>• Ensure key elements in your icon are large and clear</li>
-                                <li>• Avoid excessive detail in the source image—details get lost at small sizes</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-                            How can I ensure consistent display across different platforms?
-                        </h3>
-                        <div class="faq-answer pl-6">
-                            <p class="text-gray-600">Platform differences are normal, but you can optimize with these tips:</p>
-                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
-                                <li>• Keep important content inside the central <b>safe zone</b> (avoid edges)</li>
-                                <li>• Use high‑contrast designs for clear recognition at small sizes</li>
-                                <li>• Check real‑time preview for both platforms in the right panel</li>
-                                <li>• iOS adds rounded corners automatically; Android shapes vary by theme—design accordingly</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-                            Does it support transparent backgrounds?
-                        </h3>
-                        <div class="faq-answer pl-6">
-                            <p class="text-gray-600">Yes, transparent backgrounds are fully supported:</p>
-                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
-                                <li>• Transparent areas in uploaded PNGs are preserved</li>
-                                <li>• Generated icons maintain original transparency</li>
-                                <li>• For platforms requiring opaque backgrounds (e.g., iOS App Store), white background is added automatically</li>
-                                <li>• Consider how transparency will look on different backgrounds</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-                            What file formats can I generate?
-                        </h3>
-                        <div class="faq-answer pl-6">
-                            <p class="text-gray-600">Currently, icons are generated primarily in PNG format:</p>
-                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
-                                <li>• All icons are generated as PNG (recommended cross‑platform format)</li>
-                                <li>• PNG supports transparent backgrounds and high‑quality compression</li>
-                                <li>• For Android, WebP may offer better compression but requires separate conversion</li>
-                                <li>• iOS App Store icons require PNG with no transparency</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-                            Is this tool free? Are there any limitations?
-                        </h3>
-                        <div class="faq-answer pl-6">
-                            <p class="text-gray-600">Yes, App Icon Studio is completely free:</p>
-                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
-                                <li>• Free to use, no registration or login required</li>
-                                <li>• No usage limits</li>
-                                <li>• No image size limits (though large images may take longer to process)</li>
-                                <li>• All processing happens in‑browser, no server costs</li>
-                                <li>• Future advanced features may be added, but core functionality will remain free</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-                            How do I integrate generated icons into my project?
-                        </h3>
-                        <div class="faq-answer pl-6">
-                            <p class="text-gray-600">Integration steps vary by platform:</p>
-                            <ul class="text-gray-600 text-sm mt-2 space-y-1">
-                                <li><strong>iOS (Xcode):</strong> Drag icons into the AppIcon set in Assets.xcassets</li>
-                                <li><strong>Android (Android Studio):</strong> Copy icons to res/mipmap‑*dpi/ folders</li>
-                                <li><strong>React Native:</strong> Use react‑native‑make tool or manually place in ios/ and android/ directories</li>
-                                <li><strong>Flutter:</strong> Update icon configuration in pubspec.yaml and place in appropriate directories</li>
-                            </ul>
-                            <p class="text-gray-600 text-sm mt-2">The generated ZIP is already organized by platform and size for easy use.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        
-        <!-- Footer -->
-        <div class="mt-12 pt-8 border-t border-gray-200 text-center fade-in">
-            <p class="text-gray-500 text-sm">
-                <i class="fas fa-code mr-1"></i> 
-                App Icon Studio – All‑in‑One App Icon Solution 
-                <i class="fas fa-heart mx-2 text-red-400"></i> 
-                Supports iOS & Android Full Platform
-            </p>
-            <p class="text-gray-400 text-xs mt-2">This tool uses pure frontend technology – your image data is never uploaded to any server</p>
-            <p class="text-gray-400 text-xs mt-1">© 2024 StarryRing – App Icon Studio | Last updated: Jan 2026 | Version: v1.1.0</p>
-            <div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;">
-                <a href="/es/about-us/" style="color:#2563eb;text-decoration:none;">Sobre nosotros</a>
-                <a href="/es/contact-us/" style="color:#2563eb;text-decoration:none;">Contáctanos</a>
-                <a href="/es/disclaimer/" style="color:#2563eb;text-decoration:none;">Descargo de responsabilidad</a>
-                <a href="/es/privacy/" style="color:#2563eb;text-decoration:none;">Política de privacidad</a>
-                <a href="/es/terms/" style="color:#2563eb;text-decoration:none;">Términos del servicio</a>
-            </div>
-        </div>
-    </div>
-
-    <canvas id="export-canvas" class="hidden"></canvas>
-
-    <!-- Local JavaScript Files -->
-    <script src="/static/js/utility-tools/design-media/app-icon-generator/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
+<div class="text-center mb-12 fade-in">
+<div class="inline-flex items-center justify-center gap-3 mb-4">
+<div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center">
+<i class="fas fa-palette text-white text-xl"></i>
+</div>
+<h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Estudio de iconos de aplicaciones</h1>
+</div>
+<p class="text-gray-600 text-lg max-w-2xl mx-auto mb-4">Soluci&oacute;n de generaci&oacute;n de &iacute;conos de aplicaciones todo en uno. Obtenga una vista previa y exporte &iacute;conos de iOS y Android de tama&ntilde;o completo en tiempo real. Profesional<strong>generador de iconos</strong>, <strong>dise&ntilde;o de icono de aplicaci&oacute;n</strong>, y<strong>creaci&oacute;n de iconos multiplataforma</strong>herramientas integradas.</p>
+<div class="flex flex-wrap items-center justify-center gap-4 mt-6">
+<div class="flex items-center gap-2">
+<i class="fas fa-check-circle text-green-500"></i>
+<span class="text-sm text-gray-600">Vista previa en vivo</span>
+</div>
+<div class="flex items-center gap-2">
+<i class="fas fa-check-circle text-green-500"></i>
+<span class="text-sm text-gray-600">Cultivo inteligente</span>
+</div>
+<div class="flex items-center gap-2">
+<i class="fas fa-check-circle text-green-500"></i>
+<span class="text-sm text-gray-600">Exportaci&oacute;n por lotes</span>
+</div>
+<div class="flex items-center gap-2">
+<i class="fas fa-check-circle text-green-500"></i>
+<span class="text-sm text-gray-600">Multiplataforma</span>
+</div>
+<div class="flex items-center gap-2">
+<i class="fas fa-check-circle text-green-500"></i>
+<span class="text-sm text-gray-600">Privacidad segura</span>
+</div>
+<div class="flex items-center gap-2">
+<i class="fas fa-check-circle text-green-500"></i>
+<span class="text-sm text-gray-600">Completamente Gratis</span>
+</div>
+</div>
+</div>
+<!-- Main Tool Container -->
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left: Crop Editor -->
+<div class="lg:col-span-8 space-y-8">
+<div class="glass-card p-8 rounded-2xl fade-in">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-gray-800">Editor de iconos</h2>
+<div class="flex gap-2">
+<span class="icon-count">13 Tama&ntilde;os de iconos</span>
+<span class="icon-count" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">2 Plataformas</span>
+</div>
+</div>
+<div class="upload-area rounded-2xl p-16 text-center cursor-pointer transition-all duration-300" id="upload-area">
+<div class="mx-auto w-20 h-20 rounded-full gradient-bg flex items-center justify-center mb-6">
+<i class="fas fa-cloud-upload-alt text-white text-3xl"></i>
+</div>
+<p class="text-gray-700 font-medium text-lg mb-2">Arrastre y suelte o haga clic para cargar el &iacute;cono</p>
+<p class="text-gray-500 text-sm mb-4">Soporta PNG, JPG, SVG (tama&ntilde;o recomendado 1024&times;1024)</p>
+<div class="flex items-center justify-center gap-2 text-gray-500 text-sm">
+<i class="fas fa-info-circle"></i>
+<span>Arrastre el cuadro de recorte para ajustar el &aacute;rea del icono despu&eacute;s de la carga</span>
+</div>
+<input accept="image/*" class="hidden" id="file-input" type="file"/>
+</div>
+<div class="hidden fade-in" id="editor-area">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-semibold text-gray-700">Ajustar &aacute;rea de cultivo</h3>
+<div class="flex items-center gap-2 text-sm text-gray-500">
+<i class="fas fa-arrows-alt"></i>
+<span>Arrastra para ajustar | Despl&aacute;cese para ampliar</span>
+</div>
+</div>
+<div class="relative max-h-[500px] bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden shadow-xl">
+<img class="max-w-full" id="image-to-crop"/>
+<div class="absolute bottom-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
+<i class="fas fa-crop-alt mr-1"></i>1:1 Recorte cuadrado</div>
+</div>
+<div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+<button class="btn-primary px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-3" id="generate-btn">
+<i class="fas fa-download"></i>
+<span>Generar conjunto completo de iconos (.zip)</span>
+</button>
+<button class="btn-secondary px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-3" onclick="location.reload()">
+<i class="fas fa-redo"></i>
+<span>Subir de nuevo</span>
+</button>
+</div>
+<!-- Progress Indicator -->
+<div class="hidden mt-6" id="progress-indicator">
+<div class="flex items-center justify-center gap-3 mb-2">
+<div class="loading-spinner"></div>
+<span class="text-gray-700 font-medium">Generando paquete de iconos...</span>
+</div>
+<div class="progress-bar"></div>
+</div>
+</div>
+</div>
+<!-- Icon Size Info -->
+<div class="glass-card p-6 rounded-2xl fade-in">
+<h3 class="text-lg font-bold text-gray-800 mb-4">Tama&ntilde;os de iconos admitidos</h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
+<div class="text-blue-600 font-bold text-lg">1024px</div>
+<div class="text-gray-600 text-sm">Tienda de aplicaciones</div>
+</div>
+<div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
+<div class="text-green-600 font-bold text-lg">512px</div>
+<div class="text-gray-600 text-sm">Play Store</div>
+</div>
+<div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
+<div class="text-purple-600 font-bold text-lg">180px</div>
+<div class="text-gray-600 text-sm">iPhone @3x</div>
+</div>
+<div class="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl">
+<div class="text-amber-600 font-bold text-lg">48px</div>
+<div class="text-gray-600 text-sm">MDPI de Android</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Live Preview -->
+<div class="lg:col-span-4 space-y-8">
+<div class="glass-card p-8 rounded-2xl fade-in">
+<h2 class="text-xl font-bold text-gray-800 mb-6">Vista previa en vivo</h2>
+<div class="grid grid-cols-2 gap-6 mb-8">
+<!-- iOS Preview -->
+<div class="flex flex-col items-center">
+<div class="platform-badge mb-4" style="background: linear-gradient(135deg, #000000 0%, #333333 100%);">
+<i class="fab fa-apple"></i>
+<span>iOS</span>
+</div>
+<div class="phone-screen">
+<div class="flex flex-col items-center">
+<div class="w-20 mb-2">
+<img class="preview-img ios-mask w-full aspect-square bg-white"/>
+</div>
+<div class="app-label">Mi aplicaci&oacute;n</div>
+<div class="absolute bottom-8 left-4 right-4 grid grid-cols-4 gap-2">
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+</div>
+</div>
+</div>
+<div class="mt-4 text-center">
+<div class="text-sm font-medium text-gray-700">Esquinas de curvatura continua</div>
+<div class="text-xs text-gray-500">Aplicado autom&aacute;ticamente por iOS</div>
+</div>
+</div>
+<!-- Android Preview -->
+<div class="flex flex-col items-center">
+<div class="platform-badge mb-4" style="background: linear-gradient(135deg, #3ddc84 0%, #0bbd5a 100%);">
+<i class="fab fa-android"></i>
+<span>Android</span>
+</div>
+<div class="phone-screen" style="background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);">
+<div class="flex flex-col items-center">
+<div class="w-20 mb-2">
+<img class="preview-img android-circle w-full aspect-square bg-white"/>
+</div>
+<div class="app-label">Mi aplicaci&oacute;n</div>
+<div class="absolute bottom-8 left-4 right-4 grid grid-cols-4 gap-2">
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+<div class="w-8 h-8 bg-white/20 rounded-lg"></div>
+</div>
+</div>
+</div>
+<div class="mt-4 text-center">
+<div class="text-sm font-medium text-gray-700">Forma adaptable</div>
+<div class="text-xs text-gray-500">C&iacute;rculo o cuadrado</div>
+</div>
+</div>
+</div>
+<div class="p-5 rounded-xl" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #3b82f6;">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+<i class="fas fa-lightbulb text-blue-600"></i>
+</div>
+<div>
+<h3 class="text-sm font-bold text-blue-800 mb-2">Consejos de dise&ntilde;o</h3>
+<ul class="text-xs text-blue-700 space-y-2">
+<li class="flex items-start gap-2">
+<i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
+<span>Mantener elementos clave dentro de la central<b>zona segura</b></span>
+</li>
+<li class="flex items-start gap-2">
+<i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
+<span><b>iOS</b>aplica autom&aacute;ticamente una m&aacute;scara de esquina continua</span>
+</li>
+<li class="flex items-start gap-2">
+<i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
+<span><b>Android</b>aplica formas seg&uacute;n el tema del dispositivo</span>
+</li>
+<li class="flex items-start gap-2">
+<i class="fas fa-check-circle text-blue-500 mt-0.5"></i>
+<span>Utilice dise&ntilde;os simples y de alto contraste</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Instructions -->
+<div class="glass-card p-6 rounded-2xl fade-in">
+<h3 class="text-lg font-bold text-gray-800 mb-4">C&oacute;mo utilizar</h3>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center flex-shrink-0">
+<span class="text-blue-700 font-bold">1</span>
+</div>
+<div>
+<h4 class="font-medium text-gray-800">&Iacute;cono de carga</h4>
+<p class="text-sm text-gray-600">Subir icono de alta resoluci&oacute;n (recomendado 1024&times;1024)</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center flex-shrink-0">
+<span class="text-green-700 font-bold">2</span>
+</div>
+<div>
+<h4 class="font-medium text-gray-800">Ajustar recorte</h4>
+<p class="text-sm text-gray-600">Arrastre para ajustar el &aacute;rea de recorte y mantenga visible el contenido clave</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center flex-shrink-0">
+<span class="text-purple-700 font-bold">3</span>
+</div>
+<div>
+<h4 class="font-medium text-gray-800">Vista previa y generaci&oacute;n</h4>
+<p class="text-sm text-gray-600">Verifique la vista previa en vivo, haga clic en generar para descargar ZIP</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Features & FAQ Section -->
+<div class="glass-card p-8 rounded-2xl mt-12 fade-in">
+<div class="instructions-content">
+<h2 class="text-2xl font-bold text-gray-800 mb-6">Caracter&iacute;sticas de App Icon Studio</h2>
+<p class="text-gray-600 mb-8">🎨 Soluci&oacute;n profesional de generaci&oacute;n de &iacute;conos de aplicaciones todo en uno con vista previa en tiempo real, recorte inteligente, exportaci&oacute;n por lotes y m&aacute;s. La herramienta perfecta para<strong>generaci&oacute;n de iconos de iOS</strong>, <strong>Creaci&oacute;n de iconos de Android</strong>, y<strong>dise&ntilde;o de icono de aplicaci&oacute;n</strong>.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+<div class="feature-item-card p-5 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-4">
+<i class="fas fa-crop-alt text-blue-600 text-xl"></i>
+</div>
+<h3 class="text-lg font-bold text-gray-800 mb-2">Recorte inteligente</h3>
+<p class="text-gray-600 text-sm mb-3">Recorte cuadrado 1:1 con arrastrar y ajustar y hacer zoom para mantener el contenido del icono perfectamente centrado.</p>
+<div class="tip">
+<span class="tip-text text-xs text-blue-600">Consejo: use la rueda del mouse para hacer zoom, arrastre para ajustar el &aacute;rea de recorte</span>
+</div>
+</div>
+<div class="feature-item-card p-5 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center mb-4">
+<i class="fas fa-mobile-alt text-green-600 text-xl"></i>
+</div>
+<h3 class="text-lg font-bold text-gray-800 mb-2">Soporte de plataforma dual</h3>
+<p class="text-gray-600 text-sm mb-3">Compatibilidad con iOS y Android con vista previa de simulaci&oacute;n en tiempo real en diferentes dispositivos.</p>
+<div class="tip">
+<span class="tip-text text-xs text-green-600">iOS usa esquinas de curvatura continua, Android usa c&iacute;rculo o cuadrado</span>
+</div>
+</div>
+<div class="feature-item-card p-5 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center mb-4">
+<i class="fas fa-ruler-combined text-purple-600 text-xl"></i>
+</div>
+<h3 class="text-lg font-bold text-gray-800 mb-2">Cobertura completa</h3>
+<p class="text-gray-600 text-sm mb-3">13 tama&ntilde;os de &iacute;conos est&aacute;ndar desde 1024 px para App Store hasta 36 px para Android, todo en un solo lugar.</p>
+<div class="tip">
+<span class="tip-text text-xs text-purple-600">Incluye iOS@1x/@2x/@3x y Android con varios tama&ntilde;os de DPI</span>
+</div>
+</div>
+<div class="feature-item-card p-5 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center mb-4">
+<i class="fas fa-eye text-amber-600 text-xl"></i>
+</div>
+<h3 class="text-lg font-bold text-gray-800 mb-2">Vista previa en tiempo real</h3>
+<p class="text-gray-600 text-sm mb-3">Vea c&oacute;mo se ve su &iacute;cono en dispositivos iOS y Android mientras lo edita, en tiempo real.</p>
+<div class="tip">
+<span class="tip-text text-xs text-amber-600">Editar a la izquierda, ver vista previa inmediatamente a la derecha</span>
+</div>
+</div>
+<div class="feature-item-card p-5 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center mb-4">
+<i class="fas fa-file-archive text-red-600 text-xl"></i>
+</div>
+<h3 class="text-lg font-bold text-gray-800 mb-2">Exportaci&oacute;n por lotes</h3>
+<p class="text-gray-600 text-sm mb-3">Genere todos los tama&ntilde;os de &iacute;conos con un solo clic y desc&aacute;rguelos como un archivo ZIP, organizado por plataforma y tama&ntilde;o.</p>
+<div class="tip">
+<span class="tip-text text-xs text-red-600">ZIP contiene carpetas separadas para iOS y Android</span>
+</div>
+</div>
+<div class="feature-item-card p-5 rounded-xl">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-100 to-indigo-200 flex items-center justify-center mb-4">
+<i class="fas fa-user-shield text-indigo-600 text-xl"></i>
+</div>
+<h3 class="text-lg font-bold text-gray-800 mb-2">Privacidad y seguridad</h3>
+<p class="text-gray-600 text-sm mb-3">Procesamiento frontal puro: los datos de sus im&aacute;genes nunca salen de su dispositivo, lo que protege la privacidad de su dise&ntilde;o.</p>
+<div class="tip">
+<span class="tip-text text-xs text-indigo-600">Todo el procesamiento se realiza en su navegador, no se carga en el servidor</span>
+</div>
+</div>
+</div>
+<!-- Platform Specifications -->
+<div class="technical-section p-6 rounded-xl mb-8" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+<h2 class="text-xl font-bold text-gray-800 mb-4">Plataformas compatibles y especificaciones t&eacute;cnicas</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<h3 class="font-semibold text-gray-700 mb-2">Especificaciones del icono de la plataforma iOS</h3>
+<ul class="text-sm text-gray-600 space-y-1">
+<li>&bull; App Store: 1024&times;1024px (PNG, sin transparencia)</li>
+<li>&bull; iPhone @3x: 180&times;180px (Retina HD)</li>
+<li>&bull; iPhone @2x: 120&times;120px (Retina)</li>
+<li>&bull; iPad Pro: 167&times;167px</li>
+<li>&bull; iPad @2x: 152&times;152px</li>
+<li>&bull; iPad @1x: 76&times;76px</li>
+<li>&bull; M&aacute;scara de esquina de curvatura continua aplicada autom&aacute;ticamente por el sistema</li>
+</ul>
+</div>
+<div>
+<h3 class="font-semibold text-gray-700 mb-2">Especificaciones del icono de la plataforma Android</h3>
+<ul class="text-sm text-gray-600 space-y-1">
+<li>&bull; Play Store: 512&times;512px (PNG, 32 bits)</li>
+<li>&bull; xxxhdpi: 192&times;192px (densidad extra-extra-extra-alta)</li>
+<li>&bull; xxhdpi: 144&times;144px (densidad extraalta)</li>
+<li>&bull; xhdpi: 96&times;96px (densidad extraalta)</li>
+<li>&bull; hdpi: 72&times;72px (alta densidad)</li>
+<li>&bull; mdpi: 48&times;48px (densidad media)</li>
+<li>&bull; ldpi: 36&times;36px (baja densidad)</li>
+</ul>
+</div>
+</div>
+<p class="text-sm text-gray-500 mt-4"><strong>Nota t&eacute;cnica:</strong>Esta herramienta utiliza la tecnolog&iacute;a HTML5 Canvas para generar &iacute;conos, compatible con todos los navegadores modernos (Chrome 60+, Firefox 55+, Safari 11+, Edge 79+).</p>
+</div>
+<!-- Detailed FAQ Section -->
+<div class="faq-section">
+<h2 class="text-2xl font-bold text-gray-800 mb-6">Preguntas frecuentes (FAQ)</h2>
+<div class="faq-item mb-6">
+<h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+<i class="fas fa-question-circle text-blue-500 mr-2"></i>&iquest;Por qu&eacute; mi &iacute;cono aparece borroso en ciertos tama&ntilde;os?</h3>
+<div class="faq-answer pl-6">
+<p class="text-gray-600">Los &iacute;conos borrosos generalmente se deben a una resoluci&oacute;n insuficiente de la imagen de origen. Recomendamos:</p>
+<ul class="text-gray-600 text-sm mt-2 space-y-1">
+<li>&bull; Utilice una imagen de origen de al menos 1024&times;1024 p&iacute;xeles</li>
+<li>&bull; Prefiere vector (SVG) o PNG de alta resoluci&oacute;n</li>
+<li>&bull; Aseg&uacute;rese de que los elementos clave de su &iacute;cono sean grandes y claros</li>
+<li>&bull; Evite el exceso de detalles en la imagen de origen: los detalles se pierden en tama&ntilde;os peque&ntilde;os</li>
+</ul>
+</div>
+</div>
+<div class="faq-item mb-6">
+<h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+<i class="fas fa-question-circle text-blue-500 mr-2"></i>&iquest;C&oacute;mo puedo garantizar una visualizaci&oacute;n coherente en diferentes plataformas?</h3>
+<div class="faq-answer pl-6">
+<p class="text-gray-600">Las diferencias de plataforma son normales, pero puedes optimizarlas con estos consejos:</p>
+<ul class="text-gray-600 text-sm mt-2 space-y-1">
+<li>&bull; Mantenga el contenido importante dentro de la central<b>zona segura</b>(evitar bordes)</li>
+<li>&bull; Utilice dise&ntilde;os de alto contraste para un reconocimiento claro en tama&ntilde;os peque&ntilde;os</li>
+<li>&bull; Verifique la vista previa en tiempo real para ambas plataformas en el panel derecho</li>
+<li>&bull; iOS agrega esquinas redondeadas autom&aacute;ticamente; Las formas de Android var&iacute;an seg&uacute;n el tema; dise&ntilde;e en consecuencia</li>
+</ul>
+</div>
+</div>
+<div class="faq-item mb-6">
+<h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+<i class="fas fa-question-circle text-blue-500 mr-2"></i>&iquest;Admite fondos transparentes?</h3>
+<div class="faq-answer pl-6">
+<p class="text-gray-600">S&iacute;, los fondos transparentes son totalmente compatibles:</p>
+<ul class="text-gray-600 text-sm mt-2 space-y-1">
+<li>&bull; Se conservan las &aacute;reas transparentes en los PNG cargados</li>
+<li>&bull; Los iconos generados mantienen la transparencia original</li>
+<li>&bull; Para plataformas que requieren fondos opacos (por ejemplo, iOS App Store), el fondo blanco se agrega autom&aacute;ticamente</li>
+<li>&bull; Considere c&oacute;mo se ver&aacute; la transparencia en diferentes contextos.</li>
+</ul>
+</div>
+</div>
+<div class="faq-item mb-6">
+<h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+<i class="fas fa-question-circle text-blue-500 mr-2"></i>&iquest;Qu&eacute; formatos de archivo puedo generar?</h3>
+<div class="faq-answer pl-6">
+<p class="text-gray-600">Actualmente, los &iacute;conos se generan principalmente en formato PNG:</p>
+<ul class="text-gray-600 text-sm mt-2 space-y-1">
+<li>&bull; Todos los iconos se generan como PNG (formato multiplataforma recomendado)</li>
+<li>&bull; PNG admite fondos transparentes y compresi&oacute;n de alta calidad</li>
+<li>&bull; Para Android, WebP puede ofrecer una mejor compresi&oacute;n pero requiere una conversi&oacute;n por separado</li>
+<li>&bull; Los &iacute;conos de iOS App Store requieren PNG sin transparencia</li>
+</ul>
+</div>
+</div>
+<div class="faq-item mb-6">
+<h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+<i class="fas fa-question-circle text-blue-500 mr-2"></i>&iquest;Esta herramienta es gratuita? &iquest;Hay alguna limitaci&oacute;n?</h3>
+<div class="faq-answer pl-6">
+<p class="text-gray-600">S&iacute;, App Icon Studio es completamente gratis:</p>
+<ul class="text-gray-600 text-sm mt-2 space-y-1">
+<li>&bull; De uso gratuito, no es necesario registrarse ni iniciar sesi&oacute;n</li>
+<li>&bull; Sin l&iacute;mites de uso</li>
+<li>&bull; No hay l&iacute;mites de tama&ntilde;o de imagen (aunque las im&aacute;genes grandes pueden tardar m&aacute;s en procesarse)</li>
+<li>&bull; Todo el procesamiento se realiza en el navegador, sin costos de servidor</li>
+<li>&bull; Es posible que se agreguen funciones avanzadas en el futuro, pero la funcionalidad principal seguir&aacute; siendo gratuita</li>
+</ul>
+</div>
+</div>
+<div class="faq-item">
+<h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+<i class="fas fa-question-circle text-blue-500 mr-2"></i>&iquest;C&oacute;mo integro los &iacute;conos generados en mi proyecto?</h3>
+<div class="faq-answer pl-6">
+<p class="text-gray-600">Los pasos de integraci&oacute;n var&iacute;an seg&uacute;n la plataforma:</p>
+<ul class="text-gray-600 text-sm mt-2 space-y-1">
+<li><strong>iOS (Xc&oacute;digo):</strong>Arrastre &iacute;conos al AppIcon establecido en Assets.xcassets</li>
+<li><strong>Android (Estudio de Android):</strong>Copiar iconos a carpetas res/mipmap‑*dpi/</li>
+<li><strong>Reaccionar nativo:</strong>Utilice la herramienta reaccionar‑native‑make o col&oacute;quela manualmente en los directorios ios/ y android/</li>
+<li><strong>Aleteo:</strong>Actualizar la configuraci&oacute;n del icono en pubspec.yaml y colocarlo en los directorios apropiados</li>
+</ul>
+<p class="text-gray-600 text-sm mt-2">El ZIP generado ya est&aacute; organizado por plataforma y tama&ntilde;o para facilitar su uso.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="mt-12 pt-8 border-t border-gray-200 text-center fade-in">
+<p class="text-gray-500 text-sm">
+<i class="fas fa-code mr-1"></i>App Icon Studio: soluci&oacute;n de iconos de aplicaciones todo en uno<i class="fas fa-heart mx-2 text-red-400"></i>Soporta plataforma completa iOS y Android</p>
+<p class="text-gray-400 text-xs mt-2">Esta herramienta utiliza tecnolog&iacute;a frontend pura: los datos de sus im&aacute;genes nunca se cargan en ning&uacute;n servidor</p>
+<p class="text-gray-400 text-xs mt-1">&copy; 2024 StarryRing &ndash; App Icon Studio | &Uacute;ltima actualizaci&oacute;n: enero de 2026 | Versi&oacute;n: v1.1.0</p>
+<div style="margin-top:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:0.85rem;">
+<a href="/es/about-us/" style="color:#2563eb;text-decoration:none;">Sobre nosotros</a>
+<a href="/es/contact-us/" style="color:#2563eb;text-decoration:none;">Cont&aacute;ctenos</a>
+<a href="/es/disclaimer/" style="color:#2563eb;text-decoration:none;">Descargo de responsabilidad</a>
+<a href="/es/privacy/" style="color:#2563eb;text-decoration:none;">Pol&iacute;tica de Privacidad</a>
+<a href="/es/terms/" style="color:#2563eb;text-decoration:none;">Condiciones de servicio</a>
+</div>
+</div>
+</div>
+<canvas class="hidden" id="export-canvas"></canvas>
+<!-- Local JavaScript Files -->
+<script src="/static/js/utility-tools/design-media/app-icon-generator/script-es.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>

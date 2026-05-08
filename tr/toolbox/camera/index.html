@@ -1,607 +1,321 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <!-- Basic Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    
-    <!-- Core SEO Meta Tags -->
-    <title>Online Webcam Test Tool - Professional Camera Resolution & FPS Tester | StarryRing</title>
-<meta name="author" content="StarryRing">
-    <meta name="copyright" content="Copyright © 2026 StarryRing. All rights reserved.">
-    
-    <!-- Robots -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    
-    <!-- Canonical URL & Hreflang -->
-
-
-
+<!-- Basic Meta Tags -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" name="viewport"/>
+<!-- Core SEO Meta Tags -->
+<title>&Ccedil;evrimi&ccedil;i Web Kameras&inodot; Test Arac&inodot; - Profesyonel Kamera &Ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml; ve FPS Test Cihaz&inodot; | StarryRing</title>
+<meta content="StarryRing" name="author"/>
+<meta content="Copyright &copy; 2026 StarryRing. All rights reserved." name="copyright"/>
+<!-- Robots -->
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<!-- Canonical URL & Hreflang -->
 <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-
-
-<meta property="og:image" content="https://starryring.com/tr/toolbox/camera/og-image-en.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Preview of the online webcam test tool interface">
-    <meta property="og:site_name" content="StarryRing Araç Kutusu">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://starryring.com/tr/toolbox/camera/">
-
-<meta name="twitter:image" content="https://starryring.com/tr/toolbox/camera/og-image-en.jpg">
-    <meta name="twitter:creator" content="@starryring">
-    
-    <!-- Mobile Optimization -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Webcam Test">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#121212">
-    <meta name="msapplication-TileColor" content="#121212">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- Sitemap -->
-    <link rel="sitemap" type="application/xml" href="/sitemap-tools-en.xml">
-    
-    <!-- Performance Optimizations -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="preload" href="/static/css/toolbox/camera/style.css" as="style">
-    <link rel="preload" href="/static/js/toolbox/camera/script-en.js" as="script">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    
-    <!-- Critical CSS (Above the Fold) -->
-    <style>
-        /* Critical CSS - Above the fold styles */
-        :root { 
-            --bg-color: #121212; 
-            --card-bg: #1e1e1e; 
-            --text-main: #e0e0e0; 
-            --text-muted: #a0a0a0; 
-            --accent: #4a6bff; 
-            --accent-hover: #3a5bef; 
-            --border: #333; 
-            --success: #00d4aa; 
-            --danger: #ef4444; 
-        }
-        
-        * { box-sizing: border-box; }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh; 
-        }
-        
-        h1 { 
-            margin-bottom: 20px; 
-            font-weight: 300; 
-            margin-top: 20px; 
-            text-align: center; 
-            font-size: clamp(1.5rem, 4vw, 2.2rem); 
-        }
-        
-        .badge { 
-            background: var(--success); 
-            color: white; 
-            padding: 3px 10px; 
-            border-radius: 20px; 
-            font-size: 0.6rem; 
-            vertical-align: middle; 
-            margin-left: 8px; 
-            font-weight: 600; 
-        }
-        
-        .card { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            padding: 20px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
-        }
-        
-        /* Mobile touch optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            button, select {
-                min-height: 44px;
-                min-width: 44px;
-            }
-        }
-        
-        /* Reduced motion (accessibility) */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
-    
-    <!-- Non-critical CSS async loading -->
-    <link rel="stylesheet" href="/static/css/toolbox/camera/style.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/static/css/toolbox/camera/style.css"></noscript>
-    
-    <!-- Shared Stylesheets -->
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/NavCard.css">
-    <link rel="stylesheet" href="/static/css/shared/toolsnavigation.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/document.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-
-   
-    <!-- Structured Data Schema Markup (merged, English) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "WebApplication",
-                "name": "Online Webcam Test Tool",
-                "description": "Professional online camera testing tool with comprehensive performance analysis",
-                "url": "https://starryring.com/tr/toolbox/camera/",
-                "applicationCategory": "UtilityApplication",
-                "operatingSystem": ["Web", "Windows", "macOS", "Linux", "Chrome OS"],
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "CNY"
-                },
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com"
-                },
-                "featureList": [
-                    "Real-time video stream test",
-                    "Resolution & FPS measurement",
-                    "Hardware capability analysis",
-                    "Device switching & management",
-                    "Mirror flip function",
-                    "Real-time performance monitoring"
-                ],
-                "softwareVersion": "2.1.0",
-                "datePublished": "2026-01-01",
-                "dateModified": "2026-01-05"
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "Why is my camera not displaying?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "This may be due to browser permission restrictions or camera hardware issues. Please ensure: 1) You allow the browser to access the camera; 2) The camera is properly connected; 3) No other application is currently using the camera."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I test camera frame rate (FPS)?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Look at the real-time FPS value in the top right corner of the page. Professional cameras typically support 30fps or higher, high-end cameras can reach 60fps or more. A stable frame rate is key to smooth video."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How can I tell if my camera quality is poor?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "If you notice: 1) Blurry video; 2) Low frame rate causing stuttering; 3) Color distortion; 4) Poor performance in low light, these may indicate camera quality issues."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What types of cameras are supported?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "All types of cameras are supported: laptop built-in cameras, USB external cameras, webcams, conference cameras, live streaming cameras, etc. Compatible with Windows, macOS, and Linux."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How do I test camera resolution?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "The tool automatically displays the current resolution. High-quality cameras usually support 1080p (1920x1080) or higher, while standard cameras may only support 720p (1280x720)."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Is my test data saved?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "All test data is stored only in your current browser session. It will be lost when you refresh the page or close the tab. We do not collect or upload any camera data, ensuring your privacy."
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Araç Kutusu",
-                        "item": "https://starryring.com/tr/toolbox/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Webcam Test Tool",
-                        "item": "https://starryring.com/tr/toolbox/camera/"
-                    }
-                ]
-            },
-            {
-                "@type": "HowTo",
-                "name": "How to use the webcam test tool",
-                "description": "Step-by-step guide to test camera performance, resolution, and frame rate",
-                "step": [
-                    {
-                        "@type": "HowToStep",
-                        "name": "Allow camera permission",
-                        "text": "When prompted, allow the browser to access your camera. This is necessary for the test to work.",
-                        "image": "https://starryring.com/tr/toolbox/camera/step1-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Select camera device",
-                        "text": "If you have multiple cameras connected, choose your camera from the device dropdown menu.",
-                        "image": "https://starryring.com/tr/toolbox/camera/step2-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Check the video stream",
-                        "text": "Observe the real-time video to ensure the camera is working properly. Check for blurriness, stuttering, or color issues.",
-                        "image": "https://starryring.com/tr/toolbox/camera/step3-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Analyze performance data",
-                        "text": "View resolution, FPS, and hardware capabilities in the statistics panel. Monitor real-time performance indicators.",
-                        "image": "https://starryring.com/tr/toolbox/camera/step4-en.png"
-                    },
-                    {
-                        "@type": "HowToStep",
-                        "name": "Test advanced features",
-                        "text": "Try the mirror flip function. If your camera supports it, explore different resolution modes.",
-                        "image": "https://starryring.com/tr/toolbox/camera/step5-en.png"
-                    }
-                ],
-                "totalTime": "PT2M"
-            },
-            {
-                "@type": "WebPage",
-                "@id": "https://starryring.com/tr/toolbox/camera/#webpage",
-                "url": "https://starryring.com/tr/toolbox/camera/",
-                "name": "Online Webcam Test Tool",
-                "description": "Free online camera test tool for camera performance and resolution testing",
-                "inLanguage": "en",
-                "isPartOf": {
-                    "@type": "WebSite",
-                    "@id": "https://starryring.com/#website",
-                    "url": "https://starryring.com",
-                    "name": "StarryRing",
-                    "description": "Free online tools and utilities"
-                }
-            }
-        ]
-    }
-    </script>
-<meta name="description" content="Free online webcam test tool. Real-time camera performance testing, resolution check, FPS measurement, hardware capability analysis. No download required. Supports laptop cameras, USB cameras, and more.">
-            <link rel="canonical" href="https://starryring.com/tr/toolbox/camera/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/camera/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/camera/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/toolbox/camera/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/toolbox/camera/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/toolbox/camera/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/toolbox/camera/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/toolbox/camera/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/toolbox/camera/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/toolbox/camera/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/toolbox/camera/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/toolbox/camera/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/toolbox/camera/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/toolbox/camera/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/toolbox/camera/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/toolbox/camera/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/toolbox/camera/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/toolbox/camera/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/toolbox/camera/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/toolbox/camera/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/toolbox/camera/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/camera/">
-<meta property="og:url" content="https://starryring.com/tr/toolbox/camera/">
-    <meta property="og:locale" content="tr_TR">
-<meta property="og:title" content="📷 Online Webcam Test Tool - Free Camera Check & Resolution Test">
-    <meta property="og:description" content="Free online webcam test tool. Real-time camera performance testing, resolution check, FPS measurement. No download required.">
-    <meta name="twitter:title" content="📷 Online Webcam Test Tool - Free Camera Check & Resolution Test">
-    <meta name="twitter:description" content="Free online webcam test tool. Real-time camera performance testing, resolution check, FPS measurement. No download required.">
-    <meta name="keywords" content="webcam test, camera test, online webcam tester, camera resolution test, FPS test, camera performance test, laptop camera test, USB camera test, conference camera test, webcam quality check">
+<meta content="website" property="og:type"/>
+<meta content="https://starryring.com/tr/toolbox/camera/og-image-en.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="&Ccedil;evrimi&ccedil;i web kameras&inodot; test arac&inodot; aray&uuml;z&uuml;n&uuml;n &ouml;nizlemesi" property="og:image:alt"/>
+<meta content="StarryRing Ara&ccedil; Kutusu" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://starryring.com/tr/toolbox/camera/" name="twitter:url"/>
+<meta content="https://starryring.com/tr/toolbox/camera/og-image-en.jpg" name="twitter:image"/>
+<meta content="@starryring" name="twitter:creator"/>
+<!-- Mobile Optimization -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Webcam Test" name="apple-mobile-web-app-title"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="#121212" name="theme-color"/>
+<meta content="#121212" name="msapplication-TileColor"/>
+<!-- Favicon -->
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<!-- Sitemap -->
+<link href="/sitemap-tools-en.xml" rel="sitemap" type="application/xml"/>
+<!-- Performance Optimizations -->
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com" rel="dns-prefetch"/>
+<link as="style" href="/static/css/toolbox/camera/style.css" rel="preload"/>
+<link as="script" href="/static/js/toolbox/camera/script-tr.js" rel="preload"/>
+<link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="preload"/>
+<!-- Critical CSS (Above the Fold) -->
+<style> /* Critical CSS - Above the fold styles */ :root { --bg-color: #121212; --card-bg: #1e1e1e; --text-main: #e0e0e0; --text-muted: #a0a0a0; --accent: #4a6bff; --accent-hover: #3a5bef; --border: #333; --success: #00d4aa; --danger: #ef4444; } * { box-sizing: border-box; } body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; } h1 { margin-bottom: 20px; font-weight: 300; margin-top: 20px; text-align: center; font-size: clamp(1.5rem, 4vw, 2.2rem); } .badge { background: var(--success); color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.6rem; vertical-align: middle; margin-left: 8px; font-weight: 600; } .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); } /* Mobile touch optimizations */ @media (hover: none) and (pointer: coarse) { button, select { min-height: 44px; min-width: 44px; } } /* Reduced motion (accessibility) */ @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } } </style>
+<!-- Non-critical CSS async loading -->
+<link href="/static/css/toolbox/camera/style.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<noscript><link href="/static/css/toolbox/camera/style.css" rel="stylesheet"/></noscript>
+<!-- Shared Stylesheets -->
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/NavCard.css" rel="stylesheet"/>
+<link href="/static/css/shared/toolsnavigation.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/shared/document.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Structured Data Schema Markup (merged, English) -->
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "WebApplication", "name": "Çevrimiçi Web Kamerası Test Aracı", "description": "Kapsamlı performans analizine sahip profesyonel çevrimiçi kamera test aracı", "url": "https://starryring.com/tr/toolbox/camera/", "applicationCategory": "UtilityApplication", "operatingSystem": [ "Web", "Windows", "macOS", "Linux", "Chrome OS" ], "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }, "author": { "@type": "Organization", "name": "StarryRing", "url": "https://starryring.com" }, "featureList": [ "Real-time video stream test", "Resolution & FPS measurement", "Hardware capability analysis", "Device switching & management", "Mirror flip function", "Real-time performance monitoring" ], "softwareVersion": "2.1.0", "datePublished": "2026-01-01", "dateModified": "2026-01-05" }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Kameram neden görüntülenmiyor?", "acceptedAnswer": { "@type": "Answer", "text": "Bunun nedeni tarayıcı izin kısıtlamaları veya kamera donanım sorunları olabilir. Lütfen aşağıdakilerden emin olun: 1) Tarayıcının kameraya erişmesine izin veriyorsunuz; 2) Kamera düzgün şekilde bağlanmış; 3) Şu anda kamerayı kullanan başka bir uygulama yok." } }, { "@type": "Question", "name": "Kamera kare hızını (FPS) nasıl test ederim?", "acceptedAnswer": { "@type": "Answer", "text": "Sayfanın sağ üst köşesindeki gerçek zamanlı FPS değerine bakın. Profesyonel kameralar genellikle 30 fps veya daha yüksek hızları destekler, üst düzey kameralar ise 60 fps veya daha yüksek hızlara ulaşabilir. Sabit bir kare hızı, düzgün videonun anahtarıdır." } }, { "@type": "Question", "name": "Kamera kalitemin düşük olup olmadığını nasıl anlarım?", "acceptedAnswer": { "@type": "Answer", "text": "Fark ettiyseniz: 1) Bulanık video; 2) Kekemeliğe neden olan düşük kare hızı; 3) Renk bozulması; 4) Düşük ışıkta düşük performans; bunlar kamera kalitesi sorunlarının göstergesi olabilir." } }, { "@type": "Question", "name": "Hangi tür kameralar desteklenir?", "acceptedAnswer": { "@type": "Answer", "text": "Tüm kamera türleri desteklenir: dizüstü bilgisayardaki yerleşik kameralar, USB harici kameralar, web kameraları, konferans kameraları, canlı yayın kameraları vb. Windows, macOS ve Linux ile uyumludur." } }, { "@type": "Question", "name": "Kamera çözünürlüğünü nasıl test ederim?", "acceptedAnswer": { "@type": "Answer", "text": "Araç otomatik olarak geçerli çözünürlüğü görüntüler. Yüksek kaliteli kameralar genellikle 1080p (1920x1080) veya daha yüksek çözünürlüğü desteklerken standart kameralar yalnızca 720p (1280x720) çözünürlüğü destekleyebilir." } }, { "@type": "Question", "name": "Test verilerim kaydedildi mi?", "acceptedAnswer": { "@type": "Answer", "text": "Tüm test verileri yalnızca mevcut tarayıcı oturumunuzda saklanır. Sayfayı yenilediğinizde veya sekmeyi kapattığınızda kaybolacaktır. Gizliliğinizi sağlamak için herhangi bir kamera verisi toplamıyor veya yüklemiyoruz." } } ] }, { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Araç Kutusu", "item": "https://starryring.com/tr/toolbox/" }, { "@type": "ListItem", "position": 2, "name": "Web Kamerası Test Aracı", "item": "https://starryring.com/tr/toolbox/camera/" } ] }, { "@type": "HowTo", "name": "Web kamerası test aracı nasıl kullanılır?", "description": "Kamera performansını, çözünürlüğünü ve kare hızını test etmek için adım adım kılavuz", "step": [ { "@type": "HowToStep", "name": "Kamera iznine izin ver", "text": "İstendiğinde tarayıcının kameranıza erişmesine izin verin. Testin çalışması için bu gereklidir.", "image": "https://starryring.com/tr/toolbox/camera/step1-en.png" }, { "@type": "HowToStep", "name": "Kamera cihazını seçin", "text": "Bağlı birden fazla kameranız varsa, cihaz açılır menüsünden kameranızı seçin.", "image": "https://starryring.com/tr/toolbox/camera/step2-en.png" }, { "@type": "HowToStep", "name": "Video akışını kontrol edin", "text": "Kameranın düzgün çalıştığından emin olmak için gerçek zamanlı videoyu gözlemleyin. Bulanıklık, takılma veya renk sorunlarını kontrol edin.", "image": "https://starryring.com/tr/toolbox/camera/step3-en.png" }, { "@type": "HowToStep", "name": "Performans verilerini analiz edin", "text": "İstatistik panelinde çözünürlüğü, FPS'yi ve donanım özelliklerini görüntüleyin. Gerçek zamanlı performans göstergelerini izleyin.", "image": "https://starryring.com/tr/toolbox/camera/step4-en.png" }, { "@type": "HowToStep", "name": "Gelişmiş özellikleri test edin", "text": "Ayna çevirme işlevini deneyin. Kameranız destekliyorsa farklı çözünürlük modlarını keşfedin.", "image": "https://starryring.com/tr/toolbox/camera/step5-en.png" } ], "totalTime": "PT2M" }, { "@type": "WebPage", "@id": "https://starryring.com/tr/toolbox/camera/#webpage", "url": "https://starryring.com/tr/toolbox/camera/", "name": "Çevrimiçi Web Kamerası Test Aracı", "description": "Kamera performansı ve çözünürlük testleri için ücretsiz çevrimiçi kamera test aracı", "inLanguage": "tr", "isPartOf": { "@type": "WebSite", "@id": "https://starryring.com/#website", "url": "https://starryring.com", "name": "StarryRing", "description": "Ücretsiz çevrimiçi araçlar ve yardımcı programlar" } } ]
+}</script>
+<meta content="&Uuml;cretsiz &ccedil;evrimi&ccedil;i web kameras&inodot; test arac&inodot;. Ger&ccedil;ek zamanl&inodot; kamera performans testi, &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k kontrol&uuml;, FPS &ouml;l&ccedil;&uuml;m&uuml;, donan&inodot;m kapasitesi analizi. &Idot;ndirmeye gerek yok. Diz&uuml;st&uuml; bilgisayar kameralar&inodot;n&inodot;, USB kameralar&inodot; ve daha fazlas&inodot;n&inodot; destekler." name="description"/>
+<link href="https://starryring.com/tr/toolbox/camera/" rel="canonical"/><link href="https://starryring.com/en/toolbox/camera/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/tr/toolbox/camera/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/zh/toolbox/camera/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/toolbox/camera/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/toolbox/camera/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/toolbox/camera/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/toolbox/camera/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/toolbox/camera/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/toolbox/camera/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/toolbox/camera/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/toolbox/camera/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/toolbox/camera/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ru/toolbox/camera/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/ur/toolbox/camera/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/toolbox/camera/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/toolbox/camera/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/toolbox/camera/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/toolbox/camera/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/toolbox/camera/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/ta/toolbox/camera/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/tr/toolbox/camera/" property="og:url"/>
+<meta content="tr_TR" property="og:locale"/>
+<meta content="📷 &Ccedil;evrimi&ccedil;i Web Kameras&inodot; Test Arac&inodot; - &Uuml;cretsiz Kamera Kontrol&uuml; ve &Ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k Testi" property="og:title"/>
+<meta content="&Uuml;cretsiz &ccedil;evrimi&ccedil;i web kameras&inodot; test arac&inodot;. Ger&ccedil;ek zamanl&inodot; kamera performans testi, &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k kontrol&uuml;, FPS &ouml;l&ccedil;&uuml;m&uuml;. &Idot;ndirmeye gerek yok." property="og:description"/>
+<meta content="📷 &Ccedil;evrimi&ccedil;i Web Kameras&inodot; Test Arac&inodot; - &Uuml;cretsiz Kamera Kontrol&uuml; ve &Ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k Testi" name="twitter:title"/>
+<meta content="&Uuml;cretsiz &ccedil;evrimi&ccedil;i web kameras&inodot; test arac&inodot;. Ger&ccedil;ek zamanl&inodot; kamera performans testi, &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k kontrol&uuml;, FPS &ouml;l&ccedil;&uuml;m&uuml;. &Idot;ndirmeye gerek yok." name="twitter:description"/>
+<meta content="web kameras&inodot; testi, kamera testi, &ccedil;evrimi&ccedil;i web kameras&inodot; test cihaz&inodot;, kamera &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml; testi, FPS testi, kamera performans testi, diz&uuml;st&uuml; bilgisayar kamera testi, USB kamera testi, konferans kamera testi, web kameras&inodot; kalite kontrol&uuml;" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Dil seçin" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/toolbox/camera/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/toolbox/camera/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/toolbox/camera/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/toolbox/camera/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/toolbox/camera/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/toolbox/camera/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/toolbox/camera/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/toolbox/camera/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/toolbox/camera/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/toolbox/camera/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/toolbox/camera/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/toolbox/camera/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/toolbox/camera/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/toolbox/camera/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/toolbox/camera/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/toolbox/camera/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/toolbox/camera/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/toolbox/camera/" data-lang="te">తెలుగు</a>
-            <a class="language-option selected" href="/tr/toolbox/camera/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/toolbox/camera/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="Dil se&ccedil;in" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/toolbox/camera/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/toolbox/camera/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/toolbox/camera/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/toolbox/camera/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/toolbox/camera/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/toolbox/camera/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/toolbox/camera/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/toolbox/camera/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/toolbox/camera/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/toolbox/camera/">Portugu&ecirc;s</a>
+<a class="language-option" data-lang="ru" href="/ru/toolbox/camera/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/toolbox/camera/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/toolbox/camera/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/toolbox/camera/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/toolbox/camera/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/toolbox/camera/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/toolbox/camera/">తెలుగు</a>
+<a class="language-option selected" data-lang="tr" href="/tr/toolbox/camera/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/toolbox/camera/">தமிழ்</a>
+</div>
+</div>
 <!-- Language Switcher -->
 <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-section">
-        <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-            <ol class="breadcrumb-modern">
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/tr/" class="breadcrumb-link" itemprop="item">
-                        <i class="fas fa-home" aria-hidden="true"></i> 
-                        <span itemprop="name">Ana Sayfa</span>
-                    </a>
-                    <meta itemprop="position" content="1" />
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/tr/toolbox/" class="breadcrumb-link" itemprop="item">
-                        <i class="fas fa-box" aria-hidden="true"></i> <span itemprop="name">Araç Kutusu</span>
-                    </a>
-                    <meta itemprop="position" content="2" />
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <span class="breadcrumb-active" itemprop="name">Webcam Test Tool</span>
-                    <meta itemprop="position" content="3" />
-                </li>
-            </ol>
-        </nav>
-    </div>
-
-
-    <!-- Page Main Title -->
-    <h1 id="title-text">Professional Webcam Test Tool - Real-time Camera Detection, Resolution/FPS Analysis<span class="badge">Free Online Tool</span></h1>
-
-    <!-- Introductory Content -->
-    <div class="intro-section">
-        <p>Free online webcam test tool, no software installation required. Developed with WebRTC technology, it measures camera performance metrics in real time, including: <strong>video stream quality test</strong>, <strong>resolution detection</strong>, <strong>frame rate (FPS) analysis</strong>, <strong>hardware capability check</strong>. Supports various device types:</p>
-        <div class="keyboard-types">
-            <span class="keyboard-type-tag">Laptop cameras</span>
-            <span class="keyboard-type-tag">USB external cameras</span>
-            <span class="keyboard-type-tag">Webcams</span>
-            <span class="keyboard-type-tag">HD cameras</span>
-            <span class="keyboard-type-tag">Conference cameras</span>
-            <span class="keyboard-type-tag">Live streaming cameras</span>
-            <span class="keyboard-type-tag">Phone cameras (browser support required)</span>
-        </div>
-        <div class="compatibility-note">
-            <i class="fas fa-info-circle"></i> <strong>Compatibility note:</strong> This tool works with modern browsers like Chrome, Firefox, Edge, Safari, and requires HTTPS environment or localhost access.
-        </div>
-    </div>
-
-    <div class="container">
-        <section>
-            <div class="card" style="margin-bottom: 20px;">
-                <div class="controls-row">
-                    <div class="select-group">
-                        <label id="video-label" for="videoSource">Video Source</label>
-                        <select id="videoSource"><option>Detecting devices...</option></select>
-                    </div>
-                </div>
-                <div class="controls-row" style="margin-bottom: 0;">
-                    <div class="btn-group">
-                        <button id="btn-mirror" class="secondary">Mirror Flip</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" style="padding: 10px;">
-                <div class="video-wrapper">
-                    <video id="video" autoplay playsinline aria-label="Camera live feed"></video>
-                    <div class="overlay-stats">
-                        <span id="live-res">0x0</span> | <span id="live-fps">0</span> FPS
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <aside>
-            <div class="card">
-                <h3 id="status-header-text"><span class="status-dot"></span>Device Status</h3>
-                <table class="info-table">
-                    <tr><td id="run-status-label">Status</td><td id="status-text">Requesting permission...</td></tr>
-                    <tr><td id="device-name-label">Device Name</td><td id="device-label">-</td></tr>
-                    <tr><td id="actual-res-label">Actual Resolution</td><td id="info-res">-</td></tr>
-                    <tr><td id="aspect-ratio-label">Aspect Ratio</td><td id="info-aspect">-</td></tr>
-                </table>
-
-                <h3 id="caps-header-text" style="margin-top: 20px;">Hardware Capabilities</h3>
-                <div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">* Parameters read from browser/driver</div>
-                <table class="info-table" id="capabilities-table">
-                    <tr><td>-</td><td>-</td></tr>
-                </table>
-            </div>
-        </aside>
-    </div>
-
-    <!-- Core Advantages -->
-    <div class="stats-section">
-        <h2>Key Advantages of the Webcam Test Tool</h2>
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div class="stat-title">Free</div>
-                <p>No registration, no cost</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">Real-time</div>
-                <div class="stat-title">Instant Testing</div>
-                <p>See camera parameters immediately</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">Privacy</div>
-                <div class="stat-title">Secure</div>
-                <p>Data stays local, never uploaded</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">Multi-device</div>
-                <div class="stat-title">Wide Compatibility</div>
-                <p>Supports all camera types</p>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Feature Description and FAQ Section -->
-    <section class="instructions-section">
-        <div class="instructions-content" id="instructions-content">
-            <h2>Professional Webcam Test Tool Features</h2>
-            <p>📖 Overview: The professional webcam test tool offers comprehensive camera testing, from basic video streaming to advanced performance analysis, helping you fully understand your camera's status. Supports all camera types, including laptop built-in cameras, USB external cameras, webcams, and more.</p>
-            
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <h3>🔍 Real-time Video Stream Check</h3>
-                    <p>Displays the camera video stream in real time, detecting whether transmission is stable, smooth, and free from stuttering, delay, or frame drops.</p>
-                    <div class="tip">
-                        <span class="tip-text">Tip: Observe if the video stream is smooth, without stuttering</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>📊 Resolution & Frame Rate Test</h3>
-                    <p>Detects the maximum supported resolution, optimal resolution, and various frame rate modes of the camera, showing real-time resolution and FPS data.</p>
-   
-                </div>
-                
-                <div class="feature-item">
-                    <h3>⚙️ Hardware Capability Analysis</h3>
-                    <p>Shows the camera's underlying hardware parameters, including supported resolution ranges, frame rate ranges, focus modes, white balance, etc.</p>
-                    <div class="tip">
-                        <span class="tip-text">Pay attention to hardware capabilities to understand the camera's true performance</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>🎯 Device Switching & Management</h3>
-                    <p>Supports switching between multiple camera devices, automatically detecting and listing all available cameras, making it easy to test different devices.</p>
-                    <div class="tip">
-                        <span class="tip-text">Switch between cameras for comparative testing</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>🔄 Mirror Flip Function</h3>
-                    <p>Provides a mirror flip switch to simulate selfie mode, testing the camera's mirror processing capability and display effect.</p>
-                    <div class="tip">
-                        <span class="tip-text">Mirror function is useful for video conferencing and selfies</span>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>📈 Real-time Performance Monitoring</h3>
-                    <p>Displays key parameters like FPS, resolution, and status in real time, allowing quantitative evaluation of camera performance.</p>
-                    <div class="tip">
-                        <span class="tip-text">Data monitoring helps systematically assess camera condition</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="faq-section">
-                <h2>Frequently Asked Questions (FAQ)</h2>
-                
-                <div class="faq-item">
-                    <h3>Why is my camera not displaying?</h3>
-                    <p>This may be due to browser permission restrictions or camera hardware issues. Please ensure: 1) You allow the browser to access the camera; 2) The camera is properly connected; 3) No other application is currently using the camera.</p>
-                </div>
-                
-                <div class="faq-item">
-                    <h3>How do I test camera frame rate?</h3>
-                    <p>Look at the real-time FPS value in the top right corner of the page. Professional cameras typically support 30fps or higher, high-end cameras can reach 60fps or more. A stable frame rate is key to smooth video.</p>
-    
-                </div>
-                
-                <div class="faq-item">
-                    <h3>How can I tell if my camera quality is poor?</h3>
-                    <p>If you notice: 1) Blurry video; 2) Low frame rate causing stuttering; 3) Color distortion; 4) Poor performance in low light, these may indicate camera quality issues.</p>
-
-                </div>
-
-                <div class="faq-item">
-                    <h3>What types of cameras are supported?</h3>
-                    <p>All types of cameras are supported: laptop built-in cameras, USB external cameras, webcams, conference cameras, live streaming cameras, etc. Compatible with Windows, macOS, and Linux.</p>
-                </div>
-                
-                <div class="faq-item">
-                    <h3>How do I test camera resolution?</h3>
-                    <p>The tool automatically displays the current resolution. High-quality cameras usually support 1080p (1920x1080) or higher, while standard cameras may only support 720p (1280x720).</p>
-
-                </div>
-                
-                <div class="faq-item">
-                    <h3>Is my test data saved?</h3>
-                    <p>All test data is stored only in your current browser session. It will be lost when you refresh the page or close the tab. We do not collect or upload any camera data, ensuring your privacy.</p>
-                    <div class="faq-link-container">
-                        <span class="faq-tip-text">Data security: all data processed locally</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Scripts (English version) -->
-    <script src="/static/js/toolbox/camera/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
-
-    <footer style="width:100%;max-width:960px;margin:40px auto 0;padding:20px 10px;border-top:1px solid rgba(255,255,255,0.12);text-align:center;font-size:0.85rem;color:var(--text-muted);">
-        <div style="margin-bottom:8px;">
-            © 2026 StarryRing
-        </div>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
-            <a href="/tr/about-us/" style="color:#60a5fa;text-decoration:none;">Hakkımızda</a>
-            <a href="/tr/contact-us/" style="color:#60a5fa;text-decoration:none;">Bize Ulaşın</a>
-            <a href="/tr/disclaimer/" style="color:#60a5fa;text-decoration:none;">Sorumluluk Reddi</a>
-            <a href="/tr/privacy/" style="color:#60a5fa;text-decoration:none;">Gizlilik Politikası</a>
-            <a href="/tr/terms/" style="color:#60a5fa;text-decoration:none;">Hizmet Şartları</a>
-        </div>
-    </footer>
-
+<div class="breadcrumb-section">
+<nav aria-label="ekmek k&inodot;r&inodot;nt&inodot;s&inodot;" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<a class="breadcrumb-link" href="/tr/" itemprop="item">
+<i aria-hidden="true" class="fas fa-home"></i>
+<span itemprop="name">Ana Sayfa</span>
+</a>
+<meta content="1" itemprop="position"/>
+</li>
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<a class="breadcrumb-link" href="/tr/toolbox/" itemprop="item">
+<i aria-hidden="true" class="fas fa-box"></i><span itemprop="name">Ara&ccedil; Kutusu</span>
+</a>
+<meta content="2" itemprop="position"/>
+</li>
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+<span class="breadcrumb-active" itemprop="name">Web Kameras&inodot; Test Arac&inodot;</span>
+<meta content="3" itemprop="position"/>
+</li>
+</ol>
+</nav>
+</div>
+<!-- Page Main Title -->
+<h1 id="title-text">Profesyonel Web Kameras&inodot; Test Arac&inodot; - Ger&ccedil;ek Zamanl&inodot; Kamera Alg&inodot;lama, &Ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k/FPS Analizi<span class="badge">&Uuml;cretsiz &Ccedil;evrimi&ccedil;i Ara&ccedil;</span></h1>
+<!-- Introductory Content -->
+<div class="intro-section">
+<p>&Uuml;cretsiz &ccedil;evrimi&ccedil;i web kameras&inodot; test arac&inodot;, yaz&inodot;l&inodot;m kurulumu gerekmez. WebRTC teknolojisiyle geli&scedil;tirilen bu cihaz, a&scedil;a&gbreve;&inodot;dakiler de dahil olmak &uuml;zere kamera performans&inodot; &ouml;l&ccedil;&uuml;mlerini ger&ccedil;ek zamanl&inodot; olarak &ouml;l&ccedil;er:<strong>video ak&inodot;&scedil;&inodot; kalitesi testi</strong>, <strong>&ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k tespiti</strong>, <strong>kare h&inodot;z&inodot; (FPS) analizi</strong>, <strong>donan&inodot;m yetene&gbreve;i kontrol&uuml;</strong>. &Ccedil;e&scedil;itli cihaz t&uuml;rlerini destekler:</p>
+<div class="keyboard-types">
+<span class="keyboard-type-tag">Diz&uuml;st&uuml; kameralar</span>
+<span class="keyboard-type-tag">USB harici kameralar</span>
+<span class="keyboard-type-tag">Web kameralar&inodot;</span>
+<span class="keyboard-type-tag">HD kameralar</span>
+<span class="keyboard-type-tag">Konferans kameralar&inodot;</span>
+<span class="keyboard-type-tag">Canl&inodot; yay&inodot;n kameralar&inodot;</span>
+<span class="keyboard-type-tag">Telefon kameralar&inodot; (taray&inodot;c&inodot; deste&gbreve;i gereklidir)</span>
+</div>
+<div class="compatibility-note">
+<i class="fas fa-info-circle"></i><strong>Uyumluluk notu:</strong>Bu ara&ccedil;, Chrome, Firefox, Edge, Safari gibi modern taray&inodot;c&inodot;larla &ccedil;al&inodot;&scedil;&inodot;r ve HTTPS ortam&inodot; veya localhost eri&scedil;imi gerektirir.</div>
+</div>
+<div class="container">
+<section>
+<div class="card" style="margin-bottom: 20px;">
+<div class="controls-row">
+<div class="select-group">
+<label for="videoSource" id="video-label">Video Kayna&gbreve;&inodot;</label>
+<select id="videoSource"><option>Cihazlar alg&inodot;lan&inodot;yor...</option></select>
+</div>
+</div>
+<div class="controls-row" style="margin-bottom: 0;">
+<div class="btn-group">
+<button class="secondary" id="btn-mirror">Ayna &Ccedil;evirme</button>
+</div>
+</div>
+</div>
+<div class="card" style="padding: 10px;">
+<div class="video-wrapper">
+<video aria-label="Kamera canl&inodot; yay&inodot;n&inodot;" autoplay="" id="video" playsinline=""></video>
+<div class="overlay-stats">
+<span id="live-res">0x0</span> | <span id="live-fps">0</span>FPS</div>
+</div>
+</div>
+</section>
+<aside>
+<div class="card">
+<h3 id="status-header-text"><span class="status-dot"></span>Cihaz Durumu</h3>
+<table class="info-table">
+<tr><td id="run-status-label">Durum</td><td id="status-text">&Idot;zin isteniyor...</td></tr>
+<tr><td id="device-name-label">Cihaz Ad&inodot;</td><td id="device-label">-</td></tr>
+<tr><td id="actual-res-label">Ger&ccedil;ek &Ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k</td><td id="info-res">-</td></tr>
+<tr><td id="aspect-ratio-label">En Boy Oran&inodot;</td><td id="info-aspect">-</td></tr>
+</table>
+<h3 id="caps-header-text" style="margin-top: 20px;">Donan&inodot;m Yetenekleri</h3>
+<div id="caps-hint" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">* Taray&inodot;c&inodot;dan/s&uuml;r&uuml;c&uuml;den okunan parametreler</div>
+<table class="info-table" id="capabilities-table">
+<tr><td>-</td><td>-</td></tr>
+</table>
+</div>
+</aside>
+</div>
+<!-- Core Advantages -->
+<div class="stats-section">
+<h2>Web Kameras&inodot; Test Arac&inodot;n&inodot;n Temel Avantajlar&inodot;</h2>
+<div class="stats-grid">
+<div class="stat-item">
+<div class="stat-number">100%</div>
+<div class="stat-title">&Uuml;cretsiz</div>
+<p>Kay&inodot;t yok, &uuml;cret yok</p>
+</div>
+<div class="stat-item">
+<div class="stat-number">Ger&ccedil;ek zamanl&inodot;</div>
+<div class="stat-title">An&inodot;nda Test</div>
+<p>Kamera parametrelerini an&inodot;nda g&ouml;r&uuml;n</p>
+</div>
+<div class="stat-item">
+<div class="stat-number">Gizlilik</div>
+<div class="stat-title">G&uuml;venli</div>
+<p>Veriler yerel kal&inodot;r, hi&ccedil;bir zaman y&uuml;klenmez</p>
+</div>
+<div class="stat-item">
+<div class="stat-number">&Ccedil;oklu cihaz</div>
+<div class="stat-title">Geni&scedil; Uyumluluk</div>
+<p>T&uuml;m kamera t&uuml;rlerini destekler</p>
+</div>
+</div>
+</div>
+<!-- Feature Description and FAQ Section -->
+<section class="instructions-section">
+<div class="instructions-content" id="instructions-content">
+<h2>Profesyonel Web Kameras&inodot; Test Arac&inodot; &Ouml;zellikleri</h2>
+<p>📖 Genel Bak&inodot;&scedil;: Profesyonel web kameras&inodot; test arac&inodot;, temel video ak&inodot;&scedil;&inodot;ndan geli&scedil;mi&scedil; performans analizine kadar kapsaml&inodot; kamera testleri sunarak kameran&inodot;z&inodot;n durumunu tam olarak anlaman&inodot;za yard&inodot;mc&inodot; olur. Diz&uuml;st&uuml; bilgisayar&inodot;n yerle&scedil;ik kameralar&inodot;, USB harici kameralar, web kameralar&inodot; ve daha fazlas&inodot; dahil t&uuml;m kamera t&uuml;rlerini destekler.</p>
+<div class="feature-grid">
+<div class="feature-item">
+<h3>🔍 Ger&ccedil;ek Zamanl&inodot; Video Ak&inodot;&scedil;&inodot; Kontrol&uuml;</h3>
+<p>Kamera video ak&inodot;&scedil;&inodot;n&inodot; ger&ccedil;ek zamanl&inodot; olarak g&ouml;r&uuml;nt&uuml;leyerek iletimin istikrarl&inodot;, d&uuml;zg&uuml;n ve tak&inodot;lma, gecikme veya kare d&uuml;&scedil;meleri i&ccedil;ermedi&gbreve;ini tespit eder.</p>
+<div class="tip">
+<span class="tip-text">&Idot;pucu: Video ak&inodot;&scedil;&inodot;n&inodot;n tak&inodot;lma olmadan d&uuml;zg&uuml;n olup olmad&inodot;&gbreve;&inodot;n&inodot; g&ouml;zlemleyin</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>📊 &Ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k ve Kare H&inodot;z&inodot; Testi</h3>
+<p>Kameran&inodot;n desteklenen maksimum &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml;n&uuml;, optimum &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml;n&uuml; ve &ccedil;e&scedil;itli kare h&inodot;z&inodot; modlar&inodot;n&inodot; alg&inodot;layarak ger&ccedil;ek zamanl&inodot; &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k ve FPS verilerini g&ouml;sterir.</p>
+</div>
+<div class="feature-item">
+<h3>⚙️ Donan&inodot;m Yetenek Analizi</h3>
+<p>Desteklenen &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k aral&inodot;klar&inodot;, kare h&inodot;z&inodot; aral&inodot;klar&inodot;, odak modlar&inodot;, beyaz dengesi vb. dahil olmak &uuml;zere kameran&inodot;n temel donan&inodot;m parametrelerini g&ouml;sterir.</p>
+<div class="tip">
+<span class="tip-text">Kameran&inodot;n ger&ccedil;ek performans&inodot;n&inodot; anlamak i&ccedil;in donan&inodot;m &ouml;zelliklerine dikkat edin</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>🎯 Cihaz De&gbreve;i&scedil;tirme ve Y&ouml;netimi</h3>
+<p>Birden fazla kamera cihaz&inodot; aras&inodot;nda ge&ccedil;i&scedil; yapmay&inodot;, mevcut t&uuml;m kameralar&inodot; otomatik olarak alg&inodot;lay&inodot;p listelemeyi destekleyerek farkl&inodot; cihazlar&inodot;n test edilmesini kolayla&scedil;t&inodot;r&inodot;r.</p>
+<div class="tip">
+<span class="tip-text">Kar&scedil;&inodot;la&scedil;t&inodot;rmal&inodot; testler i&ccedil;in kameralar aras&inodot;nda ge&ccedil;i&scedil; yap&inodot;n</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>🔄 Ayna &Ccedil;evirme Fonksiyonu</h3>
+<p>Selfie modunu sim&uuml;le etmek i&ccedil;in bir ayna &ccedil;evirme anahtar&inodot; sa&gbreve;lar, kameran&inodot;n ayna i&scedil;leme yetene&gbreve;ini ve g&ouml;r&uuml;nt&uuml; efektini test eder.</p>
+<div class="tip">
+<span class="tip-text">Ayna i&scedil;levi video konferans ve selfie'ler i&ccedil;in kullan&inodot;&scedil;l&inodot;d&inodot;r</span>
+</div>
+</div>
+<div class="feature-item">
+<h3>📈 Ger&ccedil;ek Zamanl&inodot; Performans &Idot;zleme</h3>
+<p>FPS, &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;k ve durum gibi temel parametreleri ger&ccedil;ek zamanl&inodot; olarak g&ouml;r&uuml;nt&uuml;leyerek kamera performans&inodot;n&inodot;n niceliksel olarak de&gbreve;erlendirilmesine olanak tan&inodot;r.</p>
+<div class="tip">
+<span class="tip-text">Veri izleme, kamera durumunun sistematik olarak de&gbreve;erlendirilmesine yard&inodot;mc&inodot; olur</span>
+</div>
+</div>
+</div>
+<div class="faq-section">
+<h2>S&inodot;k&ccedil;a Sorulan Sorular (SSS)</h2>
+<div class="faq-item">
+<h3>Kameram neden g&ouml;r&uuml;nt&uuml;lenmiyor?</h3>
+<p>Bunun nedeni taray&inodot;c&inodot; izin k&inodot;s&inodot;tlamalar&inodot; veya kamera donan&inodot;m sorunlar&inodot; olabilir. L&uuml;tfen a&scedil;a&gbreve;&inodot;dakilerden emin olun: 1) Taray&inodot;c&inodot;n&inodot;n kameraya eri&scedil;mesine izin veriyorsunuz; 2) Kamera d&uuml;zg&uuml;n &scedil;ekilde ba&gbreve;lanm&inodot;&scedil;; 3) &Scedil;u anda kameray&inodot; kullanan ba&scedil;ka bir uygulama yok.</p>
+</div>
+<div class="faq-item">
+<h3>Kamera kare h&inodot;z&inodot;n&inodot; nas&inodot;l test ederim?</h3>
+<p>Sayfan&inodot;n sa&gbreve; &uuml;st k&ouml;&scedil;esindeki ger&ccedil;ek zamanl&inodot; FPS de&gbreve;erine bak&inodot;n. Profesyonel kameralar genellikle 30 fps veya daha y&uuml;ksek h&inodot;zlar&inodot; destekler, &uuml;st d&uuml;zey kameralar ise 60 fps veya daha y&uuml;ksek h&inodot;zlara ula&scedil;abilir. Sabit bir kare h&inodot;z&inodot;, d&uuml;zg&uuml;n videonun anahtar&inodot;d&inodot;r.</p>
+</div>
+<div class="faq-item">
+<h3>Kamera kalitemin d&uuml;&scedil;&uuml;k olup olmad&inodot;&gbreve;&inodot;n&inodot; nas&inodot;l anlar&inodot;m?</h3>
+<p>Fark ettiyseniz: 1) Bulan&inodot;k video; 2) Kekemeli&gbreve;e neden olan d&uuml;&scedil;&uuml;k kare h&inodot;z&inodot;; 3) Renk bozulmas&inodot;; 4) D&uuml;&scedil;&uuml;k &inodot;&scedil;&inodot;kta d&uuml;&scedil;&uuml;k performans; bunlar kamera kalitesi sorunlar&inodot;n&inodot;n g&ouml;stergesi olabilir.</p>
+</div>
+<div class="faq-item">
+<h3>Hangi t&uuml;r kameralar desteklenir?</h3>
+<p>T&uuml;m kamera t&uuml;rleri desteklenir: diz&uuml;st&uuml; bilgisayardaki yerle&scedil;ik kameralar, USB harici kameralar, web kameralar&inodot;, konferans kameralar&inodot;, canl&inodot; yay&inodot;n kameralar&inodot; vb. Windows, macOS ve Linux ile uyumludur.</p>
+</div>
+<div class="faq-item">
+<h3>Kamera &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml;n&uuml; nas&inodot;l test ederim?</h3>
+<p>Ara&ccedil; otomatik olarak ge&ccedil;erli &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml; g&ouml;r&uuml;nt&uuml;ler. Y&uuml;ksek kaliteli kameralar genellikle 1080p (1920x1080) veya daha y&uuml;ksek &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml; desteklerken standart kameralar yaln&inodot;zca 720p (1280x720) &ccedil;&ouml;z&uuml;n&uuml;rl&uuml;&gbreve;&uuml; destekleyebilir.</p>
+</div>
+<div class="faq-item">
+<h3>Test verilerim kaydedildi mi?</h3>
+<p>T&uuml;m test verileri yaln&inodot;zca mevcut taray&inodot;c&inodot; oturumunuzda saklan&inodot;r. Sayfay&inodot; yeniledi&gbreve;inizde veya sekmeyi kapatt&inodot;&gbreve;&inodot;n&inodot;zda kaybolacakt&inodot;r. Gizlili&gbreve;inizi sa&gbreve;lamak i&ccedil;in herhangi bir kamera verisi toplam&inodot;yor veya y&uuml;klemiyoruz.</p>
+<div class="faq-link-container">
+<span class="faq-tip-text">Veri g&uuml;venli&gbreve;i: t&uuml;m veriler yerel olarak i&scedil;lenir</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Scripts (İngilizce versiyonu) -->
+<script src="/static/js/toolbox/camera/script-tr.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
+<footer style="width:100%;max-width:960px;margin:40px auto 0;padding:20px 10px;border-top:1px solid rgba(255,255,255,0.12);text-align:center;font-size:0.85rem;color:var(--text-muted);">
+<div style="margin-bottom:8px;">&copy; 2026 StarryRing</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+<a href="/tr/about-us/" style="color:#60a5fa;text-decoration:none;">Hakk&inodot;m&inodot;zda</a>
+<a href="/tr/contact-us/" style="color:#60a5fa;text-decoration:none;">Bize Ula&scedil;&inodot;n</a>
+<a href="/tr/disclaimer/" style="color:#60a5fa;text-decoration:none;">Sorumluluk reddi beyan&inodot;</a>
+<a href="/tr/privacy/" style="color:#60a5fa;text-decoration:none;">Gizlilik Politikas&inodot;</a>
+<a href="/tr/terms/" style="color:#60a5fa;text-decoration:none;">Hizmet &Scedil;artlar&inodot;</a>
+</div>
+</footer>
 </body>
 </html>

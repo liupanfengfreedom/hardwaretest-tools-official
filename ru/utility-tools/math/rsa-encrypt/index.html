@@ -1,427 +1,339 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#060a0e">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="StarryRing">
-<meta name="twitter:card" content="summary_large_image">
-
-<link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/utility-tools/math/rsa-encrypt/style.css">
-    <link rel="preload" href="/static/js/utility-tools/math/rsa-encrypt/script-en.js" as="script">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://starryring.com/ru/"},
-            {"@type": "ListItem", "position": 2, "name": "Полезные инструменты", "item": "https://starryring.com/ru/utility-tools/"},
-            {"@type": "ListItem", "position": 3, "name": "RSA Encryption Tool", "item": "https://starryring.com/ru/utility-tools/math/rsa-encrypt/"}
-          ]
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "RSA Encryption Tool",
-          "applicationCategory": "SecurityApplication",
-          "operatingSystem": "Web",
-          "url": "https://starryring.com/ru/utility-tools/math/rsa-encrypt/",
-          "description": "Free online RSA encryption tool with key pair generation, PEM public key import, and browser-side RSA-OAEP encryption.",
-          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-          "featureList": [
-            "Generate RSA public/private key pairs",
-            "Import PEM public keys",
-            "Support RSA-OAEP with multiple hash options",
-            "Export Base64 or Hex output",
-            "All cryptographic operations run locally in the browser"
-          ]
-        },
-        {
-          "@type": "FAQPage",
-          "mainEntity": [
-            {"@type": "Question", "name": "Why does RSA encryption use a public key?", "acceptedAnswer": {"@type": "Answer", "text": "RSA is an asymmetric encryption system. The public key encrypts data, while the private key decrypts it, so senders do not need to share a secret in advance."}},
-            {"@type": "Question", "name": "Which RSA settings are supported on this page?", "acceptedAnswer": {"@type": "Answer", "text": "This page supports 2048, 3072, and 4096 bit key sizes, along with OAEP hash options including SHA-1, SHA-256, SHA-384, and SHA-512."}},
-            {"@type": "Question", "name": "What is PEM format?", "acceptedAnswer": {"@type": "Answer", "text": "PEM is a common text format for keys and certificates. It wraps Base64-encoded DER data with BEGIN and END headers to make the content easy to copy and transfer."}},
-            {"@type": "Question", "name": "Why is RSA unsuitable for large files?", "acceptedAnswer": {"@type": "Answer", "text": "RSA can only encrypt a limited amount of plaintext in a single operation, so it is best for short messages or symmetric keys. Larger payloads should use hybrid encryption."}}
-          ]
-        }
-      ]
-    }
-    </script>
-    <title>RSA Encryption Tool & Key Pair Generator | StarryRing</title>
-<meta name="description" content="Free online RSA encryption tool with key pair generation, PEM public key import, OAEP hash selection, and browser-side RSA-OAEP encryption.">
-            <link rel="canonical" href="https://starryring.com/ru/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/rsa-encrypt/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/rsa-encrypt/">
-<meta property="og:url" content="https://starryring.com/ru/utility-tools/math/rsa-encrypt/">
-    <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="RSA Encryption Tool & Key Pair Generator | StarryRing">
-    <meta property="og:description" content="Generate RSA key pairs online, import PEM public keys, and perform RSA-OAEP encryption locally in your browser.">
-    <meta name="twitter:title" content="RSA Encryption Tool & Key Pair Generator">
-    <meta name="twitter:description" content="Free online RSA encryption tool with PEM public key import, key pair generation, and browser-side RSA-OAEP encryption.">
-    <meta name="keywords" content="rsa encryption tool,rsa encrypt online,rsa key pair generator,rsa oaep,pem public key,web crypto,rsa public key encryption">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#060a0e" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="StarryRing" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="/favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Syne:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="/static/css/shared/BreadNav.css" rel="stylesheet"/>
+<link href="/static/css/shared/switchlanguage.css" rel="stylesheet"/>
+<link href="/static/css/utility-tools/math/rsa-encrypt/style.css" rel="stylesheet"/>
+<link as="script" href="/static/js/utility-tools/math/rsa-encrypt/script-ru.js" rel="preload"/>
+<script type="application/ld+json">{ "@context": "https://schema.org", "@graph": [ { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://starryring.com/ru/" }, { "@type": "ListItem", "position": 2, "name": "Служебные инструменты", "item": "https://starryring.com/ru/utility-tools/" }, { "@type": "ListItem", "position": 3, "name": "Инструмент шифрования RSA", "item": "https://starryring.com/ru/utility-tools/math/rsa-encrypt/" } ] }, { "@type": "SoftwareApplication", "name": "Инструмент шифрования RSA", "applicationCategory": "SecurityApplication", "operatingSystem": "Web", "url": "https://starryring.com/ru/utility-tools/math/rsa-encrypt/", "description": "Бесплатный онлайн-инструмент шифрования RSA с генерацией пары ключей, импортом открытых ключей PEM и шифрованием RSA-OAEP на стороне браузера.", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "featureList": [ "Generate RSA public/private key pairs", "Import PEM public keys", "Support RSA-OAEP with multiple hash options", "Export Base64 or Hex output", "All cryptographic operations run locally in the browser" ] }, { "@type": "FAQPage", "mainEntity": [ { "@type": "Question", "name": "Почему в шифровании RSA используется открытый ключ?", "acceptedAnswer": { "@type": "Answer", "text": "RSA — это асимметричная система шифрования. Открытый ключ шифрует данные, а закрытый ключ их расшифровывает, поэтому отправителям не нужно заранее сообщать секрет." } }, { "@type": "Question", "name": "Какие настройки RSA поддерживаются на этой странице?", "acceptedAnswer": { "@type": "Answer", "text": "Эта страница поддерживает размеры ключей 2048, 3072 и 4096 бит, а также параметры хеширования OAEP, включая SHA-1, SHA-256, SHA-384 и SHA-512." } }, { "@type": "Question", "name": "Что такое формат PEM?", "acceptedAnswer": { "@type": "Answer", "text": "PEM — это общий текстовый формат ключей и сертификатов. Он оборачивает данные DER в кодировке Base64 заголовками BEGIN и END, чтобы упростить копирование и передачу содержимого." } }, { "@type": "Question", "name": "Почему RSA не подходит для больших файлов?", "acceptedAnswer": { "@type": "Answer", "text": "RSA может зашифровать только ограниченное количество открытого текста за одну операцию, поэтому лучше всего подходит для коротких сообщений или симметричных ключей. Для более крупных полезных данных следует использовать гибридное шифрование." } } ] } ]
+}</script>
+<title>RSA &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy; &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tcy;&ocy;&rcy; &pcy;&acy;&rcy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; | StarryRing</title>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ycy;&jcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; RSA &scy; &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tscy;&icy;&iecy;&jcy; &pcy;&acy;&rcy;&ycy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy;, &icy;&mcy;&pcy;&ocy;&rcy;&tcy;&ocy;&mcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&khcy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; PEM, &vcy;&ycy;&bcy;&ocy;&rcy;&ocy;&mcy; &khcy;&iecy;&shcy;&acy; OAEP &icy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&mcy; RSA-OAEP &ncy;&acy; &scy;&tcy;&ocy;&rcy;&ocy;&ncy;&iecy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;." name="description"/>
+<link href="https://starryring.com/ru/utility-tools/math/rsa-encrypt/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/math/rsa-encrypt/" hreflang="x-default" rel="alternate"/>
+<link href="https://starryring.com/ru/utility-tools/math/rsa-encrypt/" hreflang="ru" rel="alternate"/>
+<link href="https://starryring.com/zh/utility-tools/math/rsa-encrypt/" hreflang="zh" rel="alternate"/>
+<link href="https://starryring.com/vi/utility-tools/math/rsa-encrypt/" hreflang="vi" rel="alternate"/>
+<link href="https://starryring.com/ja/utility-tools/math/rsa-encrypt/" hreflang="ja" rel="alternate"/>
+<link href="https://starryring.com/ko/utility-tools/math/rsa-encrypt/" hreflang="ko" rel="alternate"/>
+<link href="https://starryring.com/hi/utility-tools/math/rsa-encrypt/" hreflang="hi" rel="alternate"/>
+<link href="https://starryring.com/es/utility-tools/math/rsa-encrypt/" hreflang="es" rel="alternate"/>
+<link href="https://starryring.com/fr/utility-tools/math/rsa-encrypt/" hreflang="fr" rel="alternate"/>
+<link href="https://starryring.com/ar/utility-tools/math/rsa-encrypt/" hreflang="ar" rel="alternate"/>
+<link href="https://starryring.com/bn/utility-tools/math/rsa-encrypt/" hreflang="bn" rel="alternate"/>
+<link href="https://starryring.com/pt/utility-tools/math/rsa-encrypt/" hreflang="pt" rel="alternate"/>
+<link href="https://starryring.com/ur/utility-tools/math/rsa-encrypt/" hreflang="ur" rel="alternate"/>
+<link href="https://starryring.com/id/utility-tools/math/rsa-encrypt/" hreflang="id" rel="alternate"/>
+<link href="https://starryring.com/de/utility-tools/math/rsa-encrypt/" hreflang="de" rel="alternate"/>
+<link href="https://starryring.com/pcm/utility-tools/math/rsa-encrypt/" hreflang="pcm-NG" rel="alternate"/>
+<link href="https://starryring.com/mr/utility-tools/math/rsa-encrypt/" hreflang="mr" rel="alternate"/>
+<link href="https://starryring.com/te/utility-tools/math/rsa-encrypt/" hreflang="te" rel="alternate"/>
+<link href="https://starryring.com/tr/utility-tools/math/rsa-encrypt/" hreflang="tr" rel="alternate"/>
+<link href="https://starryring.com/ta/utility-tools/math/rsa-encrypt/" hreflang="ta" rel="alternate"/>
+<meta content="https://starryring.com/ru/utility-tools/math/rsa-encrypt/" property="og:url"/>
+<meta content="ru_RU" property="og:locale"/>
+<meta content="RSA &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy; &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tcy;&ocy;&rcy; &pcy;&acy;&rcy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; | StarryRing" property="og:title"/>
+<meta content="&Scy;&ocy;&zcy;&dcy;&acy;&vcy;&acy;&jcy;&tcy;&iecy; &pcy;&acy;&rcy;&ycy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; RSA &ocy;&ncy;&lcy;&acy;&jcy;&ncy;, &icy;&mcy;&pcy;&ocy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&iecy; &kcy;&lcy;&yucy;&chcy;&icy; PEM &icy; &vcy;&ycy;&pcy;&ocy;&lcy;&ncy;&yacy;&jcy;&tcy;&iecy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; RSA-OAEP &lcy;&ocy;&kcy;&acy;&lcy;&softcy;&ncy;&ocy; &vcy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&iecy;." property="og:description"/>
+<meta content="RSA &Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy; &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tcy;&ocy;&rcy; &pcy;&acy;&rcy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy;" name="twitter:title"/>
+<meta content="&Bcy;&iecy;&scy;&pcy;&lcy;&acy;&tcy;&ncy;&ycy;&jcy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;-&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; RSA &scy; &icy;&mcy;&pcy;&ocy;&rcy;&tcy;&ocy;&mcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&khcy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; PEM, &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tscy;&icy;&iecy;&jcy; &pcy;&acy;&rcy;&ycy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; &icy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&mcy; RSA-OAEP &ncy;&acy; &scy;&tcy;&ocy;&rcy;&ocy;&ncy;&iecy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;." name="twitter:description"/>
+<meta content="&icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; rsa, rsa &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &ocy;&ncy;&lcy;&acy;&jcy;&ncy;, &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tcy;&ocy;&rcy; &pcy;&acy;&rcy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; rsa, rsa oaep, &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; pem, &vcy;&iecy;&bcy;-&kcy;&rcy;&icy;&pcy;&tcy;&ocy;&gcy;&rcy;&acy;&fcy;&icy;&yacy;, &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &scy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&mcy; &kcy;&lcy;&yucy;&chcy;&ocy;&mcy; rsa" name="keywords"/>
 </head>
 <body>
-            <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Выбрать язык" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/utility-tools/math/rsa-encrypt/" data-lang="en">English</a>
-            <a class="language-option" href="/zh/utility-tools/math/rsa-encrypt/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/utility-tools/math/rsa-encrypt/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/utility-tools/math/rsa-encrypt/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/utility-tools/math/rsa-encrypt/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/utility-tools/math/rsa-encrypt/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/utility-tools/math/rsa-encrypt/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/utility-tools/math/rsa-encrypt/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/utility-tools/math/rsa-encrypt/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/utility-tools/math/rsa-encrypt/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/utility-tools/math/rsa-encrypt/" data-lang="pt">Português</a>
-            <a class="language-option selected" href="/ru/utility-tools/math/rsa-encrypt/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/utility-tools/math/rsa-encrypt/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/utility-tools/math/rsa-encrypt/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/utility-tools/math/rsa-encrypt/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/utility-tools/math/rsa-encrypt/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/utility-tools/math/rsa-encrypt/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/utility-tools/math/rsa-encrypt/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/utility-tools/math/rsa-encrypt/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/utility-tools/math/rsa-encrypt/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
-
-<nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
-        <ol class="breadcrumb-modern">
-            <li class="breadcrumb-item"><a href="/ru/" class="breadcrumb-link"><i class="fas fa-home"></i> Главная</a></li>
-            <li class="breadcrumb-item"><a href="/ru/utility-tools/" class="breadcrumb-link">Полезные инструменты</a></li>
-            <li class="breadcrumb-item" aria-current="page"><span class="breadcrumb-active">RSA Encryption Tool</span></li>
-        </ol>
-    </nav>
-<div class="scan-effect"></div>
-
-<div class="container">
-  <header>
-    <div class="logo-group">
-      <span class="logo-tag">// cryptographic tool v2.0</span>
-      <h1 class="logo-title">RSA <span>Cipher</span></h1>
-    </div>
-    <div class="header-badge">
-      <div class="badge">CLIENT-SIDE ONLY</div>
-      <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
-    </div>
-  </header>
-
-  <!-- Security Banner -->
-  <div class="security-banner">
-    <span class="security-banner-icon">🔒</span>
-    <span><strong>Client-side only</strong> - keys and data are processed entirely inside your browser and are never uploaded to any server. Built on the native Web Crypto API.</span>
-  </div>
-
-  <!-- Config Panel -->
-  <div class="config-panel">
-    <div class="config-header">
-      <div class="config-header-icon">⚙</div>
-      <span class="config-title">Algorithm Configuration</span>
-    </div>
-    <div class="config-grid" style="grid-template-columns: repeat(3, 1fr)">
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-keysize" class="label-link">Key Size</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="keySize">
-            <option value="2048">2048-bit</option>
-            <option value="3072">3072-bit</option>
-            <option value="4096" selected>4096-bit</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-hash" class="label-link">OAEP Hash</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="hash">
-            <option value="SHA-1">SHA-1</option>
-            <option value="SHA-256" selected>SHA-256</option>
-            <option value="SHA-384">SHA-384</option>
-            <option value="SHA-512">SHA-512</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label"><a href="#explain-encoding" class="label-link">Output Encoding</a></label>
-        <div class="select-wrapper">
-          <select class="field-select" id="outputEncoding">
-            <option value="base64">Base64</option>
-            <option value="hex">Hex</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Key Section -->
-  <div class="key-section">
-    <div class="config-header">
-      <div class="config-header-icon" style="color:var(--accent2)">🔑</div>
-      <span class="config-title">Key Material</span>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:20px">
-      <div class="field-group">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <!-- PEM format reference -->
-         <label class="field-label" style="margin-bottom:0">
-              <a href="#explain-key" class="label-link">Public Key</a> 
-              (<a href="#explain-pem" class="label-link">PEM</a>)
-          </label>
-          <button class="gen-btn" onclick="generateKeyPair()" style="margin-left:auto">GENERATE KEY PAIR</button>
-          <button class="copy-field-btn" onclick="copyField('publicKey', this)" title="Copy public key">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-        </div>
-        <textarea class="field-input" id="publicKey" rows="5" placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----&#10;&#10;Paste an RSA public key, or click GENERATE KEY PAIR to create a new key pair" autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:105px;line-height:1.5"></textarea>
-        <div class="key-hint" id="keyHint">RSA-OAEP encryption uses the public key - the matching private key is required for decryption (<span id="keySizeHint">4096</span>-bit / <span id="hashHint">SHA-256</span>)</div>
-      </div>
-      <div class="field-group" id="privateKeyGroup" style="display:none">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <label class="field-label" style="margin-bottom:0;color:var(--accent3)">⚠ Private key - save it immediately. If it is lost, decryption will be impossible</label>
-          <button class="copy-field-btn" onclick="copyField('privateKeyDisplay', this)" title="Copy private key" style="margin-left:auto">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-          <button class="gen-btn" onclick="downloadPrivateKey()" style="color:var(--accent3);border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.06)">SAVE .PEM</button>
-        </div>
-        <textarea class="field-input" id="privateKeyDisplay" rows="8" readonly autocomplete="off" spellcheck="false" style="font-size:11px;resize:vertical;min-height:140px;color:var(--accent3);opacity:0.9"></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- IO Section -->
-  <div class="io-section">
-    <div class="io-panel input-panel" id="inputPanel">
-      <div class="drop-zone" id="dropZone">
-        <div class="drop-zone-icon">⬇</div>
-        <div class="drop-zone-text">Release to load the file</div>
-      </div>
-      <div class="io-header">
-        <div class="io-title">
-          <div class="io-dot"></div>
-          PLAINTEXT / INPUT
-        </div>
-        <div class="io-actions">
-          <button class="upload-btn" onclick="triggerFileInput()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload File
-          </button>
-          <button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="Clear">✕</button>
-          <button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="Paste">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
-          </button>
-        </div>
-      </div>
-      <input type="file" id="fileInput" style="display:none" onchange="handleFileInput(this)">
-      <textarea class="io-textarea" id="inputText" placeholder="Enter plaintext to encrypt here...&#10;&#10;Supports any UTF-8 text, or click ↑ to load a file"></textarea>
-      <div class="io-footer">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="io-stat" id="inputStat">0 bytes</span>
-          <div class="file-badge" id="inputFileBadge" style="display:none">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-            <span class="file-badge-name" id="inputFileName"></span>
-            <button class="file-badge-clear" onclick="clearFileInput()" title="Remove file">✕</button>
-          </div>
-        </div>
-        <div class="format-tabs-wrap" id="formatTabsWrap">
-          <div class="custom-tooltip">File mode locks the format to TEXT</div>
-          <button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')">TEXT</button>
-          <button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')">HEX</button>
-          <button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')">BASE64</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="io-panel output-panel">
-      <div class="io-header">
-        <div class="io-title">
-          <div class="io-dot"></div>
-          CIPHERTEXT / OUTPUT
-        </div>
-        <div class="io-actions">
-          <button class="icon-btn" onclick="copyOutput(this)" title="Copy output">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          </button>
-          <div class="dl-txt-wrap">
-          <button class="icon-btn" onclick="downloadOutputText()" aria-label="Download text">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </button>
-            <div class="dl-tooltip">Download as <strong>.txt</strong><br><span>Base64/Hex text format<br>Ready for reading or copy/paste</span></div>
-          </div>
-        </div>
-      </div>
-      <textarea class="io-textarea" id="outputText" placeholder="Encrypted output will appear here..." readonly></textarea>
-      <div class="output-file-strip" id="outputFileStrip">
-        <div class="output-file-info">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-          <span id="outputFileLabel">Encryption complete</span>
-          <span style="color:var(--text3);font-size:10px">— Raw binary bytes that can be fed into a decryption tool</span>
-        </div>
-        <button class="enc-download-link" onclick="downloadOutputFile()">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download .enc
-        </button>
-      </div>
-      <div class="copy-config-strip" id="copyConfigStrip">
-        <div class="copy-config-info">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Export the current configuration (mode / key size / key / IV) for direct use in the matching decryption tool
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy Config
-          </button>
-          <button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download Config
-          </button>
-        </div>
-      </div>
-      <div class="io-footer">
-        <span class="io-stat" id="outputStat">0 bytes</span>
-        <span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)">—</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Action Row -->
-  <div class="action-row">
-    <button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ ENCRYPT</button>
-    <a href="/ru/utility-tools/math/rsa-decrypt/" class="decrypt-link">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Need decryption?
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </a>
-  </div>
-
-  <!-- Status Bar -->
-  <div class="status-bar" id="statusBar">
-    <div class="status-indicator"></div>
-    <span class="status-text" id="statusText">Ready - configure keys, then click encrypt or decrypt</span>
-    <span class="status-time" id="statusTime"></span>
-  </div>
-
-  <!-- Info Strip -->
-  <div class="info-strip">
-    <div class="info-card">
-      <div class="info-card-label">Algorithm</div>
-      <div class="info-card-value" id="infoAlgo">RSA</div>
-      <div class="info-card-sub" id="infoMode">OAEP / SHA-256</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Key Strength</div>
-      <div class="info-card-value" id="infoKeySize">4096</div>
-      <div class="info-card-sub">bits</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Security Level</div>
-      <div class="info-card-value" id="infoSecurity">HIGH</div>
-      <div class="info-card-sub" id="infoSecSub">Asymmetric</div>
-    </div>
-    <div class="info-card">
-      <div class="info-card-label">Processed</div>
-      <div class="info-card-value" id="infoBytes">0</div>
-      <div class="info-card-sub" id="infoBytesUnit">bytes this session</div>
-    </div>
-  </div>
-
-  <!-- Explanation Sections -->
-  <div class="explain-section" id="explain-key">
-    <div class="explain-icon">🔑</div>
-    <div class="explain-body">
-      <div class="explain-title">Why does RSA encryption use a public key?</div>
-      <div class="explain-text">RSA is an asymmetric encryption algorithm that uses a key pair: the <strong style="color:#c8e0f0">public key</strong> encrypts data, while the <strong style="color:#c8e0f0">private key</strong> decrypts it. The public key can be shared openly with anyone who wants to send you encrypted data, but the private key must remain secret.<br><br>The main advantage is that the sender does not need to share a secret in advance. Anyone can encrypt with the public key, but only the holder of the matching private key can decrypt the result. If the private key is lost, the encrypted data cannot be recovered.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-keysize">
-    <div class="explain-icon">📏</div>
-    <div class="explain-body">
-      <div class="explain-title">How should you choose the key size?</div>
-      <div class="explain-text">Longer RSA keys provide stronger security, but they also slow down key generation and encryption/decryption.<br><br><strong style="color:#c8e0f0">2048-bit</strong>: widely considered secure today, suitable for general use, and the fastest option.<br><br><strong style="color:#c8e0f0">3072-bit</strong>: adds a wider security margin and is recommended for longer-term confidentiality.<br><br><strong style="color:#c8e0f0">4096-bit</strong>: the highest security level on this page, best for very high security requirements, but slower to generate and use.<br><br>Note: RSA can only encrypt limited-size plaintext in a single operation. With 2048-bit/SHA-256 the limit is about 190 bytes; with 4096-bit it is about 446 bytes. Use chunking or hybrid encryption for larger payloads.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-hash">
-    <div class="explain-icon">⚙️</div>
-    <div class="explain-body">
-      <div class="explain-title">What is OAEP hash?</div>
-      <div class="explain-text">RSA-OAEP (Optimal Asymmetric Encryption Padding) is the recommended padding scheme for RSA encryption today. It uses a hash function to add randomness and defend against chosen-plaintext attacks.<br><br><strong style="color:#c8e0f0">SHA-256</strong> (recommended): strong security, broad adoption, and good compatibility.<br><strong style="color:#c8e0f0">SHA-384 / SHA-512</strong>: a wider security margin, but they slightly reduce the maximum plaintext size.<br><strong style="color:#c8e0f0">SHA-1</strong>: kept only for legacy compatibility and not recommended for new systems.<br><br>Encryption and decryption must use the same hash algorithm.</div>
-    </div>
-  </div>
-
-  <div class="explain-section" id="explain-encoding">
-    <div class="explain-icon">🔠</div>
-    <div class="explain-body">
-      <div class="explain-title">What is output encoding?</div>
-      <div class="explain-text">The raw output of RSA encryption is binary data, which is not convenient for direct storage or text transmission. Output Encoding converts the bytes into a printable format.<br><br><strong style="color:#c8e0f0">Base64</strong>: encodes every 3 bytes into 4 ASCII characters, producing output about 1.33× the original size. Compact and widely used in APIs, email, and JSON payloads.<br><br><strong style="color:#c8e0f0">Hex</strong>: represents every byte as 2 hexadecimal characters, doubling the output size. Easier to inspect and useful for debugging byte by byte.</div>
-    </div>
-  </div>
-
-  <!-- PEM Format Guide -->
-  <div class="explain-section" id="explain-pem">
-    <div class="explain-icon">📄</div>
-    <div class="explain-body">
-      <div class="explain-title">PEM Format Guide</div>
-      <div class="explain-text">
-        <p><strong>1️⃣ What is PEM format?</strong><br>
-        PEM (Privacy-Enhanced Mail) is a text format used to store and transfer keys and certificates. It Base64-encodes binary DER data and wraps it with headers and footers like <code>-----BEGIN &lt;LABEL&gt;-----</code> and <code>-----END &lt;LABEL&gt;-----</code>. Common labels include <code>PUBLIC KEY</code>, <code>PRIVATE KEY</code>, and <code>CERTIFICATE</code>. It is easy to copy, paste, and transmit in text-based workflows, making it one of the most common key exchange formats.</p>
-
-        <p><strong>2️⃣ Which other formats are common besides PEM?</strong><br>
-        - <strong>DER</strong>: a pure binary format that stores ASN.1 structures directly. It is not human-readable and is common in Java ecosystems.<br>
-        - <strong>HEX</strong>: expresses DER binary content as a hexadecimal string, useful for debugging or embedding in code.<br>
-        - <strong>Base64 (without headers)</strong>: raw DER encoded as Base64 without PEM headers, often used in compact configurations or token payloads.<br>
-        - <strong>PKCS#12 (PFX)</strong>: a binary container format that can bundle public and private keys together, usually protected by a password and often used by browsers or Windows systems.</p>
-
-        <p><strong>3️⃣ When should you use each format?</strong><br>
-        - <strong>PEM</strong>: the most universal option, suitable for OpenSSL, web servers (Nginx/Apache), and API exchange.<br>
-        - <strong>DER</strong>: commonly used in Java environments or where strict binary storage is required.<br>
-        - <strong>HEX</strong>: useful in debugging, embedded systems, or whenever exact byte inspection is needed.<br>
-        - <strong>Base64 (without headers)</strong>: useful when formatting is constrained or a compact representation is required.<br>
-        - <strong>PKCS#12</strong>: useful when both public and private keys must be transported together while protecting the private key with a password.</p>
-      </div>
-    </div>
-  </div>
+<div class="language-switcher">
+<button aria-expanded="false" aria-label="&Vcy;&ycy;&bcy;&iecy;&rcy;&icy;&tcy;&iecy; &yacy;&zcy;&ycy;&kcy;" class="language-trigger" id="languageTrigger">🌐</button>
+<div class="language-dropdown" id="languageDropdown">
+<a class="language-option" data-lang="zh" href="/zh/utility-tools/math/rsa-encrypt/">简体中文</a>
+<a class="language-option" data-lang="vi" href="/vi/utility-tools/math/rsa-encrypt/">Tiếng Việt</a>
+<a class="language-option" data-lang="ja" href="/ja/utility-tools/math/rsa-encrypt/">日本語</a>
+<a class="language-option" data-lang="ko" href="/ko/utility-tools/math/rsa-encrypt/">한국어</a>
+<a class="language-option" data-lang="hi" href="/hi/utility-tools/math/rsa-encrypt/">हिन्दी</a>
+<a class="language-option" data-lang="es" href="/es/utility-tools/math/rsa-encrypt/">Espa&ntilde;ol</a>
+<a class="language-option" data-lang="fr" href="/fr/utility-tools/math/rsa-encrypt/">Fran&ccedil;ais</a>
+<a class="language-option" data-lang="ar" href="/ar/utility-tools/math/rsa-encrypt/">العربية</a>
+<a class="language-option" data-lang="bn" href="/bn/utility-tools/math/rsa-encrypt/">বাংলা</a>
+<a class="language-option" data-lang="pt" href="/pt/utility-tools/math/rsa-encrypt/">Portugu&ecirc;s</a>
+<a class="language-option selected" data-lang="ru" href="/ru/utility-tools/math/rsa-encrypt/">&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</a>
+<a class="language-option" data-lang="ur" href="/ur/utility-tools/math/rsa-encrypt/">اردو</a>
+<a class="language-option" data-lang="id" href="/id/utility-tools/math/rsa-encrypt/">Bahasa Indonesia</a>
+<a class="language-option" data-lang="de" href="/de/utility-tools/math/rsa-encrypt/">Deutsch</a>
+<a class="language-option" data-lang="pcm" href="/pcm/utility-tools/math/rsa-encrypt/">Naij&aacute;</a>
+<a class="language-option" data-lang="mr" href="/mr/utility-tools/math/rsa-encrypt/">मराठी</a>
+<a class="language-option" data-lang="te" href="/te/utility-tools/math/rsa-encrypt/">తెలుగు</a>
+<a class="language-option" data-lang="tr" href="/tr/utility-tools/math/rsa-encrypt/">T&uuml;rk&ccedil;e</a>
+<a class="language-option" data-lang="ta" href="/ta/utility-tools/math/rsa-encrypt/">தமிழ்</a>
 </div>
-
+</div>
+<nav aria-label="&Ncy;&acy;&vcy;&icy;&gcy;&acy;&tscy;&icy;&yacy; &pcy;&ocy; &kcy;&rcy;&ocy;&shcy;&kcy;&acy;&mcy;" class="breadcrumb-section">
+<ol class="breadcrumb-modern">
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/ru/"><i class="fas fa-home"></i>&Gcy;&lcy;&acy;&vcy;&ncy;&acy;&yacy;</a></li>
+<li class="breadcrumb-item"><a class="breadcrumb-link" href="/ru/utility-tools/">&Scy;&lcy;&ucy;&zhcy;&iecy;&bcy;&ncy;&ycy;&iecy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&ycy;</a></li>
+<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active">&Icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; RSA</span></li>
+</ol>
+</nav>
+<div class="scan-effect"></div>
+<div class="container">
+<header>
+<div class="logo-group">
+<span class="logo-tag">// cryptographic tool v2.0</span>
+<h1 class="logo-title">RSA<span>&SHcy;&icy;&fcy;&iecy;&rcy;</span></h1>
+</div>
+<div class="header-badge">
+<div class="badge">&Tcy;&Ocy;&Lcy;&SOFTcy;&Kcy;&Ocy; &Ncy;&Acy; &Scy;&Tcy;&Ocy;&Rcy;&Ocy;&Ncy;&IEcy; &Kcy;&Lcy;&Icy;&IEcy;&Ncy;&Tcy;&Acy;</div>
+<div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">&Vcy;&IEcy;&Bcy;-&Kcy;&Rcy;&Icy;&Pcy;&Tcy;&Ocy; API</div>
+</div>
+</header>
+<!-- Security Banner -->
+<div class="security-banner">
+<span class="security-banner-icon">🔒</span>
+<span><strong>&Tcy;&ocy;&lcy;&softcy;&kcy;&ocy; &ncy;&acy; &scy;&tcy;&ocy;&rcy;&ocy;&ncy;&iecy; &kcy;&lcy;&icy;&iecy;&ncy;&tcy;&acy;</strong>- &kcy;&lcy;&yucy;&chcy;&icy; &icy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy; &pcy;&ocy;&lcy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy; &ocy;&bcy;&rcy;&acy;&bcy;&acy;&tcy;&ycy;&vcy;&acy;&yucy;&tcy;&scy;&yacy; &vcy;&ncy;&ucy;&tcy;&rcy;&icy; &vcy;&acy;&shcy;&iecy;&gcy;&ocy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy; &icy; &ncy;&icy;&kcy;&ocy;&gcy;&dcy;&acy; &ncy;&iecy; &zcy;&acy;&gcy;&rcy;&ucy;&zhcy;&acy;&yucy;&tcy;&scy;&yacy; &ncy;&acy; &kcy;&acy;&kcy;&ocy;&jcy;-&lcy;&icy;&bcy;&ocy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy;. &Pcy;&ocy;&scy;&tcy;&rcy;&ocy;&iecy;&ncy; &ncy;&acy; &ocy;&scy;&ncy;&ocy;&vcy;&iecy; &scy;&ocy;&bcy;&scy;&tcy;&vcy;&iecy;&ncy;&ncy;&ocy;&gcy;&ocy; Web Crypto API.</span>
+</div>
+<!-- Config Panel -->
+<div class="config-panel">
+<div class="config-header">
+<div class="config-header-icon">⚙</div>
+<span class="config-title">&Kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yacy; &acy;&lcy;&gcy;&ocy;&rcy;&icy;&tcy;&mcy;&acy;</span>
+</div>
+<div class="config-grid" style="grid-template-columns: repeat(3, 1fr)">
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-keysize">&Rcy;&acy;&zcy;&mcy;&iecy;&rcy; &kcy;&lcy;&yucy;&chcy;&acy;</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="keySize">
+<option value="2048">2048-&bcy;&icy;&tcy;</option>
+<option value="3072">3072-&bcy;&icy;&tcy;</option>
+<option selected="" value="4096">4096-&bcy;&icy;&tcy;</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-hash">OAEP &KHcy;&ecy;&shcy;</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="hash">
+<option value="SHA-1">SHA-1</option>
+<option selected="" value="SHA-256">SHA-256</option>
+<option value="SHA-384">SHA-384</option>
+<option value="SHA-512">SHA-512</option>
+</select>
+</div>
+</div>
+<div class="field-group">
+<label class="field-label"><a class="label-link" href="#explain-encoding">&Kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&kcy;&acy; &vcy;&ycy;&vcy;&ocy;&dcy;&acy;</a></label>
+<div class="select-wrapper">
+<select class="field-select" id="outputEncoding">
+<option value="base64">Base64</option>
+<option value="hex">&SHcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy;</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Key Section -->
+<div class="key-section">
+<div class="config-header">
+<div class="config-header-icon" style="color:var(--accent2)">🔑</div>
+<span class="config-title">&Kcy;&lcy;&yucy;&chcy;&iecy;&vcy;&ocy;&jcy; &mcy;&acy;&tcy;&iecy;&rcy;&icy;&acy;&lcy;</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div class="field-group">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+<!-- PEM format reference -->
+<label class="field-label" style="margin-bottom:0">
+<a class="label-link" href="#explain-key">&Ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;</a> (<a class="label-link" href="#explain-pem">PEM</a>) </label>
+<button class="gen-btn" onclick="generateKeyPair()" style="margin-left:auto">&Gcy;&IEcy;&Ncy;&IEcy;&Rcy;&Acy;&TScy;&Icy;&YAcy; &Pcy;&Acy;&Rcy;&Ycy; &Kcy;&Lcy;&YUcy;&CHcy;&IEcy;&Jcy;</button>
+<button class="copy-field-btn" onclick="copyField('publicKey', this)" title="&Kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+</div>
+<textarea autocomplete="off" class="field-input" id="publicKey" placeholder="-----&Ncy;&Acy;&CHcy;&Acy;&Tcy;&SOFTcy; &Pcy;&Ucy;&Bcy;&Lcy;&Icy;&CHcy;&Ncy;&Ycy;&Jcy; &Kcy;&Lcy;&YUcy;&CHcy; ----- ... ----- &Kcy;&Ocy;&Ncy;&IEcy;&TScy; &Pcy;&Ucy;&Bcy;&Lcy;&Icy;&CHcy;&Ncy;&Ocy;&Gcy;&Ocy; &Kcy;&Lcy;&YUcy;&CHcy;&Acy; ----- &Vcy;&scy;&tcy;&acy;&vcy;&softcy;&tcy;&iecy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; RSA &icy;&lcy;&icy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &Scy;&Ocy;&Zcy;&Dcy;&Acy;&Tcy;&SOFTcy; &Pcy;&Acy;&Rcy;&Ucy; &Kcy;&Lcy;&YUcy;&CHcy;&IEcy;&Jcy;, &chcy;&tcy;&ocy;&bcy;&ycy; &scy;&ocy;&zcy;&dcy;&acy;&tcy;&softcy; &ncy;&ocy;&vcy;&ucy;&yucy; &pcy;&acy;&rcy;&ucy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy;." rows="5" spellcheck="false" style="font-size:11px;resize:vertical;min-height:105px;line-height:1.5"></textarea>
+<div class="key-hint" id="keyHint">RSA-OAEP &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; &mdash; &dcy;&lcy;&yacy; &rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&kcy;&icy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy; &scy;&ocy;&ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&ucy;&yucy;&shchcy;&icy;&jcy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; (<span id="keySizeHint">4096</span>-&bcy;&icy;&tcy; /<span id="hashHint">SHA-256</span>)</div>
+</div>
+<div class="field-group" id="privateKeyGroup" style="display:none">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+<label class="field-label" style="margin-bottom:0;color:var(--accent3)">⚠ &Zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; &mdash; &scy;&ocy;&khcy;&rcy;&acy;&ncy;&icy;&tcy;&iecy; &iecy;&gcy;&ocy; &ncy;&iecy;&mcy;&iecy;&dcy;&lcy;&iecy;&ncy;&ncy;&ocy;. &IEcy;&scy;&lcy;&icy; &ocy;&ncy; &ucy;&tcy;&iecy;&rcy;&yacy;&ncy;, &rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&kcy;&acy; &bcy;&ucy;&dcy;&iecy;&tcy; &ncy;&iecy;&vcy;&ocy;&zcy;&mcy;&ocy;&zhcy;&ncy;&acy;.</label>
+<button class="copy-field-btn" onclick="copyField('privateKeyDisplay', this)" style="margin-left:auto" title="&Kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;">
+<svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+<button class="gen-btn" onclick="downloadPrivateKey()" style="color:var(--accent3);border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.06)">&Scy;&Ocy;&KHcy;&Rcy;&Acy;&Ncy;&Icy;&Tcy;&SOFTcy; .PEM</button>
+</div>
+<textarea autocomplete="off" class="field-input" id="privateKeyDisplay" readonly="" rows="8" spellcheck="false" style="font-size:11px;resize:vertical;min-height:140px;color:var(--accent3);opacity:0.9"></textarea>
+</div>
+</div>
+</div>
+<!-- IO Section -->
+<div class="io-section">
+<div class="io-panel input-panel" id="inputPanel">
+<div class="drop-zone" id="dropZone">
+<div class="drop-zone-icon">⬇</div>
+<div class="drop-zone-text">&Ocy;&tcy;&pcy;&ucy;&scy;&tcy;&icy;&tcy;&iecy;, &chcy;&tcy;&ocy;&bcy;&ycy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;</div>
+</div>
+<div class="io-header">
+<div class="io-title">
+<div class="io-dot"></div>PLAINTEXT/&Vcy;&Vcy;&Ocy;&Dcy;</div>
+<div class="io-actions">
+<button class="upload-btn" onclick="triggerFileInput()">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;</button>
+<button class="icon-btn" id="clearInputBtn" onclick="clearInput()" title="&Ocy;&chcy;&icy;&scy;&tcy;&icy;&tcy;&softcy;">✕</button>
+<button class="icon-btn" id="pasteInputBtn" onclick="pasteInput()" title="&Vcy;&scy;&tcy;&acy;&vcy;&icy;&tcy;&softcy;">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect height="4" rx="1" width="8" x="8" y="2"></rect></svg>
+</button>
+</div>
+</div>
+<input id="fileInput" onchange="handleFileInput(this)" style="display:none" type="file"/>
+<textarea class="io-textarea" id="inputText" placeholder="&Vcy;&vcy;&iecy;&dcy;&icy;&tcy;&iecy; &zcy;&dcy;&iecy;&scy;&softcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy; &dcy;&lcy;&yacy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;... &Pcy;&ocy;&dcy;&dcy;&iecy;&rcy;&zhcy;&icy;&vcy;&acy;&iecy;&tcy;&scy;&yacy; &lcy;&yucy;&bcy;&ocy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy; UTF-8 &icy;&lcy;&icy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &uarr;, &chcy;&tcy;&ocy;&bcy;&ycy; &zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;."></textarea>
+<div class="io-footer">
+<div style="display:flex;align-items:center;gap:8px;">
+<span class="io-stat" id="inputStat">0 &bcy;&acy;&jcy;&tcy;</span>
+<div class="file-badge" id="inputFileBadge" style="display:none">
+<svg fill="none" height="10" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+<span class="file-badge-name" id="inputFileName"></span>
+<button class="file-badge-clear" onclick="clearFileInput()" title="&Ucy;&dcy;&acy;&lcy;&icy;&tcy;&softcy; &fcy;&acy;&jcy;&lcy;">✕</button>
+</div>
+</div>
+<div class="format-tabs-wrap" id="formatTabsWrap">
+<div class="custom-tooltip">&Fcy;&acy;&jcy;&lcy;&ocy;&vcy;&ycy;&jcy; &rcy;&iecy;&zhcy;&icy;&mcy; &fcy;&icy;&kcy;&scy;&icy;&rcy;&ucy;&iecy;&tcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy; &Tcy;&IEcy;&Kcy;&Scy;&Tcy;.</div>
+<button class="format-tab active" data-fmt="text" onclick="setInputFormat(this, 'text')">&Tcy;&IEcy;&Kcy;&Scy;&Tcy;</button>
+<button class="format-tab" data-fmt="hex" onclick="setInputFormat(this, 'hex')">HEX</button>
+<button class="format-tab" data-fmt="base64" onclick="setInputFormat(this, 'base64')">BASE64</button>
+</div>
+</div>
+</div>
+<div class="io-panel output-panel">
+<div class="io-header">
+<div class="io-title">
+<div class="io-dot"></div>&TScy;&Icy;&Fcy;&Rcy;&Ocy;&Vcy;&Ycy;&Jcy; &Tcy;&IEcy;&Kcy;&Scy;&Tcy;/&Vcy;&Ycy;&Vcy;&Ocy;&Dcy;</div>
+<div class="io-actions">
+<button class="icon-btn" onclick="copyOutput(this)" title="&Kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &vcy;&ycy;&vcy;&ocy;&dcy;">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+</button>
+<div class="dl-txt-wrap">
+<button aria-label="&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &tcy;&iecy;&kcy;&scy;&tcy;" class="icon-btn" onclick="downloadOutputText()">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+</button>
+<div class="dl-tooltip">&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &kcy;&acy;&kcy;<strong>.txt</strong><br/><span>Base64/&shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy;&ocy;&vcy;&ycy;&jcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;<br/>&Gcy;&ocy;&tcy;&ocy;&vcy;&ocy; &dcy;&lcy;&yacy; &chcy;&tcy;&iecy;&ncy;&icy;&yacy; &icy;&lcy;&icy; &kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;/&vcy;&scy;&tcy;&acy;&vcy;&kcy;&icy;</span></div>
+</div>
+</div>
+</div>
+<textarea class="io-textarea" id="outputText" placeholder="&Zcy;&dcy;&iecy;&scy;&softcy; &pcy;&ocy;&yacy;&vcy;&icy;&tcy;&scy;&yacy; &zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&jcy; &vcy;&ycy;&vcy;&ocy;&dcy;..." readonly=""></textarea>
+<div class="output-file-strip" id="outputFileStrip">
+<div class="output-file-info">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="12"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+<span id="outputFileLabel">&SHcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &zcy;&acy;&vcy;&iecy;&rcy;&shcy;&iecy;&ncy;&ocy;</span>
+<span style="color:var(--text3);font-size:10px">&mdash; &ncy;&iecy;&ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ncy;&ycy;&iecy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ycy;&iecy; &bcy;&acy;&jcy;&tcy;&ycy;, &kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&iecy; &mcy;&ocy;&zhcy;&ncy;&ocy; &pcy;&iecy;&rcy;&iecy;&dcy;&acy;&tcy;&softcy; &vcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy; &dcy;&iecy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</span>
+</div>
+<button class="enc-download-link" onclick="downloadOutputFile()">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; .enc</button>
+</div>
+<div class="copy-config-strip" id="copyConfigStrip">
+<div class="copy-config-info">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="12"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg>&Ecy;&kcy;&scy;&pcy;&ocy;&rcy;&tcy;&icy;&rcy;&ucy;&jcy;&tcy;&iecy; &tcy;&iecy;&kcy;&ucy;&shchcy;&ucy;&yucy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yucy; (&rcy;&iecy;&zhcy;&icy;&mcy;/&rcy;&acy;&zcy;&mcy;&iecy;&rcy; &kcy;&lcy;&yucy;&chcy;&acy;/&kcy;&lcy;&yucy;&chcy;/IV) &dcy;&lcy;&yacy; &pcy;&rcy;&yacy;&mcy;&ocy;&gcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &vcy; &scy;&ocy;&ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&ucy;&yucy;&shchcy;&iecy;&mcy; &icy;&ncy;&scy;&tcy;&rcy;&ucy;&mcy;&iecy;&ncy;&tcy;&iecy; &dcy;&iecy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</div>
+<div style="display:flex;gap:8px">
+<button class="copy-config-btn" id="copyConfigBtn" onclick="copyConfig(this)">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>&Kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yucy;</button>
+<button class="copy-config-btn" onclick="downloadConfig()" style="border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.06)">
+<svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>&Zcy;&acy;&gcy;&rcy;&ucy;&zcy;&icy;&tcy;&softcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yucy;</button>
+</div>
+</div>
+<div class="io-footer">
+<span class="io-stat" id="outputStat">0 &bcy;&acy;&jcy;&tcy;</span>
+<span id="outputFormat" style="font-family:var(--mono);font-size:10px;color:var(--accent)">&mdash;</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="action-row">
+<button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ &SHcy;&Icy;&Fcy;&Rcy;&Ocy;&Vcy;&Acy;&Ncy;&Icy;&IEcy;</button>
+<a class="decrypt-link" href="/ru/utility-tools/math/rsa-decrypt/">
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="11" rx="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>&Ncy;&ucy;&zhcy;&ncy;&acy; &rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&kcy;&acy;?<svg fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+</a>
+</div>
+<!-- Status Bar -->
+<div class="status-bar" id="statusBar">
+<div class="status-indicator"></div>
+<span class="status-text" id="statusText">Ready &mdash; &ncy;&acy;&scy;&tcy;&rcy;&ocy;&jcy;&tcy;&iecy; &kcy;&lcy;&yucy;&chcy;&icy;, &zcy;&acy;&tcy;&iecy;&mcy; &ncy;&acy;&zhcy;&mcy;&icy;&tcy;&iecy; &laquo;&Zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy;&raquo; &icy;&lcy;&icy; &laquo;&Rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy;&raquo;.</span>
+<span class="status-time" id="statusTime"></span>
+</div>
+<!-- Info Strip -->
+<div class="info-strip">
+<div class="info-card">
+<div class="info-card-label">&Acy;&lcy;&gcy;&ocy;&rcy;&icy;&tcy;&mcy;</div>
+<div class="info-card-value" id="infoAlgo">RSA</div>
+<div class="info-card-sub" id="infoMode">OAEP/SHA-256</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">&Kcy;&lcy;&yucy;&chcy;&iecy;&vcy;&acy;&yacy; &scy;&icy;&lcy;&acy;</div>
+<div class="info-card-value" id="infoKeySize">4096</div>
+<div class="info-card-sub">&bcy;&icy;&tcy;</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">&Ucy;&rcy;&ocy;&vcy;&iecy;&ncy;&softcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;</div>
+<div class="info-card-value" id="infoSecurity">&Vcy;&Ycy;&Scy;&Ocy;&Kcy;&Icy;&Jcy;</div>
+<div class="info-card-sub" id="infoSecSub">&Acy;&scy;&icy;&mcy;&mcy;&iecy;&tcy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy;</div>
+</div>
+<div class="info-card">
+<div class="info-card-label">&Ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ocy;</div>
+<div class="info-card-value" id="infoBytes">0</div>
+<div class="info-card-sub" id="infoBytesUnit">&bcy;&acy;&jcy;&tcy; &ecy;&tcy;&ocy;&gcy;&ocy; &scy;&iecy;&acy;&ncy;&scy;&acy;</div>
+</div>
+</div>
+<!-- Explanation Sections -->
+<div class="explain-section" id="explain-key">
+<div class="explain-icon">🔑</div>
+<div class="explain-body">
+<div class="explain-title">&Pcy;&ocy;&chcy;&iecy;&mcy;&ucy; &vcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&icy; RSA &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&scy;&yacy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;?</div>
+<div class="explain-text">RSA &mdash; &ecy;&tcy;&ocy; &acy;&scy;&icy;&mcy;&mcy;&iecy;&tcy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy; &acy;&lcy;&gcy;&ocy;&rcy;&icy;&tcy;&mcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;, &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&yucy;&shchcy;&icy;&jcy; &pcy;&acy;&rcy;&ucy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy;:<strong style="color:#c8e0f0">&ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;</strong>&shcy;&icy;&fcy;&rcy;&ucy;&iecy;&tcy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy;, &acy;<strong style="color:#c8e0f0">&zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;</strong>&rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&ycy;&vcy;&acy;&iecy;&tcy; &iecy;&gcy;&ocy;. &Ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; &mcy;&ocy;&zhcy;&iecy;&tcy; &bcy;&ycy;&tcy;&softcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy; &dcy;&lcy;&yacy; &vcy;&scy;&iecy;&khcy;, &kcy;&tcy;&ocy; &khcy;&ocy;&chcy;&iecy;&tcy; &ocy;&tcy;&pcy;&rcy;&acy;&vcy;&icy;&tcy;&softcy; &vcy;&acy;&mcy; &zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&iecy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy;, &ncy;&ocy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; &dcy;&ocy;&lcy;&zhcy;&iecy;&ncy; &ocy;&scy;&tcy;&acy;&vcy;&acy;&tcy;&softcy;&scy;&yacy; &scy;&iecy;&kcy;&rcy;&iecy;&tcy;&ncy;&ycy;&mcy;.<br/><br/>&Ocy;&scy;&ncy;&ocy;&vcy;&ncy;&ocy;&iecy; &pcy;&rcy;&iecy;&icy;&mcy;&ucy;&shchcy;&iecy;&scy;&tcy;&vcy;&ocy; &zcy;&acy;&kcy;&lcy;&yucy;&chcy;&acy;&iecy;&tcy;&scy;&yacy; &vcy; &tcy;&ocy;&mcy;, &chcy;&tcy;&ocy; &ocy;&tcy;&pcy;&rcy;&acy;&vcy;&icy;&tcy;&iecy;&lcy;&yucy; &ncy;&iecy; &ncy;&ucy;&zhcy;&ncy;&ocy; &zcy;&acy;&rcy;&acy;&ncy;&iecy;&iecy; &scy;&ocy;&ocy;&bcy;&shchcy;&acy;&tcy;&softcy; &scy;&iecy;&kcy;&rcy;&iecy;&tcy;. &Lcy;&yucy;&bcy;&ocy;&jcy; &mcy;&ocy;&zhcy;&iecy;&tcy; &zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &scy; &pcy;&ocy;&mcy;&ocy;&shchcy;&softcy;&yucy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ocy;&gcy;&ocy; &kcy;&lcy;&yucy;&chcy;&acy;, &ncy;&ocy; &tcy;&ocy;&lcy;&softcy;&kcy;&ocy; &vcy;&lcy;&acy;&dcy;&iecy;&lcy;&iecy;&tscy; &scy;&ocy;&ocy;&tcy;&vcy;&iecy;&tcy;&scy;&tcy;&vcy;&ucy;&yucy;&shchcy;&iecy;&gcy;&ocy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ocy;&gcy;&ocy; &kcy;&lcy;&yucy;&chcy;&acy; &mcy;&ocy;&zhcy;&iecy;&tcy; &rcy;&acy;&scy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy;. &IEcy;&scy;&lcy;&icy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; &ucy;&tcy;&iecy;&rcy;&yacy;&ncy;, &zcy;&acy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&iecy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy; &ncy;&iecy;&vcy;&ocy;&zcy;&mcy;&ocy;&zhcy;&ncy;&ocy; &vcy;&ocy;&scy;&scy;&tcy;&acy;&ncy;&ocy;&vcy;&icy;&tcy;&softcy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-keysize">
+<div class="explain-icon">📏</div>
+<div class="explain-body">
+<div class="explain-title">&Kcy;&acy;&kcy; &vcy;&ycy;&bcy;&rcy;&acy;&tcy;&softcy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy; &kcy;&lcy;&yucy;&chcy;&acy;?</div>
+<div class="explain-text">&Bcy;&ocy;&lcy;&iecy;&iecy; &dcy;&lcy;&icy;&ncy;&ncy;&ycy;&iecy; &kcy;&lcy;&yucy;&chcy;&icy; RSA &ocy;&bcy;&iecy;&scy;&pcy;&iecy;&chcy;&icy;&vcy;&acy;&yucy;&tcy; &bcy;&ocy;&lcy;&iecy;&iecy; &vcy;&ycy;&scy;&ocy;&kcy;&icy;&jcy; &ucy;&rcy;&ocy;&vcy;&iecy;&ncy;&softcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;, &ncy;&ocy; &ocy;&ncy;&icy; &tcy;&acy;&kcy;&zhcy;&iecy; &zcy;&acy;&mcy;&iecy;&dcy;&lcy;&yacy;&yucy;&tcy; &gcy;&iecy;&ncy;&iecy;&rcy;&acy;&tscy;&icy;&yucy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; &icy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;/&dcy;&iecy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;.<br/><br/><strong style="color:#c8e0f0">2048-&bcy;&icy;&tcy;</strong>: &scy;&iecy;&gcy;&ocy;&dcy;&ncy;&yacy; &shcy;&icy;&rcy;&ocy;&kcy;&ocy; &scy;&chcy;&icy;&tcy;&acy;&iecy;&tcy;&scy;&yacy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ycy;&mcy;, &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&yacy;&shchcy;&icy;&mcy; &dcy;&lcy;&yacy; &ocy;&bcy;&shchcy;&iecy;&gcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; &icy; &scy;&acy;&mcy;&ycy;&mcy; &bcy;&ycy;&scy;&tcy;&rcy;&ycy;&mcy; &vcy;&acy;&rcy;&icy;&acy;&ncy;&tcy;&ocy;&mcy;.<br/><br/><strong style="color:#c8e0f0">3072-&bcy;&icy;&tcy;</strong>: &ucy;&vcy;&iecy;&lcy;&icy;&chcy;&icy;&vcy;&acy;&iecy;&tcy; &zcy;&acy;&pcy;&acy;&scy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy; &icy; &rcy;&iecy;&kcy;&ocy;&mcy;&iecy;&ncy;&dcy;&ucy;&iecy;&tcy;&scy;&yacy; &dcy;&lcy;&yacy; &ocy;&bcy;&iecy;&scy;&pcy;&iecy;&chcy;&iecy;&ncy;&icy;&yacy; &dcy;&ocy;&lcy;&gcy;&ocy;&scy;&rcy;&ocy;&chcy;&ncy;&ocy;&jcy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&icy;.<br/><br/><strong style="color:#c8e0f0">4096-&bcy;&icy;&tcy;</strong>: &scy;&acy;&mcy;&ycy;&jcy; &vcy;&ycy;&scy;&ocy;&kcy;&icy;&jcy; &ucy;&rcy;&ocy;&vcy;&iecy;&ncy;&softcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy; &ncy;&acy; &ecy;&tcy;&ocy;&jcy; &scy;&tcy;&rcy;&acy;&ncy;&icy;&tscy;&iecy;, &lcy;&ucy;&chcy;&shcy;&iecy; &vcy;&scy;&iecy;&gcy;&ocy; &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&icy;&tcy; &dcy;&lcy;&yacy; &ocy;&chcy;&iecy;&ncy;&softcy; &vcy;&ycy;&scy;&ocy;&kcy;&icy;&khcy; &tcy;&rcy;&iecy;&bcy;&ocy;&vcy;&acy;&ncy;&icy;&jcy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;, &ncy;&ocy; &mcy;&iecy;&dcy;&lcy;&iecy;&ncy;&ncy;&iecy;&iecy; &gcy;&iecy;&ncy;&iecy;&rcy;&icy;&rcy;&ucy;&iecy;&tcy;&scy;&yacy; &icy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&scy;&yacy;.<br/><br/>&Pcy;&rcy;&icy;&mcy;&iecy;&chcy;&acy;&ncy;&icy;&iecy;. RSA &mcy;&ocy;&zhcy;&iecy;&tcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &tcy;&ocy;&lcy;&softcy;&kcy;&ocy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &tcy;&iecy;&kcy;&scy;&tcy; &ocy;&gcy;&rcy;&acy;&ncy;&icy;&chcy;&iecy;&ncy;&ncy;&ocy;&gcy;&ocy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy;&acy; &zcy;&acy; &ocy;&dcy;&ncy;&ucy; &ocy;&pcy;&iecy;&rcy;&acy;&tscy;&icy;&yucy;. &Pcy;&rcy;&icy; 2048-&bcy;&icy;&tcy;&ncy;&ocy;&mcy; &acy;&lcy;&gcy;&ocy;&rcy;&icy;&tcy;&mcy;&iecy; SHA-256 &ocy;&gcy;&rcy;&acy;&ncy;&icy;&chcy;&iecy;&ncy;&icy;&iecy; &scy;&ocy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&iecy;&tcy; &ocy;&kcy;&ocy;&lcy;&ocy; 190 &bcy;&acy;&jcy;&tcy;; &pcy;&rcy;&icy; 4096-&bcy;&icy;&tcy;&ncy;&ocy;&jcy; &vcy;&iecy;&rcy;&scy;&icy;&icy; &ecy;&tcy;&ocy; &ocy;&kcy;&ocy;&lcy;&ocy; 446 &bcy;&acy;&jcy;&tcy;. &Icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&jcy;&tcy;&iecy; &fcy;&rcy;&acy;&gcy;&mcy;&iecy;&ncy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ocy;&iecy; &icy;&lcy;&icy; &gcy;&icy;&bcy;&rcy;&icy;&dcy;&ncy;&ocy;&iecy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &dcy;&lcy;&yacy; &bcy;&ocy;&lcy;&softcy;&shcy;&icy;&khcy; &pcy;&ocy;&lcy;&iecy;&zcy;&ncy;&ycy;&khcy; &dcy;&acy;&ncy;&ncy;&ycy;&khcy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-hash">
+<div class="explain-icon">⚙️</div>
+<div class="explain-body">
+<div class="explain-title">&CHcy;&tcy;&ocy; &tcy;&acy;&kcy;&ocy;&iecy; &khcy;&ecy;&shcy; OAEP?</div>
+<div class="explain-text">RSA-OAEP (&ocy;&pcy;&tcy;&icy;&mcy;&acy;&lcy;&softcy;&ncy;&ocy;&iecy; &zcy;&acy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&iecy; &acy;&scy;&icy;&mcy;&mcy;&iecy;&tcy;&rcy;&icy;&chcy;&ncy;&ycy;&mcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&mcy;) &ncy;&acy; &scy;&iecy;&gcy;&ocy;&dcy;&ncy;&yacy;&shcy;&ncy;&icy;&jcy; &dcy;&iecy;&ncy;&softcy; &yacy;&vcy;&lcy;&yacy;&iecy;&tcy;&scy;&yacy; &rcy;&iecy;&kcy;&ocy;&mcy;&iecy;&ncy;&dcy;&ucy;&iecy;&mcy;&ocy;&jcy; &scy;&khcy;&iecy;&mcy;&ocy;&jcy; &zcy;&acy;&pcy;&ocy;&lcy;&ncy;&iecy;&ncy;&icy;&yacy; &dcy;&lcy;&yacy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; RSA. &Ocy;&ncy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy; &khcy;&iecy;&shcy;-&fcy;&ucy;&ncy;&kcy;&tscy;&icy;&yucy; &dcy;&lcy;&yacy; &dcy;&ocy;&bcy;&acy;&vcy;&lcy;&iecy;&ncy;&icy;&yacy; &scy;&lcy;&ucy;&chcy;&acy;&jcy;&ncy;&ocy;&scy;&tcy;&icy; &icy; &zcy;&acy;&shchcy;&icy;&tcy;&ycy; &ocy;&tcy; &acy;&tcy;&acy;&kcy; &scy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy;&mcy; &vcy;&ycy;&bcy;&rcy;&acy;&ncy;&ncy;&ocy;&gcy;&ocy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ocy;&gcy;&ocy; &tcy;&iecy;&kcy;&scy;&tcy;&acy;.<br/><br/><strong style="color:#c8e0f0">SHA-256</strong>(&rcy;&iecy;&kcy;&ocy;&mcy;&iecy;&ncy;&dcy;&ucy;&iecy;&tcy;&scy;&yacy;): &ncy;&acy;&dcy;&iecy;&zhcy;&ncy;&acy;&yacy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&softcy;, &shcy;&icy;&rcy;&ocy;&kcy;&ocy;&iecy; &rcy;&acy;&scy;&pcy;&rcy;&ocy;&scy;&tcy;&rcy;&acy;&ncy;&iecy;&ncy;&icy;&iecy; &icy; &khcy;&ocy;&rcy;&ocy;&shcy;&acy;&yacy; &scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&ocy;&scy;&tcy;&softcy;.<br/><strong style="color:#c8e0f0">SHA-384/SHA-512</strong>: &bcy;&ocy;&lcy;&iecy;&iecy; &shcy;&icy;&rcy;&ocy;&kcy;&icy;&jcy; &zcy;&acy;&pcy;&acy;&scy; &bcy;&iecy;&zcy;&ocy;&pcy;&acy;&scy;&ncy;&ocy;&scy;&tcy;&icy;, &ncy;&ocy; &ncy;&iecy;&mcy;&ncy;&ocy;&gcy;&ocy; &ucy;&mcy;&iecy;&ncy;&softcy;&shcy;&acy;&iecy;&tcy; &mcy;&acy;&kcy;&scy;&icy;&mcy;&acy;&lcy;&softcy;&ncy;&ycy;&jcy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ocy;&gcy;&ocy; &tcy;&iecy;&kcy;&scy;&tcy;&acy;.<br/><strong style="color:#c8e0f0">SHA-1</strong>: &scy;&ocy;&khcy;&rcy;&acy;&ncy;&yacy;&iecy;&tcy;&scy;&yacy; &tcy;&ocy;&lcy;&softcy;&kcy;&ocy; &dcy;&lcy;&yacy; &scy;&ocy;&vcy;&mcy;&iecy;&scy;&tcy;&icy;&mcy;&ocy;&scy;&tcy;&icy; &scy; &ucy;&scy;&tcy;&acy;&rcy;&iecy;&vcy;&shcy;&icy;&mcy;&icy; &vcy;&iecy;&rcy;&scy;&icy;&yacy;&mcy;&icy; &icy; &ncy;&iecy; &rcy;&iecy;&kcy;&ocy;&mcy;&iecy;&ncy;&dcy;&ucy;&iecy;&tcy;&scy;&yacy; &dcy;&lcy;&yacy; &ncy;&ocy;&vcy;&ycy;&khcy; &scy;&icy;&scy;&tcy;&iecy;&mcy;.<br/><br/>&SHcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &icy; &dcy;&iecy;&shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &dcy;&ocy;&lcy;&zhcy;&ncy;&ycy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy; &ocy;&dcy;&icy;&ncy; &icy; &tcy;&ocy;&tcy; &zhcy;&iecy; &acy;&lcy;&gcy;&ocy;&rcy;&icy;&tcy;&mcy; &khcy;&iecy;&shcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy;.</div>
+</div>
+</div>
+<div class="explain-section" id="explain-encoding">
+<div class="explain-icon">🔠</div>
+<div class="explain-body">
+<div class="explain-title">&CHcy;&tcy;&ocy; &tcy;&acy;&kcy;&ocy;&iecy; &kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&kcy;&acy; &vcy;&ycy;&vcy;&ocy;&dcy;&acy;?</div>
+<div class="explain-text">&Ncy;&iecy;&ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ncy;&ycy;&mcy; &rcy;&iecy;&zcy;&ucy;&lcy;&softcy;&tcy;&acy;&tcy;&ocy;&mcy; &shcy;&icy;&fcy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&yacy; RSA &yacy;&vcy;&lcy;&yacy;&yucy;&tcy;&scy;&yacy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ycy;&iecy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy;, &kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&iecy; &ncy;&iecy;&ucy;&dcy;&ocy;&bcy;&ncy;&ycy; &dcy;&lcy;&yacy; &pcy;&rcy;&yacy;&mcy;&ocy;&gcy;&ocy; &khcy;&rcy;&acy;&ncy;&iecy;&ncy;&icy;&yacy; &icy;&lcy;&icy; &pcy;&iecy;&rcy;&iecy;&dcy;&acy;&chcy;&icy; &tcy;&iecy;&kcy;&scy;&tcy;&acy;. &Vcy;&ycy;&khcy;&ocy;&dcy;&ncy;&ocy;&iecy; &kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &pcy;&rcy;&iecy;&ocy;&bcy;&rcy;&acy;&zcy;&ucy;&iecy;&tcy; &bcy;&acy;&jcy;&tcy;&ycy; &vcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy; &dcy;&lcy;&yacy; &pcy;&iecy;&chcy;&acy;&tcy;&icy;.<br/><br/><strong style="color:#c8e0f0">Base64</strong>: &kcy;&acy;&zhcy;&dcy;&ycy;&iecy; 3 &bcy;&acy;&jcy;&tcy;&acy; &kcy;&ocy;&dcy;&icy;&rcy;&ucy;&yucy;&tcy;&scy;&yacy; &vcy; 4 &scy;&icy;&mcy;&vcy;&ocy;&lcy;&acy; ASCII, &chcy;&tcy;&ocy; &dcy;&acy;&iecy;&tcy; &vcy;&ycy;&khcy;&ocy;&dcy;&ncy;&ocy;&jcy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy; &pcy;&rcy;&icy;&mcy;&iecy;&rcy;&ncy;&ocy; &vcy; 1,33 &rcy;&acy;&zcy;&acy; &bcy;&ocy;&lcy;&softcy;&shcy;&iecy; &icy;&scy;&khcy;&ocy;&dcy;&ncy;&ocy;&gcy;&ocy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy;&acy;. &Kcy;&ocy;&mcy;&pcy;&acy;&kcy;&tcy;&ncy;&ycy;&jcy; &icy; &shcy;&icy;&rcy;&ocy;&kcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&mcy;&ycy;&jcy; &vcy; API, &ecy;&lcy;&iecy;&kcy;&tcy;&rcy;&ocy;&ncy;&ncy;&ocy;&jcy; &pcy;&ocy;&chcy;&tcy;&iecy; &icy; &pcy;&ocy;&lcy;&iecy;&zcy;&ncy;&ycy;&khcy; &ncy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&acy;&khcy; JSON.<br/><br/><strong style="color:#c8e0f0">&SHcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&jcy;</strong>: &pcy;&rcy;&iecy;&dcy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&iecy;&tcy; &kcy;&acy;&zhcy;&dcy;&ycy;&jcy; &bcy;&acy;&jcy;&tcy; &kcy;&acy;&kcy; &dcy;&vcy;&acy; &shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ycy;&khcy; &scy;&icy;&mcy;&vcy;&ocy;&lcy;&acy;, &chcy;&tcy;&ocy; &ucy;&dcy;&vcy;&acy;&icy;&vcy;&acy;&iecy;&tcy; &rcy;&acy;&zcy;&mcy;&iecy;&rcy; &vcy;&ycy;&vcy;&ocy;&dcy;&acy;. &Lcy;&iecy;&gcy;&chcy;&iecy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&yacy;&tcy;&softcy; &icy; &pcy;&ocy;&lcy;&iecy;&zcy;&ncy;&ocy; &dcy;&lcy;&yacy; &pcy;&ocy;&bcy;&acy;&jcy;&tcy;&ocy;&vcy;&ocy;&jcy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy;.</div>
+</div>
+</div>
+<!-- PEM Format Guide -->
+<div class="explain-section" id="explain-pem">
+<div class="explain-icon">📄</div>
+<div class="explain-body">
+<div class="explain-title">&Rcy;&ucy;&kcy;&ocy;&vcy;&ocy;&dcy;&scy;&tcy;&vcy;&ocy; &pcy;&ocy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ucy; PEM</div>
+<div class="explain-text">
+<p><strong>1️⃣ &CHcy;&tcy;&ocy; &tcy;&acy;&kcy;&ocy;&iecy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy; PEM?</strong><br/>PEM (&Pcy;&ocy;&chcy;&tcy;&acy; &scy; &ucy;&lcy;&ucy;&chcy;&shcy;&iecy;&ncy;&ncy;&ocy;&jcy; &kcy;&ocy;&ncy;&fcy;&icy;&dcy;&iecy;&ncy;&tscy;&icy;&acy;&lcy;&softcy;&ncy;&ocy;&scy;&tcy;&softcy;&yucy;) &mdash; &ecy;&tcy;&ocy; &tcy;&iecy;&kcy;&scy;&tcy;&ocy;&vcy;&ycy;&jcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;, &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&mcy;&ycy;&jcy; &dcy;&lcy;&yacy; &khcy;&rcy;&acy;&ncy;&iecy;&ncy;&icy;&yacy; &icy; &pcy;&iecy;&rcy;&iecy;&dcy;&acy;&chcy;&icy; &kcy;&lcy;&yucy;&chcy;&iecy;&jcy; &icy; &scy;&iecy;&rcy;&tcy;&icy;&fcy;&icy;&kcy;&acy;&tcy;&ocy;&vcy;. &Ocy;&ncy; &kcy;&ocy;&dcy;&icy;&rcy;&ucy;&iecy;&tcy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ycy;&iecy; &dcy;&acy;&ncy;&ncy;&ycy;&iecy; DER &vcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&iecy; Base64 &icy; &ocy;&bcy;&iecy;&rcy;&tcy;&ycy;&vcy;&acy;&iecy;&tcy; &icy;&khcy; &vcy;&iecy;&rcy;&khcy;&ncy;&icy;&mcy;&icy; &icy; &ncy;&icy;&zhcy;&ncy;&icy;&mcy;&icy; &kcy;&ocy;&lcy;&ocy;&ncy;&tcy;&icy;&tcy;&ucy;&lcy;&acy;&mcy;&icy;, &ncy;&acy;&pcy;&rcy;&icy;&mcy;&iecy;&rcy;<code>-----&Ncy;&Acy;&CHcy;&Acy;&Lcy;&Ocy; &lt;&Mcy;&IEcy;&Tcy;&Kcy;&Acy;&gt;-----</code>&icy;<code>-----&Kcy;&Ocy;&Ncy;&IEcy;&TScy; &lt;&Mcy;&IEcy;&Tcy;&Kcy;&Acy;&gt;-----</code>. &Ocy;&bcy;&shchcy;&icy;&iecy; &ecy;&tcy;&icy;&kcy;&iecy;&tcy;&kcy;&icy; &vcy;&kcy;&lcy;&yucy;&chcy;&acy;&yucy;&tcy; &vcy; &scy;&iecy;&bcy;&yacy;<code>&Pcy;&Ucy;&Bcy;&Lcy;&Icy;&CHcy;&Ncy;&Ycy;&Jcy; &Kcy;&Lcy;&YUcy;&CHcy;</code>, <code>&CHcy;&Acy;&Scy;&Tcy;&Ncy;&Ycy;&Jcy; &Kcy;&Lcy;&YUcy;&CHcy;</code>&icy;<code>&Scy;&IEcy;&Rcy;&Tcy;&Icy;&Fcy;&Icy;&Kcy;&Acy;&Tcy;</code>. &IEcy;&gcy;&ocy; &lcy;&iecy;&gcy;&kcy;&ocy; &kcy;&ocy;&pcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy;, &vcy;&scy;&tcy;&acy;&vcy;&lcy;&yacy;&tcy;&softcy; &icy; &pcy;&iecy;&rcy;&iecy;&dcy;&acy;&vcy;&acy;&tcy;&softcy; &vcy; &tcy;&iecy;&kcy;&scy;&tcy;&ocy;&vcy;&ycy;&khcy; &rcy;&acy;&bcy;&ocy;&chcy;&icy;&khcy; &pcy;&rcy;&ocy;&tscy;&iecy;&scy;&scy;&acy;&khcy;, &chcy;&tcy;&ocy; &dcy;&iecy;&lcy;&acy;&iecy;&tcy; &iecy;&gcy;&ocy; &ocy;&dcy;&ncy;&icy;&mcy; &icy;&zcy; &ncy;&acy;&icy;&bcy;&ocy;&lcy;&iecy;&iecy; &rcy;&acy;&scy;&pcy;&rcy;&ocy;&scy;&tcy;&rcy;&acy;&ncy;&iecy;&ncy;&ncy;&ycy;&khcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ocy;&vcy; &ocy;&bcy;&mcy;&iecy;&ncy;&acy; &kcy;&lcy;&yucy;&chcy;&acy;&mcy;&icy;.</p>
+<p><strong>2️⃣ &Kcy;&acy;&kcy;&icy;&iecy; &iecy;&shchcy;&iecy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&ycy; &rcy;&acy;&scy;&pcy;&rcy;&ocy;&scy;&tcy;&rcy;&acy;&ncy;&iecy;&ncy;&ycy;, &kcy;&rcy;&ocy;&mcy;&iecy; PEM?</strong><br/> - <strong>DER</strong>: &chcy;&icy;&scy;&tcy;&ycy;&jcy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ycy;&jcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;, &vcy; &kcy;&ocy;&tcy;&ocy;&rcy;&ocy;&mcy; &scy;&tcy;&rcy;&ucy;&kcy;&tcy;&ucy;&rcy;&ycy; ASN.1 &khcy;&rcy;&acy;&ncy;&yacy;&tcy;&scy;&yacy; &ncy;&acy;&pcy;&rcy;&yacy;&mcy;&ucy;&yucy;. &Ocy;&ncy; &ncy;&iecy; &chcy;&icy;&tcy;&acy;&iecy;&tcy;&scy;&yacy; &chcy;&iecy;&lcy;&ocy;&vcy;&iecy;&kcy;&ocy;&mcy; &icy; &chcy;&acy;&scy;&tcy;&ocy; &vcy;&scy;&tcy;&rcy;&iecy;&chcy;&acy;&iecy;&tcy;&scy;&yacy; &vcy; &ecy;&kcy;&ocy;&scy;&icy;&scy;&tcy;&iecy;&mcy;&acy;&khcy; Java.<br/> - <strong>HEX</strong>: &vcy;&ycy;&rcy;&acy;&zhcy;&acy;&iecy;&tcy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ocy;&iecy; &scy;&ocy;&dcy;&iecy;&rcy;&zhcy;&icy;&mcy;&ocy;&iecy; DER &vcy; &vcy;&icy;&dcy;&iecy; &shcy;&iecy;&scy;&tcy;&ncy;&acy;&dcy;&tscy;&acy;&tcy;&iecy;&rcy;&icy;&chcy;&ncy;&ocy;&jcy; &scy;&tcy;&rcy;&ocy;&kcy;&icy;, &chcy;&tcy;&ocy; &pcy;&ocy;&lcy;&iecy;&zcy;&ncy;&ocy; &dcy;&lcy;&yacy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&icy; &icy;&lcy;&icy; &vcy;&ncy;&iecy;&dcy;&rcy;&iecy;&ncy;&icy;&yacy; &vcy; &kcy;&ocy;&dcy;.<br/> - <strong>Base64 (&bcy;&iecy;&zcy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy;)</strong>: &ncy;&iecy;&ocy;&bcy;&rcy;&acy;&bcy;&ocy;&tcy;&acy;&ncy;&ncy;&ycy;&jcy; DER, &zcy;&acy;&kcy;&ocy;&dcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&ncy;&ycy;&jcy; &kcy;&acy;&kcy; Base64 &bcy;&iecy;&zcy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy; PEM, &chcy;&acy;&scy;&tcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&mcy;&ycy;&jcy; &vcy; &kcy;&ocy;&mcy;&pcy;&acy;&kcy;&tcy;&ncy;&ycy;&khcy; &kcy;&ocy;&ncy;&fcy;&icy;&gcy;&ucy;&rcy;&acy;&tscy;&icy;&yacy;&khcy; &icy;&lcy;&icy; &vcy; &pcy;&ocy;&lcy;&iecy;&zcy;&ncy;&ycy;&khcy; &ncy;&acy;&gcy;&rcy;&ucy;&zcy;&kcy;&acy;&khcy; &tcy;&ocy;&kcy;&iecy;&ncy;&ocy;&vcy;.<br/> - <strong>PKCS#12 (PFX)</strong>: &fcy;&ocy;&rcy;&mcy;&acy;&tcy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ocy;&gcy;&ocy; &kcy;&ocy;&ncy;&tcy;&iecy;&jcy;&ncy;&iecy;&rcy;&acy;, &kcy;&ocy;&tcy;&ocy;&rcy;&ycy;&jcy; &mcy;&ocy;&zhcy;&iecy;&tcy; &ocy;&bcy;&hardcy;&iecy;&dcy;&icy;&ncy;&yacy;&tcy;&softcy; &vcy;&mcy;&iecy;&scy;&tcy;&iecy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &icy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;&icy;, &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &zcy;&acy;&shchcy;&icy;&shchcy;&iecy;&ncy; &pcy;&acy;&rcy;&ocy;&lcy;&iecy;&mcy; &icy; &chcy;&acy;&scy;&tcy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&scy;&yacy; &bcy;&rcy;&acy;&ucy;&zcy;&iecy;&rcy;&acy;&mcy;&icy; &icy;&lcy;&icy; &scy;&icy;&scy;&tcy;&iecy;&mcy;&acy;&mcy;&icy; Windows.</p>
+<p><strong>3️⃣ &Kcy;&ocy;&gcy;&dcy;&acy; &scy;&lcy;&iecy;&dcy;&ucy;&iecy;&tcy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ocy;&vcy;&acy;&tcy;&softcy; &kcy;&acy;&zhcy;&dcy;&ycy;&jcy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;?</strong><br/> - <strong>PEM</strong>: &ncy;&acy;&icy;&bcy;&ocy;&lcy;&iecy;&iecy; &ucy;&ncy;&icy;&vcy;&iecy;&rcy;&scy;&acy;&lcy;&softcy;&ncy;&ycy;&jcy; &vcy;&acy;&rcy;&icy;&acy;&ncy;&tcy;, &pcy;&ocy;&dcy;&khcy;&ocy;&dcy;&yacy;&shchcy;&icy;&jcy; &dcy;&lcy;&yacy; OpenSSL, &vcy;&iecy;&bcy;-&scy;&iecy;&rcy;&vcy;&iecy;&rcy;&ocy;&vcy; (Nginx/Apache) &icy; &ocy;&bcy;&mcy;&iecy;&ncy;&acy; API.<br/> - <strong>DER</strong>: &ocy;&bcy;&ycy;&chcy;&ncy;&ocy; &icy;&scy;&pcy;&ocy;&lcy;&softcy;&zcy;&ucy;&iecy;&tcy;&scy;&yacy; &vcy; &scy;&rcy;&iecy;&dcy;&acy;&khcy; Java &icy;&lcy;&icy; &tcy;&acy;&mcy;, &gcy;&dcy;&iecy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy; &scy;&tcy;&rcy;&ocy;&gcy;&ocy;&iecy; &dcy;&vcy;&ocy;&icy;&chcy;&ncy;&ocy;&iecy; &khcy;&rcy;&acy;&ncy;&iecy;&ncy;&icy;&iecy;.<br/> - <strong>HEX</strong>: &pcy;&ocy;&lcy;&iecy;&zcy;&iecy;&ncy; &pcy;&rcy;&icy; &ocy;&tcy;&lcy;&acy;&dcy;&kcy;&iecy; &vcy;&scy;&tcy;&rcy;&ocy;&iecy;&ncy;&ncy;&ycy;&khcy; &scy;&icy;&scy;&tcy;&iecy;&mcy; &icy;&lcy;&icy; &vcy;&scy;&yacy;&kcy;&icy;&jcy; &rcy;&acy;&zcy;, &kcy;&ocy;&gcy;&dcy;&acy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy; &tcy;&ocy;&chcy;&ncy;&acy;&yacy; &pcy;&rcy;&ocy;&vcy;&iecy;&rcy;&kcy;&acy; &bcy;&acy;&jcy;&tcy;&ocy;&vcy;.<br/> - <strong>Base64 (&bcy;&iecy;&zcy; &zcy;&acy;&gcy;&ocy;&lcy;&ocy;&vcy;&kcy;&ocy;&vcy;)</strong>: &pcy;&ocy;&lcy;&iecy;&zcy;&ncy;&ocy;, &kcy;&ocy;&gcy;&dcy;&acy; &fcy;&ocy;&rcy;&mcy;&acy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&ncy;&icy;&iecy; &ocy;&gcy;&rcy;&acy;&ncy;&icy;&chcy;&iecy;&ncy;&ocy; &icy;&lcy;&icy; &tcy;&rcy;&iecy;&bcy;&ucy;&iecy;&tcy;&scy;&yacy; &kcy;&ocy;&mcy;&pcy;&acy;&kcy;&tcy;&ncy;&ocy;&iecy; &pcy;&rcy;&iecy;&dcy;&scy;&tcy;&acy;&vcy;&lcy;&iecy;&ncy;&icy;&iecy;.<br/> - <strong>PKCS#12</strong>: &pcy;&ocy;&lcy;&iecy;&zcy;&ncy;&ocy;, &kcy;&ocy;&gcy;&dcy;&acy; &ocy;&tcy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &icy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy;&icy; &ncy;&iecy;&ocy;&bcy;&khcy;&ocy;&dcy;&icy;&mcy;&ocy; &tcy;&rcy;&acy;&ncy;&scy;&pcy;&ocy;&rcy;&tcy;&icy;&rcy;&ocy;&vcy;&acy;&tcy;&softcy; &vcy;&mcy;&iecy;&scy;&tcy;&iecy;, &zcy;&acy;&shchcy;&icy;&shchcy;&acy;&yacy; &zcy;&acy;&kcy;&rcy;&ycy;&tcy;&ycy;&jcy; &kcy;&lcy;&yucy;&chcy; &pcy;&acy;&rcy;&ocy;&lcy;&iecy;&mcy;.</p>
+</div>
+</div>
+</div>
+</div>
 <div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
-    <script src="/static/js/utility-tools/math/rsa-encrypt/script-en.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
+<script src="/static/js/utility-tools/math/rsa-encrypt/script-ru.js"></script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
