@@ -97,7 +97,7 @@ dropZone.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0
 generateBtn.onclick = async () => {
     if (!cropper) return;
     generateBtn.disabled = true;
-    generateBtn.innerHTML = '<div class="spinner"></div>Processing...';
+    generateBtn.innerHTML = '<div class="spinner"></div>Dey process...';
 
     const sourceCanvas = cropper.getCroppedCanvas({ 
         width: 512, 
@@ -188,7 +188,7 @@ generateBtn.onclick = async () => {
     // Show download area
     downloadArea.classList.remove('hidden');
     generateBtn.disabled = false;
-    generateBtn.innerText = 'Regenerate';
+    generateBtn.innerText = 'Generate again';
 };
 
 downloadZipBtn.onclick = async () => {
@@ -209,7 +209,7 @@ downloadZipBtn.onclick = async () => {
     zip.file("site.webmanifest", JSON.stringify(manifest, null, 2));
     
     // Update readme content, include SVG usage instructions
-    const readmeContent = `Favicon Icon Kit - Deployment Instructions
+    const readmeContent = `Favicon icon kit - how to deploy am
 
 Included files:
 1. favicon.ico - Traditional ICO format, contains 16×16, 32×32, 48×48 three resolutions

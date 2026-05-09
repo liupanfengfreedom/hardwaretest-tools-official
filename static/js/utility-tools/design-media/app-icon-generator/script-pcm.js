@@ -56,7 +56,7 @@ uploadArea.addEventListener('drop', (e) => {
         if (file.type.startsWith('image/')) {
             processImageFile(file);
         } else {
-            showNotification('Please drop an image file (JPG, PNG, GIF, etc.)', 'error');
+            showNotification('Drop image file like JPG, PNG or GIF', 'error');
         }
     }
 });
@@ -71,7 +71,7 @@ fileInput.onchange = e => {
 // Process Image File
 function processImageFile(file) {
     if (file.size > 10 * 1024 * 1024) {
-        showNotification('File too large. Please choose an image under 10MB', 'error');
+        showNotification('File too big. Choose image under 10MB', 'error');
         return;
     }
     
@@ -104,10 +104,10 @@ function processImageFile(file) {
             }
         }, 100);
         
-        showNotification('Icon loaded. Adjust the crop area', 'success');
+        showNotification('Icon don load. Adjust the crop area', 'success');
     };
     reader.onerror = () => {
-        showNotification('Failed to read file. Please try again', 'error');
+        showNotification('We no fit read the file. Try again', 'error');
     };
     reader.readAsDataURL(file);
 }
@@ -119,7 +119,7 @@ generateBtn.onclick = async () => {
     // Show Progress Indicator
     progressIndicator.classList.remove('hidden');
     generateBtn.disabled = true;
-    generateBtn.innerHTML = '<div class="loading-spinner"></div><span>Generating...</span>';
+    generateBtn.innerHTML = '<div class="loading-spinner"></div><span>Dey generate...</span>';
     
     try {
         const zip = new JSZip();
@@ -151,16 +151,16 @@ generateBtn.onclick = async () => {
         const content = await zip.generateAsync({ type: "blob" });
         saveAs(content, `App_Icons_${new Date().getTime()}.zip`);
         
-        showNotification(`Successfully generated ${CONFIG.ios.length + CONFIG.android.length} icon files`, 'success');
+        showNotification(`We don generate ${CONFIG.ios.length + CONFIG.android.length} icon files`, 'success');
         
     } catch (error) {
         console.error('Icon generation failed:', error);
-        showNotification('Generation failed. Please try again', 'error');
+        showNotification('Generation fail. Try again', 'error');
     } finally {
         // Hide Progress Indicator
         progressIndicator.classList.add('hidden');
         generateBtn.disabled = false;
-        generateBtn.innerHTML = '<i class="fas fa-download"></i><span>Generate Full Icon Set (.zip)</span>';
+        generateBtn.innerHTML = '<i class="fas fa-download"></i><span>Generate full icon set (.zip)</span>';
     }
 };
 
@@ -181,7 +181,7 @@ function resize(source, target, ctx, size) {
 function updateProgress(current, total, platform) {
     const progressText = document.querySelector('#progress-indicator span');
     if (progressText) {
-        progressText.textContent = `Generating icon pack... (${current}/${total}) ${platform}`;
+        progressText.textContent = `Dey generate icon pack... (${current}/${total}) ${platform}`;
     }
 }
 
