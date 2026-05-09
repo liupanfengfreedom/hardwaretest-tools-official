@@ -50,11 +50,11 @@ window.startRecording = async function() {
   } catch (err) {
     sourceSelect.disabled = false;
     if (err.name === 'NotAllowedError') {
-      if (source === 'mic') showToast('Microphone permission denied', 'err');
+      if (source === 'mic') showToast('Microphone permission no gree', 'err');
     } else if (err.message === 'NO_AUDIO_TRACK') {
-      showToast('No audio detected, please check "Share audio"', 'err');
+      showToast('We no hear audio, abeg check "Share audio"', 'err');
     } else {
-      showToast('Start failed: ' + (err.message || 'unknown error'), 'err');
+      showToast('Start no work: ' + (err.message || 'unknown error'), 'err');
     }
     setUI(false);
     showSourceIdle();
@@ -72,7 +72,7 @@ async function setupRecorderFromStream(stream, isMic) {
   }
   document.getElementById('noAudioWarn').classList.remove('show');
 
-  const label = audioTracks[0].label || (isMic ? 'Microphone' : 'System audio output');
+  const label = audioTracks[0].label || (isMic ? 'Microphone' : 'System sound output');
   showSourceActive(label, isMic);
 
   // remove video tracks if any (system audio only)
@@ -102,7 +102,7 @@ async function setupRecorderFromStream(stream, isMic) {
   startTimer();
   drawWave();
   setUI(true);
-  showToast('Recording started', 'ok');
+  showToast('Recording don start', 'ok');
 }
 
 // ---------- Stop recording ----------
@@ -135,11 +135,11 @@ function saveRecording(mime) {
 
   const autoFmt = document.getElementById('autoFormatSelect').value;
   if (autoFmt !== 'none') {
-    showToast(`Recording saved, auto‑exporting as ${autoFmt.toUpperCase()}`, 'ok');
+    showToast(`Recording don save, e dey export as ${autoFmt.toUpperCase()}`, 'ok');
     const lastIndex = recordings.length - 1;
     setTimeout(() => exportItem(lastIndex, autoFmt), 500);
   } else {
-    showToast('Recording saved', 'ok');
+    showToast('Recording don save', 'ok');
   }
 }
 
@@ -155,7 +155,7 @@ function startTimer() {
     const autoStopSec = (isNaN(val) || val <= 0) ? 0 : val * unit;
 
     if (autoStopSec > 0 && elapsed >= autoStopSec && isRecording) {
-      showToast('Scheduled time reached, stopping...', 'ok');
+      showToast('Time reach, e dey stop...', 'ok');
       stopRecording();
     }
   }, 100);
@@ -246,7 +246,7 @@ function clearVU() { vuSegs.forEach(s => s.className = 'vu-seg'); }
 // ---------- UI update functions (English) ----------
 function showSourceActive(label, isMic = false) {
   const icon = isMic ? '🎙' : '🖥';
-  const subText = isMic ? 'Microphone · captured via getUserMedia' : 'System audio · captured via Screen Capture API';
+  const subText = isMic ? 'Microphone · captured via getUserMedia' : 'System sound · browser capture am through Screen Capture API';
   document.getElementById('sourceDisplay').innerHTML = `
     <div class="source-active">
       <div class="src-icon-big">${icon}</div>
@@ -260,7 +260,7 @@ function showSourceActive(label, isMic = false) {
 
 function showSourceIdle() {
   document.getElementById('sourceDisplay').innerHTML =
-    `<div class="source-empty">No audio source selected — click REC and choose to share or allow microphone</div>`;
+    `<div class="source-empty">No audio source don show yet — click REC make you choose wetin to share or allow microphone</div>`;
 }
 
 function setUI(rec) {
@@ -280,7 +280,7 @@ function renderList() {
   const c = document.getElementById('recordingsList');
   document.getElementById('recCount').textContent = `${recordings.length} recording${recordings.length!==1?'s':''}`;
   if (!recordings.length) {
-    c.innerHTML = '<div class="empty-state">No recordings · Press REC and select audio source in the popup</div>';
+    c.innerHTML = '<div class="empty-state">No recording yet · press REC and choose audio source for the popup</div>';
     return;
   }
   c.innerHTML = recordings.map((r, i) => `
@@ -456,10 +456,10 @@ function exportItem(i, forceFmt) {
   if (forceFmt && selectEl) { selectEl.value = forceFmt; }
 
   if (ext === 'wav') {
-    showToast('Converting to WAV…', '');
+    showToast('Dey convert to WAV…', '');
     convertToWav(r.blob)
-      .then(wb => { dlBlob(wb, r.name+'.wav', 'audio/wav'); showToast('WAV export completed', 'ok'); })
-      .catch(() => showToast('WAV conversion failed', 'err'));
+      .then(wb => { dlBlob(wb, r.name+'.wav', 'audio/wav'); showToast('WAV export don complete', 'ok'); })
+      .catch(() => showToast('WAV conversion fail', 'err'));
   } else {
     dlBlob(r.blob, `${r.name}.${ext}`, r.mime);
     showToast(`Exported .${ext.toUpperCase()}`, 'ok');

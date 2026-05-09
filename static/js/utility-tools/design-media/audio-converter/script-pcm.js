@@ -32,7 +32,7 @@ var LOSSLESS_FORMATS  = ['wav', 'aiff'];
     var opt = document.getElementById('opt-' + fmt);
     if (opt && !supported) {
       opt.disabled = true;
-      opt.textContent += ' (not supported in this browser)';
+      opt.textContent += ' (dis browser no support am)';
     }
   });
 })();
@@ -46,10 +46,10 @@ function onFormatChange() {
   bitrateRow.style.display = (fmt === 'mp3') ? 'block' : 'none';
 
   var msgs = {
-    wav:  'Lossless PCM format, perfectly preserves original quality. Larger file size, suitable for professional production and archiving.',
-    aiff: 'Apple AIFF format, big-endian PCM, same quality as WAV, ideal for Mac/iOS workflows.',
-    ogg:  'OGG/Opus encoded in real-time by the browser. Encoding speed equals audio duration (1× real-time). Longer files may take time.',
-    webm: 'WebM/Opus encoded in real-time by the browser. Encoding speed equals audio duration (1× real-time). Longer files may take time.'
+    wav:  'Lossless PCM format wey keep original quality full. File go bigger, and e good for pro work and archive.',
+    aiff: 'Apple AIFF format, same quality like WAV, good for Mac and iOS workflow.',
+    ogg:  'Browser go encode OGG/Opus in real time. Long file fit take time.',
+    webm: 'Browser go encode WebM/Opus in real time. Long file fit take time.'
   };
   if (msgs[fmt]) {
     note.textContent = (isRealtime ? '⏱ Note: ' : 'ℹ ') + msgs[fmt];
@@ -268,7 +268,7 @@ function decodeAudio(file) {
         resolve(buf);
       }, function(err) {
         ctx.close();
-        reject(new Error('Decoding failed: browser does not support this audio format'));
+        reject(new Error('Dey decode failed: browser does not support this audio format'));
       });
     };
     reader.onerror = function() { reject(new Error('File reading failed')); };
@@ -513,7 +513,7 @@ function encodeViaMediaRecorder(channels, sampleRate, numCh, fmt, onProgress) {
 
 // ── Main conversion ──────────────────────────────────────────
 async function startConversion() {
-  if (files.length === 0) { addLog('Please upload files first', 'error'); return; }
+  if (files.length === 0) { addLog('Upload file first', 'error'); return; }
 
   var fmt         = document.getElementById('format-select').value;
   var srSetting   = document.getElementById('samplerate-select').value;   // may be "auto"
@@ -522,7 +522,7 @@ async function startConversion() {
 
   var btn = document.getElementById('convert-btn');
   btn.disabled = true;
-  btn.textContent = '⏳ Converting...';
+  btn.textContent = '⏳ Dey convert...';
 
   var dlArea = document.getElementById('download-area');
   var dlList = document.getElementById('download-list');
@@ -541,12 +541,12 @@ async function startConversion() {
 
     try {
       updateFileStatus(f.id, 'converting');
-      addLog('Decoding: ' + f.name, 'active');
+      addLog('Dey decode: ' + f.name, 'active');
 
       // Overlay: file start
       var filePctBase = (i / files.length) * 100;
       var filePctSlice = 100 / files.length;
-      convSetOp('Decoding', 'Decoding');
+      convSetOp('Dey decode', 'Dey decode');
       convSetFileNames(fileNames);
       convSetPct(filePctBase + filePctSlice * 0.05);
 
@@ -570,7 +570,7 @@ async function startConversion() {
       var encPctStart = filePctBase + filePctSlice * 0.55;
       var encPctEnd   = filePctBase + filePctSlice * 0.90;
       convSetPct(encPctStart);
-      convSetOp('Encoding → ' + fmt.toUpperCase(), fmt.toUpperCase());
+      convSetOp('Dey encode → ' + fmt.toUpperCase(), fmt.toUpperCase());
 
       // Progress callback: maps encoder 0-1 into the encode pct range
       var encProgressCb = function(ratio) {
@@ -596,7 +596,7 @@ async function startConversion() {
       }
 
       convSetPct(encPctEnd);
-      convSetOp('Creating blob...', 'Creating blob');
+      convSetOp('Dey create file...', 'Creating blob');
       var url = URL.createObjectURL(blob);
 
       var dlItem = document.createElement('div');
@@ -631,7 +631,7 @@ async function startConversion() {
 
   dlArea.style.display = 'block';
   btn.disabled = false;
-  btn.innerHTML = '<div class="btn-shimmer"></div>⚡ Convert Again';
+  btn.innerHTML = '<div class="btn-shimmer"></div>⚡ Convert again';
   convDone();
 }
 
@@ -788,7 +788,7 @@ function convInit(total) {
   document.getElementById('conv-bar-fill').style.width = '0%';
   document.getElementById('conv-pct').textContent = '0';
 
-  document.getElementById('conv-op').innerHTML = 'Preparing...';
+  document.getElementById('conv-op').innerHTML = 'Dey prepare...';
   document.getElementById('conv-card').classList.add('active');
 }
 
@@ -890,4 +890,4 @@ function convDone() {
   }, 900);
 }
 
-addLog('Engine ready — WAV · AIFF · MP3 · OGG · WebM output · Audio/video input supported', 'success');
+addLog('Engine ready — WAV · AIFF · MP3 · OGG · WebM output · audio and video input dey supported', 'success');

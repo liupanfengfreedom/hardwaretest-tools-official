@@ -18,9 +18,9 @@ document.getElementById('scale-mode').onchange = function() {
 function updateFileCount() {
     const count = fileQueue.length;
     if (count > 0) {
-        document.querySelector('header p').innerHTML = `Local Processing · Size Comparison Preview · Full Format Support <span class="file-count">${count}</span>`;
+        document.querySelector('header p').innerHTML = `Local work · Compare size quick · Plenty format support <span class="file-count">${count}</span>`;
     } else {
-        document.querySelector('header p').innerText = 'Local Processing · Size Comparison Preview · Full Format Support';
+        document.querySelector('header p').innerText = 'Local work · Compare size quick · Plenty format support';
     }
 }
 
@@ -30,15 +30,15 @@ function markDirty() {
     btnDownloadMain.classList.remove('show');
     btnRun.style.opacity = '1';
     btnRun.disabled = false;
-    btnRun.innerHTML = '<i class="fas fa-sync-alt"></i> Reprocess';
+    btnRun.innerHTML = '<i class="fas fa-sync-alt"></i> Run am again';
     fileQueue.forEach(item => {
         if (item.status === 'done') {
             item.status = 'dirty';
             const badge = document.getElementById(`st-${item.id}`);
             if (badge) { 
-                badge.innerText = 'Needs Update'; 
+                badge.innerText = 'Need update'; 
                 badge.className = 'status-badge status-dirty';
-                badge.innerHTML = '<i class="fas fa-exclamation-circle"></i> Needs Update';
+                badge.innerHTML = '<i class="fas fa-exclamation-circle"></i> Need update';
             }
         }
     });
@@ -71,7 +71,7 @@ async function handleFiles(files) {
     btnRun.style.opacity = '1';
     btnRun.disabled = false;
     btnDownloadMain.classList.remove('show');
-    btnRun.innerHTML = '<i class="fas fa-bolt"></i> Start Processing';
+    btnRun.innerHTML = '<i class="fas fa-bolt"></i> Start work';
 
     for (const file of files) {
         const id = Math.random().toString(36).substr(2, 8);
@@ -82,8 +82,8 @@ async function handleFiles(files) {
         tr.innerHTML = `
             <td><img class="thumb-preview" id="t-${id}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='%23e2e8f0'%3E%3Cpath d='M38 8H10c-2.2 0-4 1.8-4 4v24c0 2.2 1.8 4 4 4h28c2.2 0 4-1.8 4-4V12c0-2.2-1.8-4-4-4zM19 26l-5 7h20l-6-8-4 5-5-4z'/%3E%3C/svg%3E"></td>
             <td><div style="font-weight:700;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${file.name}</div></td>
-            <td><div class="size-info" id="sz-${id}"><i class="fas fa-spinner fa-spin"></i> Loading</div></td>
-            <td><span class="status-badge status-wait" id="st-${id}"><i class="fas fa-clock"></i> Waiting</span></td>
+            <td><div class="size-info" id="sz-${id}"><i class="fas fa-spinner fa-spin"></i> Dey load</div></td>
+            <td><span class="status-badge status-wait" id="st-${id}"><i class="fas fa-clock"></i> Dey wait</span></td>
             <td>
                 <div class="btn-group">
                     <button class="btn-action btn-orig" id="vo-${id}"><i class="fas fa-eye"></i> Original</button>
@@ -104,13 +104,13 @@ async function handleFiles(files) {
             document.getElementById(`t-${id}`).src = canvas.toDataURL('image/jpeg', 0.2);
             
             // Bind original image preview
-            document.getElementById(`vo-${id}`).onclick = () => showPreview(item.origUrl, 'Original Image Preview');
+            document.getElementById(`vo-${id}`).onclick = () => showPreview(item.origUrl, 'Preview of original image');
             
             // Update file count
             updateFileCount();
         } catch(e) {
             console.error(e);
-            document.getElementById(`sz-${id}`).innerHTML = '<span style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Read Failed</span>';
+            document.getElementById(`sz-${id}`).innerHTML = '<span style="color:var(--warning)"><i class="fas fa-exclamation-triangle"></i> Read fail</span>';
         }
     }
 }
@@ -208,7 +208,7 @@ async function svgToCanvas(file) {
             
             img.onerror = function() {
                 URL.revokeObjectURL(url);
-                reject(new Error('SVG loading failed'));
+                reject(new Error('SVG no gree load'));
             };
             
             img.src = url;
@@ -243,7 +243,7 @@ function showPreview(url, title) {
 // --- Start Processing ---
 btnRun.onclick = async () => {
     btnRun.disabled = true;
-    btnRun.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    btnRun.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Dey process...';
     hintText.style.opacity = '0';
     const pBar = document.getElementById('p-bar');
     const pInner = document.getElementById('p-inner');
@@ -257,7 +257,7 @@ btnRun.onclick = async () => {
         if (item.status === 'done') continue;
 
         const badge = document.getElementById(`st-${item.id}`);
-        badge.innerHTML = '<i class="fas fa-cog fa-spin"></i> Processing';
+        badge.innerHTML = '<i class="fas fa-cog fa-spin"></i> Dey process';
         badge.className = 'status-badge status-ing';
 
         await new Promise(r => setTimeout(r, 30));
@@ -313,12 +313,12 @@ btnRun.onclick = async () => {
             
             const rBtn = document.getElementById(`vr-${item.id}`);
             rBtn.style.display = 'flex';
-            rBtn.onclick = () => showPreview(item.resultUrl, 'Processed Result Preview');
+            rBtn.onclick = () => showPreview(item.resultUrl, 'Preview of result');
             
             pInner.style.width = `${((i+1)/fileQueue.length)*100}%`;
         } catch(e) {
             console.error(`Error processing file ${item.file.name}:`, e);
-            badge.innerHTML = '<i class="fas fa-times-circle"></i> Failed';
+            badge.innerHTML = '<i class="fas fa-times-circle"></i> Fail';
             badge.className = 'status-badge status-dirty';
         }
     }
@@ -326,13 +326,13 @@ btnRun.onclick = async () => {
     btnRun.style.opacity = '0';
     setTimeout(() => {
         if (fileQueue.length === 1) {
-            btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> Save to Computer';
+            btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> Save am for computer';
         } else {
-            btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Download All (${fileQueue.length} images)`;
+            btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Download all (${fileQueue.length} images)`;
         }
         btnDownloadMain.classList.add('show');
         pBar.style.opacity = '0';
-        btnRun.innerHTML = '<i class="fas fa-sync-alt"></i> Reprocess';
+        btnRun.innerHTML = '<i class="fas fa-sync-alt"></i> Run am again';
     }, 400);
 };
 
@@ -353,10 +353,10 @@ btnDownloadMain.onclick = async () => {
         a.href = fileQueue[0].resultUrl;
         // For SVG files, keep original filename prefix
         const baseName = fileQueue[0].file.name.split('.')[0];
-        a.download = `${baseName}_converted.${ext}`;
+        a.download = `${baseName}_don_convert.${ext}`;
         a.click();
     } else {
-        btnDownloadMain.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Packaging...';
+        btnDownloadMain.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Dey package...';
         try {
             const zip = new JSZip();
             fileQueue.forEach(item => {
@@ -368,14 +368,14 @@ btnDownloadMain.onclick = async () => {
             const content = await zip.generateAsync({type:"blob"});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(content);
-            a.download = `Privacy_Studio_Export_${new Date().toISOString().slice(0,10)}.zip`;
+            a.download = `privacy_studio_export_${new Date().toISOString().slice(0,10)}.zip`;
             a.click();
         } finally {
             setTimeout(() => {
                 if (fileQueue.length === 1) {
-                    btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> Save to Computer';
+                    btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> Save am for computer';
                 } else {
-                    btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Download All (${fileQueue.length} images)`;
+                    btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Download all (${fileQueue.length} images)`;
                 }
             }, 500);
         }
