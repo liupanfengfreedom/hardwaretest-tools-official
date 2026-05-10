@@ -26,7 +26,7 @@ let inputFormat = 'text';
     const ks   = parseInt(document.getElementById('keySize').value);
     const hash = document.getElementById('hash').value;
     try {
-      showToast('Generating, please wait...');
+      showToast('Dey generate, abeg wait...');
       const kp = await crypto.subtle.generateKey(
         { name: 'RSA-OAEP', modulusLength: ks, publicExponent: new Uint8Array([1, 0, 1]), hash },
         true, ['encrypt', 'decrypt']
@@ -42,22 +42,22 @@ let inputFormat = 'text';
       document.getElementById('privateKeyGroup').style.display = '';
       generatedPrivateKeyPem = privPem;
       updateHints();
-      showToast('Key pair generated');
+      showToast('Key pair don ready');
     } catch(e) {
-      setStatus('✗ Key generation failed: ' + e.message, 'error');
+      setStatus('✗ Key generation fail: ' + e.message, 'error');
     }
   }
 
   function downloadPrivateKey() {
     const pem = document.getElementById('privateKeyDisplay').value;
-    if (!pem) { showToast('No private key available', 'error'); return; }
+    if (!pem) { showToast('No private key ready', 'error'); return; }
     const blob = new Blob([pem], { type: 'application/x-pem-file' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'rsa-private-key_' + Date.now() + '.pem';
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('Private key downloaded');
+    showToast('Private key don download');
   }
 
   // ── Config export ────────────────────────────────────────
@@ -75,7 +75,7 @@ let inputFormat = 'text';
     a.download = 'rsa-config_' + Date.now() + '.json';
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('Configuration file downloaded');
+    showToast('Config file don download');
   }
 
   function copyConfig(btn) {
@@ -87,15 +87,15 @@ let inputFormat = 'text';
     const json = JSON.stringify(config, null, 2);
     const doSuccess = () => {
       const orig = btn.innerHTML;
-      btn.innerHTML = '✓ Copied';
+      btn.innerHTML = '✓ Don copy';
       btn.classList.add('copied');
-      showToast('Configuration copied as JSON');
+      showToast('Config don copy as JSON');
       setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
     };
     if (navigator.clipboard?.writeText)
-      navigator.clipboard.writeText(json).then(doSuccess).catch(() => fallbackCopy(json) ? doSuccess() : showToast('Copy failed', 'error'));
+      navigator.clipboard.writeText(json).then(doSuccess).catch(() => fallbackCopy(json) ? doSuccess() : showToast('Copy no work', 'error'));
     else
-      fallbackCopy(json) ? doSuccess() : showToast('Copy failed', 'error');
+      fallbackCopy(json) ? doSuccess() : showToast('Copy no work', 'error');
   }
 
   // ── Input: file picker ───────────────────────────────────
@@ -146,9 +146,9 @@ let inputFormat = 'text';
       document.getElementById('inputStat').textContent = formatBytes(inputFileBytes.length);
       document.getElementById('inputFileBadge').style.display = 'flex';
       document.getElementById('inputFileName').textContent = file.name;
-      const reason = isBinaryFile ? 'Binary file - raw bytes will be encrypted directly' : 'File loaded - format locked to TEXT';
+      const reason = isBinaryFile ? 'Binary file - raw bytes go enter encrypt direct' : 'File don load - format lock to TEXT';
       setFormatTabsDisabled(true, reason);
-      showToast('Loaded: ' + file.name);
+      showToast('Don load: ' + file.name);
     };
     reader.readAsArrayBuffer(file);
   }
@@ -179,7 +179,7 @@ let inputFormat = 'text';
     document.getElementById('inputFileBadge').style.display = 'none';
     document.getElementById('fileInput').value = '';
     setFormatTabsDisabled(false);
-    showToast('File cleared');
+    showToast('File don clear');
   }
 
   // ── Input: drag & drop ───────────────────────────────────
@@ -233,21 +233,21 @@ let inputFormat = 'text';
 
   // ── Output: download ─────────────────────────────────────
   function downloadOutputFile() {
-    if (!outputRawBytes) { showToast('No encrypted data available', 'error'); return; }
+    if (!outputRawBytes) { showToast('No encrypted data ready', 'error'); return; }
     const base = inputFileName ? inputFileName.replace(/(\.[^.]+)?$/, '') : 'encrypted';
     const blob = new Blob([outputRawBytes], { type: 'application/octet-stream' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = base + '.enc'; a.click();
-    URL.revokeObjectURL(a.href); showToast('Downloading file: ' + base + '.enc');
+    URL.revokeObjectURL(a.href); showToast('Dey download file: ' + base + '.enc');
   }
 
   function downloadOutputText() {
     const text = document.getElementById('outputText').value;
-    if (!text) { showToast('Nothing available to download', 'error'); return; }
+    if (!text) { showToast('Nothing ready to download', 'error'); return; }
     const blob = new Blob([text], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = 'encrypted_' + Date.now() + '.txt'; a.click();
-    URL.revokeObjectURL(a.href); showToast('Download started...');
+    URL.revokeObjectURL(a.href); showToast('Download don start...');
   }
 
   // ── Toast & Status ───────────────────────────────────────
@@ -357,7 +357,7 @@ let inputFormat = 'text';
       strip.classList.add('visible');
       document.getElementById('copyConfigStrip').classList.add('visible');
 
-      setStatus(`✓ Encryption successful - ${formatBytes(inputBytes.length)} -> ${formatBytes(encBytes.length)} (RSA-OAEP/${document.getElementById('hash').value} ${document.getElementById('keySize').value}-bit)`, 'success');
+      setStatus(`✓ Encryption work well - ${formatBytes(inputBytes.length)} -> ${formatBytes(encBytes.length)} (RSA-OAEP/${document.getElementById('hash').value} ${document.getElementById('keySize').value}-bit)`, 'success');
     } catch(e) {
       const msg = e.message || '';
       if (msg.toLowerCase().includes('public key')) flashField(document.getElementById('publicKey'));
@@ -382,7 +382,7 @@ let inputFormat = 'text';
   function clearInput() {
     document.getElementById('inputText').value = '';
     document.getElementById('inputStat').textContent = '0 bytes';
-    setStatus('Ready - configure the public key, then click Encrypt');
+    setStatus('Ready - set public key, then click Encrypt');
   }
 
   async function pasteInput() {
@@ -391,8 +391,8 @@ let inputFormat = 'text';
       document.getElementById('inputText').value = text;
       const len = new TextEncoder().encode(text).length;
       document.getElementById('inputStat').textContent = len + ' bytes';
-      showToast('Pasted');
-    } catch { showToast('Unable to access the clipboard', 'error'); }
+      showToast('Don paste am');
+    } catch { showToast('No fit use clipboard', 'error'); }
   }
 
   function fallbackCopy(text) {
@@ -404,30 +404,30 @@ let inputFormat = 'text';
 
   function copyField(fieldId, btn) {
     const val = document.getElementById(fieldId).value;
-    if (!val) { showToast('This field is empty', 'error'); return; }
+    if (!val) { showToast('This field empty', 'error'); return; }
     const doSuccess = () => {
       const orig = btn.innerHTML;
       btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-      btn.classList.add('copied'); showToast('Copied');
+      btn.classList.add('copied'); showToast('Don copy');
       setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1800);
     };
     if (navigator.clipboard?.writeText)
-      navigator.clipboard.writeText(val).then(doSuccess).catch(() => fallbackCopy(val) ? doSuccess() : showToast('Copy failed, please copy manually', 'error'));
-    else fallbackCopy(val) ? doSuccess() : showToast('Copy failed, please copy manually', 'error');
+      navigator.clipboard.writeText(val).then(doSuccess).catch(() => fallbackCopy(val) ? doSuccess() : showToast('Copy no work, abeg copy am by hand', 'error'));
+    else fallbackCopy(val) ? doSuccess() : showToast('Copy no work, abeg copy am by hand', 'error');
   }
 
   function copyOutput(btn) {
     const text = document.getElementById('outputText').value;
-    if (!text) { showToast('Nothing to copy', 'error'); return; }
+    if (!text) { showToast('Nothing dey to copy', 'error'); return; }
     const doSuccess = () => {
       const orig = btn.innerHTML;
       btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-      btn.style.borderColor = 'var(--accent2)'; btn.style.color = 'var(--accent2)'; showToast('Copied to clipboard');
+      btn.style.borderColor = 'var(--accent2)'; btn.style.color = 'var(--accent2)'; showToast('Don copy am');
       setTimeout(() => { btn.innerHTML = orig; btn.style.borderColor = ''; btn.style.color = ''; }, 1800);
     };
     if (navigator.clipboard?.writeText)
-      navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy failed, please copy manually', 'error'));
-    else fallbackCopy(text) ? doSuccess() : showToast('Copy failed, please copy manually', 'error');
+      navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy no work, abeg copy am by hand', 'error'));
+    else fallbackCopy(text) ? doSuccess() : showToast('Copy no work, abeg copy am by hand', 'error');
   }
 
   // ── Input format tabs ────────────────────────────────────
@@ -469,4 +469,4 @@ let inputFormat = 'text';
 
   // ── Init ─────────────────────────────────────────────────
   updateHints();
-  setStatus('Ready - paste a public key or generate a key pair, then click Encrypt');
+  setStatus('Ready - paste public key or generate key pair, then click Encrypt');

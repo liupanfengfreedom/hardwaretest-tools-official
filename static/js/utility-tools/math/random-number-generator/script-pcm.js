@@ -301,7 +301,7 @@ function copyResult() {
     }
     
     navigator.clipboard.writeText(text).then(() => {
-        showToast("Copied to clipboard");
+        showToast("Don copy am");
     });
 }
 

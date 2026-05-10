@@ -53,7 +53,7 @@ function showPermissionRequestModal() {
 
         // Modal title
         const title = document.createElement('h2');
-        title.textContent = 'Camera permission request';
+        title.textContent = 'Camera permission ask';
         title.style.cssText = `
             color: var(--text-main);
             margin-top: 0;
@@ -104,7 +104,7 @@ function showPermissionRequestModal() {
 
         // Allow button
         const allowButton = document.createElement('button');
-        allowButton.textContent = 'Allow access';
+        allowButton.textContent = 'Gree access';
         allowButton.style.cssText = `
             padding: 12px 30px;
             border-radius: 6px;
@@ -190,19 +190,19 @@ async function initCameraTool() {
         perfStart = performance.now();
         
         // Step 1: Show permission request modal
-        statusText.textContent = 'Dey wait for your confirmation...';
+        statusText.textContent = 'Dey wait make you confirm...';
         updateStatus('loading');
         
         const userConfirmed = await showPermissionRequestModal();
         
         if (!userConfirmed) {
             // User denied, redirect to home page
-            statusText.textContent = 'User no gree give access permission';
+            statusText.textContent = 'You no gree give access';
             updateStatus('error');
             
             // Delay redirect to let user see status change
             setTimeout(() => {
-                window.location.href = '/en/toolbox/';
+                window.location.href = '/pcm/toolbox/';
             }, 1000);
             return;
         }
@@ -278,7 +278,7 @@ async function populateDeviceList(activeVideoId) {
     } catch (error) {
         console.error("Error as e dey list devices:", error);
         const option = document.createElement('option');
-        option.text = 'Device listing fail';
+        option.text = 'Device list fail';
         videoSelect.innerHTML = '';
         videoSelect.appendChild(option);
         videoSelect.disabled = true;
@@ -311,7 +311,7 @@ async function startStream() {
         
         // Set aria-label for video element
         const track = stream.getVideoTracks()[0];
-        videoElement.setAttribute('aria-label', track.label || 'Camera video stream');
+        videoElement.setAttribute('aria-label', track.label || 'Camera live stream');
         
         updateStatus('active');
         statusText.textContent = 'Dey run normal';
@@ -351,19 +351,19 @@ function analyzeVideoTrack(track) {
     let capHtml = '';
     
     if (capabilities.width) {
-        capHtml += `<tr><td>Resolution Range</td><td>${capabilities.width.min} - ${capabilities.width.max}px</td></tr>`;
+        capHtml += `<tr><td>Resolution range</td><td>${capabilities.width.min} - ${capabilities.width.max}px</td></tr>`;
     }
     
     if (capabilities.height) {
-        capHtml += `<tr><td>Height Range</td><td>${capabilities.height.min} - ${capabilities.height.max}px</td></tr>`;
+        capHtml += `<tr><td>Height range</td><td>${capabilities.height.min} - ${capabilities.height.max}px</td></tr>`;
     }
     
     if (capabilities.frameRate) {
-        capHtml += `<tr><td>FPS Range</td><td>${capabilities.frameRate.min} - ${capabilities.frameRate.max}</td></tr>`;
+        capHtml += `<tr><td>FPS range</td><td>${capabilities.frameRate.min} - ${capabilities.frameRate.max}</td></tr>`;
     }
     
     if (capabilities.aspectRatio) {
-        capHtml += `<tr><td>Supported Ratios</td><td>${capabilities.aspectRatio.min.toFixed(2)} - ${capabilities.aspectRatio.max.toFixed(2)}</td></tr>`;
+        capHtml += `<tr><td>Supported ratios</td><td>${capabilities.aspectRatio.min.toFixed(2)} - ${capabilities.aspectRatio.max.toFixed(2)}</td></tr>`;
     }
     
     if (settings.groupId) {
@@ -377,19 +377,19 @@ function analyzeVideoTrack(track) {
     });
     
     if (featureList.length > 0) {
-        capHtml += `<tr><td>Supported Features</td><td>${featureList.join(', ')}</td></tr>`;
+        capHtml += `<tr><td>Supported features</td><td>${featureList.join(', ')}</td></tr>`;
     }
     
     // Add current settings information
     if (settings.width && settings.height) {
-        capHtml += `<tr><td>Current Resolution</td><td>${settings.width}×${settings.height}</td></tr>`;
+        capHtml += `<tr><td>Current resolution</td><td>${settings.width}×${settings.height}</td></tr>`;
     }
     
     if (settings.frameRate) {
-        capHtml += `<tr><td>Current Frame Rate</td><td>${settings.frameRate} fps</td></tr>`;
+        capHtml += `<tr><td>Current frame rate</td><td>${settings.frameRate} fps</td></tr>`;
     }
 
-    capTable.innerHTML = capHtml || `<tr><td colspan="2">Unable to get detailed driver information</td></tr>`;
+    capTable.innerHTML = capHtml || `<tr><td colspan="2">No fit read detailed driver info</td></tr>`;
 }
 
 // Real-time statistics loop (unchanged structure)
@@ -474,7 +474,7 @@ function handleError(error) {
     statusText.style.color = "#ef4444";
     
     // Show user-friendly prompt
-    if (window.confirm('Camera access fail: ' + errorMessage + '\n\nOpen help documentation?')) {
+    if (window.confirm('Camera access fail: ' + errorMessage + '\n\nOpen help guide?')) {
         window.open('/toolbox/camera/guide/#troubleshooting', '_blank');
     }
 }
@@ -558,7 +558,7 @@ document.getElementById('btn-mirror').onclick = () => {
     
     // Update button text
     const btn = document.getElementById('btn-mirror');
-    btn.textContent = isMirrored ? 'Mirror flip' : 'Cancel mirror';
+    btn.textContent = isMirrored ? 'Mirror am' : 'Off mirror';
 };
 
 // Page visibility change handling (unchanged structure)
@@ -587,7 +587,7 @@ window.addEventListener('beforeunload', () => {
 window.addEventListener('load', () => {
     // Check if getUserMedia is supported
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert('Your browser no support camera access. Abeg use modern browser like Chrome, Firefox, Edge, or Safari.');
+        alert('Your browser no support camera access. Abeg use modern browser like Chrome, Firefox, Edge or Safari.');
         return;
     }
     

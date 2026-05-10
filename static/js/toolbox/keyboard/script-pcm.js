@@ -938,7 +938,7 @@ function generateDiagnosisReport() {
     // Check key response
     if (totalKeysTested < 50) {
         warnings.push({
-            type: 'Incomplete Testing',
+            type: 'Test never complete',
             severity: 'warning',
             details: `Only tested ${totalKeysTested} keys, recommend testing all keys`
         });
@@ -958,7 +958,7 @@ function generateDiagnosisReport() {
     // Generate report HTML
     const reportHTML = `
         <div class="diagnosis-report">
-            <h3><i class="fas fa-file-medical-alt"></i> Keyboard Diagnostic Report</h3>
+            <h3><i class="fas fa-file-medical-alt"></i> Keyboard check report</h3>
             <div class="report-meta">
                 <div class="meta-item">
                     <i class="far fa-calendar"></i>
@@ -972,17 +972,17 @@ function generateDiagnosisReport() {
                 </div>
                 <div class="meta-item">
                     <i class="fas fa-keyboard"></i>
-                    <span>Keyboard Diagnostic Report</span>
+                    <span>Keyboard check report</span>
                 </div>
             </div>
             
             <div class="report-summary">
                 <div class="summary-item">
-                    <span class="summary-label">Keys Tested</span>
+                    <span class="summary-label">Keys tested</span>
                     <span class="summary-value">${totalKeysTested}</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Total Keystrokes</span>
+                    <span class="summary-label">Total key presses</span>
                     <span class="summary-value">${totalKeystrokesTested}</span>
                 </div>
                 <div class="summary-item">
@@ -990,7 +990,7 @@ function generateDiagnosisReport() {
                     <span class="summary-value">${maxConcurrency}</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Test Duration</span>
+                    <span class="summary-label">Test duration</span>
                     <span class="summary-value">${testDuration}s</span>
                 </div>
             </div>

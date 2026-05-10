@@ -12,17 +12,17 @@ function clearAll() {
   document.getElementById('inp').value = '';
   parsed = null;
   reset();
-  setStatus('', 'Waiting for input');
+  setStatus('', 'Dey wait for input');
   document.getElementById('schar').textContent = '0 chars';
   document.getElementById('sline').textContent = '0 lines';
 }
 
 function reset() {
-  const emp = n => `<div class="empty"><div class="empty-ico">{ }</div>Appears after parsing</div>`;
-  document.getElementById('tree').innerHTML = '<div class="empty"><div class="empty-ico">{ }</div>Enter JSON and click Parse</div>';
+  const emp = n => `<div class="empty"><div class="empty-ico">{ }</div>E go show after parse</div>`;
+  document.getElementById('tree').innerHTML = '<div class="empty"><div class="empty-ico">{ }</div>Put JSON then click Parse</div>';
   document.getElementById('out-fmt').innerHTML = emp();
   document.getElementById('out-cmp').innerHTML = emp();
-  document.getElementById('sgrid').innerHTML = `<div style="grid-column:1/-1"><div class="empty" style="height:200px"><div class="empty-ico">{ }</div>Statistics appear after parsing</div></div>`;
+  document.getElementById('sgrid').innerHTML = `<div style="grid-column:1/-1"><div class="empty" style="height:200px"><div class="empty-ico">{ }</div>Stats go show after parse</div></div>`;
   document.getElementById('errbox').classList.remove('on');
 }
 
@@ -31,7 +31,7 @@ function onInp() {
   document.getElementById('schar').textContent = v.length.toLocaleString() + ' chars';
   document.getElementById('sline').textContent = (v ? v.split('\n').length : 0) + ' lines';
   clearTimeout(timer);
-  timer = setTimeout(() => { if (v.trim()) parseJSON(); else { reset(); setStatus('', 'Waiting for input'); } }, 500);
+  timer = setTimeout(() => { if (v.trim()) parseJSON(); else { reset(); setStatus('', 'Dey wait for input'); } }, 500);
 }
 
 function setStatus(cls, txt) {
@@ -57,13 +57,13 @@ function parseJSON() {
     document.getElementById('out-cmp').textContent = JSON.stringify(parsed);
     // stats
     renderStats(parsed, raw);
-    setStatus('ok', '✓ Valid JSON');
+    setStatus('ok', '✓ JSON correct');
   } catch(e) {
     parsed = null;
     document.getElementById('tree').innerHTML = '';
     document.getElementById('errbox').classList.add('on');
     document.getElementById('errmsg').textContent = e.message;
-    setStatus('err', '✗ Invalid JSON');
+    setStatus('err', '✗ JSON no correct');
   }
 }
 
@@ -171,7 +171,7 @@ function doSearch() {
       }
     }
   });
-  document.getElementById('scnt').textContent = count ? `${count} matches` : 'No matches';
+  document.getElementById('scnt').textContent = count ? `${count} matches` : 'No match';
 }
 
 function renderStats(data, raw) {
@@ -179,7 +179,7 @@ function renderStats(data, raw) {
   const sz  = new Blob([raw]).size;
   const csz = new Blob([JSON.stringify(data)]).size;
   const items = [
-    ['Original size', fmtB(sz)], ['Minified size', fmtB(csz)],
+    ['Source size', fmtB(sz)], ['Compact size', fmtB(csz)],
     ['Objects', s.obj], ['Arrays', s.arr],
     ['Strings', s.str], ['Numbers', s.num],
     ['Booleans', s.bool], ['Null', s.nul],

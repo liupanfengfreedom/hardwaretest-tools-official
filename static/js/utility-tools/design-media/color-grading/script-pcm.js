@@ -150,14 +150,14 @@ function updateUtilities(rgb, hsl) {
     luminanceValue.textContent = luminance.toFixed(2);
     
     // Perceived lightness
-    const perceived = hsl.l < 30 ? 'Dark' : hsl.l < 70 ? 'Medium' : 'Light';
+    const perceived = hsl.l < 30 ? 'Deep dark' : hsl.l < 70 ? 'Middle' : 'Bright';
     perceivedLightness.textContent = perceived;
     
     // Suggested use
-    let use = 'Primary Color';
-    if (hsl.s > 70 && hsl.l > 60) use = 'Accent Color, Buttons';
-    else if (hsl.s < 30) use = 'Background, Text';
-    else if (hsl.l < 30) use = 'Dark Background, Borders';
+    let use = 'Main color';
+    if (hsl.s > 70 && hsl.l > 60) use = 'Sharp color, buttons';
+    else if (hsl.s < 30) use = 'Background, text';
+    else if (hsl.l < 30) use = 'Dark background, border';
     suggestedUse.textContent = use;
     
     // Contrast calculation
@@ -173,13 +173,13 @@ function updateUtilities(rgb, hsl) {
     let status = '';
     let statusClass = '';
     if (contrastWithWhite >= 4.5 && contrastWithBlack >= 4.5) {
-        status = '✅ Passes Accessibility Standards';
+        status = '✅ E pass accessibility check';
         statusClass = 'good';
     } else if (contrastWithWhite >= 3 || contrastWithBlack >= 3) {
-        status = '⚠️ Partially Meets Standards';
+        status = '⚠️ E pass some part';
         statusClass = 'fair';
     } else {
-        status = '❌ Fails Accessibility Standards';
+        status = '❌ E no pass accessibility check';
         statusClass = 'poor';
     }
     
@@ -192,14 +192,14 @@ function updateUtilities(rgb, hsl) {
 function generatePalettes(h, s, l) {
     const schemes = [
         {
-            title: 'Complementary',
+            title: 'Opposite pair',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 180) % 360, s: s, l: l }
             ]
         },
         {
-            title: 'Analogous',
+            title: 'Near colors',
             colors: [
                 { h: (h + 330) % 360, s: s, l: l },
                 { h: h, s: s, l: l },
@@ -207,7 +207,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Triadic',
+            title: 'Three-corner mix',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 120) % 360, s: s, l: l },
@@ -215,7 +215,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Monochromatic',
+            title: 'One color family',
             colors: [
                 { h: h, s: s, l: Math.max(l - 40, 10) },
                 { h: h, s: s, l: Math.max(l - 20, 20) },
@@ -225,7 +225,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Split Complementary',
+            title: 'Split opposite pair',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 150) % 360, s: s, l: l },
@@ -233,7 +233,7 @@ function generatePalettes(h, s, l) {
             ]
         },
         {
-            title: 'Rectangle',
+            title: 'Four-corner mix',
             colors: [
                 { h: h, s: s, l: l },
                 { h: (h + 60) % 360, s: s, l: l },
@@ -345,10 +345,10 @@ colorDisplay.addEventListener('click', () => {
 async function copyToClipboard(text) {
     try {
         await navigator.clipboard.writeText(text);
-        showNotification(`Copied: ${text}`);
+        showNotification(`Don copy: ${text}`);
     } catch (err) {
-        console.error('Copy failed:', err);
-        showNotification('Copy failed, please copy manually');
+        console.error('Copy no work:', err);
+        showNotification('Copy no work, abeg copy am by hand');
     }
 }
 

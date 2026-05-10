@@ -36,9 +36,9 @@ function markDirty() {
             item.status = 'dirty';
             const badge = document.getElementById(`st-${item.id}`);
             if (badge) { 
-                badge.innerText = 'Need update'; 
+                badge.innerText = 'Need refresh'; 
                 badge.className = 'status-badge status-dirty';
-                badge.innerHTML = '<i class="fas fa-exclamation-circle"></i> Need update';
+                badge.innerHTML = '<i class="fas fa-exclamation-circle"></i> Need refresh';
             }
         }
     });
@@ -86,8 +86,8 @@ async function handleFiles(files) {
             <td><span class="status-badge status-wait" id="st-${id}"><i class="fas fa-clock"></i> Dey wait</span></td>
             <td>
                 <div class="btn-group">
-                    <button class="btn-action btn-orig" id="vo-${id}"><i class="fas fa-eye"></i> Original</button>
-                    <button class="btn-action btn-result" id="vr-${id}"><i class="fas fa-magic"></i> Result</button>
+                    <button class="btn-action btn-orig" id="vo-${id}"><i class="fas fa-eye"></i> Source</button>
+                    <button class="btn-action btn-result" id="vr-${id}"><i class="fas fa-magic"></i> New one</button>
                 </div>
             </td>
         `;
@@ -104,7 +104,7 @@ async function handleFiles(files) {
             document.getElementById(`t-${id}`).src = canvas.toDataURL('image/jpeg', 0.2);
             
             // Bind original image preview
-            document.getElementById(`vo-${id}`).onclick = () => showPreview(item.origUrl, 'Preview of original image');
+            document.getElementById(`vo-${id}`).onclick = () => showPreview(item.origUrl, 'Source image preview');
             
             // Update file count
             updateFileCount();
@@ -308,12 +308,12 @@ btnRun.onclick = async () => {
                 <span class="size-target">${tw}×${th}</span>
             `;
 
-            badge.innerHTML = '<i class="fas fa-check-circle"></i> Ready';
+            badge.innerHTML = '<i class="fas fa-check-circle"></i> Don ready';
             badge.className = 'status-badge status-done';
             
             const rBtn = document.getElementById(`vr-${item.id}`);
             rBtn.style.display = 'flex';
-            rBtn.onclick = () => showPreview(item.resultUrl, 'Preview of result');
+            rBtn.onclick = () => showPreview(item.resultUrl, 'Converted image preview');
             
             pInner.style.width = `${((i+1)/fileQueue.length)*100}%`;
         } catch(e) {
@@ -328,7 +328,7 @@ btnRun.onclick = async () => {
         if (fileQueue.length === 1) {
             btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> Save am for computer';
         } else {
-            btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Download all (${fileQueue.length} images)`;
+            btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Save all (${fileQueue.length} images)`;
         }
         btnDownloadMain.classList.add('show');
         pBar.style.opacity = '0';
@@ -375,7 +375,7 @@ btnDownloadMain.onclick = async () => {
                 if (fileQueue.length === 1) {
                     btnDownloadMain.innerHTML = '<i class="fas fa-download"></i> Save am for computer';
                 } else {
-                    btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Download all (${fileQueue.length} images)`;
+                    btnDownloadMain.innerHTML = `<i class="fas fa-file-archive"></i> Save all (${fileQueue.length} images)`;
                 }
             }, 500);
         }

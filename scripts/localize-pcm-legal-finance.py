@@ -1,0 +1,195 @@
+from pathlib import Path
+
+
+ROOT = Path(r"F:\WebTool\toolsite")
+
+
+def apply_replacements(path_str, replacements):
+    path = ROOT / path_str
+    text = path.read_text(encoding="utf-8")
+    original = text
+    for old, new in replacements:
+        text = text.replace(old, new)
+    if text != original:
+        path.write_text(text, encoding="utf-8")
+        return True
+    return False
+
+
+def main():
+    updates = 0
+
+    legal_map = {
+        "pcm/disclaimer/index.html": [
+            ("<title>Notice - StarryRing</title>", "<title>Usage notice | StarryRing</title>"),
+            ('content="Read di StarryRing disclaimer covering general information, third-party services, limitations of liability, and use-at-your-own-risk terms."',
+             'content="Read dis usage notice to know di general info, outside services, responsibility limit, and risk wey follow use of StarryRing tools."'),
+            ('<meta content="Usage notice | StarryRing" property="og:title"/>', '<meta content="Usage notice | StarryRing" property="og:title"/>'),
+            ('<meta content="Usage notice | StarryRing" name="twitter:title"/>', '<meta content="Usage notice | StarryRing" name="twitter:title"/>'),
+            ('<h1>Notice</h1>', '<h1>Usage notice</h1>'),
+            ('<p>Last updated: March 2026</p>', '<p>Last update: March 2026</p>'),
+            ('<h2>1. General Information</h2>', '<h2>1. General info</h2>'),
+            ('<h2>2. No Pro Advice</h2>', '<h2>2. No professional advice</h2>'),
+            ('<h2>3. Accuracy</h2>', '<h2>3. Accuracy</h2>'),
+            ('<h2>4. External Services</h2>', '<h2>4. Outside services</h2>'),
+            ('<h2>5. Limitation of Liability</h2>', '<h2>5. Limit of responsibility</h2>'),
+            ('<h2>6. Use at Your Own Risk</h2>', '<h2>6. Use am at your own risk</h2>'),
+            ('<h2>7. Contact</h2>', '<h2>7. Contact</h2>'),
+            ('The tools and information provided on dis website na for general informational and testing purposes only.',
+             'All tools and information for dis site na just for general info and testing use.'),
+            ('The content on dis website does not constitute financial, legal, technical, or professional advice.',
+             'Wetin you see for dis site no be finance, legal, technical, or any professional advice.'),
+            ('While we strive to provide accurate information, we make no warranties regarding completeness or reliability.',
+             'We try make di information correct, but we no fit promise say everything complete or fully reliable every time.'),
+            ('Dis website may rely on third-party services and data sources. We na not responsible for inaccuracies or service interruptions caused by third parties.',
+             'Dis site fit depend on outside services and data sources. If third-party service spoil, stop, or show wrong data, di responsibility no dey our side.'),
+            ('We shall not be held liable for any losses or damages arising from di use of dis website.',
+             'We no go carry blame for loss or damage wey come from use of dis website.'),
+            ('All use of dis website na at your own risk.',
+             'Any way you use dis website na your own risk.'),
+            ('For questions regarding dis Notice, contact: contact@starryring.com',
+             'If you get question about dis usage notice, reach us for: contact@starryring.com'),
+        ],
+        "pcm/privacy/index.html": [
+            ('content="Review di StarryRing privacy rule to learn what data may be collected, how it na used, and how we protect your browsing information."',
+             'content="Read di privacy rule to know wetin data fit dey collected, how we dey use am, and how we dey protect your browsing info."'),
+            ('<p>Last updated: March 2026</p>', '<p>Last update: March 2026</p>'),
+            ('<h2>1. Introduction</h2>', '<h2>1. Introduction</h2>'),
+            ('<h2>2. Information We Collect</h2>', '<h2>2. Information we fit collect</h2>'),
+            ('<h2>3. Cookies</h2>', '<h2>3. Cookies</h2>'),
+            ('<h2>4. Google Analytics</h2>', '<h2>4. Google Analytics</h2>'),
+            ('<h2>5. Advertising Services</h2>', '<h2>5. Advertising services</h2>'),
+            ('<h2>6. How We Use Information</h2>', '<h2>6. How we dey use information</h2>'),
+            ('<h2>7. Data Sharing</h2>', '<h2>7. Data sharing</h2>'),
+            ('<h2>8. Data Retention</h2>', '<h2>8. How long we keep data</h2>'),
+            ('<h2>9. Your Rights</h2>', '<h2>9. Your rights</h2>'),
+            ('<h2>10. Children\'s Privacy</h2>', '<h2>10. Children privacy</h2>'),
+            ('<h2>11. Updates</h2>', '<h2>11. Updates</h2>'),
+            ('<h2>12. Contact</h2>', '<h2>12. Contact</h2>'),
+            ('Dis website respects your privacy and na committed to protecting your information. Dis Privacy rule explains how we collect, use, and safeguard information when you visit our website.',
+             'Dis website respects your privacy and we dey serious about protecting your information. Dis privacy rule explain how we fit collect, use, and keep information safe when you visit our site.'),
+            ('We do not require user registration. However, certain information may be collected automatically:',
+             'We no dey ask make you register before use. But some information fit still show automatically:'),
+            ('<li>Browser type and version</li>', '<li>Browser type and version</li>'),
+            ('<li>Pages visited and time spent</li>', '<li>Pages you visit and time wey you spend</li>'),
+            ('Dis website uses cookies to improve user experience and analyze traffic. Cookies na small text files stored on your device.',
+             'Dis website uses cookies to make di experience better and to understand traffic. Cookies na small text files wey dey stay for your device.'),
+            ('We use Google Analytics to analyze website usage and traffic patterns. Google may collect information according to its own Privacy rule.',
+             'We use Google Analytics to understand how people dey use di site and how traffic dey move. Google fit collect information according to dem own privacy rule.'),
+            ('Dis website may display advertisements through third-party advertising networks such as Google AdSense. Dese services may use cookies and similar technologies to display personalized ads based on your interests.',
+             'Dis site fit show adverts through outside ad networks like Google AdSense. Dem fit use cookies and similar tech to show ads wey match your interest.'),
+            ('<li>To improve website functionality</li>', '<li>To improve how di website works</li>'),
+            ('<li>To analyze traffic and usage trends</li>', '<li>To understand traffic and usage pattern</li>'),
+            ('<li>To maintain security and prevent abuse</li>', '<li>To keep security and stop abuse</li>'),
+            ('<li>To serve relevant advertisements</li>', '<li>To show adverts wey fit matter to users</li>'),
+            ('We do not sell personal information. Data may be processed by trusted third-party providers strictly for analytics, advertising, and hosting purposes.',
+             'We no dey sell personal information. Trusted outside providers fit process some data only for analytics, adverts, and hosting work.'),
+            ('Collected information na retained only as long as necessary for analytics, security, and legal compliance.',
+             'We keep collected information only for as long as analytics, security, and legal need require.'),
+            ('Depending on your location, you may have rights under applicable privacy laws, including di right to access, delete, or restrict processing of your personal information.',
+             'Depending on where you dey, privacy law fit give you right to see, delete, or limit how your personal information dey used.'),
+            ('Dis website na not directed to children under di age of 13.',
+             'Dis website no dey made for children wey never reach 13 years old.'),
+            ('We may update dis Privacy rule from time to time. Continued use of di website constitutes acceptance of any changes.',
+             'We fit update dis privacy rule from time to time. If you continue to use di site, e mean say you accept di new changes.'),
+            ('If you have questions regarding dis Privacy rule, please contact: contact@starryring.com',
+             'If you get question about dis privacy rule, abeg contact: contact@starryring.com'),
+        ],
+        "pcm/terms/index.html": [
+            ('content="Read di StarryRing terms wey guide use covering acceptable use, content ownership, limitations of liability, and other conditions for using di site."',
+             'content="Read di terms wey guide use to know correct use, content ownership, responsibility limit, and other conditions for using di site."'),
+            ('<p>Last updated: March 2026</p>', '<p>Last update: March 2026</p>'),
+            ('<h2>1. Acceptance of Terms</h2>', '<h2>1. Acceptance of terms</h2>'),
+            ('<h2>2. Use of Website</h2>', '<h2>2. Use of website</h2>'),
+            ('<h2>3. Prohibited Activities</h2>', '<h2>3. Things wey no allowed</h2>'),
+            ('<h2>4. Intellectual Property</h2>', '<h2>4. Intellectual property</h2>'),
+            ('<h2>5. Service Availability</h2>', '<h2>5. Service availability</h2>'),
+            ('<h2>6. Limitation of Liability</h2>', '<h2>6. Limit of responsibility</h2>'),
+            ('<h2>7. Governing Law</h2>', '<h2>7. Governing law</h2>'),
+            ('By accessing dis website, you agree to be bound by dese Terms wey guide use.',
+             'By entering dis website, you agree say these terms go guide how you use am.'),
+            ('Dis website provides for internet tools and informational services. You may use di website for personal and non-commercial purposes only.',
+             'Dis website gives browser tools and information services. You fit use di site only for personal and non-commercial purpose.'),
+            ('<li>Automated scraping or data extraction</li>', '<li>Automatic scraping or forced data extraction</li>'),
+            ('<li>Reverse engineering</li>', '<li>Reverse engineering</li>'),
+            ('<li>Attempting to disrupt website functionality</li>', '<li>Trying to spoil how di website works</li>'),
+            ('<li>Using di website for unlawful purposes</li>', '<li>Using di website for anything wey law no allow</li>'),
+            ('All content, design, code, and materials on dis website na owned by di website operator and na protected by applicable copyright laws.',
+             'All content, design, code, and materials for dis website belong to di site owner and copyright law dey protect dem.'),
+            ('We reserve di right to modify, suspend, or discontinue any part of di website at any time without notice.',
+             'We fit change, pause, or stop any part of di website any time without notice.'),
+            ('We shall not be liable for any direct, indirect, incidental, or consequential damages resulting from di use of dis website.',
+             'We no go take responsibility for direct or indirect damage wey come from use of dis website.'),
+            ('Dese Terms shall be governed by di laws of di United States.',
+             'Na di laws of di United States go govern these terms.'),
+            ('If you have questions regarding dese Terms, please contact: contact@starryring.com',
+             'If you get question about these terms, abeg contact: contact@starryring.com'),
+        ],
+        "pcm/utility-tools/math/deposit-interest-rate-calculator/index.html": [
+            ('<title>Deposit Interest Calculator : Daily Compound vs Simple Interest | Bank Rate Calculator</title>',
+             '<title>Deposit interest calculator | Daily compound vs simple interest</title>'),
+            ('"name": "Pro Deposit Interest Calculator - Compound vs Simple",', '"name": "Deposit interest calculator",'),
+            ('"description": "Deposit calculator using 360-day financial convention. Compare daily compound (current account) and simple interest (fixed deposit) with interactive chart and APY. E support large amounts like 100 million $.",',
+             '"description": "Deposit calculator wey uses 360-day finance rule. Compare daily compound for current account and simple interest for fixed deposit with chart and APY view.",'),
+            ('"featureList": [ "Daily compound simulation", "Simple interest calculation", "Growth chart", "Annual Percentage Yield (APY)", "100 million $ interest estimation" ]',
+             '"featureList": [ "Daily compound simulation", "Simple interest calculation", "Growth chart", "Annual Percentage Yield (APY)", "Big principal estimate" ]'),
+            ('<meta content="Pro deposit interest calculator to compare daily compound (current account) vs simple interest (fixed deposit). 360-day convention, real-time charts, APY, and support for large principal (e.g., 100 million). Ideal for savers and bankers." name="description"/>',
+             '<meta content="Deposit interest calculator to compare daily compound for current account and simple interest for fixed deposit. 360-day rule, growth chart, and APY summary." name="description"/>'),
+            ('<meta content="Deposit Interest Calculator &ndash; Compound vs Simple | Bank Rate Tool" property="og:title"/>',
+             '<meta content="Deposit interest calculator | Compound vs simple" property="og:title"/>'),
+            ('<meta content="Accurate daily compound &amp; simple interest simulation with charts and APY. Calculate returns on 100 million deposit." property="og:description"/>',
+             '<meta content="Compare daily compound and simple interest with growth chart and APY summary." property="og:description"/>'),
+            ('<meta content="Pro Deposit Interest Calculator | Compound vs Simple" name="twitter:title"/>',
+             '<meta content="Deposit interest calculator | Compound vs simple" name="twitter:title"/>'),
+            ('<meta content="Side-by-side comparison of daily compound (current) and simple interest (fixed) with growth chart. Handles 100M+ principal." name="twitter:description"/>',
+             '<meta content="Compare daily compound for current account and simple interest for fixed deposit side by side." name="twitter:description"/>'),
+            ('<span class="breadcrumb-active"><i class="fas fa-calculator"></i>Deposit Interest Calculator</span>',
+             '<span class="breadcrumb-active"><i class="fas fa-calculator"></i>Deposit interest calculator</span>'),
+            ('<h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">Deposit Interest Calculator</h1>',
+             '<h1 class="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">Deposit interest calculator</h1>'),
+            ('Daily compound vs simple &middot; 360-day basis', 'Current account vs fixed deposit &middot; 360-day basis'),
+            ('Method:<span class="text-indigo-600">International 360-day</span>', 'Method:<span class="text-indigo-600">International 360-day rule</span>'),
+            ('<span class="w-1 h-4 bg-indigo-400 rounded-full"></span>PARAMETERS</h2>', '<span class="w-1 h-4 bg-indigo-400 rounded-full"></span>SETTINGS</h2>'),
+            ('<span>💰</span>Principal<span class="text-xs text-slate-400 font-normal">($)</span>', '<span>💰</span>Money wey you keep<span class="text-xs text-slate-400 font-normal">($)</span>'),
+            ('Enter principal (0 allowed)', 'Put amount wey you want keep (0 allowed)'),
+            ('<label class="text-sm font-semibold text-slate-600 flex items-center gap-1.5" for="rate"><span>📊</span>Annual rate (%)</label>', '<label class="text-sm font-semibold text-slate-600 flex items-center gap-1.5" for="rate"><span>📊</span>Yearly rate (%)</label>'),
+            ('Current typical', 'Current account common rate'),
+            ('Percentage (e.g., 0.35 = 0.35%)', 'Percentage example: 0.35 mean 0.35%'),
+            ('<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="term"><span>⏳</span>Term</label>', '<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="term"><span>⏳</span>Time</label>'),
+            ('<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="termUnit"><span>📅</span>Unit</label>', '<label class="block text-sm font-semibold text-slate-600 mb-2 flex items-center gap-1.5" for="termUnit"><span>📅</span>Unit</label>'),
+            ('<option value="year">Years</option>', '<option value="year">Years</option>'),
+            ('<option value="month">Months</option>', '<option value="month">Months</option>'),
+            ('<option value="day">Days</option>', '<option value="day">Days</option>'),
+            ('<legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"><span>🧩</span>Product Type</legend>', '<legend class="block text-sm font-semibold text-slate-600 mb-4 flex items-center gap-1.5"><span>🧩</span>Account type</legend>'),
+        ],
+        "pcm/utility-tools/math/loan-interest-rate-calculator/index.html": [
+            ('<title>Loan Calculator : Mortgage &amp; Provident Fund &middot; Interest Rate Calculator Pro</title>',
+             '<title>Loan interest calculator | Mortgage and fund loan</title>'),
+            ('"name": "Loan Interest Calculator Pro",', '"name": "Loan interest calculator",'),
+            ('"description": "No-pay tool wey you fit use for internet loan calculator supporting mortgages, provident fund, annual rate, equal payment, decreasing principal, interest-only, lump sum. Visual charts and amortization.",',
+             '"description": "Browser loan calculator for mortgage, housing fund loan, yearly rate, equal instalment, reducing balance, interest-only, and lump sum repayment with charts.",'),
+            ('<meta content="No-pay tool wey you fit use for internet loan calculator: mortgage rate, provident fund loan, annual interest, term interest. Equal payment, decreasing, interest-only, lump sum. Charts &amp; amortization schedule." name="description"/>',
+             '<meta content="Browser loan calculator for mortgage, housing fund loan, yearly interest, fixed instalment, reducing balance, interest-only, and lump sum repayment." name="description"/>'),
+            ('<meta content="Loan Calculator : Mortgage &amp; Provident Fund &middot; Interest Rate Calculator Pro" property="og:title"/>',
+             '<meta content="Loan interest calculator | Mortgage and fund loan" property="og:title"/>'),
+            ('<meta content="No-pay tool wey you fit use for internet loan calculator: mortgage rate, provident fund loan, annual interest, term interest. Equal payment, decreasing, interest-only, lump sum. Charts &amp; amortization." property="og:description"/>',
+             '<meta content="Browser loan calculator for mortgage, housing fund loan, yearly rate, equal instalment, reducing balance, interest-only, and lump sum repayment." property="og:description"/>'),
+            ('<meta content="Loan Calculator : Mortgage &amp; Provident Fund &middot; Interest Rate Calculator Pro" name="twitter:title"/>',
+             '<meta content="Loan interest calculator | Mortgage and fund loan" name="twitter:title"/>'),
+            ('<meta content="No-pay tool wey you fit use for internet loan calculator: mortgage rate, provident fund loan, annual interest, term interest. Equal payment, decreasing, interest-only, lump sum. Charts &amp; amortization." name="twitter:description"/>',
+             '<meta content="Compare mortgage and fund loan repayment with charts, yearly interest rate, and repayment plan summary." name="twitter:description"/>'),
+            ('<span class="breadcrumb-active"><i class="fas fa-calculator"></i>Loan Interest Calculator</span>', '<span class="breadcrumb-active"><i class="fas fa-calculator"></i>Loan interest calculator</span>'),
+            ('<h1 class="hero-title">Loan Interest Calculator</h1>', '<h1 class="hero-title">Loan interest calculator</h1>'),
+            ('<div class="hero-subtitle">Mortgage, provident fund, annual rate, and repayment plan comparison</div>', '<div class="hero-subtitle">Mortgage, housing fund loan, yearly rate, and repayment plan comparison</div>'),
+        ],
+    }
+
+    for path_str, replacements in legal_map.items():
+        if apply_replacements(path_str, replacements):
+            updates += 1
+
+    print(f"updated {updates} files")
+
+
+if __name__ == "__main__":
+    main()

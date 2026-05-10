@@ -271,8 +271,8 @@ function setUI(rec) {
   const source = document.getElementById('sourceSelect')?.value;
   const sourceText = source === 'mic' ? 'Microphone' : 'System audio';
   document.getElementById('statusText').textContent = rec
-    ? `Recording · ${sourceText}`
-    : 'Standby · Ready';
+    ? `Dey record · ${sourceText}`
+    : 'Dey wait · Ready';
 }
 
 // ---------- Recordings list rendering (English) ----------
@@ -280,7 +280,7 @@ function renderList() {
   const c = document.getElementById('recordingsList');
   document.getElementById('recCount').textContent = `${recordings.length} recording${recordings.length!==1?'s':''}`;
   if (!recordings.length) {
-    c.innerHTML = '<div class="empty-state">No recording yet · press REC and choose audio source for the popup</div>';
+    c.innerHTML = '<div class="empty-state">No recording yet · press REC and choose audio source for di popup</div>';
     return;
   }
   c.innerHTML = recordings.map((r, i) => `

@@ -131,17 +131,17 @@ function updateSRHint() {
   var autoOptCh = chSel.querySelector('option[value="auto"]');
   if (autoOptSR) {
     autoOptSR.textContent = uniqueSRs.length === 1
-      ? '✦ Original Sample Rate — ' + uniqueSRs[0] + ' Hz'
+      ? '✦ Source sample rate — ' + uniqueSRs[0] + ' Hz'
       : uniqueSRs.length > 1
-        ? '✦ Original Sample Rate (Mixed)'
-        : '✦ Original Sample Rate (Auto)';
+        ? '✦ Source sample rate (mixed)'
+        : '✦ Source sample rate (auto)';
   }
   if (autoOptCh) {
     autoOptCh.textContent = uniqueChs.length === 1
-      ? '✦ Original Channels — ' + (uniqueChs[0] === 1 ? 'Mono' : uniqueChs[0] === 2 ? 'Stereo' : uniqueChs[0]+'ch')
+      ? '✦ Source channels — ' + (uniqueChs[0] === 1 ? 'Mono' : uniqueChs[0] === 2 ? 'Stereo' : uniqueChs[0]+'ch')
       : uniqueChs.length > 1
-        ? '✦ Original Channels (Mixed)'
-        : '✦ Original Channels (Auto)';
+        ? '✦ Source channels (mixed)'
+        : '✦ Source channels (auto)';
   }
 }
 
@@ -197,7 +197,7 @@ function renderFileList() {
         tags+
       '</div>'+
       '<span class="file-status '+sc+'">'+st+'</span>'+
-      '<button class="remove-btn" onclick="removeFile('+idx+')" title="Remove">'+
+      '<button class="remove-btn" onclick="removeFile('+idx+')" title="Remove am">'+
         '<svg width="14" height="14" viewBox="0 0 14 14" fill="none">'+
           '<path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'+
         '</svg>'+
@@ -232,9 +232,9 @@ function clearAll() {
   document.getElementById('log-section').style.display = 'none';
   // Reset auto option labels
   var ao = document.querySelector('#samplerate-select option[value="auto"]');
-  if (ao) ao.textContent = '✦ Original Sample Rate (Auto)';
+  if (ao) ao.textContent = '✦ Source sample rate (auto)';
   var ac = document.querySelector('#channels-select option[value="auto"]');
-  if (ac) ac.textContent = '✦ Original Channels (Auto)';
+  if (ac) ac.textContent = '✦ Source channels (auto)';
 }
 
 function updateFileStatus(id, status) {

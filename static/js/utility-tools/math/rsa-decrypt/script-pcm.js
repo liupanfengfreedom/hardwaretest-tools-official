@@ -327,7 +327,7 @@ let totalBytesDecrypted = 0;
       try {
         decrypted = await crypto.subtle.decrypt({ name: 'RSA-OAEP' }, cryptoKey, cipherBytes);
       } catch(e) {
-        throw new Error('Decryption failed - please verify the private key matches the encryption public key, and that the hash algorithm and ciphertext are correct.');
+        throw new Error('Decryption fail - please verify the private key matches the encryption public key, and that the hash algorithm and ciphertext are correct.');
       }
 
       const decBytes = new Uint8Array(decrypted);
@@ -356,7 +356,7 @@ let totalBytesDecrypted = 0;
 
       totalBytesDecrypted += decBytes.length;
       animateCounter(totalBytesDecrypted);
-      setStatus(`✓ Decryption successful - ${formatBytes(cipherBytes.length)} -> ${formatBytes(decBytes.length)} (RSA-OAEP/${hash} ${document.getElementById('keySize').value}-bit)`, 'success');
+      setStatus(`✓ Decryption work well - ${formatBytes(cipherBytes.length)} -> ${formatBytes(decBytes.length)} (RSA-OAEP/${hash} ${document.getElementById('keySize').value}-bit)`, 'success');
     } catch(e) {
       document.getElementById('outputText').value = '';
       document.getElementById('outputStat').textContent = '0 bytes';
@@ -375,7 +375,7 @@ let totalBytesDecrypted = 0;
       else                                  { friendly = rawMsg; }
 
       setStatus('✗ ' + friendly, 'error');
-      showToast('Decryption failed', 'error');
+      showToast('Decryption fail', 'error');
     } finally {
       outPanel.classList.remove('processing');
     }
@@ -401,29 +401,29 @@ let totalBytesDecrypted = 0;
 
   // ── Output download ──────────────────────────────────────
   function downloadOutputFile() {
-    if (!outputRawBytes) { showToast('No decrypted data available', 'error'); return; }
+    if (!outputRawBytes) { showToast('No decrypted data ready', 'error'); return; }
     const base = inputFileName ? inputFileName.replace(/\.enc$/i, '') : 'decrypted';
     const blob = new Blob([outputRawBytes], { type: 'application/octet-stream' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = base; a.click();
-    URL.revokeObjectURL(a.href); showToast('Downloading file: ' + base);
+    URL.revokeObjectURL(a.href); showToast('Dey download file: ' + base);
   }
 
   function downloadOutputText() {
     const text = document.getElementById('outputText').value;
-    if (!text) { showToast('Nothing available to download', 'error'); return; }
+    if (!text) { showToast('Nothing ready to download', 'error'); return; }
     const blob = new Blob([text], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = 'decrypted_' + Date.now() + '.txt'; a.click();
-    URL.revokeObjectURL(a.href); showToast('Download started...');
+    URL.revokeObjectURL(a.href); showToast('Download don start...');
   }
 
   async function pasteField(fieldId) {
     try {
       const text = await navigator.clipboard.readText();
       document.getElementById(fieldId).value = text.trim();
-      showToast('Pasted');
-    } catch { showToast('Unable to access the clipboard', 'error'); }
+      showToast('Don paste am');
+    } catch { showToast('No fit use clipboard', 'error'); }
   }
 
   async function pasteInput() {
@@ -431,14 +431,14 @@ let totalBytesDecrypted = 0;
       const text = await navigator.clipboard.readText();
       document.getElementById('inputText').value = text.trim();
       document.getElementById('inputStat').textContent = text.length + ' chars';
-      showToast('Pasted');
-    } catch { showToast('Unable to access the clipboard', 'error'); }
+      showToast('Don paste am');
+    } catch { showToast('No fit use clipboard', 'error'); }
   }
 
   function clearInput() {
     document.getElementById('inputText').value = '';
     document.getElementById('inputStat').textContent = '0 bytes';
-    setStatus('Ready - paste a private key and ciphertext, then click Decrypt');
+    setStatus('Ready - paste private key and ciphertext, then click Decrypt');
   }
 
   function fallbackCopy(text) {
@@ -450,30 +450,30 @@ let totalBytesDecrypted = 0;
 
   function copyField(fieldId, btn) {
     const val = document.getElementById(fieldId).value;
-    if (!val) { showToast('This field is empty', 'error'); return; }
+    if (!val) { showToast('This field empty', 'error'); return; }
     const doSuccess = () => {
       const orig = btn.innerHTML;
       btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-      btn.classList.add('copied'); showToast('Copied');
+      btn.classList.add('copied'); showToast('Don copy');
       setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1800);
     };
     if (navigator.clipboard?.writeText)
-      navigator.clipboard.writeText(val).then(doSuccess).catch(() => fallbackCopy(val) ? doSuccess() : showToast('Copy failed', 'error'));
-    else fallbackCopy(val) ? doSuccess() : showToast('Copy failed', 'error');
+      navigator.clipboard.writeText(val).then(doSuccess).catch(() => fallbackCopy(val) ? doSuccess() : showToast('Copy no work', 'error'));
+    else fallbackCopy(val) ? doSuccess() : showToast('Copy no work', 'error');
   }
 
   function copyOutput(btn) {
     const text = document.getElementById('outputText').value;
-    if (!text) { showToast('Nothing to copy', 'error'); return; }
+    if (!text) { showToast('Nothing dey to copy', 'error'); return; }
     const doSuccess = () => {
       const orig = btn.innerHTML;
       btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-      btn.style.borderColor = 'var(--accent)'; btn.style.color = 'var(--accent)'; showToast('Copied to clipboard');
+      btn.style.borderColor = 'var(--accent)'; btn.style.color = 'var(--accent)'; showToast('Don copy am');
       setTimeout(() => { btn.innerHTML = orig; btn.style.borderColor = ''; btn.style.color = ''; }, 1800);
     };
     if (navigator.clipboard?.writeText)
-      navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy failed', 'error'));
-    else fallbackCopy(text) ? doSuccess() : showToast('Copy failed', 'error');
+      navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy no work', 'error'));
+    else fallbackCopy(text) ? doSuccess() : showToast('Copy no work', 'error');
   }
 
   // ── File input ───────────────────────────────────────────
@@ -500,7 +500,7 @@ let totalBytesDecrypted = 0;
         const btn = document.getElementById(id);
         btn.disabled = true; btn.style.opacity = '0.25'; btn.style.cursor = 'not-allowed';
       });
-      showToast('Loaded: ' + file.name);
+      showToast('Don load: ' + file.name);
     };
     reader.readAsArrayBuffer(file);
   }
@@ -516,7 +516,7 @@ let totalBytesDecrypted = 0;
     ['clearInputBtn','pasteInputBtn'].forEach(id => {
       const btn = document.getElementById(id); btn.disabled = false; btn.style.opacity = ''; btn.style.cursor = '';
     });
-    showToast('File cleared');
+    showToast('File don clear');
   }
 
   // ── Drag & drop ──────────────────────────────────────────
@@ -535,11 +535,11 @@ let totalBytesDecrypted = 0;
   async function pasteJsonConfig() {
     let text;
     try { text = await navigator.clipboard.readText(); }
-    catch { showToast('Unable to access the clipboard', 'error'); return; }
+    catch { showToast('No fit use clipboard', 'error'); return; }
     try {
       text = text.replace(/```[a-z]*\n?/g, '').trim();
       applyConfig(JSON.parse(text));
-    } catch { showToast('Clipboard content is not valid JSON', 'error'); }
+    } catch { showToast('Clipboard content no be valid JSON', 'error'); }
   }
 
   function triggerConfigUpload() {
@@ -552,7 +552,7 @@ let totalBytesDecrypted = 0;
     const reader = new FileReader();
     reader.onload = (e) => {
       try { applyConfig(JSON.parse(e.target.result)); }
-      catch { showToast('Invalid JSON file format', 'error'); }
+      catch { showToast('JSON file format no correct', 'error'); }
     };
     reader.readAsText(file);
   }
@@ -571,11 +571,11 @@ let totalBytesDecrypted = 0;
       const tab = document.querySelector(`.encoding-tab[data-enc="${cfg.encoding}"]`);
       if (tab) tab.classList.add('active'); applied.push('Encoding');
     }
-    if (applied.length === 0) { showToast('No recognizable config fields were found in the JSON', 'error'); return; }
+    if (applied.length === 0) { showToast('We no see any config field we fit use for the JSON', 'error'); return; }
     updateHints();
     showToast('Applied: ' + applied.join(' / '));
   }
 
   // ── Init ─────────────────────────────────────────────────
   updateHints();
-  setStatus('Ready - paste a private key and ciphertext, then click Decrypt');
+  setStatus('Ready - paste private key and ciphertext, then click Decrypt');

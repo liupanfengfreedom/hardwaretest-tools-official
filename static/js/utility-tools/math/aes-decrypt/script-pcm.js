@@ -62,7 +62,7 @@ let totalBytesDecrypted = 0;
 
     if (clearIV) {
       document.getElementById('iv').value = '';
-      showToast('Mode changed. Please confirm the IV again.', 'error');
+      showToast('Mode don change. Check the IV again.', 'error');
     }
 
     document.getElementById('infoKeySize').textContent = ks;
@@ -141,7 +141,7 @@ let totalBytesDecrypted = 0;
       document.getElementById('inputStat').textContent = formatBytes(inputFileBytes.length);
       document.getElementById('inputFileBadge').style.display = 'flex';
       document.getElementById('inputFileName').textContent = file.name;
-      showToast(`Loaded: ${file.name}`);
+      showToast(`Don load: ${file.name}`);
     };
     reader.readAsArrayBuffer(file);
   }
@@ -193,7 +193,7 @@ let totalBytesDecrypted = 0;
     document.getElementById('fileInput').value = '';
     setEncodingTabsDisabled(false);
     showFormatHint(false);
-    showToast('File cleared');
+    showToast('File don clear');
   }
 
   // Drag & drop
@@ -235,9 +235,9 @@ let totalBytesDecrypted = 0;
       document.getElementById('inputText').value = text;
       document.getElementById('inputStat').textContent =
         new TextEncoder().encode(text).length + ' bytes';
-      showToast('Pasted');
+      showToast('Don paste am');
     } catch {
-      showToast('Unable to access the clipboard', 'error');
+      showToast('No fit use clipboard', 'error');
     }
   }
 
@@ -384,7 +384,7 @@ let totalBytesDecrypted = 0;
 
       totalBytesDecrypted += decBytes.length;
       animateCounter(totalBytesDecrypted);
-      setStatus(`✓ Decryption successful - ${formatBytes(cipherBytes.length)} -> ${formatBytes(decBytes.length)} (${mode}/AES-${document.getElementById('keySize').value})`, 'success');
+      setStatus(`✓ Decryption work well - ${formatBytes(cipherBytes.length)} -> ${formatBytes(decBytes.length)} (${mode}/AES-${document.getElementById('keySize').value})`, 'success');
     } catch(e) {
       // Clear output and flash red border
       document.getElementById('outputText').value = '';
@@ -412,7 +412,7 @@ let totalBytesDecrypted = 0;
       } else if (msg.includes('operation-specific') || msg.includes('operationerror') || msg.includes('decrypt')) {
         friendly = mode === 'GCM'
           ? 'GCM authentication failed - the key or IV is wrong, or the ciphertext was modified in transit'
-          : 'Decryption failed - please verify the key, IV, and mode exactly match the encryption settings';
+          : 'Decryption fail - please verify the key, IV, and mode exactly match the encryption settings';
       } else if (msg.includes('base64') || msg.includes('invalid')) {
         friendly = 'Ciphertext format error - please make sure the selected encoding (BASE64 / HEX) is correct';
         flashField(document.getElementById('inputText'));
@@ -427,7 +427,7 @@ let totalBytesDecrypted = 0;
       }
 
       setStatus('✗ ' + friendly, 'error');
-      showToast('Decryption failed', 'error');
+      showToast('Decryption fail', 'error');
     } finally {
       outPanel.classList.remove('processing');
     }
@@ -447,7 +447,7 @@ let totalBytesDecrypted = 0;
 
   // ── Output download ──────────────────────────────────────
   function downloadOutputFile() {
-    if (!outputRawBytes) { showToast('No decrypted data available', 'error'); return; }
+    if (!outputRawBytes) { showToast('No decrypted data ready', 'error'); return; }
     const base = inputFileName ? inputFileName.replace(/\.enc$/i, '') : 'decrypted';
     const blob = new Blob([outputRawBytes], { type: 'application/octet-stream' });
     const a = document.createElement('a');
@@ -455,28 +455,28 @@ let totalBytesDecrypted = 0;
     a.download = base;
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('Downloading file: ' + base);
+    showToast('Dey download file: ' + base);
   }
 
   function downloadOutputText() {
     const text = document.getElementById('outputText').value;
-    if (!text) { showToast('Nothing available to download', 'error'); return; }
+    if (!text) { showToast('Nothing ready to download', 'error'); return; }
     const blob = new Blob([text], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'decrypted_' + Date.now() + '.txt';
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('Download started...');
+    showToast('Download don start...');
   }
 
   async function pasteField(fieldId) {
     try {
       const text = await navigator.clipboard.readText();
       document.getElementById(fieldId).value = text.trim();
-      showToast('Pasted');
+      showToast('Don paste am');
     } catch {
-      showToast('Unable to access the clipboard', 'error');
+      showToast('No fit use clipboard', 'error');
     }
   }
 
@@ -494,35 +494,35 @@ let totalBytesDecrypted = 0;
 
   function copyField(fieldId, btn) {
     const val = document.getElementById(fieldId).value;
-    if (!val) { showToast('This field is empty', 'error'); return; }
+    if (!val) { showToast('This field empty', 'error'); return; }
     const doSuccess = () => {
       const orig = btn.innerHTML;
       btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
       btn.classList.add('copied');
-      showToast('Copied');
+      showToast('Don copy');
       setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1800);
     };
     if (navigator.clipboard?.writeText)
-      navigator.clipboard.writeText(val).then(doSuccess).catch(() => fallbackCopy(val) ? doSuccess() : showToast('Copy failed', 'error'));
+      navigator.clipboard.writeText(val).then(doSuccess).catch(() => fallbackCopy(val) ? doSuccess() : showToast('Copy no work', 'error'));
     else
-      fallbackCopy(val) ? doSuccess() : showToast('Copy failed', 'error');
+      fallbackCopy(val) ? doSuccess() : showToast('Copy no work', 'error');
   }
 
   function copyOutput(btn) {
     const text = document.getElementById('outputText').value;
-    if (!text) { showToast('Nothing to copy', 'error'); return; }
+    if (!text) { showToast('Nothing dey to copy', 'error'); return; }
     const doSuccess = () => {
       const orig = btn.innerHTML;
       btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
       btn.style.borderColor = 'var(--accent)';
       btn.style.color = 'var(--accent)';
-      showToast('Copied to clipboard');
+      showToast('Don copy am');
       setTimeout(() => { btn.innerHTML = orig; btn.style.borderColor = ''; btn.style.color = ''; }, 1800);
     };
     if (navigator.clipboard?.writeText)
-      navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy failed', 'error'));
+      navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy no work', 'error'));
     else
-      fallbackCopy(text) ? doSuccess() : showToast('Copy failed', 'error');
+      fallbackCopy(text) ? doSuccess() : showToast('Copy no work', 'error');
   }
 
   // ── Init ─────────────────────────────────────────────────
@@ -546,12 +546,12 @@ let totalBytesDecrypted = 0;
   async function pasteJsonConfig() {
     let text;
     try { text = await navigator.clipboard.readText(); }
-    catch { showToast('Unable to access the clipboard', 'error'); return; }
+    catch { showToast('No fit use clipboard', 'error'); return; }
     try {
       text = text.replace(/```[a-z]*\n?/g, '').trim();
       applyConfig(JSON.parse(text));
     } catch {
-      showToast('Clipboard content is not valid JSON', 'error');
+      showToast('Clipboard content no be valid JSON', 'error');
     }
   }
 
@@ -569,7 +569,7 @@ let totalBytesDecrypted = 0;
         const cfg = JSON.parse(e.target.result);
         applyConfig(cfg);
       } catch {
-        showToast('Invalid JSON file format', 'error');
+        showToast('JSON file format no correct', 'error');
       }
     };
     reader.readAsText(file);
@@ -605,7 +605,7 @@ let totalBytesDecrypted = 0;
       applied.push('Encoding');
     }
     if (applied.length === 0) {
-      showToast('No recognizable config fields were found in the JSON', 'error'); return;
+      showToast('We no see any config field we fit use for the JSON', 'error'); return;
     }
     updateHints(false);
     showToast(`Applied: ${applied.join(' / ')}`);

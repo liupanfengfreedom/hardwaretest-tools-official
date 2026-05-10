@@ -64,7 +64,7 @@ let lastResults      = null;
 function getInputBytes() {
   if (currentFileBytes) return currentFileBytes;
   const text = document.getElementById('inputText').value;
-  if (!text) throw new Error('Please enter data or upload a file');
+  if (!text) throw new Error('Enter data or upload file');
   if (inputEncoding === 'hex') {
     const clean = text.replace(/\s/g,'');
     if (!/^[0-9a-fA-F]*$/.test(clean)) throw new Error('Hex input only allows 0-9 and a-f');
@@ -176,7 +176,7 @@ function runCalculate(silent = false) {
     const fmt = document.getElementById('outputFormat').value;
     const active = document.getElementById('crcVariant').value;
     const mainVal = formatCRC(results[active], fmt);
-    setStatus(`✓ Calculation complete — ${active.toUpperCase()}: ${mainVal} (${bytes.length} bytes, ${elapsed}ms)`, 'success');
+    setStatus(`✓ Calculation don complete — ${active.toUpperCase()}: ${mainVal} (${bytes.length} bytes, ${elapsed}ms)`, 'success');
 
     if (document.getElementById('expectedCRC').value.trim()) runVerify();
 
@@ -187,7 +187,7 @@ function runCalculate(silent = false) {
     const encSection = (enc === 'hex' || enc === 'base64') ? 'explain-encoding' : null;
     const encIdx = enc === 'hex' ? 1 : enc === 'base64' ? 2 : 0;
     const linkHTML = encSection
-      ? ` <a class="status-link" href="javascript:void(0)" onclick="scrollToCard('${encSection}',${encIdx})">View format guide ↗</a>`
+      ? ` <a class="status-link" href="javascript:void(0)" onclick="scrollToCard('${encSection}',${encIdx})">See format guide ↗</a>`
       : '';
     setStatusHTML('✗ ' + e.message + linkHTML, 'error');
 
@@ -207,9 +207,9 @@ function runCalculate(silent = false) {
 
 // ─── Verify ───────────────────────────────────────────────────────────────────
 function runVerify() {
-  if (!lastResults) { showToast('Please calculate CRC32 first', 'error'); return; }
+  if (!lastResults) { showToast('Calculate CRC32 first', 'error'); return; }
   const raw = document.getElementById('expectedCRC').value.trim();
-  if (!raw) { showToast('Please enter the expected checksum', 'error'); return; }
+  if (!raw) { showToast('Put expected checksum first', 'error'); return; }
 
   let expected;
   if (/^0x/i.test(raw)) {
@@ -220,7 +220,7 @@ function runVerify() {
     expected = parseInt(raw.replace(/^0o/i,''), /^0o/i.test(raw) ? 8 : 10) >>> 0;
   }
 
-  if (isNaN(expected)) { showToast('Unable to parse the checksum. Supported formats: 0x... (hex), decimal, and binary', 'error'); return; }
+  if (isNaN(expected)) { showToast('No fit read checksum. Use 0x... (hex), decimal or binary', 'error'); return; }
 
   const active = document.getElementById('crcVariant').value;
   const got = lastResults[active];
@@ -230,8 +230,8 @@ function runVerify() {
   el.style.display = 'flex';
   el.className = 'verify-result ' + (match ? 'match' : 'mismatch');
   el.innerHTML = match
-    ? `✓ &nbsp; Checksum match — calculated value <strong style="margin:0 6px">${formatCRC(got,'hex')}</strong> matches the expected value`
-    : `✗ &nbsp; Checksum mismatch — calculated value <strong style="margin:0 6px">${formatCRC(got,'hex')}</strong> ≠ expected value <strong style="margin:0 6px">0x${expected.toString(16).toUpperCase().padStart(8,'0')}</strong>`;
+    ? `✓ &nbsp; Checksum match — calculated value <strong style="margin:0 6px">${formatCRC(got,'hex')}</strong> match di expected value`
+    : `✗ &nbsp; Checksum no match — calculated value <strong style="margin:0 6px">${formatCRC(got,'hex')}</strong> ≠ expected value <strong style="margin:0 6px">0x${expected.toString(16).toUpperCase().padStart(8,'0')}</strong>`;
 }
 
 // ─── File handling ─────────────────────────────────────────────────────────────
@@ -278,7 +278,7 @@ function buildHexDump(bytes) {
     lines.push(`${addr}  ${hex.padEnd(47)}  ${ascii}`);
   }
   if (bytes.length > total) {
-    lines.push(`\n... previewing the first ${total} bytes out of ${bytes.length} total file bytes`);
+    lines.push(`\n... dey preview first ${total} bytes from ${bytes.length} total file bytes`);
   }
   return lines.join('\n');
 }
@@ -314,7 +314,7 @@ function loadFile(file) {
     document.getElementById('fileBadge').style.display = 'flex';
     document.getElementById('fileNameLabel').textContent = file.name;
     setEncodingTabsDisabled(true);
-    showToast(`Loaded ${file.name} (${formatBytes(file.size)})`);
+    showToast(`Don load ${file.name} (${formatBytes(file.size)})`);
     runCalculate();
   };
   reader.readAsArrayBuffer(file);
@@ -329,7 +329,7 @@ function clearFile() {
   ta.value = '';
   ta.readOnly = false;
   ta.classList.remove('preview-mode');
-  ta.placeholder = 'Enter text here, or upload a file...\n\nCalculate CRC32 checksums in real time';
+  ta.placeholder = 'Put text here, or upload file...\n\nCalculate CRC32 checksum live';
   document.getElementById('inputStat').textContent = '0 bytes';
   document.getElementById('previewTypeBadge').style.display = 'none';
   setEncodingTabsDisabled(false);
@@ -399,7 +399,7 @@ document.getElementById('outputFormat').addEventListener('change', function() {
 function clearInput() {
   document.getElementById('inputText').value = '';
   document.getElementById('inputStat').textContent = '0 bytes';
-  setStatus('Ready - enter data and click "Calculate CRC32"');
+  setStatus('Ready - put data and click "Calculate CRC32"');
 }
 
 function clearAll() {
@@ -427,7 +427,7 @@ function clearAll() {
 
   document.getElementById('infoBytes').textContent = '0';
   document.getElementById('infoMs').textContent = '—';
-  setStatus('Ready - all data has been reset');
+  setStatus('Ready - all data don reset');
 }
 
 async function pasteInput() {
@@ -436,40 +436,40 @@ async function pasteInput() {
     document.getElementById('inputText').value = text;
     const bytes = new TextEncoder().encode(text);
     document.getElementById('inputStat').textContent = bytes.length + ' bytes';
-    showToast('Pasted');
+    showToast('Don paste');
     runCalculate();
   } catch {
-    showToast('Unable to access the clipboard, please paste manually', 'error');
+    showToast('No fit access clipboard, abeg paste am by hand', 'error');
   }
 }
 
 function copyPrimary() {
-  if (!lastResults) { showToast('No result available yet', 'error'); return; }
+  if (!lastResults) { showToast('No result dey yet', 'error'); return; }
   const active = document.getElementById('crcVariant').value;
   const fmt = document.getElementById('outputFormat').value;
   copyText(formatCRC(lastResults[active], fmt), document.getElementById('copy-primary'));
 }
 
 function copyResult(variant) {
-  if (!lastResults) { showToast('No result available yet', 'error'); return; }
+  if (!lastResults) { showToast('No result dey yet', 'error'); return; }
   const fmt = document.getElementById('outputFormat').value;
   copyText(formatCRC(lastResults[variant], fmt), null);
 }
 
 function copyText(text, btn) {
   const doSuccess = () => {
-    showToast('Copied');
+    showToast('Don copy');
     if (btn) {
       const orig = btn.textContent;
-      btn.textContent = '✓ Copied';
+      btn.textContent = '✓ Don copy';
       btn.classList.add('copied');
       setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
     }
   };
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy failed', 'error'));
+    navigator.clipboard.writeText(text).then(doSuccess).catch(() => fallbackCopy(text) ? doSuccess() : showToast('Copy no work', 'error'));
   } else {
-    fallbackCopy(text) ? doSuccess() : showToast('Copy failed, please copy manually', 'error');
+    fallbackCopy(text) ? doSuccess() : showToast('Copy no work, abeg copy am by hand', 'error');
   }
 }
 

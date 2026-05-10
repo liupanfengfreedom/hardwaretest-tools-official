@@ -189,8 +189,8 @@ async function runHttpsMode(target, maxCount) {
                 log(`[Local block] ${target} request blocked by browser or extension`, false);
                 handleResult(null, `Local block (${duration}ms)`);
             } else {
-                log(`[Connection failed] ${target} unreachable (DNS failure/refused/timeout)`, false);
-                handleResult(null, `Request failed (${duration}ms)`);
+                log(`[Connection failed] ${target} no reachable (DNS fail/refused/timeout)`, false);
+                handleResult(null, `Request fail (${duration}ms)`);
             }
         }
 

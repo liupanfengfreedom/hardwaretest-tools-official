@@ -99,7 +99,7 @@ function updateAddBatchBtn(){
   btn.classList.remove('hidden');
   // Disable when a file is loaded
   btn.disabled = !!fileBytes;
-  btn.title = fileBytes ? 'Batch add is unavailable in file mode' : 'Add a batch line at the end';
+  btn.title = fileBytes ? 'Batch add no dey available for file mode' : 'Add one more batch line at the end';
 }
 
 function addBatchLine(){
@@ -348,7 +348,7 @@ function copyHashValue(val, btn){
     btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
     btn.classList.add('copied');
     setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('copied'); },1800);
-    showToast('Copied');
+    showToast('Don copy');
   });
 }
 
@@ -360,7 +360,7 @@ function copyOutput(btn){
     btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
     btn.style.borderColor='var(--accent2)'; btn.style.color='var(--accent2)';
     setTimeout(()=>{ btn.innerHTML=orig; btn.style.borderColor=''; btn.style.color=''; },1800);
-    showToast('Copied to clipboard');
+    showToast('Don copy am');
   });
 }
 
@@ -371,7 +371,7 @@ function copyAll(btn){
   doCopy(lines.join('\n'), ()=>{
     const orig=btn.innerHTML;
     btn.classList.add('copied');
-    btn.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied';
+    btn.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Don copy';
     setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('copied'); },1800);
     showToast('All hashes copied');
   });
@@ -392,12 +392,12 @@ function fallbackCopy(text){
 }
 
 function exportCSV(){
-  if(!batchData.length){ showToast('No batch data available','error'); return; }
-  const header='Original Input,MD5-32,MD5-16,MD5-32 Uppercase\n';
+  if(!batchData.length){ showToast('No batch data ready','error'); return; }
+  const header='Source Input,MD5-32,MD5-16,MD5-32 Uppercase\n';
   const rows=batchData.map(r=>`"${r.input.replace(/"/g,'""')}",${r.md5_32},${r.md5_16},${r.md5_upper}`).join('\n');
   const blob=new Blob(['\uFEFF'+header+rows],{type:'text/csv;charset=utf-8'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='md5_batch_'+Date.now()+'.csv'; a.click();
-  showToast('CSV exported');
+  showToast('CSV don export');
 }
 
 // ── Paste / Clear ──
@@ -405,8 +405,8 @@ async function pasteInput(){
   try{
     const text = await navigator.clipboard.readText();
     document.getElementById('inputText').value=text;
-    onInputChange(); showToast('Pasted');
-  } catch(e){ showToast('Unable to access clipboard','error'); }
+    onInputChange(); showToast('Don paste');
+  } catch(e){ showToast('No fit access clipboard','error'); }
 }
 
 function clearInput(){

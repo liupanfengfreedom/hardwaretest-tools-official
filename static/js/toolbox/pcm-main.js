@@ -17,8 +17,8 @@ window.addEventListener('DOMContentLoaded', () => {
         docsToggle.addEventListener('click', function() {
             docsContent.classList.toggle('active');
             docsToggle.textContent = docsContent.classList.contains('active')
-                ? "Hide user manual"
-                : "See user manual";
+                ? "Hide guide"
+                : "See guide";
         });
     }
 
@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 document.fonts.ready.then(() => {
-    console.log("All fonts load well");
+    console.log("All fonts don load well");
 }).catch((error) => {
     console.warn("Some fonts no load:", error);
 });

@@ -466,7 +466,7 @@ function updatePresetButtons(activeType = null) {
 function generate() {
     generateIcon.textContent = '';
     generateIcon.classList.add('loading');
-    generateText.textContent = 'Generating...';
+    generateText.textContent = 'Dey generate...';
     
     setTimeout(() => {
         try {
@@ -667,15 +667,15 @@ function copyAction() {
             toast.classList.remove('show');
         }, 2000);
     }).catch(err => {
-        console.error("Copy failed:", err);
-        toast.textContent = "Copy failed. Please select and copy manually.";
+        console.error("Copy no work:", err);
+        toast.textContent = "Copy no work. Abeg select am and copy by hand.";
         toast.style.background = "var(--danger)";
         toast.classList.add('show');
         
         setTimeout(() => {
             toast.classList.remove('show');
             toast.style.background = "var(--success)";
-            toast.textContent = "Password copied to clipboard!";
+            toast.textContent = "Password don copy";
         }, 2000);
     });
 }

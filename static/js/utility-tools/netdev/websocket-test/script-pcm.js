@@ -246,14 +246,14 @@ function rmH(btn){btn.closest('.hi').remove();}
 function insPing(){document.getElementById('inp').value=JSON.stringify({type:'ping',ts:Date.now()});}
 function insHello(){document.getElementById('inp').value=JSON.stringify({type:'hello',client:'WS Terminal',v:'2.4',ts:Date.now()});}
 function insTpl(t){var m={sub:JSON.stringify({action:'subscribe',channel:'market.BTC-USDT',event:'trade'}),auth:JSON.stringify({type:'auth',token:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'}),hb:JSON.stringify({cmd:'heartbeat',seq:Math.floor(Math.random()*9999)})};document.getElementById('inp').value=m[t]||'';}
-function fmtJ(){var el=document.getElementById('inp');try{el.value=JSON.stringify(JSON.parse(el.value),null,2);}catch(e){addSys('Invalid JSON format','error');}}
-function minJ(){var el=document.getElementById('inp');try{el.value=JSON.stringify(JSON.parse(el.value));}catch(e){addSys('Invalid JSON format','error');}}
+function fmtJ(){var el=document.getElementById('inp');try{el.value=JSON.stringify(JSON.parse(el.value),null,2);}catch(e){addSys('JSON format no correct','error');}}
+function minJ(){var el=document.getElementById('inp');try{el.value=JSON.stringify(JSON.parse(el.value));}catch(e){addSys('JSON format no correct','error');}}
 function clrInp(){document.getElementById('inp').value='';}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // Initialization messages (English)
-addSys('WS Terminal v2.4.0 ready');
-addSys('Tip: wss://echo.websocket.org — sends back any message');
+addSys('WS Terminal v2.4.0 don ready');
+addSys('Hint: wss://echo.websocket.org — e sends any message back');
 addSys('Note: After connection, a ping is sent every 10s to measure latency');
 
 // On page load, prefill URL input from selected preset endpoint if any

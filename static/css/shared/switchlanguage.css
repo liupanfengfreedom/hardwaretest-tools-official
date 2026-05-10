@@ -12,11 +12,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
     color: #9b9999;
-    width: 40px;
+    min-width: 40px;
     height: 40px;
+    padding: 0 10px;
     border-radius: 50%;
     background: transparent;
     border: none;
@@ -33,6 +35,30 @@
 
 .language-trigger i {
     font-size: 24px;
+}
+
+.language-trigger.has-current-language {
+    width: auto;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.language-current-flag {
+    width: 20px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 3px;
+    display: inline-block;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.language-current-icon {
+    font-size: 16px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* 语言下拉框 - 黑色半透明背景 */
@@ -64,13 +90,38 @@
 .language-option {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     padding: 12px 16px;
     color: white;
     text-decoration: none;
     font-size: 14px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.15s ease;
+}
+
+.language-option-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.language-code {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
 }
 
 .language-option:last-child {
@@ -87,6 +138,23 @@
     font-weight: 500;
 }
 
+.language-flag {
+    width: 20px;
+    min-width: 20px;
+    height: 15px;
+    object-fit: cover;
+    display: inline-block;
+    flex-shrink: 0;
+    margin-left: auto;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.language-label {
+    flex: 1;
+    min-width: 0;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .language-switcher {
@@ -96,6 +164,11 @@
     
     .language-trigger i {
         font-size: 22px;
+    }
+
+    .language-current-flag {
+        width: 18px;
+        height: 14px;
     }
     
     .language-dropdown {
@@ -113,5 +186,10 @@
     
     .language-trigger i {
         font-size: 20px;
+    }
+
+    .language-current-flag {
+        width: 18px;
+        height: 14px;
     }
 }

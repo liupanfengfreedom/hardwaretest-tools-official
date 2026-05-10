@@ -49,9 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const resultsHint = document.querySelector('.search-hint');
         if (resultsHint) {
             if (term.length > 0) {
-                resultsHint.textContent = "Found {count} tools wey match".replace('{count}', visibleCardsCount);
+                resultsHint.textContent = "I find {count} tools wey match".replace('{count}', visibleCardsCount);
             } else {
-                resultsHint.textContent = "Type keyword make you quick find the tool wey you need";
+                resultsHint.textContent = "Type keyword make you find the tool wey you need quick";
             }
         }
 
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchHint = document.querySelector('.search-hint');
     const originalHint = searchHint.textContent;
     searchBar.addEventListener('focus', function() {
-        searchHint.textContent = "Press ESC clear • Ctrl+K search quick";
+        searchHint.textContent = "Press ESC clear am • Ctrl+K search quick";
     });
 
     searchBar.addEventListener('blur', function() {

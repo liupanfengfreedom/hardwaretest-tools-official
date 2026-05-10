@@ -130,7 +130,7 @@
       
       // Successfully got permission: UI update
       permBtn.style.display = 'none';
-      statusText.textContent = "Running";
+      statusText.textContent = "Dey run";
       statusText.style.color = "#e6eef6";
       statusDot.classList.remove('err');
       statusDot.classList.add('on');
@@ -168,10 +168,10 @@
     
     // Autoplay Policy Handling
     if(audioCtx.state === 'suspended'){
-      statusText.textContent = "Click page make audio activate";
+      statusText.textContent = "Click page make audio wake up";
       const resume = async () => { 
         await audioCtx.resume(); 
-        statusText.textContent = "Running"; 
+        statusText.textContent = "Dey run"; 
         runLatencyTest();
       };
       document.body.addEventListener('click', resume, {once:true});
@@ -307,8 +307,8 @@
       isRecording = true;
       recordedBuffers = []; 
       pttBtn.classList.add('active');
-      pttBtn.innerHTML = "Recording... <br><span style='font-size:12px'>Release to Play</span>";
-      playStateEl.textContent = "Recording"; 
+      pttBtn.innerHTML = "Dey record... <br><span style='font-size:12px'>Leave am to play</span>";
+      playStateEl.textContent = "Dey record"; 
       playStateEl.style.color = "#f43f5e";
     } else {
       startEngine(); // Try to start engine if button clicked but no stream
@@ -320,9 +320,9 @@
     if(!isRecording) return;
     isRecording = false;
     pttBtn.classList.remove('active');
-    pttBtn.innerHTML = "Hold to Record<br><span style='font-size:12px;font-weight:400;opacity:0.8'>Release to Play</span>";
+    pttBtn.innerHTML = "Hold am to record<br><span style='font-size:12px;font-weight:400;opacity:0.8'>Leave am to play</span>";
     if(recordedBuffers.length === 0) return;
-    playStateEl.textContent = "Playing back..."; 
+    playStateEl.textContent = "Dey play back..."; 
     playStateEl.style.color = "#06b6d4";
     const totalLen = recordedBuffers.reduce((acc, b) => acc + b.length, 0);
     const result = new Float32Array(totalLen);
@@ -337,7 +337,7 @@
     player.buffer = buffer;
     player.connect(audioCtx.destination);
     player.onended = () => { 
-      playStateEl.textContent = "Standby"; 
+      playStateEl.textContent = "Dey wait"; 
       playStateEl.style.color = "#eab308"; 
     };
     player.start();
@@ -353,7 +353,7 @@
   
   // Permission button click retry
   permBtn.addEventListener('click', () => {
-    statusText.textContent = "Requesting...";
+    statusText.textContent = "Dey ask...";
     startEngine();
   });
 

@@ -319,9 +319,9 @@ class CPSTester {
             return;
         }
         
-        // If test is completed, user needs to click "Restart Test" button first
+        // If test is completed, user needs to click "Start again" button first
         if (this.state.testStatus === 'finished') {
-            this.showNotification('Test completed, please click "Restart Test" button to start new test', 'info');
+            this.showNotification('Test completed, please click "Start again" button to start new test', 'info');
             return;
         }
         
@@ -390,7 +390,7 @@ class CPSTester {
         
         // If test completed, don't respond to clicks
         if (this.state.testStatus === 'finished') {
-            this.showNotification('Test completed, please click "Restart Test" button to start new test', 'info');
+            this.showNotification('Test completed, please click "Start again" button to start new test', 'info');
             return;
         }
         
@@ -632,13 +632,13 @@ class CPSTester {
         
         // Update instruction information - clearly tell user how to restart
         document.getElementById('click-title').textContent = 'Test Completed';
-        document.getElementById('click-instruction').textContent = 'Click "Restart Test" button below to start new test';
+        document.getElementById('click-instruction').textContent = 'Click "Start again" button below to start new test';
         this.updateTimerDisplay('Complete!');
         
         // Show test completion notice
         document.getElementById('test-complete-notice').style.display = 'block';
         
-        this.showNotification('Test completed! Click "Restart Test" button to start new test', 'success');
+        this.showNotification('Test completed! Click "Start again" button to start new test', 'success');
     }
     
     resetTest() {
@@ -675,10 +675,10 @@ class CPSTester {
         // Clear results display
         const resultsDashboard = document.getElementById('results-dashboard');
         resultsDashboard.innerHTML = `
-            <h2><i class="fas fa-chart-bar"></i> Test Results</h2>
+            <h2><i class="fas fa-chart-bar"></i> Test result</h2>
             <div class="no-results">
                 <i class="fas fa-mouse-pointer" style="font-size: 3rem; color: var(--text-muted); display: block; text-align: center; margin: 20px 0;"></i>
-                <p style="text-align: center; color: var(--text-secondary);">View results after completing the test</p>
+                <p style="text-align: center; color: var(--text-secondary);">See result after you finish di test</p>
             </div>
         `;
         
@@ -694,26 +694,26 @@ class CPSTester {
             case 'running':
                 restartBtn.disabled = true;
                 restartBtn.classList.remove('highlight');
-                restartBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Test in Progress...';
+                restartBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Test dey run...';
                 break;
                 
             case 'counting':
             case 'waiting':
                 restartBtn.disabled = false;
                 restartBtn.classList.remove('highlight');
-                restartBtn.innerHTML = '<i class="fas fa-redo"></i> Restart Test';
+                restartBtn.innerHTML = '<i class="fas fa-redo"></i> Start again';
                 break;
                 
             case 'finished':
                 restartBtn.disabled = false;
                 restartBtn.classList.add('highlight');
-                restartBtn.innerHTML = '<i class="fas fa-play-circle"></i> Click to Start New Test';
+                restartBtn.innerHTML = '<i class="fas fa-play-circle"></i> Click to start new test';
                 break;
                 
             default:
                 restartBtn.disabled = false;
                 restartBtn.classList.remove('highlight');
-                restartBtn.innerHTML = '<i class="fas fa-redo"></i> Restart Test';
+                restartBtn.innerHTML = '<i class="fas fa-redo"></i> Start again';
                 break;
         }
     }
@@ -842,7 +842,7 @@ class CPSTester {
         if (results.buttonDistribution && Object.keys(results.buttonDistribution).length > 0) {
             buttonDistributionHTML = `
                 <div style="margin-top: 15px;">
-                    <h3 style="font-size: var(--font-size-base); margin-bottom: 10px; color: var(--text-primary);">Button Usage Distribution:</h3>
+                    <h3 style="font-size: var(--font-size-base); margin-bottom: 10px; color: var(--text-primary);">Button use spread:</h3>
                     <div style="display: flex; flex-direction: column; gap: 5px;">
                         ${Object.entries(results.buttonDistribution).map(([buttonName, count]) => `
                             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -858,7 +858,7 @@ class CPSTester {
         }
         
         resultsDashboard.innerHTML = `
-            <h2><i class="fas fa-chart-bar"></i> Test Results</h2>
+            <h2><i class="fas fa-chart-bar"></i> Test result</h2>
             <div class="results-grid">
                 <div class="result-card primary">
                     <div class="result-value">${results.averageCPS.toFixed(1)}</div>
@@ -870,20 +870,20 @@ class CPSTester {
                 </div>
                 <div class="result-card accent">
                     <div class="result-value">${results.totalClicks}</div>
-                    <div class="result-label">Total Clicks</div>
+                    <div class="result-label">Total clicks</div>
                 </div>
             </div>
             <div class="detailed-results" style="margin-top: 20px; background-color: var(--bg-secondary); border-radius: 8px; padding: 15px;">
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
-                    <span class="result-label">Test Mode</span>
+                    <span class="result-label">Test mode</span>
                     <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.mode}</span>
                 </div>
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
-                    <span class="result-label">Button Mode</span>
+                    <span class="result-label">Button mode</span>
                     <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.buttonMode}</span>
                 </div>
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
-                    <span class="result-label">Test Duration</span>
+                    <span class="result-label">Test duration</span>
                     <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.duration.toFixed(2)} seconds</span>
                 </div>
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
@@ -891,11 +891,11 @@ class CPSTester {
                     <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.minCPS.toFixed(1)}</span>
                 </div>
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
-                    <span class="result-label">Click Consistency</span>
+                    <span class="result-label">Click steadiness</span>
                     <span class="result-value" style="font-weight: 600; color: var(--primary-color);">${results.consistency.toFixed(1)}%</span>
                 </div>
                 <div class="result-row" style="display: flex; justify-content: space-between; padding: 8px 0;">
-                    <span class="result-label">Overall Score</span>
+                    <span class="result-label">Overall score</span>
                     <span class="result-value score" style="font-weight: 600; color: var(--secondary-color); font-size: 1.2em;">${results.score}</span>
                 </div>
             </div>
@@ -1183,12 +1183,12 @@ class CPSTester {
                 <div class="setting-group">
                     <label class="setting-label">
                         <input type="checkbox" id="autosave-toggle" ${settings.autoSaveResults ? 'checked' : ''}>
-                        <span>Auto-Save Test Results</span>
+                        <span>Auto-save test result</span>
                     </label>
                 </div>
                 <div class="setting-buttons">
                     <button id="export-btn" class="setting-btn">
-                        <i class="fas fa-download"></i> Export Data
+                        <i class="fas fa-download"></i> Export data
                     </button>
                     <button id="clear-btn" class="setting-btn danger">
                         <i class="fas fa-trash"></i> Clear All Data
