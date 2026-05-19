@@ -82,7 +82,7 @@ class CPSTester {
         // Update instruction text
         this.updateInstructionText();
         
-        // Update real-time data
+        // Update live data
         this.updateRealTimeStats();
         
         // Load history data
@@ -604,7 +604,7 @@ class CPSTester {
             this.showClickAnimation(event.clientX, event.clientY);
         }
         
-        // Update real-time statistics
+        // Update live statistics
         this.updateRealTimeStats();
     }
     

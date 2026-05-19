@@ -392,7 +392,7 @@ function analyzeVideoTrack(track) {
     capTable.innerHTML = capHtml || `<tr><td colspan="2">No fit read detailed driver info</td></tr>`;
 }
 
-// Real-time statistics loop (unchanged structure)
+// Live statistics loop (unchanged structure)
 let animationFrameId = null;
 function updateStats(timestamp) {
     if (!currentStream || !currentStream.active) {

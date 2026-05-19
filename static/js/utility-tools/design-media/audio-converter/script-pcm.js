@@ -445,7 +445,7 @@ function encodeAIFF(channels, sampleRate, numCh) {
   return new Blob([buf], { type: 'audio/aiff' });
 }
 
-// ── OGG / WebM encoder via MediaRecorder (real-time) ────────
+// ── OGG / WebM encoder via MediaRecorder (live) ────────
 // onProgress(0..1) is called every ~200ms based on AudioContext.currentTime
 function encodeViaMediaRecorder(channels, sampleRate, numCh, fmt, onProgress) {
   return new Promise(function(resolve, reject) {
@@ -580,8 +580,8 @@ async function startConversion() {
       var blob;
       var isRealtime = REALTIME_FORMATS.indexOf(fmt) !== -1;
       if (isRealtime) {
-        addLog('Real-time encoding, estimated time ' + Math.ceil(resampled.length / resampled.sampleRate) + 's (audio duration)...', 'active');
-        convSetOp('Real-time encoding ' + fmt.toUpperCase() + ' — approx. ' + Math.ceil(resampled.length / resampled.sampleRate) + 's', fmt.toUpperCase());
+        addLog('Live encoding, estimated time ' + Math.ceil(resampled.length / resampled.sampleRate) + 's (audio duration)...', 'active');
+        convSetOp('Live encoding ' + fmt.toUpperCase() + ' — approx. ' + Math.ceil(resampled.length / resampled.sampleRate) + 's', fmt.toUpperCase());
       }
       if (fmt === 'wav') {
         blob = encodeWAV(resampled.channels, resampled.sampleRate, targetCh);
