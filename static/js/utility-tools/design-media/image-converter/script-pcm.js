@@ -317,7 +317,7 @@ btnRun.onclick = async () => {
             
             pInner.style.width = `${((i+1)/fileQueue.length)*100}%`;
         } catch(e) {
-            console.error(`Error processing file ${item.file.name}:`, e);
+            console.error(`Wahala as file dey process ${item.file.name}:`, e);
             badge.innerHTML = '<i class="fas fa-times-circle"></i> Fail';
             badge.className = 'status-badge status-dirty';
         }

@@ -154,7 +154,7 @@ generateBtn.onclick = async () => {
         showNotification(`We don generate ${CONFIG.ios.length + CONFIG.android.length} icon files`, 'success');
         
     } catch (error) {
-        console.error('Icon generation failed:', error);
+        console.error('Icon making no work:', error);
         showNotification('Generation fail. Try again', 'error');
     } finally {
         // Hide Progress Indicator

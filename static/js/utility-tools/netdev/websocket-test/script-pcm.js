@@ -180,7 +180,7 @@ function doConn(){
   var url=getUrl();
   if(document.getElementById('url').value.trim()){pushUrlHist(url);}
   setSt('ing','CONNECTING...');
-  try{ws=new WebSocket(url);}catch(e){addSys('Connection failed: '+e.message,'error');setSt('err','ERROR');busyState='';if(cb&&cb.dataset.origText){cb.textContent=cb.dataset.origText;cb.disabled=false;cb.classList.remove('busy');}return;}
+  try{ws=new WebSocket(url);}catch(e){addSys('Connection no work: '+e.message,'error');setSt('err','ERROR');busyState='';if(cb&&cb.dataset.origText){cb.textContent=cb.dataset.origText;cb.disabled=false;cb.classList.remove('busy');}return;}
   ws.onopen=function(){
     busyState = '';
     setSt('on','CONNECTED');

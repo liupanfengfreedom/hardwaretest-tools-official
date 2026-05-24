@@ -261,17 +261,17 @@ function decodeAudio(file) {
     var reader = new FileReader();
     reader.onload = function(e) {
       var AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) { reject(new Error('Browser does not support Web Audio API')); return; }
+      if (!AudioCtx) { reject(new Error('This browser no support Web Audio API')); return; }
       var ctx = new AudioCtx();
       ctx.decodeAudioData(e.target.result, function(buf) {
         ctx.close();
         resolve(buf);
       }, function(err) {
         ctx.close();
-        reject(new Error('Dey decode failed: browser does not support this audio format'));
+        reject(new Error('Dey decode failed: browser no support this audio format'));
       });
     };
-    reader.onerror = function() { reject(new Error('File reading failed')); };
+    reader.onerror = function() { reject(new Error('File reading no work')); };
     reader.readAsArrayBuffer(file);
   });
 }
@@ -350,7 +350,7 @@ function yieldFrame() {
 // Async MP3 encoder — processes in batches, yields between each to keep UI live
 async function encodeMP3(channels, sampleRate, numCh, bitrate, onProgress) {
   if (typeof lamejs === 'undefined' || typeof lamejs.Mp3Encoder === 'undefined') {
-    throw new Error('lamejs not loaded, please check network and retry');
+    throw new Error('lamejs no load, abeg check network and try again');
   }
 
   function f32ToI16(f32) {
@@ -457,7 +457,7 @@ function encodeViaMediaRecorder(channels, sampleRate, numCh, fmt, onProgress) {
       return MediaRecorder.isTypeSupported(t);
     });
     if (!mimeType) {
-      reject(new Error('This browser does not support ' + fmt.toUpperCase() + ' encoding'));
+      reject(new Error('This browser no support ' + fmt.toUpperCase() + ' encoding'));
       return;
     }
 
@@ -702,7 +702,7 @@ function playSource(url, name, btnEl) {
     _setPlayingBtn(btnEl);
     _showMini(true);
   }).catch(function(e) {
-    addLog('Playback failed: ' + e.message, 'error');
+    addLog('Playback no work: ' + e.message, 'error');
   });
 }
 

@@ -119,7 +119,7 @@ function stopAll() {
     sweepStartTime = null;
     visualizerContainer.classList.remove('sweeping');
     playStopBtn.classList.remove('playing');
-    playStopText.innerText = 'Start playback';
+    playStopText.innerText = 'Start playback now';
     audioStatusDisplay.innerText = 'Stop finish';
     playStopBtn.disabled = false;
     
@@ -148,7 +148,7 @@ function startOscillator(freq) {
     
     isPlaying = true;
     playStopBtn.classList.add('playing');
-    playStopText.innerText = 'Stop playback';
+    playStopText.innerText = 'Stop playback now';
     currentFrequencyDisplay.innerText = freq + ' Hz';
     audioStatusDisplay.innerText = 'Sine wave dey play';
 }
@@ -243,7 +243,7 @@ function startNoise(type) {
     noiseSource.start();
     isNoisePlaying = true;
     playStopBtn.classList.add('playing');
-    playStopText.innerText = 'Stop playback';
+    playStopText.innerText = 'Stop playback now';
     currentFrequencyDisplay.innerText = type === 'white' ? 'White noise' : 'Pink noise';
     audioStatusDisplay.innerText = (type === 'white' ? 'White' : 'Pink') + ' Noise Playing';
     playStopBtn.disabled = false; // Allow clicking to stop

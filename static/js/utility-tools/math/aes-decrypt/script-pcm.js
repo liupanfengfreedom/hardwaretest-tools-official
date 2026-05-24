@@ -249,7 +249,7 @@ let totalBytesDecrypted = 0;
   // ── Crypto helpers ───────────────────────────────────────
   function hexToBytes(hex) {
     hex = hex.replace(/\s/g, '');
-    if (hex.length % 2 !== 0) throw new Error('The hex string length must be even');
+    if (hex.length % 2 !== 0) throw new Error('Hex string length must be even');
     const bytes = new Uint8Array(hex.length / 2);
     for (let i = 0; i < hex.length; i += 2)
       bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
@@ -260,9 +260,9 @@ let totalBytesDecrypted = 0;
     const keyStr = document.getElementById('secretKey').value.replace(/\s/g, '');
     const ks = parseInt(document.getElementById('keySize').value);
     const neededHexChars = ks / 4;
-    if (!keyStr) throw new Error('Please enter a key');
+    if (!keyStr) throw new Error('Abeg enter key');
     if (!/^[0-9a-fA-F]+$/.test(keyStr))
-      throw new Error('The key must be a hex string containing only 0-9 and a-f');
+      throw new Error('Key must be hex string with only 0-9 and a-f');
     if (keyStr.length !== neededHexChars)
       throw new Error(`${ks}-bit keys require ${neededHexChars} hex characters. Current length: ${keyStr.length}`);
     return hexToBytes(keyStr);
@@ -273,7 +273,7 @@ let totalBytesDecrypted = 0;
     const mode  = document.getElementById('mode').value;
     const neededBytes    = mode === 'GCM' ? 12 : 16;
     const neededHexChars = neededBytes * 2;
-    if (!ivStr) throw new Error(`Please enter an IV (${mode} mode requires ${neededHexChars} hex characters)`);
+    if (!ivStr) throw new Error(`Abeg enter IV (${mode} mode requires ${neededHexChars} hex characters)`);
     if (!/^[0-9a-fA-F]+$/.test(ivStr))
       throw new Error('The IV must be a hex string containing only 0-9 and a-f');
     if (ivStr.length !== neededHexChars)
@@ -288,7 +288,7 @@ let totalBytesDecrypted = 0;
     if (inputFileBytes && !isTextFile) return inputFileBytes;
     // Text file or manual input — decode textarea content per selected encoding
     const text = document.getElementById('inputText').value.trim();
-    if (!text) throw new Error('Please enter ciphertext');
+    if (!text) throw new Error('Abeg enter ciphertext');
     const enc = currentEncoding;
     if (enc === 'hex') {
       const clean = text.replace(/\s/g, '');
@@ -303,7 +303,7 @@ let totalBytesDecrypted = 0;
       const raw = atob(text);
       return new Uint8Array([...raw].map(c => c.charCodeAt(0)));
     } catch {
-      throw new Error('Invalid Base64 content. Please check the ciphertext input.');
+      throw new Error('Base64 content no valid. Abeg check ciphertext input.');
     }
   }
 
@@ -311,7 +311,7 @@ let totalBytesDecrypted = 0;
     if (mode === 'CBC') return { name: 'AES-CBC', iv: ivBytes };
     if (mode === 'CTR') return { name: 'AES-CTR', counter: ivBytes, length: 64 };
     if (mode === 'GCM') return { name: 'AES-GCM', iv: ivBytes };
-    throw new Error('Unsupported mode');
+    throw new Error('Mode no supported');
   }
 
   async function importKey(keyBytes, mode) {
@@ -411,7 +411,7 @@ let totalBytesDecrypted = 0;
         flashField(document.getElementById('inputText'));
       } else if (msg.includes('operation-specific') || msg.includes('operationerror') || msg.includes('decrypt')) {
         friendly = mode === 'GCM'
-          ? 'GCM authentication failed - the key or IV is wrong, or the ciphertext was modified in transit'
+          ? 'GCM authentication no work - key or IV wrong, or ciphertext change for road'
           : 'Decryption fail - please verify the key, IV, and mode exactly match the encryption settings';
       } else if (msg.includes('base64') || msg.includes('invalid')) {
         friendly = 'Ciphertext format error - please make sure the selected encoding (BASE64 / HEX) is correct';

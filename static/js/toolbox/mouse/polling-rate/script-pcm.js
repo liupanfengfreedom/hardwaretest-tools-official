@@ -191,7 +191,7 @@ function clearData() {
 
 function downloadCSV() {
     if (logs.length === 0) {
-        alert('No data to export. Please perform testing first.');
+        alert('No data to export. Abeg run check first.');
         return;
     }
     
@@ -209,7 +209,7 @@ function downloadCSV() {
     a.setAttribute('hidden', '');
     a.setAttribute('href', url);
     a.setAttribute('download', fileName);
-    a.setAttribute('aria-label', `Download test data file: ${fileName}`);
+    a.setAttribute('aria-label', `Download check data file: ${fileName}`);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -274,7 +274,7 @@ function init() {
     const startTime = new Date().toLocaleTimeString('en-US', { hour12: false });
     const initialLog = document.createElement('div');
     initialLog.className = 'text-green-500 italic border-b border-slate-800 pb-1';
-    initialLog.textContent = `Testing tool ready (${startTime}) - Start moving mouse to test`;
+    initialLog.textContent = `Check tool ready (${startTime}) - start to move mouse make check begin`;
     logContainer.prepend(initialLog);
     
     // Remove loading state

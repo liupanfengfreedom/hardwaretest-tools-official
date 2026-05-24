@@ -68,7 +68,7 @@ function getInputBytes() {
   if (inputEncoding === 'hex') {
     const clean = text.replace(/\s/g,'');
     if (!/^[0-9a-fA-F]*$/.test(clean)) throw new Error('Hex input only allows 0-9 and a-f');
-    if (clean.length % 2 !== 0) throw new Error('Hex input must contain an even number of characters');
+    if (clean.length % 2 !== 0) throw new Error('Hex input must get even number of characters');
     const bytes = new Uint8Array(clean.length / 2);
     for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(clean.slice(i*2,i*2+2),16);
     return bytes;
@@ -82,7 +82,7 @@ function getInputBytes() {
       const raw = atob(b64);
       return new Uint8Array([...raw].map(c => c.charCodeAt(0)));
     } catch(err) {
-      throw new Error(err.message.startsWith('Base64') ? err.message : 'Invalid Base64 format, please check your input');
+      throw new Error(err.message.startsWith('Base64') ? err.message : 'Base64 format no valid, abeg check your input');
     }
   }
   return new TextEncoder().encode(text);

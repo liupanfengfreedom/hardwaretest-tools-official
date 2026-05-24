@@ -129,7 +129,7 @@
 <nav aria-label="Breadcrumb navigation" class="breadcrumb-section">
 <ol class="breadcrumb-modern">
 <li class="breadcrumb-item">
-<a class="breadcrumb-link" href="/pcm/"><i class="fas fa-home"></i>Home</a>
+<a class="breadcrumb-link" href="/pcm/"><i class="fas fa-home"></i>House</a>
 </li>
 <li class="breadcrumb-item">
 <a class="breadcrumb-link" href="/pcm/utility-tools/">Useful tools</a>
@@ -193,7 +193,7 @@
 </div>
 </div>
 <div class="field-group">
-<a class="field-label-link" href="#explain-encoding" onclick="scrollToExplain('explain-encoding')">Input format</a>
+<a class="field-label-link" href="#explain-encoding" onclick="scrollToExplain('explain-encoding')">Input style</a>
 <div class="select-wrapper">
 <select class="field-select" id="inputEncoding" onchange="onConfigChange()">
 <option value="utf8">UTF-8 Text</option>
@@ -232,8 +232,8 @@
 </div>
 <button class="add-batch-btn hidden" id="addBatchBtn" onclick="addBatchLine()" title="Add a batch line at di end">
 <svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="11"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg>Add Batch</button>
-<label class="upload-btn" title="Upload File">
-<svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>Upload File<input id="fileInput" onchange="loadFile(event)" style="display:none" type="file"/>
+<label class="upload-btn" title="Upload file">
+<svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="11"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>Upload file<input id="fileInput" onchange="loadFile(event)" style="display:none" type="file"/>
 </label>
 <button class="icon-btn" onclick="pasteInput()" title="Paste">
 <svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="12"><rect height="13" rx="2" width="13" x="9" y="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -253,7 +253,7 @@
 <div class="io-panel output-panel">
 <div class="io-header">
 <div class="io-title">
-<div class="io-dot"></div>Primary Output<span id="outputFormatTag" style="color:var(--accent4);margin-left:4px;">MD5-32</span>
+<div class="io-dot"></div>Main output<span id="outputFormatTag" style="color:var(--accent4);margin-left:4px;">MD5-32</span>
 </div>
 <div class="io-actions">
 <button class="icon-btn" id="copyOutputBtn" onclick="copyOutput(this)" title="Copy">
@@ -273,7 +273,7 @@
 <button class="btn-primary" onclick="runHash()">
 <svg fill="none" height="15" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="15"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>GENERATE HASH</button>
 <button class="btn-secondary" onclick="clearAll()">
-<svg fill="none" height="13" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="13"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14H6L5 6"></path></svg>Clear All</button>
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="13"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14H6L5 6"></path></svg>Clear everything</button>
 <div class="auto-badge">
 <div class="auto-badge-dot"></div>Live Hashing Enabled</div>
 </div>
@@ -305,7 +305,7 @@
 <table class="batch-table">
 <thead>
 <tr>
-<th>Original Input</th>
+<th>Original input</th>
 <th>MD5-32</th>
 <th>MD5-16</th>
 <th>MD5-32 Uppercase</th>
@@ -323,24 +323,24 @@
 </div>
 <div class="explain-rows">
 <div class="explain-row">
-<span class="explain-row-key">MD5-32<br/><span style="color:var(--text3);font-weight:400;font-size:10px;">Standard Output</span></span>
+<span class="explain-row-key">MD5-32<br/><span style="color:var(--text3);font-weight:400;font-size:10px;">Standard output</span></span>
 <span class="explain-row-val">The standard MD5 format defined in RFC 1321 generates a<code>128-bit</code>digest for input of any length and displays it as<code>32</code>lowercase hexadecimal characters. It na widely used for file integrity checks, data fingerprints, and deduplication. Example:<code>5d41402abc4b2a76b9719d911017c592</code></span>
 </div>
 <div class="explain-row">
-<span class="explain-row-key">MD5-16<br/><span style="color:var(--text3);font-weight:400;font-size:10px;">Truncated Output</span></span>
+<span class="explain-row-key">MD5-16<br/><span style="color:var(--text3);font-weight:400;font-size:10px;">Truncated output</span></span>
 <span class="explain-row-val">Takes characters<code>9&ndash;24</code>of di standard MD5-32 output (16 characters total), effectively exposing di middle 64 bits. It na shorter, but has a higher collision risk (about<code>2⁻⁶⁴</code>). Suitable for short IDs or tokens in low-security scenarios, but not recommended for security validation.</span>
 </div>
 <div class="explain-row">
-<span class="explain-row-key">MD5-32 Uppercase<br/><span style="color:var(--text3);font-weight:400;font-size:10px;">Uppercase Output</span></span>
+<span class="explain-row-key">MD5-32 Uppercase<br/><span style="color:var(--text3);font-weight:400;font-size:10px;">Uppercase output</span></span>
 <span class="explain-row-val">Exactly di same hash value as MD5-32, but with uppercase letters (<code>A&ndash;F</code>). Some legacy systems, payment signatures, or enterprise interfaces require uppercase output. Example:<code>5D41402ABC4B2A76B9719D911017C592</code></span>
 </div>
 </div>
 </div>
-<!-- Explain: Input format -->
+<!-- Explain: Input style -->
 <div class="explain-section" id="explain-encoding">
 <div class="explain-section-header">
 <div class="explain-section-icon">📥</div>
-<span class="explain-section-title">Input format</span>
+<span class="explain-section-title">Input style</span>
 <span class="explain-section-id">#explain-encoding</span>
 </div>
 <div class="explain-rows">

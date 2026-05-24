@@ -157,7 +157,7 @@ function getInputStr(){
     return raw;
   }
   if(enc==='base64'){
-    try{ return atob(txt); } catch(e){ throw new Error('Invalid Base64 input'); }
+    try{ return atob(txt); } catch(e){ throw new Error('Base64 input no valid'); }
   }
   return MD5.str2rstrUTF8(txt);
 }

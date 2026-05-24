@@ -81,7 +81,7 @@ function clearHistory() { localStorage.removeItem(historyKey); renderHistory(); 
 function togglePing() {
     if(!running) {
         const target = document.getElementById('target').value.trim();
-        if(!target) return alert("Please enter a target address or domain");
+        if(!target) return alert("Abeg enter target address or domain");
         saveToHistory(target);
         start(target);
     } else {
@@ -106,7 +106,7 @@ function start(target) {
     chart.update();
 
     const btn = document.getElementById('btn');
-    btn.innerHTML = '<i data-lucide="square"></i> Stop Test';
+    btn.innerHTML = '<i data-lucide="square"></i> Stop check';
     btn.classList.replace('bg-blue-600', 'bg-red-600');
     
     const method = document.getElementById('method').value;
@@ -144,7 +144,7 @@ function runPingMode(target, maxCount) {
             }
         }
         if (data.type === 'end') stop();
-        if (data.type === 'error') { log('Error: ' + data.msg, false); stop(); }
+        if (data.type === 'error') { log('Wahala: ' + data.msg, false); stop(); }
     };
 
     socket.onerror = () => { log('Unable to connect to Fly.io proxy server', false); stop(); };
@@ -189,7 +189,7 @@ async function runHttpsMode(target, maxCount) {
                 log(`[Local block] ${target} request blocked by browser or extension`, false);
                 handleResult(null, `Local block (${duration}ms)`);
             } else {
-                log(`[Connection failed] ${target} no reachable (DNS fail/refused/timeout)`, false);
+                log(`[Connection no work] ${target} no reachable (DNS fail/refused/timeout)`, false);
                 handleResult(null, `Request fail (${duration}ms)`);
             }
         }
@@ -251,7 +251,7 @@ function stop() {
     if (httpTimer) { clearTimeout(httpTimer); httpTimer = null; }
 
     const btn = document.getElementById('btn');
-    btn.innerHTML = '<i data-lucide="play"></i> Start Test';
+    btn.innerHTML = '<i data-lucide="play"></i> Start check';
     btn.classList.replace('bg-red-600', 'bg-blue-600');
     lucide.createIcons();
     log("Test stopped.", true);

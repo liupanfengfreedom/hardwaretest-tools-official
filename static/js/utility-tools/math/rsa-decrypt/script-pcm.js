@@ -59,10 +59,10 @@ let totalBytesDecrypted = 0;
       // Passed binary check — now read as text
       const textReader = new FileReader();
       textReader.onload = function(e) { validatePemText(e.target.result); };
-      textReader.onerror = function() { pemError(`Unable to read "${file.name}". Please try again.`); };
+      textReader.onerror = function() { pemError(`No fit read "${file.name}". Abeg try again.`); };
       textReader.readAsText(file);
     };
-    sniffReader.onerror = function() { pemError(`Unable to read "${file.name}". Please try again.`); };
+    sniffReader.onerror = function() { pemError(`No fit read "${file.name}". Abeg try again.`); };
     sniffReader.readAsArrayBuffer(file.slice(0, 512));
 
     function validatePemText(text) {
@@ -95,13 +95,13 @@ let totalBytesDecrypted = 0;
         }
       }
       if (headerIdx === -1) {
-        pemError(`"${file.name}" is not a PEM file - no -----BEGIN ...----- header line was found. Please upload a valid private key file.`);
+        pemError(`"${file.name}" no be PEM file - no -----BEGIN ...----- header line was found. Abeg upload valid private key file.`);
         return;
       }
 
       // ── 4. Label must be a private key ───────────────────────────────────
       if (label === 'CERTIFICATE') {
-        pemError(`"${file.name}" is a certificate file (CERTIFICATE), not a private key. Please upload a -----BEGIN PRIVATE KEY----- or -----BEGIN RSA PRIVATE KEY----- file.`);
+        pemError(`"${file.name}" na certificate file (CERTIFICATE), no be private key. Abeg upload -----BEGIN PRIVATE KEY----- or -----BEGIN RSA PRIVATE KEY----- file.`);
         return;
       }
       if (label === 'PUBLIC KEY' || label === 'RSA PUBLIC KEY') {
@@ -175,7 +175,7 @@ let totalBytesDecrypted = 0;
 
       // ── 9. Encrypted private key warning (passphrase not supported) ───────
       if (label === 'ENCRYPTED PRIVATE KEY') {
-        pemError(`"${file.name}" is an encrypted private key (ENCRYPTED PRIVATE KEY). Password-protected private keys are not supported here; please use an unencrypted private key file.`);
+        pemError(`"${file.name}" is an encrypted private key (ENCRYPTED PRIVATE KEY). Password-protected private keys no supported here; abeg use private key file wey no encrypt.`);
         return;
       }
 
@@ -283,7 +283,7 @@ let totalBytesDecrypted = 0;
   function getCipherBytes() {
     if (inputFileBytes) return inputFileBytes;
     const text = document.getElementById('inputText').value.trim();
-    if (!text) throw new Error('Please enter ciphertext');
+    if (!text) throw new Error('Abeg enter ciphertext');
     if (currentEncoding === 'hex') {
       const clean = text.replace(/\s/g, '');
       if (clean.length % 2 !== 0) throw new Error('HEX_ODD_LENGTH');
@@ -296,7 +296,7 @@ let totalBytesDecrypted = 0;
     try {
       const bin = atob(text.replace(/\s/g, ''));
       return new Uint8Array([...bin].map(c => c.charCodeAt(0)));
-    } catch { throw new Error('Invalid Base64 ciphertext. Please check the input.'); }
+    } catch { throw new Error('Base64 ciphertext no valid. Abeg check input.'); }
   }
 
   // ── RSA-OAEP decrypt ─────────────────────────────────────
@@ -307,11 +307,11 @@ let totalBytesDecrypted = 0;
       outPanel.classList.add('processing');
       const hash    = document.getElementById('hash').value;
       const privPem = document.getElementById('secretKey').value.trim();
-      if (!privPem) throw new Error('Please enter a private key');
+      if (!privPem) throw new Error('Abeg enter private key');
 
       let privDer;
       try { privDer = pemToDer(privPem); }
-      catch { throw new Error('Invalid private key format. Please use PEM.'); }
+      catch { throw new Error('Private key format no valid. Abeg use PEM.'); }
 
       let cryptoKey;
       try {
@@ -319,7 +319,7 @@ let totalBytesDecrypted = 0;
           'pkcs8', privDer, { name: 'RSA-OAEP', hash }, false, ['decrypt']
         );
       } catch(e) {
-        throw new Error('Private key import failed - ' + (e.message || 'invalid format, mismatched public key, or hash mismatch'));
+        throw new Error('Private key import no work - ' + (e.message || 'invalid format, mismatched public key, or hash mismatch'));
       }
 
       const cipherBytes = getCipherBytes();
@@ -327,7 +327,7 @@ let totalBytesDecrypted = 0;
       try {
         decrypted = await crypto.subtle.decrypt({ name: 'RSA-OAEP' }, cryptoKey, cipherBytes);
       } catch(e) {
-        throw new Error('Decryption fail - please verify the private key matches the encryption public key, and that the hash algorithm and ciphertext are correct.');
+        throw new Error('Decryption no work - abeg confirm say private key match public key, and hash algorithm plus ciphertext correct.');
       }
 
       const decBytes = new Uint8Array(decrypted);

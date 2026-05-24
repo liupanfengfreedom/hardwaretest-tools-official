@@ -438,7 +438,7 @@ let inputFormat = 'text';
   // Convert key/iv string to ArrayBuffer (assumes hex)
   function hexToBytes(hex) {
     hex = hex.replace(/\s/g, '');
-    if (hex.length % 2 !== 0) throw new Error('Invalid hex string');
+    if (hex.length % 2 !== 0) throw new Error('Hex string no valid');
     const bytes = new Uint8Array(hex.length / 2);
     for (let i = 0; i < hex.length; i += 2)
       bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
@@ -458,14 +458,14 @@ let inputFormat = 'text';
     const ks = parseInt(document.getElementById('keySize').value);
     const neededHexChars = ks / 4;
 
-    if (!keyStr) throw new Error('Please enter or generate a key');
+    if (!keyStr) throw new Error('Abeg enter or generate key');
 
     if (!/^[0-9a-fA-F]+$/.test(keyStr)) {
-      throw new Error('The key must be a hex string containing only 0-9 and a-f');
+      throw new Error('Key must be hex string with only 0-9 and a-f');
     }
 
     if (keyStr.length !== neededHexChars) {
-      throw new Error(`${ks}-bit keys require ${neededHexChars} hex characters. Current length: ${keyStr.length}. Please generate a new key.`);
+      throw new Error(`${ks}-bit keys require ${neededHexChars} hex characters. Current length: ${keyStr.length}. Abeg generate new key.`);
     }
 
     return hexToBytes(keyStr);
@@ -477,7 +477,7 @@ let inputFormat = 'text';
     const neededBytes = mode === 'GCM' ? 12 : 16;
     const neededHexChars = neededBytes * 2;
 
-    if (!ivStr) throw new Error(`Please enter or generate an IV (${mode} mode requires ${neededHexChars} hex characters)`);
+    if (!ivStr) throw new Error(`Abeg enter or generate IV (${mode} mode requires ${neededHexChars} hex characters)`);
 
     // Must be valid hex
     if (!/^[0-9a-fA-F]+$/.test(ivStr)) {
@@ -485,7 +485,7 @@ let inputFormat = 'text';
     }
 
     if (ivStr.length !== neededHexChars) {
-      throw new Error(`${mode} mode requires ${neededHexChars} hex characters (${neededBytes} bytes) for the IV. Current length: ${ivStr.length}. Please generate a new IV.`);
+      throw new Error(`${mode} mode requires ${neededHexChars} hex characters (${neededBytes} bytes) for the IV. Current length: ${ivStr.length}. Abeg generate new IV.`);
     }
 
     return hexToBytes(ivStr);
@@ -493,7 +493,7 @@ let inputFormat = 'text';
 
   function getInputBytes() {
     const text = document.getElementById('inputText').value;
-    if (!text) throw new Error('Please enter content to process');
+    if (!text) throw new Error('Abeg enter content make e process');
     if (inputFormat === 'hex') {
       return hexToBytes(text);
     } else if (inputFormat === 'base64') {
@@ -534,7 +534,7 @@ let inputFormat = 'text';
     if (mode === 'CBC') return { name: 'AES-CBC', iv: ivBytes };
     if (mode === 'CTR') return { name: 'AES-CTR', counter: ivBytes, length: 64 };
     if (mode === 'GCM') return { name: 'AES-GCM', iv: ivBytes };
-    throw new Error('Unsupported mode');
+    throw new Error('Mode no supported');
   }
 
   async function importKey(keyBytes, mode, usage) {
@@ -575,7 +575,7 @@ let inputFormat = 'text';
         document.getElementById('keySize').value = '256';
         generateKey();
         updateHints(false);
-        throw new Error('This browser does not support AES-192, so the tool switched to AES-256 automatically');
+        throw new Error('This browser no support AES-192, so tool switch go AES-256 by itself');
       }
       const keyBytes = getKeyBytes();
       const algo = await getCryptoAlgo(mode);

@@ -208,7 +208,7 @@ let inputFormat = 'text';
 
   function hexToBytes(hex) {
     hex = hex.replace(/\s/g, '');
-    if (hex.length % 2 !== 0) throw new Error('Invalid hex string');
+    if (hex.length % 2 !== 0) throw new Error('Hex string no valid');
     const bytes = new Uint8Array(hex.length / 2);
     for (let i = 0; i < hex.length; i += 2) bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
     return bytes;
@@ -216,7 +216,7 @@ let inputFormat = 'text';
 
   function getInputBytes() {
     const text = document.getElementById('inputText').value;
-    if (!text) throw new Error('Please enter content to process');
+    if (!text) throw new Error('Abeg enter content make e process');
     if (inputFormat === 'hex')    return hexToBytes(text);
     if (inputFormat === 'base64') {
       const raw = atob(text);
@@ -312,11 +312,11 @@ let inputFormat = 'text';
       outPanel.classList.add('processing');
       const hash   = document.getElementById('hash').value;
       const pubPem = document.getElementById('publicKey').value.trim();
-      if (!pubPem) throw new Error('Please paste or generate a public key');
+      if (!pubPem) throw new Error('Abeg paste or generate public key');
 
       let pubDer;
       try { pubDer = pemToDer(pubPem); }
-      catch { throw new Error('Invalid public key format. Please use PEM format'); }
+      catch { throw new Error('Public key format no valid. Abeg use PEM format'); }
 
       let cryptoKey;
       try {
@@ -324,7 +324,7 @@ let inputFormat = 'text';
           'spki', pubDer, { name: 'RSA-OAEP', hash }, false, ['encrypt']
         );
       } catch(e) {
-        throw new Error('Public key import failed - ' + (e.message || 'invalid format or hash mismatch'));
+        throw new Error('Public key import no work - ' + (e.message || 'invalid format or hash mismatch'));
       }
 
       const inputBytes = inputFileBytes || getInputBytes();
@@ -337,9 +337,9 @@ let inputFormat = 'text';
         const hashBytes = hash === 'SHA-1' ? 20 : hash === 'SHA-256' ? 32 : hash === 'SHA-384' ? 48 : 64;
         const maxBytes  = (ks / 8) - 2 * hashBytes - 2;
         if (inputBytes.length > maxBytes) {
-          throw new Error(`Plaintext is too large (${inputBytes.length} bytes). RSA-OAEP/${hash} can encrypt at most ${maxBytes} bytes per operation. Shorten the message or use hybrid encryption.`);
+          throw new Error(`Plaintext too large (${inputBytes.length} bytes). RSA-OAEP/${hash} can encrypt at most ${maxBytes} bytes per operation. Shorten the message or use hybrid encryption.`);
         }
-        throw new Error('Encryption failed: ' + (e.message || 'unknown error'));
+        throw new Error('Encryption no work: ' + (e.message || 'unknown error'));
       }
 
       const encBytes = new Uint8Array(encrypted);

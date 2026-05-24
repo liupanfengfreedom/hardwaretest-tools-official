@@ -539,7 +539,7 @@ function generate() {
             cBtn.classList.remove('copied');
             
         } catch (error) {
-            output.innerText = "Generation failed. Please try again.";
+            output.innerText = "Generation no work. Abeg try again.";
             console.error("Password generation error:", error);
         } finally {
             resetGenerateButton();
@@ -551,7 +551,7 @@ function generate() {
 function resetGenerateButton() {
     generateIcon.classList.remove('loading');
     generateIcon.textContent = '🔄';
-    generateText.textContent = 'Generate New Password';
+    generateText.textContent = 'Generate new password';
 }
 
 // Update strength meter and entropy display
@@ -702,7 +702,7 @@ function generateMultiple() {
 function generateSinglePassword() {
     const len = parseInt(slider.value);
     const pool = getAvailablePool();
-    if (!pool) return "Generation failed";
+    if (!pool) return "Generation no work";
     
     const requirements = [];
     if (reqUpper.checked && getAvailableChars('uppercase').length > 0) requirements.push('uppercase');

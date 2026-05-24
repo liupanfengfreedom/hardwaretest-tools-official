@@ -246,7 +246,7 @@ function clearVU() { vuSegs.forEach(s => s.className = 'vu-seg'); }
 // ---------- UI update functions (English) ----------
 function showSourceActive(label, isMic = false) {
   const icon = isMic ? '🎙' : '🖥';
-  const subText = isMic ? 'Microphone · captured via getUserMedia' : 'System sound · browser capture am through Screen Capture API';
+  const subText = isMic ? 'Microphone · captured through getUserMedia' : 'System sound · browser capture am through Screen Capture API';
   document.getElementById('sourceDisplay').innerHTML = `
     <div class="source-active">
       <div class="src-icon-big">${icon}</div>

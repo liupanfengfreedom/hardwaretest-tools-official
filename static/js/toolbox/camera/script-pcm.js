@@ -53,7 +53,7 @@ function showPermissionRequestModal() {
 
         // Modal title
         const title = document.createElement('h2');
-        title.textContent = 'Camera permission ask';
+        title.textContent = 'Camera permission request';
         title.style.cssText = `
             color: var(--text-main);
             margin-top: 0;
@@ -311,7 +311,7 @@ async function startStream() {
         
         // Set aria-label for video element
         const track = stream.getVideoTracks()[0];
-        videoElement.setAttribute('aria-label', track.label || 'Camera live stream');
+        videoElement.setAttribute('aria-label', track.label || 'Camera live view');
         
         updateStatus('active');
         statusText.textContent = 'Dey run normal';
@@ -331,7 +331,7 @@ async function startStream() {
     } catch (error) {
         console.error('Error as e dey start dis specific stream:', error);
         updateStatus('error');
-        statusText.textContent = 'Start fail: ' + (error.name || 'Unknown');
+        statusText.textContent = 'Start no work: ' + (error.name || 'Unknown');
         
         // Send error event to analytics
         trackPerformanceEvent('camera_stream_error', 'error', error.name);
@@ -470,11 +470,11 @@ function handleError(error) {
         errorMessage = error.message || error.name;
     }
     
-    statusText.textContent = 'Error: ' + errorMessage;
+    statusText.textContent = 'Wahala: ' + errorMessage;
     statusText.style.color = "#ef4444";
     
     // Show user-friendly prompt
-    if (window.confirm('Camera access fail: ' + errorMessage + '\n\nOpen help guide?')) {
+    if (window.confirm('Camera access no work: ' + errorMessage + '\n\nOpen help guide?')) {
         window.open('/toolbox/camera/guide/#troubleshooting', '_blank');
     }
 }
@@ -531,7 +531,7 @@ function cleanup() {
     }
     
     updateStatus('inactive');
-    statusText.textContent = 'Stop';
+    statusText.textContent = 'Stop finish';
     statusText.style.color = "var(--text-muted)";
 }
 
@@ -544,7 +544,7 @@ videoSelect.onchange = () => {
     trackPerformanceEvent('camera_switch', 'user_action');
     
     startStream().catch(error => {
-        console.error('Stream switch failed:', error);
+        console.error('Stream switch no work:', error);
         handleError(error);
     });
 };

@@ -321,7 +321,7 @@ class CPSTester {
         
         // If test is completed, user needs to click "Start again" button first
         if (this.state.testStatus === 'finished') {
-            this.showNotification('Test completed, please click "Start again" button to start new test', 'info');
+            this.showNotification('Check don finish, click "Start again" make new check start', 'info');
             return;
         }
         
@@ -332,28 +332,28 @@ class CPSTester {
         
         // Update instruction information
         const buttonMode = this.buttonModes[this.state.buttonMode];
-        document.getElementById('click-title').textContent = 'Ready to Start';
+        document.getElementById('click-title').textContent = 'Ready to start';
         
         // Update click prompt based on button mode
         let instructionText = '';
         switch(this.state.buttonMode) {
             case 'any':
-                instructionText = 'Click mouse to start countdown';
+                instructionText = 'Click mouse make countdown start';
                 break;
             case 'left':
-                instructionText = 'Click mouse left button to start countdown';
+                instructionText = 'Click left mouse side make countdown start';
                 break;
             case 'right':
-                instructionText = 'Click mouse right button to start countdown';
+                instructionText = 'Click right mouse side make countdown start';
                 break;
             case 'middle':
-                instructionText = 'Click mouse middle button to start countdown';
+                instructionText = 'Click middle mouse side make countdown start';
                 break;
             default:
-                instructionText = 'Click mouse to start countdown';
+                instructionText = 'Click mouse make countdown start';
         }
         document.getElementById('click-instruction').textContent = instructionText;
-        this.updateTimerDisplay('Click to Start');
+        this.updateTimerDisplay('Click to start');
         
         this.showNotification(`Test area activated, ${instructionText}`, 'info');
     }
@@ -365,12 +365,12 @@ class CPSTester {
             testArea.classList.remove('active');
             
             // Update instruction information
-            document.getElementById('click-title').textContent = 'Mouse CPS Test';
+            document.getElementById('click-title').textContent = 'Mouse CPS check';
             
             // Update instruction text based on button mode
             this.updateInstructionText();
             
-            this.updateTimerDisplay('Ready to Start');
+            this.updateTimerDisplay('Ready to start');
             
             this.showNotification('Test area deactivated', 'info');
         }
@@ -390,7 +390,7 @@ class CPSTester {
         
         // If test completed, don't respond to clicks
         if (this.state.testStatus === 'finished') {
-            this.showNotification('Test completed, please click "Start again" button to start new test', 'info');
+            this.showNotification('Check don finish, click "Start again" make new check start', 'info');
             return;
         }
         
@@ -413,7 +413,7 @@ class CPSTester {
                 const allowedButton = this.buttonModes[this.state.buttonMode].name;
                 // During test running, only show prompt once to avoid interference
                 if (!this.state.lastButtonWarning || Date.now() - this.state.lastButtonWarning > 2000) {
-                    this.showNotification(`Please use ${allowedButton} to click`, 'error');
+                    this.showNotification(`Abeg use ${allowedButton} click`, 'error');
                     this.state.lastButtonWarning = Date.now();
                 }
                 return;
@@ -463,7 +463,7 @@ class CPSTester {
         testArea.classList.add('waiting');
         
         // Update instruction information
-        document.getElementById('click-title').textContent = 'Ready to Start';
+        document.getElementById('click-title').textContent = 'Ready to start';
         document.getElementById('click-instruction').textContent = 'Countdown will start soon';
         
         // Start countdown after brief delay
@@ -520,19 +520,19 @@ class CPSTester {
         let instructionText = '';
         switch(this.state.buttonMode) {
             case 'any':
-                instructionText = 'Click mouse quickly!';
+                instructionText = 'Click mouse fast-fast!';
                 break;
             case 'left':
-                instructionText = 'Click mouse left button quickly!';
+                instructionText = 'Click left mouse side fast-fast!';
                 break;
             case 'right':
-                instructionText = 'Click mouse right button quickly!';
+                instructionText = 'Click right mouse side fast-fast!';
                 break;
             case 'middle':
-                instructionText = 'Click mouse middle button quickly!';
+                instructionText = 'Click middle mouse side fast-fast!';
                 break;
             default:
-                instructionText = 'Click mouse quickly!';
+                instructionText = 'Click mouse fast-fast!';
         }
         document.getElementById('click-instruction').textContent = instructionText;
         
@@ -632,13 +632,13 @@ class CPSTester {
         
         // Update instruction information - clearly tell user how to restart
         document.getElementById('click-title').textContent = 'Test Completed';
-        document.getElementById('click-instruction').textContent = 'Click "Start again" button below to start new test';
+        document.getElementById('click-instruction').textContent = 'Click "Start again" below make new check start';
         this.updateTimerDisplay('Complete!');
         
         // Show test completion notice
         document.getElementById('test-complete-notice').style.display = 'block';
         
-        this.showNotification('Test completed! Click "Start again" button to start new test', 'success');
+        this.showNotification('Check don finish! Click "Start again" make new check start', 'success');
     }
     
     resetTest() {
@@ -656,12 +656,12 @@ class CPSTester {
         this.updateControlButtons();
         
         // Reset UI
-        document.getElementById('click-title').textContent = 'Mouse CPS Test';
+        document.getElementById('click-title').textContent = 'Mouse CPS check';
         
         // Update instruction text based on button mode
         this.updateInstructionText();
         
-        this.updateTimerDisplay('Ready to Start');
+        this.updateTimerDisplay('Ready to start');
         
         // Hide test completion notice
         document.getElementById('test-complete-notice').style.display = 'none';
@@ -684,7 +684,7 @@ class CPSTester {
         
         this.updateRealTimeStats();
         
-        this.showNotification('Reset complete, move mouse to test area to activate and start new test', 'info');
+        this.showNotification('Reset don finish, move mouse go check area make new check start', 'info');
     }
     
     updateControlButtons() {
@@ -707,7 +707,7 @@ class CPSTester {
             case 'finished':
                 restartBtn.disabled = false;
                 restartBtn.classList.add('highlight');
-                restartBtn.innerHTML = '<i class="fas fa-play-circle"></i> Click to start new test';
+                restartBtn.innerHTML = '<i class="fas fa-play-circle"></i> Click make new check start';
                 break;
                 
             default:
@@ -1136,7 +1136,7 @@ class CPSTester {
         
         container.innerHTML = `
             <div class="settings-section">
-                <h3><i class="fas fa-palette"></i> Appearance Settings</h3>
+                <h3><i class="fas fa-palette"></i> Appearance settings</h3>
                 <div class="setting-group">
                     <label class="setting-label">
                         <span>Theme</span>
@@ -1159,13 +1159,13 @@ class CPSTester {
                     </label>
                     <label class="setting-label">
                         <input type="checkbox" id="particles-toggle" ${settings.showParticles ? 'checked' : ''}>
-                        <span>Show Click Particle Effects</span>
+                        <span>Show click particle effects</span>
                     </label>
                 </div>
             </div>
             
             <div class="settings-section">
-                <h3><i class="fas fa-cogs"></i> Test Settings</h3>
+                <h3><i class="fas fa-cogs"></i> Check settings</h3>
                 <div class="setting-group">
                     <label class="setting-label">
                         <span>Countdown Duration</span>
@@ -1191,14 +1191,14 @@ class CPSTester {
                         <i class="fas fa-download"></i> Export data
                     </button>
                     <button id="clear-btn" class="setting-btn danger">
-                        <i class="fas fa-trash"></i> Clear All Data
+                        <i class="fas fa-trash"></i> Clear all data
                     </button>
                 </div>
             </div>
             
             <div class="settings-footer">
                 <button id="reset-settings" class="setting-btn">
-                    <i class="fas fa-undo"></i> Restore Default Settings
+                    <i class="fas fa-undo"></i> Restore default settings
                 </button>
             </div>
         `;
@@ -1316,7 +1316,7 @@ class CPSTester {
             this.showNotification('Data exported successfully', 'success');
         } catch (error) {
             console.error('Failed to export data:', error);
-            this.showNotification('Export failed, please try again', 'error');
+            this.showNotification('Export no work, abeg try again', 'error');
         }
     }
     

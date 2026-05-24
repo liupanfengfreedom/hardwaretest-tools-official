@@ -220,7 +220,7 @@ Included files:
 6. Other auxiliary size icons
 
 Deployment steps:
-1. Upload the icons folder to your website root directory
+1. Upload the icons folder go your website root directory
 2. Add the following code to the HTML <head> section:
 
 <!-- Modern browsers prioritize SVG -->
@@ -232,7 +232,7 @@ Deployment steps:
 <!-- Android PWA support -->
 <link rel="manifest" href="site.webmanifest">
 
-3. Upload the site.webmanifest file to the root directory
+3. Upload the site.webmanifest file go root directory
 
 SVG advantages:
 - Vector format, infinite scaling without distortion

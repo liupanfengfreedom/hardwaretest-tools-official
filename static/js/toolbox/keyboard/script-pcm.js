@@ -688,7 +688,7 @@ function createDiagnosisPanel(steps) {
     panel.className = 'diagnosis-panel';
     panel.innerHTML = `
         <div class="diagnosis-header">
-            <h3><i class="fas fa-stethoscope"></i> Keyboard Diagnostic Mode</h3>
+            <h3><i class="fas fa-stethoscope"></i> Keyboard check mode</h3>
             <button class="close-diagnosis"><i class="fas fa-times"></i></button>
         </div>
         <div class="diagnosis-progress">
@@ -709,7 +709,7 @@ function createDiagnosisPanel(steps) {
         <div class="diagnosis-actions">
             <button class="btn-step" id="prev-step"><i class="fas fa-arrow-left"></i> Previous</button>
             <button class="btn-step" id="next-step">Next <i class="fas fa-arrow-right"></i></button>
-            <button class="btn-complete" id="complete-diagnosis">Complete Diagnosis & Generate Report</button>
+            <button class="btn-complete" id="complete-diagnosis">Finish check & make report</button>
         </div>
     `;
     
@@ -799,9 +799,9 @@ function createDiagnosisPanel(steps) {
             case 3: // Response delay test
                 // Simplified - actual should analyze time series
                 if (testedKeys.size > 10) {
-                    addStepResult('success', 'Response delay test completed, judge based on usage experience');
+                    addStepResult('success', 'Response delay check don finish, judge am with your use experience');
                 } else {
-                    addStepResult('info', 'Please test more keys to evaluate response delay');
+                    addStepResult('info', 'Abeg test more keys make response delay result better');
                 }
                 break;
             case 4: // Key conflict test
@@ -1031,7 +1031,7 @@ function generateDiagnosisReport() {
                 ` : `
                 <div class="status-badge status-success">
                     <i class="fas fa-check-circle"></i>
-                    <span>Keyboard in good condition</span>
+                    <span>Keyboard dey okay</span>
                 </div>
                 `}
             </div>
@@ -1094,7 +1094,7 @@ function generateDiagnosisReport() {
                 <div class="suggestion-item">
                     <i class="fas fa-check"></i>
                     <div>
-                        <h5>Keyboard in Good Condition</h5>
+                        <h5>Keyboard dey okay</h5>
                         <p>Your keyboard is functioning normally. Recommended:</p>
                         <ul>
                             <li>Use compressed air to clean under keycaps monthly</li>
