@@ -43,18 +43,18 @@
                 {
                     "@type": "ListItem",
                     "position": 3,
-                    "name": "RSA encrypt tool",
+                    "name": "RSA lock app",
                     "item": "https://starryring.com/pcm/utility-tools/math/rsa-encrypt/"
                 }
             ]
         },
         {
             "@type": "SoftwareApplication",
-            "name": "RSA encrypt tool",
+            "name": "RSA lock app",
             "applicationCategory": "SecurityApplication",
             "operatingSystem": "Web",
             "url": "https://starryring.com/pcm/utility-tools/math/rsa-encrypt/",
-            "description": "Free browser RSA encryption tool with key pair generation, PEM public key import, and browser-side RSA-OAEP encryption.",
+            "description": "Free page-side RSA lock app with key-pair generation, PEM public key import and local RSA-OAEP encryption.",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -65,7 +65,7 @@
                 "Import PEM public key",
                 "Support RSA-OAEP with plenty hash options",
                 "Export Base64 or Hex output",
-                "All cryptographic work runs locally for browser"
+                "All cryptographic work runs locally for page side"
             ]
         },
         {
@@ -107,8 +107,8 @@
         }
     ]
 }</script>
-<title>RSA encrypt tool &amp; key-pair maker | StarryRing</title>
-<meta content="Free browser RSA encryption tool with key pair generation, PEM public key import, OAEP hash selection, and browser-side RSA-OAEP encryption." name="description"/>
+<title>RSA lock app &amp; key-pair maker | StarryRing</title>
+<meta content="Free page-side RSA lock app with key-pair generation, PEM public key import, OAEP hash selection and local RSA-OAEP encryption." name="description"/>
 <link href="https://starryring.com/pcm/utility-tools/math/rsa-encrypt/" rel="canonical"/><link href="https://starryring.com/en/utility-tools/math/rsa-encrypt/" hreflang="x-default" rel="alternate"/>
 <link href="https://starryring.com/pcm/utility-tools/math/rsa-encrypt/" hreflang="pcm-NG" rel="alternate"/>
 <link href="https://starryring.com/zh/utility-tools/math/rsa-encrypt/" hreflang="zh" rel="alternate"/>
@@ -131,10 +131,10 @@
 <link href="https://starryring.com/ta/utility-tools/math/rsa-encrypt/" hreflang="ta" rel="alternate"/>
 <meta content="https://starryring.com/pcm/utility-tools/math/rsa-encrypt/" property="og:url"/>
 <meta content="pcm_NG" property="og:locale"/>
-<meta content="RSA encrypt tool &amp; key-pair maker | StarryRing" property="og:title"/>
-<meta content="Generate RSA key pair, import PEM public key, and run RSA-OAEP encryption locally inside your browser." property="og:description"/>
-<meta content="RSA encrypt tool &amp; key-pair maker" name="twitter:title"/>
-<meta content="Free browser RSA encryption tool with PEM public key import, key pair generation, and browser-side RSA-OAEP encryption." name="twitter:description"/>
+<meta content="RSA lock app &amp; key-pair maker | StarryRing" property="og:title"/>
+<meta content="Generate RSA key pair, import PEM public key and run RSA-OAEP locking locally inside your page." property="og:description"/>
+<meta content="RSA lock app &amp; key-pair maker" name="twitter:title"/>
+<meta content="Free page RSA encryption tool with PEM public key import, key pair generation, and page-side RSA-OAEP encryption." name="twitter:description"/>
 <meta content="rsa encryption tool,rsa encrypt page-side,rsa key pair generator,rsa oaep,pem public key,web crypto,rsa public key encryption" name="keywords"/>
 </head>
 <body>
@@ -166,7 +166,7 @@
 <ol class="breadcrumb-modern">
 <li class="breadcrumb-item"><a class="breadcrumb-link" href="/pcm/"><i class="fas fa-home"></i>Home</a></li>
 <li class="breadcrumb-item"><a class="breadcrumb-link" href="/pcm/utility-tools/">Useful tools</a></li>
-<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active">RSA encrypt tool</span></li>
+<li aria-current="page" class="breadcrumb-item"><span class="breadcrumb-active">RSA lock app</span></li>
 </ol>
 </nav>
 <div class="scan-effect"></div>
@@ -177,14 +177,14 @@
 <h1 class="logo-title">RSA<span>Locker</span></h1>
 </div>
 <div class="header-badge">
-<div class="badge">BROWSER ONLY</div>
+<div class="badge">PAGE SIDE ONLY</div>
 <div class="badge" style="color:var(--accent);background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.2);">WEB CRYPTO API</div>
 </div>
 </header>
 <!-- Security Banner -->
 <div class="security-banner">
 <span class="security-banner-icon">🔒</span>
-<span><strong>Client-side only</strong>- keys and data na processed entirely inside your browser and na never uploaded to any server. Built on di native Web Crypto API.</span>
+<span><strong>Page-side only</strong>- keys and data na processed entirely inside your page and na never uploaded to any server. Built on di native Web Crypto API.</span>
 </div>
 <!-- Config Panel -->
 <div class="config-panel">
@@ -237,12 +237,12 @@
 <!-- PEM format reference -->
 <label class="field-label" style="margin-bottom:0">
 <a class="label-link" href="#explain-key">Public Key</a> (<a class="label-link" href="#explain-pem">PEM</a>) </label>
-<button class="gen-btn" onclick="generateKeyPair()" style="margin-left:auto">GENERATE KEY PAIR</button>
+<button class="gen-btn" onclick="generateKeyPair()" style="margin-left:auto">MAKE KEY PAIR</button>
 <button class="copy-field-btn" onclick="copyField('publicKey', this)" title="Copy public key">
 <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="13" rx="2" width="13" x="9" y="9"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 </button>
 </div>
-<textarea autocomplete="off" class="field-input" id="publicKey" placeholder="-----BEGIN PUBLIC KEY----- ... -----END PUBLIC KEY----- Paste an RSA public key, or click GENERATE KEY PAIR to create a new key pair" rows="5" spellcheck="false" style="font-size:11px;resize:vertical;min-height:105px;line-height:1.5"></textarea>
+<textarea autocomplete="off" class="field-input" id="publicKey" placeholder="-----BEGIN PUBLIC KEY----- ... -----END PUBLIC KEY----- Paste an RSA public key, or click MAKE KEY PAIR to create a new key pair" rows="5" spellcheck="false" style="font-size:11px;resize:vertical;min-height:105px;line-height:1.5"></textarea>
 <div class="key-hint" id="keyHint">RSA-OAEP encryption uses di public key - di matching private key na required for decryption (<span id="keySizeHint">4096</span>-bit /<span id="hashHint">SHA-256</span>)</div>
 </div>
 <div class="field-group" id="privateKeyGroup" style="display:none">
@@ -341,7 +341,7 @@
 <div class="action-row">
 <button class="primary-btn encrypt-btn" onclick="runEncrypt()">▶ ENCRYPT</button>
 <a class="decrypt-link" href="/pcm/utility-tools/math/rsa-decrypt/">
-<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="11" rx="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Need decryption?<svg fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
+<svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="11" rx="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Need unlock side?<svg fill="none" height="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="10"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" x2="21" y1="14" y2="3"></line></svg>
 </a>
 </div>
 <!-- Status Bar -->
@@ -409,7 +409,7 @@
 <div class="explain-title">PEM Format Guide</div>
 <div class="explain-text">
 <p><strong>1️⃣ What na PEM format?</strong><br/>PEM (Privacy-Enhanced Mail) na a text format used to store and transfer keys and certificates. It Base64-encodes binary DER data and wraps it with headers and footers like<code>-----BEGIN &lt;LABEL&gt;-----</code>and<code>-----END &lt;LABEL&gt;-----</code>. Common labels include<code>PUBLIC KEY</code>, <code>PRIVATE KEY</code>, and<code>CERTIFICATE</code>. It na easy to copy, paste, and transmit in text-based workflows, making it one of di most common key exchange formats.</p>
-<p><strong>2️⃣ Which other formats na common besides PEM?</strong><br/> - <strong>DER</strong>: a pure binary format dat stores ASN.1 structures directly. It na not human-readable and na common in Java ecosystems.<br/> - <strong>HEX</strong>: expresses DER binary content as a hexadecimal string, useful for debugging or embedding in code.<br/> - <strong>Base64 (without headers)</strong>: raw DER encoded as Base64 without PEM headers, often used in compact configurations or token payloads.<br/> - <strong>PKCS#12 (PFX)</strong>: a binary container format dat fit bundle public and private keys together, usually protected by a password and often used by browsers or Windows systems.</p>
+<p><strong>2️⃣ Which other formats na common besides PEM?</strong><br/> - <strong>DER</strong>: a pure binary format dat stores ASN.1 structures directly. It na not human-readable and na common in Java ecosystems.<br/> - <strong>HEX</strong>: expresses DER binary content as a hexadecimal string, useful for debugging or embedding in code.<br/> - <strong>Base64 (without headers)</strong>: raw DER encoded as Base64 without PEM headers, often used in compact configurations or token payloads.<br/> - <strong>PKCS#12 (PFX)</strong>: a binary container format dat fit bundle public and private keys together, usually protected by a password and often used by pages or Windows systems.</p>
 <p><strong>3️⃣ When suppose you use each format?</strong><br/> - <strong>PEM</strong>: di most universal option, suitable for OpenSSL, web servers (Nginx/Apache), and API exchange.<br/> - <strong>DER</strong>: commonly used in Java environments or where strict binary storage na required.<br/> - <strong>HEX</strong>: useful in debugging, embedded systems, or whenever exact byte inspection na needed.<br/> - <strong>Base64 (without headers)</strong>: useful when formatting na constrained or a compact representation na required.<br/> - <strong>PKCS#12</strong>: useful when both public and private keys must be transported together while protecting di private key with a password.</p>
 </div>
 </div>
