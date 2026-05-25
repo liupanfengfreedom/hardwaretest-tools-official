@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "শব্দের অপেক্ষায়";
+    }
+    if (db < -50) {
+      return "মেঝেতে পিন পড়ার শব্দ";
+    }
+    if (db < -35) {
+      return "নরম কথার শব্দ";
+    }
+    if (db < -20) {
+      return "স্বাভাবিক কথার শব্দ";
+    }
+    if (db < -6) {
+      return "জোরে কথার শব্দ";
+    }
+    return "খুব জোরে, শব্দ বিকৃত হতে পারে";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "শব্দের অপেক্ষায়";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " dB";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " dB";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {

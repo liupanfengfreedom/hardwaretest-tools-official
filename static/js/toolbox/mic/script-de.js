@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "Warte auf Ton";
+    }
+    if (db < -50) {
+      return "Geräusch einer fallenden Nadel";
+    }
+    if (db < -35) {
+      return "Leise Sprechstimme";
+    }
+    if (db < -20) {
+      return "Normale Sprechstimme";
+    }
+    if (db < -6) {
+      return "Laute Sprechstimme";
+    }
+    return "Zu laut, kann übersteuern";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "Warte auf Ton";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " dB";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " dB";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {

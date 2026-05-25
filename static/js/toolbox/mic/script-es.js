@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "Esperando sonido";
+    }
+    if (db < -50) {
+      return "Sonido de un alfiler al caer";
+    }
+    if (db < -35) {
+      return "Voz baja";
+    }
+    if (db < -20) {
+      return "Voz normal";
+    }
+    if (db < -6) {
+      return "Voz fuerte";
+    }
+    return "Demasiado alto, puede saturar";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "Esperando sonido";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " dB";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " dB";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {

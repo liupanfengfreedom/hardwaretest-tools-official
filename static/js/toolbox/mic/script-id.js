@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "Menunggu suara";
+    }
+    if (db < -50) {
+      return "Suara jarum jatuh ke lantai";
+    }
+    if (db < -35) {
+      return "Suara bicara pelan";
+    }
+    if (db < -20) {
+      return "Suara bicara normal";
+    }
+    if (db < -6) {
+      return "Suara bicara keras";
+    }
+    return "Terlalu keras, bisa pecah";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "Menunggu suara";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " dB";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " dB";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {

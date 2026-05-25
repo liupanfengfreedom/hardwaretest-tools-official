@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "音を待っています";
+    }
+    if (db < -50) {
+      return "針が床に落ちる音";
+    }
+    if (db < -35) {
+      return "小さな話し声";
+    }
+    if (db < -20) {
+      return "普通の話し声";
+    }
+    if (db < -6) {
+      return "大きな話し声";
+    }
+    return "音が大きすぎます、音割れの可能性";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "音を待っています";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " dB";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " dB";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {

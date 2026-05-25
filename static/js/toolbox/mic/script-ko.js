@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "소리를 기다리는 중";
+    }
+    if (db < -50) {
+      return "바늘이 바닥에 떨어지는 소리";
+    }
+    if (db < -35) {
+      return "작게 말하는 소리";
+    }
+    if (db < -20) {
+      return "보통 말하는 소리";
+    }
+    if (db < -6) {
+      return "크게 말하는 소리";
+    }
+    return "소리가 너무 큼, 깨질 수 있음";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "소리를 기다리는 중";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} 데시벨)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " 데시벨";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " 데시벨";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {

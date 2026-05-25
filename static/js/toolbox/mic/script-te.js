@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "శబ్దం కోసం వేచి ఉంది";
+    }
+    if (db < -50) {
+      return "నేలపై సూది పడిన శబ్దం";
+    }
+    if (db < -35) {
+      return "మెల్లగా మాట్లాడే శబ్దం";
+    }
+    if (db < -20) {
+      return "సాధారణంగా మాట్లాడే శబ్దం";
+    }
+    if (db < -6) {
+      return "బిగ్గరగా మాట్లాడే శబ్దం";
+    }
+    return "శబ్దం చాలా ఎక్కువగా ఉంది, విరూపం కావచ్చు";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "శబ్దం కోసం వేచి ఉంది";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " dB";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " dB";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {

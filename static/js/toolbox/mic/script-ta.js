@@ -42,6 +42,32 @@
 
   // --- Utility Functions ---
 
+  function formatVolumeLevel(db) {
+    if (!Number.isFinite(db) || db < -70) {
+      return "ஒலிக்காக காத்திருக்கிறது";
+    }
+    if (db < -50) {
+      return "தரையில் ஊசி விழும் சத்தம்";
+    }
+    if (db < -35) {
+      return "மெதுவாக பேசும் குரல்";
+    }
+    if (db < -20) {
+      return "சாதாரணமாக பேசும் குரல்";
+    }
+    if (db < -6) {
+      return "சத்தமாக பேசும் குரல்";
+    }
+    return "ஒலி மிக அதிகம், சிதையலாம்";
+  }
+
+  function formatVolumeWithDb(db) {
+    if (!Number.isFinite(db)) {
+      return "ஒலிக்காக காத்திருக்கிறது";
+    }
+    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+  }
+
   async function refreshDevices(){
     try{
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -243,8 +269,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = db.toFixed(1) + " dB";
-      peakVolumeEl.textContent = peakDb.toFixed(1) + " dB";
+      currentVolumeEl.textContent = formatVolumeWithDb(db);
+      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {
