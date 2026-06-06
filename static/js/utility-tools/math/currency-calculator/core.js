@@ -14,6 +14,11 @@
             messages: config.messages || {}
         };
         const API_BASE = "https://api.frankfurter.dev/v1";
+        const TURKISH_LIRA = {
+            code: "TRY",
+            flag: "\uD83C\uDDF9\uD83C\uDDF7",
+            fallbackName: "Turkish Lira"
+        };
 
         function getEl(id) {
             return document.getElementById(id);
@@ -21,6 +26,49 @@
 
         function getPairKey(from, to) {
             return `${from}->${to}`;
+        }
+
+        function getCurrencyName(code, fallbackName) {
+            if (typeof Intl !== "undefined" && typeof Intl.DisplayNames === "function") {
+                try {
+                    const displayNames = new Intl.DisplayNames([state.locale || "en"], {
+                        type: "currency"
+                    });
+                    const name = displayNames.of(code);
+                    if (name && name !== code) {
+                        return name;
+                    }
+                } catch (error) {
+                    // Fall back to a stable English label for older browser engines.
+                }
+            }
+
+            return fallbackName;
+        }
+
+        function ensureCurrencyOption(select, currency) {
+            if (!select || select.querySelector(`option[value="${currency.code}"]`)) {
+                return;
+            }
+
+            const option = document.createElement("option");
+            option.value = currency.code;
+            option.textContent = `${currency.flag} ${currency.code} ${getCurrencyName(currency.code, currency.fallbackName)}`;
+
+            const europeGroup = Array.from(select.querySelectorAll("optgroup")).find((group) =>
+                group.querySelector('option[value="GBP"], option[value="CHF"]')
+            );
+
+            if (europeGroup) {
+                europeGroup.appendChild(option);
+            } else {
+                select.appendChild(option);
+            }
+        }
+
+        function ensureSupportedCurrencyOptions() {
+            ensureCurrencyOption(getEl("ex-from"), TURKISH_LIRA);
+            ensureCurrencyOption(getEl("ex-to"), TURKISH_LIRA);
         }
 
         function getFormState() {
@@ -363,6 +411,7 @@
         }
 
         function init() {
+            ensureSupportedCurrencyOptions();
             ensureSwapButton();
             bindEvents();
             refreshRateAndChart();
