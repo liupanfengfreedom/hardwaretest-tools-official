@@ -90,6 +90,8 @@
   **链接：** https://starryring.com/zh/utility-tools/design-media/color-grading/
 - **在线录音工具** – 在浏览器中直接录音并导出音频文件  
   **链接：** https://starryring.com/zh/utility-tools/design-media/online-voice-recorder/
+- **在线录屏工具** – 在浏览器中录制屏幕、系统声音、麦克风和摄像头画中画
+  **链接：** https://starryring.com/zh/utility-tools/design-media/video-recorder/
 - **应用图标生成器** – 从一张图片批量生成多尺寸应用图标  
   **链接：** https://starryring.com/zh/utility-tools/design-media/app-icon-generator/
 

@@ -119,6 +119,8 @@ Below is a complete list of public pages with brief descriptions:
   **Link:** https://starryring.com/en/utility-tools/design-media/color-grading/
 - **Online Voice Recorder** – Record audio directly in the browser and export recordings  
   **Link:** https://starryring.com/en/utility-tools/design-media/online-voice-recorder/
+- **Online Video Recorder** – Record the screen, system audio, microphone, and camera picture-in-picture directly in the browser
+  **Link:** https://starryring.com/en/utility-tools/design-media/video-recorder/
 - **App Icon Generator** – Generate multi-size app icons from a single source image  
   **Link:** https://starryring.com/en/utility-tools/design-media/app-icon-generator/
 
