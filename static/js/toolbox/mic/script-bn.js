@@ -24,7 +24,6 @@
   const micStatusDisplayEl = document.getElementById('micStatusDisplay');
   const sampleRateDisplayEl = document.getElementById('sampleRateDisplay');
   const channelsDisplayEl = document.getElementById('channelsDisplay');
-  const bitDepthDisplayEl = document.getElementById('bitDepthDisplay');
 
   let audioCtx = null, sourceNode = null, analyser = null, processor = null, gainNode = null;
   let mediaStream = null;
@@ -61,11 +60,34 @@
     return "খুব জোরে, শব্দ বিকৃত হতে পারে";
   }
 
-  function formatVolumeWithDb(db) {
+  function formatVolumeParts(db) {
     if (!Number.isFinite(db)) {
-      return "শব্দের অপেক্ষায়";
+      return { description: "শব্দের অপেক্ষায়", dbText: "" };
     }
-    return `${formatVolumeLevel(db)} (${db.toFixed(1)} dB)`;
+    return {
+      description: formatVolumeLevel(db),
+      dbText: `${db.toFixed(1)} dB`
+    };
+  }
+
+  function renderVolume(el, db) {
+    const volume = formatVolumeParts(db);
+    let descriptionEl = el.querySelector('.volume-desc');
+    let dbEl = el.querySelector('.volume-db');
+    if (!descriptionEl || !dbEl) {
+      el.textContent = '';
+      descriptionEl = document.createElement('span');
+      dbEl = document.createElement('span');
+      descriptionEl.className = 'volume-desc';
+      dbEl.className = 'volume-db';
+      el.append(dbEl, descriptionEl);
+    }
+    if (descriptionEl.textContent !== volume.description) {
+      descriptionEl.textContent = volume.description;
+    }
+    if (dbEl.textContent !== volume.dbText) {
+      dbEl.textContent = volume.dbText;
+    }
   }
 
   async function refreshDevices(){
@@ -140,7 +162,6 @@
     micStatusDisplayEl.className = "";
     sampleRateDisplayEl.textContent = "-";
     channelsDisplayEl.textContent = "-";
-    bitDepthDisplayEl.textContent = "-";
     
     const constraints = { 
       audio: { 
@@ -190,7 +211,6 @@
     // Update device info display
     sampleRateDisplayEl.textContent = audioCtx.sampleRate + " Hz";
     channelsDisplayEl.textContent = "1 (মনো)";
-    bitDepthDisplayEl.textContent = "32-বিট ফ্লোট";
     
     // Autoplay Policy Handling
     if(audioCtx.state === 'suspended'){
@@ -269,8 +289,8 @@
       rmsEl.textContent = rms.toFixed(4);
       peakEl.textContent = peak.toFixed(4);
       currentVolumeDb = db;
-      currentVolumeEl.textContent = formatVolumeWithDb(db);
-      peakVolumeEl.textContent = formatVolumeWithDb(peakDb);
+      renderVolume(currentVolumeEl, db);
+      renderVolume(peakVolumeEl, peakDb);
       
       // Update peak record
       if(db > maxVolumeDb) {
