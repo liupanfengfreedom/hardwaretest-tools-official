@@ -1,347 +1,786 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-    <!-- 基础元数据 -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    
-    <!-- 主要SEO标题和描述 -->
-    <title>KeyCheck Pro - 在线鼠标键盘测试工具 | 游戏外设诊断</title>
-<!-- 规范链接和国际化 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyCheck Pro · StarryRing — 值得信赖的外设检测工具</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+<style>
+  :root{
+    --bg:#0a0c14;
+    --bg-alt:#0d0f19;
+    --panel:#171b26;
+    --panel-2:#1d222f;
+    --line:#2a3040;
+    --line-soft:#1e2330;
+    --text:#eceef2;
+    --text-dim:#98a0b0;
+    --text-faint:#5b6270;
+    --signal:#ff8a44;
+    --signal-soft:rgba(255,138,68,0.14);
+    --verify:#5be8cf;
+    --verify-soft:rgba(91,232,207,0.12);
+    --warn:#ff5d78;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; background:#0a0c14;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 600px at 12% -8%, rgba(255,138,68,0.11), transparent 62%),
+      radial-gradient(ellipse 800px 600px at 105% 8%, rgba(91,232,207,0.08), transparent 58%),
+      radial-gradient(ellipse 1100px 750px at 50% 108%, rgba(124,123,255,0.07), transparent 62%),
+      linear-gradient(180deg, #0a0c14 0%, #0b0d18 45%, #08090f 100%);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  #starfield{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    pointer-events:none;
+    display:block;
+  }
+  a{color:inherit;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif; margin:0; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px; position:relative; z-index:1;}
+  @media(min-width:900px){ .wrap{padding:0 48px;} }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--signal); font-weight:500;
+  }
+  :focus-visible{outline:2px solid var(--signal); outline-offset:3px; border-radius:4px;}
 
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:20;
+    background:rgba(9,10,17,0.78);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .logo{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .logo-mark{width:26px; height:26px; flex-shrink:0;}
+  .logo-text{display:flex; flex-direction:column; line-height:1.05;}
+  .logo-text .name{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.02em;}
+  .logo-text .sub{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-faint); letter-spacing:0.06em;}
+  .nav-links{display:flex; align-items:center; gap:32px;}
+  .nav-links a.navlink{font-size:14px; color:var(--text-dim); text-decoration:none; transition:color .15s;}
+  .nav-links a.navlink:hover{color:var(--text);}
+  .nav-right{display:flex; align-items:center; gap:18px; margin-right:52px;}
+  .lang-pill{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-faint);
+    border:1px solid var(--line); border-radius:20px; padding:5px 11px;
+    letter-spacing:0.03em;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;
+    padding:11px 20px; border-radius:8px; text-decoration:none;
+    border:1px solid transparent; cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s;
+  }
+  .btn-primary{
+    background:var(--signal); color:#1a1206;
+    box-shadow:0 3px 0 0 #c0611e, 0 8px 20px -8px rgba(255,138,68,0.55);
+  }
+  .btn-primary:hover{background:#ff9a5c;}
+  .btn-primary:active{transform:translateY(2px); box-shadow:0 1px 0 0 #c0611e;}
+  @media(max-width:720px){ .nav-links{display:none;} .lang-pill{display:none;} }
 
+  /* ---------- HERO ---------- */
+  .hero{padding:64px 0 56px;}
+  @media(min-width:960px){ .hero{padding:96px 0 72px;} }
+  .hero-grid{display:grid; grid-template-columns:1fr; gap:48px; align-items:center;}
+  @media(min-width:960px){ .hero-grid{grid-template-columns:1.05fr 0.95fr; gap:56px;} }
+  .hero h1{font-size:clamp(30px,4.6vw,46px); font-weight:700; line-height:1.14; margin:16px 0 22px; color:#fff;}
+  .hero h1 .accent{color:var(--signal);}
+  .hero p{font-size:16px; line-height:1.75; color:var(--text-dim); max-width:52ch; margin:0 0 14px;}
+  .hero p strong{color:var(--text); font-weight:600;}
+  .hero-cta-row{display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:28px;}
+  .feature-tags{display:flex; gap:18px; flex-wrap:wrap;}
+  .feature-tag{display:flex; align-items:center; gap:7px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-faint);}
+  .feature-tag .dot{width:6px; height:6px; border-radius:50%; background:var(--verify); box-shadow:0 0 6px var(--verify);}
 
-<!-- 网站图标 -->
-    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <style>
-        /* 初始隐藏，防止乱码显示 */
-        html { visibility: hidden; opacity: 0; }
-    </style>
-        <!-- CSS 文件 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="/static/css/home.css" media="print" 
-      onload="this.media='all'; document.documentElement.style.visibility='visible'; document.documentElement.style.opacity='1';">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <!-- 搜索引擎指令 -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    
-    <!-- 作者和版权信息 -->
-    <meta name="author" content="StarryRing - 游戏玩家与独立开发者" />
-    <meta name="copyright" content="Copyright © 2024 StarryRing. All rights reserved." />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+  /* ---------- SCOPE WIDGET ---------- */
+  .scope-panel{
+    background:linear-gradient(180deg, var(--panel), var(--bg-alt));
+    border:1px solid var(--line); border-radius:14px;
+    padding:18px; box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .scope-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+  .scope-title{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--text-dim);}
+  .live-dot{display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--verify);}
+  .live-dot span.pulse{width:6px; height:6px; border-radius:50%; background:var(--verify); box-shadow:0 0 8px var(--verify); animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+  .scope-canvas-wrap{
+    position:relative; height:168px; border-radius:8px; overflow:hidden;
+    background:#0f1115; border:1px solid var(--line-soft);
+  }
+  .scope-canvas-wrap canvas{display:block; width:100%; height:100%;}
+  .scope-caption{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-faint); margin:8px 2px 0;}
+  .scope-readout{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;}
+  .readout-cell{background:var(--panel-2); border:1px solid var(--line-soft); border-radius:8px; padding:10px 12px;}
+  .readout-cell .rlabel{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-faint); letter-spacing:0.06em; margin-bottom:4px;}
+  .readout-cell .rvalue{font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:500; color:var(--text);}
+  .scope-testbtn{
+    width:100%; margin-top:14px; padding:14px; border-radius:8px;
+    background:var(--panel-2); border:1px solid var(--line); color:var(--text);
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;
+    box-shadow:0 3px 0 0 #10131a; cursor:pointer; transition:transform .1s, box-shadow .1s, border-color .15s;
+  }
+  .scope-testbtn:hover{border-color:var(--signal);}
+  .scope-testbtn:active{transform:translateY(3px); box-shadow:0 0 0 0 #10131a;}
 
+  /* ---------- TRUST BAR ---------- */
+  .trust-bar{position:relative; border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); background:rgba(13,15,25,0.72); backdrop-filter:blur(6px);}
+  .trust-inner{display:flex; flex-wrap:wrap; gap:14px 40px; padding:22px 0; justify-content:center;}
+  .trust-item{display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); letter-spacing:0.04em;}
+  .trust-item svg{width:15px; height:15px; color:var(--verify); flex-shrink:0;}
 
-<meta property="og:image" content="https://starryring.com/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="KeyCheck Pro 鼠标键盘测试界面预览" />
-    <meta property="og:site_name" content="StarryRing 工具箱" />
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@starryring" />
-    <meta name="twitter:creator" content="@starryring" />
-    <meta name="twitter:url" content="https://starryring.com/zh/" />
+  /* ---------- NARRATIVE + DIAGRAM ---------- */
+  .narrative{padding:88px 0;}
+  .narrative-grid{display:grid; grid-template-columns:1fr; gap:52px;}
+  @media(min-width:960px){ .narrative-grid{grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:center;} }
+  .narrative h2{font-size:clamp(24px,3vw,32px); color:#fff; margin-bottom:18px; line-height:1.25;}
+  .narrative p{font-size:15.5px; line-height:1.85; color:var(--text-dim); margin:0 0 14px;}
+  .narrative p.callout{color:var(--text); border-left:2px solid var(--signal); padding-left:16px; margin-top:22px;}
 
-<meta name="twitter:image" content="https://starryring.com/twitter-image.png" />
-    <meta name="twitter:image:alt" content="KeyCheck Pro 鼠标键盘测试界面预览" />
-    
-    <!-- 移动端优化 -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="KeyCheck Pro" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#1a1a1a" />
-    <meta name="msapplication-TileColor" content="#1a1a1a" />
-    
-    <!-- 性能优化 -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
-    <link rel="preload" href="/css/style.css" as="style" />
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" />
-    
-    <!-- 结构化数据 Schema.org -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "KeyCheck Pro - 输入设备测试工具",
-                "applicationCategory": "UtilitiesApplication",
-                "description": "专业的在线鼠标键盘测试工具，面向游戏玩家和独立开发者，用于检测输入延迟、按键抖动和高频点击问题。",
-                "url": "https://starryring.com/zh/",
-                "image": "https://starryring.com/og-image.png",
-                "author": {
-                    "@type": "Organization",
-                    "name": "StarryRing",
-                    "url": "https://starryring.com/zh/",
-                    "logo": "https://starryring.com/logo.png"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                },
-                "featureList": [
-                    "鼠标点击测试",
-                    "键盘按键测试","输入延迟检测",
-                    "高频点击稳定性测试",
-                    "游戏操作模拟"
-                ],
-                "softwareVersion": "1.0.0",
-                "datePublished": "2024-01-01",
-                "dateModified": "2024-12-20",
-                "audience": {
-                    "@type": "Audience",
-                    "audienceType": "Gamers, Game Developers"
-                }
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "KeyCheck Pro 能检测哪些输入问题?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "可检测以下问题：1) 按键抖动（单次按压多次触发）2) 输入延迟 3) 按键丢失 4) 高频点击下的响应不稳定 5) 组合按键冲突。"
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "这个工具适合哪些用户?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "主要面向两类用户：1) 游戏玩家 - 诊断游戏中外设问题；2) 独立游戏开发者 - 验证输入系统稳定性，区分硬件问题与代码缺陷。"
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "测试过程会记录我的输入数据吗?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "不会。所有测试均在本地浏览器中完成，不记录、不上传任何输入数据，完全保护用户隐私。"
-                        }
-                    }
-                ]
-            },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "工具箱",
-                        "item": "https://starryring.com/zh/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "工具箱",
-                        "item": "https://starryring.com/zh/toolbox/"
-                    },
-]
-            },
-            {
-                "@type": "Organization",
-                "name": "StarryRing",
-                "url": "https://starryring.com/zh/",
-                "logo": "https://starryring.com/logo.png",
-                "description": "由游戏玩家和独立开发者创建的技术工具平台，专注于输入设备测试和游戏开发辅助工具。"
-            }
-        ]
-    }
-    </script>
+  .chain{display:flex; flex-direction:column; gap:0;}
+  @media(min-width:640px){ .chain{flex-direction:row; align-items:flex-start;} }
+  .chain-node{display:flex; flex-direction:row; align-items:center; gap:14px; flex:1;}
+  @media(min-width:640px){ .chain-node{flex-direction:column; text-align:center; gap:10px;} }
+  .chain-icon{
+    width:52px; height:52px; border-radius:12px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--panel-2); border:1px solid var(--line);
+  }
+  .chain-icon svg{width:24px; height:24px;}
+  .chain-node.question .chain-icon{background:var(--signal-soft); border-color:rgba(255,138,68,0.4); color:var(--signal);}
+  .chain-node.you .chain-icon{background:var(--verify-soft); border-color:rgba(91,232,207,0.4); color:var(--verify);}
+  .chain-node .clabel{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13.5px; color:var(--text);}
+  .chain-node .csub{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-faint); margin-top:2px;}
+  .chain-connector{
+    display:flex; align-items:center; justify-content:center;
+    color:var(--text-faint); flex-shrink:0;
+  }
+  .chain-connector svg{width:20px; height:20px;}
+  @media(max-width:639px){ .chain-connector{margin:2px 0 2px 25px;} .chain-connector svg{transform:rotate(90deg);} }
 
-    <script src="https://analytics.ahrefs.com/analytics.js" data-key="zDeKO+uGmlCH/Czh3uSYuw" async></script>
-   <script>
-    var ahrefs_analytics_script = document.createElement('script');
-    ahrefs_analytics_script.async = true;
-    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
-    ahrefs_analytics_script.setAttribute('data-key', 'zDeKO+uGmlCH/Czh3uSYuw');
-    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
-    </script>
-   
-   
+  /* ---------- TOOLBOX ---------- */
+  .toolbox{padding:20px 0 96px;}
+  .section-head{margin-bottom:40px; max-width:60ch;}
+  .section-head h2{font-size:clamp(24px,3vw,32px); color:#fff; margin:12px 0 12px;}
+  .section-head p{font-size:15.5px; color:var(--text-dim); line-height:1.7; margin:0;}
+  .tool-grid{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:640px){ .tool-grid{grid-template-columns:1fr 1fr;} }
+  @media(min-width:1000px){ .tool-grid{grid-template-columns:repeat(4,1fr);} }
+  .tool-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:22px; text-decoration:none; color:var(--text);
+    display:flex; flex-direction:column; gap:14px;
+    position:relative; overflow:hidden;
+    transition:border-color .15s, transform .15s;
+  }
+  .tool-card:hover{border-color:var(--verify); transform:translateY(-3px);}
+  .tool-card::before{content:""; position:absolute; top:0; left:0; right:0; height:2px; background:var(--verify); opacity:0; transition:opacity .15s;}
+  .tool-card:hover::before{opacity:1;}
+  .tool-icon{width:38px; height:38px; border-radius:9px; background:var(--panel-2); border:1px solid var(--line-soft); display:flex; align-items:center; justify-content:center; color:var(--verify);}
+  .tool-icon svg{width:19px; height:19px;}
+  .tool-card h3{font-size:16px; font-weight:600;}
+  .tool-card p{font-size:13.5px; color:var(--text-dim); line-height:1.6; margin:0; flex-grow:1;}
+  .tool-chip{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-faint); letter-spacing:0.03em; padding-top:10px; border-top:1px solid var(--line-soft);}
 
-    
-    <!-- 添加额外SEO优化 -->
-    <meta name="content-language" content="zh" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="generator" content="StarryRing Toolbox" />
-<meta name="description" content="KeyCheck Pro 是专业的在线鼠标键盘测试工具，面向玩家和开发者，帮助检测输入延迟、按键抖动、点击稳定性和设备响应表现。">
-        <link rel="canonical" href="https://starryring.com/zh/">
-    <link rel="alternate" hreflang="en" href="https://starryring.com/en/">
-    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/">
-    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/">
-    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/">
-    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/">
-    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/">
-    <link rel="alternate" hreflang="es" href="https://starryring.com/es/">
-    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/">
-    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/">
-    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/">
-    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/">
-    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/">
-    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/">
-    <link rel="alternate" hreflang="id" href="https://starryring.com/id/">
-    <link rel="alternate" hreflang="de" href="https://starryring.com/de/">
-    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/">
-    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/">
-    <link rel="alternate" hreflang="te" href="https://starryring.com/te/">
-    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/">
-    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/">
-    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/">
-<meta property="og:url" content="https://starryring.com/zh/">
-    <meta property="og:locale" content="zh_CN">
-<meta property="og:title" content="KeyCheck Pro - 专业鼠标键盘测试工具 | StarryRing">
-    <meta property="og:description" content="为玩家和开发者打造的在线鼠标键盘测试工具。检查点击稳定性、按键响应和整体设备表现。">
-    <meta name="twitter:title" content="KeyCheck Pro - 在线鼠标键盘测试工具">
-    <meta name="twitter:description" content="在线检测点击稳定性、按键响应和设备表现的鼠标键盘测试工具。">
-    <meta name="keywords" content="鼠标测试,键盘测试,游戏外设检测,键盘按键测试,鼠标点击测试,输入延迟测试,游戏输入检测,外设诊断工具">
+  /* ---------- DEV BANNER ---------- */
+  .dev-banner{
+    margin:0 0 96px;
+  }
+  .dev-inner{
+    background:
+      linear-gradient(120deg, rgba(255,138,68,0.10), transparent 55%),
+      var(--panel);
+    border:1px solid var(--line); border-radius:16px;
+    padding:44px 32px; display:flex; flex-direction:column; gap:24px;
+  }
+  @media(min-width:860px){ .dev-inner{flex-direction:row; align-items:center; justify-content:space-between; padding:52px 48px;} }
+  .dev-text h2{font-size:clamp(22px,2.6vw,28px); color:#fff; margin:10px 0 12px;}
+  .dev-text p{font-size:15px; color:var(--text-dim); line-height:1.75; max-width:56ch; margin:0;}
+  .dev-tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .dev-tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); border:1px solid var(--line); border-radius:6px; padding:5px 10px;}
+  .dev-cta{flex-shrink:0;}
 
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line-soft); padding:40px 0;}
+  .footer-inner{display:flex; flex-direction:column; gap:20px;}
+  @media(min-width:760px){ .footer-inner{flex-direction:row; justify-content:space-between; align-items:center;} }
+  .footer-brand{display:flex; align-items:center; gap:10px;}
+  .footer-brand .logo-mark{width:20px; height:20px;}
+  .footer-brand-text{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-faint);}
+  .footer-links{display:flex; flex-wrap:wrap; gap:20px;}
+  .footer-links a{font-size:13px; color:var(--text-faint); text-decoration:none;}
+  .footer-links a:hover{color:var(--text-dim);}
+  .footer-copy{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-faint); margin-top:18px;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .live-dot span.pulse{animation:none;}
+  }
+</style>
 </head>
-
 <body>
-        <div class="language-switcher">
-        <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <a class="language-option" href="/en/" data-lang="en">English</a>
-            <a class="language-option selected" href="/zh/" data-lang="zh">简体中文</a>
-            <a class="language-option" href="/vi/" data-lang="vi">Tiếng Việt</a>
-            <a class="language-option" href="/ja/" data-lang="ja">日本語</a>
-            <a class="language-option" href="/ko/" data-lang="ko">한국어</a>
-            <a class="language-option" href="/hi/" data-lang="hi">हिन्दी</a>
-            <a class="language-option" href="/es/" data-lang="es">Español</a>
-            <a class="language-option" href="/fr/" data-lang="fr">Français</a>
-            <a class="language-option" href="/ar/" data-lang="ar">العربية</a>
-            <a class="language-option" href="/bn/" data-lang="bn">বাংলা</a>
-            <a class="language-option" href="/pt/" data-lang="pt">Português</a>
-            <a class="language-option" href="/ru/" data-lang="ru">Русский</a>
-            <a class="language-option" href="/ur/" data-lang="ur">اردو</a>
-            <a class="language-option" href="/id/" data-lang="id">Bahasa Indonesia</a>
-            <a class="language-option" href="/de/" data-lang="de">Deutsch</a>
-            <a class="language-option" href="/pcm/" data-lang="pcm">Naijá</a>
-            <a class="language-option" href="/mr/" data-lang="mr">मराठी</a>
-            <a class="language-option" href="/te/" data-lang="te">తెలుగు</a>
-            <a class="language-option" href="/tr/" data-lang="tr">Türkçe</a>
-            <a class="language-option" href="/ta/" data-lang="ta">தமிழ்</a>
-        </div>
-    </div>
 
-<nav>
-    <div class="logo">
-        <i class="fas fa-keyboard"></i>
-        KeyCheck Pro
-    </div>
-    <div class="nav-links">
-        <a href="#about">关于</a>
-        <a href="#utility-tools">实用工具</a>
-    </div>
-</nav>
-    <!-- 语言切换器 -->
-<!-- HERO -->
-<div class="hero">
-    <div class="hero-image">
-        <i class="fas fa-gamepad"></i>
-    </div>
-
-    <div class="hero-content">
-        <span class="tag">🎮 为玩家而生 · 为开发者打磨</span>
-
-        <h1>
-            当游戏手感出问题时，<br>
-            你需要一个可信的测试工具
-        </h1>
-
-        <p>
-            我是游戏玩家，也是独立游戏开发者。  
-            在玩游戏、调试输入、验证操作手感时，
-            我无数次陷入同一个疑问：
-            <strong>是我操作失误，还是鼠标键盘出了问题？</strong>
-        </p>
-
-        <p>
-            KeyCheck Pro 的目标很简单：  
-            <strong>让输入问题变得可验证、可复现、可解释。</strong>
-        </p>
-
-        <div class="features">
-            <div class="feature"><i class="fas fa-bolt"></i> 真实输入记录</div>
-            <div class="feature"><i class="fas fa-chart-line"></i> 数据可视化</div>
-        </div>
-
-        <div style="display:flex; gap:20px; flex-wrap:wrap;">
-            <a href="/zh/toolbox/" class="btn">开始检查我的外设</a>
-        </div>
-    </div>
+<div class="language-switcher">
+  <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+  <div class="language-dropdown" id="languageDropdown">
+    <a class="language-option" href="/en/" data-lang="en">English</a>
+    <a class="language-option selected" href="/zh/" data-lang="zh">简体中文</a>
+    <a class="language-option" href="/vi/" data-lang="vi">Tiếng Việt</a>
+    <a class="language-option" href="/ja/" data-lang="ja">日本語</a>
+    <a class="language-option" href="/ko/" data-lang="ko">한국어</a>
+    <a class="language-option" href="/hi/" data-lang="hi">हिन्दी</a>
+    <a class="language-option" href="/es/" data-lang="es">Español</a>
+    <a class="language-option" href="/fr/" data-lang="fr">Français</a>
+    <a class="language-option" href="/ar/" data-lang="ar">العربية</a>
+    <a class="language-option" href="/bn/" data-lang="bn">বাংলা</a>
+    <a class="language-option" href="/pt/" data-lang="pt">Português</a>
+    <a class="language-option" href="/ru/" data-lang="ru">Русский</a>
+    <a class="language-option" href="/ur/" data-lang="ur">اردو</a>
+    <a class="language-option" href="/id/" data-lang="id">Bahasa Indonesia</a>
+    <a class="language-option" href="/de/" data-lang="de">Deutsch</a>
+    <a class="language-option" href="/pcm/" data-lang="pcm">Naijá</a>
+    <a class="language-option" href="/mr/" data-lang="mr">मराठी</a>
+    <a class="language-option" href="/te/" data-lang="te">తెలుగు</a>
+    <a class="language-option" href="/tr/" data-lang="tr">Türkçe</a>
+    <a class="language-option" href="/ta/" data-lang="ta">தமிழ்</a>
+  </div>
 </div>
 
-<!-- ABOUT -->
-<section id="about">
-    <h2>一个玩家做给玩家的工具</h2>
+<canvas id="starfield" aria-hidden="true"></canvas>
 
-    <p>
-        KeyCheck Pro 并不是一个商业软件，
-        而是源自真实使用中的困扰。
-        当输入设备不稳定时，
-        游戏体验和开发判断都会被严重干扰。
-    </p>
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">
+      <svg class="logo-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="13" cy="15" r="8.5" stroke="#5be8cf" stroke-width="1.6"/>
+        <path d="M21 4L22.1 6.9L25 8L22.1 9.1L21 12L19.9 9.1L17 8L19.9 6.9L21 4Z" fill="#ff8a44"/>
+      </svg>
+      <span class="logo-text">
+        <span class="name">STARRYRING</span>
+        <span class="sub">KEYCHECK PRO</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a class="navlink" href="#about">关于</a>
+      <a class="navlink" href="#toolbox">诊断工具箱</a>
+      <a class="navlink" href="#devtools">效率工具箱</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="#scope">开始检测</a>
+    </div>
+  </div>
+</nav>
 
-    <p>
-        如果输入本身不可信，
-        那么所有基于输入的判断都是不可靠的。
-    </p>
-</section>
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">🎮 玩家打造 · 为开发者精修</span>
+        <h1>当游戏感觉不对劲时，<br>你需要一款<span class="accent">值得信赖</span>的检测工具</h1>
+        <p>我是一名玩家，也是一名独立游戏开发者。在游戏、调试输入、微调控制的过程中，我一次又一次面对同一个问题：<strong>到底是我的失误，还是鼠标 / 键盘真的出了故障？</strong></p>
+        <p>KeyCheck Pro 的目标很简单：让输入问题<strong>可验证、可复现、可解释</strong>。</p>
+        <div class="hero-cta-row">
+          <a class="btn btn-primary" href="#toolbox">检测我的外设 →</a>
+          <div class="feature-tags">
+            <span class="feature-tag"><span class="dot"></span>真实输入日志</span>
+            <span class="feature-tag"><span class="dot"></span>数据可视化</span>
+          </div>
+        </div>
+      </div>
 
-<!-- utility-tools -->
-<section id="utility-tools">
-    <h2>🚀 开发者工具箱：提升效率的实用工具</h2>
-    <p>
-        在游戏开发过程中，除了核心的输入测试外，
-        你还会遇到各种琐碎但必要的任务：
-        <strong>资源处理、数据生成、网络调试、快速生成……</strong>
-    </p>
+      <div id="scope" class="scope-panel">
+        <div class="scope-head">
+          <span class="scope-title">SIGNAL SCOPE · 信号示波</span>
+          <span class="live-dot"><span class="pulse"></span>LIVE</span>
+        </div>
+        <div class="scope-canvas-wrap">
+          <canvas id="scopeCanvas"></canvas>
+        </div>
+        <p class="scope-caption">↑ 点击输入信号预览（示意演示，非实测数据）</p>
+        <div class="scope-readout">
+          <div class="readout-cell">
+            <div class="rlabel">延迟 LATENCY</div>
+            <div class="rvalue" id="scopeLatency">— ms</div>
+          </div>
+          <div class="readout-cell">
+            <div class="rlabel">抖动 JITTER</div>
+            <div class="rvalue" id="scopeJitter">— ms</div>
+          </div>
+          <div class="readout-cell">
+            <div class="rlabel">状态 STATUS</div>
+            <div class="rvalue" id="scopeStatus">待检测</div>
+          </div>
+        </div>
+        <button class="scope-testbtn" id="scopeTestBtn" type="button">点击测试 ⌁</button>
+      </div>
+    </div>
+  </section>
 
-    <p>
-        我们为你整合了一套专为游戏开发者优化的实用工具集，
-        让这些重复性工作变得<strong>快速、简单、可靠</strong>。
-    </p>
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="wrap trust-inner">
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L19 7"/></svg>永久免费</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L19 7"/></svg>无需注册</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L19 7"/></svg>不记录任何输入数据</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L19 7"/></svg>浏览器直接运行</span>
+    </div>
+  </div>
 
-    <a href="/zh/utility-tools/" class="btn">进入工具</a>
-</section>
+  <!-- NARRATIVE -->
+  <section class="narrative" id="about">
+    <div class="wrap narrative-grid">
+      <div>
+        <span class="eyebrow">关于 KEYCHECK PRO</span>
+        <h2>一款由玩家打造、<br>写给玩家的工具</h2>
+        <p>KeyCheck Pro 不是商业软件，它诞生于真实的挫败感。当输入设备变得不可靠时，游戏体验和开发判断都会同时受到影响。</p>
+        <p class="callout">如果输入本身无法被信任，那么基于它做出的一切判断，都不可靠。</p>
+      </div>
+      <div>
+        <div class="chain">
+          <div class="chain-node">
+            <div class="chain-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#eceef2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="3" width="8" height="13" rx="4"/><path d="M12 3v5"/><path d="M12 19v2"/><path d="M8 19h8"/>
+              </svg>
+            </div>
+            <div>
+              <div class="clabel">你的外设</div>
+              <div class="csub">鼠标 / 键盘</div>
+            </div>
+          </div>
+          <div class="chain-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="chain-node">
+            <div class="chain-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#eceef2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/><circle cx="6" cy="6" r="0.6" fill="#eceef2"/>
+              </svg>
+            </div>
+            <div>
+              <div class="clabel">系统与浏览器</div>
+              <div class="csub">驱动 / 轮询率</div>
+            </div>
+          </div>
+          <div class="chain-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="chain-node question">
+            <div class="chain-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.1 9a3 3 0 1 1 4.6 2.5c-1.1.7-1.7 1.3-1.7 2.5"/><path d="M12 18h.01"/>
+              </svg>
+            </div>
+            <div>
+              <div class="clabel">未知变量</div>
+              <div class="csub">延迟 / 抖动 / 消抖</div>
+            </div>
+          </div>
+          <div class="chain-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="chain-node you">
+            <div class="chain-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <div>
+              <div class="clabel">你的判断</div>
+              <div class="csub">可验证的结论</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLBOX -->
+  <section class="toolbox" id="toolbox">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">诊断工具箱</span>
+        <h2>把「感觉不对」，变成看得见的数据</h2>
+        <p>四类核心检测工具，覆盖游戏与开发中最常遇到的外设疑点，全部在浏览器中即时运行，无需安装。</p>
+      </div>
+      <div class="tool-grid">
+        <a class="tool-card" href="/zh/toolbox/mouse/">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="7" y="2" width="10" height="16" rx="5"/><path d="M12 2v6"/>
+            </svg>
+          </div>
+          <h3>鼠标检测</h3>
+          <p>双击误触、按键抖动、点击一致性与响应速度，逐次可视化呈现。</p>
+          <div class="tool-chip">DOUBLE-CLICK · JITTER · RESPONSE</div>
+        </a>
+        <a class="tool-card" href="/zh/toolbox/keyboard/">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/>
+            </svg>
+          </div>
+          <h3>键盘检测</h3>
+          <p>连击、幽灵键、按键手感与多键冲突，全部逐键记录。</p>
+          <div class="tool-chip">GHOSTING · ROLLOVER · TIMING</div>
+        </a>
+        <a class="tool-card" href="/zh/toolbox/camera/">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="10" r="6"/><circle cx="12" cy="10" r="2"/><path d="M8 20h8l-1-4H9l-1 4Z"/>
+            </svg>
+          </div>
+          <h3>摄像头检测</h3>
+          <p>实时分辨率、帧率与硬件参数检测，判断画面是否卡顿掉帧。</p>
+          <div class="tool-chip">RESOLUTION · FPS · HARDWARE</div>
+        </a>
+        <a class="tool-card" href="/zh/utility-tools/">
+          <div class="tool-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 21v-6M4 10V3M12 21v-9M12 8V3M20 21v-4M20 13V3"/><path d="M2 15h4M8 8h8M18 13h4"/>
+            </svg>
+          </div>
+          <h3>更多工具</h3>
+          <p>素材处理、数据生成、网络调试，一并整理进效率工具箱。</p>
+          <div class="tool-chip">ASSETS · DATA · NETWORK</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEV BANNER -->
+  <section class="dev-banner" id="devtools">
+    <div class="wrap">
+      <div class="dev-inner">
+        <div class="dev-text">
+          <span class="eyebrow">🚀 开发者工具箱</span>
+          <h2>让琐碎但必不可少的活，<br>快一点、简单一点</h2>
+          <p>游戏开发中除核心输入检测外，你还会遇到各种耗时的日常任务。我们为游戏开发者整合了一套精简工具集，让这些重复性工作变得快速、简单、可靠。</p>
+          <div class="dev-tags">
+            <span class="dev-tag">素材处理</span>
+            <span class="dev-tag">数据生成</span>
+            <span class="dev-tag">网络调试</span>
+            <span class="dev-tag">快速生成</span>
+          </div>
+        </div>
+        <div class="dev-cta">
+          <a class="btn btn-primary" href="/zh/utility-tools/">进入效率工具箱 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer>
-    <p>
-        <strong>KeyCheck Pro</strong><br>
-        一个由玩家与独立开发者打造的输入测试工具<br><br>
-        © 2024 · 免费使用 · 无需注册 · 不记录任何输入数据
-    </p>
-    <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); display:flex;flex-wrap:wrap;justify-content:center;gap:12px; font-size:0.9rem;">
-        <a href="/zh/about-us/" style="color: #60a5fa; text-decoration: none;">关于我们</a>
-        <a href="/zh/contact-us/" style="color: #60a5fa; text-decoration: none;">联系我们</a>
-        <a href="/zh/disclaimer/" style="color: #60a5fa; text-decoration: none;">免责声明</a>
-        <a href="/zh/privacy/" style="color: #60a5fa; text-decoration: none;">隐私政策</a>
-        <a href="/zh/terms/" style="color: #60a5fa; text-decoration: none;">使用条款</a>
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">
+        <svg class="logo-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="13" cy="15" r="8.5" stroke="#5be8cf" stroke-width="1.6"/>
+          <path d="M21 4L22.1 6.9L25 8L22.1 9.1L21 12L19.9 9.1L17 8L19.9 6.9L21 4Z" fill="#ff8a44"/>
+        </svg>
+        <span class="footer-brand-text">KeyCheck Pro · 由玩家与独立开发者打造的输入检测工具</span>
+      </div>
+      <div class="footer-copy">© 2026 StarryRing · 永久免费 · 无需注册 · 不记录任何输入数据</div>
     </div>
+    <div class="footer-links">
+      <a href="/zh/about-us/">关于我们</a>
+      <a href="/zh/contact-us/">联系我们</a>
+      <a href="/zh/disclaimer/">免责声明</a>
+      <a href="/zh/privacy/">隐私政策</a>
+      <a href="/zh/terms/">服务条款</a>
+    </div>
+  </div>
 </footer>
 
-<!-- JavaScript 文件 -->
-<script src="/static/js/home-zh.js"></script>
-<script src="/static/js/shared/switchlanguage.js"></script>
+<script>
+(function(){
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, DPR, stars = [], shootingStars = [], t = 0;
 
+  const TRAIL_LIFE = 24;
+  const TRAIL_MAX_POINTS = 46;
+  let trail = [];
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    generateStars();
+  }
+
+  function generateStars(){
+    const count = Math.floor(W * H * 0.00016);
+    stars = [];
+    for(let i = 0; i < count; i++){
+      const tint = Math.random();
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.3 + 0.35,
+        baseAlpha: Math.random() * 0.5 + 0.35,
+        twinkle: Math.random() < 0.28,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.035 + 0.012,
+        color: tint < 0.08 ? '#ffb27a' : (tint < 0.16 ? '#8fe9db' : '#ffffff')
+      });
+    }
+  }
+
+  function drawBackgroundStars(){
+    for(let i = 0; i < stars.length; i++){
+      const s = stars[i];
+      let a = s.baseAlpha;
+      if(s.twinkle && !reduceMotion){
+        a = s.baseAlpha * (0.45 + 0.55 * Math.sin(t * s.speed + s.phase));
+      }
+      ctx.globalAlpha = Math.max(0, a);
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawCursorTrail(){
+    if(trail.length < 2) return;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    for(let i = 1; i < trail.length; i++){
+      const p0 = trail[i - 1];
+      const p1 = trail[i];
+      const frac = Math.max(0, p1.life / TRAIL_LIFE);
+      if(frac <= 0) continue;
+
+      ctx.strokeStyle = 'rgba(255,138,68,' + (frac * 0.32).toFixed(3) + ')';
+      ctx.lineWidth = 6.5 * frac;
+      ctx.beginPath();
+      ctx.moveTo(p0.x, p0.y);
+      ctx.lineTo(p1.x, p1.y);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(255,255,255,' + (frac * 0.9).toFixed(3) + ')';
+      ctx.lineWidth = Math.max(0.6, 2.1 * frac);
+      ctx.beginPath();
+      ctx.moveTo(p0.x, p0.y);
+      ctx.lineTo(p1.x, p1.y);
+      ctx.stroke();
+    }
+
+    const head = trail[trail.length - 1];
+    if(head.life > 0){
+      const headFrac = head.life / TRAIL_LIFE;
+      ctx.save();
+      ctx.shadowColor = 'rgba(255,178,122,0.95)';
+      ctx.shadowBlur = 16;
+      ctx.fillStyle = 'rgba(255,255,255,' + Math.min(1, headFrac + 0.15).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.arc(head.x, head.y, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function drawAmbientShootingStars(){
+    shootingStars = shootingStars.filter(sh => sh.life > 0);
+    shootingStars.forEach(sh => {
+      const tailX = sh.x - sh.dx * sh.len;
+      const tailY = sh.y - sh.dy * sh.len;
+      const grad = ctx.createLinearGradient(sh.x, sh.y, tailX, tailY);
+      grad.addColorStop(0, 'rgba(255,255,255,0.95)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(sh.x, sh.y);
+      ctx.lineTo(tailX, tailY);
+      ctx.stroke();
+      sh.x += sh.dx * sh.v;
+      sh.y += sh.dy * sh.v;
+      sh.life -= 1;
+    });
+  }
+
+  function maybeSpawnShootingStar(){
+    if(shootingStars.length === 0 && Math.random() < 0.003){
+      shootingStars.push({
+        x: Math.random() * W * 0.6 + W * 0.2,
+        y: -20,
+        dx: 0.62,
+        dy: 1,
+        v: 10,
+        len: 90,
+        life: 42
+      });
+    }
+  }
+
+  function render(){
+    ctx.clearRect(0, 0, W, H);
+    drawBackgroundStars();
+    if(!reduceMotion){
+      trail.forEach(p => { p.life -= 1; });
+      trail = trail.filter(p => p.life > 0);
+      drawCursorTrail();
+      drawAmbientShootingStars();
+    }
+  }
+
+  function loop(){
+    t += 1;
+    render();
+    if(!reduceMotion) maybeSpawnShootingStar();
+    requestAnimationFrame(loop);
+  }
+
+  let resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 150);
+  });
+
+  function addTrailPoint(x, y){
+    if(reduceMotion) return;
+    trail.push({ x: x, y: y, life: TRAIL_LIFE });
+    if(trail.length > TRAIL_MAX_POINTS) trail.shift();
+  }
+
+  window.addEventListener('mousemove', function(e){
+    addTrailPoint(e.clientX, e.clientY);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', function(e){
+    if(e.touches && e.touches[0]){
+      addTrailPoint(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  resize();
+  render();
+  if(!reduceMotion) loop();
+})();
+
+(function(){
+  const canvas = document.getElementById('scopeCanvas');
+  const ctx = canvas.getContext('2d');
+  const wrap = canvas.parentElement;
+  let W, H, DPR;
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = wrap.clientWidth;
+    H = wrap.clientHeight;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const N = 200;
+  let buf = new Array(N).fill(0);
+  let t = 0;
+  let spikes = [];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function tick(){
+    t += 0.07;
+    let v = Math.sin(t * 1.3) * 0.05 + Math.sin(t * 0.33) * 0.025 + (Math.random() - 0.5) * 0.012;
+    spikes = spikes.filter(s => s.life > 0);
+    spikes.forEach(s => { v += s.amp * (s.life / s.maxLife); s.life -= 1; });
+    buf.push(v);
+    buf.shift();
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    const cols = 10, rows = 5;
+    for(let i = 1; i < cols; i++){
+      const x = (W / cols) * i;
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for(let j = 1; j < rows; j++){
+      const y = (H / rows) * j;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+    ctx.beginPath(); ctx.moveTo(0, H/2); ctx.lineTo(W, H/2); ctx.stroke();
+
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#ff8a44';
+    ctx.shadowColor = 'rgba(255,138,68,0.55)';
+    ctx.shadowBlur = 7;
+    for(let i = 0; i < N; i++){
+      const x = (i / (N - 1)) * W;
+      const y = H/2 - buf[i] * H * 3.4;
+      if(i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  function loop(){
+    tick();
+    draw();
+    if(!reduceMotion) requestAnimationFrame(loop);
+  }
+  loop();
+  if(reduceMotion) draw();
+
+  const btn = document.getElementById('scopeTestBtn');
+  const statusEl = document.getElementById('scopeStatus');
+  const latEl = document.getElementById('scopeLatency');
+  const jitEl = document.getElementById('scopeJitter');
+  let lastClick = 0;
+
+  btn.addEventListener('click', function(){
+    const now = performance.now();
+    const dt = now - lastClick;
+    lastClick = now;
+    spikes.push({ amp: 0.85, life: 14, maxLife: 14 });
+
+    const lat = (Math.random() * 7 + 4).toFixed(1);
+    const jit = (Math.random() * 0.9 + 0.1).toFixed(2);
+    latEl.textContent = lat + ' ms';
+    jitEl.textContent = jit + ' ms';
+
+    if(dt < 260){
+      statusEl.textContent = "⚠ 检测到抖动";
+      statusEl.style.color = '#ff5d78';
+    } else {
+      statusEl.textContent = "✓ 点击正常";
+      statusEl.style.color = '#5be8cf';
+    }
+  });
+})();
+</script>
+
+<script src="/static/js/shared/switchlanguage.js"></script>
 </body>
 </html>
