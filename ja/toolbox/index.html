@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>マウステスト、キーボードテスト、カメラテスト、マイクテスト</title>
+<title>オンラインハードウェアテストツール | StarryRing</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
@@ -13,28 +13,19 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
     <link rel="manifest" href="/site.webmanifest">
-    
-    
-    <!-- 字体预加载优化 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/toolbox/style.css">
-    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
-    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
 
-    
-    <!-- 结构化数据 -->
+
+    <!-- 字体预加载优化 -->
+<link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+<!-- 结构化数据 -->
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "HardwareTest Pro - 英語版",
+  "name": "オンラインハードウェアテストツール",
   "description": "プロフェッショナルなオンライン マウス|キーボード|カメラ|マイク テスト ツール",
   "url": "https://starryring.com/ja/toolbox/",
-  "inLanguage": "jp",
+  "inLanguage": "ja",
   "applicationCategory": "UtilityApplication",
   "operatingSystem": [
     "Web",
@@ -50,11 +41,14 @@
   },
   "author": {
     "@type": "Organization",
-    "name": "ハードウェアテストツール"
-  }
+    "name": "StarryRing",
+    "url": "https://starryring.com/"
+  },
+  "isAccessibleForFree": true
 }
 </script>
     <meta name="description" content="プロフェッショナルなオンライン ハードウェア テスト ツール - マウス テスト、マウス クリック テスト、ダブル クリック テスト、キーボード テスト、マイク テスト、カメラ テスト。無料、ダウンロード不要の即時ハードウェア診断ソリューション">
+<meta name="robots" content="index, follow, max-image-preview:large">
         <link rel="canonical" href="https://starryring.com/ja/toolbox/">
     <link rel="alternate" hreflang="en" href="https://starryring.com/en/toolbox/">
     <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/toolbox/">
@@ -78,14 +72,190 @@
     <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/toolbox/">
     <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/toolbox/">
 <meta property="og:url" content="https://starryring.com/ja/toolbox/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StarryRing">
     <meta property="og:locale" content="ja_JP">
-<meta property="og:title" content="マウステスト、キーボードテスト、カメラテスト、マイクテスト">
+<meta property="og:title" content="オンラインハードウェアテストツール | StarryRing">
     <meta property="og:description" content="プロフェッショナルなオンライン ハードウェア テスト ツール - マウス テスト、マウス クリック テスト、ダブル クリック テスト、キーボード テスト、マイク テスト、カメラ テスト。無料、ダウンロード不要の即時ハードウェア診断ソリューション">
-    <meta name="twitter:title" content="マウステスト、キーボードテスト、カメラテスト、マイクテスト">
+    <meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="オンラインハードウェアテストツール | StarryRing">
     <meta name="twitter:description" content="プロフェッショナルなオンライン ハードウェア テスト ツール - マウス テスト、マウス クリック テスト、ダブル クリック テスト、キーボード テスト、マイク テスト、カメラ テスト。無料、ダウンロード不要の即時ハードウェア診断ソリューション">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0c14;
+    --bg-alt:#0d0f19;
+    --panel:#171b26;
+    --panel-2:#1d222f;
+    --line:#2a3040;
+    --line-soft:#1e2330;
+    --text:#eceef2;
+    --text-dim:#98a0b0;
+    --text-faint:#5b6270;
+    --signal:#ff8a44;
+    --signal-soft:rgba(255,138,68,0.14);
+    --verify:#5be8cf;
+    --verify-soft:rgba(91,232,207,0.12);
+    --warn:#ff5d78;
+    --gold:#ffd166;
+    --sky:#63b3f2;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; background:#0a0c14;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 600px at 12% -8%, rgba(255,138,68,0.11), transparent 62%),
+      radial-gradient(ellipse 800px 600px at 105% 8%, rgba(91,232,207,0.08), transparent 58%),
+      radial-gradient(ellipse 1100px 750px at 50% 108%, rgba(124,123,255,0.07), transparent 62%),
+      linear-gradient(180deg, #0a0c14 0%, #0b0d18 45%, #08090f 100%);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  #starfield{position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; display:block;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif; margin:0; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px; position:relative; z-index:1;}
+  @media(min-width:900px){ .wrap{padding:0 48px;} }
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--signal); font-weight:500;}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:3px; border-radius:4px;}
+
+  /* NAV */
+  nav{position:sticky; top:0; z-index:20; background:rgba(9,10,17,0.78); backdrop-filter:blur(10px); border-bottom:1px solid var(--line-soft);}
+  .nav-inner{display:flex; align-items:center; justify-content:space-between; height:64px; gap:16px;}
+  .logo{display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0;}
+  .logo-mark{width:24px; height:24px; flex-shrink:0;}
+  .logo-text{display:flex; flex-direction:column; line-height:1.05;}
+  .logo-text .name{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; letter-spacing:0.02em;}
+  .breadcrumb{display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-faint); overflow:hidden; white-space:nowrap;}
+  .breadcrumb a{color:var(--text-faint); text-decoration:none; transition:color .15s;}
+  .breadcrumb a:hover{color:var(--text-dim);}
+  .breadcrumb .current{color:var(--verify);}
+  .breadcrumb .sep{opacity:0.5;}
+  @media(max-width:640px){ .breadcrumb a, .breadcrumb .sep{display:none;} }
+  .btn{display:inline-flex; align-items:center; gap:8px; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; padding:10px 18px; border-radius:8px; text-decoration:none; border:1px solid transparent; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, background .15s, border-color .15s, color .15s;}
+  .btn-primary{background:var(--signal); color:#1a1206; box-shadow:0 3px 0 0 #c0611e, 0 8px 20px -8px rgba(255,138,68,0.55);}
+  .btn-primary:hover{background:#ff9a5c;}
+  .btn-primary:active{transform:translateY(2px); box-shadow:0 1px 0 0 #c0611e;}
+  .btn-ghost{background:transparent; border:1px solid var(--line); color:var(--text-dim);}
+  .btn-ghost:hover{border-color:var(--verify); color:var(--text);}
+  .btn-sm{padding:8px 14px; font-size:13px;}
+
+  /* HEADER */
+  .page-header{padding:44px 0 8px; text-align:center;}
+  .page-header h1{font-size:clamp(28px,4.4vw,42px); color:#fff; margin:14px 0 10px;}
+  .page-header p{font-size:15px; color:var(--text-dim); line-height:1.75; max-width:58ch; margin:0 auto;}
+
+  /* TRUST BAR */
+  .trust-bar{position:relative; margin-top:28px; border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); background:rgba(13,15,25,0.72); backdrop-filter:blur(6px);}
+  .trust-inner{display:flex; flex-wrap:wrap; gap:14px 36px; padding:18px 0; justify-content:center;}
+  .trust-item{display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); letter-spacing:0.03em;}
+  .trust-item svg{width:14px; height:14px; color:var(--verify); flex-shrink:0;}
+
+  /* SECTION HEAD */
+  .section-head{margin-bottom:32px; max-width:64ch;}
+  .section-head h2{font-size:clamp(22px,2.8vw,28px); color:#fff; margin:10px 0 10px;}
+  .section-head p{font-size:14.5px; color:var(--text-dim); line-height:1.7; margin:0;}
+
+  /* LAB CARDS (featured) */
+  .labs-section{padding:56px 0 8px;}
+  .lab-grid{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:860px){ .lab-grid{grid-template-columns:repeat(3,1fr);} }
+  .lab-card{
+    background:linear-gradient(160deg, var(--panel), var(--bg-alt));
+    border:1px solid var(--line); border-radius:16px; padding:26px;
+    display:flex; flex-direction:column; gap:14px;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .lab-card:hover{transform:translateY(-4px); box-shadow:0 20px 40px -24px rgba(0,0,0,0.6);}
+  .lab-icon{width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; border:1px solid; flex-shrink:0;}
+  .lab-icon svg{width:22px; height:22px;}
+  .lab-card h3{font-size:18px; color:#fff;}
+  .lab-card .lab-tag{font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; margin-top:-8px;}
+  .lab-card p{font-size:13.5px; color:var(--text-dim); line-height:1.75; margin:0; flex-grow:1;}
+  .lab-links{display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;}
+  .lab-link{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px; padding:9px 15px; border-radius:8px; text-decoration:none; border:1px solid; transition:background .15s, border-color .15s, color .15s, transform .12s;}
+  .lab-link:hover{transform:translateY(-1px);}
+  .lab-link-secondary{color:#c8ced9 !important; border-color:#454d60 !important; background:rgba(255,255,255,0.045);}
+  .lab-link-secondary:hover{color:#fff !important; border-color:#69748b !important; background:rgba(255,255,255,0.09);}
+
+  /* STANDARD TOOL GRID */
+  .standard-section{padding:36px 0 8px;}
+  .tool-grid{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:640px){ .tool-grid{grid-template-columns:repeat(2,1fr);} }
+  .tool-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:22px; text-decoration:none; color:var(--text);
+    display:flex; flex-direction:column; gap:14px;
+    position:relative; overflow:hidden;
+    transition:border-color .15s, transform .15s;
+  }
+  .tool-card:hover{transform:translateY(-3px);}
+  .tool-card::before{content:""; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent, var(--verify)); opacity:0; transition:opacity .15s;}
+  .tool-card:hover::before{opacity:1;}
+  .tool-icon{width:38px; height:38px; border-radius:9px; background:var(--panel-2); border:1px solid var(--line-soft); display:flex; align-items:center; justify-content:center;}
+  .tool-icon svg{width:19px; height:19px;}
+  .tool-card h3{font-size:16px; font-weight:600;}
+  .tool-card p{font-size:13.5px; color:var(--text-dim); line-height:1.6; margin:0; flex-grow:1;}
+  .tool-chip{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-faint); letter-spacing:0.03em; padding-top:10px; border-top:1px solid var(--line-soft); display:flex; align-items:center; justify-content:space-between;}
+
+  /* QUICK GUIDE */
+  .guide-section{padding:56px 0 12px;}
+  .guide-panel{background:linear-gradient(135deg,rgba(255,138,68,0.09),rgba(91,232,207,0.06)); border:1px solid var(--line); border-radius:16px; padding:28px;}
+  .guide-grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:24px;}
+  @media(min-width:720px){.guide-grid{grid-template-columns:repeat(3,1fr);}}
+  .guide-item{background:rgba(10,12,20,0.62); border:1px solid var(--line-soft); border-radius:10px; padding:18px;}
+  .guide-item strong{display:block; color:#fff; font-family:'Space Grotesk',sans-serif; font-size:15px; margin-bottom:8px;}
+  .guide-item p{margin:0; color:var(--text-dim); font-size:13px; line-height:1.7;}
+  .guide-number{display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:var(--signal-soft); color:var(--signal); font-family:'IBM Plex Mono',monospace; font-size:11px; margin-bottom:12px;}
+
+  /* SPEC / FEATURE DETAIL */
+  .spec-section{padding:64px 0 8px;}
+  .spec-grid{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:700px){ .spec-grid{grid-template-columns:1fr 1fr;} }
+  @media(min-width:1040px){ .spec-grid{grid-template-columns:repeat(3,1fr);} }
+  .spec-card{background:var(--panel); border:1px solid var(--line-soft); border-radius:12px; padding:22px;}
+  .spec-head{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
+  .spec-icon{width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; border:1px solid;}
+  .spec-icon svg{width:17px; height:17px;}
+  .spec-card h3{font-size:15px; color:#fff;}
+  .spec-card p{font-size:13px; color:var(--text-dim); line-height:1.65; margin:0 0 12px;}
+  .spec-list{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:7px;}
+  .spec-list li{font-size:12.5px; color:var(--text-dim); display:flex; gap:9px; align-items:flex-start; line-height:1.5;}
+
+  /* FAQ */
+  .faq-section{padding:64px 0 8px;}
+  .faq-list{max-width:760px; margin:0 auto;}
+  .faq-item{padding:20px 0; border-bottom:1px solid var(--line-soft);}
+  .faq-item:first-child{border-top:1px solid var(--line-soft);}
+  .faq-q{display:flex; gap:12px; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; color:#fff; margin-bottom:8px;}
+  .faq-q .qmark{font-family:'IBM Plex Mono',monospace; color:var(--signal); flex-shrink:0;}
+  .faq-a{font-size:13.5px; color:var(--text-dim); line-height:1.8; padding-left:26px; margin:0;}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line-soft); padding:32px 0; margin-top:64px;}
+  .footer-inner{display:flex; flex-direction:column; gap:14px; text-align:center;}
+  @media(min-width:760px){ .footer-inner{flex-direction:row; justify-content:space-between; text-align:left;} }
+  .footer-links{display:flex; flex-wrap:wrap; gap:18px; justify-content:center;}
+  .footer-links a{font-size:12.5px; color:var(--text-faint); text-decoration:none;}
+  .footer-links a:hover{color:var(--text-dim);}
+  .footer-copy{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-faint);}
+
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+</style>
 </head>
 <body>
-        <div class="language-switcher">
+
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<div class="language-switcher">
         <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
         <div class="language-dropdown" id="languageDropdown">
             <a class="language-option" href="/en/toolbox/" data-lang="en">English</a>
@@ -111,242 +281,336 @@
         </div>
     </div>
 
-<!-- Language Switcher --> 
- <!-- Breadcrumb Navigation (with microdata) --> 
-     <div class="breadcrumb-section"> 
-         <nav aria-label="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"> 
-             <ol class="breadcrumb-modern"> 
-                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
-                     <a href="/ja/" class="breadcrumb-link" itemprop="item"> 
-                         <i class="fas fa-home" aria-hidden="true"> </i>  
-                         <span itemprop="name"> ホーム </span> 
-                     </a> 
-                     <meta itemprop="position" content="1" /> 
-                 </li> 
-                 <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"> 
-                     <span class="breadcrumb-active" itemprop="name"> ツールボックス </span> 
-                     <meta itemprop="position" content="3" /> 
-                 </li> 
-             </ol> 
-         </nav> 
-     </div> 
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="/ja/" aria-label="StarryRing ホーム">
+      <svg class="logo-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="13" cy="15" r="8.5" stroke="#5be8cf" stroke-width="1.6"/>
+        <path d="M21 4L22.1 6.9L25 8L22.1 9.1L21 12L19.9 9.1L17 8L19.9 6.9L21 4Z" fill="#ff8a44"/>
+      </svg>
+      <span class="logo-text"><span class="name">STARRYRING</span></span>
+    </a>
+    <div class="breadcrumb">
+      <a href="/ja/">ホーム</a><span class="sep">/</span>
+      <span class="current">ツールボックス</span>
+    </div>
+    <a class="btn btn-ghost" href="/ja/">ホーム</a>
+  </div>
+</nav>
+
+<main>
+  <!-- HEADER -->
+  <section class="page-header wrap">
+    <span class="eyebrow">オンラインハードウェアテストツール</span>
+    <h1>オンラインハードウェアテストツール</h1>
+    <p>マウスのダブルクリック？キーボードのゴースト？マイクが小さすぎる？ ダウンロードは必要ありません。プロフェッショナル オンライン ハードウェア ラボ 。</p>
+  </section>
 
 
-     <div class="loading"> 
-         <div class="spinner"> </div> 
-         <div class="loading-text"> 読み込み中... </div> 
-     </div> 
 
-     <div class="container"> 
-         <header> 
-             <div style="font-size: 3rem; margin-bottom: 10px;" aria-hidden="true"> 🛠️ </div> 
-             <h1> ハードウェアテスト <span style="font-size: 0.5em; border: 1px solid var(--primary-color); padding: 2px 8px; border-radius: 4px; vertical-align: middle;"> PRO </span> </h1> 
-            
-             <nav style="margin: 25px 0; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;"> 
-                 <a href="/ja/toolbox/mouse/" 
-                title="Online Mouse Testing Tool" 
-                style="color: var(--primary-color); 
-                        text-decoration: none; 
-                        padding: 8px 16px; 
-                        border: 1px solid var(--primary-color); 
-                        border-radius: 5px;
-                        transition: var(--transition);"> 
-                    マウステスト
-                 </a> 
-                <a href="/ja/toolbox/keyboard/" 
-                title="オンライン キーボード テスト ツール" 
-                スタイル="カラー: var(-- Secondary-color); 
-                        テキスト装飾: なし。 
-                        パディング: 8px 16px; 
-                        ボーダー: 1px ソリッド var(-- Secondary-color);境界半径: 5px;
-                        遷移: var(--transition);">
-                    キーボードテスト
-                 </a> 
-                 <a href="/ja/toolbox/camera/" 
-                title="Online Camera Testing Tool" 
-                style="color: var(--primary-color); 
-                        text-decoration: none; 
-                        padding: 8px 16px; 
-                        border: 1px solid var(--primary-color); 
-                        border-radius: 5px;
-                        transition: var(--transition);"> 
-                    カメラテスト
-                 </a> 
-                 <a href="/ja/toolbox/mic/" 
-                title="Online Microphone Testing Tool" 
-                style="color: var(--secondary-color); 
-                        text-decoration: none; 
-                        padding: 8px 16px; 
-                        border: 1px solid var(--secondary-color); 
-                        border-radius: 5px;
-                        transition: var(--transition);"> 
-                    マイクテスト
-                 </a> 
-                 <a href="/ja/toolbox/dead-pixel/" 
-                title="Online Screen Dead Pixel Testing Tool" 
-                style="color: var(--primary-color); 
-                        text-decoration: none; 
-                        padding: 8px 16px; 
-                        border: 1px solid var(--primary-color); 
-                        border-radius: 5px;
-                        transition: var(--transition);"> 
-                    スクリーンテスト
-                 </a> 
-                  <a href="/ja/toolbox/speaker/" 
-                title="Online speaker Testing Tool" 
-                style="color: var(--primary-color); 
-                        text-decoration: none; 
-                        padding: 8px 16px; 
-                        border: 1px solid var(--primary-color); 
-                        border-radius: 5px;
-                        transition: var(--transition);"> 
-                    スピーカーテスト
-                 </a> 
-             </nav> 
+  <!-- FEATURED LABS -->
+  <section class="labs-section wrap">
+    <div class="section-head">
+      <span class="eyebrow">ツールボックス</span>
+      <h2>HardwareTest ユーザー マニュアルと機能</h2>
+      <p>HardwareTest は、ユーザーが一般的なコンピューター周辺機器の問題を迅速に診断して解決できるように設計された、専門的なオンライン ハードウェア テスト ツールセットです。ソフトウェアのインストールは必要ありません。包括的なハードウェア テストをブラウザで直接実行できます。</p>
+    </div>
+    <div class="lab-grid">
+      <div class="lab-card">
+        <div class="lab-icon" style="border-color:rgba(91,232,207,0.4); background:rgba(91,232,207,0.12); color:var(--verify);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="16" rx="5"/><path d="M12 2v6"/></svg>
+        </div>
+        <span class="lab-tag" style="color:var(--verify);">MOUSE TEST LAB</span>
+        <h3>マウステストラボ</h3>
+        <p>ミリ秒レベルのスイッチ解析。リアルタイムのポーリング レート、スクロール ホイール、サイド ボタンのテスト。ダブルクリックの問題を修正します。</p>
+        <div class="lab-links">
+          <a class="lab-link" href="/ja/toolbox/mouse/" style="border-color:var(--verify); color:var(--verify);">マウス テストを開始</a>
+          <a class="lab-link lab-link-secondary" href="/ja/toolbox/mouse/cps/">CPS Test</a>
+        </div>
+      </div>
 
-             <p class="subtitle"> 
-                マウスのダブルクリック？キーボードのゴースト？マイクが小さすぎる？ <br> 
-                ダウンロードは必要ありません。プロフェッショナル <span class="highlight"> オンライン ハードウェア ラボ </span> 。
-             </p> 
-         </header> 
+      <div class="lab-card">
+        <div class="lab-icon" style="border-color:rgba(255,138,68,0.4); background:rgba(255,138,68,0.12); color:var(--signal);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>
+        </div>
+        <span class="lab-tag" style="color:var(--signal);">KEYBOARD MASTER</span>
+        <h3>キーボードマスター</h3>
+        <p>フルキーロールオーバーと競合テスト。ゴーストや応答しないキーに対する統合された修復ガイド。</p>
+        <div class="lab-links">
+          <a class="lab-link" href="/ja/toolbox/keyboard/" style="border-color:var(--signal); color:var(--signal);">キーボード テストを開始</a>
+          <a class="lab-link lab-link-secondary" href="/ja/toolbox/keyboard/apple-keyboard/">Apple キーボード テスト</a>
+        </div>
+      </div>
 
-         <section class="tools-grid" aria-label="Hardware Testing Tools"> 
-            
-             <div class="card" role="article" aria-labelledby="mouse-title"> 
-                 <div class="card-icon" aria-hidden="true"> 
-                     <i class="fa-solid fa-computer-mouse"> </i> 
-                 </div> 
-                 <h3 id="mouse-title"> マウステストラボ </h3> 
-                 <p> ミリ秒レベルのスイッチ解析。リアルタイムのポーリング レート、スクロール ホイール、サイド ボタンのテスト。ダブルクリックの問題を修正します。 </p> 
-                 <a href="/ja/toolbox/mouse/" target="_blank" rel="noopener noreferrer" class="btn"> 
-                    マウス テストを開始 <i class="fa-solid fa-arrow-right"> </i> 
-                 </a> 
-             </div> 
+      <div class="lab-card">
+        <div class="lab-icon" style="border-color:rgba(99,179,242,0.4); background:rgba(99,179,242,0.12); color:var(--sky);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="6"/><circle cx="12" cy="10" r="2"/><path d="M8 20h8l-1-4H9l-1 4Z"/></svg>
+        </div>
+        <span class="lab-tag" style="color:var(--sky);">A/V DIAGNOSTICS</span>
+        <h3>A/V 診断</h3>
+        <p>ワンクリックでウェブカメラとマイクをチェック。詳細な解像度、フレームレート、波形分析。モバイルとPCをサポート。</p>
+        <div class="lab-links">
+          <a class="lab-link" href="/ja/toolbox/camera/" style="border-color:var(--sky); color:var(--sky);">ウェブカメラ テスト</a>
+          <a class="lab-link lab-link-secondary" href="/ja/toolbox/mic/">マイクテスト</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-             <div class="card purple" role="article" aria-labelledby="keyboard-title"><div class="card-icon" aria-hidden="true"> 
-                     <i class="fa-solid fa-keyboard"> </i> 
-                 </div> 
-                 <h3 id="keyboard-title"> キーボードマスター </h3> 
-                 <p> フルキーロールオーバーと競合テスト。ゴーストや応答しないキーに対する統合された修復ガイド。 </p> 
-                 <a href="/ja/toolbox/keyboard/" target="_blank" rel="noopener noreferrer" class="btn"> 
-                    キーボード テストを開始 <i class="fa-solid fa-wrench"> </i> 
-                 </a> 
-                 <a href="/ja/toolbox/keyboard/apple-keyboard/" target="_blank" rel="noopener noreferrer" class="btn"> 
-                    Apple キーボード テスト <i class="fa-solid fa-wrench"> </i> 
-                 </a> 
-             </div> 
+  <!-- STANDARD TOOLS -->
+  <section class="standard-section wrap">
+    <div class="tool-grid">
+      <a class="tool-card" href="/ja/toolbox/dead-pixel/" style="--accent:var(--warn);" onmouseover="this.style.borderColor='var(--warn)'" onmouseout="this.style.borderColor='var(--line)'">
+        <div class="tool-icon" style="color:var(--warn);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/><circle cx="12" cy="10" r="1.3" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <h3>スクリーンテスト</h3>
+        <p>専門的な全画面ソリッドカラー検出モードを提供し、輝点、デッドピクセル、光漏れ、色むらを識別するために使用できます。 複数のカラー切り替えモードをサポートし、干渉防止および手ぶれ防止設計と組み合わせて、安定した信頼性の高いテストを保証します。</p>
+        <div class="tool-chip"><span>DEAD PIXEL · BACKLIGHT</span><span>→</span></div>
+      </a>
+      <a class="tool-card" href="/ja/toolbox/speaker/" style="--accent:var(--gold);" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line)'">
+        <div class="tool-icon" style="color:var(--gold);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 5V4L8 9H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+        </div>
+        <h3>スピーカーテスト</h3>
+        <p>スピーカーテスト</p>
+        <div class="tool-chip"><span>CHANNEL · DISTORTION</span><span>→</span></div>
+      </a>
+    </div>
+  </section>
 
-             <div class="card" role="article" aria-labelledby="av-title"> 
-                 <div class="card-icon" aria-hidden="true"> 
-                     <i class="fa-solid fa-video"> </i> 
-                 </div> 
-                 <h3 id="av-title"> A/V 診断 </h3> 
-                 <p> ワンクリックでウェブカメラとマイクをチェック。詳細な解像度、フレームレート、波形分析。モバイルとPCをサポート。 </p> 
-                 <div style="display: flex; gap: 10px;"> 
-                     <a href="/ja/toolbox/camera/" target="_blank" rel="noopener noreferrer" class="btn"> ウェブカメラ テスト </a> 
-                     <a href="/ja/toolbox/mic/" target="_blank" rel="noopener noreferrer" class="btn"> マイクテスト </a> 
-                 </div> 
-             </div> 
+  <!-- FEATURE DETAIL -->
+  <section class="spec-section wrap">
+    <div class="section-head">
+      <span class="eyebrow">HardwareTest ユーザー マニュアルと機能</span>
+      <h2>HardwareTest ユーザー マニュアルと機能</h2>
+      <p>HardwareTest は、ユーザーが一般的なコンピューター周辺機器の問題を迅速に診断して解決できるように設計された、専門的なオンライン ハードウェア テスト ツールセットです。ソフトウェアのインストールは必要ありません。包括的なハードウェア テストをブラウザで直接実行できます。</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-head">
+          <div class="spec-icon" style="border-color:rgba(91,232,207,0.4); background:rgba(91,232,207,0.1); color:var(--verify);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="16" rx="5"/><path d="M12 2v6"/></svg>
+          </div>
+          <h3>マウス テスト機能</h3>
+        </div>
+        <p>左/右クリック、スクロール ホイール、DPI 切り替え、サイド ボタンを含むすべてのマウス機能の包括的なテスト。一般的なダブルクリックの問題に対する特別な検出。</p>
+        <ul class="spec-list">
+          <li><span style="background:var(--verify);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>左/右クリックの反応テスト</li>
+          <li><span style="background:var(--verify);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>スクロールホイールの感度と方向検出</li>
+          <li><span style="background:var(--verify);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>DPI切り替え機能の検証</li>
+          <li><span style="background:var(--verify);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>サイドボタンの機能チェック</li>
+        </ul>
+      </div>
 
-         </section> 
+      <div class="spec-card">
+        <div class="spec-head">
+          <div class="spec-icon" style="border-color:rgba(255,138,68,0.4); background:rgba(255,138,68,0.1); color:var(--signal);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg>
+          </div>
+          <h3>キーボード テスト機能</h3>
+        </div>
+        <p>キーの競合検出、キーのチャタリング分析、ファンクション キーの検証を含む、完全なキー機能テスト。さまざまなメカニカル キーボードおよびメンブレン キーボード レイアウトをサポートします。</p>
+        <ul class="spec-list">
+          <li><span style="background:var(--signal);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>主要な機能の完全なテスト</li>
+          <li><span style="background:var(--signal);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>キー競合検出</li>
+          <li><span style="background:var(--signal);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>キーチャタリング解析</li>
+          <li><span style="background:var(--signal);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>ファンクションキーと組み合わせの確認</li>
+        </ul>
+      </div>
 
-         <!-- Documentation Section --> 
-         <section class="docs-section"> 
-             <div class="docs-header"> 
-                 <h2 class="docs-title"> HardwareTest ユーザー マニュアルと機能 </h2> 
-                 <button class="docs-toggle" id="docsToggle"> ユーザーマニュアルを見る </button> 
-             </div> 
-            
-             <div class="docs-content" id="docsContent"> 
-                 <p> HardwareTest は、ユーザーが一般的なコンピューター周辺機器の問題を迅速に診断して解決できるように設計された、専門的なオンライン ハードウェア テスト ツールセットです。ソフトウェアのインストールは必要ありません。包括的なハードウェア テストをブラウザで直接実行できます。 </p> 
-                
-                 <div class="docs-grid"> 
-                     <div class="doc-item"> 
-                         <h4> マウス テスト機能 </h4> 
-                         <p> 左/右クリック、スクロール ホイール、DPI 切り替え、サイド ボタンを含むすべてのマウス機能の包括的なテスト。一般的なダブルクリックの問題に対する特別な検出。 </p> 
-                         <ul class="features-list"> 
-                             <li> 左/右クリックの反応テスト </li> 
-                             <li> スクロールホイールの感度と方向検出 </li> 
-                             <li> DPI切り替え機能の検証 </li> 
-                             <li> サイドボタンの機能チェック </li> 
-                         </ul> 
-                     </div> 
-                    
-                     <div class="doc-item purple"> 
-                         <h4> キーボード テスト機能 </h4><p> キーの競合検出、キーのチャタリング分析、ファンクション キーの検証を含む、完全なキー機能テスト。さまざまなメカニカル キーボードおよびメンブレン キーボード レイアウトをサポートします。 </p> 
-                         <ul class="features-list"> 
-                             <li> 主要な機能の完全なテスト </li> 
-                             <li> キー競合検出 </li> 
-                             <li> キーチャタリング解析 </li> 
-                             <li> ファンクションキーと組み合わせの確認 </li> 
-                         </ul> 
-                     </div> 
-                    
-                     <div class="doc-item"> 
-                         <h4> カメラのテスト機能 </h4> 
-                         <p> 解像度、フレームレート、オートフォーカス、色の精度を含む包括的なカメラステータス検出。フロントカメラとリアカメラの切り替えテストをサポートします。 </p> 
-                         <ul class="features-list"> 
-                             <li> 解像度と画質の検出 </li> 
-                             <li> フレーム レートと滑らかさのテスト </li> 
-                             <li> オートフォーカス機能検証 </li> 
-                             <li> 色精度分析 </li> 
-                         </ul> 
-                     </div> 
-                    
-                     <div class="doc-item purple"> 
-                         <h4> マイクテスト機能 </h4> 
-                         <p> 感度テスト、ノイズ分析、音質評価を含む正確なマイクの状態検出。リアルタイムの波形視覚化を提供します。 </p> 
-                         <ul class="features-list"> 
-                             <li> マイク感度テスト </li> 
-                             <li> 暗騒音分析 </li> 
-                             <li> オーディオ品質評価 </li> 
-                             <li> リアルタイム波形可視化 </li> 
-                         </ul> 
-                     </div> 
-                    
-                     <div class="doc-item"> 
-                         <h4> 画面のドット抜け検出機能 </h4> 
-                         <p> 
-                            専門的な全画面ソリッドカラー検出モードを提供し、輝点、デッドピクセル、光漏れ、色むらを識別するために使用できます。
-                            複数のカラー切り替えモードをサポートし、干渉防止および手ぶれ防止設計と組み合わせて、安定した信頼性の高いテストを保証します。
-                         </p> 
-                         <ul class="features-list"> 
-                             <li> 全画面ソリッドカラーデッドピクセル検出 </li> 
-                             <li> 8 色の切り替えオプションを提供 </li> 
-                             <li> テスト モードでは、マウスとインターフェイスが自動的に非表示になります </li> 
-                             <li> ESC による終了とインターフェイスの自動復元をサポート </li> 
-                         </ul> 
-                     </div> 
-                 </div> 
-                
-                 <div style="margin-top: 30px; padding: 20px; background: rgba(0, 0, 0, 0.2); border-radius: 10px;"><h3 style="color: var(--primary-color); margin-bottom: 15px;"> よくある質問 </h3> 
-                     <div style="text-align: left;"> 
-                         <p> <strong> Q: これらのテスト ツールにはソフトウェアのインストールが必要ですか? </strong> </p> 
-                         <p> A: まったく違います。 HardwareTest は、Chrome、Firefox、Edge などの最新のブラウザで直接動作する Web ベースのオンライン ツールです。</p> 
-                        
-                         <p> <strong> Q: テスト結果は正確ですか? </strong> </p> 
-                         <p> A: 当社のツールは、ハードウェアのステータスを正確に反映する専門的なテスト アルゴリズムを使用しています。一部の高度な機能には、特定のブラウザ権限が必要な場合があることに注意してください。 </p> 
-                        
-                         <p> <strong> Q: モバイル デバイスをサポートしていますか? </strong> </p> 
-                         <p> A: はい！ HardwareTest はスマートフォンとタブレットを完全にサポートしているため、モバイル デバイスのカメラ、マイク、その他の機能をテストできます。 </p> 
-                     </div> 
-                 </div> 
-             </div> 
-         </section> 
-     </div> 
+      <div class="spec-card">
+        <div class="spec-head">
+          <div class="spec-icon" style="border-color:rgba(99,179,242,0.4); background:rgba(99,179,242,0.1); color:var(--sky);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="6"/><circle cx="12" cy="10" r="2"/><path d="M8 20h8l-1-4H9l-1 4Z"/></svg>
+          </div>
+          <h3>カメラのテスト機能</h3>
+        </div>
+        <p>解像度、フレームレート、オートフォーカス、色の精度を含む包括的なカメラステータス検出。フロントカメラとリアカメラの切り替えテストをサポートします。</p>
+        <ul class="spec-list">
+          <li><span style="background:var(--sky);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>解像度と画質の検出</li>
+          <li><span style="background:var(--sky);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>フレーム レートと滑らかさのテスト</li>
+          <li><span style="background:var(--sky);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>オートフォーカス機能検証</li>
+          <li><span style="background:var(--sky);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>色精度分析</li>
+        </ul>
+      </div>
 
-     <footer> 
-         <p> © 2023 HardwareTest Tools 公式。すべてのシステムが稼働中。 </p> 
-         <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); display:flex;flex-wrap:wrap;justify-content:center;gap:12px;"> 
-             <a href="/ja/" style="color: #60a5fa; text-decoration: none;">ホームに戻る</a> · <a href="/ja/about-us/" style="color: #60a5fa; text-decoration: none;"> 私たちについて </a> 
-             <a href="/ja/contact-us/" style="color: #60a5fa; text-decoration: none;"> お問い合わせ </a> 
-             <a href="/ja/disclaimer/" style="color: #60a5fa; text-decoration: none;"> 免責事項 </a> 
-             <a href="/ja/privacy/" style="color: #60a5fa; text-decoration: none;"> プライバシーポリシー </a> 
-             <a href="/ja/terms/" style="color: #60a5fa; text-decoration: none;"> 利用規約 </a> 
-         </div> 
-     </footer><script src="/static/js/toolbox/en-main.js"></script>
-    <script src="/static/js/shared/switchlanguage.js"></script>
+      <div class="spec-card">
+        <div class="spec-head">
+          <div class="spec-icon" style="border-color:rgba(255,209,102,0.4); background:rgba(255,209,102,0.1); color:var(--gold);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/><path d="M8 21h8"/></svg>
+          </div>
+          <h3>マイクテスト機能</h3>
+        </div>
+        <p>感度テスト、ノイズ分析、音質評価を含む正確なマイクの状態検出。リアルタイムの波形視覚化を提供します。</p>
+        <ul class="spec-list">
+          <li><span style="background:var(--gold);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>マイク感度テスト</li>
+          <li><span style="background:var(--gold);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>暗騒音分析</li>
+          <li><span style="background:var(--gold);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>オーディオ品質評価</li>
+          <li><span style="background:var(--gold);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>リアルタイム波形可視化</li>
+        </ul>
+      </div>
+
+      <div class="spec-card">
+        <div class="spec-head">
+          <div class="spec-icon" style="border-color:rgba(255,93,120,0.4); background:rgba(255,93,120,0.1); color:var(--warn);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/><circle cx="12" cy="10" r="1.3" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3>画面のドット抜け検出機能</h3>
+        </div>
+        <p>専門的な全画面ソリッドカラー検出モードを提供し、輝点、デッドピクセル、光漏れ、色むらを識別するために使用できます。 複数のカラー切り替えモードをサポートし、干渉防止および手ぶれ防止設計と組み合わせて、安定した信頼性の高いテストを保証します。</p>
+        <ul class="spec-list">
+          <li><span style="background:var(--warn);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>全画面ソリッドカラーデッドピクセル検出</li>
+          <li><span style="background:var(--warn);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>8 色の切り替えオプションを提供</li>
+          <li><span style="background:var(--warn);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>テスト モードでは、マウスとインターフェイスが自動的に非表示になります</li>
+          <li><span style="background:var(--warn);width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;"></span>ESC による終了とインターフェイスの自動復元をサポート</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section wrap">
+    <div class="section-head" style="text-align:center; margin-left:auto; margin-right:auto;">
+      <span class="eyebrow">よくある質問</span>
+      <h2>よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>这些检测工具需要安装什么软件吗？</div>
+        <p class="faq-a">不需要。所有测试均在网页中运行，使用最新版 Chrome、Firefox、Edge 或 Safari 即可直接开始。</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>检测结果准确吗？</div>
+        <p class="faq-a">测试结果适合快速确认按键、画面和声音输入等基础状态，可作为故障排查参考；如果问题持续存在，建议进一步检查驱动、系统设置或联系维修人员。</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>支持移动设备吗？</div>
+        <p class="faq-a">支持。摄像头、麦克风和屏幕等工具可在多数智能手机与平板电脑上使用；鼠标、键盘相关功能更适合连接了对应外设的设备。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-copy">© 2026 StarryRing · オンラインハードウェアテストツール</div>
+    <div class="footer-links">
+      <a href="/ja/">返回ホーム</a>
+      <a href="/ja/about-us/">私たちについて</a>
+      <a href="/ja/privacy/">プライバシーポリシー</a>
+      <a href="/ja/terms/">利用規約</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, DPR, stars = [], shootingStars = [], t = 0;
+  const TRAIL_LIFE = 24, TRAIL_MAX_POINTS = 46;
+  let trail = [];
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    generateStars();
+  }
+  function generateStars(){
+    const count = Math.floor(W * H * 0.00016);
+    stars = [];
+    for(let i = 0; i < count; i++){
+      const tint = Math.random();
+      stars.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.3 + 0.35,
+        baseAlpha: Math.random() * 0.5 + 0.35,
+        twinkle: Math.random() < 0.28,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.035 + 0.012,
+        color: tint < 0.08 ? '#ffb27a' : (tint < 0.16 ? '#8fe9db' : '#ffffff')
+      });
+    }
+  }
+  function drawBackgroundStars(){
+    for(let i = 0; i < stars.length; i++){
+      const s = stars[i];
+      let a = s.baseAlpha;
+      if(s.twinkle && !reduceMotion) a = s.baseAlpha * (0.45 + 0.55 * Math.sin(t * s.speed + s.phase));
+      ctx.globalAlpha = Math.max(0, a);
+      ctx.fillStyle = s.color;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+  function drawCursorTrail(){
+    if(trail.length < 2) return;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for(let i = 1; i < trail.length; i++){
+      const p0 = trail[i-1], p1 = trail[i];
+      const frac = Math.max(0, p1.life / TRAIL_LIFE);
+      if(frac <= 0) continue;
+      ctx.strokeStyle = 'rgba(255,138,68,' + (frac*0.32).toFixed(3) + ')';
+      ctx.lineWidth = 6.5 * frac;
+      ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(p1.x,p1.y); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,255,255,' + (frac*0.9).toFixed(3) + ')';
+      ctx.lineWidth = Math.max(0.6, 2.1*frac);
+      ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(p1.x,p1.y); ctx.stroke();
+    }
+    const head = trail[trail.length-1];
+    if(head.life > 0){
+      const hf = head.life/TRAIL_LIFE;
+      ctx.save();
+      ctx.shadowColor = 'rgba(255,178,122,0.95)'; ctx.shadowBlur = 16;
+      ctx.fillStyle = 'rgba(255,255,255,' + Math.min(1, hf+0.15).toFixed(3) + ')';
+      ctx.beginPath(); ctx.arc(head.x, head.y, 2.2, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+  }
+  function drawAmbientShootingStars(){
+    shootingStars = shootingStars.filter(sh => sh.life > 0);
+    shootingStars.forEach(sh => {
+      const tailX = sh.x - sh.dx*sh.len, tailY = sh.y - sh.dy*sh.len;
+      const grad = ctx.createLinearGradient(sh.x, sh.y, tailX, tailY);
+      grad.addColorStop(0, 'rgba(255,255,255,0.95)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = grad; ctx.lineWidth = 1.3;
+      ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(tailX, tailY); ctx.stroke();
+      sh.x += sh.dx*sh.v; sh.y += sh.dy*sh.v; sh.life -= 1;
+    });
+  }
+  function maybeSpawnShootingStar(){
+    if(shootingStars.length === 0 && Math.random() < 0.003){
+      shootingStars.push({ x: Math.random()*W*0.6+W*0.2, y:-20, dx:0.62, dy:1, v:10, len:90, life:42 });
+    }
+  }
+  function render(){
+    ctx.clearRect(0,0,W,H);
+    drawBackgroundStars();
+    if(!reduceMotion){
+      trail.forEach(p=>{ p.life -= 1; });
+      trail = trail.filter(p=>p.life>0);
+      drawCursorTrail();
+      drawAmbientShootingStars();
+    }
+  }
+  function loop(){ t+=1; render(); if(!reduceMotion) maybeSpawnShootingStar(); requestAnimationFrame(loop); }
+
+  let resizeTimer;
+  window.addEventListener('resize', function(){ clearTimeout(resizeTimer); resizeTimer=setTimeout(resize,150); });
+  function addTrailPoint(x,y){ if(reduceMotion) return; trail.push({x,y,life:TRAIL_LIFE}); if(trail.length>TRAIL_MAX_POINTS) trail.shift(); }
+  window.addEventListener('mousemove', function(e){ addTrailPoint(e.clientX, e.clientY); }, { passive:true });
+  window.addEventListener('touchmove', function(e){ if(e.touches && e.touches[0]) addTrailPoint(e.touches[0].clientX, e.touches[0].clientY); }, { passive:true });
+
+  resize(); render();
+  if(!reduceMotion) loop();
+})();
+</script>
+<script src="/static/js/shared/switchlanguage.js"></script>
 
 </body>
 </html>
-
