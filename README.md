@@ -97,6 +97,7 @@ Below is a complete list of public pages with brief descriptions:
   **Link:** https://starryring.com/en/utility-tools/math/currency-calculator/
 - **Password Generator** – Generate strong, random passwords with customizable rules  
   **Link:** https://starryring.com/en/utility-tools/math/password-generator/
+- **Secure Key Generator** – Create cryptographically secure API, encryption, and token keys locally: [Open tool](https://starryring.com/en/utility-tools/math/key-generator/)
 
 #### C. Utility Tools – Network & Developer
 - **Ping Test Tool** – Send ICMP ping requests and measure network latency and packet loss  

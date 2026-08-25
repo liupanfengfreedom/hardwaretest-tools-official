@@ -68,6 +68,7 @@
   **链接：** https://starryring.com/zh/utility-tools/math/currency-calculator/
 - **随机密码生成器** – 按规则生成高强度随机密码，提升账号安全性  
   **链接：** https://starryring.com/zh/utility-tools/math/password-generator/
+- **在线密钥生成器** – 使用浏览器密码学安全随机源生成 API、加密与访问令牌密钥：[打开工具](https://starryring.com/zh/utility-tools/math/key-generator/)
 
 ### C. 实用工具 – 网络与开发调试
 - **Ping 网络延迟测试工具** – 发送 ICMP Ping 请求，检测网络延迟与丢包情况  

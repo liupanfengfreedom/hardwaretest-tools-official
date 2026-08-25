@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trình tạo khóa bảo mật miễn phí cho API và mã hóa | StarryRing</title>
+    <meta name="description" content="Tạo khóa API, khóa mã hóa và mã truy cập an toàn ngay trong trình duyệt bằng Web Crypto. Hỗ trợ HEX, Base64, Base64URL và Base32; không tải dữ liệu lên máy chủ.">
+    <meta name="keywords" content="trình tạo khóa bảo mật, tạo khóa API, khóa mã hóa, khóa ngẫu nhiên, Web Crypto API, Base64, HEX">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <meta name="theme-color" content="#10141a">
+    <meta name="application-name" content="StarryRing Key Generator">
+    <link rel="canonical" href="https://starryring.com/vi/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="en" href="https://starryring.com/en/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="vi" href="https://starryring.com/vi/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="ja" href="https://starryring.com/ja/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="ko" href="https://starryring.com/ko/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="hi" href="https://starryring.com/hi/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="es" href="https://starryring.com/es/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="fr" href="https://starryring.com/fr/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="ar" href="https://starryring.com/ar/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="bn" href="https://starryring.com/bn/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="pt" href="https://starryring.com/pt/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="ru" href="https://starryring.com/ru/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="ur" href="https://starryring.com/ur/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="id" href="https://starryring.com/id/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="de" href="https://starryring.com/de/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="pcm-NG" href="https://starryring.com/pcm/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="mr" href="https://starryring.com/mr/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="te" href="https://starryring.com/te/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="tr" href="https://starryring.com/tr/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="ta" href="https://starryring.com/ta/utility-tools/math/key-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/math/key-generator/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StarryRing">
+    <meta property="og:title" content="Trình tạo khóa bảo mật miễn phí cho API và mã hóa | StarryRing">
+    <meta property="og:description" content="Tạo khóa API, khóa mã hóa và mã truy cập an toàn ngay trong trình duyệt bằng Web Crypto. Hỗ trợ HEX, Base64, Base64URL và Base32; không tải dữ liệu lên máy chủ.">
+    <meta property="og:url" content="https://starryring.com/vi/utility-tools/math/key-generator/">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="zh_CN">
+    <meta property="og:locale:alternate" content="ja_JP">
+    <meta property="og:locale:alternate" content="ko_KR">
+    <meta property="og:locale:alternate" content="hi_IN">
+    <meta property="og:locale:alternate" content="es_ES">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:locale:alternate" content="ar_SA">
+    <meta property="og:locale:alternate" content="bn_BD">
+    <meta property="og:locale:alternate" content="pt_BR">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="ur_PK">
+    <meta property="og:locale:alternate" content="id_ID">
+    <meta property="og:locale:alternate" content="de_DE">
+    <meta property="og:locale:alternate" content="en_NG">
+    <meta property="og:locale:alternate" content="mr_IN">
+    <meta property="og:locale:alternate" content="te_IN">
+    <meta property="og:locale:alternate" content="tr_TR">
+    <meta property="og:locale:alternate" content="ta_IN">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Trình tạo khóa bảo mật miễn phí cho API và mã hóa | StarryRing">
+    <meta name="twitter:description" content="Tạo khóa API, khóa mã hóa và mã truy cập an toàn ngay trong trình duyệt bằng Web Crypto. Hỗ trợ HEX, Base64, Base64URL và Base32; không tải dữ liệu lên máy chủ.">
+
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","@id":"https://starryring.com/vi/utility-tools/math/key-generator/#app","name":"Trình tạo khóa bảo mật","description":"Tạo khóa API, khóa mã hóa và mã truy cập an toàn ngay trong trình duyệt bằng Web Crypto. Hỗ trợ HEX, Base64, Base64URL và Base32; không tải dữ liệu lên máy chủ.","url":"https://starryring.com/vi/utility-tools/math/key-generator/","inLanguage":"vi","applicationCategory":"SecurityApplication","operatingSystem":"All","browserRequirements":"JavaScript and Web Crypto API","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Cryptographically secure random bytes","HEX encoding","Base64 encoding","Base64URL encoding","Base32 encoding","Batch generation","TXT and binary downloads"],"dateModified":"2026-08-26"},{"@type":"FAQPage","@id":"https://starryring.com/vi/utility-tools/math/key-generator/#faq","mainEntity":[{"@type":"Question","name":"Trình tạo khóa này có an toàn không?","acceptedAnswer":{"@type":"Answer","text":"Có. Công cụ dùng crypto.getRandomValues từ nguồn ngẫu nhiên mật mã của hệ điều hành, không dùng Math.random."}},{"@type":"Question","name":"Khóa có được gửi lên máy chủ hay ghi lại không?","acceptedAnswer":{"@type":"Answer","text":"Không. Việc tạo và mã hóa diễn ra trong trình duyệt; trang không lưu lịch sử và kết quả biến mất khi tải lại."}},{"@type":"Question","name":"Có thể dùng khóa này làm mật khẩu đăng nhập không?","acceptedAnswer":{"@type":"Answer","text":"Khóa phù hợp với API, mã hóa và token do máy đọc. Hãy dùng trình quản lý mật khẩu cho mật khẩu con người phải nhập."}},{"@type":"Question","name":"Hai khóa có thể trùng nhau không?","acceptedAnswer":{"@type":"Answer","text":"Về lý thuyết có thể nhưng xác suất không đáng kể ở độ dài khuyến nghị. Khóa 32 byte có 2^256 giá trị."}},{"@type":"Question","name":"Nên lưu khóa như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Lưu khóa lâu dài trong trình quản lý bí mật hoặc biến môi trường được bảo vệ; không đưa vào mã nguồn, trò chuyện hoặc nhật ký và hãy thay định kỳ."}}]},{"@type":"BreadcrumbList","@id":"https://starryring.com/vi/utility-tools/math/key-generator/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Trang chủ","item":"https://starryring.com/vi/"},{"@type":"ListItem","position":2,"name":"Công cụ tiện ích","item":"https://starryring.com/vi/utility-tools/"},{"@type":"ListItem","position":3,"name":"Trình tạo khóa bảo mật","item":"https://starryring.com/vi/utility-tools/math/key-generator/"}]}]}</script>
+    <script>window.KEYGEN_I18N={"unavailable":"Không khả dụng","input_length":"Nhập độ dài byte","integer_required":"Hãy nhập số nguyên","length_range":"Phạm vi: 1–1024 byte","input_count":"Nhập số lượng khóa","count_range":"Phạm vi: 1–50 khóa","signing_length":"Độ dài ký/HMAC phổ biến","bits":"bit","strength_low":"Độ mạnh thấp","strength_mid":"Độ mạnh trung bình","strength_high":"Độ mạnh cao","strength_vhigh":"Độ mạnh rất cao","ready":"Sẵn sàng","copy":"Sao chép","copied":"Đã sao chép","copied_all":"Đã sao chép tất cả"};</script>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="/static/css/utility-tools/math/key-generator/style.css">
+    <link rel="stylesheet" href="/static/css/shared/BreadNav.css">
+    <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
+    <link rel="preload" href="/static/js/utility-tools/math/key-generator/script.js" as="script">
+    <script defer src="/static/js/utility-tools/math/key-generator/script.js"></script>
+</head>
+<body>
+<div class="language-switcher">
+    <button class="language-trigger" id="languageTrigger" aria-label="Ngôn ngữ" aria-expanded="false">🌐</button>
+    <div class="language-dropdown" id="languageDropdown">
+        <a class="language-option" href="/en/utility-tools/math/key-generator/" data-lang="en">English</a>
+        <a class="language-option" href="/zh/utility-tools/math/key-generator/" data-lang="zh">简体中文</a>
+        <a class="language-option selected" href="/vi/utility-tools/math/key-generator/" data-lang="vi">Tiếng Việt</a>
+        <a class="language-option" href="/ja/utility-tools/math/key-generator/" data-lang="ja">日本語</a>
+        <a class="language-option" href="/ko/utility-tools/math/key-generator/" data-lang="ko">한국어</a>
+        <a class="language-option" href="/hi/utility-tools/math/key-generator/" data-lang="hi">हिन्दी</a>
+        <a class="language-option" href="/es/utility-tools/math/key-generator/" data-lang="es">Español</a>
+        <a class="language-option" href="/fr/utility-tools/math/key-generator/" data-lang="fr">Français</a>
+        <a class="language-option" href="/ar/utility-tools/math/key-generator/" data-lang="ar">العربية</a>
+        <a class="language-option" href="/bn/utility-tools/math/key-generator/" data-lang="bn">বাংলা</a>
+        <a class="language-option" href="/pt/utility-tools/math/key-generator/" data-lang="pt">Português</a>
+        <a class="language-option" href="/ru/utility-tools/math/key-generator/" data-lang="ru">Русский</a>
+        <a class="language-option" href="/ur/utility-tools/math/key-generator/" data-lang="ur">اردو</a>
+        <a class="language-option" href="/id/utility-tools/math/key-generator/" data-lang="id">Bahasa Indonesia</a>
+        <a class="language-option" href="/de/utility-tools/math/key-generator/" data-lang="de">Deutsch</a>
+        <a class="language-option" href="/pcm/utility-tools/math/key-generator/" data-lang="pcm">Naijá</a>
+        <a class="language-option" href="/mr/utility-tools/math/key-generator/" data-lang="mr">मराठी</a>
+        <a class="language-option" href="/te/utility-tools/math/key-generator/" data-lang="te">తెలుగు</a>
+        <a class="language-option" href="/tr/utility-tools/math/key-generator/" data-lang="tr">Türkçe</a>
+        <a class="language-option" href="/ta/utility-tools/math/key-generator/" data-lang="ta">தமிழ்</a>
+    </div>
+</div>
+
+<nav aria-label="Đường dẫn điều hướng" class="breadcrumb-section">
+    <ol class="breadcrumb-modern">
+        <li class="breadcrumb-item">
+            <a href="/vi/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="/vi/utility-tools/" class="breadcrumb-link">Công cụ tiện ích</a>
+        </li>
+        <li class="breadcrumb-item" aria-current="page">
+            <span class="breadcrumb-active">Trình tạo khóa bảo mật</span>
+        </li>
+    </ol>
+</nav>
+
+<div class="app">
+    <header>
+        <div class="eyebrow">Tạo cục bộ · Không tải lên</div>
+        <h1>Trình tạo khóa bảo mật</h1>
+        <p class="tagline">Tạo khóa API, khóa mã hóa và mã truy cập an toàn bằng Web Crypto API của trình duyệt. Chọn HEX, Base64, Base64URL hoặc Base32; mọi thao tác đều ở trên thiết bị này.</p>
+    </header>
+
+    <div class="callout">
+        <span class="callout-icon" aria-hidden="true">⚠</span>
+        <span>Công cụ này dành cho thông tin bí mật mà máy đọc, không phải mật khẩu cần ghi nhớ. Hãy chọn đủ số byte cho yêu cầu bảo mật.</span>
+    </div>
+
+    <div class="callout error" id="cryptoError">
+        <span class="callout-icon" aria-hidden="true">⛔</span>
+        <span>Trình duyệt này không hỗ trợ crypto.getRandomValues nên không thể tạo khóa an toàn. Hãy dùng Chrome, Firefox, Safari hoặc Edge mới nhất.</span>
+    </div>
+
+    <div class="entropy-strip" id="entropyStrip" aria-hidden="true">Đang khởi tạo…</div>
+
+    <main>
+        <section class="panel" aria-labelledby="generatorTitle">
+            <h2 class="sr-only" id="generatorTitle">Trình tạo khóa</h2>
+            <section class="field-group">
+                <div class="control-row">
+                    <label for="lengthInput">Độ dài byte</label>
+                    <div class="stepper">
+                        <button type="button" data-step="-1" aria-label="Giảm độ dài byte">−</button>
+                        <input id="lengthInput" type="number" value="32" min="1" max="1024" inputmode="numeric" autocomplete="off" spellcheck="false">
+                        <button type="button" data-step="1" aria-label="Tăng độ dài byte">+</button>
+                    </div>
+                    <div class="hint-group">
+                        <span class="bit-hint" id="bitHint">256 bit</span>
+                        <span class="strength-badge" id="strengthBadge">Độ mạnh rất cao</span>
+                    </div>
+                </div>
+                <div class="field-msg" id="lengthError" role="alert"></div>
+            </section>
+
+            <div class="presets" role="group" aria-label="Độ dài thường dùng">
+                <button type="button" class="chip" data-len="16">16 byte · AES-128</button>
+                <button type="button" class="chip active" data-len="32">32 byte · AES-256</button>
+                <button type="button" class="chip" data-len="64">64 byte · Khóa ký</button>
+            </div>
+
+            <section class="field-group">
+                <div class="control-row">
+                    <span class="control-label">Mã hóa</span>
+                    <div class="segmented" id="formatSeg" role="group" aria-label="Định dạng mã hóa đầu ra">
+                        <button type="button" data-fmt="hex" class="active">HEX</button>
+                        <button type="button" data-fmt="base64">Base64</button>
+                        <button type="button" data-fmt="base64url">Base64URL</button>
+                        <button type="button" data-fmt="base32">Base32</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="field-group field-group-last">
+                <div class="control-row">
+                    <label for="countInput">Số lượng</label>
+                    <div class="stepper">
+                        <button type="button" data-count-step="-1" aria-label="Giảm số lượng">−</button>
+                        <input id="countInput" type="number" value="1" min="1" max="50" inputmode="numeric" autocomplete="off" spellcheck="false">
+                        <button type="button" data-count-step="1" aria-label="Tăng số lượng">+</button>
+                    </div>
+                </div>
+                <div class="field-msg" id="countError" role="alert"></div>
+            </section>
+
+            <button type="button" class="generate-btn" id="generateBtn">↻ Tạo khóa ngẫu nhiên mới</button>
+            <p class="auto-note">Thay đổi tham số sẽ tự động tạo khóa mới; dùng nút để tạo lại với cùng thiết lập.</p>
+
+            <section class="output" aria-labelledby="outputTitle">
+                <div class="output-header">
+                    <span id="outputTitle">Khóa đã tạo</span>
+                    <button type="button" class="ghost-btn" id="copyAllBtn" disabled>Sao chép tất cả</button>
+                </div>
+                <div class="key-list" id="keyList" aria-live="polite">
+                    <div class="empty-state" id="emptyState">Đang tạo…</div>
+                </div>
+                <div class="download-row">
+                    <button type="button" class="ghost-btn" id="downloadTxtBtn" disabled>Tải .txt</button>
+                    <button type="button" class="ghost-btn" id="downloadBinBtn" disabled>Tải .bin (byte thô)</button>
+                </div>
+            </section>
+        </section>
+
+        <p class="footnote">Nguồn ngẫu nhiên: crypto.getRandomValues(), đạt chuẩn mật mã. Khóa không được lưu sau khi tải lại; hãy sao chép hoặc tải xuống và cất trong trình quản lý bí mật.</p>
+
+        <section aria-labelledby="formatDocsTitle">
+            <h2 class="section-title" id="formatDocsTitle">Định dạng mã hóa</h2>
+            <p class="section-desc">Cùng một dãy byte ngẫu nhiên có thể được biểu diễn bằng nhiều mã hóa văn bản. Chọn định dạng phù hợp với URL, JSON, tệp cấu hình hoặc giao thức.</p>
+            <div class="docs-grid">
+            <article class="doc-card" data-fmt="hex">
+                <div class="doc-card-head"><span class="doc-card-title">HEX</span><span class="doc-card-tag">2×</span></div>
+                <div class="doc-charset">0-9 a-f</div>
+                <p class="doc-desc">Mỗi byte được biểu diễn bằng hai ký tự thập lục phân; độ dài rõ ràng và được hỗ trợ rộng rãi.</p>
+                <p class="doc-use"><b>Phù hợp:</b> Tệp cấu hình, dòng lệnh, nhật ký và gỡ lỗi.</p>
+            </article>
+            <article class="doc-card" data-fmt="base64">
+                <div class="doc-card-head"><span class="doc-card-title">Base64</span><span class="doc-card-tag">≈1.34×</span></div>
+                <div class="doc-charset">A-Z a-z 0-9 + / =</div>
+                <p class="doc-desc">Mã hóa nhị phân thành văn bản gọn, nhưng +, / và = thường phải được thoát trong URL hoặc tên tệp.</p>
+                <p class="doc-use"><b>Phù hợp:</b> Truyền JSON/XML và lưu trữ văn bản.</p>
+            </article>
+            <article class="doc-card" data-fmt="base64url">
+                <div class="doc-card-head"><span class="doc-card-title">Base64URL</span><span class="doc-card-tag">≈1.34×</span></div>
+                <div class="doc-charset">A-Z a-z 0-9 - _</div>
+                <p class="doc-desc">Biến thể Base64 an toàn cho URL dùng - và _ và bỏ dấu = đệm.</p>
+                <p class="doc-use"><b>Phù hợp:</b> JWT, mã OAuth, cookie và tham số URL.</p>
+            </article>
+            <article class="doc-card" data-fmt="base32">
+                <div class="doc-card-head"><span class="doc-card-title">Base32</span><span class="doc-card-tag">≈1.6×</span></div>
+                <div class="doc-charset">A-Z 2-7</div>
+                <p class="doc-desc">Không phân biệt hoa thường và tránh các ký tự dễ nhầm 0/O, 1/I/L.</p>
+                <p class="doc-use"><b>Phù hợp:</b> Mã bí mật TOTP, bản ghi DNS, mã vạch và nhập thủ công.</p>
+            </article>
+            </div>
+        </section>
+
+        <section aria-labelledby="faqTitle">
+            <h2 class="section-title" id="faqTitle">Câu hỏi thường gặp</h2>
+        <details class="faq-item">
+            <summary>Trình tạo khóa này có an toàn không?</summary>
+            <p>Có. Công cụ dùng crypto.getRandomValues từ nguồn ngẫu nhiên mật mã của hệ điều hành, không dùng Math.random.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Khóa có được gửi lên máy chủ hay ghi lại không?</summary>
+            <p>Không. Việc tạo và mã hóa diễn ra trong trình duyệt; trang không lưu lịch sử và kết quả biến mất khi tải lại.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Có thể dùng khóa này làm mật khẩu đăng nhập không?</summary>
+            <p>Khóa phù hợp với API, mã hóa và token do máy đọc. Hãy dùng trình quản lý mật khẩu cho mật khẩu con người phải nhập.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Hai khóa có thể trùng nhau không?</summary>
+            <p>Về lý thuyết có thể nhưng xác suất không đáng kể ở độ dài khuyến nghị. Khóa 32 byte có 2^256 giá trị.</p>
+        </details>
+        <details class="faq-item">
+            <summary>Nên lưu khóa như thế nào?</summary>
+            <p>Lưu khóa lâu dài trong trình quản lý bí mật hoặc biến môi trường được bảo vệ; không đưa vào mã nguồn, trò chuyện hoặc nhật ký và hãy thay định kỳ.</p>
+        </details>
+        </section>
+    </main>
+</div>
+
+<footer class="site-footer">
+    <span>Khóa chỉ được tạo trong trình duyệt này và không bao giờ được tải lên.</span>
+    <nav class="site-footer-links" aria-label="Điều hướng chân trang">
+        <a href="/vi/utility-tools/">Tất cả công cụ</a>
+        <a href="/vi/privacy/">Chính sách riêng tư</a>
+        <a href="/vi/">Trang chủ</a>
+    </nav>
+</footer>
+<script src="/static/js/shared/switchlanguage.js"></script>
+</body>
+</html>
