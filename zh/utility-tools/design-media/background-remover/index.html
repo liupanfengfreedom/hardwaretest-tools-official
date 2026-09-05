@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图片背景移除 - 免费在线抠图 | StarryRing</title>
+  <meta name="description" content="在浏览器中移除图片背景，预览原图与抠图结果，下载透明 PNG。图片在本地处理，无需上传。">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css">
+  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js"></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/zh/">✦ <span>StarryRing</span></a><a href="/zh/utility-tools/">全部工具 <span aria-hidden="true">↗</span></a></header>
+  <main>
+    <nav class="breadcrumb" aria-label="面包屑"><a href="/zh/utility-tools/">实用工具</a><span>/</span><span>图片背景移除</span></nav>
+    <div class="heading"><div><p class="eyebrow">图片工具</p><h1>留下主体，移除背景<span>。</span></h1><p class="subtitle">一张图片，一键抠图。让人物与物品成为画面焦点。</p></div><span class="privacy">◈ 图片仅在本地处理</span></div>
+    <section class="workspace" aria-label="图片背景移除工具">
+      <div class="controls" role="group" aria-label="图片编辑工具栏">
+        <div class="toolbar-group upload-group">
+        <div class="section-title"><span class="step">01</span><h2>选择图片</h2></div>
+        <label class="upload" id="drop-zone" for="file-input"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><strong>点击上传或拖拽到这里</strong><span>JPG、PNG、WebP · 最大 20 MB</span><input id="file-input" type="file" accept="image/jpeg,image/png,image/webp"></label>
+        <p id="file-info" class="file-info">支持人物、商品、动物等主体清晰的图片</p>
+        <button id="remove" class="primary" disabled>✦ 开始移除背景</button>
+        <div class="status-box"><p id="status" role="status" aria-live="polite">选择一张图片，即可开始。</p><progress id="progress" hidden aria-label="处理进度"></progress></div>
+        </div>
+        <div class="toolbar-group brush-group">
+        <div class="section-title"><span class="step">02</span><h2>手动标记</h2></div>
+        <div class="brush-tools" role="group" aria-label="编辑方式">
+          <button id="keep" class="brush-tool keep selected" aria-pressed="true" disabled>＋ 保留区域</button>
+          <button id="erase" class="brush-tool erase" aria-pressed="false" disabled>－ 移除区域</button>
+          <button id="pan" class="brush-tool pan" aria-pressed="false" disabled>✥ 移动画面</button>
+        </div>
+        <p class="edit-help" id="edit-help">在左侧原图涂抹：绿色保留，红色移除；右侧实时查看抠图效果。</p>
+        <label class="brush-label" for="brush-size">笔刷大小 <output id="brush-value" for="brush-size">30 px</output></label>
+        <input id="brush-size" type="range" min="4" max="100" value="30" disabled>
+        <div class="history-tools"><button id="undo" disabled>↶ 撤销</button><button id="redo" disabled>↷ 重做</button><button id="clear-marks" disabled>清除标记</button></div>
+        </div>
+        <div class="toolbar-group export-group">
+        <div class="section-title"><span class="step">03</span><h2>预览与下载</h2></div>
+        <div class="swatches" role="group" aria-label="预览背景颜色"><button class="swatch checker selected" data-bg="transparent" aria-label="透明背景" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="白色背景" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="深色背景" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="浅蓝背景" aria-pressed="false"></button></div>
+        <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>显示彩色标记</label></div>
+        <p class="hint">仅用于预览，下载始终保留透明背景。</p>
+        <button id="download" class="secondary" disabled>↓ 下载透明 PNG</button>
+        <p class="model-note">首次使用需要联网下载 AI 模型，可能耗时较长。图片不会上传到服务器。</p>
+        </div>
+      </div>
+      <div class="preview-area"><div class="preview-toolbar"><h2>原图与结果对比</h2><button id="reset" class="text-button" disabled>清空图片</button></div>
+        <div class="comparison">
+          <section class="image-panel" aria-label="原图标记区"><div class="panel-heading"><div><h3>原图 · 标记区</h3><span id="mode-label">保留画笔 · 补回原图</span></div><div class="zoom-tools" role="group" aria-label="原图缩放"><button id="zoom-out" aria-label="缩小原图" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大原图" disabled>＋</button><button id="zoom-reset" disabled>适应</button></div></div>
+            <div class="stage checker" id="original-stage"><div class="empty" id="original-empty"><div class="empty-icon" aria-hidden="true">＋</div><h2>上传一张图片</h2><p>在原图上标记保留或移除区域</p></div><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="原图，可用保留或移除画笔涂抹" aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
+          </section>
+          <section class="image-panel" aria-label="抠图结果"><div class="panel-heading"><h3>抠图结果</h3><span>实时预览</span></div>
+            <div class="stage checker" id="stage"><div class="empty" id="result-empty"><div class="empty-icon" aria-hidden="true">✂</div><h2>抠图效果显示在这里</h2><p>左图涂抹时，结果会同步更新</p></div><canvas id="result-canvas" aria-label="抠图结果预览" hidden></canvas></div>
+          </section>
+        </div>
+        <div class="preview-footer"><span id="preview-caption">上传后在左侧原图标记</span><span>彩色标记不会出现在下载图片中</span></div>
+        <p class="editor-note">在左侧原图操作：绿色标记保留原图内容，红色标记将对应区域变为透明；右侧同步显示最终效果。<br>滚轮可围绕指针位置放大，选择“移动画面”后拖动查看任意区域。画布聚焦后，方向键移动画笔，空格涂抹。Ctrl / ⌘ + Z 撤销。</p>
+      </div>
+    </section>
+    <section class="tips" aria-label="使用说明"><article><span>01 / 上传</span><h3>原图与结果，左右对照</h3><p>大图会缩小至最长边 2048 像素。左图用于标记，右图显示最终效果。</p></article><article><span>02 / 修补</span><h3>在原图上指出取舍</h3><p>保留画笔标出主体，移除画笔标出背景；右侧结果会同步更新。</p></article><article><span>03 / 下载</span><h3>导出修正后的透明底图</h3><p>隐藏彩色标记即可检查原图，下载的 PNG 包含全部手动修正。</p></article></section>
+    <footer>StarryRing · 图片背景移除 <span>发丝、半透明物体与复杂背景的效果可能不够理想。</span></footer>
+  </main>
+</body>
+</html>
