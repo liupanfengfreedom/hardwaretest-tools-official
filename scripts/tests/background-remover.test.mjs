@@ -55,7 +55,7 @@ test('fast strokes form continuous lines; one undo removes the whole gesture', (
   assert.equal(editor.future.length, 0);
 });
 
-test('manual marks made before AI override AI; later strokes take priority', () => {
+test('manual marks override AI and later erase strokes cannot override keep marks', () => {
   const editor = fixture();
   stroke(editor, 'keep', { x: 20, y: 20 });
   stroke(editor, 'erase', { x: 60, y: 20 });
@@ -68,7 +68,7 @@ test('manual marks made before AI override AI; later strokes take priority', () 
   assert.equal(pixel(editor.result, 10, 45)[3], 0);
   assert.equal(pixel(editor.result, 70, 45)[3], 255);
   stroke(editor, 'erase', { x: 20, y: 20 });
-  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
   editor.undo();
   assert.equal(pixel(editor.result, 20, 20)[3], 255);
   editor.setAutomaticResult(automatic);
@@ -142,33 +142,40 @@ test('zoom stays anchored under the pointer and pan cannot lose the image', () =
 });
 
 function smartStroke(editor, mode, point, options = {}, end = point) {
-  editor.beginStroke(mode, 0.5, point, { enabled: true, radius: 8, tolerance: 0, ...options });
+  editor.beginStroke(mode, 0.5, point, { enabled: true, tolerance: 0, ...options });
   editor.extendStroke(end);
   editor.endStroke();
 }
 
-test('smart erase grows through matching colors, within its radius, without crossing a color barrier', () => {
+test('smart erase matches the whole image, including far and disconnected colors', () => {
   const editor = fixture();
   const ctx = editor.source.getContext('2d');
   ctx.fillStyle = '#ef2030'; ctx.fillRect(24, 0, 1, 60);
   smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
   assert.equal(pixel(editor.result, 22, 20)[3], 0);
   assert.equal(pixel(editor.result, 20, 28)[3], 0);
-  assert.equal(pixel(editor.result, 20, 29)[3], 255);
+  assert.equal(pixel(editor.result, 20, 29)[3], 0);
   assert.equal(pixel(editor.result, 24, 20)[3], 255);
-  assert.equal(pixel(editor.result, 25, 20)[3], 255);
+  assert.equal(pixel(editor.result, 25, 20)[3], 0);
+  for (const [x, y] of [[0, 0], [79, 0], [0, 59], [79, 59]]) {
+    assert.equal(pixel(editor.result, x, y)[3], 0);
+  }
   assert.deepEqual(pixel(editor.source, 22, 20), [50, 100, 200, 255]);
 });
 
 test('smart keep restores matching original pixels after AI removal and exports the corrected PNG', async () => {
   const editor = fixture();
+  const ctx = editor.source.getContext('2d');
+  ctx.fillStyle = '#ef2030'; ctx.fillRect(29, 0, 1, 60);
   editor.setAutomaticResult(factory());
   smartStroke(editor, 'keep', { x: 20.5, y: 20.5 });
   assert.deepEqual(pixel(editor.result, 25, 20), [50, 100, 200, 255]);
+  assert.deepEqual(pixel(editor.result, 79, 59), [50, 100, 200, 255]);
   assert.equal(pixel(editor.result, 29, 20)[3], 0);
   const exported = factory();
   exported.getContext('2d').drawImage(await loadImage(editor.result.toBuffer('image/png')), 0, 0);
   assert.deepEqual(pixel(exported, 25, 20), [50, 100, 200, 255]);
+  assert.deepEqual(pixel(exported, 79, 59), [50, 100, 200, 255]);
   assert.equal(pixel(exported, 29, 20)[3], 0);
 });
 
@@ -179,23 +186,25 @@ test('color tolerance is relative to the initial seed, preventing gradual color 
   ctx.fillStyle = '#6e6e6e'; ctx.fillRect(20, 0, 10, 60);
   ctx.fillStyle = '#828282'; ctx.fillRect(30, 0, 10, 60);
   const seed = { x: 19.5, y: 20.5 };
-  smartStroke(editor, 'erase', seed, { radius: 20, tolerance: 0 });
+  smartStroke(editor, 'erase', seed, { tolerance: 0 });
   assert.equal(pixel(editor.result, 20, 20)[3], 255);
   editor.undo();
-  smartStroke(editor, 'erase', seed, { radius: 20, tolerance: 5 }, { x: 35.5, y: 20.5 });
+  smartStroke(editor, 'erase', seed, { tolerance: 5 }, { x: 35.5, y: 20.5 });
   assert.equal(pixel(editor.result, 25, 20)[3], 0);
   assert.equal(pixel(editor.result, 35, 20)[3], 255);
   editor.undo();
-  smartStroke(editor, 'erase', seed, { radius: 20, tolerance: 15 });
+  smartStroke(editor, 'erase', seed, { tolerance: 15 });
   assert.equal(pixel(editor.result, 35, 20)[3], 0);
 });
 
 test('smart history snapshots settings and survives undo, redo, clear, and AI reruns', () => {
   const editor = fixture();
-  const options = { enabled: true, radius: 4, tolerance: 0 };
+  const ctx = editor.source.getContext('2d');
+  ctx.fillStyle = '#ef2030'; ctx.fillRect(79, 59, 1, 1);
+  const options = { enabled: true, tolerance: 0 };
   editor.beginStroke('erase', 0.5, { x: 20.5, y: 20.5 }, options);
   editor.endStroke();
-  options.radius = 100; options.tolerance = 100;
+  options.tolerance = 100;
   const expected = editor.result.getContext('2d').getImageData(0, 0, 80, 60).data;
   editor.undo(); editor.redo();
   assert.deepEqual(editor.result.getContext('2d').getImageData(0, 0, 80, 60).data, expected);
@@ -207,12 +216,13 @@ test('smart history snapshots settings and survives undo, redo, clear, and AI re
   assert.deepEqual(editor.result.getContext('2d').getImageData(0, 0, 80, 60).data, expected);
 });
 
-test('smart selection respects transparent gaps and ignores fully transparent seeds', () => {
+test('smart selection crosses transparent gaps without marking them and ignores transparent seeds', () => {
   const editor = fixture();
   editor.source.getContext('2d').clearRect(24, 0, 1, 60);
   smartStroke(editor, 'erase', { x: 20.5, y: 20.5 }, { tolerance: 100 });
   assert.equal(pixel(editor.result, 22, 20)[3], 0);
-  assert.equal(pixel(editor.result, 25, 20)[3], 255);
+  assert.equal(pixel(editor.result, 25, 20)[3], 0);
+  assert.equal(pixel(editor.marks, 24, 20)[3], 0);
   const count = editor.history.length;
   smartStroke(editor, 'keep', { x: 24.5, y: 20.5 }, { tolerance: 100 });
   assert.equal(editor.history.length, count);
@@ -229,15 +239,267 @@ test('disabling smart mode preserves exact one-pixel editing; movement mode cann
   assert.equal(pixel(editor.result, 30, 30)[3], 255);
 });
 
-test('smart strokes cover rapid movement, clip at boundaries, and cancel as a whole gesture', () => {
+test('smart gestures scan once despite dragging and cancel or undo the whole-image change', () => {
   const editor = fixture();
-  smartStroke(editor, 'erase', { x: 5.5, y: 20.5 }, { radius: 3 }, { x: 100000, y: 20.5 });
+  let scans = 0;
+  const paintSmartSelection = editor.paintSmartSelection.bind(editor);
+  editor.paintSmartSelection = action => { scans += 1; paintSmartSelection(action); };
+  smartStroke(editor, 'erase', { x: 5.5, y: 20.5 }, {}, { x: 100000, y: 20.5 });
+  assert.equal(scans, 1);
   for (const x of [5, 30, 60, 79]) assert.equal(pixel(editor.result, x, 22)[3], 0);
-  assert.equal(pixel(editor.result, 30, 24)[3], 255);
+  assert.equal(pixel(editor.result, 30, 24)[3], 0);
   editor.undo();
-  editor.beginStroke('erase', 0.5, { x: 0, y: 0 }, { enabled: true, radius: 8, tolerance: 0 });
+  assert.equal(pixel(editor.result, 79, 59)[3], 255);
+  editor.redo();
+  assert.equal(scans, 2);
+  assert.equal(pixel(editor.result, 79, 59)[3], 0);
+  editor.undo();
+  editor.beginStroke('erase', 0.5, { x: 0, y: 0 }, { enabled: true, tolerance: 0 });
   assert.equal(pixel(editor.result, 0, 7)[3], 0);
   editor.cancelStroke();
   assert.equal(pixel(editor.result, 0, 7)[3], 255);
   assert.equal(editor.history.length, 0);
+});
+
+test('successive smart clicks sample new colors and keep restores previously erased colors', () => {
+  const editor = fixture();
+  const ctx = editor.source.getContext('2d');
+  ctx.fillStyle = '#ef2030'; ctx.fillRect(40, 0, 40, 60);
+  smartStroke(editor, 'erase', { x: 0.5, y: 0.5 });
+  smartStroke(editor, 'erase', { x: 79.5, y: 59.5 });
+  assert.equal(pixel(editor.result, 0, 59)[3], 0);
+  assert.equal(pixel(editor.result, 79, 0)[3], 0);
+  smartStroke(editor, 'keep', { x: 0.5, y: 0.5 });
+  assert.deepEqual(pixel(editor.result, 0, 59), pixel(editor.source, 0, 59));
+  assert.equal(pixel(editor.result, 79, 0)[3], 0);
+  editor.undo();
+  assert.equal(pixel(editor.result, 0, 59)[3], 0);
+  editor.redo();
+  assert.deepEqual(pixel(editor.result, 0, 59), pixel(editor.source, 0, 59));
+});
+
+for (const smartKeep of [false, true]) {
+  for (const smartErase of [false, true]) {
+    test(`${smartKeep ? 'smart' : 'ordinary'} keep survives ${smartErase ? 'smart' : 'ordinary'} erase, history replay, AI reruns, and PNG export`, async () => {
+      const editor = fixture();
+      const ctx = editor.source.getContext('2d');
+      ctx.fillStyle = '#ef2030'; ctx.fillRect(40, 0, 40, 60);
+      editor.beginStroke('keep', 5, { x: 20.5, y: 20.5 }, { enabled: smartKeep, tolerance: 0 });
+      editor.endStroke();
+      const keptColor = pixel(editor.source, 20, 20);
+      const keepMark = pixel(editor.marks, 20, 20);
+      editor.beginStroke('erase', 5, { x: 20.5, y: 20.5 }, { enabled: smartErase, tolerance: 100 });
+      assert.deepEqual(pixel(editor.result, 20, 20), keptColor);
+      editor.extendStroke({ x: 70.5, y: 20.5 });
+      assert.deepEqual(pixel(editor.result, 20, 20), keptColor);
+      assert.deepEqual(pixel(editor.marks, 20, 20), keepMark);
+      assert.equal(pixel(editor.result, 60, 20)[3], 0);
+      editor.endStroke();
+      editor.undo();
+      assert.deepEqual(pixel(editor.result, 20, 20), keptColor);
+      assert.equal(pixel(editor.result, 60, 20)[3], 255);
+      editor.redo();
+      assert.deepEqual(pixel(editor.result, 20, 20), keptColor);
+      assert.equal(pixel(editor.result, 60, 20)[3], 0);
+      editor.setAutomaticResult(factory());
+      assert.deepEqual(pixel(editor.result, 20, 20), keptColor);
+      assert.deepEqual(pixel(editor.marks, 20, 20), keepMark);
+      const exported = factory();
+      exported.getContext('2d').drawImage(await loadImage(editor.result.toBuffer('image/png')), 0, 0);
+      assert.deepEqual(pixel(exported, 20, 20), keptColor);
+      assert.equal(pixel(exported, 60, 20)[3], 0);
+    });
+  }
+}
+
+test('one-pixel keep protects only its exact pixel during ordinary and global erasing', () => {
+  const editor = fixture();
+  smartStroke(editor, 'keep', { x: 20.5, y: 20.5 }, { enabled: false });
+  editor.beginStroke('erase', 0.5, { x: 19.5, y: 20.5 });
+  editor.extendStroke({ x: 21.5, y: 20.5 });
+  editor.endStroke();
+  assert.deepEqual(pixel(editor.result, 20, 20), pixel(editor.source, 20, 20));
+  assert.equal(pixel(editor.result, 19, 20)[3], 0);
+  assert.equal(pixel(editor.result, 21, 20)[3], 0);
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.deepEqual(pixel(editor.result, 20, 20), pixel(editor.source, 20, 20));
+  assert.equal(pixel(editor.result, 20, 19)[3], 0);
+  assert.equal(pixel(editor.result, 20, 21)[3], 0);
+});
+
+test('undoing or cancelling a keep releases protection and redoing it restores protection', () => {
+  const editor = fixture();
+  smartStroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  editor.undo();
+  editor.beginStroke('erase', 5, { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+  editor.cancelStroke();
+  editor.redo();
+  stroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  editor.undo(); editor.undo();
+  editor.beginStroke('keep', 5, { x: 20.5, y: 20.5 });
+  editor.cancelStroke();
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+});
+
+test('clearing marks releases protection, while undoing the clear restores it', () => {
+  const editor = fixture();
+  stroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  editor.clearMarks();
+  editor.undo();
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  assert.equal(pixel(editor.result, 60, 20)[3], 0);
+  editor.clearMarks();
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+  assert.deepEqual(pixel(editor.marks, 20, 20), [240, 68, 82, 255]);
+});
+
+test('protected translucent pixels retain their original alpha after erasing and AI reruns', () => {
+  const editor = fixture();
+  const ctx = editor.source.getContext('2d');
+  ctx.clearRect(0, 0, 80, 60);
+  ctx.fillStyle = 'rgba(100, 100, 100, 0.5)'; ctx.fillRect(0, 0, 80, 60);
+  const original = pixel(editor.source, 20, 20);
+  smartStroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 }, { tolerance: 100 });
+  editor.setAutomaticResult(factory());
+  assert.deepEqual(pixel(editor.result, 20, 20), original);
+  stroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.deepEqual(pixel(editor.result, 20, 20), original);
+});
+
+test('unmark locally clears smart keep protection and permits fresh erase or keep marks', () => {
+  const editor = fixture();
+  smartStroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  // Even with smart enabled, the eraser affects only its one-pixel footprint.
+  editor.beginStroke('unmark', 0.5, { x: 20.5, y: 20.5 }, { enabled: true, tolerance: 100 });
+  editor.endStroke();
+  assert.equal(pixel(editor.marks, 20, 20)[3], 0);
+  assert.deepEqual(pixel(editor.marks, 21, 20), [16, 185, 129, 255]);
+  assert.deepEqual(pixel(editor.result, 20, 20), pixel(editor.source, 20, 20));
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+  assert.equal(pixel(editor.result, 21, 20)[3], 255);
+  smartStroke(editor, 'keep', { x: 20.5, y: 20.5 }, { enabled: false });
+  assert.deepEqual(pixel(editor.result, 20, 20), pixel(editor.source, 20, 20));
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+});
+
+test('unmark clears all earlier overlapping decisions and restores the current AI baseline', () => {
+  const editor = fixture();
+  const automatic = factory();
+  const ctx = automatic.getContext('2d');
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; ctx.fillRect(0, 0, 40, 60);
+  ctx.fillStyle = '#000'; ctx.fillRect(40, 0, 40, 60);
+  editor.setAutomaticResult(automatic);
+  const baseline = pixel(editor.result, 20, 20);
+  stroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  stroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  stroke(editor, 'erase', { x: 60.5, y: 20.5 });
+  stroke(editor, 'unmark', { x: 20.5, y: 20.5 }, { x: 60.5, y: 20.5 });
+  assert.deepEqual(pixel(editor.result, 20, 20), baseline);
+  assert.equal(pixel(editor.result, 60, 20)[3], 255);
+  assert.equal(pixel(editor.marks, 20, 20)[3], 0);
+  assert.equal(pixel(editor.marks, 60, 20)[3], 0);
+  assert.equal(editor.hasMarks, false);
+  editor.setAutomaticResult(factory());
+  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+  assert.equal(pixel(editor.result, 60, 20)[3], 0);
+  assert.equal(editor.hasMarks, false);
+});
+
+test('undo and redo of an eraser gesture restore both keep and erase marks and their protection', () => {
+  const editor = fixture();
+  editor.setAutomaticResult(factory());
+  stroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  stroke(editor, 'erase', { x: 60.5, y: 20.5 });
+  stroke(editor, 'unmark', { x: 20.5, y: 20.5 }, { x: 60.5, y: 20.5 });
+  assert.equal(editor.hasMarks, false);
+  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+  editor.undo();
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  assert.deepEqual(pixel(editor.marks, 20, 20), [16, 185, 129, 255]);
+  assert.deepEqual(pixel(editor.marks, 60, 20), [240, 68, 82, 255]);
+  editor.beginStroke('erase', 5, { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  editor.cancelStroke();
+  editor.redo();
+  assert.equal(pixel(editor.marks, 20, 20)[3], 0);
+  assert.equal(pixel(editor.marks, 60, 20)[3], 0);
+  assert.equal(editor.hasMarks, false);
+  stroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  assert.equal(editor.hasMarks, true);
+});
+
+test('cancelling an eraser gesture restores the previous marks and protection', () => {
+  const editor = fixture();
+  stroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  stroke(editor, 'erase', { x: 60.5, y: 20.5 });
+  const count = editor.history.length;
+  editor.beginStroke('unmark', 5, { x: 20.5, y: 20.5 });
+  editor.extendStroke({ x: 60.5, y: 20.5 });
+  assert.equal(pixel(editor.marks, 20, 20)[3], 0);
+  assert.equal(pixel(editor.result, 60, 20)[3], 255);
+  editor.cancelStroke();
+  assert.equal(editor.history.length, count);
+  assert.deepEqual(pixel(editor.marks, 20, 20), [16, 185, 129, 255]);
+  assert.deepEqual(pixel(editor.marks, 60, 20), [240, 68, 82, 255]);
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  assert.equal(pixel(editor.result, 60, 20)[3], 0);
+});
+
+test('one-pixel eraser follows a continuous exact path and leaves neighboring marks untouched', () => {
+  const editor = fixture();
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  editor.beginStroke('unmark', 0.5, { x: 10.2, y: 10.8 });
+  editor.extendStroke({ x: 14.2, y: 14.8 });
+  editor.endStroke();
+  for (let i = 10; i <= 14; i += 1) {
+    assert.equal(pixel(editor.result, i, i)[3], 255);
+    assert.equal(pixel(editor.marks, i, i)[3], 0);
+  }
+  assert.equal(pixel(editor.result, 11, 10)[3], 0);
+  assert.equal(pixel(editor.marks, 11, 10)[3], 255);
+  assert.equal(editor.hasMarks, true);
+  editor.undo();
+  assert.equal(pixel(editor.result, 12, 12)[3], 0);
+});
+
+test('unmarked translucent pixels export their original alpha without leftover colored marks', async () => {
+  const editor = fixture();
+  const ctx = editor.source.getContext('2d');
+  ctx.clearRect(0, 0, 80, 60);
+  ctx.fillStyle = 'rgba(100, 100, 100, 0.5)'; ctx.fillRect(0, 0, 80, 60);
+  editor.setAutomaticResult(editor.source);
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  stroke(editor, 'unmark', { x: 20.5, y: 20.5 });
+  const exported = factory();
+  exported.getContext('2d').drawImage(await loadImage(editor.result.toBuffer('image/png')), 0, 0);
+  assert.deepEqual(pixel(exported, 20, 20), pixel(editor.source, 20, 20));
+  assert.equal(pixel(editor.marks, 20, 20)[3], 0);
+  assert.equal(pixel(exported, 60, 20)[3], 0);
+});
+
+test('erasing unmarked areas and repeatedly crossing cleared pixels leaves mark state accurate', () => {
+  const editor = fixture();
+  stroke(editor, 'unmark', { x: 20.5, y: 20.5 });
+  assert.equal(editor.hasMarks, false);
+  assert.deepEqual(pixel(editor.result, 20, 20), pixel(editor.source, 20, 20));
+  stroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  editor.beginStroke('unmark', 5, { x: 20.5, y: 20.5 });
+  editor.extendStroke({ x: 30.5, y: 20.5 });
+  editor.extendStroke({ x: 20.5, y: 20.5 });
+  editor.endStroke();
+  assert.equal(editor.hasMarks, false);
+  smartStroke(editor, 'keep', { x: 20.5, y: 20.5 }, { enabled: false });
+  assert.equal(editor.hasMarks, true);
+  editor.clearMarks();
+  assert.equal(editor.hasMarks, false);
 });

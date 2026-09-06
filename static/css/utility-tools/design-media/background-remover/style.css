@@ -35,26 +35,29 @@ main{max-width:1500px}
 #original-canvas{z-index:1;touch-action:none}
 #original-canvas:focus-visible{outline:2px solid #3867df;outline-offset:3px}
 .editing #original-canvas{cursor:crosshair}
+.editing:not(.panning):has(.brush-cursor:not([hidden])) #original-canvas{cursor:none}
 .editing.panning #original-canvas{cursor:grab}
 .editing.panning.dragging #original-canvas{cursor:grabbing}
 #result-canvas{object-fit:contain;flex:none;transform-origin:center center;will-change:transform}
 .marks-canvas{z-index:2;opacity:.4;pointer-events:none}
 .editor-surface.pixel-grid::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background-image:linear-gradient(to right,rgba(24,38,58,.28) var(--grid-line),transparent var(--grid-line)),linear-gradient(to bottom,rgba(24,38,58,.28) var(--grid-line),transparent var(--grid-line));background-size:var(--pixel-x) var(--pixel-y)}
 .editor-surface.pixel-grid canvas{image-rendering:pixelated}
-.brush-cursor{position:absolute;z-index:4;border:calc(2px * var(--ui-scale,1)) solid #059669;box-shadow:0 0 0 calc(1px * var(--ui-scale,1)) white,inset 0 0 0 calc(1px * var(--ui-scale,1)) white;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
-.brush-cursor.single-pixel{border-radius:0}
-.brush-cursor.smart{border-style:dashed}
+.brush-cursor{--cursor-color:#059669;position:absolute;z-index:4;border:0;padding:0;box-shadow:inset 0 0 0 var(--cursor-line,1px) white,inset 0 0 0 calc(2 * var(--cursor-line,1px)) var(--cursor-color);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+.brush-cursor.single-pixel{border-radius:0;box-shadow:none;background:var(--cursor-color);opacity:.65}
+.brush-cursor.smart::after{content:"";position:absolute;left:50%;top:50%;width:calc(2px * var(--ui-scale,1));height:calc(2px * var(--ui-scale,1));background:var(--cursor-color);transform:translate(-50%,-50%)}
 .smart-toggle{font-weight:600;color:#40536f}
-.smart-options{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px;background:#f4f7fc;border:1px solid #e0e6ef;border-radius:8px}
+.smart-options{display:grid;grid-template-columns:1fr;padding:12px;background:#f4f7fc;border:1px solid #e0e6ef;border-radius:8px}
 .smart-options>div{min-width:0}
 .smart-options .brush-label{flex-wrap:wrap;gap:4px;font-size:13px}
 .smart-options input{width:100%;margin:10px 0 0;accent-color:#3867df}
 .smart-help{font-size:12px;color:#718096;line-height:1.7;margin:8px 0 14px}
-.brush-cursor.erasing{border-color:#e23d4b}
-.brush-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.brush-cursor.erasing{--cursor-color:#e23d4b}
+.brush-cursor.unmarking{--cursor-color:#7352b5}
+.brush-tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .brush-tool,.history-tools button{border:1px solid #d5dde8;background:white;border-radius:7px;padding:10px 6px;font-size:14px;color:#40536f}
 .brush-tool.keep.selected{color:#047857;background:#e9f8f1;border-color:#42b88b}
 .brush-tool.erase.selected{color:#b42332;background:#fff0f1;border-color:#eb7c87}
+.brush-tool.unmark.selected{color:#68439e;background:#f4effc;border-color:#a38bc8}
 .brush-tool.pan.selected{color:#315ec8;background:#edf2ff;border-color:#7899e8}
 .zoom-tools{display:flex;align-items:center;gap:5px}
 .zoom-tools button{height:30px;min-width:30px;padding:0 8px;border:1px solid #d5dde8;border-radius:6px;background:white;color:#40536f;font-size:13px}

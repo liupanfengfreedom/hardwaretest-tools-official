@@ -1,4 +1,4 @@
-import { growSimilarRegion } from './smart-region.js';
+import { selectSimilarPixels } from './smart-region.js';
 
 // Source pixels are immutable. Preview guides are never drawn into the output.
 export function imagePoint(clientX, clientY, rect, width, height) {
@@ -19,14 +19,16 @@ export class MaskEditor {
     this.history = [];
     this.future = [];
     this.active = null;
+    // Keep marks protect image pixels independently of the visible overlay and AI mask.
+    this.protectedPixels = new Uint8Array(source.width * source.height);
+    this.markCount = 0;
     this.hasAutomaticResult = false;
     this.base.getContext('2d').fillRect(0, 0, source.width, source.height);
     this.rebuild();
   }
 
   get hasMarks() {
-    const lastClear = this.history.findLastIndex(action => action.kind === 'clear');
-    return this.history.slice(lastClear + 1).some(action => action.kind === 'stroke');
+    return this.markCount > 0;
   }
 
   setAutomaticResult(image) {
@@ -45,15 +47,14 @@ export class MaskEditor {
   }
 
   beginStroke(mode, radius, point, smart = null) {
-    if (this.active || !['keep', 'erase'].includes(mode)) return;
+    if (this.active || !['keep', 'erase', 'unmark'].includes(mode)) return;
     let selection = null;
-    if (smart?.enabled) {
+    if (smart?.enabled && mode !== 'unmark') {
       const x = Math.floor(point.x), y = Math.floor(point.y);
       if (x < 0 || y < 0 || x >= this.source.width || y >= this.source.height) return;
       this.sourcePixels ??= this.source.getContext('2d').getImageData(0, 0, this.source.width, this.source.height).data;
       const offset = (y * this.source.width + x) * 4;
       selection = {
-        radius: Math.max(1, Math.min(100, Math.round(Number(smart.radius) || 24))),
         tolerance: Math.max(0, Math.min(100, Number(smart.tolerance) || 0)),
         reference: Array.from(this.sourcePixels.slice(offset, offset + 4))
       };
@@ -64,7 +65,8 @@ export class MaskEditor {
     this.render();
   }
   extendStroke(point) {
-    if (!this.active) return;
+    // A smart gesture already matches the entire image using its initial sample.
+    if (!this.active || this.active.smart) return;
     const previous = this.active.points.at(-1);
     if (Math.hypot(point.x - previous.x, point.y - previous.y) < 0.25) return;
     this.active.points.push(point);
@@ -81,7 +83,7 @@ export class MaskEditor {
 
   paintSegment(stroke, from, to) {
     if (stroke.smart) {
-      this.paintSmartSegment(stroke, from, to);
+      this.paintSmartSelection(stroke);
       return;
     }
     const singlePixel = stroke.radius <= 0.5;
@@ -96,10 +98,24 @@ export class MaskEditor {
     const markContext = this.marks.getContext('2d');
     const maskPixels = maskContext.getImageData(left, top, width, height);
     const markPixels = markContext.getImageData(left, top, width, height);
+    const basePixels = stroke.mode === 'unmark' ? this.base.getContext('2d').getImageData(left, top, width, height) : null;
     const color = stroke.mode === 'keep' ? [16, 185, 129] : [240, 68, 82];
     const setPixel = (x, y) => {
       if (x < 0 || y < 0 || x >= this.mask.width || y >= this.mask.height) return;
+      const imagePixel = y * this.mask.width + x;
       const offset = ((y - top) * width + x - left) * 4;
+      if (stroke.mode === 'unmark') {
+        // Remove every manual decision at this pixel and restore the current AI baseline.
+        this.protectedPixels[imagePixel] = 0;
+        if (markPixels.data[offset + 3]) this.markCount -= 1;
+        maskPixels.data[offset] = maskPixels.data[offset + 1] = maskPixels.data[offset + 2] = 0;
+        maskPixels.data[offset + 3] = basePixels.data[offset + 3];
+        markPixels.data.fill(0, offset, offset + 4);
+        return;
+      }
+      if (stroke.mode === 'erase' && this.protectedPixels[imagePixel]) return;
+      if (stroke.mode === 'keep') this.protectedPixels[imagePixel] = 1;
+      if (!markPixels.data[offset + 3]) this.markCount += 1;
       maskPixels.data[offset] = maskPixels.data[offset + 1] = maskPixels.data[offset + 2] = 0;
       maskPixels.data[offset + 3] = stroke.mode === 'keep' ? 255 : 0;
       markPixels.data[offset] = color[0];
@@ -139,9 +155,9 @@ export class MaskEditor {
     markContext.putImageData(markPixels, left, top);
   }
 
-  paintSmartSegment(stroke, from, to) {
-    const { radius, tolerance, reference } = stroke.smart;
-    const region = growSimilarRegion(this.sourcePixels, this.source.width, this.source.height, from, to, reference, radius, tolerance);
+  paintSmartSelection(stroke) {
+    const { tolerance, reference } = stroke.smart;
+    const region = selectSimilarPixels(this.sourcePixels, this.source.width, this.source.height, reference, tolerance);
     if (!region?.count) return;
     const { left, top, width, height, selected } = region;
     const maskContext = this.mask.getContext('2d');
@@ -151,7 +167,11 @@ export class MaskEditor {
     const color = stroke.mode === 'keep' ? [16, 185, 129] : [240, 68, 82];
     for (let pixel = 0; pixel < selected.length; pixel += 1) {
       if (!selected[pixel]) continue;
+      const imagePixel = (top + Math.floor(pixel / width)) * this.mask.width + left + pixel % width;
+      if (stroke.mode === 'erase' && this.protectedPixels[imagePixel]) continue;
+      if (stroke.mode === 'keep') this.protectedPixels[imagePixel] = 1;
       const offset = pixel * 4;
+      if (!markPixels.data[offset + 3]) this.markCount += 1;
       maskPixels.data[offset] = maskPixels.data[offset + 1] = maskPixels.data[offset + 2] = 0;
       maskPixels.data[offset + 3] = stroke.mode === 'keep' ? 255 : 0;
       markPixels.data[offset] = color[0];
@@ -164,6 +184,9 @@ export class MaskEditor {
   }
 
   resetLayers() {
+    // Replaying history restores protection; undoing a keep or clearing marks releases it.
+    this.protectedPixels.fill(0);
+    this.markCount = 0;
     const ctx = this.mask.getContext('2d');
     ctx.clearRect(0, 0, this.mask.width, this.mask.height);
     ctx.drawImage(this.base, 0, 0);

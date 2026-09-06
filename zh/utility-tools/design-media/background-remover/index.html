@@ -28,18 +28,18 @@
         <div class="brush-tools" role="group" aria-label="编辑方式">
           <button id="keep" class="brush-tool keep selected" aria-pressed="true" disabled>＋ 保留区域</button>
           <button id="erase" class="brush-tool erase" aria-pressed="false" disabled>－ 移除区域</button>
+          <button id="unmark" class="brush-tool unmark" aria-pressed="false" disabled>⌫ 擦除标记</button>
           <button id="pan" class="brush-tool pan" aria-pressed="false" disabled>✥ 移动画面</button>
         </div>
-        <p class="edit-help" id="edit-help">在左侧原图涂抹：绿色保留，红色移除；右侧实时查看抠图效果。</p>
-        <label class="toggle smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>智能扩选 · 相连近似颜色</label>
+        <p class="edit-help" id="edit-help">在左侧原图标记：绿色保留区始终受保护，普通移除、智能移除和自动抠图都会保留它。选择“擦除标记”可局部清除后重新刷。</p>
+        <label class="toggle smart-toggle" id="smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>智能扩选 · 全图颜色匹配</label>
         <div class="smart-options" id="smart-options">
           <div><label class="brush-label" for="smart-tolerance">颜色容差 <output id="tolerance-value" for="smart-tolerance">12</output></label><input id="smart-tolerance" type="range" min="0" max="100" value="12" step="1" disabled></div>
-          <div><label class="brush-label" for="smart-radius">扩展半径 <output id="radius-value" for="smart-radius">24 像素</output></label><input id="smart-radius" type="range" min="1" max="100" value="24" step="1" disabled></div>
         </div>
-        <p class="smart-help" id="smart-help">虚线圈内按落笔处颜色扩选；容差 0 仅匹配完全相同颜色。调整参数只影响后续笔画。</p>
-        <label class="brush-label" for="brush-size">普通笔刷直径 <output id="brush-value" for="brush-size">30 像素</output></label>
+        <p class="smart-help" id="smart-help">点击原图取色，全图符合容差的像素都会被选中，包括不相连的区域。容差 0 仅匹配完全相同颜色；调整容差后再次点击生效。</p>
+        <label class="brush-label" for="brush-size"><span id="brush-size-label">普通笔刷直径</span><output id="brush-value" for="brush-size">30 像素</output></label>
         <input id="brush-size" type="range" min="1" max="100" step="1" value="30" disabled>
-        <div class="history-tools"><button id="undo" disabled>↶ 撤销</button><button id="redo" disabled>↷ 重做</button><button id="clear-marks" disabled>清除标记</button></div>
+        <div class="history-tools"><button id="undo" disabled>↶ 撤销</button><button id="redo" disabled>↷ 重做</button><button id="clear-marks" aria-label="清除全部标记" disabled>清除全部</button></div>
         </div>
         <div class="toolbar-group export-group">
         <div class="section-title"><span class="step">03</span><h2>预览与下载</h2></div>
@@ -60,7 +60,7 @@
           </section>
         </div>
         <div class="preview-footer"><span id="preview-caption">上传后在左侧原图标记</span><span>彩色标记不会出现在下载图片中</span></div>
-        <p class="editor-note">智能扩选会根据落笔处的颜色，在设定半径内选择相连的近似色像素。保留与移除画笔均支持，右侧同步显示效果。关闭智能扩选后，可用 1 像素普通笔刷逐点修补。<br>在原图上滚轮缩放或拖动画面，两边会同步显示同一区域，最高放大至 3200%；点击“适应”同时恢复全图。方向键逐像素移动画笔，空格涂抹。Ctrl / ⌘ + Z 撤销。</p>
+        <p class="editor-note">智能扩选会根据点击处的颜色，在整张图片中选择符合颜色容差的像素，不受距离或区域是否相连的限制。保留与移除画笔均支持，右侧同步显示效果；再次点击可匹配另一种颜色。保留区优先，移除操作会跳过已保留的像素。选择“擦除标记”，可按 1–100 像素直径局部擦除任意保留或移除标记，解除保护后重新刷；撤销保留操作或清除全部标记也可解除保护。关闭智能扩选后，可用 1 像素普通笔刷逐点修补。<br>在原图上滚轮缩放或拖动画面，两边会同步显示同一区域，最高放大至 3200%；点击“适应”同时恢复全图。方向键逐像素移动画笔，空格涂抹。Ctrl / ⌘ + Z 撤销。</p>
       </div>
     </section>
     <section class="tips" aria-label="使用说明"><article><span>01 / 上传</span><h3>原图与结果，左右对照</h3><p>大图会缩小至最长边 2048 像素。左图用于标记，右图显示最终效果。</p></article><article><span>02 / 修补</span><h3>在原图上指出取舍</h3><p>保留画笔标出主体，移除画笔标出背景；右侧结果会同步更新。</p></article><article><span>03 / 下载</span><h3>导出修正后的透明底图</h3><p>隐藏彩色标记即可检查原图，下载的 PNG 包含全部手动修正。</p></article></section>

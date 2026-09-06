@@ -1,14 +1,16 @@
 import { MaskEditor, imagePoint } from './mask-editor.js';
-import { clamp, clampPan, zoomPanAt } from './viewport-geometry.js';
+import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 
 const $ = id => document.getElementById(id);
 const originalCanvas = $('original-canvas');
 const resultCanvas = $('result-canvas');
 let source = null, filename = '', busy = false, loading = false, selection = 0;
-let editor = null, mode = 'keep', pointer = null, keyboardPoint = null;
+let editor = null, mode = 'keep', pointer = null, keyboardPoint = null, cursorPoint = null;
 let zoom = 1, pan = { x: 0, y: 0 }, pointerAction = null, panStart = null;
 const MIN_ZOOM = 1, MAX_ZOOM = 32;
+const EDIT_MODES = ['keep', 'erase', 'unmark', 'pan'];
 const status = (text, error = false) => { $('status').textContent = text; $('status').classList.toggle('error', error); };
+const isSmartBrush = () => ['keep', 'erase'].includes(mode) && $('smart-enabled').checked;
 
 function render() {
   const locked = busy || loading || pointer !== null;
@@ -18,24 +20,30 @@ function render() {
   $('download').disabled = locked || !editor || !(editor.hasAutomaticResult || editor.hasMarks);
   $('reset').disabled = locked || !editor;
   $('file-input').disabled = busy || pointer !== null;
-  for (const id of ['keep', 'erase', 'pan']) $(id).disabled = locked || !editor;
-  const smartEnabled = $('smart-enabled').checked;
+  for (const id of EDIT_MODES) $(id).disabled = locked || !editor;
+  const smartEnabled = isSmartBrush();
   const brushLocked = locked || !editor || mode === 'pan';
-  $('smart-enabled').disabled = brushLocked;
+  $('smart-enabled').disabled = brushLocked || mode === 'unmark';
+  $('smart-toggle').hidden = mode === 'unmark';
   $('brush-size').disabled = brushLocked || smartEnabled;
-  for (const id of ['smart-radius', 'smart-tolerance']) $(id).disabled = brushLocked || !smartEnabled;
+  $('smart-tolerance').disabled = brushLocked || !smartEnabled;
   $('smart-options').hidden = $('smart-help').hidden = !smartEnabled;
+  $('brush-size-label').textContent = mode === 'unmark' ? '擦除直径' : '普通笔刷直径';
+  $('edit-help').textContent = mode === 'unmark'
+    ? '在左侧原图拖动，按笔刷直径擦除保留或移除标记，解除该区域的保护并恢复自动抠图结果（未自动抠图时恢复原图），随后可重新刷。'
+    : '在左侧原图标记：绿色保留区始终受保护，普通移除、智能移除和自动抠图都会保留它。选择“擦除标记”可局部清除后重新刷。';
   $('undo').disabled = locked || !editor?.history.length;
   $('redo').disabled = locked || !editor?.future.length;
   $('clear-marks').disabled = locked || !editor?.hasMarks;
   $('remove').textContent = busy ? '正在处理，请稍候…' : editor?.hasAutomaticResult ? '✦ 重新自动抠图' : '✦ 开始移除背景';
   $('preview-caption').textContent = !editor ? '上传后在左侧原图标记' : editor.hasAutomaticResult ? '左侧标记 · 右侧实时显示自动抠图结果' : editor.hasMarks ? '左侧标记 · 右侧实时显示手动修正' : '可在左图标记，也可直接自动抠图';
-  $('mode-label').textContent = mode === 'pan' ? '移动画面 · 拖动查看' : smartEnabled ? (mode === 'keep' ? '智能保留 · 相邻同色扩选' : '智能移除 · 相邻同色扩选') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
-  for (const id of ['keep', 'erase', 'pan']) { $(id).classList.toggle('selected', mode === id); $(id).setAttribute('aria-pressed', String(mode === id)); }
+  $('mode-label').textContent = mode === 'pan' ? '移动画面 · 拖动查看' : mode === 'unmark' ? '擦除标记 · 清除后重新刷' : smartEnabled ? (mode === 'keep' ? '智能保留 · 全图颜色匹配' : '智能移除 · 全图颜色匹配') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
+  for (const id of EDIT_MODES) { $(id).classList.toggle('selected', mode === id); $(id).setAttribute('aria-pressed', String(mode === id)); }
   $('editor-surface').classList.toggle('editing', !!editor && !busy && !loading);
   $('editor-surface').classList.toggle('panning', mode === 'pan' || pointerAction === 'pan');
   $('editor-surface').classList.toggle('dragging', pointerAction === 'pan');
   $('brush-cursor').classList.toggle('erasing', mode === 'erase');
+  $('brush-cursor').classList.toggle('unmarking', mode === 'unmark');
   if (mode === 'pan' || pointerAction === 'pan') $('brush-cursor').hidden = true;
   $('marks-canvas').hidden = !$('show-marks').checked;
   $('editor-surface').setAttribute('aria-busy', String(busy));
@@ -70,6 +78,7 @@ function applyViewport() {
   const showPixels = Math.min(pixelX, pixelY) * zoom >= 6;
   editorSurface.classList.toggle('pixel-grid', showPixels);
   resultCanvas.style.imageRendering = showPixels ? 'pixelated' : 'auto';
+  updateCursor();
 }
 function setZoom(value, anchor = null) {
   if (!editor || busy || loading || pointer !== null) return;
@@ -127,7 +136,7 @@ async function selectFile(file) {
     originalCanvas.getContext('2d').drawImage(canvas, 0, 0);
     editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'));
     resetViewport(false);
-    source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = null;
+    source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
     $('file-info').textContent = `${file.name} · ${canvas.width} × ${canvas.height}${ratio < 1 ? '（已缩小）' : ''}`;
     status('图片已就绪。可先标记区域，也可直接自动移除背景。');
   } catch { if (token === selection) status('无法读取这张图片，请换一张图片重试。', true); }
@@ -164,11 +173,10 @@ $('remove').addEventListener('click', async () => {
   } finally { bitmap?.close(); if (token === selection) { busy = false; $('progress').hidden = true; render(); } }
 });
 
-for (const id of ['keep', 'erase', 'pan']) $(id).addEventListener('click', () => { mode = id; $('brush-cursor').hidden = true; render(); });
-$('brush-size').addEventListener('input', () => { $('brush-value').value = `${$('brush-size').value} 像素`; updateCursorSize(); });
-$('smart-enabled').addEventListener('change', () => { render(); updateCursorSize(); });
+for (const id of EDIT_MODES) $(id).addEventListener('click', () => { mode = id; $('brush-cursor').hidden = true; render(); });
+$('brush-size').addEventListener('input', () => { $('brush-value').value = `${$('brush-size').value} 像素`; updateCursor(); });
+$('smart-enabled').addEventListener('change', () => { render(); updateCursor(); });
 $('smart-tolerance').addEventListener('input', () => { $('tolerance-value').value = $('smart-tolerance').value; });
-$('smart-radius').addEventListener('input', () => { $('radius-value').value = `${$('smart-radius').value} 像素`; updateCursorSize(); });
 $('show-marks').addEventListener('change', render);
 $('zoom-in').addEventListener('click', () => setZoom(zoom * 1.5));
 $('zoom-out').addEventListener('click', () => setZoom(zoom / 1.5));
@@ -179,32 +187,35 @@ $('original-stage').addEventListener('wheel', e => {
   setZoom(zoom * Math.exp(-e.deltaY * 0.0015), { x: e.clientX, y: e.clientY });
 }, { passive: false });
 
-function positionCursor(x, y) {
+function positionCursor(point) {
+  cursorPoint = { ...point };
   const cursor = $('brush-cursor');
   cursor.hidden = busy || loading || !editor || mode === 'pan';
-  cursor.style.left = `${x}px`; cursor.style.top = `${y}px`;
-  updateCursorSize();
+  updateCursor();
 }
-function updateCursorSize() {
-  if (!editor) return;
-  const smartEnabled = $('smart-enabled').checked;
-  $('brush-cursor').classList.toggle('single-pixel', !smartEnabled && Number($('brush-size').value) === 1);
-  $('brush-cursor').classList.toggle('smart', smartEnabled);
-  const imageDiameter = smartEnabled ? Number($('smart-radius').value) * 2 : Number($('brush-size').value);
-  const diameter = imageDiameter * surfaceSize().width / originalCanvas.width;
-  $('brush-cursor').style.width = $('brush-cursor').style.height = `${diameter}px`;
+function updateCursor() {
+  if (!editor || !cursorPoint) return;
+  const cursor = $('brush-cursor');
+  const smartEnabled = isSmartBrush();
+  const geometry = brushCursorGeometry(cursorPoint, smartEnabled ? 1 : Number($('brush-size').value), surfaceSize(), originalCanvas);
+  // Smart mode has a sampling marker; manual brushes show their actual image-pixel footprint.
+  const width = smartEnabled ? 14 / zoom : geometry.width;
+  const height = smartEnabled ? 14 / zoom : geometry.height;
+  cursor.classList.toggle('single-pixel', !smartEnabled && geometry.singlePixel);
+  cursor.classList.toggle('smart', smartEnabled);
+  cursor.style.left = `${geometry.x}px`; cursor.style.top = `${geometry.y}px`;
+  cursor.style.width = `${width}px`; cursor.style.height = `${height}px`;
+  // Inset-only outlines never enlarge the footprint, including sub-screen-pixel sizes.
+  cursor.style.setProperty('--cursor-line', `${Math.min(1 / zoom, width / 4, height / 4)}px`);
 }
 function pointFromEvent(e) {
   const rect = originalCanvas.getBoundingClientRect();
   const point = imagePoint(e.clientX, e.clientY, rect, originalCanvas.width, originalCanvas.height);
-  const snap = $('smart-enabled').checked || Number($('brush-size').value) === 1;
-  const x = snap ? Math.floor(point.x) + 0.5 : point.x;
-  const y = snap ? Math.floor(point.y) + 0.5 : point.y;
-  positionCursor(x * surfaceSize().width / originalCanvas.width, y * surfaceSize().height / originalCanvas.height);
+  positionCursor(point);
   return point;
 }
 function brushRadius() { return Math.max(0.5, Number($('brush-size').value) / 2); }
-function smartSettings() { return { enabled: $('smart-enabled').checked, radius: Number($('smart-radius').value), tolerance: Number($('smart-tolerance').value) }; }
+function smartSettings() { return { enabled: isSmartBrush(), tolerance: Number($('smart-tolerance').value) }; }
 originalCanvas.addEventListener('pointerdown', e => {
   if (!editor || busy || loading || pointer !== null || ![0, 1].includes(e.button)) return;
   e.preventDefault(); originalCanvas.focus({ preventScroll: true });
@@ -226,6 +237,7 @@ originalCanvas.addEventListener('pointermove', e => {
 });
 function finishStroke(e, cancel = false) {
   if (pointer !== e.pointerId) return;
+  const showCursor = pointerAction === 'brush' && !cancel && e.pointerType !== 'touch' && originalCanvas.matches(':hover');
   if (pointerAction === 'brush') {
     if (cancel) editor.cancelStroke();
     else { editor.extendStroke(pointFromEvent(e)); editor.endStroke(); }
@@ -233,7 +245,7 @@ function finishStroke(e, cancel = false) {
   const id = pointer; pointer = null;
   pointerAction = null; panStart = null;
   if (originalCanvas.hasPointerCapture(id)) originalCanvas.releasePointerCapture(id);
-  $('brush-cursor').hidden = true;
+  $('brush-cursor').hidden = !showCursor;
   render();
 }
 originalCanvas.addEventListener('pointerup', e => finishStroke(e));
@@ -271,7 +283,7 @@ originalCanvas.addEventListener('keydown', e => {
     keyboardPoint.x = Math.max(0.5, Math.min(resultCanvas.width - 0.5, keyboardPoint.x + delta[0]));
     keyboardPoint.y = Math.max(0.5, Math.min(resultCanvas.height - 0.5, keyboardPoint.y + delta[1]));
   } else { editor.beginStroke(mode, brushRadius(), { ...keyboardPoint }, smartSettings()); editor.endStroke(); render(); }
-  positionCursor(keyboardPoint.x * surfaceSize().width / originalCanvas.width, keyboardPoint.y * surfaceSize().height / originalCanvas.height);
+  positionCursor(keyboardPoint);
 });
 
 document.querySelectorAll('[data-bg]').forEach(button => button.addEventListener('click', () => {
@@ -293,7 +305,7 @@ $('download').addEventListener('click', async () => {
 });
 $('reset').addEventListener('click', () => {
   if (busy || loading || pointer !== null) return;
-  ++selection; editor = null; source = null; keyboardPoint = null; pointerAction = null; panStart = null;
+  ++selection; editor = null; source = null; keyboardPoint = cursorPoint = null; pointerAction = null; panStart = null;
   resetViewport(false);
   for (const id of ['original-canvas', 'result-canvas', 'marks-canvas']) { $(id).width = 1; $(id).height = 1; }
   $('brush-cursor').hidden = true;
