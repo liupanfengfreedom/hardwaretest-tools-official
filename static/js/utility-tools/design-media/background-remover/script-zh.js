@@ -7,7 +7,7 @@ const resultCanvas = $('result-canvas');
 let source = null, filename = '', busy = false, loading = false, selection = 0;
 let editor = null, mode = 'keep', pointer = null, keyboardPoint = null;
 let zoom = 1, pan = { x: 0, y: 0 }, pointerAction = null, panStart = null;
-const MIN_ZOOM = 1, MAX_ZOOM = 8;
+const MIN_ZOOM = 1, MAX_ZOOM = 32;
 const status = (text, error = false) => { $('status').textContent = text; $('status').classList.toggle('error', error); };
 
 function render() {
@@ -47,8 +47,17 @@ function viewportSize() {
 }
 function applyViewport() {
   if (!editor) return;
-  pan = clampPan(pan, zoom, surfaceSize(), viewportSize());
-  $('editor-surface').style.transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+  const surface = surfaceSize();
+  const editorSurface = $('editor-surface');
+  pan = clampPan(pan, zoom, surface, viewportSize());
+  editorSurface.style.transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+  const pixelX = surface.width / originalCanvas.width;
+  const pixelY = surface.height / originalCanvas.height;
+  editorSurface.style.setProperty('--pixel-x', `${pixelX}px`);
+  editorSurface.style.setProperty('--pixel-y', `${pixelY}px`);
+  editorSurface.style.setProperty('--grid-line', `${1 / zoom}px`);
+  editorSurface.style.setProperty('--ui-scale', 1 / zoom);
+  editorSurface.classList.toggle('pixel-grid', Math.min(pixelX, pixelY) * zoom >= 6);
 }
 function setZoom(value, anchor = null) {
   if (!editor || busy || loading || pointer !== null) return;
@@ -141,10 +150,10 @@ $('remove').addEventListener('click', async () => {
 });
 
 for (const id of ['keep', 'erase', 'pan']) $(id).addEventListener('click', () => { mode = id; $('brush-cursor').hidden = true; render(); });
-$('brush-size').addEventListener('input', () => { $('brush-value').value = `${$('brush-size').value} px`; $('brush-cursor').style.width = $('brush-cursor').style.height = `${Number($('brush-size').value) / zoom}px`; });
+$('brush-size').addEventListener('input', () => { $('brush-value').value = `${$('brush-size').value} 像素`; updateCursorSize(); });
 $('show-marks').addEventListener('change', render);
-$('zoom-in').addEventListener('click', () => setZoom(zoom * 1.25));
-$('zoom-out').addEventListener('click', () => setZoom(zoom / 1.25));
+$('zoom-in').addEventListener('click', () => setZoom(zoom * 1.5));
+$('zoom-out').addEventListener('click', () => setZoom(zoom / 1.5));
 $('zoom-reset').addEventListener('click', () => resetViewport());
 $('original-stage').addEventListener('wheel', e => {
   if (!editor || busy || loading || pointer !== null) return;
@@ -156,14 +165,20 @@ function positionCursor(x, y) {
   const cursor = $('brush-cursor');
   cursor.hidden = busy || loading || !editor || mode === 'pan';
   cursor.style.left = `${x}px`; cursor.style.top = `${y}px`;
-  cursor.style.width = cursor.style.height = `${Number($('brush-size').value) / zoom}px`;
+  updateCursorSize();
+}
+function updateCursorSize() {
+  if (!editor) return;
+  $('brush-cursor').classList.toggle('single-pixel', Number($('brush-size').value) === 1);
+  const diameter = Number($('brush-size').value) * surfaceSize().width / originalCanvas.width;
+  $('brush-cursor').style.width = $('brush-cursor').style.height = `${diameter}px`;
 }
 function pointFromEvent(e) {
   const rect = originalCanvas.getBoundingClientRect();
   positionCursor((e.clientX - rect.left) / zoom, (e.clientY - rect.top) / zoom);
   return imagePoint(e.clientX, e.clientY, rect, originalCanvas.width, originalCanvas.height);
 }
-function brushRadius() { return Number($('brush-size').value) * originalCanvas.width / originalCanvas.getBoundingClientRect().width / 2; }
+function brushRadius() { return Math.max(0.5, Number($('brush-size').value) / 2); }
 originalCanvas.addEventListener('pointerdown', e => {
   if (!editor || busy || loading || pointer !== null || ![0, 1].includes(e.button)) return;
   e.preventDefault(); originalCanvas.focus({ preventScroll: true });
@@ -217,8 +232,8 @@ document.addEventListener('keydown', e => {
 originalCanvas.addEventListener('keydown', e => {
   if (!editor || busy || loading || pointer !== null || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key)) return;
   e.preventDefault();
-  keyboardPoint ??= { x: resultCanvas.width / 2, y: resultCanvas.height / 2 };
-  const step = brushRadius() * (e.shiftKey ? 1 : 0.3);
+  keyboardPoint ??= { x: Math.floor(resultCanvas.width / 2) + 0.5, y: Math.floor(resultCanvas.height / 2) + 0.5 };
+  const step = e.shiftKey ? 10 : 1;
   const delta = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
   if (delta) {
     keyboardPoint.x = Math.max(0, Math.min(resultCanvas.width, keyboardPoint.x + delta[0]));

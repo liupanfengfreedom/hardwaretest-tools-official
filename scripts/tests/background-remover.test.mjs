@@ -29,6 +29,20 @@ test('erase makes pixels transparent, keep restores exact source color; original
   assert.deepEqual(pixel(editor.result, 20, 20), pixel(editor.source, 20, 20));
 });
 
+test('one-pixel brush changes exact pixels with no antialiased alpha', () => {
+  const editor = fixture();
+  stroke(editor, 'erase', { x: 10.2, y: 10.8 }, { x: 14.2, y: 14.8 });
+  // The helper above uses a 5 px radius; explicitly add a one-pixel diagonal.
+  editor.undo();
+  editor.beginStroke('erase', 0.5, { x: 10.2, y: 10.8 });
+  editor.extendStroke({ x: 14.2, y: 14.8 });
+  editor.endStroke();
+  for (let i = 10; i <= 14; i += 1) assert.equal(pixel(editor.result, i, i)[3], 0);
+  assert.equal(pixel(editor.result, 11, 10)[3], 255);
+  const alphaValues = new Set(editor.result.getContext('2d').getImageData(0, 0, 80, 60).data.filter((_, index) => index % 4 === 3));
+  assert.deepEqual([...alphaValues].sort((a, b) => a - b), [0, 255]);
+});
+
 test('fast strokes form continuous lines; one undo removes the whole gesture', () => {
   const editor = fixture();
   stroke(editor, 'erase', { x: 10, y: 30 }, { x: 70, y: 30 });

@@ -39,7 +39,10 @@ main{max-width:1500px}
 .editing.panning.dragging #original-canvas{cursor:grabbing}
 #result-canvas{object-fit:contain}
 .marks-canvas{z-index:2;opacity:.4;pointer-events:none}
-.brush-cursor{position:absolute;z-index:3;border:2px solid #059669;box-shadow:0 0 0 1px white,inset 0 0 0 1px white;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+.editor-surface.pixel-grid::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background-image:linear-gradient(to right,rgba(24,38,58,.28) var(--grid-line),transparent var(--grid-line)),linear-gradient(to bottom,rgba(24,38,58,.28) var(--grid-line),transparent var(--grid-line));background-size:var(--pixel-x) var(--pixel-y)}
+.editor-surface.pixel-grid canvas{image-rendering:pixelated}
+.brush-cursor{position:absolute;z-index:4;border:calc(2px * var(--ui-scale,1)) solid #059669;box-shadow:0 0 0 calc(1px * var(--ui-scale,1)) white,inset 0 0 0 calc(1px * var(--ui-scale,1)) white;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+.brush-cursor.single-pixel{border-radius:0}
 .brush-cursor.erasing{border-color:#e23d4b}
 .brush-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .brush-tool,.history-tools button{border:1px solid #d5dde8;background:white;border-radius:7px;padding:10px 6px;font-size:14px;color:#40536f}
