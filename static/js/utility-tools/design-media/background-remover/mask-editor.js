@@ -1,3 +1,5 @@
+import { growSimilarRegion } from './smart-region.js';
+
 // Source pixels are immutable. Preview guides are never drawn into the output.
 export function imagePoint(clientX, clientY, rect, width, height) {
   return { x: (clientX - rect.left) * width / rect.width, y: (clientY - rect.top) * height / rect.height };
@@ -42,9 +44,22 @@ export class MaskEditor {
     this.rebuild();
   }
 
-  beginStroke(mode, radius, point) {
-    if (this.active) return;
-    this.active = { kind: 'stroke', mode, radius, points: [point] };
+  beginStroke(mode, radius, point, smart = null) {
+    if (this.active || !['keep', 'erase'].includes(mode)) return;
+    let selection = null;
+    if (smart?.enabled) {
+      const x = Math.floor(point.x), y = Math.floor(point.y);
+      if (x < 0 || y < 0 || x >= this.source.width || y >= this.source.height) return;
+      this.sourcePixels ??= this.source.getContext('2d').getImageData(0, 0, this.source.width, this.source.height).data;
+      const offset = (y * this.source.width + x) * 4;
+      selection = {
+        radius: Math.max(1, Math.min(100, Math.round(Number(smart.radius) || 24))),
+        tolerance: Math.max(0, Math.min(100, Number(smart.tolerance) || 0)),
+        reference: Array.from(this.sourcePixels.slice(offset, offset + 4))
+      };
+      if (!selection.reference[3]) return;
+    }
+    this.active = { kind: 'stroke', mode, radius, points: [point], smart: selection };
     this.paintSegment(this.active, point, point);
     this.render();
   }
@@ -65,6 +80,10 @@ export class MaskEditor {
   cancelStroke() { this.active = null; this.rebuild(); }
 
   paintSegment(stroke, from, to) {
+    if (stroke.smart) {
+      this.paintSmartSegment(stroke, from, to);
+      return;
+    }
     const singlePixel = stroke.radius <= 0.5;
     const margin = singlePixel ? 0 : stroke.radius;
     const left = Math.max(0, Math.floor(Math.min(from.x, to.x) - margin));
@@ -115,6 +134,30 @@ export class MaskEditor {
           if ((px - nearestX) ** 2 + (py - nearestY) ** 2 <= radiusSquared) setPixel(x, y);
         }
       }
+    }
+    maskContext.putImageData(maskPixels, left, top);
+    markContext.putImageData(markPixels, left, top);
+  }
+
+  paintSmartSegment(stroke, from, to) {
+    const { radius, tolerance, reference } = stroke.smart;
+    const region = growSimilarRegion(this.sourcePixels, this.source.width, this.source.height, from, to, reference, radius, tolerance);
+    if (!region?.count) return;
+    const { left, top, width, height, selected } = region;
+    const maskContext = this.mask.getContext('2d');
+    const markContext = this.marks.getContext('2d');
+    const maskPixels = maskContext.getImageData(left, top, width, height);
+    const markPixels = markContext.getImageData(left, top, width, height);
+    const color = stroke.mode === 'keep' ? [16, 185, 129] : [240, 68, 82];
+    for (let pixel = 0; pixel < selected.length; pixel += 1) {
+      if (!selected[pixel]) continue;
+      const offset = pixel * 4;
+      maskPixels.data[offset] = maskPixels.data[offset + 1] = maskPixels.data[offset + 2] = 0;
+      maskPixels.data[offset + 3] = stroke.mode === 'keep' ? 255 : 0;
+      markPixels.data[offset] = color[0];
+      markPixels.data[offset + 1] = color[1];
+      markPixels.data[offset + 2] = color[2];
+      markPixels.data[offset + 3] = 255;
     }
     maskContext.putImageData(maskPixels, left, top);
     markContext.putImageData(markPixels, left, top);

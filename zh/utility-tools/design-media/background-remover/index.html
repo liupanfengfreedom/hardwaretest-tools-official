@@ -31,7 +31,13 @@
           <button id="pan" class="brush-tool pan" aria-pressed="false" disabled>✥ 移动画面</button>
         </div>
         <p class="edit-help" id="edit-help">在左侧原图涂抹：绿色保留，红色移除；右侧实时查看抠图效果。</p>
-        <label class="brush-label" for="brush-size">笔刷直径 <output id="brush-value" for="brush-size">30 像素</output></label>
+        <label class="toggle smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>智能扩选 · 相连近似颜色</label>
+        <div class="smart-options" id="smart-options">
+          <div><label class="brush-label" for="smart-tolerance">颜色容差 <output id="tolerance-value" for="smart-tolerance">12</output></label><input id="smart-tolerance" type="range" min="0" max="100" value="12" step="1" disabled></div>
+          <div><label class="brush-label" for="smart-radius">扩展半径 <output id="radius-value" for="smart-radius">24 像素</output></label><input id="smart-radius" type="range" min="1" max="100" value="24" step="1" disabled></div>
+        </div>
+        <p class="smart-help" id="smart-help">虚线圈内按落笔处颜色扩选；容差 0 仅匹配完全相同颜色。调整参数只影响后续笔画。</p>
+        <label class="brush-label" for="brush-size">普通笔刷直径 <output id="brush-value" for="brush-size">30 像素</output></label>
         <input id="brush-size" type="range" min="1" max="100" step="1" value="30" disabled>
         <div class="history-tools"><button id="undo" disabled>↶ 撤销</button><button id="redo" disabled>↷ 重做</button><button id="clear-marks" disabled>清除标记</button></div>
         </div>
@@ -49,12 +55,12 @@
           <section class="image-panel" aria-label="原图标记区"><div class="panel-heading"><div><h3>原图 · 像素标记区</h3><span id="mode-label">保留画笔 · 补回原图</span></div><div class="zoom-tools" role="group" aria-label="原图缩放"><button id="zoom-out" aria-label="缩小原图" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大原图，最高 3200%" disabled>＋</button><button id="zoom-reset" disabled>适应</button></div></div>
             <div class="stage checker" id="original-stage"><div class="empty" id="original-empty"><div class="empty-icon" aria-hidden="true">＋</div><h2>上传一张图片</h2><p>在原图上标记保留或移除区域</p></div><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="原图，可用保留或移除画笔涂抹" aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
           </section>
-          <section class="image-panel" aria-label="抠图结果"><div class="panel-heading"><h3>抠图结果</h3><span>实时预览</span></div>
+          <section class="image-panel" aria-label="抠图结果"><div class="panel-heading"><h3>抠图结果</h3><span id="result-view-state">同步视图 · 100%</span></div>
             <div class="stage checker" id="stage"><div class="empty" id="result-empty"><div class="empty-icon" aria-hidden="true">✂</div><h2>抠图效果显示在这里</h2><p>左图涂抹时，结果会同步更新</p></div><canvas id="result-canvas" aria-label="抠图结果预览" hidden></canvas></div>
           </section>
         </div>
         <div class="preview-footer"><span id="preview-caption">上传后在左侧原图标记</span><span>彩色标记不会出现在下载图片中</span></div>
-        <p class="editor-note">在左侧原图操作：笔刷直径以原图像素计算，1 像素笔刷可修改单个像素；右侧同步显示最终效果。<br>滚轮可围绕指针位置放大，最高 3200%；像素足够大时会显示网格。方向键逐像素移动画笔，空格涂抹。Ctrl / ⌘ + Z 撤销。</p>
+        <p class="editor-note">智能扩选会根据落笔处的颜色，在设定半径内选择相连的近似色像素。保留与移除画笔均支持，右侧同步显示效果。关闭智能扩选后，可用 1 像素普通笔刷逐点修补。<br>在原图上滚轮缩放或拖动画面，两边会同步显示同一区域，最高放大至 3200%；点击“适应”同时恢复全图。方向键逐像素移动画笔，空格涂抹。Ctrl / ⌘ + Z 撤销。</p>
       </div>
     </section>
     <section class="tips" aria-label="使用说明"><article><span>01 / 上传</span><h3>原图与结果，左右对照</h3><p>大图会缩小至最长边 2048 像素。左图用于标记，右图显示最终效果。</p></article><article><span>02 / 修补</span><h3>在原图上指出取舍</h3><p>保留画笔标出主体，移除画笔标出背景；右侧结果会同步更新。</p></article><article><span>03 / 下载</span><h3>导出修正后的透明底图</h3><p>隐藏彩色标记即可检查原图，下载的 PNG 包含全部手动修正。</p></article></section>

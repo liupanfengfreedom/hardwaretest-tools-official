@@ -18,13 +18,19 @@ function render() {
   $('download').disabled = locked || !editor || !(editor.hasAutomaticResult || editor.hasMarks);
   $('reset').disabled = locked || !editor;
   $('file-input').disabled = busy || pointer !== null;
-  for (const id of ['keep', 'erase', 'pan', 'brush-size']) $(id).disabled = locked || !editor;
+  for (const id of ['keep', 'erase', 'pan']) $(id).disabled = locked || !editor;
+  const smartEnabled = $('smart-enabled').checked;
+  const brushLocked = locked || !editor || mode === 'pan';
+  $('smart-enabled').disabled = brushLocked;
+  $('brush-size').disabled = brushLocked || smartEnabled;
+  for (const id of ['smart-radius', 'smart-tolerance']) $(id).disabled = brushLocked || !smartEnabled;
+  $('smart-options').hidden = $('smart-help').hidden = !smartEnabled;
   $('undo').disabled = locked || !editor?.history.length;
   $('redo').disabled = locked || !editor?.future.length;
   $('clear-marks').disabled = locked || !editor?.hasMarks;
   $('remove').textContent = busy ? '正在处理，请稍候…' : editor?.hasAutomaticResult ? '✦ 重新自动抠图' : '✦ 开始移除背景';
   $('preview-caption').textContent = !editor ? '上传后在左侧原图标记' : editor.hasAutomaticResult ? '左侧标记 · 右侧实时显示自动抠图结果' : editor.hasMarks ? '左侧标记 · 右侧实时显示手动修正' : '可在左图标记，也可直接自动抠图';
-  $('mode-label').textContent = mode === 'keep' ? '保留画笔 · 补回原图' : mode === 'erase' ? '移除画笔 · 擦除背景' : '移动画面 · 拖动查看';
+  $('mode-label').textContent = mode === 'pan' ? '移动画面 · 拖动查看' : smartEnabled ? (mode === 'keep' ? '智能保留 · 相邻同色扩选' : '智能移除 · 相邻同色扩选') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
   for (const id of ['keep', 'erase', 'pan']) { $(id).classList.toggle('selected', mode === id); $(id).setAttribute('aria-pressed', String(mode === id)); }
   $('editor-surface').classList.toggle('editing', !!editor && !busy && !loading);
   $('editor-surface').classList.toggle('panning', mode === 'pan' || pointerAction === 'pan');
@@ -37,6 +43,7 @@ function render() {
   $('zoom-in').disabled = locked || !editor || zoom >= MAX_ZOOM;
   $('zoom-reset').disabled = locked || !editor || (zoom === 1 && pan.x === 0 && pan.y === 0);
   $('zoom-value').value = `${Math.round(zoom * 100)}%`;
+  $('result-view-state').textContent = `同步视图 · ${Math.round(zoom * 100)}%`;
 }
 
 function surfaceSize() {
@@ -50,14 +57,19 @@ function applyViewport() {
   const surface = surfaceSize();
   const editorSurface = $('editor-surface');
   pan = clampPan(pan, zoom, surface, viewportSize());
-  editorSurface.style.transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+  // Both canvases have the same fitted dimensions and centered transform origin.
+  // Applying one transform preserves the same image coordinates in both panels.
+  const transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+  editorSurface.style.transform = resultCanvas.style.transform = transform;
   const pixelX = surface.width / originalCanvas.width;
   const pixelY = surface.height / originalCanvas.height;
   editorSurface.style.setProperty('--pixel-x', `${pixelX}px`);
   editorSurface.style.setProperty('--pixel-y', `${pixelY}px`);
   editorSurface.style.setProperty('--grid-line', `${1 / zoom}px`);
   editorSurface.style.setProperty('--ui-scale', 1 / zoom);
-  editorSurface.classList.toggle('pixel-grid', Math.min(pixelX, pixelY) * zoom >= 6);
+  const showPixels = Math.min(pixelX, pixelY) * zoom >= 6;
+  editorSurface.classList.toggle('pixel-grid', showPixels);
+  resultCanvas.style.imageRendering = showPixels ? 'pixelated' : 'auto';
 }
 function setZoom(value, anchor = null) {
   if (!editor || busy || loading || pointer !== null) return;
@@ -71,7 +83,10 @@ function setZoom(value, anchor = null) {
 }
 function resetViewport(update = true) {
   zoom = 1; pan = { x: 0, y: 0 };
-  $('editor-surface').style.transform = '';
+  $('editor-surface').style.transform = resultCanvas.style.transform = '';
+  $('editor-surface').classList.remove('pixel-grid');
+  resultCanvas.style.imageRendering = 'auto';
+  applyViewport();
   if (update) render();
 }
 
@@ -151,6 +166,9 @@ $('remove').addEventListener('click', async () => {
 
 for (const id of ['keep', 'erase', 'pan']) $(id).addEventListener('click', () => { mode = id; $('brush-cursor').hidden = true; render(); });
 $('brush-size').addEventListener('input', () => { $('brush-value').value = `${$('brush-size').value} 像素`; updateCursorSize(); });
+$('smart-enabled').addEventListener('change', () => { render(); updateCursorSize(); });
+$('smart-tolerance').addEventListener('input', () => { $('tolerance-value').value = $('smart-tolerance').value; });
+$('smart-radius').addEventListener('input', () => { $('radius-value').value = `${$('smart-radius').value} 像素`; updateCursorSize(); });
 $('show-marks').addEventListener('change', render);
 $('zoom-in').addEventListener('click', () => setZoom(zoom * 1.5));
 $('zoom-out').addEventListener('click', () => setZoom(zoom / 1.5));
@@ -169,23 +187,31 @@ function positionCursor(x, y) {
 }
 function updateCursorSize() {
   if (!editor) return;
-  $('brush-cursor').classList.toggle('single-pixel', Number($('brush-size').value) === 1);
-  const diameter = Number($('brush-size').value) * surfaceSize().width / originalCanvas.width;
+  const smartEnabled = $('smart-enabled').checked;
+  $('brush-cursor').classList.toggle('single-pixel', !smartEnabled && Number($('brush-size').value) === 1);
+  $('brush-cursor').classList.toggle('smart', smartEnabled);
+  const imageDiameter = smartEnabled ? Number($('smart-radius').value) * 2 : Number($('brush-size').value);
+  const diameter = imageDiameter * surfaceSize().width / originalCanvas.width;
   $('brush-cursor').style.width = $('brush-cursor').style.height = `${diameter}px`;
 }
 function pointFromEvent(e) {
   const rect = originalCanvas.getBoundingClientRect();
-  positionCursor((e.clientX - rect.left) / zoom, (e.clientY - rect.top) / zoom);
-  return imagePoint(e.clientX, e.clientY, rect, originalCanvas.width, originalCanvas.height);
+  const point = imagePoint(e.clientX, e.clientY, rect, originalCanvas.width, originalCanvas.height);
+  const snap = $('smart-enabled').checked || Number($('brush-size').value) === 1;
+  const x = snap ? Math.floor(point.x) + 0.5 : point.x;
+  const y = snap ? Math.floor(point.y) + 0.5 : point.y;
+  positionCursor(x * surfaceSize().width / originalCanvas.width, y * surfaceSize().height / originalCanvas.height);
+  return point;
 }
 function brushRadius() { return Math.max(0.5, Number($('brush-size').value) / 2); }
+function smartSettings() { return { enabled: $('smart-enabled').checked, radius: Number($('smart-radius').value), tolerance: Number($('smart-tolerance').value) }; }
 originalCanvas.addEventListener('pointerdown', e => {
   if (!editor || busy || loading || pointer !== null || ![0, 1].includes(e.button)) return;
   e.preventDefault(); originalCanvas.focus({ preventScroll: true });
   pointer = e.pointerId; originalCanvas.setPointerCapture(pointer);
   pointerAction = mode === 'pan' || e.button === 1 ? 'pan' : 'brush';
   if (pointerAction === 'pan') panStart = { clientX: e.clientX, clientY: e.clientY, x: pan.x, y: pan.y };
-  else editor.beginStroke(mode, brushRadius(), pointFromEvent(e));
+  else editor.beginStroke(mode, brushRadius(), pointFromEvent(e), smartSettings());
   render();
 });
 originalCanvas.addEventListener('pointermove', e => {
@@ -232,14 +258,19 @@ document.addEventListener('keydown', e => {
 originalCanvas.addEventListener('keydown', e => {
   if (!editor || busy || loading || pointer !== null || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key)) return;
   e.preventDefault();
+  if (mode === 'pan') {
+    const distance = e.shiftKey ? 80 : 24;
+    const delta = { ArrowLeft: [distance, 0], ArrowRight: [-distance, 0], ArrowUp: [0, distance], ArrowDown: [0, -distance] }[e.key];
+    if (delta) { pan.x += delta[0]; pan.y += delta[1]; applyViewport(); render(); }
+    return;
+  }
   keyboardPoint ??= { x: Math.floor(resultCanvas.width / 2) + 0.5, y: Math.floor(resultCanvas.height / 2) + 0.5 };
   const step = e.shiftKey ? 10 : 1;
   const delta = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
   if (delta) {
-    keyboardPoint.x = Math.max(0, Math.min(resultCanvas.width, keyboardPoint.x + delta[0]));
-    keyboardPoint.y = Math.max(0, Math.min(resultCanvas.height, keyboardPoint.y + delta[1]));
-  } else { editor.beginStroke(mode, brushRadius(), { ...keyboardPoint }); editor.endStroke(); render(); }
-  const rect = originalCanvas.getBoundingClientRect();
+    keyboardPoint.x = Math.max(0.5, Math.min(resultCanvas.width - 0.5, keyboardPoint.x + delta[0]));
+    keyboardPoint.y = Math.max(0.5, Math.min(resultCanvas.height - 0.5, keyboardPoint.y + delta[1]));
+  } else { editor.beginStroke(mode, brushRadius(), { ...keyboardPoint }, smartSettings()); editor.endStroke(); render(); }
   positionCursor(keyboardPoint.x * surfaceSize().width / originalCanvas.width, keyboardPoint.y * surfaceSize().height / originalCanvas.height);
 });
 

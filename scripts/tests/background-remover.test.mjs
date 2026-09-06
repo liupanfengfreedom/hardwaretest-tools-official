@@ -140,3 +140,104 @@ test('zoom stays anchored under the pointer and pan cannot lose the image', () =
   assert.deepEqual(clampPan({ x: 999, y: -999 }, 2, surface, surface), { x: 250, y: -150 });
   assert.deepEqual(clampPan({ x: 50, y: 50 }, 1, surface, surface), { x: 0, y: 0 });
 });
+
+function smartStroke(editor, mode, point, options = {}, end = point) {
+  editor.beginStroke(mode, 0.5, point, { enabled: true, radius: 8, tolerance: 0, ...options });
+  editor.extendStroke(end);
+  editor.endStroke();
+}
+
+test('smart erase grows through matching colors, within its radius, without crossing a color barrier', () => {
+  const editor = fixture();
+  const ctx = editor.source.getContext('2d');
+  ctx.fillStyle = '#ef2030'; ctx.fillRect(24, 0, 1, 60);
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 22, 20)[3], 0);
+  assert.equal(pixel(editor.result, 20, 28)[3], 0);
+  assert.equal(pixel(editor.result, 20, 29)[3], 255);
+  assert.equal(pixel(editor.result, 24, 20)[3], 255);
+  assert.equal(pixel(editor.result, 25, 20)[3], 255);
+  assert.deepEqual(pixel(editor.source, 22, 20), [50, 100, 200, 255]);
+});
+
+test('smart keep restores matching original pixels after AI removal and exports the corrected PNG', async () => {
+  const editor = fixture();
+  editor.setAutomaticResult(factory());
+  smartStroke(editor, 'keep', { x: 20.5, y: 20.5 });
+  assert.deepEqual(pixel(editor.result, 25, 20), [50, 100, 200, 255]);
+  assert.equal(pixel(editor.result, 29, 20)[3], 0);
+  const exported = factory();
+  exported.getContext('2d').drawImage(await loadImage(editor.result.toBuffer('image/png')), 0, 0);
+  assert.deepEqual(pixel(exported, 25, 20), [50, 100, 200, 255]);
+  assert.equal(pixel(exported, 29, 20)[3], 0);
+});
+
+test('color tolerance is relative to the initial seed, preventing gradual color drift during dragging', () => {
+  const editor = fixture();
+  const ctx = editor.source.getContext('2d');
+  ctx.fillStyle = '#646464'; ctx.fillRect(0, 0, 20, 60);
+  ctx.fillStyle = '#6e6e6e'; ctx.fillRect(20, 0, 10, 60);
+  ctx.fillStyle = '#828282'; ctx.fillRect(30, 0, 10, 60);
+  const seed = { x: 19.5, y: 20.5 };
+  smartStroke(editor, 'erase', seed, { radius: 20, tolerance: 0 });
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  editor.undo();
+  smartStroke(editor, 'erase', seed, { radius: 20, tolerance: 5 }, { x: 35.5, y: 20.5 });
+  assert.equal(pixel(editor.result, 25, 20)[3], 0);
+  assert.equal(pixel(editor.result, 35, 20)[3], 255);
+  editor.undo();
+  smartStroke(editor, 'erase', seed, { radius: 20, tolerance: 15 });
+  assert.equal(pixel(editor.result, 35, 20)[3], 0);
+});
+
+test('smart history snapshots settings and survives undo, redo, clear, and AI reruns', () => {
+  const editor = fixture();
+  const options = { enabled: true, radius: 4, tolerance: 0 };
+  editor.beginStroke('erase', 0.5, { x: 20.5, y: 20.5 }, options);
+  editor.endStroke();
+  options.radius = 100; options.tolerance = 100;
+  const expected = editor.result.getContext('2d').getImageData(0, 0, 80, 60).data;
+  editor.undo(); editor.redo();
+  assert.deepEqual(editor.result.getContext('2d').getImageData(0, 0, 80, 60).data, expected);
+  editor.setAutomaticResult(editor.source);
+  assert.deepEqual(editor.result.getContext('2d').getImageData(0, 0, 80, 60).data, expected);
+  editor.clearMarks();
+  assert.equal(pixel(editor.result, 20, 20)[3], 255);
+  editor.undo();
+  assert.deepEqual(editor.result.getContext('2d').getImageData(0, 0, 80, 60).data, expected);
+});
+
+test('smart selection respects transparent gaps and ignores fully transparent seeds', () => {
+  const editor = fixture();
+  editor.source.getContext('2d').clearRect(24, 0, 1, 60);
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 }, { tolerance: 100 });
+  assert.equal(pixel(editor.result, 22, 20)[3], 0);
+  assert.equal(pixel(editor.result, 25, 20)[3], 255);
+  const count = editor.history.length;
+  smartStroke(editor, 'keep', { x: 24.5, y: 20.5 }, { tolerance: 100 });
+  assert.equal(editor.history.length, count);
+});
+
+test('disabling smart mode preserves exact one-pixel editing; movement mode cannot paint', () => {
+  const editor = fixture();
+  smartStroke(editor, 'erase', { x: 20.5, y: 20.5 }, { enabled: false });
+  assert.equal(pixel(editor.result, 20, 20)[3], 0);
+  assert.equal(pixel(editor.result, 21, 20)[3], 255);
+  const count = editor.history.length;
+  editor.beginStroke('pan', 5, { x: 30, y: 30 }); editor.endStroke();
+  assert.equal(editor.history.length, count);
+  assert.equal(pixel(editor.result, 30, 30)[3], 255);
+});
+
+test('smart strokes cover rapid movement, clip at boundaries, and cancel as a whole gesture', () => {
+  const editor = fixture();
+  smartStroke(editor, 'erase', { x: 5.5, y: 20.5 }, { radius: 3 }, { x: 100000, y: 20.5 });
+  for (const x of [5, 30, 60, 79]) assert.equal(pixel(editor.result, x, 22)[3], 0);
+  assert.equal(pixel(editor.result, 30, 24)[3], 255);
+  editor.undo();
+  editor.beginStroke('erase', 0.5, { x: 0, y: 0 }, { enabled: true, radius: 8, tolerance: 0 });
+  assert.equal(pixel(editor.result, 0, 7)[3], 0);
+  editor.cancelStroke();
+  assert.equal(pixel(editor.result, 0, 7)[3], 255);
+  assert.equal(editor.history.length, 0);
+});

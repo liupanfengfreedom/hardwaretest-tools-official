@@ -6,9 +6,9 @@ main{max-width:1500px}
 .toolbar-group{min-width:0}
 .toolbar-group+.toolbar-group{border-left:1px solid #e5e9ef;padding-left:24px}
 .controls .section-title{margin-bottom:14px}
-.controls .upload{padding:12px;gap:8px;display:grid;grid-template-columns:32px minmax(0,1fr);text-align:left}
-.controls .upload svg{grid-row:1/3;width:28px;height:28px}
-.controls .upload strong,.controls .upload span{grid-column:2}
+.controls .upload{min-height:260px;padding:24px 16px;gap:8px;display:grid;grid-template-columns:minmax(0,1fr);align-content:center;justify-items:center;text-align:center}
+.controls .upload svg{width:28px;height:28px}
+.controls .upload strong,.controls .upload span{grid-column:1}
 .controls .file-info{margin:10px 0 6px}
 .controls .primary{margin-top:4px}
 .controls .status-box{min-height:36px}
@@ -20,8 +20,8 @@ main{max-width:1500px}
 .preview-area{padding:22px;gap:0}
 .preview-toolbar h2{font-size:16px;margin:0}
 .comparison{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:16px;overflow-x:auto;padding-bottom:6px}
-.image-panel{min-width:0}
-.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:62px;padding:0 3px 12px}
+.image-panel{min-width:0;display:flex;flex-direction:column}
+.panel-heading{display:flex;flex:1;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:62px;padding:0 3px 12px}
 .panel-heading h3{font-size:16px;margin:0}
 .panel-heading span{font-size:12px;color:#748196}
 .stage{height:clamp(360px,44vw,620px);min-height:0;flex:none;padding:12px}
@@ -37,12 +37,19 @@ main{max-width:1500px}
 .editing #original-canvas{cursor:crosshair}
 .editing.panning #original-canvas{cursor:grab}
 .editing.panning.dragging #original-canvas{cursor:grabbing}
-#result-canvas{object-fit:contain}
+#result-canvas{object-fit:contain;flex:none;transform-origin:center center;will-change:transform}
 .marks-canvas{z-index:2;opacity:.4;pointer-events:none}
 .editor-surface.pixel-grid::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background-image:linear-gradient(to right,rgba(24,38,58,.28) var(--grid-line),transparent var(--grid-line)),linear-gradient(to bottom,rgba(24,38,58,.28) var(--grid-line),transparent var(--grid-line));background-size:var(--pixel-x) var(--pixel-y)}
 .editor-surface.pixel-grid canvas{image-rendering:pixelated}
 .brush-cursor{position:absolute;z-index:4;border:calc(2px * var(--ui-scale,1)) solid #059669;box-shadow:0 0 0 calc(1px * var(--ui-scale,1)) white,inset 0 0 0 calc(1px * var(--ui-scale,1)) white;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
 .brush-cursor.single-pixel{border-radius:0}
+.brush-cursor.smart{border-style:dashed}
+.smart-toggle{font-weight:600;color:#40536f}
+.smart-options{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px;background:#f4f7fc;border:1px solid #e0e6ef;border-radius:8px}
+.smart-options>div{min-width:0}
+.smart-options .brush-label{flex-wrap:wrap;gap:4px;font-size:13px}
+.smart-options input{width:100%;margin:10px 0 0;accent-color:#3867df}
+.smart-help{font-size:12px;color:#718096;line-height:1.7;margin:8px 0 14px}
 .brush-cursor.erasing{border-color:#e23d4b}
 .brush-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .brush-tool,.history-tools button{border:1px solid #d5dde8;background:white;border-radius:7px;padding:10px 6px;font-size:14px;color:#40536f}
