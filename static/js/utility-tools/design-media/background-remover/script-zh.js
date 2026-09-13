@@ -149,6 +149,26 @@ $('drop-zone').addEventListener('drop', e => selectFile(e.dataTransfer.files[0])
 window.addEventListener('dragover', e => e.preventDefault());
 window.addEventListener('drop', e => e.preventDefault());
 
+document.addEventListener('paste', e => {
+  if (e.defaultPrevented || !e.clipboardData) return;
+  // Read image files from the user's paste event; text and image URLs paste normally.
+  let file = null;
+  for (const item of Array.from(e.clipboardData.items || [])) {
+    if (item.kind !== 'file' || !item.type.startsWith('image/')) continue;
+    file = item.getAsFile();
+    if (file) break;
+  }
+  file ||= Array.from(e.clipboardData.files || []).find(item => item.type.startsWith('image/'));
+  if (!file) return;
+  e.preventDefault();
+  if (busy || pointer !== null) return status('请完成当前图片处理或标记后，再粘贴图片。');
+  if (!file.name) {
+    const extension = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' }[file.type] || 'img';
+    file = new File([file], `剪贴板图片.${extension}`, { type: file.type });
+  }
+  selectFile(file);
+});
+
 $('remove').addEventListener('click', async () => {
   if (!source || busy || loading || pointer !== null) return;
   const token = ++selection;
@@ -310,6 +330,6 @@ $('reset').addEventListener('click', () => {
   for (const id of ['original-canvas', 'result-canvas', 'marks-canvas']) { $(id).width = 1; $(id).height = 1; }
   $('brush-cursor').hidden = true;
   $('file-info').textContent = '支持人物、商品、动物等主体清晰的图片';
-  status('选择一张图片，即可开始。'); render();
+  status('选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'); render();
 });
 render();
