@@ -117,6 +117,44 @@ test('translucent source alpha is preserved rather than multiplied twice', () =>
   assert.equal(pixel(editor.result, 20, 20)[3], pixel(editor.source, 20, 20)[3]);
 });
 
+test('automatic masking repairs opaque subject areas enclosed by confident foreground', () => {
+  const editor = fixture();
+  const automatic = factory();
+  const ctx = automatic.getContext('2d');
+  ctx.fillStyle = '#000'; ctx.fillRect(10, 5, 60, 50);
+  ctx.clearRect(20, 15, 40, 30);
+  editor.setAutomaticResult(automatic);
+  assert.equal(pixel(editor.result, 40, 30)[3], 255);
+  assert.equal(pixel(editor.result, 5, 30)[3], 0);
+});
+
+test('automatic masking keeps edge-connected background and original transparency open', () => {
+  const editor = fixture();
+  const automatic = factory();
+  const ctx = automatic.getContext('2d');
+  ctx.fillStyle = '#000'; ctx.fillRect(10, 5, 60, 50);
+  ctx.clearRect(20, 15, 40, 30);
+  ctx.clearRect(38, 0, 4, 16);
+  editor.setAutomaticResult(automatic);
+  assert.equal(pixel(editor.result, 40, 30)[3], 0);
+
+  ctx.fillRect(38, 0, 4, 16);
+  editor.source.getContext('2d').clearRect(39, 29, 2, 2);
+  editor.setAutomaticResult(automatic);
+  assert.equal(pixel(editor.result, 40, 30)[3], 0);
+});
+
+test('automatic masking preserves soft alpha along the exterior edge', () => {
+  const editor = fixture();
+  const automatic = factory();
+  const ctx = automatic.getContext('2d');
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; ctx.fillRect(9, 5, 1, 50);
+  ctx.fillStyle = '#000'; ctx.fillRect(10, 5, 60, 50);
+  editor.setAutomaticResult(automatic);
+  assert.ok(pixel(editor.result, 9, 30)[3] >= 127 && pixel(editor.result, 9, 30)[3] <= 128);
+  assert.equal(pixel(editor.result, 10, 30)[3], 255);
+});
+
 test('exported PNG contains edits and transparency, without colored marks', async () => {
   const editor = fixture();
   stroke(editor, 'keep', { x: 20, y: 20 });
