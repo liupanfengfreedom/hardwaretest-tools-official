@@ -1,4 +1,5 @@
-import { MaskEditor, imagePoint } from './mask-editor.js';
+import { MaskEditor, imagePoint } from './mask-editor.js?v=20260917';
+import { createPlainBackgroundMask } from './automatic-mask.js?v=20260917';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 
 const $ = id => document.getElementById(id);
@@ -174,9 +175,17 @@ $('remove').addEventListener('click', async () => {
   const token = ++selection;
   busy = true; render(); $('brush-cursor').hidden = true;
   $('progress').hidden = false; $('progress').removeAttribute('value');
-  status('正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…');
+  status('正在识别背景…');
   let bitmap;
   try {
+    const pixels = originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height);
+    const plainMask = createPlainBackgroundMask(pixels.data, pixels.width, pixels.height);
+    if (plainMask) {
+      editor.setAutomaticMask(plainMask);
+      status('自动抠图完成，已保留主体内部细节并应用手动标记。可以继续修补或下载。');
+      return;
+    }
+    status('正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…');
     const { removeBackground } = await import('https://esm.sh/@imgly/background-removal@1.7.0');
     const result = await removeBackground(source, { device: 'cpu', model: 'isnet_quint8', output: { format: 'image/png', type: 'foreground' }, progress: (key, current, total) => {
       if (token !== selection) return;

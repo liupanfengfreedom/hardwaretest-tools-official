@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { MaskEditor, imagePoint } from '../../static/js/utility-tools/design-media/background-remover/mask-editor.js';
+import { createPlainBackgroundMask } from '../../static/js/utility-tools/design-media/background-remover/automatic-mask.js';
 import { clampPan, zoomPanAt } from '../../static/js/utility-tools/design-media/background-remover/viewport-geometry.js';
 
 // Uses the native Canvas runtime; no model download or browser is needed.
@@ -117,15 +118,49 @@ test('translucent source alpha is preserved rather than multiplied twice', () =>
   assert.equal(pixel(editor.result, 20, 20)[3], pixel(editor.source, 20, 20)[3]);
 });
 
-test('automatic masking repairs opaque subject areas enclosed by confident foreground', () => {
+test('AI output retains actual enclosed holes instead of indiscriminately filling them', () => {
   const editor = fixture();
   const automatic = factory();
   const ctx = automatic.getContext('2d');
   ctx.fillStyle = '#000'; ctx.fillRect(10, 5, 60, 50);
   ctx.clearRect(20, 15, 40, 30);
   editor.setAutomaticResult(automatic);
-  assert.equal(pixel(editor.result, 40, 30)[3], 255);
+  assert.equal(pixel(editor.result, 40, 30)[3], 0);
   assert.equal(pixel(editor.result, 5, 30)[3], 0);
+});
+
+test('plain-background output preserves original alpha, manual corrections, history and PNG export', async () => {
+  const editor = fixture();
+  const ctx = editor.source.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 80, 60);
+  ctx.fillStyle = '#e1ac50'; ctx.fillRect(10, 10, 60, 40);
+  ctx.fillStyle = '#fff'; ctx.fillRect(15, 15, 50, 30);
+  ctx.clearRect(40, 30, 1, 1);
+  ctx.fillStyle = 'rgba(30, 140, 60, 0.5)'; ctx.fillRect(40, 30, 1, 1);
+  const source = ctx.getImageData(0, 0, 80, 60).data;
+  const mask = createPlainBackgroundMask(source, 80, 60);
+  assert.ok(mask);
+  stroke(editor, 'keep', { x: 5, y: 5 });
+  stroke(editor, 'erase', { x: 60, y: 30 });
+  editor.setAutomaticMask(mask);
+  assert.equal(pixel(editor.result, 30, 30)[3], 255);
+  assert.equal(pixel(editor.result, 60, 30)[3], 0);
+  assert.equal(pixel(editor.result, 5, 5)[3], 255);
+  assert.equal(pixel(editor.result, 75, 55)[3], 0);
+  assert.equal(pixel(editor.result, 40, 30)[3], pixel(editor.source, 40, 30)[3]);
+  editor.undo();
+  assert.equal(pixel(editor.result, 60, 30)[3], 255);
+  editor.redo();
+  editor.setAutomaticMask(mask);
+  assert.equal(pixel(editor.result, 60, 30)[3], 0);
+  const exported = factory();
+  exported.getContext('2d').drawImage(await loadImage(editor.result.toBuffer('image/png')), 0, 0);
+  assert.deepEqual(pixel(exported, 30, 30), pixel(editor.source, 30, 30));
+  assert.equal(pixel(exported, 60, 30)[3], 0);
+  assert.equal(pixel(exported, 75, 55)[3], 0);
+  editor.clearMarks();
+  assert.equal(pixel(editor.result, 60, 30)[3], 255);
+  assert.equal(pixel(editor.result, 5, 5)[3], 0);
 });
 
 test('automatic masking keeps edge-connected background and original transparency open', () => {

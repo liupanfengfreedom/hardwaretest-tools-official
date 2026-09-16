@@ -5,45 +5,6 @@ export function imagePoint(clientX, clientY, rect, width, height) {
   return { x: (clientX - rect.left) * width / rect.width, y: (clientY - rect.top) * height / rect.height };
 }
 
-// AI segmentation can mistake a light area inside a confidently detected subject for
-// background. Keep low-confidence pixels that are fully enclosed by the subject while
-// leaving every background region connected to an image edge untouched.
-export function repairEnclosedMaskAreas(mask, source, width, height, foregroundThreshold = 224) {
-  const pixelCount = width * height;
-  if (!pixelCount || mask.length < pixelCount * 4 || source.length < pixelCount * 4) return;
-  const outside = new Uint8Array(pixelCount);
-  const queue = new Int32Array(pixelCount);
-  let head = 0, tail = 0;
-  const enqueue = pixel => {
-    if (outside[pixel] || mask[pixel * 4 + 3] >= foregroundThreshold) return;
-    outside[pixel] = 1;
-    queue[tail++] = pixel;
-  };
-
-  for (let x = 0; x < width; x += 1) {
-    enqueue(x);
-    if (height > 1) enqueue((height - 1) * width + x);
-  }
-  for (let y = 1; y < height - 1; y += 1) {
-    enqueue(y * width);
-    if (width > 1) enqueue(y * width + width - 1);
-  }
-
-  while (head < tail) {
-    const pixel = queue[head++];
-    const x = pixel % width;
-    if (x > 0) enqueue(pixel - 1);
-    if (x + 1 < width) enqueue(pixel + 1);
-    if (pixel >= width) enqueue(pixel - width);
-    if (pixel + width < pixelCount) enqueue(pixel + width);
-  }
-
-  for (let pixel = 0; pixel < pixelCount; pixel += 1) {
-    const alpha = pixel * 4 + 3;
-    if (!outside[pixel] && mask[alpha] < foregroundThreshold && source[alpha]) mask[alpha] = 255;
-  }
-}
-
 export class MaskEditor {
   constructor(source, result, marks, createCanvas) {
     this.source = source;
@@ -80,7 +41,16 @@ export class MaskEditor {
     for (let i = 3; i < mask.data.length; i += 4) {
       mask.data[i] = original.data[i] ? Math.min(255, Math.round(mask.data[i] * 255 / original.data[i])) : 0;
     }
-    repairEnclosedMaskAreas(mask.data, original.data, this.base.width, this.base.height);
+    ctx.putImageData(mask, 0, 0);
+    this.hasAutomaticResult = true;
+    this.rebuild();
+  }
+
+  setAutomaticMask(alpha) {
+    if (alpha.length !== this.base.width * this.base.height) throw new Error('蒙版尺寸不匹配');
+    const ctx = this.base.getContext('2d');
+    const mask = ctx.createImageData(this.base.width, this.base.height);
+    for (let pixel = 0; pixel < alpha.length; pixel += 1) mask.data[pixel * 4 + 3] = alpha[pixel];
     ctx.putImageData(mask, 0, 0);
     this.hasAutomaticResult = true;
     this.rebuild();
