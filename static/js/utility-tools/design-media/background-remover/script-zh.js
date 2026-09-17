@@ -20,6 +20,7 @@ function render() {
   $('remove').disabled = locked || !source;
   $('download').disabled = locked || !editor || !(editor.hasAutomaticResult || editor.hasMarks);
   $('reset').disabled = locked || !editor;
+  $('change-image').hidden = !editor;
   $('file-input').disabled = busy || pointer !== null;
   for (const id of EDIT_MODES) $(id).disabled = locked || !editor;
   const smartEnabled = isSmartBrush();
@@ -38,7 +39,7 @@ function render() {
   $('clear-marks').disabled = locked || !editor?.hasMarks;
   $('remove').textContent = busy ? '正在处理，请稍候…' : editor?.hasAutomaticResult ? '✦ 重新自动抠图' : '✦ 开始移除背景';
   $('preview-caption').textContent = !editor ? '上传后在左侧原图标记' : editor.hasAutomaticResult ? '左侧标记 · 右侧实时显示自动抠图结果' : editor.hasMarks ? '左侧标记 · 右侧实时显示手动修正' : '可在左图标记，也可直接自动抠图';
-  $('mode-label').textContent = mode === 'pan' ? '移动画面 · 拖动查看' : mode === 'unmark' ? '擦除标记 · 清除后重新刷' : smartEnabled ? (mode === 'keep' ? '智能保留 · 连续区域扩选' : '智能移除 · 连续区域扩选') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
+  $('mode-label').textContent = !editor ? '选择图片后可进行手动标记' : mode === 'pan' ? '移动画面 · 拖动查看' : mode === 'unmark' ? '擦除标记 · 清除后重新刷' : smartEnabled ? (mode === 'keep' ? '智能保留 · 连续区域扩选' : '智能移除 · 连续区域扩选') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
   for (const id of EDIT_MODES) { $(id).classList.toggle('selected', mode === id); $(id).setAttribute('aria-pressed', String(mode === id)); }
   $('editor-surface').classList.toggle('editing', !!editor && !busy && !loading);
   $('editor-surface').classList.toggle('panning', mode === 'pan' || pointerAction === 'pan');
@@ -49,6 +50,7 @@ function render() {
   $('marks-canvas').hidden = !$('show-marks').checked;
   $('boundary-canvas').hidden = !$('show-boundary').checked;
   $('editor-surface').setAttribute('aria-busy', String(busy));
+  $('original-stage').classList.toggle('empty-upload', !editor);
   $('zoom-out').disabled = locked || !editor || zoom <= MIN_ZOOM;
   $('zoom-in').disabled = locked || !editor || zoom >= MAX_ZOOM;
   $('zoom-reset').disabled = locked || !editor || (zoom === 1 && pan.x === 0 && pan.y === 0);
@@ -145,9 +147,15 @@ async function selectFile(file) {
   finally { bitmap?.close(); if (token === selection) { loading = false; render(); fitPreviews(); } }
 }
 $('file-input').addEventListener('change', e => { selectFile(e.target.files[0]); e.target.value = ''; });
-for (const event of ['dragenter', 'dragover']) $('drop-zone').addEventListener(event, e => { e.preventDefault(); if (!busy) $('drop-zone').classList.add('dragging'); });
-for (const event of ['dragleave', 'drop']) $('drop-zone').addEventListener(event, e => { e.preventDefault(); $('drop-zone').classList.remove('dragging'); });
-$('drop-zone').addEventListener('drop', e => selectFile(e.dataTransfer.files[0]));
+$('change-image').addEventListener('click', () => { if (!busy && pointer === null) $('file-input').click(); });
+$('original-empty').addEventListener('keydown', e => {
+  if (!['Enter', ' '].includes(e.key)) return;
+  e.preventDefault();
+  if (!busy && pointer === null) $('file-input').click();
+});
+for (const event of ['dragenter', 'dragover']) $('original-stage').addEventListener(event, e => { e.preventDefault(); if (!busy) $('original-stage').classList.add('dragging'); });
+$('original-stage').addEventListener('dragleave', e => { e.preventDefault(); if (!e.currentTarget.contains(e.relatedTarget)) $('original-stage').classList.remove('dragging'); });
+$('original-stage').addEventListener('drop', e => { e.preventDefault(); $('original-stage').classList.remove('dragging'); selectFile(e.dataTransfer.files[0]); });
 window.addEventListener('dragover', e => e.preventDefault());
 window.addEventListener('drop', e => e.preventDefault());
 
@@ -340,7 +348,7 @@ $('reset').addEventListener('click', () => {
   resetViewport(false);
   for (const id of ['original-canvas', 'result-canvas', 'marks-canvas', 'boundary-canvas']) { $(id).width = 1; $(id).height = 1; }
   $('brush-cursor').hidden = true;
-  $('file-info').textContent = '支持人物、商品、动物等主体清晰的图片';
+  $('file-info').textContent = '请先在下方原图区域选择图片';
   status('选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'); render();
 });
 render();

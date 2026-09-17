@@ -6,8 +6,8 @@
   <title>图片背景移除 - 免费在线抠图 | StarryRing</title>
   <meta name="description" content="在浏览器中移除图片背景，预览原图与抠图结果，下载透明 PNG。图片在本地处理，无需上传。">
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20260917-connected">
-  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20260917-connected"></script>
+  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20260917-layout">
+  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20260917-layout"></script>
 </head>
 <body>
   <header class="topbar"><a class="brand" href="/zh/">✦ <span>StarryRing</span></a><a href="/zh/utility-tools/">全部工具 <span aria-hidden="true">↗</span></a></header>
@@ -16,15 +16,14 @@
     <div class="heading"><div><p class="eyebrow">图片工具</p><h1>留下主体，移除背景<span>。</span></h1><p class="subtitle">一张图片，一键抠图。让人物与物品成为画面焦点。</p></div><span class="privacy">◈ 图片仅在本地处理</span></div>
     <section class="workspace" aria-label="图片背景移除工具">
       <div class="controls" role="group" aria-label="图片编辑工具栏">
-        <div class="toolbar-group upload-group">
-        <div class="section-title"><span class="step">01</span><h2>选择图片</h2></div>
-        <label class="upload" id="drop-zone" for="file-input"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><strong>点击上传或拖拽到这里</strong><span>也可按 Ctrl+V 粘贴图片（Mac：⌘V）</span><span>JPG、PNG、WebP · 最大 20 MB</span><input id="file-input" type="file" accept="image/jpeg,image/png,image/webp"></label>
-        <p id="file-info" class="file-info">支持人物、商品、动物等主体清晰的图片</p>
+        <div class="toolbar-group process-group">
+        <div class="section-title"><h2>自动抠图</h2></div>
+        <p id="file-info" class="file-info">请先在下方原图区域选择图片</p>
         <button id="remove" class="primary" disabled>✦ 开始移除背景</button>
         <div class="status-box"><p id="status" role="status" aria-live="polite">选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。</p><progress id="progress" hidden aria-label="处理进度"></progress></div>
         </div>
         <div class="toolbar-group brush-group">
-        <div class="section-title"><span class="step">02</span><h2>手动标记</h2></div>
+        <div class="section-title"><h2>手动标记</h2></div>
         <div class="brush-tools" role="group" aria-label="编辑方式">
           <button id="keep" class="brush-tool keep selected" aria-pressed="true" disabled>＋ 保留区域</button>
           <button id="erase" class="brush-tool erase" aria-pressed="false" disabled>－ 移除区域</button>
@@ -42,7 +41,7 @@
         <div class="history-tools"><button id="undo" disabled>↶ 撤销</button><button id="redo" disabled>↷ 重做</button><button id="clear-marks" aria-label="清除全部标记" disabled>清除全部</button></div>
         </div>
         <div class="toolbar-group export-group">
-        <div class="section-title"><span class="step">03</span><h2>预览与下载</h2></div>
+        <div class="section-title"><h2>预览与下载</h2></div>
         <div class="swatches" role="group" aria-label="预览背景颜色"><button class="swatch checker selected" data-bg="transparent" aria-label="透明背景" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="白色背景" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="深色背景" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="浅蓝背景" aria-pressed="false"></button></div>
         <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>显示彩色标记</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>显示选区边界线</label></div>
         <p class="hint">仅用于预览，下载始终保留透明背景。</p>
@@ -50,10 +49,10 @@
         <p class="model-note">自动识别纯色背景，保留图标内部细节；复杂背景使用 AI，首次需要联网下载模型。图片不会上传到服务器。</p>
         </div>
       </div>
-      <div class="preview-area"><div class="preview-toolbar"><h2>原图与结果对比</h2><button id="reset" class="text-button" disabled>清空图片</button></div>
+      <div class="preview-area"><div class="preview-toolbar"><h2>原图与结果对比</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>更换图片</button><button id="reset" class="text-button" disabled>清空图片</button></div></div>
         <div class="comparison">
-          <section class="image-panel" aria-label="原图标记区"><div class="panel-heading"><div><h3>原图 · 像素标记区</h3><span id="mode-label">保留画笔 · 补回原图</span></div><div class="zoom-tools" role="group" aria-label="原图缩放"><button id="zoom-out" aria-label="缩小原图" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大原图，最高 3200%" disabled>＋</button><button id="zoom-reset" disabled>适应</button></div></div>
-            <div class="stage checker" id="original-stage"><div class="empty" id="original-empty"><div class="empty-icon" aria-hidden="true">＋</div><h2>上传一张图片</h2><p>在原图上标记保留或移除区域</p></div><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="原图，可用保留或移除画笔涂抹" aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><canvas id="boundary-canvas" class="boundary-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
+          <section class="image-panel" aria-label="原图选择与标记区"><div class="panel-heading"><div><h3>原图 · 选择与标记</h3><span id="mode-label">选择图片后可进行手动标记</span></div><div class="zoom-tools" role="group" aria-label="原图缩放"><button id="zoom-out" aria-label="缩小原图" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="放大原图，最高 3200%" disabled>＋</button><button id="zoom-reset" disabled>适应</button></div></div>
+            <div class="stage checker empty-upload" id="original-stage"><label class="stage-upload" id="original-empty" for="file-input" role="button" tabindex="0"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><strong>点击选择图片</strong><span>也可拖拽到这里，或按 Ctrl+V 粘贴</span><small>JPG、PNG、WebP · 最大 20 MB</small></label><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="原图，可用保留或移除画笔涂抹" aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><canvas id="boundary-canvas" class="boundary-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
           </section>
           <section class="image-panel" aria-label="抠图结果"><div class="panel-heading"><h3>抠图结果</h3><span id="result-view-state">同步视图 · 100%</span></div>
             <div class="stage checker" id="stage"><div class="empty" id="result-empty"><div class="empty-icon" aria-hidden="true">✂</div><h2>抠图效果显示在这里</h2><p>左图涂抹时，结果会同步更新</p></div><canvas id="result-canvas" aria-label="抠图结果预览" hidden></canvas></div>
