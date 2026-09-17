@@ -1,6 +1,7 @@
 import { MaskEditor, imagePoint } from './mask-editor.js?v=20260917-connected';
 import { createPlainBackgroundMask } from './automatic-mask.js?v=20260917';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
+import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
 
 const $ = id => document.getElementById(id);
 const originalCanvas = $('original-canvas');
@@ -8,6 +9,7 @@ const resultCanvas = $('result-canvas');
 let source = null, filename = '', busy = false, loading = false, selection = 0;
 let editor = null, mode = 'keep', pointer = null, keyboardPoint = null, cursorPoint = null;
 let zoom = 1, pan = { x: 0, y: 0 }, pointerAction = null, panStart = null;
+let historyUrls = [];
 const MIN_ZOOM = 1, MAX_ZOOM = 32;
 const EDIT_MODES = ['keep', 'erase', 'unmark', 'pan'];
 const status = (text, error = false) => { $('status').textContent = text; $('status').classList.toggle('error', error); };
@@ -118,10 +120,107 @@ function fitPreviews() {
 new ResizeObserver(fitPreviews).observe($('stage'));
 new ResizeObserver(fitPreviews).observe($('original-stage'));
 
-async function selectFile(file) {
+function thumbnailBlob(canvas) {
+  const ratio = Math.min(1, 240 / Math.max(canvas.width, canvas.height));
+  const thumbnail = document.createElement('canvas');
+  thumbnail.width = Math.max(1, Math.round(canvas.width * ratio));
+  thumbnail.height = Math.max(1, Math.round(canvas.height * ratio));
+  thumbnail.getContext('2d').drawImage(canvas, 0, 0, thumbnail.width, thumbnail.height);
+  return new Promise(resolve => thumbnail.toBlob(resolve, 'image/webp', 0.82));
+}
+
+async function rememberImage(blob, canvas, name) {
+  try {
+    const thumbnail = await thumbnailBlob(canvas);
+    await saveRecentImage({ blob, thumbnail, name, width: canvas.width, height: canvas.height });
+    await refreshHistory();
+  } catch (error) {
+    console.warn('无法保存最近上传的图片', error);
+  }
+}
+
+function revokeHistoryUrls() {
+  for (const url of historyUrls) URL.revokeObjectURL(url);
+  historyUrls = [];
+}
+
+async function refreshHistory() {
+  const list = $('history-list');
+  const empty = $('history-empty');
+  const clear = $('clear-history');
+  try {
+    const records = await listRecentImages();
+    revokeHistoryUrls();
+    list.replaceChildren();
+    empty.hidden = records.length > 0;
+    empty.textContent = '还没有历史图片，上传后会自动显示在这里。';
+    clear.disabled = records.length === 0;
+
+    for (const record of records) {
+      const card = document.createElement('article');
+      card.className = 'history-card';
+
+      const open = document.createElement('button');
+      open.className = 'history-open';
+      open.type = 'button';
+      open.title = `重新载入 ${record.name}`;
+
+      const image = document.createElement('img');
+      image.className = 'history-thumb';
+      image.alt = '';
+      image.loading = 'lazy';
+      const url = URL.createObjectURL(record.thumbnail || record.blob);
+      historyUrls.push(url);
+      image.src = url;
+
+      const meta = document.createElement('span');
+      meta.className = 'history-meta';
+      const name = document.createElement('strong');
+      name.textContent = record.name;
+      const details = document.createElement('span');
+      const savedAt = new Date(record.updatedAt).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      details.textContent = `${record.width} × ${record.height} · ${savedAt}`;
+      meta.append(name, details);
+      open.append(image, meta);
+      open.addEventListener('click', async () => {
+        if (busy || loading || pointer !== null) return;
+        const file = new File([record.blob], record.name, { type: record.type || record.blob.type || 'image/png', lastModified: record.updatedAt });
+        await selectFile(file, { remember: false, stored: true });
+        document.querySelector('.workspace').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      const remove = document.createElement('button');
+      remove.className = 'history-remove';
+      remove.type = 'button';
+      remove.setAttribute('aria-label', `从历史记录删除 ${record.name}`);
+      remove.title = '删除这条记录';
+      remove.textContent = '×';
+      remove.addEventListener('click', async () => {
+        try {
+          await deleteRecentImage(record.id);
+          await refreshHistory();
+        } catch (error) {
+          console.warn('无法删除历史图片', error);
+        }
+      });
+
+      card.append(open, remove);
+      list.append(card);
+    }
+  } catch (error) {
+    console.warn('无法读取最近上传的图片', error);
+    revokeHistoryUrls();
+    list.replaceChildren();
+    clear.disabled = true;
+    empty.hidden = false;
+    empty.textContent = '当前浏览器无法读取本地历史记录，但仍可正常处理图片。';
+  }
+}
+
+async function selectFile(file, options = {}) {
   if (busy || pointer !== null || !file) return;
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) return status('请选择 JPG、PNG 或 WebP 格式的图片。', true);
-  if (file.size > 20 * 1024 * 1024) return status('图片超过 20 MB，请压缩后重试。', true);
+  if (!options.stored && file.size > 20 * 1024 * 1024) return status('图片超过 20 MB，请压缩后重试。', true);
   const token = ++selection;
   loading = true; render(); status('正在读取图片…');
   let bitmap;
@@ -143,6 +242,7 @@ async function selectFile(file) {
     source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
     $('file-info').textContent = `${file.name} · ${canvas.width} × ${canvas.height}${ratio < 1 ? '（已缩小）' : ''}`;
     status('图片已就绪。可先标记区域，也可直接自动移除背景。');
+    if (options.remember !== false) void rememberImage(blob, canvas, file.name);
   } catch { if (token === selection) status('无法读取这张图片，请换一张图片重试。', true); }
   finally { bitmap?.close(); if (token === selection) { loading = false; render(); fitPreviews(); } }
 }
@@ -217,6 +317,15 @@ $('smart-enabled').addEventListener('change', () => { render(); updateCursor(); 
 $('smart-tolerance').addEventListener('input', () => { $('tolerance-value').value = $('smart-tolerance').value; });
 $('show-marks').addEventListener('change', render);
 $('show-boundary').addEventListener('change', render);
+$('clear-history').addEventListener('click', async () => {
+  if ($('clear-history').disabled || !confirm('确定清空当前浏览器中的全部图片历史吗？')) return;
+  try {
+    await clearRecentImages();
+    await refreshHistory();
+  } catch (error) {
+    console.warn('无法清空图片历史', error);
+  }
+});
 $('zoom-in').addEventListener('click', () => setZoom(zoom * 1.5));
 $('zoom-out').addEventListener('click', () => setZoom(zoom / 1.5));
 $('zoom-reset').addEventListener('click', () => resetViewport());
@@ -352,3 +461,5 @@ $('reset').addEventListener('click', () => {
   status('选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'); render();
 });
 render();
+refreshHistory();
+window.addEventListener('beforeunload', revokeHistoryUrls);
