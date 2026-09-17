@@ -1,4 +1,4 @@
-import { selectSimilarPixels } from './smart-region.js';
+import { selectConnectedPixels } from './smart-region.js?v=20260917-connected';
 
 // Source pixels are immutable. Preview guides are never drawn into the output.
 export function imagePoint(clientX, clientY, rect, width, height) {
@@ -6,13 +6,14 @@ export function imagePoint(clientX, clientY, rect, width, height) {
 }
 
 export class MaskEditor {
-  constructor(source, result, marks, createCanvas) {
+  constructor(source, result, marks, createCanvas, boundaries = createCanvas()) {
     this.source = source;
     this.result = result;
     this.marks = marks;
+    this.boundaries = boundaries;
     this.base = createCanvas();
     this.mask = createCanvas();
-    for (const canvas of [result, marks, this.base, this.mask]) {
+    for (const canvas of [result, marks, boundaries, this.base, this.mask]) {
       canvas.width = source.width;
       canvas.height = source.height;
     }
@@ -66,16 +67,16 @@ export class MaskEditor {
       const offset = (y * this.source.width + x) * 4;
       selection = {
         tolerance: Math.max(0, Math.min(100, Number(smart.tolerance) || 0)),
-        reference: Array.from(this.sourcePixels.slice(offset, offset + 4))
+        seed: { x, y }
       };
-      if (!selection.reference[3]) return;
+      if (!this.sourcePixels[offset + 3]) return;
     }
     this.active = { kind: 'stroke', mode, radius, points: [point], smart: selection };
     this.paintSegment(this.active, point, point);
     this.render();
   }
   extendStroke(point) {
-    // A smart gesture already matches the entire image using its initial sample.
+    // Each smart gesture selects only the connected region at its initial click.
     if (!this.active || this.active.smart) return;
     const previous = this.active.points.at(-1);
     if (Math.hypot(point.x - previous.x, point.y - previous.y) < 0.25) return;
@@ -163,11 +164,12 @@ export class MaskEditor {
     }
     maskContext.putImageData(maskPixels, left, top);
     markContext.putImageData(markPixels, left, top);
+    this.invalidateBoundaries(left, top, width, height);
   }
 
   paintSmartSelection(stroke) {
-    const { tolerance, reference } = stroke.smart;
-    const region = selectSimilarPixels(this.sourcePixels, this.source.width, this.source.height, reference, tolerance);
+    const { tolerance, seed } = stroke.smart;
+    const region = selectConnectedPixels(this.sourcePixels, this.source.width, this.source.height, seed, tolerance);
     if (!region?.count) return;
     const { left, top, width, height, selected } = region;
     const maskContext = this.mask.getContext('2d');
@@ -191,6 +193,7 @@ export class MaskEditor {
     }
     maskContext.putImageData(maskPixels, left, top);
     markContext.putImageData(markPixels, left, top);
+    this.invalidateBoundaries(left, top, width, height);
   }
 
   resetLayers() {
@@ -202,6 +205,7 @@ export class MaskEditor {
     ctx.drawImage(this.base, 0, 0);
     const marks = this.marks.getContext('2d');
     marks.clearRect(0, 0, this.marks.width, this.marks.height);
+    this.invalidateBoundaries(0, 0, this.marks.width, this.marks.height);
   }
   rebuild() {
     this.resetLayers();
@@ -211,7 +215,54 @@ export class MaskEditor {
     }
     this.render();
   }
+  invalidateBoundaries(left, top, width, height) {
+    const dirty = this.boundaryDirty;
+    this.boundaryDirty = {
+      left: Math.min(dirty?.left ?? left, left),
+      top: Math.min(dirty?.top ?? top, top),
+      right: Math.max(dirty?.right ?? 0, left + width - 1),
+      bottom: Math.max(dirty?.bottom ?? 0, top + height - 1)
+    };
+  }
+  renderBoundaries() {
+    if (!this.boundaryDirty) return;
+    const dirty = this.boundaryDirty;
+    this.boundaryDirty = null;
+    const ctx = this.boundaries.getContext('2d');
+    if (!this.hasMarks) {
+      ctx.clearRect(0, 0, this.boundaries.width, this.boundaries.height);
+      return;
+    }
+    const imageWidth = this.marks.width, imageHeight = this.marks.height;
+    // A changed mark can also change its immediate neighbors' outlines. Read one
+    // extra row/column beyond that area, but do not rescan a large image per move.
+    const left = Math.max(0, dirty.left - 1), top = Math.max(0, dirty.top - 1);
+    const right = Math.min(imageWidth - 1, dirty.right + 1), bottom = Math.min(imageHeight - 1, dirty.bottom + 1);
+    const width = right - left + 1, height = bottom - top + 1;
+    const readLeft = Math.max(0, left - 1), readTop = Math.max(0, top - 1);
+    const readWidth = Math.min(imageWidth - 1, right + 1) - readLeft + 1;
+    const readHeight = Math.min(imageHeight - 1, bottom + 1) - readTop + 1;
+    const marks = this.marks.getContext('2d').getImageData(readLeft, readTop, readWidth, readHeight).data;
+    const outline = ctx.createImageData(width, height);
+    // Use the applied marks, so protected pixels and locally erased marks are also
+    // reflected in the outline. This separate preview layer never enters the mask.
+    const sameMark = (offset, neighbor) => marks[neighbor + 3] && marks[offset] === marks[neighbor];
+    for (let pixel = 0; pixel < width * height; pixel += 1) {
+      const x = left + pixel % width, y = top + Math.floor(pixel / width);
+      const offset = ((y - readTop) * readWidth + x - readLeft) * 4;
+      if (!marks[offset + 3]) continue;
+      if (x > 0 && x + 1 < imageWidth && y > 0 && y + 1 < imageHeight
+        && sameMark(offset, offset - 4) && sameMark(offset, offset + 4)
+        && sameMark(offset, offset - readWidth * 4) && sameMark(offset, offset + readWidth * 4)) continue;
+      outline.data[pixel * 4] = marks[offset] === 16 ? 4 : 220;
+      outline.data[pixel * 4 + 1] = marks[offset] === 16 ? 120 : 38;
+      outline.data[pixel * 4 + 2] = marks[offset] === 16 ? 87 : 38;
+      outline.data[pixel * 4 + 3] = 255;
+    }
+    ctx.putImageData(outline, left, top);
+  }
   render() {
+    this.renderBoundaries();
     const ctx = this.result.getContext('2d');
     ctx.clearRect(0, 0, this.result.width, this.result.height);
     ctx.drawImage(this.source, 0, 0);

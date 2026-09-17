@@ -1,4 +1,4 @@
-import { MaskEditor, imagePoint } from './mask-editor.js?v=20260917';
+import { MaskEditor, imagePoint } from './mask-editor.js?v=20260917-connected';
 import { createPlainBackgroundMask } from './automatic-mask.js?v=20260917';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 
@@ -38,7 +38,7 @@ function render() {
   $('clear-marks').disabled = locked || !editor?.hasMarks;
   $('remove').textContent = busy ? '正在处理，请稍候…' : editor?.hasAutomaticResult ? '✦ 重新自动抠图' : '✦ 开始移除背景';
   $('preview-caption').textContent = !editor ? '上传后在左侧原图标记' : editor.hasAutomaticResult ? '左侧标记 · 右侧实时显示自动抠图结果' : editor.hasMarks ? '左侧标记 · 右侧实时显示手动修正' : '可在左图标记，也可直接自动抠图';
-  $('mode-label').textContent = mode === 'pan' ? '移动画面 · 拖动查看' : mode === 'unmark' ? '擦除标记 · 清除后重新刷' : smartEnabled ? (mode === 'keep' ? '智能保留 · 全图颜色匹配' : '智能移除 · 全图颜色匹配') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
+  $('mode-label').textContent = mode === 'pan' ? '移动画面 · 拖动查看' : mode === 'unmark' ? '擦除标记 · 清除后重新刷' : smartEnabled ? (mode === 'keep' ? '智能保留 · 连续区域扩选' : '智能移除 · 连续区域扩选') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
   for (const id of EDIT_MODES) { $(id).classList.toggle('selected', mode === id); $(id).setAttribute('aria-pressed', String(mode === id)); }
   $('editor-surface').classList.toggle('editing', !!editor && !busy && !loading);
   $('editor-surface').classList.toggle('panning', mode === 'pan' || pointerAction === 'pan');
@@ -47,6 +47,7 @@ function render() {
   $('brush-cursor').classList.toggle('unmarking', mode === 'unmark');
   if (mode === 'pan' || pointerAction === 'pan') $('brush-cursor').hidden = true;
   $('marks-canvas').hidden = !$('show-marks').checked;
+  $('boundary-canvas').hidden = !$('show-boundary').checked;
   $('editor-surface').setAttribute('aria-busy', String(busy));
   $('zoom-out').disabled = locked || !editor || zoom <= MIN_ZOOM;
   $('zoom-in').disabled = locked || !editor || zoom >= MAX_ZOOM;
@@ -135,7 +136,7 @@ async function selectFile(file) {
     if (!blob) throw new Error('图片解码失败');
     originalCanvas.width = canvas.width; originalCanvas.height = canvas.height;
     originalCanvas.getContext('2d').drawImage(canvas, 0, 0);
-    editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'));
+    editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'));
     resetViewport(false);
     source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
     $('file-info').textContent = `${file.name} · ${canvas.width} × ${canvas.height}${ratio < 1 ? '（已缩小）' : ''}`;
@@ -207,6 +208,7 @@ $('brush-size').addEventListener('input', () => { $('brush-value').value = `${$(
 $('smart-enabled').addEventListener('change', () => { render(); updateCursor(); });
 $('smart-tolerance').addEventListener('input', () => { $('tolerance-value').value = $('smart-tolerance').value; });
 $('show-marks').addEventListener('change', render);
+$('show-boundary').addEventListener('change', render);
 $('zoom-in').addEventListener('click', () => setZoom(zoom * 1.5));
 $('zoom-out').addEventListener('click', () => setZoom(zoom / 1.5));
 $('zoom-reset').addEventListener('click', () => resetViewport());
@@ -336,7 +338,7 @@ $('reset').addEventListener('click', () => {
   if (busy || loading || pointer !== null) return;
   ++selection; editor = null; source = null; keyboardPoint = cursorPoint = null; pointerAction = null; panStart = null;
   resetViewport(false);
-  for (const id of ['original-canvas', 'result-canvas', 'marks-canvas']) { $(id).width = 1; $(id).height = 1; }
+  for (const id of ['original-canvas', 'result-canvas', 'marks-canvas', 'boundary-canvas']) { $(id).width = 1; $(id).height = 1; }
   $('brush-cursor').hidden = true;
   $('file-info').textContent = '支持人物、商品、动物等主体清晰的图片';
   status('选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'); render();
