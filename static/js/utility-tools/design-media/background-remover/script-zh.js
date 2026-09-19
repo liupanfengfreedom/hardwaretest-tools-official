@@ -1,6 +1,6 @@
 import { MaskEditor, imagePoint } from './mask-editor.js?v=20260919-edges';
 import { createPlainBackgroundMask } from './automatic-mask.js?v=20260917';
-import { refineAutomaticEdges } from './edge-refinement.js?v=20260919';
+import { refineAutomaticEdges } from './edge-refinement.js?v=20260919-v2';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
 

@@ -9,19 +9,93 @@ const { createCanvas, loadImage } = createRequire(import.meta.url)('@napi-rs/can
 const width = 96, height = 80, foreground = [148, 165, 53];
 const factory = () => createCanvas(width, height);
 const rgba = (canvas, x, y) => [...canvas.getContext('2d').getImageData(x, y, 1, 1).data];
-function flattened(background) {
+function flattened(background, feather = 2) {
   const source = new Uint8ClampedArray(width * height * 4);
   const coverage = new Float32Array(width * height);
   for (let y = 0; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
       const pixel = y * width + x;
-      const alpha = Math.max(0, Math.min(1, (29.6 - Math.hypot(x - 48, y - 40)) / 2));
+      const alpha = Math.max(0, Math.min(1, (29.6 - Math.hypot(x - 48, y - 40)) / feather));
       coverage[pixel] = alpha;
       source.set([...foreground.map((value, channel) => alpha * value + (1 - alpha) * background[channel]), 255], pixel * 4);
     }
   }
   return { source, coverage, mask: createPlainBackgroundMask(source, width, height) };
 }
+
+test('wide feathered edges do not use contaminated four-pixel inset colors as foreground', () => {
+  const { source, coverage, mask } = flattened([17, 17, 19], 8);
+  const refined = refineAutomaticEdges(source, width, height, mask, { recoverOutside: true });
+  assert.ok(refined);
+  let checked = 0;
+  for (let pixel = 0; pixel < mask.length; pixel += 1) {
+    if (!mask[pixel] || coverage[pixel] >= 0.95) continue;
+    checked += 1;
+    assert.ok(Math.abs(refined.alpha[pixel] / 255 - coverage[pixel]) < 0.02, `wide coverage at ${pixel}`);
+    for (let channel = 0; channel < 3; channel += 1) {
+      assert.ok(Math.abs(refined.colors[pixel * 4 + channel] - foreground[channel]) < 6, `wide color at ${pixel}`);
+    }
+  }
+  assert.ok(checked > 500);
+});
+
+test('one-pixel background gaps are cleaned without borrowing colors from the object across the gap', () => {
+  const source = new Uint8ClampedArray(width * height * 4);
+  const gold = y => [230 + y % 4 * 7, 145 + y % 4 * 9, 40 + y % 4 * 5];
+  for (let y = 0; y < height; y += 1) for (let x = 0; x < width; x += 1) {
+    const color = x < 46 ? foreground : gold(y);
+    const inset = Math.min(x < 46 ? x - 12 : x - 46, x < 46 ? 46 - x : 84 - x, y - 12, 68 - y);
+    const alpha = Math.max(0, Math.min(1, inset / 2));
+    source.set([...color.map(value => 17 + alpha * (value - 17)), 255], (y * width + x) * 4);
+  }
+  const mask = createPlainBackgroundMask(source, width, height);
+  const refined = refineAutomaticEdges(source, width, height, mask, { recoverOutside: true });
+  assert.ok(refined);
+  for (let y = 28; y < 52; y += 1) {
+    assert.equal(refined.alpha[y * width + 46], 0, 'gap stays transparent');
+    for (const x of [45, 47]) {
+      const pixel = y * width + x, expected = x < 46 ? foreground : gold(y);
+      assert.ok(Math.abs(refined.alpha[pixel] - 128) < 4, `gap edge alpha at ${x},${y}`);
+      for (let channel = 0; channel < 3; channel += 1) {
+        assert.ok(Math.abs(refined.colors[pixel * 4 + channel] - expected[channel]) < 6, `gap edge color at ${x},${y}`);
+      }
+    }
+  }
+});
+
+test('small textured shapes without a flat or deep interior still receive edge cleanup', () => {
+  const source = new Uint8ClampedArray(width * height * 4);
+  for (let y = 0; y < height; y += 1) for (let x = 0; x < width; x += 1) {
+    const alpha = Math.max(0, Math.min(1, Math.min(x - 40, 50 - x, y - 12, 68 - y) / 2));
+    const color = [230 + y % 4 * 7, 145 + y % 4 * 9, 40 + y % 4 * 5];
+    source.set([...color.map(value => 17 + alpha * (value - 17)), 255], (y * width + x) * 4);
+  }
+  const mask = createPlainBackgroundMask(source, width, height);
+  const refined = refineAutomaticEdges(source, width, height, mask, { recoverOutside: true });
+  assert.ok(refined);
+  for (let y = 28; y < 52; y += 1) for (const x of [41, 49]) {
+    const pixel = y * width + x;
+    assert.ok(Math.abs(refined.alpha[pixel] - 128) < 4);
+    assert.ok(refined.colors[pixel * 4] >= 225);
+    assert.equal(refined.alpha[y * width + 45], 255, 'small core is preserved');
+  }
+});
+
+test('mixed highlight edges are decontaminated but off-color background noise is not restored', () => {
+  const { source } = flattened([17, 17, 19]);
+  const highlight = 40 * width + 19, noise = 40 * width + 18;
+  source.set([91, 85, 72, 255], highlight * 4);
+  source.set([10, 25, 39, 255], noise * 4);
+  const mask = createPlainBackgroundMask(source, width, height);
+  assert.equal(mask[highlight], 255);
+  assert.equal(mask[noise], 0);
+  const refined = refineAutomaticEdges(source, width, height, mask, { recoverOutside: true });
+  assert.ok(refined.alpha[highlight] > 50 && refined.alpha[highlight] < 160);
+  assert.ok(refined.colors[highlight * 4] >= 160, 'no opaque dark fleck on the highlight');
+  assert.ok(refined.colors[highlight * 4] > refined.colors[highlight * 4 + 1]);
+  assert.ok(refined.colors[highlight * 4 + 1] > refined.colors[highlight * 4 + 2]);
+  assert.equal(refined.alpha[noise], 0, 'do not revive background ringing');
+});
 
 for (const background of [[17, 17, 17], [255, 255, 255], [30, 70, 210]]) {
   test(`removes background contamination and recovers soft edge coverage over ${background}`, () => {
@@ -77,6 +151,7 @@ test('existing transparent pixels and thin details remain untouched without reli
     mask[pixel] = source[pixel * 4 + 3] ? 255 : 0;
   }
   assert.equal(refineAutomaticEdges(source, width, height, mask), null);
+  assert.equal(refineAutomaticEdges(source, width, height, mask, { recoverOutside: true }), null);
   source.fill(0); mask.fill(0);
   for (let pixel = 0; pixel < mask.length; pixel += 1) source[pixel * 4 + 3] = 255;
   for (let x = 15; x < 80; x += 1) {
@@ -84,6 +159,7 @@ test('existing transparent pixels and thin details remain untouched without reli
     mask[40 * width + x] = 255;
   }
   assert.equal(refineAutomaticEdges(source, width, height, mask), null);
+  assert.equal(refineAutomaticEdges(source, width, height, mask, { recoverOutside: true }), null);
 });
 
 function editorFixture(refinement = refineAutomaticEdges) {
