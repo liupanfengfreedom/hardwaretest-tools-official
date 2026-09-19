@@ -1,5 +1,6 @@
-import { MaskEditor, imagePoint } from './mask-editor.js?v=20260917-connected';
+import { MaskEditor, imagePoint } from './mask-editor.js?v=20260919-edges';
 import { createPlainBackgroundMask } from './automatic-mask.js?v=20260917';
+import { refineAutomaticEdges } from './edge-refinement.js?v=20260919';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
 
@@ -261,7 +262,7 @@ async function selectFile(file, options = {}) {
     if (!blob) throw new Error('图片解码失败');
     originalCanvas.width = canvas.width; originalCanvas.height = canvas.height;
     originalCanvas.getContext('2d').drawImage(canvas, 0, 0);
-    editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'));
+    editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'), language === 'en' ? refineAutomaticEdges : null);
     resetViewport(false);
     source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
     $('file-info').textContent = ui.fileInfo(file.name, canvas.width, canvas.height, ratio < 1);

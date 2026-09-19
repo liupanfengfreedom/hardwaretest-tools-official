@@ -6,11 +6,14 @@ export function imagePoint(clientX, clientY, rect, width, height) {
 }
 
 export class MaskEditor {
-  constructor(source, result, marks, createCanvas, boundaries = createCanvas()) {
+  constructor(source, result, marks, createCanvas, boundaries = createCanvas(), refineEdges = null) {
     this.source = source;
     this.result = result;
     this.marks = marks;
     this.boundaries = boundaries;
+    this.createCanvas = createCanvas;
+    this.refineEdges = refineEdges;
+    this.automaticSource = null;
     this.base = createCanvas();
     this.mask = createCanvas();
     for (const canvas of [result, marks, boundaries, this.base, this.mask]) {
@@ -42,13 +45,31 @@ export class MaskEditor {
     for (let i = 3; i < mask.data.length; i += 4) {
       mask.data[i] = original.data[i] ? Math.min(255, Math.round(mask.data[i] * 255 / original.data[i])) : 0;
     }
+    if (this.refineEdges) {
+      const alpha = Uint8ClampedArray.from({ length: this.base.width * this.base.height }, (_, pixel) => mask.data[pixel * 4 + 3]);
+      this.setAutomaticMask(alpha, { recoverOutside: false });
+      return;
+    }
     ctx.putImageData(mask, 0, 0);
     this.hasAutomaticResult = true;
     this.rebuild();
   }
 
-  setAutomaticMask(alpha) {
+  setAutomaticMask(alpha, options = { recoverOutside: true }) {
     if (alpha.length !== this.base.width * this.base.height) throw new Error('蒙版尺寸不匹配');
+    this.automaticSource = null;
+    if (this.refineEdges) {
+      const original = this.source.getContext('2d').getImageData(0, 0, this.source.width, this.source.height);
+      const refined = this.refineEdges(original.data, original.width, original.height, alpha, options);
+      if (refined) {
+        alpha = refined.alpha;
+        this.automaticSource = this.createCanvas();
+        this.automaticSource.width = original.width;
+        this.automaticSource.height = original.height;
+        original.data.set(refined.colors);
+        this.automaticSource.getContext('2d').putImageData(original, 0, 0);
+      }
+    }
     const ctx = this.base.getContext('2d');
     const mask = ctx.createImageData(this.base.width, this.base.height);
     for (let pixel = 0; pixel < alpha.length; pixel += 1) mask.data[pixel * 4 + 3] = alpha[pixel];
@@ -265,7 +286,26 @@ export class MaskEditor {
     this.renderBoundaries();
     const ctx = this.result.getContext('2d');
     ctx.clearRect(0, 0, this.result.width, this.result.height);
-    ctx.drawImage(this.source, 0, 0);
+    ctx.drawImage(this.automaticSource || this.source, 0, 0);
+    if (this.automaticSource && this.hasMarks) {
+      // Keep restores the exact original colors, not the decontaminated edge.
+      // Removed marks are also copied here, then removed by the final mask.
+      this.manualSource ??= this.createCanvas();
+      this.manualSource.width = this.source.width;
+      this.manualSource.height = this.source.height;
+      const manual = this.manualSource.getContext('2d');
+      manual.drawImage(this.source, 0, 0);
+      manual.globalCompositeOperation = 'destination-in';
+      manual.drawImage(this.marks, 0, 0);
+      manual.globalCompositeOperation = 'source-over';
+      // Replace marked pixels rather than alpha-compositing the original over
+      // itself: Keep must not increase opacity on an already translucent source.
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.drawImage(this.marks, 0, 0);
+      ctx.restore();
+      ctx.drawImage(this.manualSource, 0, 0);
+    }
     ctx.save();
     ctx.globalCompositeOperation = 'destination-in';
     ctx.drawImage(this.mask, 0, 0);
