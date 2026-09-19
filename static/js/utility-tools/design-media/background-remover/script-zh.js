@@ -6,6 +6,32 @@ import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage
 const $ = id => document.getElementById(id);
 const originalCanvas = $('original-canvas');
 const resultCanvas = $('result-canvas');
+const language = document.documentElement.lang.toLowerCase().startsWith('en') ? 'en' : 'zh';
+const ui = language === 'en' ? {
+  brushSize: 'Brush size', eraserSize: 'Eraser size',
+  editUnmark: 'Drag over the original image to erase keep or remove marks at the selected brush size. This lifts protection in that area and restores the automatic result—or the original image if you have not run background removal yet—so you can paint it again.',
+  editPaint: 'Paint on the original image: green Keep marks are always protected, so manual removal, Smart Remove, and automatic removal will not erase them. Choose Erase marks to clear an area and paint it again.',
+  processing: 'Processing…', removeBackground: '✦ Remove Background', runAgain: '✦ Run Again',
+  previewInitial: 'Paint on the original image after uploading', previewAutomatic: 'Original on the left · automatic result updates on the right', previewManual: 'Original on the left · manual edits update on the right', previewReady: 'Paint on the original image, or remove the background right away',
+  modeInitial: 'Choose an image to start editing', modePan: 'Pan view · drag to move', modeUnmark: 'Erase marks · then paint again', modeSmartKeep: 'Smart Keep · connected selection', modeSmartRemove: 'Smart Remove · connected selection', modeKeep: 'Keep brush · restore original pixels', modeRemove: 'Remove brush · erase background',
+  syncedView: percent => `Synced view · ${percent}%`, historyEmpty: 'No recent images yet. Images you upload will appear here.', historyUnavailable: 'Recent images are unavailable in this browser, but you can still edit images normally.', reloadImage: name => `Reload ${name}`, removeHistory: name => `Remove ${name} from recent images`, deleteRecord: 'Remove this item',
+  unsupported: 'Please choose a JPG, PNG, or WebP image.', tooLarge: 'This image is larger than 20 MB. Please compress it and try again.', reading: 'Reading image…', ready: 'Image ready. Paint over areas first, or remove the background right away.', readFailed: 'This image could not be opened. Please try a different image.', fileInfo: (name, width, height, resized) => `${name} · ${width} × ${height}${resized ? ' (resized)' : ''}`,
+  pasteBusy: 'Finish processing or editing the current image before pasting another one.', clipboardName: extension => `Clipboard image.${extension}`,
+  detecting: 'Detecting background…', automaticDone: 'Background removed. Interior details are protected and your manual edits have been applied. You can keep refining or download the result.', loadingAI: 'Loading the AI engine. The model downloads on first use, so please keep this page open…', downloadingModel: percent => `Downloading model files: ${percent}% (slower the first time)`, preparingModel: 'Preparing the model and identifying the subject…', aiDone: 'Background removed. Your manual edits have been applied. You can keep refining or download the result.', aiFailed: 'Background removal failed. Check your connection and try again, or use the brushes to edit manually.',
+  pixelUnit: 'px', clearHistory: 'Clear all recent images saved in this browser?', exportName: name => `${name}-background-removed.png`, exportFailed: 'Could not export the image. Please try again.', chooseImage: 'Choose an image in the original-image panel below.', initialStatus: 'Choose an image, or paste one with Ctrl+V (⌘V on Mac).'
+} : {
+  brushSize: '普通笔刷直径', eraserSize: '擦除直径',
+  editUnmark: '在左侧原图拖动，按笔刷直径擦除保留或移除标记，解除该区域的保护并恢复自动抠图结果（未自动抠图时恢复原图），随后可重新刷。',
+  editPaint: '在左侧原图标记：绿色保留区始终受保护，普通移除、智能移除和自动抠图都会保留它。选择“擦除标记”可局部清除后重新刷。',
+  processing: '正在处理，请稍候…', removeBackground: '✦ 开始移除背景', runAgain: '✦ 重新自动抠图',
+  previewInitial: '上传后在左侧原图标记', previewAutomatic: '左侧标记 · 右侧实时显示自动抠图结果', previewManual: '左侧标记 · 右侧实时显示手动修正', previewReady: '可在左图标记，也可直接自动抠图',
+  modeInitial: '选择图片后可进行手动标记', modePan: '移动画面 · 拖动查看', modeUnmark: '擦除标记 · 清除后重新刷', modeSmartKeep: '智能保留 · 连续区域扩选', modeSmartRemove: '智能移除 · 连续区域扩选', modeKeep: '保留画笔 · 补回原图', modeRemove: '移除画笔 · 擦除背景',
+  syncedView: percent => `同步视图 · ${percent}%`, historyEmpty: '还没有历史图片，上传后会自动显示在这里。', historyUnavailable: '当前浏览器无法读取本地历史记录，但仍可正常处理图片。', reloadImage: name => `重新载入 ${name}`, removeHistory: name => `从历史记录删除 ${name}`, deleteRecord: '删除这条记录',
+  unsupported: '请选择 JPG、PNG 或 WebP 格式的图片。', tooLarge: '图片超过 20 MB，请压缩后重试。', reading: '正在读取图片…', ready: '图片已就绪。可先标记区域，也可直接自动移除背景。', readFailed: '无法读取这张图片，请换一张图片重试。', fileInfo: (name, width, height, resized) => `${name} · ${width} × ${height}${resized ? '（已缩小）' : ''}`,
+  pasteBusy: '请完成当前图片处理或标记后，再粘贴图片。', clipboardName: extension => `剪贴板图片.${extension}`,
+  detecting: '正在识别背景…', automaticDone: '自动抠图完成，已保留主体内部细节并应用手动标记。可以继续修补或下载。', loadingAI: '正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…', downloadingModel: percent => `正在下载模型资源：${percent}%（首次使用较慢）`, preparingModel: '正在准备模型并识别主体，请稍候…', aiDone: '自动抠图完成，已应用手动标记。可以继续修补或下载。', aiFailed: '自动抠图失败，请检查网络后重试。也可以直接使用画笔手动移除背景。',
+  pixelUnit: '像素', clearHistory: '确定清空当前浏览器中的全部图片历史吗？', exportName: name => `${name}-去背景.png`, exportFailed: '图片导出失败，请重试。', chooseImage: '请先在下方原图区域选择图片', initialStatus: '选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'
+};
 let source = null, filename = '', busy = false, loading = false, selection = 0;
 let editor = null, mode = 'keep', pointer = null, keyboardPoint = null, cursorPoint = null;
 let zoom = 1, pan = { x: 0, y: 0 }, pointerAction = null, panStart = null;
@@ -32,16 +58,14 @@ function render() {
   $('brush-size').disabled = brushLocked || smartEnabled;
   $('smart-tolerance').disabled = brushLocked || !smartEnabled;
   $('smart-options').hidden = $('smart-help').hidden = !smartEnabled;
-  $('brush-size-label').textContent = mode === 'unmark' ? '擦除直径' : '普通笔刷直径';
-  $('edit-help').textContent = mode === 'unmark'
-    ? '在左侧原图拖动，按笔刷直径擦除保留或移除标记，解除该区域的保护并恢复自动抠图结果（未自动抠图时恢复原图），随后可重新刷。'
-    : '在左侧原图标记：绿色保留区始终受保护，普通移除、智能移除和自动抠图都会保留它。选择“擦除标记”可局部清除后重新刷。';
+  $('brush-size-label').textContent = mode === 'unmark' ? ui.eraserSize : ui.brushSize;
+  $('edit-help').textContent = mode === 'unmark' ? ui.editUnmark : ui.editPaint;
   $('undo').disabled = locked || !editor?.history.length;
   $('redo').disabled = locked || !editor?.future.length;
   $('clear-marks').disabled = locked || !editor?.hasMarks;
-  $('remove').textContent = busy ? '正在处理，请稍候…' : editor?.hasAutomaticResult ? '✦ 重新自动抠图' : '✦ 开始移除背景';
-  $('preview-caption').textContent = !editor ? '上传后在左侧原图标记' : editor.hasAutomaticResult ? '左侧标记 · 右侧实时显示自动抠图结果' : editor.hasMarks ? '左侧标记 · 右侧实时显示手动修正' : '可在左图标记，也可直接自动抠图';
-  $('mode-label').textContent = !editor ? '选择图片后可进行手动标记' : mode === 'pan' ? '移动画面 · 拖动查看' : mode === 'unmark' ? '擦除标记 · 清除后重新刷' : smartEnabled ? (mode === 'keep' ? '智能保留 · 连续区域扩选' : '智能移除 · 连续区域扩选') : (mode === 'keep' ? '保留画笔 · 补回原图' : '移除画笔 · 擦除背景');
+  $('remove').textContent = busy ? ui.processing : editor?.hasAutomaticResult ? ui.runAgain : ui.removeBackground;
+  $('preview-caption').textContent = !editor ? ui.previewInitial : editor.hasAutomaticResult ? ui.previewAutomatic : editor.hasMarks ? ui.previewManual : ui.previewReady;
+  $('mode-label').textContent = !editor ? ui.modeInitial : mode === 'pan' ? ui.modePan : mode === 'unmark' ? ui.modeUnmark : smartEnabled ? (mode === 'keep' ? ui.modeSmartKeep : ui.modeSmartRemove) : (mode === 'keep' ? ui.modeKeep : ui.modeRemove);
   for (const id of EDIT_MODES) { $(id).classList.toggle('selected', mode === id); $(id).setAttribute('aria-pressed', String(mode === id)); }
   $('editor-surface').classList.toggle('editing', !!editor && !busy && !loading);
   $('editor-surface').classList.toggle('panning', mode === 'pan' || pointerAction === 'pan');
@@ -57,7 +81,7 @@ function render() {
   $('zoom-in').disabled = locked || !editor || zoom >= MAX_ZOOM;
   $('zoom-reset').disabled = locked || !editor || (zoom === 1 && pan.x === 0 && pan.y === 0);
   $('zoom-value').value = `${Math.round(zoom * 100)}%`;
-  $('result-view-state').textContent = `同步视图 · ${Math.round(zoom * 100)}%`;
+  $('result-view-state').textContent = ui.syncedView(Math.round(zoom * 100));
 }
 
 function surfaceSize() {
@@ -153,7 +177,7 @@ async function refreshHistory() {
     revokeHistoryUrls();
     list.replaceChildren();
     empty.hidden = records.length > 0;
-    empty.textContent = '还没有历史图片，上传后会自动显示在这里。';
+    empty.textContent = ui.historyEmpty;
     clear.disabled = records.length === 0;
 
     for (const record of records) {
@@ -163,7 +187,7 @@ async function refreshHistory() {
       const open = document.createElement('button');
       open.className = 'history-open';
       open.type = 'button';
-      open.title = `重新载入 ${record.name}`;
+      open.title = ui.reloadImage(record.name);
 
       const image = document.createElement('img');
       image.className = 'history-thumb';
@@ -178,7 +202,7 @@ async function refreshHistory() {
       const name = document.createElement('strong');
       name.textContent = record.name;
       const details = document.createElement('span');
-      const savedAt = new Date(record.updatedAt).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const savedAt = new Date(record.updatedAt).toLocaleString(language === 'en' ? 'en-US' : 'zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
       details.textContent = `${record.width} × ${record.height} · ${savedAt}`;
       meta.append(name, details);
       open.append(image, meta);
@@ -192,8 +216,8 @@ async function refreshHistory() {
       const remove = document.createElement('button');
       remove.className = 'history-remove';
       remove.type = 'button';
-      remove.setAttribute('aria-label', `从历史记录删除 ${record.name}`);
-      remove.title = '删除这条记录';
+      remove.setAttribute('aria-label', ui.removeHistory(record.name));
+      remove.title = ui.deleteRecord;
       remove.textContent = '×';
       remove.addEventListener('click', async () => {
         try {
@@ -213,16 +237,16 @@ async function refreshHistory() {
     list.replaceChildren();
     clear.disabled = true;
     empty.hidden = false;
-    empty.textContent = '当前浏览器无法读取本地历史记录，但仍可正常处理图片。';
+    empty.textContent = ui.historyUnavailable;
   }
 }
 
 async function selectFile(file, options = {}) {
   if (busy || pointer !== null || !file) return;
-  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) return status('请选择 JPG、PNG 或 WebP 格式的图片。', true);
-  if (!options.stored && file.size > 20 * 1024 * 1024) return status('图片超过 20 MB，请压缩后重试。', true);
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) return status(ui.unsupported, true);
+  if (!options.stored && file.size > 20 * 1024 * 1024) return status(ui.tooLarge, true);
   const token = ++selection;
-  loading = true; render(); status('正在读取图片…');
+  loading = true; render(); status(ui.reading);
   let bitmap;
   try {
     bitmap = await createImageBitmap(file);
@@ -240,10 +264,10 @@ async function selectFile(file, options = {}) {
     editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'));
     resetViewport(false);
     source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
-    $('file-info').textContent = `${file.name} · ${canvas.width} × ${canvas.height}${ratio < 1 ? '（已缩小）' : ''}`;
-    status('图片已就绪。可先标记区域，也可直接自动移除背景。');
+    $('file-info').textContent = ui.fileInfo(file.name, canvas.width, canvas.height, ratio < 1);
+    status(ui.ready);
     if (options.remember !== false) void rememberImage(blob, canvas, file.name);
-  } catch { if (token === selection) status('无法读取这张图片，请换一张图片重试。', true); }
+  } catch { if (token === selection) status(ui.readFailed, true); }
   finally { bitmap?.close(); if (token === selection) { loading = false; render(); fitPreviews(); } }
 }
 $('file-input').addEventListener('change', e => { selectFile(e.target.files[0]); e.target.value = ''; });
@@ -271,10 +295,10 @@ document.addEventListener('paste', e => {
   file ||= Array.from(e.clipboardData.files || []).find(item => item.type.startsWith('image/'));
   if (!file) return;
   e.preventDefault();
-  if (busy || pointer !== null) return status('请完成当前图片处理或标记后，再粘贴图片。');
+  if (busy || pointer !== null) return status(ui.pasteBusy);
   if (!file.name) {
     const extension = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' }[file.type] || 'img';
-    file = new File([file], `剪贴板图片.${extension}`, { type: file.type });
+    file = new File([file], ui.clipboardName(extension), { type: file.type });
   }
   selectFile(file);
 });
@@ -284,41 +308,41 @@ $('remove').addEventListener('click', async () => {
   const token = ++selection;
   busy = true; render(); $('brush-cursor').hidden = true;
   $('progress').hidden = false; $('progress').removeAttribute('value');
-  status('正在识别背景…');
+  status(ui.detecting);
   let bitmap;
   try {
     const pixels = originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height);
     const plainMask = createPlainBackgroundMask(pixels.data, pixels.width, pixels.height);
     if (plainMask) {
       editor.setAutomaticMask(plainMask);
-      status('自动抠图完成，已保留主体内部细节并应用手动标记。可以继续修补或下载。');
+      status(ui.automaticDone);
       return;
     }
-    status('正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…');
+    status(ui.loadingAI);
     const { removeBackground } = await import('https://esm.sh/@imgly/background-removal@1.7.0');
     const result = await removeBackground(source, { device: 'cpu', model: 'isnet_quint8', output: { format: 'image/png', type: 'foreground' }, progress: (key, current, total) => {
       if (token !== selection) return;
-      if (total > 0 && current < total) { $('progress').max = total; $('progress').value = current; status(`正在下载模型资源：${Math.round(current / total * 100)}%（首次使用较慢）`); }
-      else { $('progress').removeAttribute('value'); status('正在准备模型并识别主体，请稍候…'); }
+      if (total > 0 && current < total) { $('progress').max = total; $('progress').value = current; status(ui.downloadingModel(Math.round(current / total * 100))); }
+      else { $('progress').removeAttribute('value'); status(ui.preparingModel); }
     } });
     bitmap = await createImageBitmap(result);
     if (token !== selection) return;
     editor.setAutomaticResult(bitmap);
-    status('自动抠图完成，已应用手动标记。可以继续修补或下载。');
+    status(ui.aiDone);
   } catch (error) {
-    console.error('背景移除失败', error);
-    if (token === selection) status('自动抠图失败，请检查网络后重试。也可以直接使用画笔手动移除背景。', true);
+    console.error(language === 'en' ? 'Background removal failed' : '背景移除失败', error);
+    if (token === selection) status(ui.aiFailed, true);
   } finally { bitmap?.close(); if (token === selection) { busy = false; $('progress').hidden = true; render(); } }
 });
 
 for (const id of EDIT_MODES) $(id).addEventListener('click', () => { mode = id; $('brush-cursor').hidden = true; render(); });
-$('brush-size').addEventListener('input', () => { $('brush-value').value = `${$('brush-size').value} 像素`; updateCursor(); });
+$('brush-size').addEventListener('input', () => { $('brush-value').value = `${$('brush-size').value} ${ui.pixelUnit}`; updateCursor(); });
 $('smart-enabled').addEventListener('change', () => { render(); updateCursor(); });
 $('smart-tolerance').addEventListener('input', () => { $('tolerance-value').value = $('smart-tolerance').value; });
 $('show-marks').addEventListener('change', render);
 $('show-boundary').addEventListener('change', render);
 $('clear-history').addEventListener('click', async () => {
-  if ($('clear-history').disabled || !confirm('确定清空当前浏览器中的全部图片历史吗？')) return;
+  if ($('clear-history').disabled || !confirm(ui.clearHistory)) return;
   try {
     await clearRecentImages();
     await refreshHistory();
@@ -441,7 +465,7 @@ document.querySelectorAll('[data-bg]').forEach(button => button.addEventListener
 }));
 $('download').addEventListener('click', async () => {
   if ($('download').disabled) return;
-  const downloadName = `${filename}-去背景.png`;
+  const downloadName = ui.exportName(filename);
   try {
     const blob = await new Promise(resolve => resultCanvas.toBlob(resolve, 'image/png'));
     if (!blob) throw new Error('PNG 编码失败');
@@ -449,7 +473,7 @@ $('download').addEventListener('click', async () => {
     const a = document.createElement('a'); a.href = url; a.download = downloadName;
     document.body.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 10000);
-  } catch { status('图片导出失败，请重试。', true); }
+  } catch { status(ui.exportFailed, true); }
 });
 $('reset').addEventListener('click', () => {
   if (busy || loading || pointer !== null) return;
@@ -457,8 +481,8 @@ $('reset').addEventListener('click', () => {
   resetViewport(false);
   for (const id of ['original-canvas', 'result-canvas', 'marks-canvas', 'boundary-canvas']) { $(id).width = 1; $(id).height = 1; }
   $('brush-cursor').hidden = true;
-  $('file-info').textContent = '请先在下方原图区域选择图片';
-  status('选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'); render();
+  $('file-info').textContent = ui.chooseImage;
+  status(ui.initialStatus); render();
 });
 render();
 refreshHistory();
