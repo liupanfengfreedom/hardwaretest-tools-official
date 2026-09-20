@@ -15,7 +15,7 @@ function uniformBackground(source, width, height, mask) {
 // A flattened edge contains C = aF + (1 - a)B. Keeping C after removing B
 // leaves a dark/light/color fringe. Estimate a and F only in a narrow edge band,
 // using nearby, reliable background and opaque foreground samples.
-export function refineAutomaticEdges(source, width, height, mask, { recoverOutside = false, maxEdgeWidth = 12 } = {}) {
+export function refineAutomaticEdges(source, width, height, mask, { recoverOutside = false, maxEdgeWidth = 12, cleanSpeckles = false } = {}) {
   const count = width * height;
   if (source.length !== count * 4 || mask.length !== count) throw new Error('Invalid image dimensions');
   const solid = recoverOutside ? uniformBackground(source, width, height, mask) : null;
@@ -56,12 +56,30 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
   // as a background estimate or multiply their original alpha a second time.
   const opaqueRemoved = pixel => mask[pixel] === 0 && source[pixel * 4 + 3] === 255;
   if (!mask.some((_, pixel) => opaqueRemoved(pixel))) return null;
-  const outside = nearest(opaqueRemoved, false).distance;
-  const foregroundSeeds = pixel => mask[pixel] >= 250 && source[pixel * 4 + 3] === 255
+  let outside = nearest(opaqueRemoved, false).distance;
+  let removedNoise = null;
+  const contrast = pixel => Math.max(Math.abs(source[pixel * 4] - solid[0]),
+    Math.abs(source[pixel * 4 + 1] - solid[1]), Math.abs(source[pixel * 4 + 2] - solid[2]));
+  if (cleanSpeckles && solid) {
+    // Quantization/ringing can leave backdrop-colored dots in the narrow band
+    // around an open hole. Do not perform a size-only component deletion: small
+    // colored droplets and thin disconnected details are legitimate foreground.
+    for (let pixel = 0; pixel < count; pixel += 1) {
+      if (!mask[pixel] || source[pixel * 4 + 3] !== 255 || outside[pixel] > band || contrast(pixel) > 24) continue;
+      if (!removedNoise) { removedNoise = new Uint8Array(count); mask = mask.slice(); }
+      removedNoise[pixel] = 1;
+      mask[pixel] = 0;
+    }
+    if (removedNoise) outside = nearest(opaqueRemoved, false).distance;
+  }
+  const noiseOnlyResult = () => removedNoise ? { alpha: mask, colors: source.slice() } : null;
+  const reliableForeground = pixel => mask[pixel] >= 250 && source[pixel * 4 + 3] === 255
+    && (!cleanSpeckles || !solid || contrast(pixel) > 32);
+  const foregroundSeeds = pixel => reliableForeground(pixel)
     && outside[pixel] > band && outside[pixel] <= radius;
   const fallback = solid ? nearest(foregroundSeeds, true, true).owner : null;
   const foreground = nearest(pixel => {
-    if (mask[pixel] < 250 || source[pixel * 4 + 3] !== 255 || outside[pixel] < 4 || outside[pixel] > radius) return false;
+    if (!reliableForeground(pixel) || outside[pixel] < 4 || outside[pixel] > radius) return false;
     if (!solid) return true;
     // An arbitrary four-pixel inset can still be inside a wide blurred edge.
     // Look for a locally stable foreground color instead of treating it as opaque.
@@ -83,13 +101,13 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
     // Small, textured tips may have neither a flat patch nor a deep interior.
     // Only fall back to a shallow sample where both safer anchors are absent;
     // otherwise a mixed pixel can select itself and leave a wide halo intact.
-    const shallow = nearest(pixel => mask[pixel] >= 250 && source[pixel * 4 + 3] === 255
+    const shallow = nearest(pixel => reliableForeground(pixel)
       && outside[pixel] >= 4 && outside[pixel] <= radius, true, true).owner;
     for (let pixel = 0; pixel < count; pixel += 1) {
       if (foreground[pixel] < 0) foreground[pixel] = shallow[pixel];
     }
   }
-  if (!foreground.some(pixel => pixel >= 0)) return null;
+  if (!foreground.some(pixel => pixel >= 0)) return noiseOnlyResult();
   // A verified flat backdrop also supplies B inside narrow gaps, where no 3x3
   // block of background exists. Textured photos still require a local sample.
   const background = solid ? null : nearest(pixel => {
@@ -113,7 +131,7 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
   const candidates = new Uint8Array(count);
   const coverage = new Float32Array(count);
   for (let pixel = 0; pixel < count; pixel += 1) {
-    if (outside[pixel] > band || source[pixel * 4 + 3] !== 255 || foreground[pixel] < 0 || (!solid && background[pixel] < 0)) continue;
+    if (removedNoise?.[pixel] || outside[pixel] > band || source[pixel * 4 + 3] !== 255 || foreground[pixel] < 0 || (!solid && background[pixel] < 0)) continue;
     if (!mask[pixel]) {
       if (!recoverOutside) continue;
       let touchesForeground = false;
@@ -175,15 +193,23 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
       // One RGB line cannot explain that mixture. With a verified backdrop,
       // estimate coverage from contrast and unmix C itself, preserving its hue
       // instead of leaving a fully opaque, background-tinted speck behind.
-      let observed = 0, interior = 0, minimum = 0;
+      let observed = 0, interior = 0, minimum = 0, dominantCoverage = 0;
       for (let channel = 0; channel < 3; channel += 1) {
         const b = solid[channel], c = source[offset + channel];
         observed = Math.max(observed, Math.abs(c - b));
-        interior = Math.max(interior, Math.abs(source[estimate.sample * 4 + channel] - b));
+        const direction = source[estimate.sample * 4 + channel] - b;
+        if (Math.abs(direction) > interior) {
+          interior = Math.abs(direction);
+          dominantCoverage = (c - b) / direction;
+        }
         const extent = c > b ? 255 - b : b;
         if (extent) minimum = Math.max(minimum, Math.abs(c - b) / extent);
       }
-      alpha = Math.min(1, Math.max(minimum, observed / Math.max(1, interior)));
+      // A clipped low-signal channel (e.g. blue=0 on a near-black backdrop) can
+      // be resampling noise, not proof of full opacity. In the opt-in cleanup,
+      // use the strongest foreground channel instead of forcing alpha to one.
+      alpha = cleanSpeckles ? Math.max(0, Math.min(1, dominantCoverage))
+        : Math.min(1, Math.max(minimum, observed / Math.max(1, interior)));
     }
     if (alpha >= 0.98 || (!mask[pixel] && (alpha < 0.03 || alpha > 0.4))) continue;
     foreground[pixel] = estimate.sample;
@@ -206,7 +232,7 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
       queue[tail++] = next;
     });
   }
-  if (!candidates.includes(2)) return null;
+  if (!candidates.includes(2)) return noiseOnlyResult();
   const alpha = mask.slice(), colors = source.slice();
   for (let pixel = 0; pixel < count; pixel += 1) {
     if (candidates[pixel] !== 2) continue;

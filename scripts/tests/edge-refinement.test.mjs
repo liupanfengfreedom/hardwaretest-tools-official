@@ -23,7 +23,56 @@ function flattened(background, feather = 2) {
   return { source, coverage, mask: createPlainBackgroundMask(source, width, height) };
 }
 
-const refineChineseEdges = (source, width, height, mask, options) => refineAutomaticEdges(source, width, height, mask, { ...options, maxEdgeWidth: 2 });
+const refineChineseEdges = (source, width, height, mask, options) => refineAutomaticEdges(source, width, height, mask, { ...options, maxEdgeWidth: 2, cleanSpeckles: true });
+
+test('clipped low-signal channels no longer force a mixed edge pixel to opaque black', () => {
+  const { source } = flattened([17, 17, 19]);
+  const pixel = 40 * width + 19;
+  // Actual reported pixel: blue undershoots the backdrop after resampling.
+  source.set([47, 38, 0, 255], pixel * 4);
+  const mask = createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true });
+  const original = source.slice(), originalMask = mask.slice();
+  const old = refineAutomaticEdges(source, width, height, mask, { recoverOutside: true, maxEdgeWidth: 2 });
+  const refined = refineChineseEdges(source, width, height, mask, { recoverOutside: true });
+  assert.equal(old.alpha[pixel], 255, 'fixture reproduces the previous opaque speck');
+  assert.ok(refined.alpha[pixel] > 0 && refined.alpha[pixel] < 90);
+  assert.ok(refined.colors[pixel * 4] > 140 && refined.colors[pixel * 4 + 1] > 150);
+  assert.deepEqual(source, original);
+  assert.deepEqual(mask, originalMask);
+});
+
+test('backdrop-colored speckles are removed without deleting small colored droplets or thin antennae', () => {
+  const { source } = flattened([17, 17, 19]);
+  for (let y = 34; y < 46; y++) for (let x = 42; x < 54; x++) source.set([17, 17, 19, 255], (y * width + x) * 4);
+  const noise = [[46, 38, [14, 15, 0]], [47, 38, [26, 29, 0]], [47, 39, [38, 19, 0]]];
+  for (const [x, y, color] of noise) source.set([...color, 255], (y * width + x) * 4);
+  source.set([230, 178, 45, 255], (14 * width + 8) * 4);
+  for (let x = 75; x < 85; x++) source.set([86, 86, 88, 255], (7 * width + x) * 4);
+  const mask = createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true });
+  const refined = refineChineseEdges(source, width, height, mask, { recoverOutside: true });
+  for (const [x, y] of noise) {
+    assert.equal(mask[y * width + x], 255, 'old backdrop match missed the clipped noise');
+    assert.equal(refined.alpha[y * width + x], 0);
+  }
+  for (const [x, y] of [[8, 14], ...Array.from({ length: 10 }, (_, i) => [75 + i, 7])]) {
+    const pixel = y * width + x;
+    assert.equal(refined.alpha[pixel], 255);
+    assert.deepEqual(refined.colors.slice(pixel * 4, pixel * 4 + 4), source.slice(pixel * 4, pixel * 4 + 4));
+  }
+});
+
+test('noise cleanup is returned even when no foreground anchor or matte correction is available', () => {
+  const source = new Uint8ClampedArray(width * height * 4), mask = new Uint8ClampedArray(width * height);
+  for (let pixel = 0; pixel < mask.length; pixel++) source.set([17, 17, 19, 255], pixel * 4);
+  const noise = 40 * width + 48;
+  source.set([14, 15, 0, 255], noise * 4); mask[noise] = 255;
+  const refined = refineChineseEdges(source, width, height, mask, { recoverOutside: true });
+  assert.ok(refined);
+  assert.equal(refined.alpha[noise], 0);
+  assert.equal(mask[noise], 255, 'input mask was not mutated');
+  assert.deepEqual(refined.colors, source);
+  assert.equal(refineChineseEdges(source, width, height, mask, { recoverOutside: false }), null, 'AI masks do not use an unverified global backdrop');
+});
 
 test('Chinese cleanup removes matte from both sides of a thin loop without refilling its enclosed hole', () => {
   const source = new Uint8ClampedArray(width * height * 4), background = [17, 17, 19];
