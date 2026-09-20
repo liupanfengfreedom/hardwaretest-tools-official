@@ -1,3 +1,5 @@
+import { regularizeContour } from './contour-refinement.js?v=20260921-contours';
+
 function uniformBackground(source, width, height, mask) {
   const sides = [[], [], [], []];
   for (let x = 0; x < width; x += 1) { sides[0].push(x); sides[1].push((height - 1) * width + x); }
@@ -15,10 +17,18 @@ function uniformBackground(source, width, height, mask) {
 // A flattened edge contains C = aF + (1 - a)B. Keeping C after removing B
 // leaves a dark/light/color fringe. Estimate a and F only in a narrow edge band,
 // using nearby, reliable background and opaque foreground samples.
-export function refineAutomaticEdges(source, width, height, mask, { recoverOutside = false, maxEdgeWidth = 12, cleanSpeckles = false } = {}) {
+export function refineAutomaticEdges(source, width, height, mask, { recoverOutside = false, maxEdgeWidth = 12, cleanSpeckles = false, continuousContour = false, backgroundModel = null } = {}) {
   const count = width * height;
   if (source.length !== count * 4 || mask.length !== count) throw new Error('Invalid image dimensions');
-  const solid = recoverOutside ? uniformBackground(source, width, height, mask) : null;
+  const model = recoverOutside ? backgroundModel : null;
+  const solid = recoverOutside ? (model?.palette[0] || uniformBackground(source, width, height, mask)) : null;
+  const backgroundAt = pixel => model ? model.colorAt(pixel) : solid;
+  // A retained palette-colored detail failed the spatial-background test. Do
+  // not let subsequent color-only edge cleanup undo that protection.
+  const patternDetails = model && model.kind !== 'solid' ? Uint8Array.from(mask, (value, pixel) => value && model.palette.some(color =>
+    color.every((channel, index) => Math.abs(source[pixel * 4 + index] - channel) <= model.tolerance))) : null;
+  const finish = result => continuousContour && solid
+    ? regularizeContour(source, width, height, result || { alpha: mask, colors: source.slice() }, backgroundAt, patternDetails) : result;
   const radius = solid ? 24 : 8;
   const band = Math.max(1, Math.min(solid ? 12 : 4, Math.floor(maxEdgeWidth)));
   const queue = new Int32Array(count);
@@ -29,7 +39,7 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
     if (pixel >= width) visit(pixel - width);
     if (pixel + width < count) visit(pixel + width);
   };
-  function nearest(seed, withOwner = true, withinForeground = false) {
+  function nearest(seed, withOwner = true, withinForeground = false, diagonal = false) {
     const distance = new Uint8Array(count).fill(255);
     const owner = withOwner ? new Int32Array(count).fill(-1) : null;
     let head = 0, tail = 0;
@@ -42,12 +52,21 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
     while (head < tail) {
       const pixel = queue[head++];
       if (distance[pixel] >= radius || (withinForeground && !mask[pixel])) continue;
-      neighbors(pixel, next => {
+      const visit = next => {
         if (distance[next] !== 255) return;
         distance[next] = distance[pixel] + 1;
         if (owner) owner[next] = owner[pixel];
         queue[tail++] = next;
-      });
+      };
+      neighbors(pixel, visit);
+      // The contour band is measured in every direction, not in Manhattan
+      // steps: a diagonal edge must receive the same two-pixel cleanup as a
+      // horizontal edge. Foreground ownership still cannot jump across a gap.
+      if (diagonal) {
+        const x = pixel % width;
+        if (pixel >= width) { if (x > 0) visit(pixel - width - 1); if (x + 1 < width) visit(pixel - width + 1); }
+        if (pixel + width < count) { if (x > 0) visit(pixel + width - 1); if (x + 1 < width) visit(pixel + width + 1); }
+      }
     }
     return { distance, owner };
   }
@@ -57,22 +76,29 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
   const opaqueRemoved = pixel => mask[pixel] === 0 && source[pixel * 4 + 3] === 255;
   if (!mask.some((_, pixel) => opaqueRemoved(pixel))) return null;
   let outside = nearest(opaqueRemoved, false).distance;
+  let contourDistance = continuousContour ? nearest(opaqueRemoved, false, false, true).distance : outside;
   let removedNoise = null;
-  const contrast = pixel => Math.max(Math.abs(source[pixel * 4] - solid[0]),
-    Math.abs(source[pixel * 4 + 1] - solid[1]), Math.abs(source[pixel * 4 + 2] - solid[2]));
+  const contrast = pixel => {
+    const color = backgroundAt(pixel);
+    return Math.max(Math.abs(source[pixel * 4] - color[0]),
+      Math.abs(source[pixel * 4 + 1] - color[1]), Math.abs(source[pixel * 4 + 2] - color[2]));
+  };
   if (cleanSpeckles && solid) {
     // Quantization/ringing can leave backdrop-colored dots in the narrow band
     // around an open hole. Do not perform a size-only component deletion: small
     // colored droplets and thin disconnected details are legitimate foreground.
     for (let pixel = 0; pixel < count; pixel += 1) {
-      if (!mask[pixel] || source[pixel * 4 + 3] !== 255 || outside[pixel] > band || contrast(pixel) > 24) continue;
+      if (!mask[pixel] || patternDetails?.[pixel] || source[pixel * 4 + 3] !== 255 || outside[pixel] > band || contrast(pixel) > 24) continue;
       if (!removedNoise) { removedNoise = new Uint8Array(count); mask = mask.slice(); }
       removedNoise[pixel] = 1;
       mask[pixel] = 0;
     }
-    if (removedNoise) outside = nearest(opaqueRemoved, false).distance;
+    if (removedNoise) {
+      outside = nearest(opaqueRemoved, false).distance;
+      contourDistance = continuousContour ? nearest(opaqueRemoved, false, false, true).distance : outside;
+    }
   }
-  const noiseOnlyResult = () => removedNoise ? { alpha: mask, colors: source.slice() } : null;
+  const noiseOnlyResult = () => finish(removedNoise ? { alpha: mask, colors: source.slice() } : null);
   const reliableForeground = pixel => mask[pixel] >= 250 && source[pixel * 4 + 3] === 255
     && (!cleanSpeckles || !solid || contrast(pixel) > 32);
   const foregroundSeeds = pixel => reliableForeground(pixel)
@@ -131,7 +157,7 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
   const candidates = new Uint8Array(count);
   const coverage = new Float32Array(count);
   for (let pixel = 0; pixel < count; pixel += 1) {
-    if (removedNoise?.[pixel] || outside[pixel] > band || source[pixel * 4 + 3] !== 255 || foreground[pixel] < 0 || (!solid && background[pixel] < 0)) continue;
+    if (removedNoise?.[pixel] || patternDetails?.[pixel] || contourDistance[pixel] > band || source[pixel * 4 + 3] !== 255 || foreground[pixel] < 0 || (!solid && background[pixel] < 0)) continue;
     if (!mask[pixel]) {
       if (!recoverOutside) continue;
       let touchesForeground = false;
@@ -139,7 +165,7 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
       if (!touchesForeground) continue;
     }
     const offset = pixel * 4;
-    const backgroundColor = solid || source.subarray(background[pixel] * 4, background[pixel] * 4 + 3);
+    const backgroundColor = solid ? backgroundAt(pixel) : source.subarray(background[pixel] * 4, background[pixel] * 4 + 3);
     const fit = sample => {
       if (sample < 0) return null;
       if (solid) {
@@ -184,6 +210,9 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
       }
     }
     if (!estimate || (!solid && estimate.residual > estimate.limit)) continue;
+    // Extra diagonal samples must fit the local foreground/background mixture.
+    // Do not apply the looser fallback to interior veins or thin dark stems.
+    if (outside[pixel] > band && estimate.residual > estimate.limit) continue;
     // Reopening an already removed pixel requires a color-consistent fit. JPEG
     // ringing in the background must not be recovered by the contrast fallback.
     if (!mask[pixel] && estimate.residual > estimate.limit) continue;
@@ -195,7 +224,7 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
       // instead of leaving a fully opaque, background-tinted speck behind.
       let observed = 0, interior = 0, minimum = 0, dominantCoverage = 0;
       for (let channel = 0; channel < 3; channel += 1) {
-        const b = solid[channel], c = source[offset + channel];
+        const b = backgroundColor[channel], c = source[offset + channel];
         observed = Math.max(observed, Math.abs(c - b));
         const direction = source[estimate.sample * 4 + channel] - b;
         if (Math.abs(direction) > interior) {
@@ -241,8 +270,8 @@ export function refineAutomaticEdges(source, width, height, mask, { recoverOutsi
     if (!alpha[pixel]) continue;
     for (let channel = 0; channel < 3; channel += 1) {
       colors[offset + channel] = amount < 0.15 ? source[foreground[pixel] * 4 + channel]
-        : (source[offset + channel] - (1 - amount) * (solid ? solid[channel] : source[background[pixel] * 4 + channel])) / amount;
+        : (source[offset + channel] - (1 - amount) * (solid ? backgroundAt(pixel)[channel] : source[background[pixel] * 4 + channel])) / amount;
     }
   }
-  return { alpha, colors };
+  return finish({ alpha, colors });
 }

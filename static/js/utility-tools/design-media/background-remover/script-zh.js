@@ -1,6 +1,6 @@
 import { MaskEditor, imagePoint } from './mask-editor.js?v=20260919-edges';
-import { createPlainBackgroundMask } from './automatic-mask.js?v=20260920-holes';
-import { refineAutomaticEdges } from './edge-refinement.js?v=20260921-speckles';
+import { createPlainBackgroundMask, createAutomaticBackgroundSelection } from './automatic-mask.js?v=20260921-contours';
+import { refineAutomaticEdges } from './edge-refinement.js?v=20260921-contours';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
 
@@ -37,10 +37,29 @@ let source = null, filename = '', busy = false, loading = false, selection = 0;
 let editor = null, mode = 'keep', pointer = null, keyboardPoint = null, cursorPoint = null;
 let zoom = 1, pan = { x: 0, y: 0 }, pointerAction = null, panStart = null;
 let historyUrls = [];
+let detectedBackground = null;
 const MIN_ZOOM = 1, MAX_ZOOM = 32;
 const EDIT_MODES = ['keep', 'erase', 'unmark', 'pan'];
 const status = (text, error = false) => { $('status').textContent = text; $('status').classList.toggle('error', error); };
 const isSmartBrush = () => ['keep', 'erase'].includes(mode) && $('smart-enabled').checked;
+
+function showDetectedBackground(model, message = '') {
+  const container = $('detected-background');
+  if (!container) return;
+  container.replaceChildren();
+  container.hidden = !model && !message;
+  if (!model) { container.textContent = message; return; }
+  const label = document.createElement('span');
+  label.textContent = `已识别背景：${{ solid: '纯色', checker: '规则色块', stripes: '规则条纹' }[model.kind]}`;
+  container.append(label);
+  for (const color of model.palette) {
+    const swatch = document.createElement('span');
+    const hex = `#${color.map(value => value.toString(16).padStart(2, '0')).join('')}`;
+    swatch.className = 'detected-color'; swatch.style.backgroundColor = hex;
+    swatch.title = hex; swatch.setAttribute('role', 'img'); swatch.setAttribute('aria-label', `背景色 ${hex}`);
+    container.append(swatch);
+  }
+}
 
 function render() {
   const locked = busy || loading || pointer !== null;
@@ -262,10 +281,12 @@ async function selectFile(file, options = {}) {
     if (!blob) throw new Error('图片解码失败');
     originalCanvas.width = canvas.width; originalCanvas.height = canvas.height;
     originalCanvas.getContext('2d').drawImage(canvas, 0, 0);
-    // Keep English's existing refinement; use a narrow band for Chinese's new
-    // enclosed-hole masks so small vines and nearby interior shadows stay solid.
+    detectedBackground = null; showDetectedBackground(null);
+    // Chinese uses a verified background model and conservative contour cleanup.
+    // The model is ignored for AI masks; manual Keep still takes precedence.
     const refineEdges = language === 'en' ? refineAutomaticEdges
-      : (pixels, width, height, mask, options) => refineAutomaticEdges(pixels, width, height, mask, { ...options, maxEdgeWidth: 2, cleanSpeckles: true });
+      : (pixels, width, height, mask, options) => refineAutomaticEdges(pixels, width, height, mask,
+        { ...options, maxEdgeWidth: 2, cleanSpeckles: true, continuousContour: true, backgroundModel: detectedBackground });
     editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'), refineEdges);
     resetViewport(false);
     source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
@@ -317,12 +338,16 @@ $('remove').addEventListener('click', async () => {
   let bitmap;
   try {
     const pixels = originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height);
-    const plainMask = createPlainBackgroundMask(pixels.data, pixels.width, pixels.height, { removeEnclosedBackground: language === 'zh' });
+    const detected = language === 'zh' ? createAutomaticBackgroundSelection(pixels.data, pixels.width, pixels.height) : null;
+    detectedBackground = detected?.background || null;
+    const plainMask = language === 'zh' ? detected?.mask : createPlainBackgroundMask(pixels.data, pixels.width, pixels.height);
     if (plainMask) {
       editor.setAutomaticMask(plainMask);
+      showDetectedBackground(detectedBackground);
       status(ui.automaticDone);
       return;
     }
+    showDetectedBackground(null, '未确认纯色或规则背景，改用 AI 识别主体。');
     status(ui.loadingAI);
     const { removeBackground } = await import('https://esm.sh/@imgly/background-removal@1.7.0');
     const result = await removeBackground(source, { device: 'cpu', model: 'isnet_quint8', output: { format: 'image/png', type: 'foreground' }, progress: (key, current, total) => {
@@ -483,6 +508,7 @@ $('download').addEventListener('click', async () => {
 $('reset').addEventListener('click', () => {
   if (busy || loading || pointer !== null) return;
   ++selection; editor = null; source = null; keyboardPoint = cursorPoint = null; pointerAction = null; panStart = null;
+  detectedBackground = null; showDetectedBackground(null);
   resetViewport(false);
   for (const id of ['original-canvas', 'result-canvas', 'marks-canvas', 'boundary-canvas']) { $(id).width = 1; $(id).height = 1; }
   $('brush-cursor').hidden = true;

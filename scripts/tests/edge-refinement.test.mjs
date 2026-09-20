@@ -23,7 +23,7 @@ function flattened(background, feather = 2) {
   return { source, coverage, mask: createPlainBackgroundMask(source, width, height) };
 }
 
-const refineChineseEdges = (source, width, height, mask, options) => refineAutomaticEdges(source, width, height, mask, { ...options, maxEdgeWidth: 2, cleanSpeckles: true });
+const refineChineseEdges = (source, width, height, mask, options) => refineAutomaticEdges(source, width, height, mask, { ...options, maxEdgeWidth: 2, cleanSpeckles: true, continuousContour: true });
 
 test('clipped low-signal channels no longer force a mixed edge pixel to opaque black', () => {
   const { source } = flattened([17, 17, 19]);

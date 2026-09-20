@@ -1,3 +1,5 @@
+import { detectRegularBackground } from './background-model.js?v=20260921-contours';
+
 // Plain backgrounds are better identified from the source than from a semantic AI
 // mask: pale artwork can be background-like to the model but belongs to the icon.
 // Return null when the perimeter is not reliably uniform, so photos still use AI.
@@ -63,4 +65,45 @@ export function createPlainBackgroundMask(source, width, height, { removeEnclose
     if (source[pixel * 4 + 3] && !outside[pixel] && !enclosedBackground) mask[pixel] = 255;
   }
   return mask;
+}
+
+// Chinese automatic mode: recognize a spatially verified palette, independent
+// of manual connected selection. English keeps createPlainBackgroundMask.
+export function createAutomaticBackgroundSelection(source, width, height) {
+  const plain = createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true });
+  const background = detectRegularBackground(source, width, height);
+  if (plain && (!background || background.kind === 'solid')) return { mask: plain, background };
+  if (!background || background.kind === 'solid') return null;
+  const count = width * height, matched = new Uint8Array(count), seen = new Uint8Array(count);
+  const mask = new Uint8ClampedArray(count), queue = new Int32Array(count);
+  for (let pixel = 0; pixel < count; pixel++) {
+    if (!source[pixel * 4 + 3]) continue;
+    mask[pixel] = 255;
+    const color = background.colorAt(pixel);
+    if (source[pixel * 4 + 3] === 255 && color.every((value, channel) => Math.abs(source[pixel * 4 + channel] - value) <= background.tolerance)) matched[pixel] = 1;
+  }
+  let removed = 0, exterior = 0;
+  for (let seed = 0; seed < count; seed++) {
+    if (!matched[seed] || seen[seed]) continue;
+    let head = 0, tail = 1, touchesEdge = false, colors = 0;
+    queue[0] = seed; seen[seed] = 1;
+    const enqueue = pixel => { if (matched[pixel] && !seen[pixel]) { seen[pixel] = 1; queue[tail++] = pixel; } };
+    while (head < tail) {
+      const pixel = queue[head++], x = pixel % width;
+      colors |= 1 << background.palette.indexOf(background.colorAt(pixel));
+      if (!x || x === width - 1 || pixel < width || pixel >= count - width) touchesEdge = true;
+      if (x > 0) enqueue(pixel - 1);
+      if (x + 1 < width) enqueue(pixel + 1);
+      if (pixel >= width) enqueue(pixel - width);
+      if (pixel + width < count) enqueue(pixel + width);
+    }
+    // Enclosed areas need evidence of the repeating pattern, not merely one
+    // palette color. This protects solid white/gray details inside the subject.
+    if (!touchesEdge && !(colors & (colors - 1))) continue;
+    for (let index = 0; index < tail; index++) mask[queue[index]] = 0;
+    removed += tail;
+    if (touchesEdge) exterior += tail;
+  }
+  if (exterior < count * 0.05 || count - removed < Math.max(4, count * 0.001)) return null;
+  return { mask, background };
 }

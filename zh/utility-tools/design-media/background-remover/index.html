@@ -6,8 +6,8 @@
   <title>图片背景移除 - 免费在线抠图 | StarryRing</title>
   <meta name="description" content="在浏览器中移除图片背景，预览原图与抠图结果，下载透明 PNG。图片在本地处理，无需上传。">
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20260919-i18n">
-  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20260921-speckles"></script>
+  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20260921-contours">
+  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20260921-contours"></script>
 </head>
 <body>
   <header class="topbar"><a class="brand" href="/zh/">✦ <span>StarryRing</span></a><a href="/zh/utility-tools/">全部工具 <span aria-hidden="true">↗</span></a></header>
@@ -21,6 +21,7 @@
         <p id="file-info" class="file-info">请先在下方原图区域选择图片</p>
         <button id="remove" class="primary" disabled>✦ 开始移除背景</button>
         <div class="status-box"><p id="status" role="status" aria-live="polite">选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。</p><progress id="progress" hidden aria-label="处理进度"></progress></div>
+        <div id="detected-background" class="detected-background" role="status" hidden></div>
         </div>
         <div class="toolbar-group brush-group">
         <div class="section-title"><h2>手动标记</h2></div>
@@ -46,7 +47,7 @@
         <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>显示彩色标记</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>显示选区边界线</label></div>
         <p class="hint">仅用于预览，下载始终保留透明背景。</p>
         <button id="download" class="secondary" disabled>↓ 下载透明 PNG</button>
-        <p class="model-note">自动识别纯色背景，保留图标内部细节；复杂背景使用 AI，首次需要联网下载模型。图片不会上传到服务器。</p>
+        <p class="model-note">自动识别纯色及规则棋盘格、条纹背景（最多 4 色），按颜色和位置判断；无法确认的背景使用 AI，首次需要联网下载模型。图片不会上传到服务器。</p>
         </div>
       </div>
       <div class="preview-area"><div class="preview-toolbar"><h2>原图与结果对比</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>更换图片</button><button id="reset" class="text-button" disabled>清空图片</button></div></div>
