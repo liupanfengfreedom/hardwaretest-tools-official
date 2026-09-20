@@ -15,12 +15,12 @@ function uniformBackground(source, width, height, mask) {
 // A flattened edge contains C = aF + (1 - a)B. Keeping C after removing B
 // leaves a dark/light/color fringe. Estimate a and F only in a narrow edge band,
 // using nearby, reliable background and opaque foreground samples.
-export function refineAutomaticEdges(source, width, height, mask, { recoverOutside = false } = {}) {
+export function refineAutomaticEdges(source, width, height, mask, { recoverOutside = false, maxEdgeWidth = 12 } = {}) {
   const count = width * height;
   if (source.length !== count * 4 || mask.length !== count) throw new Error('Invalid image dimensions');
   const solid = recoverOutside ? uniformBackground(source, width, height, mask) : null;
   const radius = solid ? 24 : 8;
-  const band = solid ? 12 : 4;
+  const band = Math.max(1, Math.min(solid ? 12 : 4, Math.floor(maxEdgeWidth)));
   const queue = new Int32Array(count);
   const neighbors = (pixel, visit) => {
     const x = pixel % width;

@@ -1,6 +1,6 @@
 import { MaskEditor, imagePoint } from './mask-editor.js?v=20260919-edges';
 import { createPlainBackgroundMask } from './automatic-mask.js?v=20260920-holes';
-import { refineAutomaticEdges } from './edge-refinement.js?v=20260919-v2';
+import { refineAutomaticEdges } from './edge-refinement.js?v=20260920-zh-edges';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
 
@@ -262,7 +262,11 @@ async function selectFile(file, options = {}) {
     if (!blob) throw new Error('图片解码失败');
     originalCanvas.width = canvas.width; originalCanvas.height = canvas.height;
     originalCanvas.getContext('2d').drawImage(canvas, 0, 0);
-    editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'), language === 'en' ? refineAutomaticEdges : null);
+    // Keep English's existing refinement; use a narrow band for Chinese's new
+    // enclosed-hole masks so small vines and nearby interior shadows stay solid.
+    const refineEdges = language === 'en' ? refineAutomaticEdges
+      : (pixels, width, height, mask, options) => refineAutomaticEdges(pixels, width, height, mask, { ...options, maxEdgeWidth: 2 });
+    editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'), refineEdges);
     resetViewport(false);
     source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
     $('file-info').textContent = ui.fileInfo(file.name, canvas.width, canvas.height, ratio < 1);

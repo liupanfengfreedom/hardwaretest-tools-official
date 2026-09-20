@@ -23,6 +23,55 @@ function flattened(background, feather = 2) {
   return { source, coverage, mask: createPlainBackgroundMask(source, width, height) };
 }
 
+const refineChineseEdges = (source, width, height, mask, options) => refineAutomaticEdges(source, width, height, mask, { ...options, maxEdgeWidth: 2 });
+
+test('Chinese cleanup removes matte from both sides of a thin loop without refilling its enclosed hole', () => {
+  const source = new Uint8ClampedArray(width * height * 4), background = [17, 17, 19];
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const radius = Math.hypot(x - 48, y - 40);
+    const alpha = Math.max(0, Math.min(1, (29.6 - radius) / 2, (radius - 18.4) / 2));
+    source.set([...foreground.map((value, channel) => alpha * value + (1 - alpha) * background[channel]), 255], (y * width + x) * 4);
+  }
+  const mask = createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true });
+  const refined = refineChineseEdges(source, width, height, mask, { recoverOutside: true });
+  assert.ok(refined);
+  for (const x of [19, 29, 67, 77]) {
+    const pixel = 40 * width + x;
+    assert.ok(Math.abs(refined.alpha[pixel] - 76) <= 3, 'soft edge coverage is recovered');
+    for (let channel = 0; channel < 3; channel++) {
+      assert.ok(Math.abs(refined.colors[pixel * 4 + channel] - foreground[channel]) < 6, 'black matte is removed');
+    }
+  }
+  let corePixels = 0;
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const radius = Math.hypot(x - 48, y - 40), pixel = y * width + x;
+    if (radius < 17) assert.equal(refined.alpha[pixel], 0, 'enclosed hole stays open');
+    if (radius >= 22 && radius <= 26) {
+      corePixels++;
+      assert.equal(refined.alpha[pixel], 255, 'thin loop core stays opaque');
+      assert.deepEqual(refined.colors.slice(pixel * 4, pixel * 4 + 4), source.slice(pixel * 4, pixel * 4 + 4));
+    }
+  }
+  assert.ok(corePixels > 400);
+});
+
+test('narrow cleanup cannot spread from an edge into an opaque interior shadow', () => {
+  const source = new Uint8ClampedArray(width * height * 4);
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const coverage = Math.max(0, Math.min(1, Math.min(x - 10, 86 - x, y - 10, 70 - y) / 2));
+    const shade = y >= 39 && y <= 41 && x <= 20 ? 0.5 : 1;
+    source.set([...foreground.map(value => 17 + (value - 17) * coverage * shade), 255], (y * width + x) * 4);
+  }
+  const mask = createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true });
+  const refined = refineChineseEdges(source, width, height, mask, { recoverOutside: true });
+  assert.ok(refined.alpha[40 * width + 11] < 255, 'edge still gets cleaned');
+  for (let x = 13; x <= 20; x++) {
+    const pixel = 40 * width + x;
+    assert.equal(refined.alpha[pixel], 255, 'interior shadow is not treated as transparency');
+    assert.deepEqual(refined.colors.slice(pixel * 4, pixel * 4 + 4), source.slice(pixel * 4, pixel * 4 + 4));
+  }
+});
+
 test('wide feathered edges do not use contaminated four-pixel inset colors as foreground', () => {
   const { source, coverage, mask } = flattened([17, 17, 19], 8);
   const refined = refineAutomaticEdges(source, width, height, mask, { recoverOutside: true });
@@ -174,8 +223,8 @@ function mark(editor, mode, x, y) {
   editor.endStroke();
 }
 
-test('corrected RGB reaches exported PNG; Keep, unmark, undo, clear and reruns preserve their semantics', async () => {
-  const { editor, mask } = editorFixture();
+for (const [name, refinement] of [['English', refineAutomaticEdges], ['Chinese', refineChineseEdges]]) test(`${name}: corrected RGB reaches exported PNG; Keep, unmark, undo, clear and reruns preserve their semantics`, async () => {
+  const { editor, mask } = editorFixture(refinement);
   const x = 19, y = 40;
   editor.setAutomaticMask(mask);
   const edge = rgba(editor.result, x, y), original = rgba(editor.source, x, y);
@@ -203,8 +252,8 @@ test('corrected RGB reaches exported PNG; Keep, unmark, undo, clear and reruns p
   assert.deepEqual(rgba(editor.source, x, y), original);
 });
 
-test('AI mask edges are corrected without reopening removed holes or increasing AI alpha', () => {
-  const { editor, coverage } = editorFixture();
+for (const [name, refinement] of [['English', refineAutomaticEdges], ['Chinese', refineChineseEdges]]) test(`${name}: AI mask edges are corrected without reopening removed holes or increasing AI alpha`, () => {
+  const { editor, coverage } = editorFixture(refinement);
   const automatic = factory(), pixels = automatic.getContext('2d').createImageData(width, height);
   for (let pixel = 0; pixel < coverage.length; pixel += 1) pixels.data[pixel * 4 + 3] = Math.round(coverage[pixel] * 255);
   pixels.data[(40 * width + 48) * 4 + 3] = 0;
@@ -217,7 +266,7 @@ test('AI mask edges are corrected without reopening removed holes or increasing 
   assert.equal(rgba(editor.result, 18, 40)[3], 0);
 });
 
-test('default editor retains legacy output when English-only refinement is not enabled', () => {
+test('default editor retains legacy output when edge refinement is not enabled', () => {
   const { editor, mask } = editorFixture(null);
   editor.setAutomaticMask(mask);
   assert.deepEqual(rgba(editor.result, 19, 40), rgba(editor.source, 19, 40));
