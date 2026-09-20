@@ -1,7 +1,7 @@
 // Plain backgrounds are better identified from the source than from a semantic AI
 // mask: pale artwork can be background-like to the model but belongs to the icon.
 // Return null when the perimeter is not reliably uniform, so photos still use AI.
-export function createPlainBackgroundMask(source, width, height) {
+export function createPlainBackgroundMask(source, width, height, { removeEnclosedBackground = false } = {}) {
   const count = width * height;
   if (width < 3 || height < 3 || source.length !== count * 4) return null;
   const edges = [[], [], [], []];
@@ -55,7 +55,12 @@ export function createPlainBackgroundMask(source, width, height) {
 
   const mask = new Uint8ClampedArray(count);
   for (let pixel = 0; pixel < count; pixel += 1) {
-    if (source[pixel * 4 + 3] && !outside[pixel]) mask[pixel] = 255;
+    // Automatic removal can also find backdrop-colored holes inside vines,
+    // handles, etc. It is independent of the manual connected-selection wall.
+    // Use the stricter backdrop match here, not the looser exterior edge range:
+    // flooding from an interior highlight could otherwise erase a pale subject.
+    const enclosedBackground = removeEnclosedBackground && source[pixel * 4 + 3] === 255 && distance(pixel) <= 12;
+    if (source[pixel * 4 + 3] && !outside[pixel] && !enclosedBackground) mask[pixel] = 255;
   }
   return mask;
 }

@@ -220,6 +220,39 @@ function smartStroke(editor, mode, point, options = {}, end = point) {
   editor.endStroke();
 }
 
+test('automatic hole removal bypasses the manual color wall while keep marks, history and exports stay authoritative', async () => {
+  const editor = fixture(), ctx = editor.source.getContext('2d');
+  ctx.fillStyle = '#111113'; ctx.fillRect(0, 0, 80, 60);
+  ctx.fillStyle = '#cd9b42'; ctx.fillRect(10, 10, 60, 40);
+  ctx.fillStyle = '#111113'; ctx.fillRect(20, 20, 12, 12); ctx.fillRect(48, 20, 12, 12);
+  const mask = createPlainBackgroundMask(ctx.getImageData(0, 0, 80, 60).data, 80, 60, { removeEnclosedBackground: true });
+  assert.ok(mask);
+  smartStroke(editor, 'erase', { x: 2.5, y: 2.5 }, { tolerance: 50 });
+  assert.equal(pixel(editor.result, 2, 2)[3], 0);
+  assert.equal(pixel(editor.result, 25, 25)[3], 255, 'manual selection cannot cross the gold wall');
+  assert.equal(pixel(editor.result, 53, 25)[3], 255);
+  smartStroke(editor, 'keep', { x: 53.5, y: 25.5 }, { tolerance: 50 });
+  editor.setAutomaticMask(mask);
+  assert.equal(pixel(editor.result, 25, 25)[3], 0, 'automatic selection reaches the enclosed hole');
+  assert.deepEqual(pixel(editor.result, 53, 25), pixel(editor.source, 53, 25), 'manual keep still wins');
+  assert.equal(pixel(editor.result, 40, 30)[3], 255);
+  editor.setAutomaticMask(mask);
+  assert.equal(pixel(editor.result, 53, 25)[3], 255, 'keep survives another automatic run');
+  editor.undo();
+  assert.equal(pixel(editor.result, 53, 25)[3], 0, 'undoing keep reveals automatic hole removal');
+  editor.redo();
+  assert.equal(pixel(editor.result, 53, 25)[3], 255);
+  const exported = factory();
+  exported.getContext('2d').drawImage(await loadImage(editor.result.toBuffer('image/png')), 0, 0);
+  assert.equal(pixel(exported, 25, 25)[3], 0);
+  assert.deepEqual(pixel(exported, 53, 25), pixel(editor.source, 53, 25));
+  editor.clearMarks();
+  assert.equal(pixel(editor.result, 53, 25)[3], 0);
+  smartStroke(editor, 'keep', { x: 25.5, y: 25.5 }, { tolerance: 50 });
+  assert.equal(pixel(editor.result, 25, 25)[3], 255);
+  assert.equal(pixel(editor.result, 53, 25)[3], 0, 'manual keep remains connected after automatic removal');
+});
+
 test('clicking outside a colored ring never erases the enclosed matching white, including after history replay', async () => {
   const editor = fixture();
   const ctx = editor.source.getContext('2d');

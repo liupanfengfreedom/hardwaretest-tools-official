@@ -1,5 +1,5 @@
 import { MaskEditor, imagePoint } from './mask-editor.js?v=20260919-edges';
-import { createPlainBackgroundMask } from './automatic-mask.js?v=20260917';
+import { createPlainBackgroundMask } from './automatic-mask.js?v=20260920-holes';
 import { refineAutomaticEdges } from './edge-refinement.js?v=20260919-v2';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
@@ -30,7 +30,7 @@ const ui = language === 'en' ? {
   syncedView: percent => `同步视图 · ${percent}%`, historyEmpty: '还没有历史图片，上传后会自动显示在这里。', historyUnavailable: '当前浏览器无法读取本地历史记录，但仍可正常处理图片。', reloadImage: name => `重新载入 ${name}`, removeHistory: name => `从历史记录删除 ${name}`, deleteRecord: '删除这条记录',
   unsupported: '请选择 JPG、PNG 或 WebP 格式的图片。', tooLarge: '图片超过 20 MB，请压缩后重试。', reading: '正在读取图片…', ready: '图片已就绪。可先标记区域，也可直接自动移除背景。', readFailed: '无法读取这张图片，请换一张图片重试。', fileInfo: (name, width, height, resized) => `${name} · ${width} × ${height}${resized ? '（已缩小）' : ''}`,
   pasteBusy: '请完成当前图片处理或标记后，再粘贴图片。', clipboardName: extension => `剪贴板图片.${extension}`,
-  detecting: '正在识别背景…', automaticDone: '自动抠图完成，已保留主体内部细节并应用手动标记。可以继续修补或下载。', loadingAI: '正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…', downloadingModel: percent => `正在下载模型资源：${percent}%（首次使用较慢）`, preparingModel: '正在准备模型并识别主体，请稍候…', aiDone: '自动抠图完成，已应用手动标记。可以继续修补或下载。', aiFailed: '自动抠图失败，请检查网络后重试。也可以直接使用画笔手动移除背景。',
+  detecting: '正在识别背景…', automaticDone: '自动抠图完成，已清理外部及封闭空隙中的背景，并应用手动标记。可以继续修补或下载。', loadingAI: '正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…', downloadingModel: percent => `正在下载模型资源：${percent}%（首次使用较慢）`, preparingModel: '正在准备模型并识别主体，请稍候…', aiDone: '自动抠图完成，已应用手动标记。可以继续修补或下载。', aiFailed: '自动抠图失败，请检查网络后重试。也可以直接使用画笔手动移除背景。',
   pixelUnit: '像素', clearHistory: '确定清空当前浏览器中的全部图片历史吗？', exportName: name => `${name}-去背景.png`, exportFailed: '图片导出失败，请重试。', chooseImage: '请先在下方原图区域选择图片', initialStatus: '选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'
 };
 let source = null, filename = '', busy = false, loading = false, selection = 0;
@@ -313,7 +313,7 @@ $('remove').addEventListener('click', async () => {
   let bitmap;
   try {
     const pixels = originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height);
-    const plainMask = createPlainBackgroundMask(pixels.data, pixels.width, pixels.height);
+    const plainMask = createPlainBackgroundMask(pixels.data, pixels.width, pixels.height, { removeEnclosedBackground: language === 'zh' });
     if (plainMask) {
       editor.setAutomaticMask(plainMask);
       status(ui.automaticDone);

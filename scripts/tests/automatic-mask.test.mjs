@@ -40,16 +40,54 @@ test('colored backgrounds with small JPEG-like variation are removed', () => {
   assert.equal(mask[50 * width + 50], 255);
 });
 
+for (const background of [[17, 17, 19, 255], [255, 255, 255, 255], [30, 90, 190, 255]]) {
+  test(`opt-in automatic removal clears disconnected ${background.slice(0, 3)} backdrop holes`, () => {
+    const { source, width, height } = icon(background);
+    for (const [left, top] of [[25, 25], [55, 55]]) {
+      for (let y = top; y < top + 8; y += 1) for (let x = left; x < left + 8; x += 1) {
+        source.set([...background.slice(0, 3).map(value => Math.max(0, value - x % 5)), 255], (y * width + x) * 4);
+      }
+    }
+    const original = source.slice();
+    const legacy = createPlainBackgroundMask(source, width, height);
+    const mask = createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true });
+    assert.ok(mask);
+    for (const [left, top] of [[25, 25], [55, 55]]) {
+      for (let y = top; y < top + 8; y += 1) for (let x = left; x < left + 8; x += 1) {
+        assert.equal(legacy[y * width + x], 255, 'default/English behavior stays unchanged');
+        assert.equal(mask[y * width + x], 0, 'enclosed background is transparent');
+      }
+    }
+    assert.equal(mask[0], 0);
+    assert.equal(mask[50 * width + 50], 255, 'pale subject is not mistaken for a hole');
+    assert.equal(mask[50 * width + 91], 255, 'colored boundary is not erased');
+    assert.deepEqual(source, original);
+  });
+}
+
+test('enclosed backdrop matching does not flood into pale colors or alter source translucency', () => {
+  const { source, width, height } = icon();
+  source.set([255, 255, 255, 255], (30 * width + 30) * 4);
+  source.set([255, 255, 255, 128], (50 * width + 50) * 4);
+  const mask = createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true });
+  assert.equal(mask[30 * width + 30], 0, 'opaque backdrop match is removed without requiring an exterior path');
+  assert.equal(mask[30 * width + 31], 255, 'neighboring cream pixels stay intact');
+  assert.equal(mask[50 * width + 50], 255, 'existing translucent subject is retained');
+});
+
 test('textured edges, almost empty images and thin photo frames fall back to AI', () => {
   const { source, width, height } = icon();
   for (let x = 0; x < width; x += 2) source[x * 4] = 70;
   assert.equal(createPlainBackgroundMask(source, width, height), null);
+  assert.equal(createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true }), null);
   source.fill(255);
   assert.equal(createPlainBackgroundMask(source, width, height), null);
+  assert.equal(createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true }), null);
   for (let y = 1; y < height - 1; y += 1) {
     for (let x = 1; x < width - 1; x += 1) source.set([40, 80, 120, 255], (y * width + x) * 4);
   }
   assert.equal(createPlainBackgroundMask(source, width, height), null);
+  assert.equal(createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true }), null);
 });
 
 test('existing transparent cutouts keep all source alpha including translucent interior and holes', () => {
@@ -61,4 +99,5 @@ test('existing transparent cutouts keep all source alpha including translucent i
   assert.equal(mask[0], 0);
   assert.equal(mask[50 * width + 50], 255);
   assert.equal(mask[50 * width + 51], 0);
+  assert.deepEqual(createPlainBackgroundMask(source, width, height, { removeEnclosedBackground: true }), mask);
 });
