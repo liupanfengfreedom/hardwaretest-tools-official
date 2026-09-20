@@ -1,5 +1,5 @@
 import { MaskEditor, imagePoint } from './mask-editor.js?v=20260919-edges';
-import { createPlainBackgroundMask, createAutomaticBackgroundSelection } from './automatic-mask.js?v=20260921-contours';
+import { createAutomaticBackgroundSelection } from './automatic-mask.js?v=20260921-contours';
 import { refineAutomaticEdges } from './edge-refinement.js?v=20260921-contours';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
@@ -18,7 +18,8 @@ const ui = language === 'en' ? {
   syncedView: percent => `Synced view · ${percent}%`, historyEmpty: 'No recent images yet. Images you upload will appear here.', historyUnavailable: 'Recent images are unavailable in this browser, but you can still edit images normally.', reloadImage: name => `Reload ${name}`, removeHistory: name => `Remove ${name} from recent images`, deleteRecord: 'Remove this item',
   unsupported: 'Please choose a JPG, PNG, or WebP image.', tooLarge: 'This image is larger than 20 MB. Please compress it and try again.', reading: 'Reading image…', ready: 'Image ready. Paint over areas first, or remove the background right away.', readFailed: 'This image could not be opened. Please try a different image.', fileInfo: (name, width, height, resized) => `${name} · ${width} × ${height}${resized ? ' (resized)' : ''}`,
   pasteBusy: 'Finish processing or editing the current image before pasting another one.', clipboardName: extension => `Clipboard image.${extension}`,
-  detecting: 'Detecting background…', automaticDone: 'Background removed. Interior details are protected and your manual edits have been applied. You can keep refining or download the result.', loadingAI: 'Loading the AI engine. The model downloads on first use, so please keep this page open…', downloadingModel: percent => `Downloading model files: ${percent}% (slower the first time)`, preparingModel: 'Preparing the model and identifying the subject…', aiDone: 'Background removed. Your manual edits have been applied. You can keep refining or download the result.', aiFailed: 'Background removal failed. Check your connection and try again, or use the brushes to edit manually.',
+  detecting: 'Detecting background…', automaticDone: 'Background removed. Exterior background and enclosed gaps have been cleared, and your manual edits have been applied. You can keep refining or download the result.', loadingAI: 'Loading the AI engine. The model downloads on first use, so please keep this page open…', downloadingModel: percent => `Downloading model files: ${percent}% (slower the first time)`, preparingModel: 'Preparing the model and identifying the subject…', aiDone: 'Background removed. Your manual edits have been applied. You can keep refining or download the result.', aiFailed: 'Background removal failed. Check your connection and try again, or use the brushes to edit manually.',
+  detectedBackground: kind => `Background detected: ${{ solid: 'solid color', checker: 'repeating color blocks', stripes: 'repeating stripes' }[kind]}`, unconfirmedBackground: 'No solid or repeating background was confirmed, so AI subject detection is being used.',
   pixelUnit: 'px', clearHistory: 'Clear all recent images saved in this browser?', exportName: name => `${name}-background-removed.png`, exportFailed: 'Could not export the image. Please try again.', chooseImage: 'Choose an image in the original-image panel below.', initialStatus: 'Choose an image, or paste one with Ctrl+V (⌘V on Mac).'
 } : {
   brushSize: '普通笔刷直径', eraserSize: '擦除直径',
@@ -31,6 +32,7 @@ const ui = language === 'en' ? {
   unsupported: '请选择 JPG、PNG 或 WebP 格式的图片。', tooLarge: '图片超过 20 MB，请压缩后重试。', reading: '正在读取图片…', ready: '图片已就绪。可先标记区域，也可直接自动移除背景。', readFailed: '无法读取这张图片，请换一张图片重试。', fileInfo: (name, width, height, resized) => `${name} · ${width} × ${height}${resized ? '（已缩小）' : ''}`,
   pasteBusy: '请完成当前图片处理或标记后，再粘贴图片。', clipboardName: extension => `剪贴板图片.${extension}`,
   detecting: '正在识别背景…', automaticDone: '自动抠图完成，已清理外部及封闭空隙中的背景，并应用手动标记。可以继续修补或下载。', loadingAI: '正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…', downloadingModel: percent => `正在下载模型资源：${percent}%（首次使用较慢）`, preparingModel: '正在准备模型并识别主体，请稍候…', aiDone: '自动抠图完成，已应用手动标记。可以继续修补或下载。', aiFailed: '自动抠图失败，请检查网络后重试。也可以直接使用画笔手动移除背景。',
+  detectedBackground: kind => `已识别背景：${{ solid: '纯色', checker: '规则色块', stripes: '规则条纹' }[kind]}`, unconfirmedBackground: '未确认纯色或规则背景，改用 AI 识别主体。',
   pixelUnit: '像素', clearHistory: '确定清空当前浏览器中的全部图片历史吗？', exportName: name => `${name}-去背景.png`, exportFailed: '图片导出失败，请重试。', chooseImage: '请先在下方原图区域选择图片', initialStatus: '选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'
 };
 let source = null, filename = '', busy = false, loading = false, selection = 0;
@@ -50,7 +52,7 @@ function showDetectedBackground(model, message = '') {
   container.hidden = !model && !message;
   if (!model) { container.textContent = message; return; }
   const label = document.createElement('span');
-  label.textContent = `已识别背景：${{ solid: '纯色', checker: '规则色块', stripes: '规则条纹' }[model.kind]}`;
+  label.textContent = ui.detectedBackground(model.kind);
   container.append(label);
   for (const color of model.palette) {
     const swatch = document.createElement('span');
@@ -282,11 +284,11 @@ async function selectFile(file, options = {}) {
     originalCanvas.width = canvas.width; originalCanvas.height = canvas.height;
     originalCanvas.getContext('2d').drawImage(canvas, 0, 0);
     detectedBackground = null; showDetectedBackground(null);
-    // Chinese uses a verified background model and conservative contour cleanup.
-    // The model is ignored for AI masks; manual Keep still takes precedence.
-    const refineEdges = language === 'en' ? refineAutomaticEdges
-      : (pixels, width, height, mask, options) => refineAutomaticEdges(pixels, width, height, mask,
-        { ...options, maxEdgeWidth: 2, cleanSpeckles: true, continuousContour: true, backgroundModel: detectedBackground });
+    // Both language versions use the same verified background model and
+    // conservative contour cleanup. The model is ignored for AI masks; manual
+    // Keep still takes precedence.
+    const refineEdges = (pixels, width, height, mask, options) => refineAutomaticEdges(pixels, width, height, mask,
+      { ...options, maxEdgeWidth: 2, cleanSpeckles: true, continuousContour: true, backgroundModel: detectedBackground });
     editor = new MaskEditor(originalCanvas, resultCanvas, $('marks-canvas'), () => document.createElement('canvas'), $('boundary-canvas'), refineEdges);
     resetViewport(false);
     source = blob; filename = file.name.replace(/\.[^.]+$/, ''); keyboardPoint = cursorPoint = null;
@@ -338,16 +340,16 @@ $('remove').addEventListener('click', async () => {
   let bitmap;
   try {
     const pixels = originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height);
-    const detected = language === 'zh' ? createAutomaticBackgroundSelection(pixels.data, pixels.width, pixels.height) : null;
+    const detected = createAutomaticBackgroundSelection(pixels.data, pixels.width, pixels.height);
     detectedBackground = detected?.background || null;
-    const plainMask = language === 'zh' ? detected?.mask : createPlainBackgroundMask(pixels.data, pixels.width, pixels.height);
+    const plainMask = detected?.mask;
     if (plainMask) {
       editor.setAutomaticMask(plainMask);
       showDetectedBackground(detectedBackground);
       status(ui.automaticDone);
       return;
     }
-    showDetectedBackground(null, '未确认纯色或规则背景，改用 AI 识别主体。');
+    showDetectedBackground(null, ui.unconfirmedBackground);
     status(ui.loadingAI);
     const { removeBackground } = await import('https://esm.sh/@imgly/background-removal@1.7.0');
     const result = await removeBackground(source, { device: 'cpu', model: 'isnet_quint8', output: { format: 'image/png', type: 'foreground' }, progress: (key, current, total) => {

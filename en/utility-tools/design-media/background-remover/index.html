@@ -10,8 +10,8 @@
   <link rel="alternate" hreflang="zh" href="https://starryring.com/zh/utility-tools/design-media/background-remover/">
   <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/background-remover/">
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20260919-i18n">
-  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20260919-edges-v2"></script>
+  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20260921-contours">
+  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20260921-contours-en"></script>
 </head>
 <body>
   <header class="topbar"><a class="brand" href="/en/">✦ <span>StarryRing</span></a><a href="/en/utility-tools/">All tools <span aria-hidden="true">↗</span></a></header>
@@ -25,6 +25,7 @@
           <p id="file-info" class="file-info">Choose an image in the original-image panel below.</p>
           <button id="remove" class="primary" disabled>✦ Remove Background</button>
           <div class="status-box"><p id="status" role="status" aria-live="polite">Choose an image, or paste one with Ctrl+V (⌘V on Mac).</p><progress id="progress" hidden aria-label="Processing progress"></progress></div>
+          <div id="detected-background" class="detected-background" role="status" hidden></div>
         </div>
         <div class="toolbar-group brush-group">
           <div class="section-title"><h2>Manual refinement</h2></div>
@@ -37,7 +38,7 @@
           <p class="edit-help" id="edit-help">Paint on the original image: green Keep marks are always protected. Choose Erase marks to clear an area and paint it again.</p>
           <label class="toggle smart-toggle" id="smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>Smart selection · connected pixels only</label>
           <div class="smart-options" id="smart-options"><div><label class="brush-label" for="smart-tolerance">Color tolerance <output id="tolerance-value" for="smart-tolerance">50</output></label><input id="smart-tolerance" type="range" min="0" max="100" value="50" step="1" disabled></div></div>
-          <p class="smart-help" id="smart-help">The selection expands from where you click and stops at colors outside the tolerance or transparent pixels. It will not jump across a boundary to a matching color on the other side. Lower values create stricter boundaries; changes apply the next time you click.</p>
+          <p class="smart-help" id="smart-help">The selection expands from where you click and stops at colors outside the tolerance or transparent pixels. It will not jump across a boundary to a matching color on the other side. This limit does not affect automatic background removal. Lower values create stricter boundaries; changes apply the next time you click.</p>
           <label class="brush-label" for="brush-size"><span id="brush-size-label">Brush size</span><output id="brush-value" for="brush-size">30 px</output></label>
           <input id="brush-size" type="range" min="1" max="100" step="1" value="30" disabled>
           <div class="history-tools"><button id="undo" disabled>↶ Undo</button><button id="redo" disabled>↷ Redo</button><button id="clear-marks" aria-label="Clear all marks" disabled>Clear all</button></div>
@@ -48,7 +49,7 @@
           <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>Show color marks</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>Show selection boundaries</label></div>
           <p class="hint">Preview only — downloads always keep a transparent background.</p>
           <button id="download" class="secondary" disabled>↓ Download transparent PNG</button>
-          <p class="model-note">Plain backgrounds are detected automatically while preserving interior details. Complex backgrounds use AI and download a model the first time you use it. Your image is never uploaded.</p>
+          <p class="model-note">Automatically detects solid, checkerboard, and striped backgrounds with up to four colors, using both color and position. Backgrounds it cannot verify use AI; the model downloads the first time you use it. Your image is never uploaded.</p>
         </div>
       </div>
       <div class="preview-area"><div class="preview-toolbar"><h2>Original and result</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>Change image</button><button id="reset" class="text-button" disabled>Clear image</button></div></div>
