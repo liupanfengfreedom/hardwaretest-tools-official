@@ -8,6 +8,8 @@ const $ = id => document.getElementById(id);
 const originalCanvas = $('original-canvas');
 const resultCanvas = $('result-canvas');
 const language = document.documentElement.lang.toLowerCase().startsWith('en') ? 'en' : 'zh';
+// The trial is enabled only by the Chinese page's explicit method selector.
+const automaticMethod = language === 'zh' ? $('automatic-method') : null;
 const ui = language === 'en' ? {
   brushSize: 'Brush size', eraserSize: 'Eraser size',
   editUnmark: 'Drag over the original image to erase keep or remove marks at the selected brush size. This lifts protection in that area and restores the automatic result—or the original image if you have not run background removal yet—so you can paint it again.',
@@ -65,6 +67,7 @@ function showDetectedBackground(model, message = '') {
 
 function render() {
   const locked = busy || loading || pointer !== null;
+  if (automaticMethod) automaticMethod.disabled = locked;
   $('original-empty').hidden = $('result-empty').hidden = !!editor;
   $('editor-surface').hidden = resultCanvas.hidden = !editor;
   $('remove').disabled = locked || !source;
@@ -339,8 +342,42 @@ $('remove').addEventListener('click', async () => {
   status(ui.detecting);
   let bitmap;
   try {
-    const pixels = originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height);
-    const detected = createAutomaticBackgroundSelection(pixels.data, pixels.width, pixels.height);
+    const method = automaticMethod?.value || 'auto';
+    let fineFallback = false;
+    detectedBackground = null;
+    showDetectedBackground(null);
+    if (method === 'birefnet') {
+      status('正在加载精细 AI，首次使用需要下载约 110 MB 模型，请保持页面打开…');
+      try {
+        const [{ removeBackgroundFine }, { resizeModelAlpha }] = await Promise.all([
+          import('./fine-removal.js?v=20261003'), import('./ai-mask.js?v=20261003')
+        ]);
+        const result = await removeBackgroundFine(source, details => {
+          if (token !== selection) return;
+          if (details.phase === 'download') {
+            if (details.total > 0) { $('progress').max = details.total; $('progress').value = details.loaded; }
+            else $('progress').removeAttribute('value');
+            status(`正在加载精细 AI 模型：${details.total > 0 ? `${Math.round(details.loaded / details.total * 100)}%` : `${Math.round(details.loaded / 1048576)} MB`}（首次使用较慢）`);
+          } else {
+            $('progress').removeAttribute('value');
+            status(details.phase === 'infer' ? '精细 AI 正在识别主体和边缘…' : '正在准备精细 AI 引擎…');
+          }
+        });
+        if (token !== selection) return;
+        const alpha = resizeModelAlpha(result.alpha, result.width, result.height, originalCanvas.width, originalCanvas.height);
+        editor.setAutomaticMask(alpha, { recoverOutside: false });
+        status('精细 AI 抠图完成，已应用手动标记。可切换原版 AI 对比，也可继续修补或下载。');
+        return;
+      } catch (error) {
+        console.warn('精细 AI 不可用，回退原版 AI', error);
+        if (token !== selection) return;
+        fineFallback = true;
+        showDetectedBackground(null, '精细 AI 不可用，已回退原版 AI。');
+        status('精细 AI 不可用，正在加载原版 AI 继续抠图…');
+      }
+    }
+    const pixels = (method === 'auto' || method === 'color') ? originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height) : null;
+    const detected = pixels ? createAutomaticBackgroundSelection(pixels.data, pixels.width, pixels.height) : null;
     detectedBackground = detected?.background || null;
     const plainMask = detected?.mask;
     if (plainMask) {
@@ -349,8 +386,10 @@ $('remove').addEventListener('click', async () => {
       status(ui.automaticDone);
       return;
     }
-    showDetectedBackground(null, ui.unconfirmedBackground);
-    status(ui.loadingAI);
+    if (!fineFallback) {
+      showDetectedBackground(null, method === 'isnet' ? '正在使用原版 AI 抠图。' : ui.unconfirmedBackground);
+      status(ui.loadingAI);
+    }
     const { removeBackground } = await import('https://esm.sh/@imgly/background-removal@1.7.0');
     const result = await removeBackground(source, { device: 'cpu', model: 'isnet_quint8', output: { format: 'image/png', type: 'foreground' }, progress: (key, current, total) => {
       if (token !== selection) return;
@@ -360,7 +399,7 @@ $('remove').addEventListener('click', async () => {
     bitmap = await createImageBitmap(result);
     if (token !== selection) return;
     editor.setAutomaticResult(bitmap);
-    status(ui.aiDone);
+    status(fineFallback ? '原版 AI 抠图完成（精细 AI 不可用，已自动回退），已应用手动标记。可继续修补或下载。' : ui.aiDone);
   } catch (error) {
     console.error(language === 'en' ? 'Background removal failed' : '背景移除失败', error);
     if (token === selection) status(ui.aiFailed, true);

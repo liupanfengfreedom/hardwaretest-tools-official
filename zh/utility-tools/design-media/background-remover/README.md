@@ -2,7 +2,13 @@
 
 访问路径：`/zh/utility-tools/design-media/background-remover/`。沿用站点的静态 HTML、CSS 和 JavaScript 结构，无构建步骤。通过 HTTP 本地服务或 HTTPS 网站访问，不建议直接双击 HTML 文件。
 
-桌面布局将自动抠图、手动标记和下载工具纵向放在左侧，将原图与结果双栏放在右侧；常见桌面高度内全部功能按钮和图片操作区同时可见。视口较矮时压缩标题及辅助说明，长操作说明默认折叠；窄屏再切换为上下布局。原图面板同时作为图片选择入口：空白状态下整块区域支持点击、拖放和粘贴，载入后切换为标记画布，标题栏提供“更换图片”。实现 JPG、PNG、WebP 格式和 20 MB 限制、最长边 2048 像素缩放、浏览器端背景移除、原图/结果左右对照、预览底色与透明 PNG 下载。页面只在点击移除时从 esm.sh 加载固定版本 `@imgly/background-removal@1.7.0`，模型资源由库的默认资源服务器提供。网络受限时可能加载失败；正式部署可考虑同源托管模型及引擎资源。
+桌面布局将自动抠图、手动标记和下载工具纵向放在左侧，将原图与结果双栏放在右侧；常见桌面高度内全部功能按钮和图片操作区同时可见。视口较矮时压缩标题及辅助说明，长操作说明默认折叠；窄屏再切换为上下布局。原图面板同时作为图片选择入口：空白状态下整块区域支持点击、拖放和粘贴，载入后切换为标记画布，标题栏提供“更换图片”。实现 JPG、PNG、WebP 格式和 20 MB 限制、最长边 2048 像素缩放、浏览器端背景移除、原图/结果左右对照、预览底色与透明 PNG 下载。
+
+中文页面默认试用“精细 AI 抠图”，使用 `jiabins0303/birefnet-lite-1024-webgpu`，固定模型 revision `1ad01cef0f4101a285c5a3e0bd7f15597d93403f`，ONNX Runtime Web 固定为 `1.30.0`，由 jsDelivr 提供运行时、Hugging Face 提供模型。模型文件 114,834,127 字节（约 110 MiB），只在运行时下载；浏览器 Cache Storage 可用时缓存模型，存储失败不影响推理。推理放在模块 Worker 中，重复使用同一个模型会话。要求 HTTPS 或 localhost、安全上下文、WebGPU、至少 8 个 shader storage buffers 和 `shader-f16` 支持。不支持、下载失败、初始化/推理失败或连续 5 分钟无进展会释放 Worker，并自动回退原版 AI；下载仍有进度时不会提前中断。状态会明确显示回退，避免把原版结果误认为新模型结果。
+
+“精细 AI”和“原版 AI（对比）”都直接运行 AI，不被颜色识别分支跳过；可选的“颜色识别”保留纯色、规则棋盘格和条纹背景算法，无法确认时仍使用原版 AI。只有中文 HTML 的 `automatic-method` 选择框启用试用流程，英文页面继续使用原来的颜色识别 + IS-Net 流程。原版及回退仍从 esm.sh 加载固定版本 `@imgly/background-removal@1.7.0`，使用 CPU / `isnet_quint8`，模型由库默认资源服务器提供。网络受限时资源可能加载失败；正式部署可考虑同源托管。
+
+新模型输入为 1024×1024 RGB，按 ImageNet 均值、标准差归一化并转换为 NCHW；透明区域先按白底合成供主体识别。输出 logits 经 sigmoid 生成连续 Alpha，兼容 Float32 与编码 Float16，再缩放回工作图片尺寸。复用现有蒙版编辑器合成原图透明度与手动标记，不对发丝/半透明蒙版硬阈值化。模型试用入口和说明仅在中文页显示。
 
 支持 Ctrl+V 粘贴截图或复制的图片，Mac 使用 Command+V。页面从用户触发的 `paste` 事件获取第一张图片文件，兼容 `clipboardData.items` 与 `clipboardData.files`，沿用上传的 JPG、PNG、WebP 格式校验、20 MB 限制和缩放处理。无需主动读取剪贴板或申请剪贴板读取权限；纯文本及图片网址不会作为图片导入。粘贴新图片会替换当前图片并重置手动标记与视口；正在自动处理或绘制时提示稍后粘贴。连续粘贴采用最近一次有效的图片读取请求，防止较早的解码结果覆盖新图片。
 
@@ -28,6 +34,12 @@
 
 第三方依赖：IMG.LY background-removal-js，采用 AGPL-3.0 许可；对项目发布方式有许可要求，闭源使用需要评估其商业许可。源代码、完整许可与配置说明见 https://github.com/imgly/background-removal-js 。本页引用该库，不包含或修改第三方库源码。
 
+新增依赖：ONNX Runtime（MIT，https://github.com/microsoft/onnxruntime）；BiRefNet Lite WebGPU 社区导出（模型卡标注 MIT，https://huggingface.co/jiabins0303/birefnet-lite-1024-webgpu），源模型来自 https://github.com/ZhengPeng7/BiRefNet 。具体许可和模型来源以对应项目为准。页面引用发布资源，不运行模型仓库的 Python 代码。
+
+新模型预处理、Float16/Float32 logits 转换、软边缘缩放、原图透明度及手动保留回归见 `scripts/tests/fine-removal.test.mjs`。该测试不代替真实 WebGPU 推理和跨设备效果验证。
+
+中文试用已在 Codex 内置浏览器完成真实 WebGPU 推理：使用公开示例照片 https://images.pexels.com/photos/5965592/pexels-photo-5965592.jpeg?auto=compress&cs=tinysrgb&w=1024 ，工作尺寸 1024×683；界面明确显示“精细 AI 抠图完成”，未触发回退，重复推理可复用会话。实际下载的 PNG 已解码核查，包含完全透明、不透明和连续半透明像素。该样例验证可运行与导出，不代表所有照片或所有浏览器的质量与兼容性。
+
 已检查 JavaScript 语法、页面 HTTP 响应和固定 CDN 模块导出。原生 Canvas 回归测试位于 `scripts/tests/background-remover.test.mjs`，覆盖擦除/恢复、连续笔画、撤销/重做、AI 与手动标记合并、取消笔画、坐标缩放、视点缩放与平移边界、原图透明度和 PNG 导出，也覆盖智能扩选的连通区域、异色闭环保护、对角接触隔离、颜色容差、固定参考色、透明间隙、参数快照、多次取色、普通笔刷兼容性，以及边界线与标记历史同步和导出隔离。测试通过 `node --test scripts/tests/background-remover.test.mjs` 运行，需要测试环境可解析 `@napi-rs/canvas`（可通过 NODE_PATH 指向已有运行时依赖）；页面本身不需要这个依赖。
 
-已使用反馈截图中的原图区域进行浏览器交互验证：点击图标外部白底移除，主体内部像素保持原样；边界显示开关、缩放对齐、撤销/重做/清除及 PNG 下载通过检查。该验证不包含真实 AI 模型推理，模型下载与不同设备兼容性仍需实际试用确认。
+此前已使用反馈截图中的原图区域进行浏览器交互验证：点击图标外部白底移除，主体内部像素保持原样；边界显示开关、缩放对齐、撤销/重做/清除及 PNG 下载通过检查。该图标验证不包含真实 AI 模型推理；中文新模型的真实样例推理记录见上文，不同设备兼容性仍需实际试用确认。
