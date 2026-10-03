@@ -8,8 +8,7 @@ const $ = id => document.getElementById(id);
 const originalCanvas = $('original-canvas');
 const resultCanvas = $('result-canvas');
 const language = document.documentElement.lang.toLowerCase().startsWith('en') ? 'en' : 'zh';
-// The trial is enabled only by the Chinese page's explicit method selector.
-const automaticMethod = language === 'zh' ? $('automatic-method') : null;
+const automaticMethod = $('automatic-method');
 const ui = language === 'en' ? {
   brushSize: 'Brush size', eraserSize: 'Eraser size',
   editUnmark: 'Drag over the original image to erase keep or remove marks at the selected brush size. This lifts protection in that area and restores the automatic result—or the original image if you have not run background removal yet—so you can paint it again.',
@@ -21,6 +20,7 @@ const ui = language === 'en' ? {
   unsupported: 'Please choose a JPG, PNG, or WebP image.', tooLarge: 'This image is larger than 20 MB. Please compress it and try again.', reading: 'Reading image…', ready: 'Image ready. Paint over areas first, or remove the background right away.', readFailed: 'This image could not be opened. Please try a different image.', fileInfo: (name, width, height, resized) => `${name} · ${width} × ${height}${resized ? ' (resized)' : ''}`,
   pasteBusy: 'Finish processing or editing the current image before pasting another one.', clipboardName: extension => `Clipboard image.${extension}`,
   detecting: 'Detecting background…', automaticDone: 'Background removed. Exterior background and enclosed gaps have been cleared, and your manual edits have been applied. You can keep refining or download the result.', loadingAI: 'Loading the AI engine. The model downloads on first use, so please keep this page open…', downloadingModel: percent => `Downloading model files: ${percent}% (slower the first time)`, preparingModel: 'Preparing the model and identifying the subject…', aiDone: 'Background removed. Your manual edits have been applied. You can keep refining or download the result.', aiFailed: 'Background removal failed. Check your connection and try again, or use the brushes to edit manually.',
+  fineLoading: 'Loading Fine AI. The first use downloads a model of about 110 MB, so please keep this page open…', fineDownloading: progress => `Loading Fine AI model: ${progress} (slower the first time)`, finePreparing: 'Preparing the Fine AI engine…', fineInferring: 'Fine AI is identifying the subject and its edges…', fineDone: 'Fine AI removal complete. Your manual edits have been applied. Switch to Original AI to compare, or keep refining and download the result.', fineFallbackNotice: 'Fine AI is unavailable, so Original AI is being used.', fineFallbackLoading: 'Fine AI is unavailable. Loading Original AI to continue…', fineFallbackDone: 'Original AI removal complete (Fine AI was unavailable and the tool switched automatically). Your manual edits have been applied. You can keep refining or download the result.',
   detectedBackground: kind => `Background detected: ${{ solid: 'solid color', checker: 'repeating color blocks', stripes: 'repeating stripes' }[kind]}`, unconfirmedBackground: 'No solid or repeating background was confirmed, so AI subject detection is being used.',
   pixelUnit: 'px', clearHistory: 'Clear all recent images saved in this browser?', exportName: name => `${name}-background-removed.png`, exportFailed: 'Could not export the image. Please try again.', chooseImage: 'Choose an image in the original-image panel below.', initialStatus: 'Choose an image, or paste one with Ctrl+V (⌘V on Mac).'
 } : {
@@ -34,6 +34,7 @@ const ui = language === 'en' ? {
   unsupported: '请选择 JPG、PNG 或 WebP 格式的图片。', tooLarge: '图片超过 20 MB，请压缩后重试。', reading: '正在读取图片…', ready: '图片已就绪。可先标记区域，也可直接自动移除背景。', readFailed: '无法读取这张图片，请换一张图片重试。', fileInfo: (name, width, height, resized) => `${name} · ${width} × ${height}${resized ? '（已缩小）' : ''}`,
   pasteBusy: '请完成当前图片处理或标记后，再粘贴图片。', clipboardName: extension => `剪贴板图片.${extension}`,
   detecting: '正在识别背景…', automaticDone: '自动抠图完成，已清理外部及封闭空隙中的背景，并应用手动标记。可以继续修补或下载。', loadingAI: '正在加载 AI 引擎，首次使用需要下载模型，请保持页面打开…', downloadingModel: percent => `正在下载模型资源：${percent}%（首次使用较慢）`, preparingModel: '正在准备模型并识别主体，请稍候…', aiDone: '自动抠图完成，已应用手动标记。可以继续修补或下载。', aiFailed: '自动抠图失败，请检查网络后重试。也可以直接使用画笔手动移除背景。',
+  fineLoading: '正在加载精细 AI，首次使用需要下载约 110 MB 模型，请保持页面打开…', fineDownloading: progress => `正在加载精细 AI 模型：${progress}（首次使用较慢）`, finePreparing: '正在准备精细 AI 引擎…', fineInferring: '精细 AI 正在识别主体和边缘…', fineDone: '精细 AI 抠图完成，已应用手动标记。可切换原版 AI 对比，也可继续修补或下载。', fineFallbackNotice: '精细 AI 不可用，已回退原版 AI。', fineFallbackLoading: '精细 AI 不可用，正在加载原版 AI 继续抠图…', fineFallbackDone: '原版 AI 抠图完成（精细 AI 不可用，已自动回退），已应用手动标记。可继续修补或下载。',
   detectedBackground: kind => `已识别背景：${{ solid: '纯色', checker: '规则色块', stripes: '规则条纹' }[kind]}`, unconfirmedBackground: '未确认纯色或规则背景，改用 AI 识别主体。',
   pixelUnit: '像素', clearHistory: '确定清空当前浏览器中的全部图片历史吗？', exportName: name => `${name}-去背景.png`, exportFailed: '图片导出失败，请重试。', chooseImage: '请先在下方原图区域选择图片', initialStatus: '选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'
 };
@@ -347,7 +348,7 @@ $('remove').addEventListener('click', async () => {
     detectedBackground = null;
     showDetectedBackground(null);
     if (method === 'birefnet') {
-      status('正在加载精细 AI，首次使用需要下载约 110 MB 模型，请保持页面打开…');
+      status(ui.fineLoading);
       try {
         const [{ removeBackgroundFine }, { resizeModelAlpha }] = await Promise.all([
           import('./fine-removal.js?v=20261003'), import('./ai-mask.js?v=20261003')
@@ -357,23 +358,23 @@ $('remove').addEventListener('click', async () => {
           if (details.phase === 'download') {
             if (details.total > 0) { $('progress').max = details.total; $('progress').value = details.loaded; }
             else $('progress').removeAttribute('value');
-            status(`正在加载精细 AI 模型：${details.total > 0 ? `${Math.round(details.loaded / details.total * 100)}%` : `${Math.round(details.loaded / 1048576)} MB`}（首次使用较慢）`);
+            status(ui.fineDownloading(details.total > 0 ? `${Math.round(details.loaded / details.total * 100)}%` : `${Math.round(details.loaded / 1048576)} MB`));
           } else {
             $('progress').removeAttribute('value');
-            status(details.phase === 'infer' ? '精细 AI 正在识别主体和边缘…' : '正在准备精细 AI 引擎…');
+            status(details.phase === 'infer' ? ui.fineInferring : ui.finePreparing);
           }
         });
         if (token !== selection) return;
         const alpha = resizeModelAlpha(result.alpha, result.width, result.height, originalCanvas.width, originalCanvas.height);
         editor.setAutomaticMask(alpha, { recoverOutside: false });
-        status('精细 AI 抠图完成，已应用手动标记。可切换原版 AI 对比，也可继续修补或下载。');
+        status(ui.fineDone);
         return;
       } catch (error) {
         console.warn('精细 AI 不可用，回退原版 AI', error);
         if (token !== selection) return;
         fineFallback = true;
-        showDetectedBackground(null, '精细 AI 不可用，已回退原版 AI。');
-        status('精细 AI 不可用，正在加载原版 AI 继续抠图…');
+        showDetectedBackground(null, ui.fineFallbackNotice);
+        status(ui.fineFallbackLoading);
       }
     }
     const pixels = (method === 'auto' || method === 'color') ? originalCanvas.getContext('2d').getImageData(0, 0, originalCanvas.width, originalCanvas.height) : null;
@@ -399,7 +400,7 @@ $('remove').addEventListener('click', async () => {
     bitmap = await createImageBitmap(result);
     if (token !== selection) return;
     editor.setAutomaticResult(bitmap);
-    status(fineFallback ? '原版 AI 抠图完成（精细 AI 不可用，已自动回退），已应用手动标记。可继续修补或下载。' : ui.aiDone);
+    status(fineFallback ? ui.fineFallbackDone : ui.aiDone);
   } catch (error) {
     console.error(language === 'en' ? 'Background removal failed' : '背景移除失败', error);
     if (token === selection) status(ui.aiFailed, true);
