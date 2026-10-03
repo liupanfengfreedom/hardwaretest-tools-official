@@ -6,14 +6,25 @@
   <title>图片背景移除 - 免费在线抠图 | StarryRing</title>
   <meta name="description" content="在浏览器中移除图片背景，预览原图与抠图结果，下载透明 PNG。图片在本地处理，无需上传。">
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20261003-ai-trial">
+  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20261003-header-export">
   <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20261003-ai-trial"></script>
 </head>
 <body>
   <header class="topbar"><a class="brand" href="/zh/">✦ <span>StarryRing</span></a><a href="/zh/utility-tools/">全部工具 <span aria-hidden="true">↗</span></a></header>
   <main>
     <nav class="breadcrumb" aria-label="面包屑"><a href="/zh/utility-tools/">实用工具</a><span>/</span><span>图片背景移除</span></nav>
-    <div class="heading"><div><p class="eyebrow">图片工具</p><h1>留下主体，移除背景<span>。</span></h1><p class="subtitle">一张图片，一键抠图。让人物与物品成为画面焦点。</p></div><span class="privacy">◈ 图片仅在本地处理</span></div>
+    <div class="heading">
+      <div class="heading-copy"><p class="eyebrow">图片工具</p><h1>留下主体，移除背景<span>。</span></h1><p class="subtitle">一张图片，一键抠图。让人物与物品成为画面焦点。</p></div>
+      <aside class="toolbar-group export-group heading-export" aria-labelledby="export-title">
+        <div class="heading-export-head"><div class="section-title"><h2 id="export-title">预览与下载</h2></div><span class="privacy">◈ 图片仅在本地处理</span></div>
+        <div class="heading-export-options">
+          <div class="swatches" role="group" aria-label="预览背景颜色"><button class="swatch checker selected" data-bg="transparent" aria-label="透明背景" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="白色背景" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="深色背景" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="浅蓝背景" aria-pressed="false"></button></div>
+          <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>显示彩色标记</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>显示选区边界线</label></div>
+        </div>
+        <div class="heading-export-download"><p class="hint">预览设置不会改变透明 PNG。</p><button id="download" class="secondary" disabled>↓ 下载透明 PNG</button></div>
+        <p class="model-note">精细 AI 更适合复杂背景和细节边缘；原版 AI 可用于对比。所有方式均在浏览器中处理，图片不会上传。</p>
+      </aside>
+    </div>
     <section class="workspace" aria-label="图片背景移除工具">
       <div class="controls" role="group" aria-label="图片编辑工具栏">
         <div class="toolbar-group process-group">
@@ -47,14 +58,6 @@
         <label class="brush-label" for="brush-size"><span id="brush-size-label">普通笔刷直径</span><output id="brush-value" for="brush-size">30 像素</output></label>
         <input id="brush-size" type="range" min="1" max="100" step="1" value="30" disabled>
         <div class="history-tools"><button id="undo" disabled>↶ 撤销</button><button id="redo" disabled>↷ 重做</button><button id="clear-marks" aria-label="清除全部标记" disabled>清除全部</button></div>
-        </div>
-        <div class="toolbar-group export-group">
-        <div class="section-title"><h2>预览与下载</h2></div>
-        <div class="swatches" role="group" aria-label="预览背景颜色"><button class="swatch checker selected" data-bg="transparent" aria-label="透明背景" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="白色背景" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="深色背景" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="浅蓝背景" aria-pressed="false"></button></div>
-        <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>显示彩色标记</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>显示选区边界线</label></div>
-        <p class="hint">仅用于预览，下载始终保留透明背景。</p>
-        <button id="download" class="secondary" disabled>↓ 下载透明 PNG</button>
-        <p class="model-note">精细 AI 更适合尝试复杂背景和细节边缘。原版 AI 可用于对比；颜色识别适合纯色、规则棋盘格或条纹背景。所有方式均在浏览器中处理，图片不会上传到服务器。</p>
         </div>
       </div>
       <div class="preview-area"><div class="preview-toolbar"><h2>原图与结果对比</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>更换图片</button><button id="reset" class="text-button" disabled>清空图片</button></div></div>
