@@ -118,23 +118,25 @@ main{max-width:1500px}
 .history-remove:hover,.history-remove:focus-visible{background:#fff0f1;color:#b42332;outline:0}
 @media(max-width:640px){.recent-images{padding:16px;margin-bottom:24px}.history-heading{gap:12px}.history-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
 
-/* Chinese trial: move preview and download controls into the page heading. */
-html[lang^="zh"] .heading{align-items:stretch;gap:32px}
-html[lang^="zh"] .heading-copy{min-width:300px;align-self:center}
-html[lang^="zh"] .heading .heading-export{width:min(650px,55vw);margin:0;padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,.72fr);gap:10px 18px;background:#fff;border:1px solid #e0e6ef;border-radius:14px;box-shadow:0 8px 24px #1d345008}
-html[lang^="zh"] .heading-export-head{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px}
-html[lang^="zh"] .heading-export .section-title{margin:0}
-html[lang^="zh"] .heading-export .section-title h2{font-size:15px}
-html[lang^="zh"] .heading-export .privacy{padding:7px 11px;font-size:12px}
-html[lang^="zh"] .heading-export-options{min-width:0;display:flex;align-items:center;gap:18px}
-html[lang^="zh"] .heading-export .swatches{gap:9px;flex:none}
+/* Chinese trial: a wide, low preview and download panel beside the page title. */
+html[lang^="zh"] .heading{display:grid;grid-template-columns:minmax(390px,.78fr) minmax(0,2fr);align-items:center;gap:28px}
+html[lang^="zh"] .heading-copy{min-width:0}
+html[lang^="zh"] .heading-copy h1{white-space:nowrap}
+html[lang^="zh"] .heading-export-stack{width:100%;min-width:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+html[lang^="zh"] .heading-export-stack>.privacy{padding:7px 10px;font-size:12px}
+html[lang^="zh"] .heading .heading-export{width:100%;margin:0;padding:11px 14px;display:grid;grid-template-columns:auto minmax(300px,1fr) minmax(245px,.76fr);grid-template-areas:"title options download" "note note note";align-items:center;gap:8px 16px;background:#fff;border:1px solid #e0e6ef;border-radius:14px;box-shadow:0 8px 24px #1d345008}
+html[lang^="zh"] .heading-export-head{display:contents}
+html[lang^="zh"] .heading-export .section-title{grid-area:title;margin:0}
+html[lang^="zh"] .heading-export .section-title h2{font-size:15px;white-space:nowrap}
+html[lang^="zh"] .heading-export-options{grid-area:options;min-width:0;display:flex;align-items:center;gap:16px}
+html[lang^="zh"] .heading-export .swatches{gap:8px;flex:none}
 html[lang^="zh"] .heading-export .swatch{width:28px;height:28px}
-html[lang^="zh"] .heading-export .preview-toggles{margin:0;gap:2px 12px}
+html[lang^="zh"] .heading-export .preview-toggles{margin:0;gap:1px 11px}
 html[lang^="zh"] .heading-export .toggle{margin:0;font-size:12px;white-space:nowrap}
-html[lang^="zh"] .heading-export-download{display:flex;align-items:center;gap:10px}
-html[lang^="zh"] .heading-export .hint{margin:0;font-size:11px;line-height:1.5}
-html[lang^="zh"] .heading-export .secondary{width:auto;min-width:142px;padding:10px 12px;white-space:nowrap;font-size:13px}
-html[lang^="zh"] .heading-export .model-note{grid-column:1/-1;margin:0;padding-top:9px;border-top:1px solid #edf0f5;font-size:11px;line-height:1.55}
-@media(max-width:1100px){html[lang^="zh"] .heading{gap:20px}html[lang^="zh"] .heading .heading-export{width:min(590px,58vw);grid-template-columns:1fr}html[lang^="zh"] .heading-export-head,html[lang^="zh"] .heading-export .model-note{grid-column:1}html[lang^="zh"] .heading-export-download{justify-content:space-between}}
-@media(max-width:850px){html[lang^="zh"] .heading .heading-export{width:100%;margin:0;padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,.72fr);gap:10px 18px;border:1px solid #e0e6ef}html[lang^="zh"] .heading-export-head,html[lang^="zh"] .heading-export .model-note{grid-column:1/-1}}
-@media(max-width:640px){html[lang^="zh"] .heading .heading-export{grid-template-columns:1fr}html[lang^="zh"] .heading-export-head,html[lang^="zh"] .heading-export .model-note{grid-column:1}html[lang^="zh"] .heading-export-head{align-items:flex-start}html[lang^="zh"] .heading-export-options{align-items:flex-start;flex-direction:column;gap:12px}html[lang^="zh"] .heading-export-download{align-items:stretch;flex-direction:column}html[lang^="zh"] .heading-export .secondary{width:100%}}
+html[lang^="zh"] .heading-export-download{grid-area:download;display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:0}
+html[lang^="zh"] .heading-export .hint{margin:0;font-size:11px;line-height:1.45}
+html[lang^="zh"] .heading-export .secondary{width:auto;min-width:140px;padding:9px 11px;white-space:nowrap;font-size:13px}
+html[lang^="zh"] .heading-export .model-note{grid-area:note;margin:0;padding-top:7px;border-top:1px solid #edf0f5;font-size:11px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:1250px){html[lang^="zh"] .heading{grid-template-columns:minmax(300px,.68fr) minmax(0,1.5fr);gap:20px}html[lang^="zh"] .heading-copy h1{font-size:30px}html[lang^="zh"] .heading .heading-export{grid-template-columns:minmax(0,1fr) minmax(220px,.68fr);grid-template-areas:"title title" "options download" "note note"}html[lang^="zh"] .heading-export-options{flex-wrap:wrap}html[lang^="zh"] .heading-export .model-note{min-width:0;white-space:normal;overflow-wrap:anywhere}html[lang^="zh"] .heading-export-download{min-width:0;justify-content:flex-end}html[lang^="zh"] .heading-export .hint{min-width:0}}
+@media(max-width:1024px){html[lang^="zh"] .heading{display:flex;flex-direction:column;align-items:stretch;gap:20px}html[lang^="zh"] .heading .heading-export{width:100%;margin:0;padding:11px 14px;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.68fr);grid-template-areas:"title title" "options download" "note note";gap:8px 16px;border:1px solid #e0e6ef}}
+@media(max-width:640px){html[lang^="zh"] .heading .heading-export{grid-template-columns:1fr;grid-template-areas:"title" "options" "download" "note"}html[lang^="zh"] .heading-export-options{align-items:flex-start;flex-direction:column;gap:10px}html[lang^="zh"] .heading-export-download{justify-content:space-between}html[lang^="zh"] .heading-export .secondary{min-width:138px}}
