@@ -7,7 +7,7 @@ import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage
 const $ = id => document.getElementById(id);
 const originalCanvas = $('original-canvas');
 const resultCanvas = $('result-canvas');
-const language = document.documentElement.lang.toLowerCase().startsWith('en') ? 'en' : 'zh';
+const language = document.documentElement.lang.toLowerCase().startsWith('zh') ? 'zh' : 'en';
 const automaticMethod = $('automatic-method');
 const ui = language === 'en' ? {
   brushSize: 'Brush size', eraserSize: 'Eraser size',
