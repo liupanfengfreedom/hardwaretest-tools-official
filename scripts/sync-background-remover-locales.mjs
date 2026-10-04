@@ -133,6 +133,42 @@ function localizeWithDictionary(html, dictionary) {
   return head + body;
 }
 
+function addSeoMetadata(html, locale) {
+  const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+  const description = html.match(/<meta name="description" content="([^"]+)">/)?.[1];
+  const breadcrumb = html.match(/<nav class="breadcrumb"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+  const home = breadcrumb?.match(/<span class="breadcrumb-home-label">([^<]+)<\/span>/)?.[1];
+  const utility = breadcrumb?.match(/href="\/[^"]+\/utility-tools\/"[^>]*>[\s\S]*?<span>([^<]+)<\/span><\/a>/)?.[1];
+  const current = breadcrumb?.match(/<span class="crumb-current" aria-current="page">([^<]+)<\/span>/)?.[1];
+  if (![title, description, home, utility, current].every(Boolean)) throw new Error(`Missing SEO text for ${locale}`);
+  const decode = value => value.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#39;', "'");
+  const breadcrumbData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: decode(home), item: `https://starryring.com/${locale}/` },
+      { '@type': 'ListItem', position: 2, name: decode(utility), item: `https://starryring.com/${locale}/utility-tools/` },
+      { '@type': 'ListItem', position: 3, name: decode(current), item: href(locale) },
+    ],
+  };
+  const block = [
+    '  <!-- Background Remover search and sharing metadata -->',
+    '  <meta property="og:type" content="website">',
+    '  <meta property="og:site_name" content="StarryRing">',
+    `  <meta property="og:title" content="${title}">`,
+    `  <meta property="og:description" content="${description}">`,
+    `  <meta property="og:url" content="${href(locale)}">`,
+    '  <meta name="twitter:card" content="summary">',
+    `  <meta name="twitter:title" content="${title}">`,
+    `  <meta name="twitter:description" content="${description}">`,
+    `  <script type="application/ld+json">${JSON.stringify(breadcrumbData).replaceAll('<', '\\u003c')}</script>`,
+    '  <!-- End Background Remover metadata -->',
+  ].join('\n');
+  const clean = html.replace(/  <!-- Background Remover search and sharing metadata -->[\s\S]*?  <!-- End Background Remover metadata -->\r?\n/, '');
+  const descriptionTag = clean.match(/  <meta name="description" content="[^"]+">/)?.[0];
+  return clean.replace(descriptionTag, `${descriptionTag}\n${block}`);
+}
+
 function pageFor(locale, copy) {
   let html = fs.readFileSync(path.join(root, "en", route, "index.html"), "utf8");
   html = html.replace('<html lang="en">', `<html lang="${locale}">`);
@@ -140,8 +176,8 @@ function pageFor(locale, copy) {
   html = html.replaceAll('href="/en/', `href="/${locale}/`);
   html = html.replace(/style\.css\?v=20261004-header-export-locales\d*|style\.css\?v=20261003-header-export-aligned3/, 'style.css?v=20261004-header-export-locales7');
   html = html.replace('<span class="breadcrumb-home-label">Home</span>', `<span class="breadcrumb-home-label">${homeLabels[locale]}</span>`);
-  html = html.replace('Remove Background from Images Online | StarryRing', `${copy.name} | StarryRing`);
-  html = html.replace('Remove image backgrounds in your browser, refine the cutout by hand, and download a transparent PNG. Your images stay on your device.', copy.description);
+  html = html.replace('Free Background Remover Online | StarryRing', `${copy.name} | StarryRing`);
+  html = html.replace('Remove image backgrounds with Fine AI or manual brushes. Preview the cutout and download a transparent PNG. Images are processed in your browser.', copy.description);
   html = html.replace('<p class="eyebrow">Image tools</p><h1>Keep the subject. Remove the background<span>.</span></h1><p class="subtitle">One image, one click. Put people and products in focus.</p>', `<p class="eyebrow">${copy.eyebrow}</p><h1>${copy.heading}</h1><p class="subtitle">${copy.subtitle}</p>`);
   const [local, preview, download, transparent] = panelLabels[locale];
   html = html.replace('◈ Processed locally', `◈ ${local}`)
@@ -152,13 +188,13 @@ function pageFor(locale, copy) {
   html = addLanguageSwitcher(html, locale);
   if (locale === "ja") {
     html = html.replace(/script-zh\.js\?v=[^"]+/, 'script-zh.js?v=20261004-ja-localized');
-    return localizeJapanesePage(html);
+    return addSeoMetadata(localizeJapanesePage(html), locale);
   }
   if (translations[locale]) {
     html = html.replace(/script-zh\.js\?v=[^"]+/, 'script-zh.js?v=20261004-all-locales');
-    return localizeWithDictionary(html, translations[locale]);
+    return addSeoMetadata(localizeWithDictionary(html, translations[locale]), locale);
   }
-  return html;
+  return addSeoMetadata(html, locale);
 }
 
 function writeRuntimeLocales() {
@@ -194,6 +230,34 @@ function writeRuntimeLocales() {
   fs.writeFileSync(path.join(root, 'static/js/utility-tools/design-media/background-remover/locale-other.js'), module, 'utf8');
 }
 
+function syncSitemap() {
+  const lastmod = '2026-10-05'; // Update when this route changes substantially.
+  const sitemapPath = path.join(root, 'sitemap-utility-tools.xml');
+  let sitemap = fs.readFileSync(sitemapPath, 'utf8');
+  const newline = sitemap.includes('\r\n') ? '\r\n' : '\n';
+  const lines = ['  <!-- Background Remover route -->'];
+  for (const locale of allLocales) {
+    lines.push('  <url>', `    <loc>${href(locale)}</loc>`);
+    for (const alternate of allLocales) {
+      lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate === 'pcm' ? 'pcm-NG' : alternate}" href="${href(alternate)}" />`);
+    }
+    lines.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${href('en')}" />`);
+    lines.push(`    <lastmod>${lastmod}</lastmod>`, '    <changefreq>weekly</changefreq>', '    <priority>0.7</priority>', '  </url>');
+  }
+  lines.push('  <!-- End Background Remover route -->');
+  sitemap = sitemap.replace(/  <!-- Background Remover route -->[\s\S]*?  <!-- End Background Remover route -->\r?\n/, '');
+  if (sitemap.includes(`<loc>${href('en')}</loc>`)) throw new Error('Unmanaged Background Remover sitemap entries already exist');
+  sitemap = sitemap.replace('</urlset>', `${lines.join(newline)}${newline}</urlset>`);
+  fs.writeFileSync(sitemapPath, sitemap, 'utf8');
+
+  const indexPath = path.join(root, 'sitemap.xml');
+  const index = fs.readFileSync(indexPath, 'utf8').replace(
+    /(<loc>https:\/\/starryring\.com\/sitemap-utility-tools\.xml<\/loc>\s*<lastmod>)([^<]+)/,
+    (_, prefix, previousDate) => `${prefix}${previousDate > lastmod ? previousDate : lastmod}`,
+  );
+  fs.writeFileSync(indexPath, index, 'utf8');
+}
+
 function addToolCard(locale, copy) {
   const file = path.join(root, locale, "utility-tools", "index.html");
   let html = fs.readFileSync(file, "utf8");
@@ -222,9 +286,10 @@ for (const locale of ["en", "zh"]) {
     ? html.replace(alternatePattern, `${alternateLinks(locale)}\n`)
     : html.replace('  <link rel="icon"', `${alternateLinks(locale)}\n  <link rel="icon"`);
   html = addLanguageSwitcher(html, locale);
-  fs.writeFileSync(file, html, "utf8");
+  fs.writeFileSync(file, addSeoMetadata(html, locale), "utf8");
 }
 
 if (Object.keys(translations).length) writeRuntimeLocales();
+syncSitemap();
 
 console.log(`Added ${Object.keys(locales).length} localized background remover routes.`);
