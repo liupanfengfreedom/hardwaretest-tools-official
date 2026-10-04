@@ -3,13 +3,15 @@ import { createAutomaticBackgroundSelection } from './automatic-mask.js?v=202609
 import { refineAutomaticEdges } from './edge-refinement.js?v=20260921-contours';
 import { clamp, clampPan, zoomPanAt, brushCursorGeometry } from './viewport-geometry.js';
 import { clearRecentImages, deleteRecentImage, listRecentImages, saveRecentImage } from './image-history.js?v=20260917';
+import { jaUi } from './locale-ja.js?v=20261004';
 
 const $ = id => document.getElementById(id);
 const originalCanvas = $('original-canvas');
 const resultCanvas = $('result-canvas');
-const language = document.documentElement.lang.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+const localeCode = document.documentElement.lang.toLowerCase().split('-')[0];
+const language = localeCode === 'zh' ? 'zh' : localeCode === 'ja' ? 'ja' : 'en';
 const automaticMethod = $('automatic-method');
-const ui = language === 'en' ? {
+const baseUi = language === 'en' ? {
   brushSize: 'Brush size', eraserSize: 'Eraser size',
   editUnmark: 'Drag over the original image to erase keep or remove marks at the selected brush size. This lifts protection in that area and restores the automatic result—or the original image if you have not run background removal yet—so you can paint it again.',
   editPaint: 'Paint on the original image: green Keep marks are always protected, so manual removal, Smart Remove, and automatic removal will not erase them. Choose Erase marks to clear an area and paint it again.',
@@ -38,6 +40,9 @@ const ui = language === 'en' ? {
   detectedBackground: kind => `已识别背景：${{ solid: '纯色', checker: '规则色块', stripes: '规则条纹' }[kind]}`, unconfirmedBackground: '未确认纯色或规则背景，改用 AI 识别主体。',
   pixelUnit: '像素', clearHistory: '确定清空当前浏览器中的全部图片历史吗？', exportName: name => `${name}-去背景.png`, exportFailed: '图片导出失败，请重试。', chooseImage: '请先在下方原图区域选择图片', initialStatus: '选择图片，或按 Ctrl+V（Mac：⌘V）粘贴图片。'
 };
+const ui = language === 'ja' ? jaUi : !['en', 'zh'].includes(localeCode)
+  ? (await import('./locale-other.js?v=20261004')).getOtherUi(localeCode) || baseUi
+  : baseUi;
 let source = null, filename = '', busy = false, loading = false, selection = 0;
 let editor = null, mode = 'keep', pointer = null, keyboardPoint = null, cursorPoint = null;
 let zoom = 1, pan = { x: 0, y: 0 }, pointerAction = null, panStart = null;
@@ -61,7 +66,7 @@ function showDetectedBackground(model, message = '') {
     const swatch = document.createElement('span');
     const hex = `#${color.map(value => value.toString(16).padStart(2, '0')).join('')}`;
     swatch.className = 'detected-color'; swatch.style.backgroundColor = hex;
-    swatch.title = hex; swatch.setAttribute('role', 'img'); swatch.setAttribute('aria-label', `背景色 ${hex}`);
+    swatch.title = hex; swatch.setAttribute('role', 'img'); swatch.setAttribute('aria-label', ui.backgroundColor?.(hex) || `${language === 'en' ? 'Background color' : '背景色'} ${hex}`);
     container.append(swatch);
   }
 }
@@ -228,7 +233,7 @@ async function refreshHistory() {
       const name = document.createElement('strong');
       name.textContent = record.name;
       const details = document.createElement('span');
-      const savedAt = new Date(record.updatedAt).toLocaleString(language === 'en' ? 'en-US' : 'zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const savedAt = new Date(record.updatedAt).toLocaleString(localeCode === 'zh' ? 'zh-CN' : localeCode === 'pcm' ? 'en-NG' : localeCode, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
       details.textContent = `${record.width} × ${record.height} · ${savedAt}`;
       meta.append(name, details);
       open.append(image, meta);
@@ -388,7 +393,7 @@ $('remove').addEventListener('click', async () => {
       return;
     }
     if (!fineFallback) {
-      showDetectedBackground(null, method === 'isnet' ? '正在使用原版 AI 抠图。' : ui.unconfirmedBackground);
+      showDetectedBackground(null, method === 'isnet' ? (ui.originalAiNotice || (language === 'en' ? 'Using Original AI to remove the background.' : '正在使用原版 AI 抠图。')) : ui.unconfirmedBackground);
       status(ui.loadingAI);
     }
     const { removeBackground } = await import('https://esm.sh/@imgly/background-removal@1.7.0');

@@ -29,12 +29,12 @@
   <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/background-remover/">
   <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20261004-header-export-locales">
-  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20261003-ai-trial"></script>
+  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20261004-header-export-locales3">
+  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20261004-all-locales"></script>
 </head>
 <body>
   <div class="language-switcher">
-    <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+    <button class="language-trigger" id="languageTrigger" aria-label="Seleccionar idioma" aria-expanded="false">🌐</button>
     <div class="language-dropdown" id="languageDropdown">
       <a class="language-option" href="/en/utility-tools/design-media/background-remover/" data-lang="en">English</a>
       <a class="language-option" href="/zh/utility-tools/design-media/background-remover/" data-lang="zh">简体中文</a>
@@ -58,9 +58,9 @@
       <a class="language-option" href="/vi/utility-tools/design-media/background-remover/" data-lang="vi">Tiếng Việt</a>
     </div>
   </div>
-  <header class="topbar"><a class="brand" href="/es/">✦ <span>StarryRing</span></a><a href="/es/utility-tools/">All tools <span aria-hidden="true">↗</span></a></header>
+  <header class="topbar"><a class="brand" href="/es/">✦ <span>StarryRing</span></a><a href="/es/utility-tools/">Todas las herramientas <span aria-hidden="true">↗</span></a></header>
   <main>
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/es/utility-tools/">Utility Tools</a><span>/</span><span>Background Remover</span></nav>
+    <nav class="breadcrumb" aria-label="Ruta de navegación"><a href="/es/utility-tools/">Herramientas de utilidad</a><span>/</span><span>Eliminador de fondo</span></nav>
     <div class="heading">
       <div class="heading-copy"><p class="eyebrow">Herramientas de imagen</p><h1>Conserva el sujeto. Quita el fondo.</h1><p class="subtitle">Una imagen, un clic. Da protagonismo a personas y productos.</p></div>
       <div class="heading-export-stack">
@@ -68,67 +68,67 @@
         <aside class="toolbar-group export-group heading-export" aria-labelledby="export-title">
           <div class="heading-export-head"><div class="section-title"><h2 id="export-title">Vista previa y descarga</h2></div></div>
           <div class="heading-export-options">
-            <div class="swatches" role="group" aria-label="Preview background color"><button class="swatch checker selected" data-bg="transparent" aria-label="Transparent background" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="White background" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="Dark background" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="Light blue background" aria-pressed="false"></button></div>
-            <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>Show color marks</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>Show selection boundaries</label></div>
+            <div class="swatches" role="group" aria-label="Vista previa del color de fondo"><button class="swatch checker selected" data-bg="transparent" aria-label="Fondo transparente" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="Fondo blanco" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="Fondo oscuro" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="Fondo azul claro" aria-pressed="false"></button></div>
+            <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>Mostrar marcas de color</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>Mostrar límites de selección</label></div>
           </div>
           <div class="heading-export-download"><p class="hint">Siempre transparente.</p><button id="download" class="secondary" disabled>↓ Descargar PNG</button></div>
-          <p class="model-note">Fine AI works better for complex backgrounds and detailed edges; use Original AI for comparison. Every method runs in your browser, and your image is never uploaded.</p>
+          <p class="model-note">La IA fina funciona mejor para fondos complejos y bordes detallados; use la IA original para comparar. Todos los métodos se ejecutan en tu navegador y tu imagen nunca se carga.</p>
         </aside>
       </div>
     </div>
-    <section class="workspace" aria-label="Background remover">
-      <div class="controls" role="group" aria-label="Image editing controls">
+    <section class="workspace" aria-label="Eliminador de fondo">
+      <div class="controls" role="group" aria-label="Controles de edición de imágenes">
         <div class="toolbar-group process-group">
-          <div class="section-title"><h2>Automatic removal</h2></div>
-          <p id="file-info" class="file-info">Choose an image in the original-image panel below.</p>
-          <label class="automatic-method-label" for="automatic-method">Removal method</label>
+          <div class="section-title"><h2>Eliminación automática</h2></div>
+          <p id="file-info" class="file-info">Elige una imagen en el panel de imagen original a continuación.</p>
+          <label class="automatic-method-label" for="automatic-method">Método de extracción</label>
           <select id="automatic-method" aria-describedby="automatic-method-help">
-            <option value="birefnet" selected>Fine AI removal (trial)</option>
-            <option value="isnet">Original AI removal (compare)</option>
-            <option value="color">Color detection · solid / regular backgrounds</option>
+            <option value="birefnet" selected>Eliminación fina de IA (prueba)</option>
+            <option value="isnet">Eliminación de IA original (comparar)</option>
+            <option value="color">Detección de color · fondos sólidos / regulares</option>
           </select>
-          <p id="automatic-method-help" class="automatic-method-help">Uses Fine AI by default; automatically falls back to Original AI if unsupported or unsuccessful. The model downloads on first use.</p>
-          <button id="remove" class="primary" disabled>✦ Remove Background</button>
-          <div class="status-box"><p id="status" role="status" aria-live="polite">Choose an image, or paste one with Ctrl+V (⌘V on Mac).</p><progress id="progress" hidden aria-label="Processing progress"></progress></div>
+          <p id="automatic-method-help" class="automatic-method-help">Utiliza IA fina de forma predeterminada; vuelve automáticamente a la IA original si no es compatible o no tiene éxito. El modelo se descarga en el primer uso.</p>
+          <button id="remove" class="primary" disabled>✦ Eliminar fondo</button>
+          <div class="status-box"><p id="status" role="status" aria-live="polite">Elige una imagen, o pega una con Ctrl+V (V en Mac).</p><progress id="progress" hidden aria-label="Progreso del procesamiento"></progress></div>
           <div id="detected-background" class="detected-background" role="status" hidden></div>
         </div>
         <div class="toolbar-group brush-group">
-          <div class="section-title"><h2>Manual refinement</h2></div>
-          <div class="brush-tools" role="group" aria-label="Editing mode">
-            <button id="keep" class="brush-tool keep selected" aria-pressed="true" disabled>＋ Keep</button>
-            <button id="erase" class="brush-tool erase" aria-pressed="false" disabled>－ Remove</button>
-            <button id="unmark" class="brush-tool unmark" aria-pressed="false" disabled>⌫ Erase marks</button>
-            <button id="pan" class="brush-tool pan" aria-pressed="false" disabled>✥ Pan</button>
+          <div class="section-title"><h2>Refinamiento manual</h2></div>
+          <div class="brush-tools" role="group" aria-label="Modo de edición">
+            <button id="keep" class="brush-tool keep selected" aria-pressed="true" disabled>ю Mantener</button>
+            <button id="erase" class="brush-tool erase" aria-pressed="false" disabled>‒ Eliminar</button>
+            <button id="unmark" class="brush-tool unmark" aria-pressed="false" disabled>„Borrar marcas“</button>
+            <button id="pan" class="brush-tool pan" aria-pressed="false" disabled>✥ Desplazar vista</button>
           </div>
-          <p class="edit-help" id="edit-help">Paint on the original image: green Keep marks are always protected. Choose Erase marks to clear an area and paint it again.</p>
-          <label class="toggle smart-toggle" id="smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>Smart selection · connected pixels only</label>
-          <div class="smart-options" id="smart-options"><div><label class="brush-label" for="smart-tolerance">Color tolerance <output id="tolerance-value" for="smart-tolerance">50</output></label><input id="smart-tolerance" type="range" min="0" max="100" value="50" step="1" disabled></div></div>
-          <p class="smart-help" id="smart-help">The selection expands from where you click and stops at colors outside the tolerance or transparent pixels. It will not jump across a boundary to a matching color on the other side. This limit does not affect automatic background removal. Lower values create stricter boundaries; changes apply the next time you click.</p>
-          <label class="brush-label" for="brush-size"><span id="brush-size-label">Brush size</span><output id="brush-value" for="brush-size">30 px</output></label>
+          <p class="edit-help" id="edit-help">Pinta sobre la imagen original: verde Mantén las marcas siempre protegidas. Elige Borrar marcas para borrar un área y pintarla de nuevo.</p>
+          <label class="toggle smart-toggle" id="smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>Selección inteligente · solo píxeles conectados</label>
+          <div class="smart-options" id="smart-options"><div><label class="brush-label" for="smart-tolerance">Tolerancia de color <output id="tolerance-value" for="smart-tolerance">50</output></label><input id="smart-tolerance" type="range" min="0" max="100" value="50" step="1" disabled></div></div>
+          <p class="smart-help" id="smart-help">La selección se expande desde donde hace clic y se detiene en colores fuera de la tolerancia o píxeles transparentes. No saltará a través de un límite a un color que coincida en el otro lado. Este límite no afecta a la eliminación automática del fondo. Los valores más bajos crean límites más estrictos; los cambios se aplican la próxima vez que haga clic.</p>
+          <label class="brush-label" for="brush-size"><span id="brush-size-label">Tamaño del pincel</span><output id="brush-value" for="brush-size">30 px</output></label>
           <input id="brush-size" type="range" min="1" max="100" step="1" value="30" disabled>
-          <div class="history-tools"><button id="undo" disabled>↶ Undo</button><button id="redo" disabled>↷ Redo</button><button id="clear-marks" aria-label="Clear all marks" disabled>Clear all</button></div>
+          <div class="history-tools"><button id="undo" disabled>↶ Deshacer</button><button id="redo" disabled>↷ Rehacer</button><button id="clear-marks" aria-label="Borrar todas las marcas" disabled>Borrar todo</button></div>
         </div>
       </div>
-      <div class="preview-area"><div class="preview-toolbar"><h2>Original and result</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>Change image</button><button id="reset" class="text-button" disabled>Clear image</button></div></div>
+      <div class="preview-area"><div class="preview-toolbar"><h2>Original y resultado</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>Cambiar imagen</button><button id="reset" class="text-button" disabled>Borrar imagen</button></div></div>
         <div class="comparison">
-          <section class="image-panel" aria-label="Original image selection and editing"><div class="panel-heading"><div><h3>Original · select & edit</h3><span id="mode-label">Choose an image to start editing</span></div><div class="zoom-tools" role="group" aria-label="Original image zoom"><button id="zoom-out" aria-label="Zoom out" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="Zoom in, up to 3200%" disabled>＋</button><button id="zoom-reset" disabled>Fit</button></div></div>
-            <div class="stage checker empty-upload" id="original-stage"><label class="stage-upload" id="original-empty" for="file-input" role="button" tabindex="0"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><strong>Choose an image</strong><span>Drag it here, or paste with Ctrl+V</span><small>JPG, PNG, or WebP · up to 20 MB</small></label><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="Original image. Use the Keep or Remove brush to paint." aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><canvas id="boundary-canvas" class="boundary-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
+          <section class="image-panel" aria-label="Selección y edición de imágenes originales"><div class="panel-heading"><div><h3>Original · seleccionar Y editar</h3><span id="mode-label">Elige una imagen para empezar a editar</span></div><div class="zoom-tools" role="group" aria-label="Zoom de la imagen original"><button id="zoom-out" aria-label="Alejar" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="Acercar, hasta 3200%" disabled>＋</button><button id="zoom-reset" disabled>Ajuste</button></div></div>
+            <div class="stage checker empty-upload" id="original-stage"><label class="stage-upload" id="original-empty" for="file-input" role="button" tabindex="0"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><strong>Elige una imagen</strong><span>Arrástralo aquí o pégalo con Ctrl+V</span><small>JPG, PNG o WebP · hasta 20 MB</small></label><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="Imagen original. Utilice el pincel Mantener o Quitar para pintar." aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><canvas id="boundary-canvas" class="boundary-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
           </section>
-          <section class="image-panel" aria-label="Background removal result"><div class="panel-heading"><h3>Result</h3><span id="result-view-state">Synced view · 100%</span></div>
-            <div class="stage checker" id="stage"><div class="empty" id="result-empty"><div class="empty-icon" aria-hidden="true">✂</div><h2>Your cutout will appear here</h2><p>Edits on the original update this preview instantly</p></div><canvas id="result-canvas" aria-label="Background removal result preview" hidden></canvas></div>
+          <section class="image-panel" aria-label="Resultado de la eliminación de fondo"><div class="panel-heading"><h3>Resultado</h3><span id="result-view-state">Vista sincronizada · 100%</span></div>
+            <div class="stage checker" id="stage"><div class="empty" id="result-empty"><div class="empty-icon" aria-hidden="true">✂</div><h2>Tu recorte aparecerá aquí</h2><p>Los cambios en la imagen original aparecen al instante en esta vista previa.</p></div><canvas id="result-canvas" aria-label="Vista previa del resultado de la eliminación de fondo" hidden></canvas></div>
           </section>
         </div>
-        <div class="preview-footer"><span id="preview-caption">Paint on the original image after uploading</span><span>Color marks are never included in your download</span></div>
-        <details class="editor-guide" open><summary>Recommended workflow & keyboard shortcuts</summary><section class="editor-workflow" aria-labelledby="workflow-title"><h3 id="workflow-title">Recommended workflow</h3><ol><li>Upload an image, then select <em>Remove Background</em> to try Fine AI by default. Switch to Original AI and run it again for comparison; for solid, checkerboard, or striped backgrounds, you can also use Color detection.</li><li>Check the subject outline and enclosed gaps in the Result panel. Switch to a white or dark preview background to spot remaining edge pixels.</li><li>Use <em>Keep</em> to restore parts of the subject that were removed, and <em>Remove</em> to clear any remaining background.</li><li>Leave Smart selection on for clearly bounded areas. It selects only connected pixels and does not cross a different-color boundary.</li><li>For hair, thin lines, small details, or stubborn edge pixels, turn Smart selection off, reduce the brush size, and refine locally. Use Erase marks, Undo, and Redo to adjust at any time.</li><li>When the transparent edge looks clean, download the transparent PNG.</li></ol></section><p class="editor-note">Smart selection only includes pixels connected to where you clicked and within the chosen color tolerance. A color boundary blocks the selection, so matching white outside a ring cannot select matching white inside it. You can use Smart selection with both Keep and Remove; click each disconnected area separately. Red outlines show Remove areas and green outlines show Keep areas. You can show or hide them independently, and they are never included in downloads. Keep areas take priority, so Remove actions skip them. Choose Erase marks to clear either type of mark locally, then paint again. Turn off Smart selection for precise 1-pixel brush edits.<br>Use the mouse wheel to zoom over the original image, then drag to pan; both panels stay aligned. Zoom up to 3200%, and use Fit to return to the full image. Arrow keys move the brush one pixel; Space paints. Press Ctrl / ⌘ + Z to undo.</p></details>
+        <div class="preview-footer"><span id="preview-caption">Pinta la imagen original después de subirla</span><span>Las marcas de color nunca se incluyen en la descarga</span></div>
+        <details class="editor-guide" open><summary>Flujo de trabajo recomendado y atajos de teclado</summary><section class="editor-workflow" aria-labelledby="workflow-title"><h3 id="workflow-title">Flujo de trabajo recomendado</h3><ol><li>Sube una imagen y, a continuación, selecciona <em>Eliminar fondo</em> para probar Fine AI de forma predeterminada. Cambie a la IA original y vuelva a ejecutarla para comparar; para fondos sólidos, de tablero de ajedrez o rayas, también puede usar la detección de color.</li><li>Compruebe el esquema del sujeto y los espacios cerrados en el panel Resultado. Cambie a un fondo de vista previa blanco u oscuro para detectar los píxeles de borde restantes.</li><li>Uso <em>Mantener</em> para restaurar partes del sujeto que se eliminaron, y <em>Eliminar</em> para borrar cualquier fondo restante.</li><li>Deje activada la selección inteligente para áreas claramente delimitadas. Selecciona solo los píxeles conectados y no cruza un límite de color diferente.</li><li>Para cabello, líneas finas, pequeños detalles o píxeles de bordes difíciles, desactive la selección inteligente, reduzca el tamaño del cepillo y refine localmente. Utiliza las marcas Borrar, Deshacer y Rehacer para ajustar en cualquier momento.</li><li>Cuando el borde transparente se vea limpio, descargue el PNG transparente.</li></ol></section><p class="editor-note">La selección inteligente solo incluye píxeles conectados a donde hizo clic y dentro de la tolerancia de color elegida. Un límite de color bloquea la selección, por lo que el blanco coincidente fuera de un anillo no puede seleccionar el blanco coincidente dentro de él. Puede utilizar la selección inteligente tanto con Mantener como con Eliminar; haga clic en cada área desconectada por separado. Los contornos rojos muestran Eliminar áreas y los contornos verdes muestran Mantener áreas. Puedes mostrarlas u ocultarlas de forma independiente y nunca se incluyen en las descargas. Mantenga las áreas como prioridad, así que elimine las acciones omítelas. Elija Borrar marcas para borrar cualquier tipo de marca localmente y, a continuación, vuelva a pintar. Desactive la selección inteligente para realizar ediciones precisas de pinceles de 1 píxel.<br>Utilice la rueda del ratón para hacer zoom sobre la imagen original, luego arrastre para encuadrar; ambos paneles permanecen alineados. Amplía hasta un 3200% y usa Ajustar para volver a la imagen completa. Las teclas de flecha mueven el pincel un píxel; Space pinta. Pulse Ctrl /Z + Z para deshacer.</p></details>
       </div>
     </section>
-    <section class="tips" aria-label="How to use this tool"><article><span>01 / Upload</span><h3>Compare original and result side by side</h3><p>Large images are resized to a maximum edge of 2048 px. Edit the original on the left and see the result on the right.</p></article><article><span>02 / Refine</span><h3>Show what to keep and remove</h3><p>Use the Keep brush to protect your subject and the Remove brush to erase background areas. The result updates instantly.</p></article><article><span>03 / Download</span><h3>Export a polished transparent PNG</h3><p>Hide the color marks to inspect the image. Your PNG download includes all of your manual refinements.</p></article></section>
+    <section class="tips" aria-label="Cómo utilizar esta herramienta"><article><span>01 / Subir</span><h3>Compara el original y el resultado uno al lado del otro</h3><p>Las imágenes grandes se redimensionan a un borde máximo de 2048 px. Edite el original a la izquierda y vea el resultado a la derecha.</p></article><article><span>02 / Refinar</span><h3>Mostrar qué conservar y eliminar</h3><p>Utilice el pincel Keep para proteger el sujeto y el pincel Remove para borrar las áreas de fondo. El resultado se actualiza al instante.</p></article><article><span>03 / Descargar</span><h3>Exportar un PNG transparente pulido</h3><p>Oculta las marcas de color para inspeccionar la imagen. Su descarga de PNG incluye todas sus mejoras manuales.</p></article></section>
     <section class="recent-images" aria-labelledby="history-title">
-      <div class="history-heading"><div><p class="eyebrow">Local history</p><h2 id="history-title">Recent images</h2><p>Saved only in this browser and never uploaded. Keeps up to 12 images or about 80 MB.</p></div><button id="clear-history" class="text-button" type="button" disabled>Clear history</button></div>
-      <p id="history-empty" class="history-empty">No recent images yet. Images you upload will appear here.</p>
+      <div class="history-heading"><div><p class="eyebrow">Historia local</p><h2 id="history-title">Imágenes recientes</h2><p>Guardado solo en este navegador y nunca subido. Mantiene hasta 12 imágenes o unos 80 MB.</p></div><button id="clear-history" class="text-button" type="button" disabled>Borrar historial</button></div>
+      <p id="history-empty" class="history-empty">Todavía no hay imágenes recientes. Las imágenes que subas aparecerán aquí.</p>
       <div id="history-list" class="history-list" aria-live="polite"></div>
     </section>
-    <footer>StarryRing · Quitar fondo <span>Fine hair, translucent objects, and complex backgrounds may need manual refinement.</span></footer>
+    <footer>StarryRing · Quitar fondo <span>El cabello fino, los objetos translúcidos y los fondos complejos pueden necesitar refinamiento manual.</span></footer>
   </main>
   <script src="/static/js/shared/switchlanguage.js"></script>
 </body>

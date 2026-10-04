@@ -29,12 +29,12 @@
   <link rel="alternate" hreflang="x-default" href="https://starryring.com/en/utility-tools/design-media/background-remover/">
   <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20261004-header-export-locales">
-  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20261003-ai-trial"></script>
+  <link rel="stylesheet" href="/static/css/utility-tools/design-media/background-remover/style.css?v=20261004-header-export-locales3">
+  <script type="module" src="/static/js/utility-tools/design-media/background-remover/script-zh.js?v=20261004-all-locales"></script>
 </head>
 <body>
   <div class="language-switcher">
-    <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>
+    <button class="language-trigger" id="languageTrigger" aria-label="Chọn ngôn ngữ" aria-expanded="false">🌐</button>
     <div class="language-dropdown" id="languageDropdown">
       <a class="language-option" href="/en/utility-tools/design-media/background-remover/" data-lang="en">English</a>
       <a class="language-option" href="/zh/utility-tools/design-media/background-remover/" data-lang="zh">简体中文</a>
@@ -58,9 +58,9 @@
       <a class="language-option selected" href="/vi/utility-tools/design-media/background-remover/" data-lang="vi">Tiếng Việt</a>
     </div>
   </div>
-  <header class="topbar"><a class="brand" href="/vi/">✦ <span>StarryRing</span></a><a href="/vi/utility-tools/">All tools <span aria-hidden="true">↗</span></a></header>
+  <header class="topbar"><a class="brand" href="/vi/">✦ <span>StarryRing</span></a><a href="/vi/utility-tools/">Tất cả các công cụ <span aria-hidden="true">↗</span></a></header>
   <main>
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/vi/utility-tools/">Utility Tools</a><span>/</span><span>Background Remover</span></nav>
+    <nav class="breadcrumb" aria-label="Đường dẫn điều hướng"><a href="/vi/utility-tools/">Công cụ tiện ích</a><span>/</span><span>Công cụ xóa nền</span></nav>
     <div class="heading">
       <div class="heading-copy"><p class="eyebrow">Công cụ hình ảnh</p><h1>Giữ chủ thể. Xóa nền.</h1><p class="subtitle">Một ảnh, một cú nhấp. Đưa con người và sản phẩm vào trọng tâm.</p></div>
       <div class="heading-export-stack">
@@ -68,67 +68,67 @@
         <aside class="toolbar-group export-group heading-export" aria-labelledby="export-title">
           <div class="heading-export-head"><div class="section-title"><h2 id="export-title">Xem trước và tải xuống</h2></div></div>
           <div class="heading-export-options">
-            <div class="swatches" role="group" aria-label="Preview background color"><button class="swatch checker selected" data-bg="transparent" aria-label="Transparent background" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="White background" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="Dark background" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="Light blue background" aria-pressed="false"></button></div>
-            <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>Show color marks</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>Show selection boundaries</label></div>
+            <div class="swatches" role="group" aria-label="Xem trước màu nền"><button class="swatch checker selected" data-bg="transparent" aria-label="Nền trong suốt" aria-pressed="true"></button><button class="swatch white" data-bg="#ffffff" aria-label="Nền trắng" aria-pressed="false"></button><button class="swatch dark" data-bg="#172336" aria-label="Nền tối" aria-pressed="false"></button><button class="swatch blue" data-bg="#dcecff" aria-label="Nền màu xanh nhạt" aria-pressed="false"></button></div>
+            <div class="preview-toggles"><label class="toggle"><input id="show-marks" type="checkbox" checked>Hiển thị dấu màu</label><label class="toggle"><input id="show-boundary" type="checkbox" checked>Hiển thị ranh giới lựa chọn</label></div>
           </div>
           <div class="heading-export-download"><p class="hint">Luôn trong suốt.</p><button id="download" class="secondary" disabled>↓ Tải PNG</button></div>
-          <p class="model-note">Fine AI works better for complex backgrounds and detailed edges; use Original AI for comparison. Every method runs in your browser, and your image is never uploaded.</p>
+          <p class="model-note">Fine AI hoạt động tốt hơn đối với các nền phức tạp và các cạnh chi tiết; sử dụng Original AI để so sánh. Mọi phương pháp đều chạy trong trình duyệt của bạn và hình ảnh của bạn không bao giờ được tải lên.</p>
         </aside>
       </div>
     </div>
-    <section class="workspace" aria-label="Background remover">
-      <div class="controls" role="group" aria-label="Image editing controls">
+    <section class="workspace" aria-label="Trình xóa nền">
+      <div class="controls" role="group" aria-label="Điều khiển chỉnh sửa hình ảnh">
         <div class="toolbar-group process-group">
-          <div class="section-title"><h2>Automatic removal</h2></div>
-          <p id="file-info" class="file-info">Choose an image in the original-image panel below.</p>
-          <label class="automatic-method-label" for="automatic-method">Removal method</label>
+          <div class="section-title"><h2>Tự động xóa</h2></div>
+          <p id="file-info" class="file-info">Chọn một hình ảnh trong bảng điều khiển hình ảnh gốc bên dưới.</p>
+          <label class="automatic-method-label" for="automatic-method">Phương pháp loại bỏ</label>
           <select id="automatic-method" aria-describedby="automatic-method-help">
-            <option value="birefnet" selected>Fine AI removal (trial)</option>
-            <option value="isnet">Original AI removal (compare)</option>
-            <option value="color">Color detection · solid / regular backgrounds</option>
+            <option value="birefnet" selected>Loại bỏ AI tốt (dùng thử)</option>
+            <option value="isnet">Loại bỏ AI ban đầu (so sánh)</option>
+            <option value="color">Phát hiện màu · nền đặc / thường xuyên</option>
           </select>
-          <p id="automatic-method-help" class="automatic-method-help">Uses Fine AI by default; automatically falls back to Original AI if unsupported or unsuccessful. The model downloads on first use.</p>
-          <button id="remove" class="primary" disabled>✦ Remove Background</button>
-          <div class="status-box"><p id="status" role="status" aria-live="polite">Choose an image, or paste one with Ctrl+V (⌘V on Mac).</p><progress id="progress" hidden aria-label="Processing progress"></progress></div>
+          <p id="automatic-method-help" class="automatic-method-help">Sử dụng Fine AI theo mặc định; tự động quay trở lại Original AI nếu không được hỗ trợ hoặc không thành công. Mô hình tải xuống khi sử dụng lần đầu.</p>
+          <button id="remove" class="primary" disabled>✦ Xóa nền</button>
+          <div class="status-box"><p id="status" role="status" aria-live="polite">Chọn một hình ảnh hoặc dán một hình ảnh bằng Ctrl+V (⌘V trên Mac).</p><progress id="progress" hidden aria-label="Tiến độ xử lý"></progress></div>
           <div id="detected-background" class="detected-background" role="status" hidden></div>
         </div>
         <div class="toolbar-group brush-group">
-          <div class="section-title"><h2>Manual refinement</h2></div>
-          <div class="brush-tools" role="group" aria-label="Editing mode">
-            <button id="keep" class="brush-tool keep selected" aria-pressed="true" disabled>＋ Keep</button>
-            <button id="erase" class="brush-tool erase" aria-pressed="false" disabled>－ Remove</button>
-            <button id="unmark" class="brush-tool unmark" aria-pressed="false" disabled>⌫ Erase marks</button>
-            <button id="pan" class="brush-tool pan" aria-pressed="false" disabled>✥ Pan</button>
+          <div class="section-title"><h2>Tinh chỉnh thủ công</h2></div>
+          <div class="brush-tools" role="group" aria-label="Chế độ chỉnh sửa">
+            <button id="keep" class="brush-tool keep selected" aria-pressed="true" disabled>＋ Giữ</button>
+            <button id="erase" class="brush-tool erase" aria-pressed="false" disabled>－ Xóa</button>
+            <button id="unmark" class="brush-tool unmark" aria-pressed="false" disabled>Dấu xóa</button>
+            <button id="pan" class="brush-tool pan" aria-pressed="false" disabled>✥ Di chuyển khung nhìn</button>
           </div>
-          <p class="edit-help" id="edit-help">Paint on the original image: green Keep marks are always protected. Choose Erase marks to clear an area and paint it again.</p>
-          <label class="toggle smart-toggle" id="smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>Smart selection · connected pixels only</label>
-          <div class="smart-options" id="smart-options"><div><label class="brush-label" for="smart-tolerance">Color tolerance <output id="tolerance-value" for="smart-tolerance">50</output></label><input id="smart-tolerance" type="range" min="0" max="100" value="50" step="1" disabled></div></div>
-          <p class="smart-help" id="smart-help">The selection expands from where you click and stops at colors outside the tolerance or transparent pixels. It will not jump across a boundary to a matching color on the other side. This limit does not affect automatic background removal. Lower values create stricter boundaries; changes apply the next time you click.</p>
-          <label class="brush-label" for="brush-size"><span id="brush-size-label">Brush size</span><output id="brush-value" for="brush-size">30 px</output></label>
+          <p class="edit-help" id="edit-help">Sơn lên hình ảnh gốc: nhãn hiệu Keep màu xanh lá cây luôn được bảo vệ. Chọn Xóa dấu để xóa một khu vực và sơn lại.</p>
+          <label class="toggle smart-toggle" id="smart-toggle"><input id="smart-enabled" type="checkbox" checked disabled>Lựa chọn thông minh · chỉ các điểm ảnh được kết nối</label>
+          <div class="smart-options" id="smart-options"><div><label class="brush-label" for="smart-tolerance">Dung sai màu <output id="tolerance-value" for="smart-tolerance">50</output></label><input id="smart-tolerance" type="range" min="0" max="100" value="50" step="1" disabled></div></div>
+          <p class="smart-help" id="smart-help">Vùng chọn mở rộng từ nơi bạn nhấp và dừng ở các màu bên ngoài dung sai hoặc pixel trong suốt. Nó sẽ không nhảy qua ranh giới đến một màu phù hợp ở phía bên kia. Giới hạn này không ảnh hưởng đến việc xóa nền tự động. Các giá trị thấp hơn tạo ra ranh giới chặt chẽ hơn; các thay đổi sẽ được áp dụng vào lần nhấp tiếp theo.</p>
+          <label class="brush-label" for="brush-size"><span id="brush-size-label">Kích thước đầu bút</span><output id="brush-value" for="brush-size">30 px</output></label>
           <input id="brush-size" type="range" min="1" max="100" step="1" value="30" disabled>
-          <div class="history-tools"><button id="undo" disabled>↶ Undo</button><button id="redo" disabled>↷ Redo</button><button id="clear-marks" aria-label="Clear all marks" disabled>Clear all</button></div>
+          <div class="history-tools"><button id="undo" disabled>↶ Hoàn tác</button><button id="redo" disabled>↷ Làm lại</button><button id="clear-marks" aria-label="Xóa tất cả các dấu" disabled>Xóa tất cả</button></div>
         </div>
       </div>
-      <div class="preview-area"><div class="preview-toolbar"><h2>Original and result</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>Change image</button><button id="reset" class="text-button" disabled>Clear image</button></div></div>
+      <div class="preview-area"><div class="preview-toolbar"><h2>Bản gốc và kết quả</h2><div class="preview-actions"><input id="file-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"><button id="change-image" class="text-button" type="button" hidden>Thay đổi hình ảnh</button><button id="reset" class="text-button" disabled>Xóa hình ảnh</button></div></div>
         <div class="comparison">
-          <section class="image-panel" aria-label="Original image selection and editing"><div class="panel-heading"><div><h3>Original · select & edit</h3><span id="mode-label">Choose an image to start editing</span></div><div class="zoom-tools" role="group" aria-label="Original image zoom"><button id="zoom-out" aria-label="Zoom out" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="Zoom in, up to 3200%" disabled>＋</button><button id="zoom-reset" disabled>Fit</button></div></div>
-            <div class="stage checker empty-upload" id="original-stage"><label class="stage-upload" id="original-empty" for="file-input" role="button" tabindex="0"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><strong>Choose an image</strong><span>Drag it here, or paste with Ctrl+V</span><small>JPG, PNG, or WebP · up to 20 MB</small></label><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="Original image. Use the Keep or Remove brush to paint." aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><canvas id="boundary-canvas" class="boundary-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
+          <section class="image-panel" aria-label="Lựa chọn và chỉnh sửa hình ảnh gốc"><div class="panel-heading"><div><h3>Bản gốc · chọn &amp; chỉnh sửa</h3><span id="mode-label">Chọn một hình ảnh để bắt đầu chỉnh sửa</span></div><div class="zoom-tools" role="group" aria-label="Thu phóng hình ảnh gốc"><button id="zoom-out" aria-label="Thu nhỏ" disabled>−</button><output id="zoom-value" aria-live="polite">100%</output><button id="zoom-in" aria-label="Phóng to, lên đến 3200%" disabled>＋</button><button id="zoom-reset" disabled>Fit</button></div></div>
+            <div class="stage checker empty-upload" id="original-stage"><label class="stage-upload" id="original-empty" for="file-input" role="button" tabindex="0"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><strong>Chọn một hình ảnh</strong><span>Kéo nó vào đây hoặc dán bằng Ctrl+V</span><small>JPG, PNG hoặc WebP · tối đa 20 MB</small></label><div id="editor-surface" class="editor-surface" hidden><canvas id="original-canvas" aria-label="Hình ảnh gốc. Sử dụng cọ Giữ hoặc Xóa để vẽ." aria-describedby="edit-help" tabindex="0"></canvas><canvas id="marks-canvas" class="marks-canvas" aria-hidden="true"></canvas><canvas id="boundary-canvas" class="boundary-canvas" aria-hidden="true"></canvas><span id="brush-cursor" class="brush-cursor" hidden aria-hidden="true"></span></div></div>
           </section>
-          <section class="image-panel" aria-label="Background removal result"><div class="panel-heading"><h3>Result</h3><span id="result-view-state">Synced view · 100%</span></div>
-            <div class="stage checker" id="stage"><div class="empty" id="result-empty"><div class="empty-icon" aria-hidden="true">✂</div><h2>Your cutout will appear here</h2><p>Edits on the original update this preview instantly</p></div><canvas id="result-canvas" aria-label="Background removal result preview" hidden></canvas></div>
+          <section class="image-panel" aria-label="Kết quả xóa nền"><div class="panel-heading"><h3>Kết quả</h3><span id="result-view-state">Chế độ xem đã đồng bộ hóa · 100%</span></div>
+            <div class="stage checker" id="stage"><div class="empty" id="result-empty"><div class="empty-icon" aria-hidden="true">✂</div><h2>Phần cắt của bạn sẽ xuất hiện ở đây</h2><p>Các thay đổi trên ảnh gốc xuất hiện ngay trong bản xem trước này.</p></div><canvas id="result-canvas" aria-label="Xem trước kết quả xóa nền" hidden></canvas></div>
           </section>
         </div>
-        <div class="preview-footer"><span id="preview-caption">Paint on the original image after uploading</span><span>Color marks are never included in your download</span></div>
-        <details class="editor-guide" open><summary>Recommended workflow & keyboard shortcuts</summary><section class="editor-workflow" aria-labelledby="workflow-title"><h3 id="workflow-title">Recommended workflow</h3><ol><li>Upload an image, then select <em>Remove Background</em> to try Fine AI by default. Switch to Original AI and run it again for comparison; for solid, checkerboard, or striped backgrounds, you can also use Color detection.</li><li>Check the subject outline and enclosed gaps in the Result panel. Switch to a white or dark preview background to spot remaining edge pixels.</li><li>Use <em>Keep</em> to restore parts of the subject that were removed, and <em>Remove</em> to clear any remaining background.</li><li>Leave Smart selection on for clearly bounded areas. It selects only connected pixels and does not cross a different-color boundary.</li><li>For hair, thin lines, small details, or stubborn edge pixels, turn Smart selection off, reduce the brush size, and refine locally. Use Erase marks, Undo, and Redo to adjust at any time.</li><li>When the transparent edge looks clean, download the transparent PNG.</li></ol></section><p class="editor-note">Smart selection only includes pixels connected to where you clicked and within the chosen color tolerance. A color boundary blocks the selection, so matching white outside a ring cannot select matching white inside it. You can use Smart selection with both Keep and Remove; click each disconnected area separately. Red outlines show Remove areas and green outlines show Keep areas. You can show or hide them independently, and they are never included in downloads. Keep areas take priority, so Remove actions skip them. Choose Erase marks to clear either type of mark locally, then paint again. Turn off Smart selection for precise 1-pixel brush edits.<br>Use the mouse wheel to zoom over the original image, then drag to pan; both panels stay aligned. Zoom up to 3200%, and use Fit to return to the full image. Arrow keys move the brush one pixel; Space paints. Press Ctrl / ⌘ + Z to undo.</p></details>
+        <div class="preview-footer"><span id="preview-caption">Vẽ lên ảnh gốc sau khi tải lên</span><span>Các dấu màu không bao giờ được bao gồm trong bản tải xuống của bạn</span></div>
+        <details class="editor-guide" open><summary>Quy trình làm việc &amp; phím tắt được đề xuất</summary><section class="editor-workflow" aria-labelledby="workflow-title"><h3 id="workflow-title">Quy trình làm việc được đề xuất</h3><ol><li>Tải lên một hình ảnh, sau đó chọn <em>Xóa nền</em> để thử Fine AI theo mặc định. Chuyển sang AI gốc và chạy lại để so sánh; đối với nền đặc, bàn cờ hoặc sọc, bạn cũng có thể sử dụng tính năng Phát hiện màu.</li><li>Kiểm tra đề cương môn học và các khoảng trống kèm theo trong bảng Kết quả. Chuyển sang nền xem trước màu trắng hoặc tối để phát hiện các pixel cạnh còn lại.</li><li>Sử dụng <em>Giữ</em> để khôi phục lại các phần của đối tượng đã bị loại bỏ, và <em>Xóa</em> để xóa bất kỳ nền nào còn lại.</li><li>Bật lựa chọn Thông minh cho các khu vực có giới hạn rõ ràng. Nó chỉ chọn các pixel được kết nối và không vượt qua ranh giới màu khác.</li><li>Đối với tóc, đường mỏng, chi tiết nhỏ hoặc điểm ảnh cạnh cứng đầu, hãy tắt Lựa chọn thông minh, giảm kích thước đầu bút và tinh chỉnh cục bộ. Sử dụng Xóa dấu, Hoàn tác và Làm lại để điều chỉnh bất cứ lúc nào.</li><li>Khi cạnh trong suốt trông sạch sẽ, hãy tải xuống PNG trong suốt.</li></ol></section><p class="editor-note">Lựa chọn thông minh chỉ bao gồm các pixel được kết nối với nơi bạn đã nhấp và trong dung sai màu đã chọn. Một đường biên màu chặn vùng chọn, vì vậy màu trắng phù hợp bên ngoài một vòng không thể chọn màu trắng phù hợp bên trong nó. Bạn có thể sử dụng lựa chọn Thông minh với cả Giữ và Xóa; nhấp vào từng khu vực bị ngắt kết nối riêng biệt. Đường viền màu đỏ hiển thị Xóa các khu vực và đường viền màu xanh lá cây hiển thị Giữ các khu vực. Bạn có thể hiển thị hoặc ẩn chúng độc lập và chúng không bao giờ được đưa vào bản tải xuống. Giữ các khu vực được ưu tiên, vì vậy hãy bỏ qua các hành động. Chọn Xóa dấu để xóa một trong hai loại dấu cục bộ, sau đó sơn lại. Tắt Lựa chọn thông minh để chỉnh sửa bàn chải 1 pixel chính xác.<br>Sử dụng bánh xe chuột để phóng to hình ảnh ban đầu, sau đó kéo để xoay; cả hai bảng đều thẳng hàng. Thu phóng lên đến 3200% và sử dụng Fit để quay lại hình ảnh đầy đủ. Phím mũi tên di chuyển bàn chải một pixel; Space sơn. Nhấn Ctrl / ⌘ + Z để hoàn tác.</p></details>
       </div>
     </section>
-    <section class="tips" aria-label="How to use this tool"><article><span>01 / Upload</span><h3>Compare original and result side by side</h3><p>Large images are resized to a maximum edge of 2048 px. Edit the original on the left and see the result on the right.</p></article><article><span>02 / Refine</span><h3>Show what to keep and remove</h3><p>Use the Keep brush to protect your subject and the Remove brush to erase background areas. The result updates instantly.</p></article><article><span>03 / Download</span><h3>Export a polished transparent PNG</h3><p>Hide the color marks to inspect the image. Your PNG download includes all of your manual refinements.</p></article></section>
+    <section class="tips" aria-label="Cách sử dụng công cụ này"><article><span>01 / Tải lên</span><h3>So sánh bản gốc và kết quả cạnh nhau</h3><p>Hình ảnh lớn được thay đổi kích thước thành cạnh tối đa là 2048 px. Chỉnh sửa bản gốc ở bên trái và xem kết quả ở bên phải.</p></article><article><span>02 / Tinh chỉnh</span><h3>Hiển thị nội dung cần giữ và xóa</h3><p>Sử dụng bàn chải Keep để bảo vệ đối tượng của bạn và Remove để xóa các vùng nền. Kết quả cập nhật ngay lập tức.</p></article><article><span>03 / Tải về</span><h3>Xuất PNG trong suốt được đánh bóng</h3><p>Ẩn các dấu màu để kiểm tra hình ảnh. Tải xuống PNG của bạn bao gồm tất cả các tinh chỉnh thủ công của bạn.</p></article></section>
     <section class="recent-images" aria-labelledby="history-title">
-      <div class="history-heading"><div><p class="eyebrow">Local history</p><h2 id="history-title">Recent images</h2><p>Saved only in this browser and never uploaded. Keeps up to 12 images or about 80 MB.</p></div><button id="clear-history" class="text-button" type="button" disabled>Clear history</button></div>
-      <p id="history-empty" class="history-empty">No recent images yet. Images you upload will appear here.</p>
+      <div class="history-heading"><div><p class="eyebrow">Lịch sử địa phương</p><h2 id="history-title">Hình ảnh gần đây</h2><p>Chỉ lưu trong trình duyệt này và không bao giờ tải lên. Giữ tối đa 12 hình ảnh hoặc khoảng 80 MB.</p></div><button id="clear-history" class="text-button" type="button" disabled>Xóa lịch sử</button></div>
+      <p id="history-empty" class="history-empty">Chưa có hình ảnh gần đây. Hình ảnh bạn tải lên sẽ xuất hiện ở đây.</p>
       <div id="history-list" class="history-list" aria-live="polite"></div>
     </section>
-    <footer>StarryRing · Xóa nền ảnh <span>Fine hair, translucent objects, and complex backgrounds may need manual refinement.</span></footer>
+    <footer>StarryRing · Xóa nền ảnh <span>Tóc đẹp, đồ vật trong mờ và phông nền phức tạp có thể cần tinh chỉnh thủ công.</span></footer>
   </main>
   <script src="/static/js/shared/switchlanguage.js"></script>
 </body>

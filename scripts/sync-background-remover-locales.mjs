@@ -1,5 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import vm from "node:vm";
+import { localizeJapanesePage } from "./background-remover-ja.mjs";
+import { pidginTranslations } from "./background-remover-pcm.mjs";
 
 const root = process.cwd();
 const route = "utility-tools/design-media/background-remover";
@@ -25,6 +28,31 @@ const locales = {
 };
 
 const allLocales = ["en", "zh", ...Object.keys(locales)];
+const translationPath = path.join(root, "scripts", "background-remover-translations.json");
+const translations = fs.existsSync(translationPath) ? JSON.parse(fs.readFileSync(translationPath, "utf8")) : {};
+const sourceText = JSON.parse(fs.readFileSync(path.join(root, "scripts/background-remover-source.json"), "utf8"));
+translations.pcm = pidginTranslations(sourceText.strings);
+const previewUpdate = 'Edits on the original update this preview instantly';
+const pan = '✥ Pan';
+const copyCorrections = {
+  ar: { [pan]: '✥ تحريك العرض', [previewUpdate]: 'تظهر التعديلات التي تجريها على الصورة الأصلية فورًا في هذه المعاينة.', 'Export a polished transparent PNG': 'تصدير صورة PNG شفافة', 'Fine AI removal (trial)': 'إزالة الخلفية باستخدام Fine AI (تجريبي)' },
+  bn: { [pan]: '✥ দৃশ্য সরান', [previewUpdate]: 'মূল ছবিতে করা পরিবর্তন এই প্রিভিউতে সঙ্গে সঙ্গে দেখা যাবে।', 'Clipboard image.[[1]]': 'ক্লিপবোর্ডের ছবি.[[1]]' },
+  de: { [pan]: '✥ Ansicht verschieben', [previewUpdate]: 'Änderungen am Originalbild erscheinen sofort in dieser Vorschau.', 'Utility Tools': 'Hilfsprogramme', '01 / Upload': '01 / Hochladen', '03 / Download': '03 / Herunterladen', 'Breadcrumb': 'Navigationspfad' },
+  es: { [pan]: '✥ Desplazar vista', [previewUpdate]: 'Los cambios en la imagen original aparecen al instante en esta vista previa.', 'Breadcrumb': 'Ruta de navegación' },
+  fr: { [pan]: '✥ Déplacer la vue', [previewUpdate]: 'Les modifications de l’image d’origine apparaissent aussitôt dans cet aperçu.' },
+  hi: { [pan]: '✥ दृश्य खिसकाएँ', [previewUpdate]: 'मूल छवि में किए गए बदलाव तुरंत इस पूर्वावलोकन में दिखाई देते हैं।' },
+  id: { [pan]: '✥ Geser tampilan', [previewUpdate]: 'Perubahan pada gambar asli langsung muncul di pratinjau ini.' },
+  ko: { [pan]: '✥ 화면 이동', [previewUpdate]: '원본 이미지의 수정 사항이 이 미리 보기에 즉시 반영됩니다.' },
+  mr: { [pan]: '✥ दृश्य हलवा', [previewUpdate]: 'मूळ प्रतिमेतील बदल या पूर्वावलोकनात लगेच दिसतात.', '[[1]] · [[2]] × [[3]]': '[[1]] · [[2]] × [[3]]' },
+  pt: { [pan]: '✥ Mover vista', [previewUpdate]: 'As alterações na imagem original aparecem imediatamente nesta pré-visualização.', 'Utility Tools': 'Ferramentas úteis', '01 / Upload': '01 / Carregar', '03 / Download': '03 / Transferir', 'Background color [[1]]': 'Cor de fundo [[1]]' },
+  ru: { [pan]: '✥ Переместить вид', [previewUpdate]: 'Изменения исходного изображения сразу появляются в этом предварительном просмотре.' },
+  ta: { [pan]: '✥ காட்சியை நகர்த்து', [previewUpdate]: 'அசல் படத்தில் செய்யும் மாற்றங்கள் உடனடியாக இந்த முன்னோட்டத்தில் தோன்றும்.' },
+  te: { [pan]: '✥ వీక్షణను జరపండి', [previewUpdate]: 'అసలు చిత్రంలో చేసిన మార్పులు వెంటనే ఈ ప్రివ్యూలో కనిపిస్తాయి.' },
+  tr: { [pan]: '✥ Görünümü kaydır', [previewUpdate]: 'Orijinal görüntüdeki değişiklikler bu önizlemede anında görünür.', 'Breadcrumb': 'Gezinti yolu' },
+  ur: { [pan]: '✥ منظر کو حرکت دیں', [previewUpdate]: 'اصل تصویر میں کی گئی تبدیلیاں فوراً اس پیش منظر میں دکھائی دیتی ہیں۔' },
+  vi: { [pan]: '✥ Di chuyển khung nhìn', [previewUpdate]: 'Các thay đổi trên ảnh gốc xuất hiện ngay trong bản xem trước này.', 'Breadcrumb': 'Đường dẫn điều hướng' },
+};
+for (const [locale, corrections] of Object.entries(copyCorrections)) Object.assign(translations[locale] ||= {}, corrections);
 const languageNames = {
   en: "English", zh: "简体中文", vi: "Tiếng Việt", ja: "日本語", ko: "한국어", hi: "हिन्दी",
   es: "Español", fr: "Français", ar: "العربية", bn: "বাংলা", pt: "Português", ru: "Русский",
@@ -84,12 +112,28 @@ function addLanguageSwitcher(html, locale) {
   return next;
 }
 
+function localizeWithDictionary(html, dictionary) {
+  const escape = value => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+  const bodyStart = html.indexOf('<body>');
+  if (bodyStart < 0) throw new Error('Background remover body not found');
+  const head = html.slice(0, bodyStart);
+  let body = html.slice(bodyStart).replace(/>([^<>]+)</g, (match, value) => {
+    const trimmed = value.trim();
+    const translated = dictionary[trimmed];
+    if (!translated) return match;
+    return `>${value.slice(0, value.indexOf(trimmed))}${escape(translated)}${value.slice(value.indexOf(trimmed) + trimmed.length)}<`;
+  });
+  body = body.replace(/(aria-label|title)="([^"]*)"/g, (match, name, value) =>
+    dictionary[value] ? `${name}="${escape(dictionary[value])}"` : match);
+  return head + body;
+}
+
 function pageFor(locale, copy) {
   let html = fs.readFileSync(path.join(root, "en", route, "index.html"), "utf8");
   html = html.replace('<html lang="en">', `<html lang="${locale}">`);
   html = html.replace(/  <link rel="canonical"[\s\S]*?  <link rel="alternate" hreflang="x-default"[^\n]*\n/, `${alternateLinks(locale)}\n`);
   html = html.replaceAll('href="/en/', `href="/${locale}/`);
-  html = html.replace('style.css?v=20261003-header-export-aligned3', 'style.css?v=20261004-header-export-locales');
+  html = html.replace(/style\.css\?v=20261004-header-export-locales\d*|style\.css\?v=20261003-header-export-aligned3/, 'style.css?v=20261004-header-export-locales3');
   html = html.replace('Remove Background from Images Online | StarryRing', `${copy.name} | StarryRing`);
   html = html.replace('Remove image backgrounds in your browser, refine the cutout by hand, and download a transparent PNG. Your images stay on your device.', copy.description);
   html = html.replace('<p class="eyebrow">Image tools</p><h1>Keep the subject. Remove the background<span>.</span></h1><p class="subtitle">One image, one click. Put people and products in focus.</p>', `<p class="eyebrow">${copy.eyebrow}</p><h1>${copy.heading}</h1><p class="subtitle">${copy.subtitle}</p>`);
@@ -99,7 +143,49 @@ function pageFor(locale, copy) {
     .replace('Always transparent.', transparent)
     .replace('↓ Download PNG', `↓ ${download}`);
   html = html.replace('StarryRing · Background Remover', `StarryRing · ${copy.name}`);
-  return addLanguageSwitcher(html, locale);
+  html = addLanguageSwitcher(html, locale);
+  if (locale === "ja") {
+    html = html.replace(/script-zh\.js\?v=[^"]+/, 'script-zh.js?v=20261004-ja-localized');
+    return localizeJapanesePage(html);
+  }
+  if (translations[locale]) {
+    html = html.replace(/script-zh\.js\?v=[^"]+/, 'script-zh.js?v=20261004-all-locales');
+    return localizeWithDictionary(html, translations[locale]);
+  }
+  return html;
+}
+
+function writeRuntimeLocales() {
+  const script = fs.readFileSync(path.join(root, 'static/js/utility-tools/design-media/background-remover/script-zh.js'), 'utf8');
+  const marker = "const baseUi = language === 'en' ? ";
+  const start = script.indexOf(marker) + marker.length;
+  const end = script.indexOf('\n} : {', start) + 2;
+  if (start < marker.length || end < start) throw new Error('Could not extract English Background Remover UI text');
+  const englishUi = vm.runInNewContext(`(${script.slice(start, end)})`);
+  const source = JSON.parse(fs.readFileSync(path.join(root, 'scripts/background-remover-source.json'), 'utf8'));
+  const localized = (text, dictionary) => {
+    const target = (dictionary[text] || text).replace(/\[\s*\[\s*(\d+)\s*\]\s*\]/g, '[[$1]]');
+    const placeholders = [...text.matchAll(/\[\[(\d+)\]\]/g)].map(match => match[0]);
+    return placeholders.every(placeholder => target.includes(placeholder)) ? target : text;
+  };
+  const messages = {};
+  for (const [locale, dictionary] of Object.entries(translations)) {
+    const copy = {};
+    for (const [key, value] of Object.entries(englishUi)) {
+      if (typeof value === 'string') copy[key] = localized(value, dictionary);
+      else if (key in source.dynamicSources) {
+        const template = source.dynamicSources[key];
+        copy[key] = typeof template === 'string'
+          ? localized(template, dictionary)
+          : Object.fromEntries(Object.entries(template).map(([part, text]) => [part, localized(text, dictionary)]));
+      }
+    }
+    copy.originalAiNotice = localized('Using Original AI to remove the background.', dictionary);
+    copy.backgroundColor = localized('Background color [[1]]', dictionary);
+    messages[locale] = copy;
+  }
+  const module = `// Generated from scripts/background-remover-translations.json.\nconst messages = ${JSON.stringify(messages, null, 2)};\nconst fill = (template, values) => template.replace(/\\[\\[(\\d+)\\]\\]/g, (_, index) => String(values[Number(index) - 1] ?? ''));\nexport function getOtherUi(locale) {\n  const copy = messages[locale];\n  if (!copy) return null;\n  return { ...copy,\n    syncedView: percent => fill(copy.syncedView, [percent]),\n    reloadImage: name => fill(copy.reloadImage, [name]),\n    removeHistory: name => fill(copy.removeHistory, [name]),\n    fileInfo: (name, width, height, resized) => fill(copy.fileInfo[resized ? 'resized' : 'normal'], [name, width, height]),\n    clipboardName: extension => fill(copy.clipboardName, [extension]),\n    downloadingModel: percent => fill(copy.downloadingModel, [percent]),\n    fineDownloading: progress => fill(copy.fineDownloading, [progress]),\n    detectedBackground: kind => copy.detectedBackground[kind],\n    exportName: name => fill(copy.exportName, [name]),\n    backgroundColor: hex => fill(copy.backgroundColor, [hex]),\n  };\n}\n`;
+  fs.writeFileSync(path.join(root, 'static/js/utility-tools/design-media/background-remover/locale-other.js'), module, 'utf8');
 }
 
 function addToolCard(locale, copy) {
@@ -123,7 +209,8 @@ for (const [locale, copy] of Object.entries(locales)) {
 for (const locale of ["en", "zh"]) {
   const file = path.join(root, locale, route, "index.html");
   let html = fs.readFileSync(file, "utf8")
-    .replace('style.css?v=20261003-header-export-aligned3', 'style.css?v=20261004-header-export-locales');
+    .replace(/style\.css\?v=20261004-header-export-locales\d*|style\.css\?v=20261003-header-export-aligned3/, 'style.css?v=20261004-header-export-locales3')
+    .replace(/script-zh\.js\?v=[^"]+/, 'script-zh.js?v=20261004-all-locales');
   const alternatePattern = /  <link rel="canonical"[\s\S]*?  <link rel="alternate" hreflang="x-default"[^\n]*\n/;
   html = alternatePattern.test(html)
     ? html.replace(alternatePattern, `${alternateLinks(locale)}\n`)
@@ -131,5 +218,7 @@ for (const locale of ["en", "zh"]) {
   html = addLanguageSwitcher(html, locale);
   fs.writeFileSync(file, html, "utf8");
 }
+
+if (Object.keys(translations).length) writeRuntimeLocales();
 
 console.log(`Added ${Object.keys(locales).length} localized background remover routes.`);
