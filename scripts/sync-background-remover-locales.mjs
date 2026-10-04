@@ -25,6 +25,12 @@ const locales = {
 };
 
 const allLocales = ["en", "zh", ...Object.keys(locales)];
+const languageNames = {
+  en: "English", zh: "简体中文", vi: "Tiếng Việt", ja: "日本語", ko: "한국어", hi: "हिन्दी",
+  es: "Español", fr: "Français", ar: "العربية", bn: "বাংলা", pt: "Português", ru: "Русский",
+  ur: "اردو", id: "Bahasa Indonesia", de: "Deutsch", pcm: "Naijá", mr: "मराठी", te: "తెలుగు",
+  tr: "Türkçe", ta: "தமிழ்",
+};
 const panelLabels = {
   ar: ["تتم المعالجة محليًا", "معاينة وتنزيل", "تنزيل PNG", "شفاف دائمًا."],
   bn: ["স্থানীয়ভাবে প্রক্রিয়াকৃত", "প্রিভিউ ও ডাউনলোড", "PNG ডাউনলোড", "সর্বদা স্বচ্ছ।"],
@@ -55,6 +61,29 @@ function alternateLinks(locale) {
   ].join("\n");
 }
 
+function languageSwitcher(locale) {
+  const options = allLocales.map((code) => {
+    const selected = code === locale ? ' selected' : '';
+    return `      <a class="language-option${selected}" href="/${code}/${route}/" data-lang="${code}">${languageNames[code]}</a>`;
+  }).join("\n");
+  return `  <div class="language-switcher">\n    <button class="language-trigger" id="languageTrigger" aria-label="Select language" aria-expanded="false">🌐</button>\n    <div class="language-dropdown" id="languageDropdown">\n${options}\n    </div>\n  </div>`;
+}
+
+function addLanguageSwitcher(html, locale) {
+  let next = html;
+  if (!next.includes('/static/css/shared/switchlanguage.css')) {
+    next = next.replace('  <link rel="icon"', '  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">\n  <link rel="icon"');
+  }
+  const switcherPattern = /\s*<div class="language-switcher">[\s\S]*?<\/div>\s*<\/div>\s*(?=<header class="topbar">)/;
+  next = switcherPattern.test(next)
+    ? next.replace(switcherPattern, `\n${languageSwitcher(locale)}\n  `)
+    : next.replace('<body>', `<body>\n${languageSwitcher(locale)}`);
+  if (!next.includes('/static/js/shared/switchlanguage.js')) {
+    next = next.replace('</body>', '  <script src="/static/js/shared/switchlanguage.js"></script>\n</body>');
+  }
+  return next;
+}
+
 function pageFor(locale, copy) {
   let html = fs.readFileSync(path.join(root, "en", route, "index.html"), "utf8");
   html = html.replace('<html lang="en">', `<html lang="${locale}">`);
@@ -70,7 +99,7 @@ function pageFor(locale, copy) {
     .replace('Always transparent.', transparent)
     .replace('↓ Download PNG', `↓ ${download}`);
   html = html.replace('StarryRing · Background Remover', `StarryRing · ${copy.name}`);
-  return html;
+  return addLanguageSwitcher(html, locale);
 }
 
 function addToolCard(locale, copy) {
@@ -99,6 +128,7 @@ for (const locale of ["en", "zh"]) {
   html = alternatePattern.test(html)
     ? html.replace(alternatePattern, `${alternateLinks(locale)}\n`)
     : html.replace('  <link rel="icon"', `${alternateLinks(locale)}\n  <link rel="icon"`);
+  html = addLanguageSwitcher(html, locale);
   fs.writeFileSync(file, html, "utf8");
 }
 
