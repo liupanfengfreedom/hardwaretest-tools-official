@@ -102,7 +102,7 @@ function addLanguageSwitcher(html, locale) {
   if (!next.includes('/static/css/shared/switchlanguage.css')) {
     next = next.replace('  <link rel="icon"', '  <link rel="stylesheet" href="/static/css/shared/switchlanguage.css">\n  <link rel="icon"');
   }
-  const switcherPattern = /\s*<div class="language-switcher">[\s\S]*?<\/div>\s*<\/div>\s*(?=<header class="topbar">)/;
+  const switcherPattern = /\s*<div class="language-switcher">[\s\S]*?<\/div>\s*<\/div>\s*(?=<main>)/;
   next = switcherPattern.test(next)
     ? next.replace(switcherPattern, `\n${languageSwitcher(locale)}\n  `)
     : next.replace('<body>', `<body>\n${languageSwitcher(locale)}`);
@@ -133,7 +133,7 @@ function pageFor(locale, copy) {
   html = html.replace('<html lang="en">', `<html lang="${locale}">`);
   html = html.replace(/  <link rel="canonical"[\s\S]*?  <link rel="alternate" hreflang="x-default"[^\n]*\n/, `${alternateLinks(locale)}\n`);
   html = html.replaceAll('href="/en/', `href="/${locale}/`);
-  html = html.replace(/style\.css\?v=20261004-header-export-locales\d*|style\.css\?v=20261003-header-export-aligned3/, 'style.css?v=20261004-header-export-locales3');
+  html = html.replace(/style\.css\?v=20261004-header-export-locales\d*|style\.css\?v=20261003-header-export-aligned3/, 'style.css?v=20261004-header-export-locales5');
   html = html.replace('Remove Background from Images Online | StarryRing', `${copy.name} | StarryRing`);
   html = html.replace('Remove image backgrounds in your browser, refine the cutout by hand, and download a transparent PNG. Your images stay on your device.', copy.description);
   html = html.replace('<p class="eyebrow">Image tools</p><h1>Keep the subject. Remove the background<span>.</span></h1><p class="subtitle">One image, one click. Put people and products in focus.</p>', `<p class="eyebrow">${copy.eyebrow}</p><h1>${copy.heading}</h1><p class="subtitle">${copy.subtitle}</p>`);
@@ -209,7 +209,7 @@ for (const [locale, copy] of Object.entries(locales)) {
 for (const locale of ["en", "zh"]) {
   const file = path.join(root, locale, route, "index.html");
   let html = fs.readFileSync(file, "utf8")
-    .replace(/style\.css\?v=20261004-header-export-locales\d*|style\.css\?v=20261003-header-export-aligned3/, 'style.css?v=20261004-header-export-locales3')
+    .replace(/style\.css\?v=20261004-header-export-locales\d*|style\.css\?v=20261003-header-export-aligned3/, 'style.css?v=20261004-header-export-locales5')
     .replace(/script-zh\.js\?v=[^"]+/, 'script-zh.js?v=20261004-all-locales');
   const alternatePattern = /  <link rel="canonical"[\s\S]*?  <link rel="alternate" hreflang="x-default"[^\n]*\n/;
   html = alternatePattern.test(html)
