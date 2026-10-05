@@ -191,16 +191,36 @@
 
   .json-tree { font-size: 12.5px; line-height: 1.8; }
 
-  .n-toggle { cursor: pointer; user-select: none; display: inline-flex; align-items: center; gap: 3px; }
+  .n-toggle { cursor: pointer; user-select: none; display: inline-flex; align-items: center; gap: 5px; }
   .n-toggle::before {
-    content: '▾';
-    color: var(--text3);
-    font-size: 9px;
-    display: inline-block;
-    transition: transform .15s;
-    width: 11px;
+    content: '−';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    background: rgba(93,228,199,.12);
+    color: var(--accent);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    transition: background .15s, border-color .15s, color .15s;
   }
-  .n-toggle.coll::before { transform: rotate(-90deg); }
+  .n-toggle.coll::before {
+    content: '+';
+    background: var(--surface2);
+    border-color: var(--text2);
+    color: var(--text);
+  }
+  .n-toggle:hover::before {
+    background: rgba(93,228,199,.24);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
 
   .n-children {
     margin-left: 18px;
